@@ -585,19 +585,19 @@ clothes, and 0 if he doesn't.  Then we can do a comparison to 1
 and print the results.  The code would look like this:
 
 <programlisting>
-	;;NOTE - assume that the register %ebx holds my Dad's preferences
+	#NOTE - assume that the register %ebx holds my Dad's preferences
 
-	movl  %ebx, %eax ;;This copies the information into %eax so
-	                 ;;we don't lose the original data
+	movl  %ebx, %eax #This copies the information into %eax so
+	                 #we don't lose the original data
 
-	sall  $1, %eax   ;;This is the shift operator.  It stands for
-	                 ;;Shift Arithmatic Left Long.  This first
-	                 ;;number is the number of positions to shift,
-	                 ;;and the second is the register to shift
+	shrl  $1, %eax   #This is the shift operator.  It stands for
+	                 #Shift Right Long.  This first number
+	                 #is the number of positions to shift,
+	                 #and the second is the register to shift
 
-	andl  $0b00000000000000000000000000000001, %eax ;;This does the masking
+	andl  $0b00000000000000000000000000000001, %eax #This does the masking
 
-	cmpl  $0b00000000000000000000000000000001, %eax ;;Check to see if the result is 1 or 0
+	cmpl  $0b00000000000000000000000000000001, %eax #Check to see if the result is 1 or 0
 
 	je    yes_he_likes_dressy_clothes
 
@@ -718,10 +718,8 @@ you have to describe them in excruciating detail.
 </para>
 
 <para>
-The program status register has many more useful flags, but they aren't
-important for what we're doing here.
+Additional program status register flags are examined in <xref linkend="instructionsappendix" />.
 </para>
-<!-- FIXME - Dominique thinks we should link to more information -->
 
 </sect1>
 
@@ -732,10 +730,7 @@ important for what we're doing here.
 <para>
 What we have studied so far only applies to positive integers.  However,
 real-world numbers are not always positive integers.  Negative numbers
-and numbers with decimals are also used.  The explanations are not 
-in-depth, because the concept is more important than the implementation.
-If you wish to know implementation details, you can read further 
-information on the subject.
+and numbers with decimals are also used.  
 </para>
  
 <sect2 id="floatingpoint">
@@ -749,8 +744,8 @@ fixed-size, finite values.  Decimal numbers can be any length, including
 infinite length (think of a repeating decimal, like the result of
 1 / 3).  The way a computer handles this is by storing decimals
 at a fixed precision.  A computer stores decimal numbers in two
-parts - the exponent and the mantissa.  The mantissa is the actually
-numbers that will be used, and the exponent is what magnitude the number
+parts - the <emphasis>exponent</emphasis> and the <emphasis>mantissa</emphasis>.  The mantissa contains the actual
+digits that will be used, and the exponent is what magnitude the number
 is.  For example, 12345.2 is stored as 1.23452 * 10^4.  The mantissa
 is 1.23452 and the exponent is 4.  All numbers are stored
 as X.XXXXX * 10^XXXX.  The number 1 is stored as 1.00000 * 10^0.
@@ -772,33 +767,47 @@ to do floating-point arithmetic than it does integer arithmetic.  So,
 for programs that really need speed, integers are mostly used.  
 </para>
 
+<!--
+<para>
+Dealing with floating point numbers is not a focus of this book.
+For more information on using floating point numbers in assembly
+language, see 
+</para>
+-->
+
 </sect2>
 
 <sect2>
 <title>Negative Numbers</title>
 
 <para>
-There has been much thought as to how to represent negative numbers
-in a computer.  One thought might be to use the first digit of a number
+How would you think that negative numbers on a computer might be represented?
+One thought might be to use the first digit of a number
 as the sign, so <literal>00000000000000000000000000000001</literal> would
 represent the number 1, and <literal>10000000000000000000000000000001</literal>
-would represent -1.  This has a problem with the number 0, however.  In
+would represent -1.  This makes a lot of sense, and in fact some old processors
+work this way.  However, it has some problems.  First of all, it takes a lot
+more circuitry to add and subtracted signed numbers.  Even more so, this 
+representation has a problem with the number 0.  In
 this system, you could have both a negative and a positive 0.  This leads
 to a lot of questions, like "should negative zero be equal to positive zero?",
-"What should the sign of zero be in various circumstances?".  In addition
-to questions that arose out of using a single sign bit, there was also
-a problem of implementation.   Adding a negative and a positive number
-would require totally different circuitry than adding two positive numbers.
-Anyway, these problems were overcome by using a representation called
+"What should the sign of zero be in various circumstances?".  
+</para>
+
+<para>
+These problems were overcome by using a representation of negative
+numbers called
 <emphasis>two's complement</emphasis> representation.  To get the negative
 representation of a number in two's complement form, you must perform the
 following steps:
+</para>
 
 <orderedlist>
 <listitem><para>Perform a NOT operation on the number</para></listitem>
 <listitem><para>Add one to the resulting number</para></listitem>
 </orderedlist>
 
+<para>
 So, to get the negative of <literal>00000000000000000000000000000001</literal>,
 you would first do a NOT operation, which gives 
 <literal>11111111111111111111111111111110</literal>, and then add one, giving
@@ -808,13 +817,37 @@ of that number is <literal>11111111111111111111111111111101</literal>.  Adding
 one gives <literal>11111111111111111111111111111110</literal>.  With this
 representation, you can add numbers just as if they were positive, and
 come out with the right answers.  For example, if you add one plus negative
-one in binary, you will notice that all of the numbers flip to zero.  
-The only thing you have to remember is to ignore any number carried to
-far to the left (past the 32nd digit), and your answers should be fine.
-This method still makes it easy to tell which numbers are negative and
-positive, because negative numbers will always have a <literal>1</literal>
-in the leftmost position.
+one in binary, you will notice that all of the numbers flip to zero.  Also,
+the first digit still carries the sign bit, making it simple to determine
+whether or not the number is positive or negative.
+Negative numbers will always have a <literal>1</literal> in the leftmost 
+bit.
 </para>
+
+<para>
+One thing to note about the two's complement representation of signed
+numbers is that, unlike unsigned quantities, if you increase the number
+of bits, you can't just add zeroes to the left of the number.  For example,
+let's say we are dealing with four-bit quantities and we had the number
+-3, <literal>1101</literal>.  If we were to extend this into an eight-bit
+register, we could not represent it as <literal>00001101</literal> as this
+would represent 13, not -3.  When you increase the size of a signed quantity
+in two's complement representation, you have to perform 
+<emphasis>sign extension</emphasis>.  Sign extension means that you have
+to pad the left-hand side of the quantity with whatever digit is in the
+sign digit.  So, if we extend a negative number by 4 digits, we should fill
+the new digits with a 1.  If we extend a positive number by 4 digits, we
+should fill the new digits with a 0.  So, the extension of -3 from four to
+eight bits will yield <literal>11111101</literal>.
+</para>
+
+<para>
+The x86 processor has different forms of several instructions depending on
+whether they expect the quantities they operate on to be signed or unsigned.
+These are listed in <xref linkend="instructionsappendix" />.  For example,
+the x86 processor has both a sign-preserving shift-right, <literal>sarl</literal>, and a shift-right which does not preserve the sign bit, <literal>shrl</literal>.
+</para>
+
 </sect2>
 
 </sect1>
@@ -826,37 +859,43 @@ in the leftmost position.
 The numbering systems discussed so far have been decimal and binary.
 However, two others are used common in computing - octal and hexadecimal.
 In fact, they are probably written more often than binary.  Octal is
-a representation that only uses the numbers 0-7.  So, 10 is actually
-the number 8 in octal (one group of eight).  121 is 81 (one group of
+a representation that only uses the numbers 0 through 7.  So the octal
+number 10 is actually 8 in decimal because it is one group of eight.  
+Octal 121 is decimal 81 (one group of
 64 (8^2), two groups of 8, and one left over).  What makes octal nice
 is that every 3 binary digits make one octal digit (there is no such grouping
 of binary digits into decimal).  So 0 is 000, 1 is 001, 2 is 010, 3 is
-011, 4 is 100, 5 is 101, 6 is 110, and 7 is 111.  Permissions in Linux
+011, 4 is 100, 5 is 101, 6 is 110, and 7 is 111.
+</para>
+
+<para>
+Permissions in Linux
 are done using octal.  This is because Linux permissions are based on the 
-ability to read, write and execute.  The first digit is the read permission,
+ability to read, write and execute.  The first bit is the read permission,
 the second bit is the write permission, and the third bit is the execute
 permission.  So, 0 (000) gives no permissions, 6 (110) gives read and
-write permission, and 5 (101) gives read, write, and execute permissions.
-These numbers are then used for the four different types of permissions.
-The number 0644 means no permissions for the first type, read and write
-for the second type, and read-only for the third and fourth type.  
-The first type is for "elevated" permissions, which we won't discuss
-here.  The second permission type is for the owner of the file.  The
+write permission, and 5 (101) gives read and execute permissions.
+These numbers are then used for the three different sets of permissions - the
+owner, the group, and everyone else.
+The number 0644 means read and write
+for the first permission set, and read-only for the second and third set.  
+The first permission set is for the owner of the file.  The
 third permission set is for the group owner of the file.  The last 
 permission set is for everyone else.  So, <literal>0751</literal>
 means that the owner of the file can read, write, and execute the
 file, the group members can read and execute the file, and everyone
-else can only execute the file.  There are no elevated permissions
-on the file.
+else can only execute the file. 
 </para>
 
 <para>
 Anyway, as you can see, octal is used to group bits (binary digits)
-into threes.  The way you write octal numbers in assembly is by
-prefixing them with a zero.  For example 010 means 10 in octal, which
-is 8 in decimal, while if you just write 10 that means 10 in decimal.
-So, be careful not to put any leading zeroes in front of decimal
-numbers, or they will be interepreted as octal numbers!
+into threes.  The way the assembler knows that a number is octal is
+because octal numbers are prefixed with a zero.
+For example 010 means 10 in octal, which
+is 8 in decimal. If you just write 10 that means 10 in decimal.  The
+beginning zero is what differentiates the two.
+So, <emphasis>be careful not to put any leading zeroes in front of decimal
+numbers, or they will be interepreted as octal numbers</emphasis>!
 </para>
 
 <para>
@@ -868,7 +907,7 @@ them.  For example, the letter <literal>a</literal> represents 10, the
 letter <literal>b</literal> represents 11, and so on.  10 in hexadecimal
 is 16 in decimal.  In octal, each digit represented three bits.  In
 hexadecimal, each digit represents four bits.  Every two digits is 
-a full byte, and eight digits is a 32-bit register.  So you see, it
+a full byte, and eight digits is a 32-bit word.  So you see, it
 is considerably easier to write a hexadecimal number than it is
 to write a binary number.  The most important number to remember in
 hexadecimal is <literal>f</literal>, which means that all bits are
@@ -913,21 +952,26 @@ level is that, when bytes are written from registers to memory, their bytes
 are written out least-significant-portion-first.  What most people expect
 is that if they have a word in a register, say <literal>0x5d23efee</literal>,
 and they write it to memory, it is actually written as 
-<literal>0xeeef235d</literal>.  The bytes are written in reverse order as
-they would appear conceptually.  Not all processors do this.  The x86 processor
+<literal>0xeeef235d</literal> on x86 processors.  The bytes are written in reverse order as they would appear conceptually, but the bits within the bytes are written normally.  
+</para>
+
+<!-- FIXME - put drawing here -->
+
+<para>
+Not all processors behave this way.  The x86 processor
 is a <emphasis>little-endian</emphasis> processor, which means that it stores
 the "little end" of its words first.  Other processors are 
 <emphasis>big endian</emphasis> processors, which means that they store 
 the "big end" of their words first, which is a bit more natural to read.  
 This difference is not normally a problem (although it has sparked many
 technical controversies throughout the years), 
-because the bytes are reversed (or not, depending on the processor) again 
+because the bytes are reversed again (or not, if it is a big-endian processor)
 when being read back into a register.  However, this
 can be problematic in several instances:
 </para>
 
 <itemizedlist>
-<listitem><para>If you try to read in several bytes at a time using <literal>movl</literal> but deal with them on a byte-by-byte basis using the least significant byte (i.e. - &al;), this will be in a different order than they appear in memory.</para></listitem>
+<listitem><para>If you try to read in several bytes at a time using <literal>movl</literal> but deal with them on a byte-by-byte basis using the least significant byte (i.e. - by using &al; and/or shifting of the register), this will be in a different order than they appear in memory.</para></listitem>
 <listitem><para>If you read or write files written for different architectures, you may have to account for whatever order they write their bytes in.</para></listitem>
 <listitem><para>If you read or write to network sockets, you may have to account for a different byte order in the protocol.</para></listitem>
 </itemizedlist>
@@ -945,7 +989,7 @@ in-depth look at byte order issues, you should read DAV's Endian FAQ at http://w
 <para>
 So far, we have been unable to display any number stored to the 
 user, except by the extremely limitted means of passing it through
-exit codes.  In this section, we will discuss converting positive
+exit codes.  In this section, we will discuss converting positive numbers
 into strings for display.
 </para>
 
@@ -967,8 +1011,8 @@ look like this:
 <itemizedlist>
 <listitem><para>Divide the number by ten</para></listitem>
 <listitem><para>The remainder is the current digit.  Convert it to a character and store it.</para></listitem>
-<listitem><para>We are finished if we are at zero yet.</para></listitem>
-<listitem><para>Otherwise, take the new number and the next location in the buffer and repeat the process.</para></listitem>
+<listitem><para>We are finished if the quotient is zero.</para></listitem>
+<listitem><para>Otherwise, take the quotient and the next location in the buffer and repeat the process.</para></listitem>
 </itemizedlist>
 
 <para>
@@ -1034,6 +1078,7 @@ should say <literal>824</literal>.
 <listitem><para>What is masking for?</para></listitem>
 <listitem><para>What number would you use for the flags of the <literal>open</literal> system call if you wanted to open the file for writing, and create the file if it doesn't exist?</para></listitem>
 <listitem><para>How would you represent -55 in a thirty-two bit register?</para></listitem>
+<listitem><para>Sign-extend the previous quantity into a 64-bit register.</para></listitem>
 <listitem><para>Describe the difference between little-endian and big-endian storage of words in memory.</para></listitem>
 </itemizedlist>
 
@@ -1043,7 +1088,7 @@ should say <literal>824</literal>.
 <title>Use the Concepts</title>
 
 <itemizedlist>
-<listitem><para>Go back to previous programs that returned numeric results through the exit status code, and rewrite them to print out the results instead.</para></listitem>
+<listitem><para>Go back to previous programs that returned numeric results through the exit status code, and rewrite them to print out the results instead using our integer to string conversion function.</para></listitem>
 <listitem><para>Modify the <literal>integer2number</literal> code to return results in octal rather than decimal.</para></listitem>
 <listitem><para>Modify the <literal>integer2number</literal> code so that the conversion base is a parameter rather than hardcoded.</para></listitem>
 <listitem><para>Write a function called <literal>is_negative</literal> that takes a single integer as a parameter and returns 1 if the parameter is negative, and 0 if the parameter is positive.</para></listitem>
@@ -1057,6 +1102,7 @@ should say <literal>824</literal>.
 <itemizedlist>
 <listitem><para>Modify the <literal>integer2number</literal> code so that the conversion base can be greater than 10 (this requires you to use letters for numbers past 9).</para></listitem>
 <listitem><para>Create a function that does the reverse of <literal>integer2number</literal> called <literal>number2integer</literal> which takes a character string and converts it to a register-sized integer.  Test it by running that integer back through the <literal>integer2number</literal> function and displaying the results.</para></listitem>
+<listitem><para>Write a program that stores likes and dislikes into a single machine word, and then compares two sets of likes and dislikes for commonalities.</para></listitem>
 </itemizedlist>
 
 </sect2>

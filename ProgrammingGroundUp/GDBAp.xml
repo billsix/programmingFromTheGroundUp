@@ -17,14 +17,15 @@ A debugger is a program that helps you find bugs by stepping through the
 program one step at a time, letting you examine memory and register 
 contents along the way.  A <emphasis>source debugger</emphasis> is
 a debugger that allows you to tie the debugging operation directly 
-to the source code of a program.  This means that the debugger lets
-you look at the source code as you typed it in.
+to the source code of a program.  This means that the debugger 
+allows you to look at the source code as you typed it in - complete with
+symbols, labels, and comments.
 </para>
 
 <para>
 The debugger we will be looking at is GDB - the GNU Debugger. This application
 is present on almost all GNU/Linux distributions.  It can debug programs
-in multiple languages, including assembly language.
+in multiple programming languages, including assembly language.
 </para>
 
 <simplesect>
@@ -54,7 +55,7 @@ as --gstabs maximum.s -o maximum.o
 Linking would be the same as normal.  "stabs" is the debugging format used
 by GDB.  Now, to run the program under the debugger, you would type in
 <literal>gdb ./maximum</literal>.  Be sure that the source files are in
-the current directory.  The output should look like this:
+the current directory.  The output should look similar to this:
 </para>
 
 <screen>
@@ -78,10 +79,10 @@ The screen will then say this:
 </para>
 
 <screen>
-Starting program: /home/johnnyb/BartlettPublishing/Books/PGU/Move/maximum-err
+Starting program: /home/johnnyb/BartlettPublishing/Books/PGU/Move/maximum
 
 Program received signal SIGINT, Interrupt.
-start_loop () at maximum-err.s:34
+start_loop () at maximum.s:34
 34              movl data_items(,%edi,4), %eax
 Current language:  auto; currently asm
 (gdb)
@@ -92,7 +93,7 @@ This tells you that the program was interrupted by the SIGINT signal (from your
 control-c), and was within the section labelled <literal>start_loop</literal>,
 and was executing on line 34 when it stopped.  It gives you the code that
 it is about to execute.  Depending on exactly when you hit control-c, it may
-have stopped on a different line or a different instruction.
+have stopped on a different line or a different instruction than the example.
 </para>
 
 <para>
@@ -137,14 +138,18 @@ je    loop_exit
 
 <para>
 Basically, it is checking to see if &eax; hits zero.  If so, it should exit
-the loop.  There are several things to check here.  First of all, you 
-should make sure that <literal>loop_exit</literal> actually is outside
-the loop.  Second, you may have left this piece out altogether as it is
+the loop.  There are several things to check here.  
+First of all, 
+you may have left this piece out altogether.  It is
 not uncommon for a programmer to forget to include a way to exit a loop.
+However, this is not the case here.
+Second, you should make sure that <literal>loop_exit</literal> actually is 
+outside the loop.  If we put the label in the wrong place, strange things
+would happen.  However, again, this is not the case. 
 </para>
 
 <para>
-However, neither of those are the case with this program.  So, the next
+Neither of those potential problems are the culprit.  So, the next
 option is that perhaps &eax; has the wrong value.  There are two ways to
 check the contents of register in GDB.  The first one is the command
 <literal>info register</literal>.  This will display the contents of
@@ -166,12 +171,13 @@ This means that the result of your first inquiry is 3.  Every inquiry
 you make will be assigned a number prefixed with a dollar sign.  Now,
 if you look back into the code, you will find that 3 is the first number
 in the list of numbers to search through.  If you step through the loop
-a few more times, you will find that every time &eax; has the number 3.
+a few more times, you will find that in every loop iteration &eax; has the number 3.  This is not what should be happening.  &eax; should go to the next 
+value in the list in every iteration.
 </para>
 
 <para>
 Okay, now we know that &eax; is being loaded with the same value over
-and over again.  So, let's search to see where &eax; is being loaded
+and over again.  Let's search to see where &eax; is being loaded
 from.  The line of code is this:
 </para>
 
@@ -200,7 +206,7 @@ first element of the array.  This should cause you to ask yourself two
 questions - what is the purpose of &edi;, and how should its value be changed?
 To answer the first question, we just need to look in the comments.  
 &edi; is holding the current index of <literal>data_items</literal>.  
-Since our search is a linear search through the list of numbers in 
+Since our search is a sequential search through the list of numbers in 
 <literal>data_items</literal>, it would make sense that &edi; should
 be incremented with every loop iteration.
 </para>
@@ -209,6 +215,8 @@ be incremented with every loop iteration.
 Scanning the code, there is no code which alters &edi; at all.  Therefore,
 we should add a line to increment &edi; at the beginning of every loop
 iteration.  This happens to be exactly the line we tossed out at the beginning.
+Assembling, linking, and running the program again will show that it now
+works correctly.
 </para>
 
 <para>
@@ -263,12 +271,14 @@ function before going on.  Otherwise, with <literal>stepi</literal>, GDB
 would step you through every instruction within every called function.
 </para>
 
+<warning>
 <para>
 One problem that GDB has is with handling interrupts.  Often times
 GDB will miss the instruction that immediately follows an interrupt.
 The instruction is actually executed, but GDB doesn't step through
-it.
+it.  This should not be a problem - just be aware that it may happen.
 </para>
+</warning>
 
 </simplesect>
 

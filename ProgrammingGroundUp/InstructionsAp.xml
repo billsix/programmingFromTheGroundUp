@@ -263,7 +263,8 @@ Same as above, but rotates right.
 </entry></row>
 <row><entry>roll</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Rotate bits to the left.  It sets the overflow and carry flags, but does not count the carry flag as part of the rotation.
+Rotate bits to the left.  It sets the overflow and carry flags, but does not count the carry flag as part of the rotation.  The number of bits to roll is
+either specified in immediate mode or is contained in the &cl; register.
 </entry></row>
 <row><entry>rorl</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -271,19 +272,27 @@ Same as above, but rotates right.
 </entry></row>
 <row><entry>sall</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Arithmetic shift left.  The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit.  Other bits are simply shifted to the left.  This is the same as the regular shift left.
+Arithmetic shift left.  The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit.  Other bits are simply shifted to the left.  This is the same as the regular shift left.  The number of bits
+to shift is either specified in immediate mode or is contained in the &cl;
+register.
 </entry></row>
 <row><entry>sarl</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Arithmetic shift right.  The least significant bit is shifted out to the carry flag.  The sign bit is shifted in, and kept as the sign bit.  Other bits are simply shifted to the right.
+Arithmetic shift right.  The least significant bit is shifted out to the carry flag.  The sign bit is shifted in, and kept as the sign bit.  Other bits are simply shifted to the right.  The number of bits
+to shift is either specified in immediate mode or is contained in the &cl;
+register.
 </entry></row>
 <row><entry>shll</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Logical shift left.
+Logical shift left.  This shifts all bits to the left (sign bit is not treated specially).  The leftmost bit is pushed to the carry flag.  The number of bits
+to shift is either specified in immediate mode or is contained in the &cl;
+register.
 </entry></row>
 <row><entry>shrl</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Logical shift right.
+Logical shift right.  This shifts all bits in the register to the right (sign bit is not treated specially).  The rightmost bit is pushed to the carry flag.  The number of bits
+to shift is either specified in immediate mode or is contained in the &cl;
+register.
 </entry></row>
 <row><entry>testl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">

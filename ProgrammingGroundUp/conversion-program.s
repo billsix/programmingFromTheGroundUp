@@ -22,7 +22,7 @@ _start:
 	#Get the character count for our system call
 	pushl $tmp_buffer
 	call  count_chars
-	addl  $8, %esp
+	addl  $4, %esp
 
 	#The count goes in %edx for SYS_WRITE
 	movl  %eax, %edx

@@ -21,9 +21,6 @@ integer2number:
 	pushl %ebp
 	movl  %esp, %ebp
 
-	#Allocate space for temporary buffer
-	subl  $11, %esp
-
 	#Current character count
 	movl  $0, %ecx
 
@@ -42,7 +39,7 @@ conversion_loop:
 
 	#Divide %edx:%eax (which are implied) by 10.
 	#Store the quotient in %eax and the remainder
-	#in %edx (both of which are also implied).
+	#in %edx (both of which are implied).
 	divl  %edi
 
 	#Quotient is in the right place.  %edx has
@@ -106,7 +103,9 @@ copy_reversing_loop:
 	jmp   copy_reversing_loop
 
 end_copy_reversing_loop:
-	#Done copying.  Now just return
+	#Done copying.  Now write a null byte and return
+	movb  $0, (%edx)
+	
 	movl  %ebp, %esp
 	popl  %ebp
 	ret

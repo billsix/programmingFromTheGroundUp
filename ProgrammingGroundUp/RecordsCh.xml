@@ -217,7 +217,7 @@ records are written.
 </para>
 
 <para>
-Here is the code:
+Here is the code.  Put it in a file called <literal>count-chars.s</literal>:
 </para>
 
 <programlisting>
@@ -245,6 +245,8 @@ It will do the following:
 <para>
 Here is the code:
 </para>
+
+<!-- FIXME - no build instructions, and write_newline is not listed in this chapter -->
 
 <programlisting>
 &read-records;
