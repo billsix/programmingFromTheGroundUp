@@ -777,9 +777,12 @@ at a fixed precision<indexterm><primary>precision</primary></indexterm> (number 
 A computer stores decimal numbers in two
 parts - the <emphasis>exponent<indexterm><primary>exponent</primary></indexterm></emphasis> and the <emphasis>mantissa<indexterm><primary>mantissa</primary></indexterm></emphasis>.  The mantissa contains the actual
 digits that will be used, and the exponent is what magnitude the number
-is.  For example, 12345.2 is stored as 1.23452 * 10^4.  The mantissa
-is 1.23452 and the exponent is 4.  All numbers are stored
-as X.XXXXX * 10^XXXX.  The number 1 is stored as 1.00000 * 10^0.
+is.  For example, 12345.2 can be represented as 1.23452 * 10^4.  The mantissa
+is 1.23452 and the exponent is 4 with a base of 10.  Computers, however, 
+use a base of 2.  All numbers are stored
+as X.XXXXX * 2^XXXX.  The number 1, for example, is stored as 1.00000 * 2^0.
+Separating the mantissa and the exponent into two different values is called
+a <emphasis>floating point</emphasis><indexterm><primary>floating point</primary></indexterm> representation, because the position of the significant digits with respect to the decimal point can vary based on the exponent.
 </para>
 
 <para>
@@ -787,13 +790,16 @@ Now, the mantissa and the exponent are only so long, which leads to some
 interesting problems.  For example, when a computer
 stores an integer, if you add 1 to it, the resulting number is one larger.
 This does not necessarily happen with floating point numbers.  If the
-number is sufficiently big, like 5.234 * 10^5000, adding 1 to it might
+number is sufficiently big, adding 1 to it might
 not even register in the mantissa (remember, both parts are only so long).
-This affects several things, especially order of operations.  Let's say
-that I add 1 to 5.234 * 10^5000 a few billion or trillion times.  Guess
-what - the number won't change at all.  However, if I add one to itself
-enough times, and then add it to the original number,
-it might make a dent.   
+This affects several things, especially order of operations.  If you
+add 1.0 to a given floating point number, it might not even affect the number
+if it is large enough.  For example, on x86 platforms, a four-byte 
+floating-point number, although it can represent very large numbers, cannot
+have 1.0 added to it past 16777216.0, because it is no longer significant.
+The number no longer changes when 1.0 is added to it.  So, if there is
+a multiplication followed by an addition it may give a different result than
+if the addition is performed first.
 </para>
 
 <para>
