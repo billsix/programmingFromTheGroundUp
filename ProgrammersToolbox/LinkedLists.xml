@@ -843,4 +843,20 @@ a powerful tool, but extremely easy to use.
 
 </sect1>
 
+<!-- RESOURCES
+
+<ul>
+	<li>The Staford CS department has <a href="http://cslibrary.stanford.edu/103/">a great introduction</a> to Linked Lists.</li>
+	<li>The NIST Dictionary of Algorithms and Data Structures has an <a href="http://www.nist.gov/dads/HTML/linkedList.html">entry for linked lists</a>.</li>
+	<li>Section 2.2, "Linear Lists" from <a href="http://devworks.krcinfo.com/WebForms/ProductDetails.aspx?ProductID=0201896834"><i>Fundamental Algorithms</i></a>, volume 1 of <i>The Art of Computer Programming</i> by Donald Knuth thoroughly describes linked lists and their operations. Section 2.3 discusses all manners of trees.</li>
+	<li>Gtk+ has a system very similar to the type tag mechanism we discussed, called <a href="http://developer.gnome.org/doc/GGAD/sec-gtkarg.html">GtkArg</a>s.  They are called <a href="http://developer.gimp.org/api/2.0/gobject/gobject-Generic-values.html">GValues</a> in the 2.x API.  The <a href="http://developer.gimp.org/api/2.0/gobject/gobject-Type-Information.html">GType</a> API information is also useful.</li>
+	<li><a href="http://download.plt-scheme.org/doc/103p1/html/insidemz/node9.htm">MzScheme's type tag implementation</a> is faster and more compact when using integers.</li>
+	<li><a href="http://www.htdp.org/"><i>How to Design Programs</i></a> by Felleisen et. al. is a wonderful book on Scheme programming for beginners, which really teaches how to think like a Scheme programmer.  Also available as a <a href="http://www.amazon.com/exec/obidos/ASIN/0262062186/freeeducation-20/">hardcover book</a>.</li>
+	<li><a href="http://www.ccs.neu.edu/home/dorai/t-y-scheme/t-y-scheme.html">Teach Yourself Scheme in Fixnum Days</a> is a great online tutorial of the scheme language, and includes both introductory and advanced concepts.</li>
+	<li><a href="http://www.schemers.org/Documents/Standards/R5RS/">The Scheme R5RS standard</a> describes how most scheme implementations work.</li>
+	<li><a href="http://www.amazon.com/exec/obidos/ASIN/0262062178/freeeducation-20/"><i>Essentials of Programming Languages</i></a> by Friedman et. al. expands the concept of using the Scheme language as an executable metalanguage (as in the parse tree example) for other programming languages.</li>
+</ul>
+
+-->
+
 </chapter>
