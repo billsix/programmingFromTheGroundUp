@@ -23,7 +23,7 @@ _start:
 	pushl $4            #The factorial takes one argument - the number
 	                    #we want a factorial of.  So, it gets pushed
 	call  factorial     #run the factorial function
-	popl  %ebx          #always remember to pop anything you pushed
+	addl  $4, %esp      #Scrubs the parameter that was pushed on the stack
 	movl  %eax, %ebx    #factorial returns the answer in %eax, but we 
 	                    #want it in %ebx to send it as our exit status
 	movl  $1, %eax      #call the kernel's exit function
@@ -50,10 +50,8 @@ factorial:
 	decl  %eax          #otherwise, decrease the value
 	pushl %eax          #push it for our next call to factorial
 	call  factorial     #call factorial
-	popl  %ebx          #this is the number we called factorial with
-	                    #we have to pop it off, but we also need
-	                    #it to find the number we were called with
-	incl  %ebx          #(which is one more than what we pushed)
+	movl  8(%ebp), %ebx #%eax has the return value, so we have to
+	                    #reload our parameter into %ebx
 	imul  %ebx, %eax    #multiply that by the result of the last
 	                    #call to factorial (stored in %eax)
 	                    #the answer is stored in %eax, which is 

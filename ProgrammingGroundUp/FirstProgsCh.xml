@@ -329,7 +329,7 @@ when you typed <command>echo $?</command>.  So, we load &ebx; with
 
 <programlisting>
 movl $0, %ebx
-</programlisting>a
+</programlisting>
 
 <para>
 Now, loading 
@@ -820,8 +820,9 @@ reason we are doing a loop is because we don't know how many
 data items we have to process, but the procedure will be the same no
 matter how many there are.  We don't want to have to rewrite our program for 
 every list length possible.  In fact, we don't even want to have to write out
-a comparison for every list item.  Therefore, we have a single section of code
-that we execute over and over again for every element in <literal>data_items</literal>.
+code for a comparison for every list item.  Therefore, we have a single 
+section of code (a loop) that we execute over and over again for every 
+element in <literal>data_items</literal>.
 </para>
 
 <para>
@@ -920,6 +921,7 @@ comparison.
 </variablelist>
 
 <para>
+The complete list is documented in <xref linkend="instructionsappendix" />.
 In this case, we are jumping if &eax; holds the value
 of zero.  If so, we are done and we go to 
 <literal>loop_exit</literal>.<footnote><para>The names of these symbols
@@ -929,7 +931,7 @@ is forced is <literal>_start<indexterm><primary>_start</primary></indexterm></li
 declare with <literal>.globl<indexterm><primary>.globl</primary></indexterm></literal>.  However, if its a symbol you
 define and only you use, feel free to call it anything you want that is 
 adequately descriptive (remember that others will have to modify your code 
-later, and will have to interpret what your symbols mean).
+later, and will have to figure out what your symbols mean).
 </para></footnote>
 </para>
 
@@ -949,8 +951,8 @@ our list of values in <literal>data_items</literal>.
 <literal>incl<indexterm><primary>incl</primary></indexterm></literal> 
 increments the value of &edi; by
 one.  Then the <literal>movl</literal> is just like the one we did 
-beforehand.  However, since we incremented &edi;, it is getting the
-next value from the list.  Now, &eax; has the next value to be tested.  
+beforehand.  However, since we already incremented &edi;, &eax; is getting the
+next value from the list.  Now &eax; has the next value to be tested.  
 So, let's test it!
 </para>
 
@@ -1023,13 +1025,13 @@ to every register, so you can see more clearly what is going on.
 
 <para>
 In <xref linkend="dataaccessingmethods" /> we learned the different types
-of addressing modes available for use in assembly language.  This section
+of addressing modes<indexterm><primary>addressing modes</primary></indexterm> available for use in assembly language.  This section
 will deal with how those addressing modes are represented in assembly
 language instructions.
 </para>
 
 <para>
-The general form of memory address references is this:
+The general form of memory address<indexterm><primary>memory address</primary></indexterm> references is this:
 </para>
 
 <programlisting>
@@ -1047,7 +1049,7 @@ FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIPLIER * %INDEX
 
 <para>
 <literal>ADDRESS_OR_OFFSET</literal> and <literal>MULTIPLIER</literal> must
-both be constants, while the other two must be registers.  If one of the
+both be constants, while the other two must be registers.  If any of the
 pieces is left out, it is just substituted with zero in the equation.
 </para>
 
@@ -1058,7 +1060,7 @@ All of the addressing modes mentioned in <xref linkend="dataaccessingmethods" />
 <variablelist>
 
 <varlistentry>
-<term>direct addressing mode</term>
+<term>direct addressing mode<indexterm><primary>direct addressing mode</primary></indexterm></term>
 <listitem><para>
 This is done by only using the <literal>ADDRESS_OR_OFFSET</literal> portion.  Example:
 <programlisting>
@@ -1070,18 +1072,27 @@ This loads &eax; with the value at memory address <literal>ADDRESS</literal>.
 
 
 <varlistentry>
-<term>indexed addressing mode</term>
+<term>indexed addressing mode<indexterm><primary>indexed addressing mode</primary></indexterm></term>
 <listitem><para>
-This is done by using the <literal>ADDRESS_OR_OFFSET</literal> and the <literal>%INDEX</literal> portion.  You can use any general-purpose register as the index register.  You can also have a constant multiplier of 1, 2, or 4 for the index register, to make it easier to index by bytes, double-bytes, and words.  For example, let's say that we had a string of bytes as <literal>string_start</literal> and wanted to access the third one (an index of 2 since we start counting the index at zero), and &ecx held the value 2.  If you wanted to load it into &eax; you could do the following:
+This is done by using the <literal>ADDRESS_OR_OFFSET</literal> and the
+<literal>%INDEX</literal> portion.  You can use any general-purpose
+register as the index register.  You can also have a constant
+multiplier<indexterm><primary>multiplier</primary></indexterm> of 1, 2, or 4 for the index register<indexterm><primary>index register</primary></indexterm>, to make it easier to
+index by bytes, double-bytes, and words.  For example, let's say that
+we had a string of bytes as <literal>string_start</literal> and wanted
+to access the third one (an index of 2 since we start counting the
+index at zero), and &ecx; held the value 2.  If you wanted to load it
+into &eax; you could do the following:
 <programlisting>
 movl string_start(,%ecx,1), %eax
 </programlisting>
 This starts at <literal>string_start</literal>, and adds <literal>1 * %ecx</literal> to that address, and loads the value into &eax;.
+
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>indirect addressing mode</term>
+<term>indirect addressing mode<indexterm><primary>indirect addressing mode</primary></indexterm></term>
 <listitem><para>
 Indirect addressing mode loads a value from the address indicated by a register.  For example, if &eax; held an address, we could move the value at that
 address to &ebx; by doing the following:
@@ -1092,7 +1103,7 @@ movl (%eax), %ebx
 </varlistentry>
 
 <varlistentry>
-<term>base-pointer addressing mode</term>
+<term>base-pointer addressing mode<indexterm><primary>base-pointer addressing mode</primary></indexterm></term>
 <listitem><para>
 Base-pointer addressing is similar to indirect addressing, except that it
 adds a constant value to the address in the register.  For example, if you
@@ -1106,7 +1117,7 @@ movl  4(%eax), %ebx
 </varlistentry>
 
 <varlistentry>
-<term>immediate mode</term>
+<term>immediate mode<indexterm><primary>immediate mode</primary></indexterm></term>
 <listitem><para>
 Immediate mode is very simple.  It does not follow the general form we have
 been using.  Immediate mode is used to load direct values into registers
@@ -1123,7 +1134,7 @@ rather than the number 12 itself.
 </varlistentry>
 
 <varlistentry>
-<term>Register addressing mode</term>
+<term>register addressing mode<indexterm><primary>register addressing mode</primary></indexterm></term>
 <listitem><para>
 Register mode simply moves data in or out of a register.  In all of our 
 examples, register addressing mode was used for the other operand.
@@ -1135,26 +1146,26 @@ examples, register addressing mode was used for the other operand.
 <para>
 These addressing modes are very important, as every memory access will use
 one of these.  Every mode except immediate mode can be used as either the
-source or destination operand.  Immediate mode can only be a source operand.
+source or destination operand<indexterm><primary>destination operand</primary></indexterm>.  Immediate mode can only be a source operand<indexterm><primary>source operand</primary></indexterm>.
 </para>
 
 <para>
 In addition to these modes, there are also different instructions for different
 sizes of values to move.  For example, we have been using 
-<literal>movl</literal> to move data a word at a time.  in many cases, you
-will only want to move data a byte at a time.  This is accomplished by the
-instruction <literal>movb</literal>.  However, since the registers we have
+<literal>movl</literal> to move data a word<indexterm><primary>word</primary></indexterm> at a time.  in many cases, you
+will only want to move data a byte<indexterm><primary>byte</primary></indexterm> at a time.  This is accomplished by the
+instruction <literal>movb<indexterm><primary>movb</primary></indexterm></literal>.  However, since the registers we have
 discussed are word-sized and not byte-sized, you cannot use the full register.
 Instead, you have to use a portion of the register.
 </para>
 
 <para>
 Take for instance &eax;.  If you only wanted to work with two bytes at a time,
-you could just use &ax;.  &ax; is the least-significant half of the &eax; 
+you could just use &ax-indexed;.  &ax; is the least-significant half (i.e. - the last part of the number) of the &eax; 
 register, and is useful when dealing with two-byte quantities.  &ax; is
-further divided up into &al; and &ah;.  &al; is the least-significant byte of
+further divided up into &al-indexed; and &ah-indexed;.  &al; is the least-significant byte of
 &ax;, and &ah; is the most significant byte.<footnote><para>When we talk about
-the <emphasis>significa</emphasis> byte, it may be a little confusing.  
+the most or least <emphasis>significant</emphasis> byte, it may be a little confusing.  
 Let's take the number 5432.  In that number, 54 is the most significant half
 of that number and 32 is the least significant half.  You can't quite divide
 it like that for registers, since they operate on base 2 rather than base 10

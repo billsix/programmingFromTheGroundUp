@@ -13,10 +13,11 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 -->
 
 <para>
-A lot of computer programming deals with files.  After all, when we reboot our
-computers, the only thing that remains from previous sessions are what has
-been put on disk.  Data which is stored in files is called 
-<emphasis>persistent</emphasis> data, because it persists between sessions.
+A lot of computer programming deals with files<indexterm><primary>files</primary></indexterm>.  After all, when we reboot our
+computers, the only thing that remains from previous sessions are 
+the things that have been put on disk.  Data which is stored in 
+files is called <emphasis>persistent<indexterm><primary>persistance</primary></indexterm></emphasis> data, 
+because it persists between sessions.
 </para>
 
 <sect1>
@@ -27,66 +28,71 @@ Each operating system has it's own way of dealing with files.  However, the
 UNIX method, which is used on Linux, is the simplest and most universal.
 UNIX files, no matter what program created them, can all be accessed as a 
 stream of bytes.  When you access a file, you start by opening it by name.
-The operating system then gives you a number, called a <emphasis>file
-descriptor</emphasis>, which you use to refer to the file until you are
+The operating system then gives you a number, called a 
+<emphasis>file descriptor<indexterm><primary>file descriptor</primary></indexterm></emphasis>, 
+which you use to refer to the file until you are
 through with it.  You can then read and write to the file using its
 file descriptor.  When you are done reading and writing, you then close 
 the file, which then makes the file descriptor useless.
 </para>
 
 <para>
-In our programs we will use the following system calls to deal with files:
+In our programs we will deal with files in the following ways:
+</para>
 
 <orderedlist>
 
 <listitem><para>
-Tell Linux the name of the file to open, and what you want to do with it (read, write, 
-both read and write, create it if it doesn't exist, etc.).  This is handled with
-the <literal>open</literal> system call, which takes a filename, a number representing your read/write intentions, and a permission set as its parameters.  
-Having the number 5 in <literal>%eax</literal> when you signal the interrupt
-will indicate the <literal>open</literal> system call to Linux.
-The storage location of the first character of the filename should be stored
-in <literal>%ebx</literal>.  The read/write intentions, represented as a number,
-should be stored in <literal>%ecx</literal>.  For now, use 0 for files you want to read
-from, and 03101 for files you want to write to.  This will be explained in more detail
+Tell Linux the name of the file to open, and what you want to do with it 
+(read, write, both read and write, create it if it doesn't exist, etc.).  
+This is handled with the 
+<literal>open<indexterm><primary>open</primary></indexterm></literal> 
+system call, which takes a filename, a number representing your read/write 
+intentions, and a permission<indexterm><primary>permissions</primary></indexterm> set as its parameters.  &eax-indexed; will hold the system call number, which is 5.
+The address of the first character of the filename should be stored
+in &ebx-indexed;.  The read/write intentions, represented as 
+a number, should be stored in &ecx-indexed;.  For now, use 0 for files you want to read
+from, and 03101 for files you want to write to, including the starting zero.  This will be explained in more detail
 in <xref linkend="truthbinarynumbers" />.  Finally, the permission set should
-be stored as a number in <literal>%edx</literal>.  If you are unfamiliar
-with UNIX permissions, just use <literal>0666</literal> for the permissions.
+be stored as a number in &edx-indexed;.  If you are unfamiliar
+with UNIX permissions, just use 0666 for the permissions.
 </para></listitem>
 
 <listitem><para>
-Linux will then return to you a <emphasis>file descriptor</emphasis> in 
-<literal>%eax</literal>, which is a number that
-you use to refer to this file throughout your program.
+Linux will then return to you a <emphasis>file descriptor<indexterm><primary>file descriptor</primary></indexterm></emphasis> in 
+&eax;.  Remember, this is a number that you use to refer to this file 
+throughout your program.
 </para></listitem>
 
 <listitem><para>
 Next you will operate on the file doing reads and/or writes, each time 
-giving Linux the file descriptor you want to use.  <literal>read</literal>
+giving Linux the file descriptor you want to use.  <literal>read<indexterm><primary>read</primary></indexterm></literal>
 is system call 3, and to call it you need to have the file descriptor
-in <literal>%ebx</literal>, the address of a buffer for storing the 
-data that is read, and the size of the buffer.  Buffers will be explained 
-below.  <literal>read</literal> will return with either the number of 
+in &ebx;, the address of a buffer for storing the 
+data that is read in &ecx;, and the size of the buffer in &edx;.  
+Buffers will be explained in <xref linkend="buffersbss" />.
+<literal>read</literal> will return with either the number of 
 characters read from the file, or an error code.  Error codes can be
-distinguished because they are always negative numbers.  
-<literal>write</literal> is system call 4, and it requires the same 
+distinguished because they are always negative numbers (more information
+on negative numbers can be found in <xref linkend="countingchapter" />).  
+<literal>write<indexterm><primary>write</primary></indexterm></literal> 
+is system call 4, and it requires the same 
 parameters as the <literal>read</literal> system call, except that the
 buffer should already be filled with the data to write out.  The 
 <literal>write</literal> system call will give back the number
-of bytes written in <literal>%eax</literal> or an error code.
+of bytes written in &eax; or an error code.
 </para></listitem>
 
 <listitem><para>
 When you are through with them, you then tell Linux to close your file.  
 Afterwards, your file descriptor is no longer valid.
-This is done using <literal>close</literal>, system call 6.  The only
+This is done using <literal>close<indexterm><primary>close</primary></indexterm></literal>, system call 6.  The only
 parameter to <literal>close</literal> is the file descriptor, which is
-placed in <literal>%ebx</literal>.
+placed in &ebx;
 </para></listitem>
 
 </orderedlist>
 
-</para>
 
 </sect1>
 
@@ -94,7 +100,7 @@ placed in <literal>%ebx</literal>.
 <title>Buffers and <literal>.bss</literal></title>
 
 <para>
-In the previous section we mentioned buffers without explaining what they
+In the previous section we mentioned buffers<indexterm><primary>buffers</primary></indexterm> without explaining what they
 were.  A buffer is a continuous block of bytes used for bulk data transfer.
 When you request to read a file, the operating system needs to have a place
 to store the data it reads.  That place is called a buffer.   Usually, buffers
@@ -103,34 +109,35 @@ For example, let's say that you want to read in a single line of text from
 a file.  However, you do not know how long that line is.  Therefore, you
 will simply read a large number of bytes from the file into a buffer, look
 for the end-of-line character, copy that to another location, and start looking
-for the next line.  
+for the next line (if you didn't find an end-of-line character, you would have
+to allocate another buffer to read more data in from).
 </para>
 
 <para>
-Another thing to note is that buffers are a fixed size, set by the programmer.
+Another thing to note is that buffers<indexterm><primary>buffers</primary></indexterm> are a fixed size, set by the programmer.
 So, if you want to read in data 500 bytes at a time, you send the 
 <literal>read</literal> system call the address of a 500-byte unused location,
 and send it the number 500 so it knows how big it is.  You can make it smaller
-or bigger, depending on your application needs.  
+or bigger, depending on your application's needs.  
 </para>
 
 <para>
 To create a buffer, you need to either reserve static or dynamic storage.
 Static storage is what we have talked about so far, storage locations
 declared using <literal>.long</literal> or <literal>.byte</literal> directives.
-Dynamic storage will be discussed in <xref linkend="dynamicmemory" />.  Now, there
-are problems with declaring buffers using <literal>.byte</literal>.
+Dynamic storage will be discussed in <xref linkend="dynamicmemory" />.  
+There are problems, though, with declaring buffers using <literal>.byte<indexterm><primary>.byte</primary></indexterm></literal>.
 First, it is tedious to type.  You would have to type 500 numbers after
 the <literal>.byte</literal> declaration, and they wouldn't be used
 for anything but to take up space.
 Second, it uses up space in the executable.  In the examples we've
 used so far, it doesn't use up too much, but that can change in larger 
-programs.  In order to get around this
-if you want 500 bytes you have to type in 500 numbers and it wastes 500
+programs.  If you want 500 bytes you have to type in 500 numbers and it 
+wastes 500
 bytes in the executable.  There is a solution to both of these.  So far,
-we have discussed two program sections, the <literal>.text</literal> and
-the <literal>.data</literal> sections.  There is another section called
-<literal>.bss</literal>.  This section is like the data section, except
+we have discussed two program sections, the <literal>.text<indexterm><primary>.text</primary></indexterm></literal> and
+the <literal>.data<indexterm><primary>.data</primary></indexterm></literal> sections.  There is another section called
+the <literal>.bss<indexterm><primary>.bss</primary></indexterm></literal>.  This section is like the data section, except
 that it doesn't take up space in the executable.  This section can
 reserve storage, but it can't initialize it.  In the <literal>.data</literal>
 section, you could reserve storage and set it to an initial value.  In the
@@ -138,16 +145,19 @@ section, you could reserve storage and set it to an initial value.  In the
 useful for buffers because we don't need to initialize them anyway, we
 just need to reserve storage.  In order to do this, we do the following
 commands:
+</para>
 
 <programlisting>
 .section .bss
 	.lcomm my_buffer, 500
 </programlisting>
 
-This will create a symbol, <literal>my_buffer</literal>, that refers to 
+<para>
+This directive, <literal>.lcomm<indexterm><primary>.lcomm</primary></indexterm></literal>, will create a symbol, <literal>my_buffer</literal>, that refers to 
 a 500-byte storage location that we can use as a buffer.  We can then do
 the following, assuming we have opened a file for reading and have placed
 the file descriptor in &ebx;:
+</para>
 
 <programlisting>
 	movl $my_buffer, %ecx
@@ -156,17 +166,13 @@ the file descriptor in &ebx;:
 	int  $0x80
 </programlisting>
 
-which will read up to 500 bytes into our buffer.  In this example, I placed
+<para>
+This will read up to 500 bytes into our buffer.  In this example, I placed
 a dollar sign in front of <literal>my_buffer</literal>.  Remember that the 
 reason for this is that without the dollar sign, 
 <literal>my_buffer</literal> is treated as a memory location, and is
-accessed in direct addressing mode.  Instead of moving the address of 
-<literal>my_buffer</literal> into &ecx;, without the dollar sign it would
-move the first word of the data contained there into &ecx;.  Remember the 
-dollar sign makes the assembler use immediate mode addressing, so that
-<literal>my_buffer</literal> is treated as a value, not a storage location.
-The address itself, rather than what is stored there, gets moved to 
-&ecx;.
+accessed in direct addressing mode<indexterm><primary>direct addressing mode</primary></indexterm>.  The dollar sign switches it to immediate mode addressing,
+which actually loads the number (which is the address of <literal>my_buffer</literal>) itself into &ecx;.
 </para>
 
 </sect1>
@@ -176,35 +182,34 @@ The address itself, rather than what is stored there, gets moved to
 
 <para>
 You might think that programs start without any files open by default.  This
-is not true.  Linux programs always have at least three open file descriptors 
+is not true.  Linux programs always have at least three open file descriptors<indexterm><primary>file descriptors</primary></indexterm> 
 when they begin.  They are:
+</para>
 
 <variablelist>
 
 <varlistentry>
-<term>STDIN</term>
+<term>STDIN<indexterm><primary>STDIN</primary></indexterm></term>
 <listitem><para>
-This is the <emphasis>standard input</emphasis>.  It is a read-only file, and 
-usually represents your keyboard.<footnote><para>In Linux, almost everything 
-is a "file".  Your keyboard input is considered a file, and so is your 
-screen display.
+This is the <emphasis>standard input<indexterm><primary>standard input</primary></indexterm></emphasis>.  It is a read-only file, and 
+usually represents your keyboard.<footnote><para>As we mentioned earlier, in Linux, almost everything is a "file".  Your keyboard input is considered a file, and so is your screen display.
 </para></footnote>
-This is always file descriptory 0.
+This is always file descriptor 0.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>STDOUT</term>
+<term>STDOUT<indexterm><primary>STDOUT</primary></indexterm></term>
 <listitem><para>
-This is the <emphasis>standard output</emphasis>.  It is a write-only file, 
+This is the <emphasis>standard output<indexterm><primary>standard output</primary></indexterm></emphasis>.  It is a write-only file, 
 and usually represents your screen display.  This is always file descriptor 1.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>STDERR</term>
+<term>STDERR<indexterm><primary>STDERR</primary></indexterm></term>
 <listitem><para>
-This is your <emphasis>standard error</emphasis>.  It is a write-only file, 
+This is your <emphasis>standard error<indexterm><primary>standard error</primary></indexterm></emphasis>.  It is a write-only file, 
 and usually represents your screen display.  Most regular processing 
 output goes to <literal>STDOUT</literal>, but any error messages that come 
 up in the process go to <literal>STDERR</literal>.  This way, if you want to, 
@@ -214,6 +219,7 @@ descriptor 2.
 </varlistentry>
 </variablelist>
 
+<para>
 Any of these "files" can be redirected from or to a real file, rather
 than a screen or a keyboard.  This is outside the scope of this book, but
 any good book on the UNIX command-line will describe it in detail.

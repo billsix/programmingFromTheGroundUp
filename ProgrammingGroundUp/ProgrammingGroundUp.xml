@@ -94,7 +94,11 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 <!ENTITY percent "%">
 <!ENTITY ax "<literal>&percent;ax</literal>">
+<!ENTITY ax-indexed "<literal>&percent;ax</literal><indexterm><primary>&percent;ax</primary></indexterm>">
 <!ENTITY ah "<literal>&percent;ah</literal>">
+<!ENTITY ah-indexed "<literal>&percent;ah</literal><indexterm><primary>&percent;ah</primary></indexterm>">
+<!ENTITY al "<literal>&percent;al</literal>">
+<!ENTITY al-indexed "<literal>&percent;al</literal><indexterm><primary>&percent;al</primary></indexterm>">
 <!ENTITY eax "<literal>&percent;eax</literal>">
 <!ENTITY rax "<literal>&percent;rax</literal>">
 <!ENTITY ebx "<literal>&percent;ebx</literal>">
@@ -105,7 +109,6 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY ebp "<literal>&percent;ebp</literal>">
 <!ENTITY eip "<literal>&percent;eip</literal>">
 <!ENTITY cl "<literal>&percent;cl</literal>">
-<!ENTITY al "<literal>&percent;al</literal>">
 <!ENTITY dl "<literal>&percent;dl</literal>">
 
 <!ENTITY eax-indexed "<literal>&percent;eax</literal><indexterm><primary><literal>&percent;eax</literal></primary></indexterm>">
