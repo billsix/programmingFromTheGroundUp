@@ -79,6 +79,8 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY write-records SYSTEM "write-records.s">
 <!ENTITY read-records SYSTEM "read-records.s">
 <!ENTITY add-year SYSTEM "add-year.s">
+<!ENTITY integer-to-number SYSTEM "integer-to-number.s">
+<!ENTITY conversion-program SYSTEM "conversion-program.s">
 
 
 <!ENTITY percent "%">

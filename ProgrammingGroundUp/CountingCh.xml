@@ -886,9 +886,51 @@ to binary, decimal, and octal.
 </sect1>
 
 <sect1>
-<title>Example Programs</title>
+<title>Converting Numbers for Display</title>
 
 <para>
+So far, we have been unable to display any number stored to the 
+user, except by the extremely limitted means of passing it through
+exit codes.  In this section, we will discuss converting positive
+into strings for display.
+</para>
+
+<para>
+The function will be called <literal>integer2string</literal>, and
+it will take two parameters - an integer to convert and a string buffer 
+filled with null characters (zeroes).  The buffer will be assumed to
+be big enough to store the entire number as a string.(at least 11 characters
+long, to include a trailing null character).
+</para>
+
+<para>
+Remember that the way that we see numbers is in base 10.  Therefore, to access
+the individual decimal digits of a number, we need to be dividing by 10
+and displaying the remainder for each digit.  Therefore, the process will
+look like this:
+</para>
+
+<itemizedlist>
+<listitem><para>Divide the number by ten</para></listitem>
+<listitem><para>The remainder is the current digit.  Convert it to a character and store it.</para></listitem>
+<listitem><para>We are finished if we are at zero yet.</para></listitem>
+<listitem><para>Otherwise, take the new number and the next location in the buffer and repeat the process.</para></listitem>
+</itemizedlist>
+
+<para>
+The only problem is that since this process deals with the one's place first,
+it will leave the number backwards.  Therefore, we will have to finish by 
+reversing the characters.
+</para>
+
+<para>
+The code for the function is as follows:
+</para>
+
+<programlisting>
+&integer-to-number;
+</programlisting>
+
 I've thrown quite a bit at you this chapter.  I apologize, but for
 modern programming it's quite important to learn how these things
 work.  Donald Knuth actually envisioned a processor that didn't 
