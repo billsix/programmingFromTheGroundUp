@@ -53,3 +53,12 @@
 					(initialize-amb-fail (lambda () (k the-values)))
 					(set! the-values (cons (x) the-values ))
 					(amb-assert-failure))))))
+
+(define-syntax collect-amb-possibilities-m
+	(syntax-rules ()
+		(
+			(collect-amb-possibilities-m expr ...)
+			(collect-amb-possibilities (lambda () (begin expr ...)))
+		)
+	)
+)
