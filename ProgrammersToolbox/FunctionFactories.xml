@@ -44,7 +44,7 @@ languages, we need only to store it in a global variable.  This makes
 the function visible to other functions and accessible by name.
 </para>
 
-<!-- FIXME -- slowdown previous paragraph, too much information too quickly -->
+<!-- FIXME - slowdown previous paragraph, too much information too quickly -->
 
 <para>
 Here is an example of an anonymous function in Scheme that squares the number given to it:
@@ -128,6 +128,8 @@ This is a pretty concise program compared to other languages.
 For example, in C the equivalent code would look like this:
 </para>
 
+<example>
+<title>Passing functions as arguments to functions in C</title>
 <programlisting>
 int square(int x)
 {
@@ -157,6 +159,7 @@ int main()
 	printf(")\n");
 }
 </programlisting>
+</example>
 
 <para>
 Of course, in C, unless we use a type-tag mechanism like the one
@@ -237,7 +240,7 @@ most common of these generic list-processing functions are:
 <term>filter</term>
 <listitem><para>
 <literal>filter</literal> takes a list and generates a new list containing the members of the old list that match a user-specified condition.
-</para></lisitem>
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -255,7 +258,7 @@ are the basic ones that are easiest to learn and most widely used.
 </para>
 
 <para>
-Detailed descriptions of these functions are available through the links found in the <a href="#Resources">Resources</a> section.
+Detailed descriptions of these functions are available through the links found in the <ulink url="#Resources">Resources</ulink> section.
 </para>
 
 </sect1>
@@ -833,8 +836,8 @@ void pointer, again for ease of use in casting.  The parts of the
 program that create and consume the environment are responsible for
 knowing it's layout.  The <literal>closure</literal> struct is only
 responsible for holding the pointer.  Some APIs for closures define an
-entire marshalling system for creating and using closures (see the <a
-href="#Resources">resources</a> section for a link), but this is all
+entire marshalling system for creating and using closures (see the <ulink
+url="#Resources">Resources</ulink> section for a link), but this is all
 that's necessary for a basic implementation. </para>
 
 <para> Let's look at a C version of our counter program to see how all
@@ -1090,7 +1093,7 @@ define several functions (probably more than 3 or 4) that work in
 tandem on a local environment, objects often work better.  Now that
 we know how both systems work, if they language we are working in is
 missing one or the other, we can always use what we have to simulate
-what we don't have.
+what we don't have.</para>
 
 <!--<para>
 Now that we are a function-combining, function-passing,
