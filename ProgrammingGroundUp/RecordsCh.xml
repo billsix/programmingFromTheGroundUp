@@ -5,7 +5,7 @@
 As mentioned in <xref linkend="filesch" />,
 many applications deal with data that is <emphasis>persistent<indexterm><primary>persistent</primary></indexterm></emphasis> - 
 meaning that the data lives longer than the program by being stored on disk 
-inf files.  You can shut down the program and open it back up, and you are
+in files.  You can shut down the program and open it back up, and you are
 back where you started.  Now, there are two basic kinds of persistent
 data - structured and unstructured.  Unstructured data<indexterm><primary>unstructured data</primary></indexterm> is like what we
 dealt with in the <literal>toupper</literal> program.  It just dealt with text files that
