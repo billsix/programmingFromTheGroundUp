@@ -86,6 +86,9 @@ record_read_loop:
 	jmp    record_read_loop
 	
 finished_reading:
+	pushl  record_buffer_ptr
+	call   deallocate
+
 	movl   $SYS_EXIT, %eax
 	movl   $0, %ebx
 	int    $LINUX_SYSCALL
