@@ -279,19 +279,18 @@ earlier article on closures at <ulink>http://www.ibm.com/developerworks/library/
 is defined <emphasis>within</emphasis> the <literal>is-in-list2</literal> function, it can see all of the
 currently defined variables, so they don't need to be re-passed.  This shaves off one variable being
 passed at each iteration.  Using a closure instead of passing the parameter doesn't make a lot of difference in this trivial example, but it can
-save a lot of typing, a lot of errors, and a lot of overhead of passing variables in more complex 
-functions.
+save a lot of typing, a lot of errors, and a lot of overhead involved in passing variables in more complex  functions.
 </para>
 
 <para>
-Making recursive closures in this way is a bit tedious.  This same pattern of creating a recursive closure
-using <literal>letrec</literal> and then calling it with an initial seed value occurs over and over again
-in recursive programming.  Therefore, in Scheme there is a shortcut called the <emphasis>named let</emphasis>.
-This construct looks a lot like a let, except that the whole block is named so that it can be called as
-a recursive closure.  The parameters of the function and the initial seed values are defined like a normal
-let, and each successive recursive call uses the parameters as new values.  It's fairly confusing to talk
-about, so take a look at the code, and compare it to the code above.
-<!-- FIXME - I probably need to see how other people define named let's, because I'm not sure mine works well -->
+The standard way of making recursive closures as used in this example is a bit tedious.  This same pattern of creating a recursive closure
+using <literal>letrec</literal> and then calling it with an initial seed value occurs over and over again in recursive programming.  In order to make programming recursive patterns easier, Scheme contains a shortcut called the <emphasis>named let</emphasis>.
+This construct looks a lot like a <literal>let</literal>, except that the whole block is given a name so that it can be called as
+a recursive closure.  The parameters of the function built with the named let are defined like the variables in a regular let, and the initial seed values are set the same way initial variable values are set in a normal let.  From there, each successive recursive call uses the parameters as new values.
+</para>
+
+<para>
+Named let's are fairly confusing to talk about, so take a look at the following code, and compare it to the code above.
 </para>
 
 <example>
@@ -322,29 +321,28 @@ about, so take a look at the code, and compare it to the code above.
 
 
 <para>
-This cuts down considerably on the amount of typing and mistakes made when writing
+The "named let" cuts down considerably on the amount of typing and mistakes made when writing
 recursive functions.  If you are still having trouble with the concept of named lets,
-I suggest that you thoroughly compare every line in the above two programs, as well
-as look at some of the documents in the <ulink url="#resources">Resources</ulink>
+I suggest that you thoroughly compare every line in the above two programs, and look at some of the documents in the <ulink url="#resources">Resources</ulink>
 section of this article.
 </para>
 
 <para>
 Our next example of a recursive function on lists will be a little more complicated.
-It will check to see whether or not a list is in ascending order.  If it is, it 
-will return <literal>#t</literal>, otherwise it will return <literal>#f</literal>.
+It will check to see whether or not a list is in ascending order.  If the list is in ascending order, the function 
+will return <literal>#t</literal>; otherwise, it will return <literal>#f</literal>.
 This program will be a little different because in addition to having to examine the
 current value, we will also have to remember the last value processed.
 </para>
 
 <para>
-The first item on the list will have to be processed special, because it won't have
-an item preceding it.  For the remaining items, we will need to pass the previously
+The first item on the list will have to be processed differently than the other items, because it won't have
+any items preceding it.  For the remaining items, we will need to pass the previously
 examined data item in the function call.  The function looks like this:
 </para>
 
 <example>
-<title>Scheme program to determine if a list is in ascending order</title>
+<title>Scheme program to determine whether a list is in ascending order</title>
 <programlisting>
 (define is-ascending
 	(lambda (the-list)
@@ -370,17 +368,17 @@ examined data item in the function call.  The function looks like this:
 </example>
 
 <para>
-This program begins by first checking a boundary condition -- whether or not the list is empty.
+This program begins by first checking a boundary condition -- whether or not the list is empty.  An empty list is considered ascending.
 It then seeds the recursive function with the first item on the list, and the remaining list.
-The base case is checked.  The only way to get to the end of the list is if everything so far
+Next, the base case is checked.  The only way to get to the end of the list is if everything so far
 has been in order.  Therefore, if the list is empty, the list is in ascending order.  Otherwise,
-we check the current item.  If the current item is in ascending order, we then only have a subset
+we check the current item.  If the current item is in ascending order, we then have only a subset
 of the problem left to solve -- whether or not the rest of the list is in ascending order.  So
 we recurse with the rest of the list and try it again.
 </para>
 
 <para>
-Notice in this function how we maintained state through function calls by passing it forward.
+Notice in this function how we maintained state through function calls by passing program forward.
 Previously we had just passed the remainder of the list each time.  In this function, though, 
 we needed to know a little bit more about the state of the computation.  The result of the
 present computation depended on the partial results before it.  Therefore, in each successive
