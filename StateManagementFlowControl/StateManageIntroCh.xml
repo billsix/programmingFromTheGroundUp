@@ -34,113 +34,76 @@ or stored together as a structure.
 </para>
 
 <para>
+In programming, state consists of all variables and values associated with
+your program, as well as the current instruction being executed.
+Programs usually have much more state involved than just four parameters.
+Imagine your last program - how many variables did you have to keep track
+of?  Each of these maintains a piece of the overall program state.  Many
+variables have to change together, many change independently of each other,
+and so on.  Each programming language has features to make managing this
+massive amount of state easier.  Some languages have records or structs to
+store pieces of state that are related to each other.  Other languages use
+objects or other strategies for state management.  You may not realize it,
+but variables are state management tools!  Your computer has no concept
+of variables - it only knows numbered storage locations.  Your programming
+language has added a name and possibly a type to that storage, making 
+your job of managing it that much easier.  As you can see, state management
+is one of the bigger problems in computer science, and one of the main
+reasons for programming languages.
+</para>
 
-
+</sect1>
 
 <sect1>
 <title>State Transitions</title>
 
-Programming Language Concepts:
-Tools for State Management and Flow Control
+<para>
+One of the main problems with state management is managing state transitions.
+At different stages of your program, different variables may become active
+or inactive.  Also, changing one variable may need to cause one or more
+related variables to change.  Having to remember while programming to modify
+all of these variables accordingly is cumbersome and error-prone.  In addition,
+as dependencies are added you have to continually look throughout your
+program to find where variables need to be recalculated, and this too is
+very cumbersome and error-prone.  Programming languages are meant to help
+with these problems as well.
+</para>
 
--- discuss how state management and flow control are the fundamental problems
-being addressed in programming languages (find lesser ones, like maybe
-interoperability)
+</sect1>
 
--- discuss why good state management tools are needed in large projects
+<sect1>
+<title>Outline of State Management</title>
 
--- we are developing a language, but the language features can also
-   be used by assembly language programs for enhanced state management
-   and flow control
+<para>
+This part of the book will start out in assembly language, and we will start
+out by adding low-level state management facilities.  We will continue
+on by adding higher and higher-level facilities until we have the 
+functionality we need to implement a high-level programming language.
+</para>
 
--- discuss runtime vs compile-time constructs, how they affect speed,
-implementation, flexibility, etc.
+<para>
+Topics will include:
 
-You may have learned a few programming languages by now, all of which have
-a great number of features that simplify programming.  This is excellent.
-Maximizing productivity in programming is about knowing your tools and
-knowing how they work.  Knowing a programming language is good, but you
-will never master it until you learn how it is implemented.
-
-This book will go over a piece-by-piece dissection of the programming
-language scheme.  Scheme was chosen for this book because of several reasons:
-
-* It has a really simple syntax
-
-* It only has a few facilities
-
-* Those few facilities can be used to implement almost every other programming construct in popular use
-
--------
-
--- State Management --
-
-State Management - state is a collection of values
-
- -- anatomy of values
-
- -- a generic value structure
-
- -- lifecycle of values
-
- -- basic values -- string and integer
-
- -- using our values
-
-State Management - keeping track of variables
-
- -- symbol table
-
- -- scopes
-
- -- Using lists to keep track of symbols
-
- -- pairs and lists
-
- -- Symbol table implementation
-
- -- Stack frames, scope, and symbol tables
-
- -- Using the symbol table in a program
-
- -- Discussion of runtime vs. compile-time symbol tables
-
-State Management - putting it together - standardized function template and
-call frames
-
-State Management - closures - saving symbol tables for later use
-
-State Management - The Function Type
-  -- code pointer
-  -- closure
-
--- Building the Interpretter --
-
--- Flow Control  --
-
-Basic elements
-
- -- Sequence, Selection, and Iteration
-    (sequence is actually any non-flow-control statement)
-
-Flow Control - Function calls ??
-
-Flow Control - Continuations - remembering flow control
-
-Flow Control - error exits, exceptions, etc
-
-Flow Control - Coroutines
-
-Flow Control - Threads and processes
-
--- State Management in object-oriented languages --
-
-OO Concepts
-
-OO is just a simplified closure mechanism
-
-Implementing OO in scheme
-
-Other OO method dispatch techniques
+<itemizedlist>
+<listitem><para>Memory Management</para></listitem>
+<listitem><para>Value Management</para></listitem>
+<listitem><para>Symbol Tables</para></listitem>
+<listitem><para>Advanced Symbol Table Techniques</para></listitem>
+</itemizedlist>
 
 </para>
+
+<para>
+The facilities we are developing will be useful for both assembly-language
+programmers who want to make use of higher-level facilities or for 
+programming language implementors who want to use these facilities as
+a runtime environment for their programming language.  Note, however,
+that the implementations used in this book are optimized for their teaching
+ability, not for their speed or their size.  In this book, we will eventually
+implement a complete interpretter for the programming language scheme.
+We use scheme because of its simple syntax and its flexibility.
+</para>
+
+</sect1>
+
+</chapter>

@@ -17,16 +17,18 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY index SYSTEM "index.xml">
 
 <!ENTITY introduction-chapter SYSTEM "IntroductionCh.xml">
-<!ENTITY memory-management-chapter SYSTEM "MemoryManageCh.xml">
 <!ENTITY state-management-introduction-chapter SYSTEM "StateManageIntroCh.xml">
+<!ENTITY memory-management-chapter SYSTEM "MemoryManageCh.xml">
+<!ENTITY values-chapter SYSTEM "ValuesCh.xml">
 
 <!ENTITY fdl-appendix SYSTEM "FDLAp.xml">
 ]>
 <book>
 
 &introduction-chapter;
-&memory-management-chapter;
 &state-management-introduction-chapter;
+&memory-management-chapter;
+&values-chapter;
 &fdl-appendix;
 &index;
 </book>

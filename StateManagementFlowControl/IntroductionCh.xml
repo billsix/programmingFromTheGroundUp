@@ -62,7 +62,7 @@ book.
 The book <citetitle>Programming from the Ground Up</citetitle> by Jonathan
 Bartlett is considered a prequel to this book.  It is not strictly necessary
 that your read that book, but it is necessary that you know the concepts
-it presents.  Also note that these books use the AT&T syntax for
+it presents.  Also note that these books use the AT&amp;T syntax for
 assembly-language programming rather than the Intel syntax.
 </para>
 
@@ -99,5 +99,7 @@ shows how to bridge the gap between how the machine works and how
 modern languages function by providing more abstract mechanisms
 for state management and flow control.
 </para>
+
+</sect1>
 
 </chapter>

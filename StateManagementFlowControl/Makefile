@@ -1,10 +1,10 @@
 all: example StateFlow.pdf
 
-alloc.o: alloc.s
-	as --gstabs alloc.s -o alloc.o
-
 error.o: error.s
 	as --gstabs error.s -o error.o
+
+alloc.o: alloc.s
+	as --gstabs alloc.s -o alloc.o
 
 example.o: example.s
 	as --gstabs example.s -o example.o
@@ -24,8 +24,8 @@ symboltable.o: symboltable.s
 common.o: common.s
 	as --gstabs common.s -o common.o
 
-example: string.o refcount.o pair.o alloc.o example.o symboltable.o common.o
+example: string.o refcount.o pair.o alloc.o example.o symboltable.o common.o error.o
 	ld string.o refcount.o pair.o alloc.o example.o symboltable.o common.o error.o -o example
 
 StateFlow.pdf: StateFlow.xml
-	db2pdf -d stateflow.dsl StateFlow.xml
+	db2pdf -d stateflow.dsl#printdraft StateFlow.xml
