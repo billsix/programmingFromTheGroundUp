@@ -39,7 +39,7 @@ return values and error codes are also stored in &eax;.
 <tbody>
 <row>
 	<entry>1</entry>
-	<entry>exit</entry>
+	<entry>exit<indexterm><primary>exit</primary></indexterm></entry>
 	<entry>return value (int)</entry>
 	<entry></entry>
 	<entry></entry>
@@ -47,7 +47,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>3</entry>
-	<entry>read</entry>
+	<entry>read<indexterm><primary>read</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry>buffer start</entry>
 	<entry>buffer size (int)</entry>
@@ -55,7 +55,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>4</entry>
-	<entry>write</entry>
+	<entry>write<indexterm><primary>write</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry>buffer start</entry>
 	<entry>buffer size (int)</entry>
@@ -63,7 +63,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>5</entry>
-	<entry>open</entry>
+	<entry>open<indexterm><primary>open</primary></indexterm></entry>
 	<entry>null-terminated file name</entry>
 	<entry>option list</entry>
 	<entry>permission mode</entry>
@@ -71,7 +71,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>6</entry>
-	<entry>close</entry>
+	<entry>close<indexterm><primary>close</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry></entry>
 	<entry></entry>
@@ -79,7 +79,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>12</entry>
-	<entry>chdir</entry>
+	<entry>chdir<indexterm><primary>chdir</primary></indexterm></entry>
 	<entry>null-terminated directory name</entry>
 	<entry></entry>
 	<entry></entry>
@@ -87,7 +87,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>19</entry>
-	<entry>lseek</entry>
+	<entry>lseek<indexterm><primary>lseek</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry>offset</entry>
 	<entry>mode</entry>
@@ -95,7 +95,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>20</entry>
-	<entry>getpid</entry>
+	<entry>getpid<indexterm><primary>getpid</primary></indexterm></entry>
 	<entry></entry>
 	<entry></entry>
 	<entry></entry>
@@ -103,7 +103,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>39</entry>
-	<entry>mkdir</entry>
+	<entry>mkdir<indexterm><primary>mkdir</primary></indexterm></entry>
 	<entry>null-terminated directory name</entry>
 	<entry>permission mode</entry>
 	<entry></entry>
@@ -111,7 +111,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>40</entry>
-	<entry>rmdir</entry>
+	<entry>rmdir<indexterm><primary>rmdir</primary></indexterm></entry>
 	<entry>null-terminated directory name</entry>
 	<entry></entry>
 	<entry></entry>
@@ -119,7 +119,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>41</entry>
-	<entry>dup</entry>
+	<entry>dup<indexterm><primary>dup</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry></entry>
 	<entry></entry>
@@ -127,7 +127,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>42</entry>
-	<entry>pipe</entry>
+	<entry>pipe<indexterm><primary>pipe</primary></indexterm></entry>
 	<entry>pipe array</entry>
 	<entry></entry>
 	<entry></entry>
@@ -135,7 +135,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>45</entry>
-	<entry>brk</entry>
+	<entry>brk<indexterm><primary>brk</primary></indexterm></entry>
 	<entry>new system break</entry>
 	<entry></entry>
 	<entry></entry>
@@ -143,7 +143,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>54</entry>
-	<entry>ioctl</entry>
+	<entry>ioctl<indexterm><primary>ioctl</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry>request</entry>
 	<entry>arguments</entry>
@@ -168,14 +168,13 @@ A more complete listing of system calls, along with additional information
 is available at http://www.lxhp.in-berlin.de/lhpsyscal.html
 You can also get more information about a system call by typing in 
 <literal>man 2 SYSCALLNAME</literal> which will return you the information 
-about the system call from section 2 of the UNIX manual.  However, this 
-refers to the usage of the system call from the C programming language, 
+about the system call from section 2 of the UNIX manual<indexterm><primary>UNIX manual</primary></indexterm>.  However, this 
+refers to the usage of the system call from the C programming language<indexterm><primary>C programming language</primary></indexterm>, 
 and may or may not be directly helpful.
 </para>
 
 <para>
-For information on how System Calls are implemented on Linux, see the Linux
-Kernel 2.4 Internals section on how system calls are implemented, 
+For information on how system calls<indexterm><primary>system calls</primary></indexterm> are implemented on Linux, see the Linux Kernel 2.4 Internals section on how system calls are implemented 
 at http://www.faqs.org/docs/kernel_2_4/lki-2.html#ss2.11
 </para>
 

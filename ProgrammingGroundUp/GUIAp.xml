@@ -31,7 +31,7 @@ will be spent passing data from one library to another.
 <title>The GNOME Libraries</title>
 
 <para>
-The GNOME projects is one of several projects to provide
+The GNOME<indexterm><primary>GNOME</primary></indexterm> projects is one of several projects to provide
 a complete desktop to Linux users.  The GNOME project includes
 a panel to hold application launchers and mini-applications
 called applets, several standard applications to do things
@@ -65,7 +65,7 @@ in mind.
 <para>
 This chapter will not go into details about how GNOME works.
 If you would like to know more, visit the GNOME developer web
-site at <ulink url="http://developer.gnome.org/">http://developer.gnome.org/</ulink>.
+site at http://developer.gnome.org/.
 This site contains tutorials, mailing lists, API documentation,
 and everything else you need to start programming in the GNOME
 environment.  
@@ -99,7 +99,7 @@ Then type in <literal>./gnome-example</literal> to run it.
 </para>
 
 <para>
-This program, like most GUI programs, makes heavy use of 
+This program, like most GUI<indexterm><primary>GUI</primary></indexterm> programs, makes heavy use of 
 passing pointers to functions as parameters.  In this program
 you create widgets with the GNOME functions and then you
 set up functions to be called when certain events happen.
@@ -278,15 +278,15 @@ programming environments, including GNOME, have programs
 called GUI builders that can be used to automatically create
 your GUI for you.  You just have to write the code for the
 signal handlers and for initializing your program.  The
-main GUI builder for GNOME applications is called GLADE.
+main GUI builder<indexterm><primary>GUI builder</primary></indexterm> for GNOME applications is called GLADE.
 GLADE ships with most Linux distributions.
 </para>
 
 <para>
 There are GUI builders for most programming environments.
 Borland has a range of tools that will build GUIs quickly 
-and easily on Linux and Win32 systems.  The KDE environment 
-has a tool called QT Designer which helps you automatically 
+and easily on Linux and Win32<indexterm><primary>Win32</primary></indexterm> systems.  The KDE environment 
+has a tool called QT Designer<indexterm><primary>QT Designer</primary></indexterm> which helps you automatically 
 develop the GUI for their system.  
 </para>
 

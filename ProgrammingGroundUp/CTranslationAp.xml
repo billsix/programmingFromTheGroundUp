@@ -14,6 +14,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 -->
 
 <para>
+<indexterm><primary>C programming language</primary></indexterm>
 This appendix is for C programmers learning assembly language.  It is meant to
 give a general idea about how C constructs can be implemented in assembly 
 language.
@@ -23,9 +24,8 @@ language.
 <title>If Statement</title>
 
 <para>
-In C, an if statement consists of three parts - the condition, the true
-branch, and the false branch.  However, since assembly language is not
-a block structured language, you have to work a little to implement
+In C, an if statement<indexterm><primary>if statement</primary></indexterm> consists of three parts - the condition<indexterm><primary>condition</primary></indexterm>, the true branch<indexterm><primary>true branch</primary></indexterm>, and the false branch<indexterm><primary>false branch</primary></indexterm>.  However, since assembly language is not
+a block structured language<indexterm><primary>block structured language</primary></indexterm>, you have to work a little to implement
 the block-like nature of C.  For example, look at the following C code:
 </para>
 
@@ -80,7 +80,7 @@ the system.
 </para>
 
 <para>
-A case statement is written just like a sequence of if statements.
+A case statement<indexterm><primary>case statement</primary></indexterm> is written just like a sequence of if statements.
 </para>
 
 </simplesect>
@@ -89,9 +89,9 @@ A case statement is written just like a sequence of if statements.
 <title>Function Call</title>
 
 <para>
-A function call in assembly language simply requires pushing the arguments
+A function call<indexterm><primary>function call</primary></indexterm> in assembly language simply requires pushing the arguments
 to the function onto the stack in <emphasis>reverse</emphasis> order, and
-issuing a <literal>call</literal> instruction.  After calling, the arguments
+issuing a <literal>call<indexterm><primary>call</primary></indexterm></literal> instruction.  After calling, the arguments
 are then popped back off of the stack.  For example, consider
 the C code:
 </para>
@@ -127,17 +127,17 @@ In assembly language, this would be rendered as:
 <title>Variables and Assignment</title>
 
 <para> 
-Global and static variables are declared using
+Global<indexterm><primary>global variables</primary></indexterm> and static variables<indexterm><primary>static variables</primary></indexterm> are declared using
 <literal>.data</literal> or <literal>.bss</literal> entries.  Local
-variables are declared by reserving space on the stack at the
+variables<indexterm><primary>local variables</primary></indexterm> are declared by reserving space on the stack at the
 beginning of the function.  This space is given back at the end of the
 function.  
 </para>
 
 <para>
 Interestingly, global variables are accessed differently than local variables
-in assembly language.  Global variables are accessed using direct addressing,
-while local variables are accessed using base-pointer addressing.  For
+in assembly language.  Global variables are accessed using direct addressing<indexterm><primary>direct addressing mode</primary></indexterm>,
+while local variables are accessed using base-pointer addressing<indexterm><primary>base-pointer addressing mode</primary></indexterm>.  For
 example, consider the following C code:
 </para>
 
@@ -183,12 +183,12 @@ foo:
 <para>
 What may not be obvious is that accessing the global variable takes fewer
 machine cycles than accessing the global variable.  However, that may not
-matter because the stack is more likely to be in physical RAM (instead of swap)
+matter because the stack is more likely to be in physical memory<indexterm><primary>physical memory</primary></indexterm> (instead of swap)
 than the global variable is.
 </para>
 
 <para>
-Also note that after loading a value into a register, that value will likely
+Also note that in the C programming language, after the compiler loads a value into a register, that value will likely
 stay in that register until that register is needed for something else.  It
 may also move registers.  For example, if you have a variable 
 <literal>foo</literal>, it may start on the stack, but the compiler will
@@ -196,7 +196,7 @@ eventually move it into registers for processing.  If there aren't many
 variables in use, the value may simply stay in the register until it is
 needed again.  Otherwise, when that register is needed for something else,
 the value, if it's changed, is copied back to its corresponding memory 
-location.  In C, you can use the keyword <literal>volatile</literal> to
+location.  In C, you can use the keyword <literal>volatile<indexterm><primary>volatile</primary></indexterm></literal> to
 make sure all modifications and references to the variable are done to
 the memory location itself, rather than a register copy of it, in case
 other processes, threads, or hardware may be modifying the value while
@@ -209,11 +209,11 @@ your function is running.
 <title>Loops</title>
 
 <para>
-Loops work a lot like if statements in assembly language - the blocks are
+Loops<indexterm><primary>loops</primary></indexterm> work a lot like if statements in assembly language - the blocks are
 formed by jumping around.  In C, a while loop consists of a loop body, and a
 test to determine whether or not it is time to exit the loop. A for loop
 is exactly the same, with optional initialization and counter-increment 
-sections.  These can simply be moved around to make a while loop.
+sections.  These can simply be moved around to make a while loop<indexterm><primary>while loop</primary></indexterm>.
 </para>
 
 <para>
@@ -252,7 +252,7 @@ loop_end:
 <para>
 The x86 assembly language has some direct support for looping as well.
 The &ecx-indexed; register can be used as a counter that 
-<emphasis>ends</emphasis> with zero.  The <literal>loop</literal> instruction
+<emphasis>ends</emphasis> with zero.  The <literal>loop<indexterm><primary>loop</primary></indexterm></literal> instruction
 will decrement &ecx; and jump to a specified address unless &ecx; is zero.
 For example, if you wanted to execute a statement 100 times, you would
 do this in C:
@@ -293,7 +293,7 @@ the loop form which does not include the <literal>loop</literal> instruction.
 
 <para>
 For really tight loops of character string operations, there is also the 
-<literal>rep</literal> instruction, but we will leave learning about
+<literal>rep<indexterm><primary>rep</primary></indexterm></literal> instruction, but we will leave learning about
 that as an exercise to the reader.
 </para>
 
@@ -303,7 +303,7 @@ that as an exercise to the reader.
 <title>Structs</title>
 
 <para>
-Structs are simply descriptions of memory blocks.  For example,
+Structs<indexterm><primary>structs</primary></indexterm> are simply descriptions of memory blocks.  For example,
 in C you can say:
 </para>
 
@@ -318,7 +318,7 @@ struct person {
 <para>
 This doesn't do anything by itself, except give you ways of intelligently 
 using 84 bytes of data.  You can do basically the same thing using
-<literal>.equ</literal> directives in assembly language.  Like this:
+<literal>.equ<indexterm><primary>.equ</primary></indexterm></literal> directives in assembly language.  Like this:
 </para>
 
 <programlisting>
@@ -366,7 +366,7 @@ foo:
 </programlisting>
 
 <para>
-To access structure members, you just have to use base pointer addressing with 
+To access structure members, you just have to use base pointer addressing<indexterm><primary>base pointer addressing mode</primary></indexterm> with 
 the offsets defined above.  For example,
 in C you could set the person's age like this:
 </para>
@@ -389,8 +389,8 @@ In assembly language it would look like this:
 <title>Pointers</title>
 
 <para>
-Pointers are very easy.  Remember, pointers are simply the
-address that a value resides at.  Let's start by taking a
+Pointers<indexterm><primary>pointers</primary></indexterm> are very easy.  Remember, pointers are simply the
+address<indexterm><primary>address</primary></indexterm> that a value resides at.  Let's start by taking a
 look at global variables.  For example:
 </para>
 
@@ -427,11 +427,11 @@ Taking the address of this data in assembly language:
 <para>
 You see, with assembly language, you are almost always accessing memory 
 through pointers.  That's what direct addressing is.  To get the pointer
-itself, you just have to go with immediate mode addressing.
+itself, you just have to go with immediate mode addressing<indexterm><primary>immediate mode addressing</primary></indexterm>.
 </para>
 
 <para>
-Local variables are a little more difficult, but not much.  Here is
+Local variables<indexterm><primary>local variables</primary></indexterm> are a little more difficult, but not much.  Here is
 how you take the address of a local variable in C:
 </para>
 
@@ -485,7 +485,7 @@ foo:
 As you can see, to take the address of a local variable, the address has to
 be computed the same way the computer computes the addresses in base 
 pointer addressing.  There is an easier way - the processor provides the
-instruction <literal>lea</literal>, which stands for "load effective address".
+instruction <literal>leal<indexterm><primary>leal</primary></indexterm></literal>, which stands for "load effective address<indexterm><primary>effective address</primary></indexterm>".
 This lets the computer compute the address, and then load it wherever you want.
 So, we could just say:
 </para>
@@ -499,7 +499,7 @@ So, we could just say:
 <para>
 It's the same number of lines, but a little cleaner.  Then, to use
 this value, you simply have to move it to a general-purpose register
-and use indirect addressing, as shown in the example above.
+and use indirect addressing<indexterm><primary>indirect addressing mode</primary></indexterm>, as shown in the example above.
 </para>
 
 </simplesect>
@@ -508,7 +508,7 @@ and use indirect addressing, as shown in the example above.
 <title>Getting GCC to Help</title>
 
 <para>
-One of the nice things about GCC is it's ability to spit out assembly
+One of the nice things about GCC<indexterm><primary>GCC</primary></indexterm> is it's ability to spit out assembly
 language code.  To convert a C language file to assembly, you can simply
 do:
 </para>
@@ -541,7 +541,7 @@ variables.
 
 <para>
 Finally, at the end of functions, we usually do the following instructions
-to clean up the stack before issuing a <literal>ret</literal> instruction:
+to clean up the stack before issuing a <literal>ret<indexterm><primary>ret</primary></indexterm></literal> instruction:
 </para>
 
 <programlisting>
@@ -551,7 +551,7 @@ to clean up the stack before issuing a <literal>ret</literal> instruction:
 
 <para>
 However, GCC output will usually just include the instruction 
-<literal>leave</literal>.  This instruction is simply the combination
+<literal>leave<indexterm><primary>leave</primary></indexterm></literal>.  This instruction is simply the combination
 of the above two instructions.  We do not use <literal>leave</literal>
 in this text because we want to be clear about exactly what is happening
 at the processor level.

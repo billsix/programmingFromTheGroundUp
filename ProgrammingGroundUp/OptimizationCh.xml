@@ -13,7 +13,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 -->
 
 <para>
-Optimization is the process of making your application run more
+Optimization<indexterm><primary>optimization</primary></indexterm> is the process of making your application run more
 effectively.  You can optimize for many things - speed, memory
 space usage, disk space usage, etc. This chapter, however, 
 focuses on speed optimization.
@@ -55,7 +55,7 @@ While you develop your program, you need to have the following priorities:
 </itemizedlist>
 
 <para>
-Documentation is essential, especially when working in groups.  The proper
+Documentation<indexterm><primary>documentation</primary></indexterm> is essential, especially when working in groups.  The proper
 functioning of the program is essential.  
 You'll notice application speed was not anywhere on that list.  Optimization is
 not necessary during early development for the following reasons:
@@ -102,7 +102,7 @@ by running a
 <emphasis>profiler</emphasis><indexterm><primary>profiler</primary></indexterm>.
 A profiler is a program that will let you run your program, and it
 will tell you how much time is spent in each function, and how many
-times they are run.  <literal>gprof</literal> is the standard GNU/Linux
+times they are run.  <literal>gprof<indexterm><primary>gprof</primary></indexterm></literal> is the standard GNU/Linux
 profiling tool, but a discussion of using profilers is outside 
 the scope of this text.  After running a profiler, you can determine which
 functions are called the most or have the most time spent in them.  These
@@ -126,8 +126,8 @@ is called, the better position you will be in to optimize it appropriately.
 </para>
 
 <para>
-There are two main categories of optimization - local optimizations and
-global optimizations.  Local optimizations consist of optimizations that are
+There are two main categories of optimization - local optimizations<indexterm><primary>local optimizations</primary></indexterm> and
+global optimizations<indexterm><primary>global optimizations</primary></indexterm>.  Local optimizations consist of optimizations that are
 either hardware specific - such as the fastest way to perform a given
 computation - or program-specific - such as making a specific piece of
 code perform the best for the most often-occuring case.  Global optimization
@@ -174,14 +174,14 @@ when the function starts, if the result has been computed before it will
 simply return the previous answer, otherwise it will do the full computation
 and store the result for later lookup.  This has the advantage of requiring
 less storage space because you aren't precomputing all results.  This
-is sometimes termed <emphasis>caching</emphasis> or <emphasis>memoizing</emphasis>.
+is sometimes termed <emphasis>caching<indexterm><primary>caching</primary></indexterm></emphasis> or <emphasis>memoizing<indexterm><primary>memoizing</primary></indexterm></emphasis>.
 </para></listitem>
 </varlistentry> 
 
 <varlistentry>
 <term>Locality of Reference</term>
 <listitem><para>
-<emphasis>Locality of reference</emphasis> is a term for where in memory the 
+<emphasis>Locality of reference<indexterm><primary>locality of reference</primary></indexterm></emphasis> is a term for where in memory the 
 data items you are accessing are.  With virtual memory, you may access pages
 of memory which are stored on disk.  In such a case, the operating system has
 to load that memory page from disk, and unload others to disk.  Let's say, 
@@ -195,18 +195,17 @@ if you did all 5 operations on a given data item, you only have to load each
 page from disk once.  When you bundle as many operations on data that is
 physically close to each other in memory, then you are taking advantage of 
 locality of reference.  In addition, processors usually store some data on-chip
-in a cache.  If you keep all of your operations within a small area of physical
-memory, you can bypass even main memory and only use the chips ultra-fast cache
+in a cache<indexterm><primary>cache</primary></indexterm>.  If you keep all of your operations within a small area of 
+physical memory<indexterm><primary>physical memory</primary></indexterm>, your program may bypass even main memory and only use the chip's ultra-fast cache
 memory.  This is all done for you - all you have to do is to try to operate on
-small sections of memory at a time, rather than bouncing all over the place in
-memory.
+small sections of memory at a time, rather than bouncing all over the place.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term>Register Usage</term>
 <listitem><para>
-Registers are the fastest memory locations on the computer.  When you access
+Registers<indexterm><primary>registers</primary></indexterm> are the fastest memory locations on the computer.  When you access
 memory, the processor has to wait while it is loaded from the 
 memory bus.  However, registers are located on the processor itself, 
 so access is extremely fast.  Therefore making wise usage of registers 
@@ -227,8 +226,7 @@ pushing arguments onto the stack and doing the jumps (remember locality  of
 reference - your code may be swapped out on disk instead of in memory).  
 For high level languages, it's often impossible for compilers to do 
 optimizations across function-call 
-boundaries.  However, some languages support inline functions or function
-macros.  These 
+boundaries.  However, some languages support inline functions<indexterm><primary>inline functions</primary></indexterm> or function macros<indexterm><primary>macros</primary></indexterm>.  These 
 functions look, smell, taste, and act like real functions, except the 
 compiler has the option to simply plug the code in exactly where it was 
 called.  This makes the program faster, but it also increases the size 
@@ -260,9 +258,9 @@ need to know your processor well.
 <varlistentry>
 <term>Addressing Modes</term>
 <listitem><para>
-Different addressing modes work at different speeds.  The fastest are 
-the immediate and register addressing modes.  Direct is the next fastest, 
-indirect is next, and base-pointer and indexed indirect are the slowest.  
+Different addressing modes<indexterm><primary>addressing modes</primary></indexterm> work at different speeds.  The fastest are 
+the immediate<indexterm><primary>immediate mode addressing</primary></indexterm> and register addressing modes.  Direct<indexterm><primary>direct addressing mode</primary></indexterm> is the next fastest, 
+indirect is next, and base-pointer<indexterm><primary>base-pointer addressing mode</primary></indexterm> and indexed indirect<indexterm><primary>indexed indirect addressing mode</primary></indexterm> are the slowest.  
 Try to use the faster addressing modes, when possible.  One interesting
 consequence of this is that when you have a structured piece of memory 
 that you are accessing using base-pointer addressing, the first element can 
@@ -275,7 +273,7 @@ faster.
 <varlistentry>
 <term>Data Alignment</term>
 <listitem><para>
-Some processors can access data on word-aligned memory boundaries 
+Some processors can access data on word-aligned memory<indexterm><primary>aligned memory</primary></indexterm> boundaries 
 (i.e. - addresses divisible by the word size) faster than non-aligned data.  
 So, when setting up structures in memory, it is best to keep it word-aligned.  
 Some non-x86 processors, in fact, cannot access non-aligned data in some modes.
@@ -296,7 +294,7 @@ code is much more important except under extreme circumstances.
 <title>Global Optimization</title>
 
 <para>
-Global optimization has two goals.  The first one is to put your code
+Global optimization<indexterm><primary>global optimization</primary></indexterm> has two goals.  The first one is to put your code
 in a form where it is easy to do local optimiztions.  For example, 
 if you have a large procedure that 
 performs several slow, complex calculations, you might see if you can break
@@ -305,7 +303,7 @@ values can be precomputed or memoized.
 </para>
 
 <para>
-Stateless functions (functions that only operate on the parameters that
+Stateless functions<indexterm><primary>stateless functions</primary></indexterm> (functions that only operate on the parameters that
 were passed to them - i.e. no globals or system calls) are the easiest 
 type of functions to optimize in a computer.  The more stateless parts of 
 your program you have, the more opportunities you have to optimize.  In the
@@ -328,13 +326,14 @@ because the database results had been memoized.
 <para>
 Global optimization usually often involves achieving the following 
 properties in your functions:
+</para>
 
 <variablelist>
 
 <varlistentry>
 <term>Parallelization</term>
 <listitem><para>
-Parallelization means that your algorithm
+Parallelization<indexterm><primary>parallelization</primary></indexterm> means that your algorithm
 can effectively be split among multiple processes.  For example, 
 pregnancy is not very parallelizable because no matter how many women
 you have, it still takes nine months.  However, building a car is
@@ -349,7 +348,7 @@ and clustered computer configurations.
 <varlistentry>
 <term>Statelessness</term>
 <listitem><para>
-As we've discussed, stateless functions and programs are those that rely 
+As we've discussed, stateless<indexterm><primary>stateless functions</primary></indexterm> functions and programs are those that rely 
 entirely on the data explicitly passed to them for functioning.  
 Most processes are not entirely stateless, but they can be within
 limits.  In my e-commerce example, the function wasn't entirely stateless,
@@ -361,8 +360,6 @@ functions are parallelizable and often benefit from memoization.
 </varlistentry>
 
 </variablelist>
-
-</para>
 
 <para>
 Global optimization takes quite a bit of practice to know what works and

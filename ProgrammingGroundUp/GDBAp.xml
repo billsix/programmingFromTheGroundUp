@@ -72,10 +72,10 @@ This GDB was configured as "i386-redhat-linux"...
 </screen>
 
 <para>
-Depending on which version of GDB you are running, this output may vary
+Depending on which version of GDB<indexterm><primary>GDB</primary></indexterm> you are running, this output may vary
 slightly.  At this point, the program is loaded, but is not running yet.
 The debugger is waiting your command.  To run your program, just type in
-<literal>run</literal>.  This will not return, because the program
+<literal>run<indexterm><primary>run</primary></indexterm></literal>.  This will not return, because the program
 is running in an infinite loop.  To stop the program, hit control-c.
 The screen will then say this:
 </para>
@@ -91,7 +91,7 @@ Current language:  auto; currently asm
 </screen>
 
 <para>
-This tells you that the program was interrupted by the SIGINT signal (from your
+This tells you that the program was interrupted by the SIGINT<indexterm><primary>SIGINT</primary></indexterm> signal (from your
 control-c), and was within the section labelled <literal>start_loop</literal>,
 and was executing on line 34 when it stopped.  It gives you the code that
 it is about to execute.  Depending on exactly when you hit control-c, it may
@@ -101,7 +101,7 @@ have stopped on a different line or a different instruction than the example.
 <para>
 One of the best ways to find bugs in a program is to follow the flow of 
 the program to see where it is branching incorrectly.  To follow the
-flow of this program, keep on entering <literal>stepi</literal> (for
+flow of this program, keep on entering <literal>stepi<indexterm><primary>stepi</primary></indexterm></literal> (for
 "step instruction"), which will cause the computer to execute one 
 instruction at a time.  If you do this several times, your output will
 look something like this:
@@ -130,7 +130,7 @@ look something like this:
 As you can tell, it has looped.  In general, this is good, since we wrote it
 to loop.  However, the problem is that it is 
 <emphasis>never stopping</emphasis>.  Therefore, to find out what the problem
-is, let's look at the point in our code where we should be exitting the loop:
+is, let's look at the point in our code where we should be exitting the loop<indexterm><primary>loop</primary></indexterm>:
 </para>
 
 <programlisting>
@@ -154,10 +154,10 @@ would happen.  However, again, this is not the case.
 Neither of those potential problems are the culprit.  So, the next
 option is that perhaps &eax; has the wrong value.  There are two ways to
 check the contents of register in GDB.  The first one is the command
-<literal>info register</literal>.  This will display the contents of
+<literal>info register<indexterm><primary>info register</primary></indexterm></literal>.  This will display the contents of
 all registers in hexadecimal.  However, we are only interested in &eax;
 at this point.  To just display &eax; we can do <literal>print/$eax</literal>
-to print it in hexadecimal, or do <literal>print/d $eax</literal> to print
+to print it in hexadecimal, or do <literal>print<indexterm><primary>print</primary></indexterm>/d $eax</literal> to print
 it in decimal.  Notice that in GDB, registers are prefixed with dollar
 signs rather than percent signs.  Your screen should have this on it:
 </para>
@@ -236,16 +236,16 @@ The program we entered in the last section had an infinite loop, and could be
 easily stopped using control-c.  Other programs may simply abort or finish
 with errors.  In these cases, control-c doesn't help, because by the time
 you press control-c, the program is already finished.  To fix this, you
-need to set <emphasis>breakpoints</emphasis>.  A breakpoint is a place
+need to set <emphasis>breakpoints<indexterm><primary>breakpoints</primary></indexterm></emphasis>.  A breakpoint is a place
 in the source code that you have marked to indicate to the debugger that
 it should stop the program when it hits that point.
 </para>
 
 <para>
-To set breakpoints you have to set them up before you run the
+To set breakpoints<indexterm><primary>breakpoints</primary></indexterm> you have to set them up before you run the
 program.  Before issuing the
 <literal>run</literal> command, you can set up breakpoints using the
-<literal>break</literal> command.  For example, to break on line 27, 
+<literal>break<indexterm><primary>break</primary></indexterm></literal> command.  For example, to break on line 27, 
 issue the command <literal>break 27</literal>.  Then, when the program
 crosses line 27, it will stop running, and print out the current line
 and instruction.  You can then step through the program from that 
@@ -267,15 +267,15 @@ skips the pushing of &ebp-indexed; and the copying of &esp-indexed;).
 When stepping through code, you often don't want to have to step through
 every instruction of every function.  Well-tested functions are usually
 a waste of time to step through except on rare occasion.  Therefore, if
-you use the <literal>nexti</literal> command instead of the 
-<literal>stepi</literal> command, GDB will wait until completion of the
+you use the <literal>nexti<indexterm><primary>nexti</primary></indexterm></literal> command instead of the 
+<literal>stepi<indexterm><primary>stepi</primary></indexterm></literal> command, GDB will wait until completion of the
 function before going on.  Otherwise, with <literal>stepi</literal>, GDB
 would step you through every instruction within every called function.
 </para>
 
 <warning>
 <para>
-One problem that GDB has is with handling interrupts.  Often times
+One problem that GDB has is with handling interrupts<indexterm><primary>interrupts</primary></indexterm>.  Often times
 GDB will miss the instruction that immediately follows an interrupt.
 The instruction is actually executed, but GDB doesn't step through
 it.  This should not be a problem - just be aware that it may happen.
@@ -302,9 +302,9 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Miscellaneous</entry></row>
 </thead>
 <tbody>
-<row><entry>quit</entry><entry>Exit GDB</entry></row>
-<row><entry>help [cmd]</entry><entry>Print description of debugger command <literal>cmd</literal>.  Without <literal>cmd</literal>, prints a list of topics.</entry></row>
-<row><entry>directory [dir1] [dir2] ...</entry><entry>Add directories <literal>dir1</literal>, <literal>dir2</literal>, etc. to the list of directories searched for source files.</entry></row>
+<row><entry>quit<indexterm><primary>quit</primary></indexterm></entry><entry>Exit GDB</entry></row>
+<row><entry>help<indexterm><primary>help</primary></indexterm> [cmd]</entry><entry>Print description of debugger command <literal>cmd</literal>.  Without <literal>cmd</literal>, prints a list of topics.</entry></row>
+<row><entry>directory<indexterm><primary>directory</primary></indexterm> [dir1] [dir2] ...</entry><entry>Add directories <literal>dir1</literal>, <literal>dir2</literal>, etc. to the list of directories searched for source files.</entry></row>
 </tbody>
 </tgroup>
 <tgroup cols="2" colsep="1" rowsep="1">
@@ -314,9 +314,9 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Running the Program</entry></row>
 </thead>
 <tbody>
-<row><entry>run [arg1] [arg2] ...</entry><entry>Run the program with command line arguments <literal>arg1</literal>, <literal>arg2</literal>, etc.</entry></row>
-<row><entry>set args arg1 [arg2] ...</entry><entry>Set the program's command-line arguments to <literal>arg1</literal>, <literal>arg2</literal>, etc.</entry></row>
-<row><entry>show args</entry><entry>Print the program's command-line arguments.</entry></row>
+<row><entry>run<indexterm><primary>run</primary></indexterm> [arg1] [arg2] ...</entry><entry>Run the program with command line arguments <literal>arg1</literal>, <literal>arg2</literal>, etc.</entry></row>
+<row><entry>set<indexterm><primary>set</primary></indexterm> args arg1 [arg2] ...</entry><entry>Set the program's command-line arguments to <literal>arg1</literal>, <literal>arg2</literal>, etc.</entry></row>
+<row><entry>show<indexterm><primary>show</primary></indexterm> args</entry><entry>Print the program's command-line arguments.</entry></row>
 </tbody>
 </tgroup>
 <tgroup cols="2" colsep="1" rowsep="1">
@@ -326,20 +326,20 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Using Breakpoints</entry></row>
 </thead>
 <tbody>
-<row><entry>info breakpoints</entry><entry>Print a list of all breakpoints and their numbers (breakpoint numbers are used for other breakpoint commands).</entry></row>
-<row><entry>break <emphasis>linenum</emphasis></entry><entry>Set a breakpoint at line number <emphasis>linenum</emphasis>.</entry></row>
+<row><entry>info<indexterm><primary>info</primary></indexterm> breakpoints</entry><entry>Print a list of all breakpoints and their numbers (breakpoint numbers are used for other breakpoint commands).</entry></row>
+<row><entry>break<indexterm><primary>break</primary></indexterm> <emphasis>linenum</emphasis></entry><entry>Set a breakpoint at line number <emphasis>linenum</emphasis>.</entry></row>
 <row><entry>break *<emphasis>addr</emphasis></entry><entry>Set a breakpoint at memory address <emphasis>addr</emphasis>.</entry></row>
 <row><entry>break <emphasis>fn</emphasis></entry><entry>Set a breakpoint at the beginning of function <emphasis>fn</emphasis>.</entry></row>
-<row><entry>condition <emphasis>bpnum</emphasis> <emphasis>expr</emphasis></entry><entry>Break at breakpoint <emphasis>bpnum</emphasis> only if expression <emphasis>expr</emphasis> is non-zero.</entry></row>
-<row><entry>command [<emphasis>bpnum</emphasis>] <emphasis>cmd1</emphasis> [<emphasis>cmd2</emphasis>] ...</entry><entry>Execute commands <emphasis>cmd1</emphasis>, <emphasis>cmd2</emphasis>, etc. whenever breakpoint <emphasis>bpnum</emphasis> (or the current breakpoint) is hit.</entry></row>
-<row><entry>continue</entry><entry>Continue executing the program.</entry></row>
-<row><entry>kill</entry><entry>Stop executing the program.</entry></row>
-<row><entry>delete [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Delete breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
-<row><entry>clear *<emphasis>addr</emphasis></entry><entry>Clear the breakpoint at memory address <emphasis>addr</emphasis>.</entry></row>
+<row><entry>condition<indexterm><primary>condition</primary></indexterm> <emphasis>bpnum</emphasis> <emphasis>expr</emphasis></entry><entry>Break at breakpoint <emphasis>bpnum</emphasis> only if expression <emphasis>expr</emphasis> is non-zero.</entry></row>
+<row><entry>command<indexterm><primary>command</primary></indexterm> [<emphasis>bpnum</emphasis>] <emphasis>cmd1</emphasis> [<emphasis>cmd2</emphasis>] ...</entry><entry>Execute commands <emphasis>cmd1</emphasis>, <emphasis>cmd2</emphasis>, etc. whenever breakpoint <emphasis>bpnum</emphasis> (or the current breakpoint) is hit.</entry></row>
+<row><entry>continue<indexterm><primary>continue</primary></indexterm></entry><entry>Continue executing the program.</entry></row>
+<row><entry>kill<indexterm><primary>kill</primary></indexterm></entry><entry>Stop executing the program.</entry></row>
+<row><entry>delete<indexterm><primary>delete</primary></indexterm> [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Delete breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
+<row><entry>clear<indexterm><primary>clear</primary></indexterm> *<emphasis>addr</emphasis></entry><entry>Clear the breakpoint at memory address <emphasis>addr</emphasis>.</entry></row>
 <row><entry>clear [<emphasis>fn</emphasis>]</entry><entry>Clear the breakpoint at function <emphasis>fn</emphasis>, or the current breakpoint.</entry></row>
 <row><entry>clear <emphasis>linenum</emphasis></entry><entry>Clear the breakpoint at line number <emphasis>linenum</emphasis>.</entry></row>
-<row><entry>disable [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Disable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
-<row><entry>enable [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Enable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
+<row><entry>disable<indexterm><primary>disable</primary></indexterm> [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Disable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
+<row><entry>enable<indexterm><primary>enable</primary></indexterm> [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Enable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
 </tbody>
 </tgroup>
 <tgroup cols="2" colsep="1" rowsep="1">
@@ -349,9 +349,9 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Stepping through the Program</entry></row>
 </thead>
 <tbody>
-<row><entry>nexti</entry><entry>"Step over" the next instruction (doesn't follow function calls).</entry></row>
-<row><entry>stepi</entry><entry>"Step into" the next instruction (follows function calls).</entry></row>
-<row><entry>finish</entry><entry>"Step out" of the current function.</entry></row>
+<row><entry>nexti<indexterm><primary>nexti</primary></indexterm></entry><entry>"Step over" the next instruction (doesn't follow function calls).</entry></row>
+<row><entry>stepi<indexterm><primary>stepi</primary></indexterm></entry><entry>"Step into" the next instruction (follows function calls).</entry></row>
+<row><entry>finish<indexterm><primary>finish</primary></indexterm></entry><entry>"Step out" of the current function.</entry></row>
 </tbody>
 </tgroup>
 <tgroup cols="2" colsep="1" rowsep="1">
@@ -361,14 +361,14 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Examining Registers and Memory</entry></row>
 </thead>
 <tbody>
-<row><entry>info registers</entry><entry>Print the contents of all registers.</entry></row>
-<row><entry>print/<emphasis>f</emphasis> $<emphasis>reg</emphasis></entry><entry>Print the contents of register <emphasis>reg</emphasis> using format <emphasis>f</emphasis>.  The format can be x (hexadecimal), u (unsigned decimal), o (octal), a(address), c (character), or f (floating point).</entry></row>
+<row><entry>info registers<indexterm><primary>info registers</primary></indexterm></entry><entry>Print the contents of all registers.</entry></row>
+<row><entry>print<indexterm><primary>print</primary></indexterm>/<emphasis>f</emphasis> $<emphasis>reg</emphasis></entry><entry>Print the contents of register <emphasis>reg</emphasis> using format <emphasis>f</emphasis>.  The format can be x (hexadecimal), u (unsigned decimal), o (octal), a(address), c (character), or f (floating point).</entry></row>
 <row><entry>x/<emphasis>rsf</emphasis> <emphasis>addr</emphasis></entry><entry>Print the contents of memory address <emphasis>addr</emphasis> using repeat count <emphasis>r</emphasis>, size <emphasis>s</emphasis>, and format <emphasis>f</emphasis>.  Repeat count defaults to 1 if not specified.  Size can be b (byte), h (halfword), w (word), or g (double word).  Size defaults to word if not specified.  Format is the same as for print, with the additions of s (string) and i (instruction).</entry></row>
-<row><entry>info display</entry><entry>Shows a numbered list of expressions set up to display automatically at each break.</entry></row>
-<row><entry>display/<emphasis>f</emphasis> $<emphasis>reg</emphasis></entry><entry>At each break, print the contents of register <emphasis>reg</emphasis> using format <emphasis>f</emphasis>.</entry></row>
+<row><entry>info display<indexterm><primary>info display</primary></indexterm></entry><entry>Shows a numbered list of expressions set up to display automatically at each break.</entry></row>
+<row><entry>display<indexterm><primary>display</primary></indexterm>/<emphasis>f</emphasis> $<emphasis>reg</emphasis></entry><entry>At each break, print the contents of register <emphasis>reg</emphasis> using format <emphasis>f</emphasis>.</entry></row>
 <row><entry>display/<emphasis>s</emphasis>i addr</entry><entry>At each break, print the contents of memory address <emphasis>addr</emphasis> using size <emphasis>s</emphasis> (same options as for the x command).</entry></row>
 <row><entry>display/<emphasis>s</emphasis>s addr</entry><entry> At each break, print the string of size <emphasis>s</emphasis> that begins in memory address <emphasis>addr</emphasis>.</entry></row>
-<row><entry>undisplay <emphasis>displaynum</emphasis></entry><entry>Remove <emphasis>displaynum</emphasis> from the display list.</entry></row>
+<row><entry>undisplay<indexterm><primary>undisplay</primary></indexterm> <emphasis>displaynum</emphasis></entry><entry>Remove <emphasis>displaynum</emphasis> from the display list.</entry></row>
 </tbody>
 </tgroup>
 <tgroup cols="2" colsep="1" rowsep="1">
@@ -378,11 +378,11 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Examining the Call Stack</entry></row>
 </thead>
 <tbody>
-<row><entry>where</entry><entry>Print the call stack.</entry></row>
-<row><entry>backtrace</entry><entry>Print the call stack.</entry></row>
-<row><entry>frame</entry><entry>Print the top of the call stack.</entry></row>
-<row><entry>up</entry><entry>Move the context toward the bottom of the call stack.</entry></row>
-<row><entry>down</entry><entry>Move the context toward the top of the call stack.</entry></row>
+<row><entry>where<indexterm><primary>where</primary></indexterm></entry><entry>Print the call stack.</entry></row>
+<row><entry>backtrace<indexterm><primary>backtrace</primary></indexterm></entry><entry>Print the call stack.</entry></row>
+<row><entry>frame<indexterm><primary>frame</primary></indexterm></entry><entry>Print the top of the call stack.</entry></row>
+<row><entry>up<indexterm><primary>up</primary></indexterm></entry><entry>Move the context toward the bottom of the call stack.</entry></row>
+<row><entry>down<indexterm><primary>down</primary></indexterm></entry><entry>Move the context toward the top of the call stack.</entry></row>
 </tbody>
 </tgroup>
 </table>

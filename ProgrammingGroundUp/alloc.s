@@ -178,64 +178,71 @@ next_location:
 
 allocate_here:                      #if we've made it here,
                                     #that means that the 
-	                            #region header
-                                    #of the region to allocate is in %eax
+	                            #region header of the region 
+	                            #to allocate is in %eax
 
-	movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)  #mark space as unavailable
+	#mark space as unavailable
+	movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)  
 	addl  $HEADER_SIZE, %eax    #move %eax past the header to
-	                            #the usable memory (since that's what
-	                            #we return)
+	                            #the usable memory (since
+	                            #that's what we return)
 
 	movl  %ebp, %esp            #return from the function
 	popl  %ebp
 	ret
 	
 	
-move_break:                         #if we've made it here, that
-                                    #means that we have exhausted all
-                                    #memory that we can address, 
-                                    #we need to ask for more.  %ebx holds
-                                    #the current endpoint of the data,
-                                    #and %ecx holds its size
+move_break:                      #if we've made it here, that
+                                 #means that we have exhausted 
+                                 #all addressable memory, and 
+                                 #we need to ask for more.  
+	                         #%ebx holds the current 
+	                         #endpoint of the data,
+                                 #and %ecx holds its size
 
-	                            #now we need to increase %ebx to
-	                            #where we _want_ memory to end, so we
-	addl  $HEADER_SIZE, %ebx    #add space for the headers structure
-	addl  %ecx, %ebx            #add space to the break for
-	                            #the data requested
+	                         #we need to increase %ebx to
+	                         #where we _want_ memory 
+	                         #to end, so we
+	addl  $HEADER_SIZE, %ebx #add space for the headers 
+	                         #structure
+	addl  %ecx, %ebx         #add space to the break for
+	                         #the data requested
 
-	                            #now its time to ask Linux for more
-	                            #memory
+	                         #now its time to ask Linux
+	                         #for more memory
 
-	pushl %eax                  #save needed registers
+	pushl %eax               #save needed registers
 	pushl %ecx
 	pushl %ebx
 
-	movl  $SYS_BRK, %eax            #reset the break (%ebx has the requested
-	                            #break point)
-	int   $LINUX_SYSCALL        #under normal conditions, this should
-	                            #return the new break in %eax, which
-	                            #will be either 0 if it fails, or
-	                            #it will be equal to or larger than
-	                            #we asked for.  We don't care 
-	                            #in this program where it actually
-	                            #sets the break, so as long as %eax
-	                            #isn't 0, we don't care what it is
+	movl  $SYS_BRK, %eax     #reset the break (%ebx has
+	                         #the requested break point)
+	int   $LINUX_SYSCALL     
+	               #under normal conditions, this should
+	               #return the new break in %eax, which
+	               #will be either 0 if it fails, or
+	               #it will be equal to or larger than
+	               #we asked for.  We don't care 
+	               #in this program where it actually
+	               #sets the break, so as long as %eax
+	               #isn't 0, we don't care what it is
 
-	cmpl  $0, %eax              #check for error conditions
+	cmpl  $0, %eax           #check for error conditions
 	je    error
 
-	popl  %ebx                  #restore saved registers
+	popl  %ebx               #restore saved registers
 	popl  %ecx
 	popl  %eax
 
-	movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)  #set this memory as 
-	                            #unavailable, since we're about to 
-	                            #give it away
-	movl  %ecx, HDR_SIZE_OFFSET(%eax)  #set the size of the memory
-	addl  $HEADER_SIZE, %eax    #move %eax to the actual start of
-	                            #usable memory.  %eax now holds the
-	                            #return value
+	#set this memory as unavailable, since we're about to 
+	#give it away
+	movl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)
+	#set the size of the memory
+	movl  %ecx, HDR_SIZE_OFFSET(%eax)
+	
+	#move %eax to the actual start of usable memory.  
+	#%eax now holds the return value
+	addl  $HEADER_SIZE, %eax    
 
 	movl  %ebx, current_break   #save the new break
 
@@ -244,7 +251,7 @@ move_break:                         #if we've made it here, that
 	ret
 
 error:
-	movl  $0, %eax              #on error, we just return a zero
+	movl  $0, %eax              #on error, we return zero
 	movl  %ebp, %esp
 	popl  %ebp
 	ret
@@ -252,41 +259,47 @@ error:
 	
 
 	##deallocate##
-	#PURPOSE:    The purpose of this function is to give back
-	#            a region of memory to the pool after we're done
-	#            using it.
+	#PURPOSE:    
+	#    The purpose of this function is to give back
+	#    a region of memory to the pool after we're done
+	#    using it.
 	#
-	#PARAMETERS: The only parameter is the address of the memory
-	#            we want to return to the memory pool.
+	#PARAMETERS: 
+	#    The only parameter is the address of the memory
+	#    we want to return to the memory pool.
 	#
 	#RETURN VALUE:
-	#            There is no return value
+	#    There is no return value
 	#
 	#PROCESSING: 
-	#            If you remember, we actually hand the program the
-	#            start of the memory that they can use, which is
-	#            8 storage locations after the actual start of the
-	#            memory region.  All we have to do is go back
-	#            8 locations and mark that memory as available,
-	#            so that the allocate function knows it can use it.
+	#    If you remember, we actually hand the program the
+	#    start of the memory that they can use, which is
+	#    8 storage locations after the actual start of the
+	#    memory region.  All we have to do is go back
+	#    8 locations and mark that memory as available,
+	#    so that the allocate function knows it can use it.
 	.globl deallocate
 	.type deallocate,@function
-	.equ ST_MEMORY_SEG, 4     #stack position of the memory region to free
+	#stack position of the memory region to free
+	.equ ST_MEMORY_SEG, 4     
 deallocate:
-	                          #since the function is so simple, we
-	                          #don't need any of the fancy function
-	                          #stuff. 
+	#since the function is so simple, we
+	#don't need any of the fancy function stuff
+	
+	#get the address of the memory to free 
+	#(normally this is 8(%ebp), but since
+	#we didn't push %ebp or move %esp to 
+	#%ebp, we can just do 4(%esp)
+	movl  ST_MEMORY_SEG(%esp), %eax 
+	      
 
-	movl  ST_MEMORY_SEG(%esp), %eax #get the address of the memory to free 
-	                          #(normally this is 8(%ebp), but since
-	                          #we didn't push %ebp or move %esp to 
-	                          #%ebp, we can just do 4(%esp)
+	#get the pointer to the real beginning of the memory
+	subl  $HEADER_SIZE, %eax  
 
-	subl  $HEADER_SIZE, %eax  #get the pointer to the real beginning
-	                          #of the memory
+	#mark it as available
+	movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
 
-	movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)  #mark it as available
-
-	ret                       #return
+	#return
+	ret 
 ########END OF FUNCTION##########
 

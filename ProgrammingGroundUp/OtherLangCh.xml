@@ -44,9 +44,9 @@ I encourage you to explore as many languages as you are interested in.
 
 <para>
 Many languages are <emphasis>compiled</emphasis> languages.  
-When you write assembly language, each instruction you write is 
+When you write assembly language<indexterm><primary>assembly language</primary></indexterm>, each instruction you write is 
 translated into
-exactly one machine instruction for processing.  With compilers,
+exactly one machine instruction for processing.  With compilers<indexterm><primary>compilers</primary></indexterm>,
 a statement can translate into one or hundreds of machine 
 instructions.  In fact, depending on how advanced your compiler
 is, it might even restructure parts of your code to make it faster.
@@ -56,13 +56,13 @@ In assembly language, what you write is what you get.
 <para>
 There are also languages that are <emphasis>interpreted</emphasis>
 languages.  These languages require that the user run a program
-called an <emphasis>interpreter</emphasis> that in turn runs the
+called an <emphasis>interpreter<indexterm><primary>interpreter</primary></indexterm></emphasis> that in turn runs the
 given program.  These are usually slower than compiled programs,
 since the translator has to read and interpret the code as it goes 
-along.  However, in well-made translators, this time can be
+along.  However, in well-made interpreters, this time can be
 fairly negligible.  There is also a class of hybrid languages
 which partially compile a program before execution into byte-codes,
-which are only machine readable.  This is done because the translator 
+which are only machine readable.  This is done because the interpreter
 can read the byte-codes much faster than it can read the regular language.
 </para>
 
@@ -111,6 +111,7 @@ know of all the possibilities you have to choose from.
 <title>Your First C Program</title>
 
 <para>
+<indexterm><primary>C Programming Language</primary></indexterm>
 Here is your first C program,
 which prints "Hello world" to the screen and exits.  Type it in, and
 give it the name Hello-World.c
@@ -242,7 +243,7 @@ run in with the following command:
 perl Hello-World.pl
 </programlisting>
 
-As you can see, the Perl version is even shorter than the C version.
+As you can see, the Perl<indexterm><primary>Perl</primary></indexterm> version is even shorter than the C version.
 With Perl you don't have to declare any functions or program entry points.
 You can just start typing commands and the interpreter will run them
 as it comes to them.  In fact this program only has two lines of code,
@@ -285,7 +286,7 @@ text.  However, that is outside the scope of this book.
 <title>Python</title>
 
 <para>
-The python version of the program looks almost exactly like the Perl one.
+The Python<indexterm><primary>Python</primary></indexterm> version of the program looks almost exactly like the Perl one.
 However, Python is really a very different language than Perl, even if
 it doesn't seem so from this trivial example.  Type the program into
 a file named <filename>Hello-World.py</filename>.  The program follows:

@@ -28,7 +28,8 @@ than one operand be a memory location.
 </para>
 
 <para>
-In the flags section, it lists the flags affected by the instruction. 
+In the flags<indexterm><primary>flags</primary></indexterm> section, it lists the flags 
+in the &eflags-indexed; register affected by the instruction. 
 The following flags are mentioned:
 </para>
 
@@ -37,20 +38,20 @@ The following flags are mentioned:
 <varlistentry>
 <term>O</term>
 <listitem><para>
-Overflow flag.  This is set to true if the destination operand was not large enough to hold the result of the instruction.
+Overflow flag<indexterm><primary>overflow flag</primary></indexterm>.  This is set to true if the destination operand was not large enough to hold the result of the instruction.
 </para></listitem>
 </varlistentry>
 <varlistentry>
 <term>S</term>
 <listitem><para>
-Sign flag.  This is set to the sign of the last result.
+Sign flag<indexterm><primary>sign flag</primary></indexterm>.  This is set to the sign of the last result.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term>Z</term>
 <listitem><para>
-Zero flag.  This flag is set to true if the result of the instruction is zero.
+Zero flag<indexterm><primary>zero flag</primary></indexterm>.  This flag is set to true if the result of the instruction is zero.
 </para></listitem>
 </varlistentry>
 
@@ -58,7 +59,7 @@ Zero flag.  This flag is set to true if the result of the instruction is zero.
 <varlistentry>
 <term>A</term>
 <listitem><para>
-Auxillary carry flag.  This flag is set for carries and borrows between the third and fourth bit.  It is not often used.
+Auxillary carry flag<indexterm><primary>auxillary carry flag</primary></indexterm>.  This flag is set for carries and borrows between the third and fourth bit.  It is not often used.
 </para></listitem>
 </varlistentry>
 
@@ -66,7 +67,7 @@ Auxillary carry flag.  This flag is set for carries and borrows between the thir
 <varlistentry>
 <term>P</term>
 <listitem><para>
-Parity flag.  This flag is set to true if the low byte of the last result had an even number of 1 bits.
+Parity flag<indexterm><primary>parity flag</primary></indexterm>.  This flag is set to true if the low byte of the last result had an even number of 1 bits.
 </para></listitem>
 </varlistentry>
 
@@ -74,7 +75,7 @@ Parity flag.  This flag is set to true if the low byte of the last result had an
 <varlistentry>
 <term>C</term>
 <listitem><para>
-Carry flag.  Used in arithmetic to say whether or not the result should be carried over to an additional byte.  If the carry flag is set, that usually means
+Carry flag<indexterm><primary>carry flag</primary></indexterm>.  Used in arithmetic to say whether or not the result should be carried over to an additional byte.  If the carry flag is set, that usually means
 that the destination register could not hold the full result.  It is up to
 the programmer to decide on what action to take (i.e. - propogate the result
 to another byte, signal an error, or ignore it entirely).
@@ -89,7 +90,7 @@ Other flags exist, but they are much less important.
 
 </simplesect>
 
-<simplesect>
+<simplesect id="dtins">
 <title>Data Transfer Instructions</title>
 
 <para>
@@ -107,33 +108,33 @@ These instructions perform little, if any computation.  Instead they are mostly 
 <entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
 </thead>
 <tbody>
-<row><entry>movl</entry><entry>I/R/M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>movl<indexterm zone="dtins"><primary>movl</primary></indexterm></entry><entry>I/R/M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 This copies a word of data from one location to another.  <literal>movl %eax, %ebx</literal> copies the contents of &eax; to &ebx;
 </entry></row>
-<row><entry>movb</entry><entry>I/R/M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>movb<indexterm zone="dtins"><primary>movb</primary></indexterm></entry><entry>I/R/M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Same as <literal>movl</literal>, but operates on individual bytes.
 </entry></row>
-<row><entry>leal</entry><entry>M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>leal<indexterm zone="dtins"><primary>leal</primary></indexterm></entry><entry>M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 This takes a memory location given in the standard format, and, instead of
 loading the contents of the memory location, loads the computed address.
 For example, <literal>leal 5(%ebp,%ecx,1), %eax</literal> loads the address
 computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in &eax;
 </entry></row>
-<row><entry>popl</entry><entry>R/M</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>popl<indexterm zone="dtins"><primary>popl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Pops the top of the stack into the given location.  This is equivalent to performing <literal>movl (%esp), R/M</literal> followed by <literal>addl $4, %esp</literal>.
 <literal>popfl</literal> is a variant which pops the top of the stack into the &eflags-indexed; register.
 </entry></row>
-<row><entry>pushl</entry><entry>I/R/M</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>pushl<indexterm zone="dtins"><primary>pushl</primary></indexterm></entry><entry>I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Pushes the given value onto the stack.
 This is the equivalent to performing <literal>subl $4, %esp</literal> followed by <literal>movl I/R/M, (%esp)</literal>.
 <literal>pushfl</literal> is a variant which pushes the current contents of the &eflags-indexed; register onto the top of the stack.
 </entry></row>
-<row><entry>xchgl</entry><entry>R/M, R/M</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>xchgl<indexterm zone="dtins"><primary>xchgl</primary></indexterm></entry><entry>R/M, R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Exchange the values of the given operands.
 </entry></row>
@@ -143,7 +144,7 @@ Exchange the values of the given operands.
 
 </simplesect>
 
-<simplesect>
+<simplesect id="intins">
 <title>Integer Instructions</title>
 
 <para>
@@ -162,60 +163,60 @@ integers.
 <entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
 </thead>
 <tbody>
-<row><entry>adcl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>adcl<indexterm zone="intins"><primary>adcl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Add with carry.  Adds the carry bit and the first operand to the second, and, if there is an overflow, sets overflow and carry to true.  This is usually used for operations larger than a machine word.  The addition on the least-significant word would take place using <literal>addl</literal>, while additions to the other words would used the <literal>adcl</literal> instruction to take the carry from the previous add into account.  For the usual case, this is not used, and <literal>addl</literal> is used instead.
 </entry></row>
-<row><entry>addl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>addl<indexterm zone="intins"><primary>addl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Addition.  Adds the first operand to the second, storing the result in the second.  If the result is larger than the destination register, the overflow and carry bits are set to true.  This instruction operates on both signed and unsigned integers.
 </entry></row>
-<row><entry>cdq</entry><entry></entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>cdq<indexterm zone="intins"><primary>cdq</primary></indexterm></entry><entry></entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Converts the &eax-indexed; word into the double-word consisting of &edx-indexed;:&eax; with sign extension.  The <literal>q</literal> signifies that it is a <emphasis>quad-word</emphasis>.  It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days.  This is usually used before issuing an <literal>idiv</literal> instruction.
 </entry></row>
-<row><entry>cmpl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>cmpl<indexterm zone="intins"><primary>cmpl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Compares two integers.  It does this by subtracting the first operand from the second.  It discards the results, but sets the flags accordingly.  Usually used before a conditional jump.
 </entry></row>
-<row><entry>decl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
+<row><entry>decl<indexterm zone="intins"><primary>decl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Decrements the register or memory location.  Use <literal>decb</literal>
 to decrement a byte instead of a word.
 </entry></row>
-<row><entry>divl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
+<row><entry>divl<indexterm zone="intins"><primary>divl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Performs unsigned division.  Divides the contents of the double-word contained in the combined &edx-indexed;:&eax-indexed; registers by the value in the register or memory location specified.  The &eax; register contains the resulting 
 quotient, and the &edx; register contains the resulting remainder.  If the 
 quotient is too large to fit in &eax;, it triggers a type 0 interrupt.
 </entry></row>
-<row><entry>idivl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
+<row><entry>idivl<indexterm zone="intins"><primary>idivl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Performs signed division.  Operates just like <literal>divl</literal> above.
 </entry></row>
-<row><entry>imull</entry><entry>R/M/I, R</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>imull<indexterm zone="intins"><primary>imull</primary></indexterm></entry><entry>R/M/I, R</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Performs signed multiplication and stores the result in the second operand.
 If the second operand is left out, it is assumed to be &eax;, and the full
 result is stored in the double-word &edx-indexed;:&eax-indexed;.
 </entry></row>
-<row><entry>incl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
+<row><entry>incl<indexterm zone="intins"><primary>incl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Increments the given register or memory location.  Use <literal>incb</literal> to increment a byte instead of a word.
 </entry></row>
-<row><entry>mull</entry><entry>R/M/I, R</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>mull<indexterm zone="intins"><primary>mull</primary></indexterm></entry><entry>R/M/I, R</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Perform unsigned multiplication.  Same rules as apply to <literal>imull</literal>.
 </entry></row>
-<row><entry>negl</entry><entry>R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>negl<indexterm zone="intins"><primary>negl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Negate the given register or memory location.
 </entry></row>
-<row><entry>sbbl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>sbbl<indexterm zone="intins"><primary>sbbl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Subtract with borrowing.  This is used in the same way that <literal>adc</literal> is, except for subtraction.  Normally only <literal>subl</literal> is used.
 </entry></row>
-<row><entry>subl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>subl<indexterm zone="intins"><primary>subl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Subtract the two operands.  This subtracts the first operand from the second,
 and stores the result in the second operand.  This instruction can be used on
@@ -227,7 +228,7 @@ both signed and unsigned numbers.
 
 </simplesect>
 
-<simplesect>
+<simplesect id="logicins">
 <title>Logic Instructions</title>
 
 <para>
@@ -245,65 +246,65 @@ These instructions operate on memory as bits instead of words.
 <entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
 </thead>
 <tbody>
-<row><entry>andl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/P/C</entry></row>
+<row><entry>andl<indexterm zone="logicins"><primary>andl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Performs a logical and of the contents of the two operands, and stores the result in the second operand.  Sets the overflow and carry flags to false.
 </entry></row>
-<row><entry>notl</entry><entry>R/M</entry><entry></entry></row>
+<row><entry>notl<indexterm zone="logicins"><primary>notl</primary></indexterm></entry><entry>R/M</entry><entry></entry></row>
 <row><entry namest="instruction" nameend="flags">
 Performs a logical not on each bit in the operand.  Also known as a 
 one's complement.
 </entry></row>
-<row><entry>orl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>orl<indexterm zone="logicins"><primary>orl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Performs a logical or between the two operands, and stores the result in the second operand.  Sets the overflow and carry flags to false.
 </entry></row>
-<row><entry>rcll</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
+<row><entry>rcll<indexterm zone="logicins"><primary>rcll</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register &cl;.  The carry flag is included in the rotation, making it use 33 bits instead of 32.  Also sets the overflow flag.
 </entry></row>
-<row><entry>rcrl</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
+<row><entry>rcrl<indexterm zone="logicins"><primary>rcrl</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Same as above, but rotates right.
 </entry></row>
-<row><entry>roll</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
+<row><entry>roll<indexterm zone="logicins"><primary>roll</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Rotate bits to the left.  It sets the overflow and carry flags, but does not count the carry flag as part of the rotation.  The number of bits to roll is
 either specified in immediate mode or is contained in the &cl; register.
 </entry></row>
-<row><entry>rorl</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
+<row><entry>rorl<indexterm zone="logicins"><primary>rorl</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Same as above, but rotates right.
 </entry></row>
-<row><entry>sall</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
+<row><entry>sall<indexterm zone="logicins"><primary>sall</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Arithmetic shift left.  The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit.  Other bits are simply shifted to the left.  This is the same as the regular shift left.  The number of bits
 to shift is either specified in immediate mode or is contained in the &cl;
 register.
 </entry></row>
-<row><entry>sarl</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
+<row><entry>sarl<indexterm zone="logicins"><primary>sarl</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Arithmetic shift right.  The least significant bit is shifted out to the carry flag.  The sign bit is shifted in, and kept as the sign bit.  Other bits are simply shifted to the right.  The number of bits
 to shift is either specified in immediate mode or is contained in the &cl;
 register.
 </entry></row>
-<row><entry>shll</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
+<row><entry>shll<indexterm zone="logicins"><primary>shll</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Logical shift left.  This shifts all bits to the left (sign bit is not treated specially).  The leftmost bit is pushed to the carry flag.  The number of bits
 to shift is either specified in immediate mode or is contained in the &cl;
 register.
 </entry></row>
-<row><entry>shrl</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
+<row><entry>shrl<indexterm zone="logicins"><primary>shrl</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Logical shift right.  This shifts all bits in the register to the right (sign bit is not treated specially).  The rightmost bit is pushed to the carry flag.  The number of bits
 to shift is either specified in immediate mode or is contained in the &cl;
 register.
 </entry></row>
-<row><entry>testl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>testl<indexterm zone="logicins"><primary>testl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Does a logical and of both operands and discards the results, but sets the flags accordingly.
 </entry></row>
-<row><entry>xorl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>xorl<indexterm zone="logicins"><primary>xorl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Does an exclusive or on the two operands, and stores the result in the second operand.  Sets the overflow and carry flags to false.
 </entry></row>
@@ -313,7 +314,7 @@ Does an exclusive or on the two operands, and stores the result in the second op
 
 </simplesect>
 
-<simplesect>
+<simplesect id="flowins">
 <title>Flow Control Instructions</title>
 
 <para>
@@ -331,18 +332,18 @@ These instructions may alter the flow of the program.
 <entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
 </thead>
 <tbody>
-<row><entry>call</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>call<indexterm zone="flowins"><primary>call</primary></indexterm></entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 This pushes what would be the next value for &eip; onto the stack, and jumps
 to the destination address.  Used for function calls.
 Alternatively, the destination address can be an asterisk followed by a register for an indirect function call.  For example, <literal>call *%eax</literal> will call the function at the address in &eax;.
 </entry></row>
-<row><entry>int</entry><entry>I</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>int<indexterm zone="flowins"><primary>int</primary></indexterm></entry><entry>I</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Causes an interrupt of the given number.  This is usually used
 for system calls and other kernel interfaces.
 </entry></row>
-<row><entry>Jcc</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>Jcc<indexterm zone="flowins"><primary>Jcc</primary></indexterm></entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 <para>
 Conditional branch.  <literal>cc</literal> is the <emphasis>condition code</emphasis>.  Jumps to the given address if the condition code is true (set from the previous instruction, probably a comparison).  Otherwise, goes to the next instruction.  The condition codes are:
@@ -361,11 +362,11 @@ Conditional branch.  <literal>cc</literal> is the <emphasis>condition code</emph
 <listitem><para><literal>ecxz</literal> - &ecx-indexed; is zero</para></listitem>
 </itemizedlist>
 </entry></row>
-<row><entry>jmp</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>jmp<indexterm zone="flowins"><primary>jmp</primary></indexterm></entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 An unconditional jump.  This simply sets &eip; to the destination address.  Alternatively, the destination address can be an asterisk followed by a register for an indirect jump.  For example, <literal>jmp *%eax</literal> will jump to the address in &eax;.
 </entry></row>
-<row><entry>ret</entry><entry></entry><entry>O/S/Z/A/C</entry></row>
+<row><entry>ret<indexterm zone="flowins"><primary>ret</primary></indexterm></entry><entry></entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Pops a value off of the stack and then sets &eip; to that value.  Used
 to return from function calls.
@@ -403,7 +404,7 @@ to return from function calls.
 -->
 
 
-<simplesect>
+<simplesect id="dirins">
 <title>Assembler Directives</title>
 
 <para>
@@ -423,68 +424,66 @@ properly, and make it easier to use.
 <entry>Directive</entry><entry>Operands</entry><entry></entry></row>
 </thead>
 <tbody>
-<row><entry>.ascii</entry><entry>QUOTED STRING</entry></row>
+<row><entry>.ascii<indexterm><primary>.ascii</primary></indexterm></entry><entry>QUOTED STRING</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Takes the given quoted string and converts it into byte data.
 </entry></row>
-<row><entry>.byte</entry><entry>VALUES</entry></row>
+<row><entry>.byte<indexterm zone="dirins"><primary>.byte</primary></indexterm></entry><entry>VALUES</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Takes a comma-separated list of values and inserts them right there
 in the program as data.
 </entry></row>
-<row><entry>.endr</entry><entry></entry></row>
+<row><entry>.endr<indexterm zone="dirins"><primary>.endr</primary></indexterm></entry><entry></entry></row>
 <row><entry namest="instruction" nameend="flags">
 Ends a repeating section defined with <literal>.rept</literal>.
 </entry></row>
-<row><entry>.equ</entry><entry>LABEL, VALUE</entry></row>
+<row><entry>.equ<indexterm zone="dirins"><primary>.equ</primary></indexterm></entry><entry>LABEL, VALUE</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Sets the given label equivalent to the given value.  The value
 can be a number, a character, or an constant expression that evaluates
 to a a number or character.  From that point on, use of the label will
 be substituted for the given value.
 </entry></row>
-<row><entry>.globl</entry><entry>LABEL</entry></row>
+<row><entry>.globl<indexterm zone="dirins"><primary>.globl</primary></indexterm></entry><entry>LABEL</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Sets the given label as global, meaning that it can be used from 
 separately-compiled object files.
 </entry></row>
-<row><entry>.include</entry><entry>FILE</entry></row>
+<row><entry>.include<indexterm zone="dirins"><primary>.include</primary></indexterm></entry><entry>FILE</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Includes the given file just as if it were typed in right there.
 </entry></row>
-<row><entry>.lcomm</entry><entry>SYMBOL, SIZE</entry></row>
+<row><entry>.lcomm<indexterm zone="dirins"><primary>.lcomm</primary></indexterm></entry><entry>SYMBOL, SIZE</entry></row>
 <row><entry namest="instruction" nameend="flags">
 This is used in the <literal>.bss</literal> section to specify storage
 that should be allocated when the program is executed.  Defines the symbol
 with the address where the storage will be located, and makes sure that
 it is the given number of bytes long.
 </entry></row>
-<row><entry>.long</entry><entry>VALUES</entry></row>
+<row><entry>.long<indexterm zone="dirins"><primary>.long</primary></indexterm></entry><entry>VALUES</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Takes a sequence of numbers separated by commas, and inserts those
 numbers as 4-byte words right where they are in the program.
 </entry></row>
-<row><entry>.rept</entry><entry>COUNT</entry></row>
+<row><entry>.rept<indexterm zone="dirins"><primary>.rept</primary></indexterm></entry><entry>COUNT</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Repeats everything between this directive and the <literal>.endr</literal>
 directives the number of times specified.
 </entry></row>
-<row><entry>.section</entry><entry>SECTION NAME</entry></row>
+<row><entry>.section<indexterm><primary>.section</primary></indexterm></entry><entry>SECTION NAME</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Switches the section that is being worked on.  Common sections include
 <literal>.text</literal> (for code), <literal>.data</literal> (for 
 data embedded in the program itself), and <literal>.bss</literal> (for
 uninitialized global data).
 </entry></row>
-<row><entry>.type</entry><entry>SYMBOL, @function</entry></row>
+<row><entry>.type<indexterm zone="dirins"><primary>.type</primary></indexterm></entry><entry>SYMBOL, @function</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Tells the linker that the given symbol is a function.
 </entry></row>
 </tbody>
 </tgroup>
 </table>
-<para>
-</para>
 
 </simplesect>
 
@@ -493,9 +492,9 @@ Tells the linker that the given symbol is a function.
 
 <para>
 The syntax for assembly language used in this book is known at the
-<emphasis>AT&amp;T</emphasis> syntax.  It is the one supported by the 
+<emphasis>AT&amp;T<indexterm><primary>AT&amp;T syntax</primary></indexterm></emphasis> syntax.  It is the one supported by the 
 GNU tool chain that comes standard with every Linux distribution.  However,
-the official syntax for x86 assembly language (known as the Intel syntax)
+the official syntax for x86 assembly language (known as the Intel syntax<indexterm><primary>Intel syntax</primary></indexterm>)
 is different.  It is
 the same assembly language for the same platform, but it looks different.
 Some of the differences include:
@@ -543,8 +542,16 @@ confusing.
 <para>
 Intel has a set of comprehensive guides to their processors.  These
 are available at http://www.intel.com/design/pentium/manuals/  Note that
-all of these use the Intel syntax, not the AT&amp;T syntax.
+all of these use the Intel syntax, not the AT&amp;T syntax.  The most important
+ones are their <citetitle>IA-32 Intel Architecture Software Developer's Manual</citetitle>
+in its three volumes::
 </para>
+
+<itemizedlist>
+<listitem><para>Volume 1: System Programming Guide (http://developer.intel.com/design/pentium4/manuals/245470.htm)</para></listitem>
+<listitem><para>Volume 2: Instruction Set Reference (http://developer.intel.com/design/pentium4/manuals/245471.htm)</para></listitem>
+<listitem><para>Volume 3: System Programming Guide (http://developer.intel.com/design/pentium4/manuals/245472.htm)</para></listitem>
+</itemizedlist>
 
 <para>
 In addition, you can find a lot of information in the manual for the GNU assembler, available online at http://www.gnu.org/software/binutils/manual/gas-2.9.1/as.html.  Similarly, the manual for the GNU linker is available online at http://www.gnu.org/software/binutils/manual/ld-2.9.1/ld.html.
