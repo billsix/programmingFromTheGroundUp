@@ -9,14 +9,15 @@ provide the basis for a number of interesting algorithms and techniques that are
 useful in every aspect of programming.
 </para>
 
+
+<sect1>
+<title>Linked List Refresher</title>
+
 <para>
 This article will discuss only singly linked lists, and the
 terms "linked lists" and "lists" will both
 be used to mean singly linked lists.
 </para>
-
-<sect1>
-<title>Linked List Refresher</title>
 
 <para>
 A singly linked list is a data structure that has an ordered sequence of nodes, in which each node
