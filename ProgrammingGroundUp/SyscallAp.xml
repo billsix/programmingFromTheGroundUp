@@ -14,6 +14,151 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 
 <para>
+These are some of the more important system calls to use when dealing with
+Linux.  For most cases, however, it is best to use library functions rather
+than direct system calls, because the system calls were designed to be
+minimalistic while the library functions were designed to be easy to
+program with.  For information about the Linux C library, see the manual
+at http://www.gnu.org/software/libc/manual/
 </para>
 
+<para>
+Remember that &eax-indexed; holds the system call numbers, and that the
+return values and error codes are also stored in &eax;.
+</para>
+
+<table>
+<title>Important Linux System Calls</title>
+<tgroup cols="6" colsep="1" rowsep="1">
+<thead>
+<row>
+<entry>&eax-indexed;</entry><entry>Name</entry><entry>&ebx-indexed;</entry><entry>&ecx-indexed;</entry><entry>&edx-indexed;</entry><entry>Notes</entry>
+</row>
+</thead>
+<tbody>
+<row>
+	<entry>1</entry>
+	<entry>exit</entry>
+	<entry>return value (int)</entry>
+	<entry></entry>
+	<entry></entry>
+	<entry>Exits the program</entry>
+</row>
+<row>
+	<entry>3</entry>
+	<entry>read</entry>
+	<entry>file descriptor</entry>
+	<entry>buffer start</entry>
+	<entry>buffer size (int)</entry>
+	<entry>Reads into the given buffer</entry>
+</row>
+<row>
+	<entry>4</entry>
+	<entry>write</entry>
+	<entry>file descriptor</entry>
+	<entry>buffer start</entry>
+	<entry>buffer size (int)</entry>
+	<entry>Writes the buffer to the file descriptor</entry>
+</row>
+<row>
+	<entry>5</entry>
+	<entry>open</entry>
+	<entry>null-terminated file name</entry>
+	<entry>option list</entry>
+	<entry>permission mode</entry>
+	<entry>Opens the given file.  Returns the file descriptor or an error number.</entry>
+</row>
+<row>
+	<entry>6</entry>
+	<entry>close</entry>
+	<entry>file descriptor</entry>
+	<entry></entry>
+	<entry></entry>
+	<entry>Closes the give file descriptor</entry>
+</row>
+<row>
+	<entry>12</entry>
+	<entry>chdir</entry>
+	<entry>null-terminated directory name</entry>
+	<entry></entry>
+	<entry></entry>
+	<entry>Changes the current directory of your program.</entry>
+</row>
+<row>
+	<entry>19</entry>
+	<entry>lseek</entry>
+	<entry>file descriptor</entry>
+	<entry>offset</entry>
+	<entry>mode</entry>
+	<entry>Repositions where you are in the given file.  The mode (called the "whence") should be 0 for absolute positioning, and 1 for relative positioning.</entry>
+</row>
+<row>
+	<entry>20</entry>
+	<entry>getpid</entry>
+	<entry></entry>
+	<entry></entry>
+	<entry></entry>
+	<entry>Returns the process ID of the current process.</entry>
+</row>
+<row>
+	<entry>39</entry>
+	<entry>mkdir</entry>
+	<entry>null-terminated directory name</entry>
+	<entry>permission mode</entry>
+	<entry></entry>
+	<entry>Creates the given directory.  Assumes all directories leading up to it already exist.</entry>
+</row>
+<row>
+	<entry>40</entry>
+	<entry>rmdir</entry>
+	<entry>null-terminated directory name</entry>
+	<entry></entry>
+	<entry></entry>
+	<entry>Removes the given directory.</entry>
+</row>
+<row>
+	<entry>41</entry>
+	<entry>dup</entry>
+	<entry>file descriptor</entry>
+	<entry></entry>
+	<entry></entry>
+	<entry>Returns a new file descriptor that works just like the existing file descriptor.</entry>
+</row>
+<row>
+	<entry>42</entry>
+	<entry>pipe</entry>
+	<entry>pipe array</entry>
+	<entry></entry>
+	<entry></entry>
+	<entry>Creates two file descriptors, where writing on one produces data to read on the other and vice-versa.  &ebx-indexed; is a pointer to two words of storage to hold the file descriptors.</entry>
+</row>
+<row>
+	<entry>45</entry>
+	<entry>brk</entry>
+	<entry>new system break</entry>
+	<entry></entry>
+	<entry></entry>
+	<entry>Sets the system break (i.e. - the end of the data section)</entry>
+</row>
+<row>
+	<entry>54</entry>
+	<entry>ioctl</entry>
+	<entry>file descriptor</entry>
+	<entry>request</entry>
+	<entry>arguments</entry>
+	<entry>This is used to set parameters on device files.  It's actual usage varies based on the type of file or device your descriptor references.</entry>
+</row>
+<!--
+<row>
+	<entry></entry>
+	<entry></entry>
+	<entry></entry>
+	<entry></entry>
+	<entry></entry>
+	<entry></entry>
+</row>
+-->
+</tbody>
+</tgroup>
+</table>
 </appendix>
