@@ -14,7 +14,7 @@
 	.equ ST_FILEDES, 12
 	.section .text 
 	.globl read_record
-	.type, @function
+	.type read_record, @function
 read_record:
 	pushl %ebp
 	movl  %esp, %ebp

@@ -12,7 +12,7 @@
 	.equ ST_FILEDES, 12
 	.section .text 
 	.globl write_record
-	.type, @function
+	.type write_record, @function
 write_record:
 	pushl %ebp
 	movl  %esp, %ebp

@@ -539,79 +539,105 @@ You can find the complete manual on this library by going to http://www.gnu.org/
 <title>Building a Shared Library</title>
 
 <para>
-Let's say that we wanted to dynamically link our programs to our memory
-allocator.  First, we assemble it just like normal
+Let's say that we wanted to take all of our shared code from 
+<xref linkend="records" /> and build it into a shared library to
+use in our programs.  The first thing we would do is assemble them
+like normal:
+</para>
 
 <programlisting>
-as alloc.s -o alloc.o
+as write-record.s -o write-record.o
+as read-record.s -o read-record.o
 </programlisting>
 
-Then, we must link it as a shared library, like this:
+<para>
+Now, instead of linking them into a program, we want to link
+them into a shared library.  This changes our linker command
+to this:
+</para>
 
 <programlisting>
-ld -shared alloc.o -o liballoc.so
+ld -shared write-record.o read-record.o -o librecord.so
 </programlisting>
 
-Notice how we added the letters <literal>lib</literal> in front of the
-library name, and a <literal>.so</literal> to the end.  This happens with
-all shared libraries.  Now, let's build our <literal>toupper</literal>
-program so that it is dynamically linked with this library instead of
-statically linked:
+<para>
+This links both of these files together into a shared library
+called <filename>librecord.so</filename>.  This file can now
+be used for multiple programs.  If we need to update the functions
+contained within it, we can just update this one file and not
+have to worry about which programs use it.
+</para>
+
+<para>
+Let's look at how we would link against this library.  To link
+the <literal>write-records</literal> program, we would do the
+following:
+</para>
 
 <programlisting>
-as toupper.s -o toupper.o
-ld -L . -dynamic-linker /lib/ld-linux.so.2 -o toupper toupper.o -l alloc
+as write-records.s -o write-records
+ld -L . -dynamic-linker /lib/ld-linux.so.2 \
+   -o write-records -lrecord write-records.o
 </programlisting>
 
-In the previous command, <literal>-L .</literal> told the linker to look
-for libraries in the current directory<footnote><para>Remember 
-<literal>.</literal> means current directory in Linux and 
-<literal>..</literal> means the directory above this one.</para></footnote> 
-(it usually only searches <filename>/lib</filename>, 
-<filename>/usr/lib</filename>, and a few others).  
+<para>
+In this command, <literal>-L .</literal> told the linker to look
+for libraries in the current directory (it usually only searches 
+<filename>/lib</filename> directory, <filename>/usr/lib</filename>
+directory, and a few others).  As we've seen, the option
 <literal>-dynamic-linker /lib/ld-linux.so.2</literal> specified the dynamic 
-linker, and <literal>-l alloc</literal> said to search for functions in
-the library named <filename>liballoc.so</filename>.  We have built the
-file <filename>toupper</filename>, but we can no longer run it.  If you
-type in <literal>./toupper</literal>, it will say 
+linker.  The option <literal>-lrecord</literal> tells the linker to search 
+for functions in the file named <filename>librecord.so</filename>.  
+</para>
+
+<para>
+Now the <literal>write-records</literal> program is built, but it will not 
+run.  If we try it, we will get an error like the following:
+</para>
 
 <programlisting>
-./toupper: error while loading shared libraries: liballoc.so: cannot open shared object file: No such file or directory
+./write-records: error while loading shared libraries: librecord.so: cannot open shared object file: No such file or directory
 </programlisting>
 
+<para>
 This is because, by default, the dynamic linker only searches 
 <filename>/lib</filename>, <filename>/usr/lib</filename>, and whatever
 directories are listed in <filename>/etc/ld.so.conf</filename> for
 libraries.  In order to run the program, you either need to move the
-library to one of these directories, or execute the following command
+library to one of these directories, or execute the following command:
+</para>
 
 <programlisting>
 LD_LIBRARY_PATH=.
 export LD_LIBRARY_PATH
 </programlisting>
 
-If that gives you an error, do instead
+<para>
+Alternatively, if that gives you an error, do this instead:
+</para>
 
 <programlisting>
 setenv LD_LIBRARY_PATH .
 </programlisting>
 
-Now, you can run <literal>toupper</literal> normally by typing
-<command>./toupper</command>.  Setting 
+<para>
+Now, you can run <literal>write-records</literal> normally by typing
+<command>./write-records</command>.  Setting 
 <literal>LD_LIBRARY_PATH</literal> tells the linker to add whatever
-paths you give it to the library search path.  
+paths you give it to the library search path for dynamic libraries
 </para>
-
-</sect1>
-
-<sect1>
-<title>Advanced Dynamic Linking Techniques</title>
 
 <para>
-One advantage of dynamic linking is that, since the code doesn't look
-for it's functions until it's running, you can change those functions
-out manually.
+For further information about dynamic linking, see the following sources
+on the Internet:
 </para>
+
+<itemizedlist>
+<listitem><para>The man page for <literal>ld.so</literal> contains a lot of information about how the Linux dynamic linker works.</para></listitem>
+<listitem><para>http://www.benyossef.com/presentations/dlink/ is a great presentation on dynamic linking in Linux.</para></listitem>
+<listitem><para>http://www.linuxjournal.com/article.php?sid=1059 and http://www.linuxjournal.com/article.php?sid=1060 provide a good introduction to the ELF file format, with more detail available at http://www.cs.ucdavis.edu/~haungs/paper/node10.html</para></listitem>
+<listitem><para>http://www.iecc.com/linker/linker10.html contains a great description of how dynamic linking works with ELF files, which is the main executable file format used by Linux.</para></listitem>
+</itemizedlist>
 
 </sect1>
 
@@ -632,7 +658,6 @@ out manually.
 <listitem><para>What is the difference between a data element of type <emphasis>int</emphasis> and <emphasis>int *</emphasis>?  How would you access them differently in your program?</para></listitem>
 <listitem><para>If you had a object file called <filename>foo.o</filename>, what would be the command to create a shared library called 'bar'?</para></listitem>
 <listitem><para>What is the purpose of LD_LIBRARY_PATH?</para></listitem>
-<listitem><para>What is the purpose of LD_PRELOAD?</para></listitem>
 </itemizedlist>
 
 </sect2>
@@ -642,8 +667,9 @@ out manually.
 
 <itemizedlist>
 <listitem><para>Rewrite one or more of the programs from the previous chapters to print their results to the screen using <literal>printf</literal> rather than returning the result as the exit status code.  Also, make the exit status code be 0.</para></listitem>
-<listitem><para>Use the maximum function you developed in <xref linkend="functionsreviewuseconcepts" /> to make a shared library.  Then re-write the program so that it links with the library dynamically.</para></listitem>
-<listitem><para>Rewrite the program above so that it also links with the 'c' library.  Use the 'c' library's <literal>printf</literal> function to display the result of each call to maximum.  Now that you are printing to the screen and not using status codes, you can use larger numbers.</para></listitem>
+<listitem><para>Use the <literal>factorial</literal> function you developed in <xref linkend="recursivefunctions" /> to make a shared library.  Then re-write the main program so that it links with the library dynamically.</para></listitem>
+<listitem><para>Rewrite the program above so that it also links with the 'c' library.  Use the 'c' library's <literal>printf</literal> function to display the result of the <literal>factorial</literal> call.</para></listitem>
+<listitem><para>Rewrite the <literal>toupper</literal> program so that it uses the <literal>c</literal> library functions for files rather than system calls.</para></listitem>
 </itemizedlist>
 
 </sect2>
@@ -654,7 +680,8 @@ out manually.
 <itemizedlist>
 <listitem><para>Make a list of all the environment variables used by the GNU/Linux dynamic linker.</para></listitem>
 <listitem><para>Research the different types of executable file formats in use today and in the history of computing.  Tell the strengths and weaknesses of each.</para></listitem>
-<listitem><para>Research the difference between strong and weak symbols, and what they are used for.</para></listitem>
+<listitem><para>What kinds of programming are you interested in (graphics, databbases, science, etc.)?  Find a library for working in that area, and write a program that makes some basic use of that library.</para></listitem>
+<listitem><para>Research the use of <literal>LD_PRELOAD</literal>.  What is it used for?  Try building a shared library that contained the <literal>exit</literal> function, and have it write a message to STDERR before exitting.  Use <literal>LD_PRELOAD</literal> and run various programs with it.  What are the results?</para></listitem>
 </itemizedlist>
 
 </sect2>
