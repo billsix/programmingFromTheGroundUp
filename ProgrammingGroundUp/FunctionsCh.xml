@@ -1,0 +1,942 @@
+<chapter>
+<title>All About Functions</title>
+<!--
+
+Copyright 2002 Jonathan Bartlett
+
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.1 or any later version published by the Free Software
+Foundation; with no Invariant Sections, with no Front-Cover Texts,
+and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
+
+-->
+
+<remark>I also need to talk about true functions versus subprograms/subroutines/procedures and stateless behavior</remark>
+
+<sect1>
+<title>Dealing with Complexity</title>
+
+<para>
+In <xref linkend="firstprogs" />, the programs we wrote only consisted
+of one section of code.  However, if we wrote real programs like that,
+it would be impossible to maintain them.  It would be really difficult
+to get multiple people working on the project, as any change in one part 
+might adversely affect another part that another developer is working on.
+</para>
+
+<para>
+To assist programmers in working together in groups, it is necessary
+to break programs apart into separate pieces, which communicate with
+each other through well-defined interfaces.  This way, each piece can
+be developed and tested independently of the others, making it easier
+for multiple programmers to work on the project.
+</para>
+
+<para>
+Programmers use <emphasis>functions</emphasis> to break their programs
+into pieces which can be independently developed and tested.  Functions
+are units of code that do a defined piece of work on specified types of 
+data.  For example, in a word processor programmer, I may have a function called
+<literal>handle_typed_character</literal> which is activated whenever a
+user types in a key.  The data the function uses would probably be the
+keypress itself and the document the user currently has open.  The 
+function would then modify the document according to the keypress it was told about.
+</para>
+
+<para>
+The data items a function is given to process are called it's 
+<emphasis>parameters</emphasis>.  In the word processing example, the
+key which was pressed and the document would be considered parameters 
+to the <literal>handle_typed_characters</literal> function.  Much care
+goes into determining what parameters a function takes, because if it
+is called from many places within a project, it is difficult to change
+if necessary.
+</para>
+
+<para>
+A typical program is composed of thousands of functions, each with a 
+small, well-defined task to perform.  However, ultimately there are things
+that you cannot write functions for which must be provided by the system.
+Those are called <emphasis>primitive functions</emphasis> - they are the
+basics which everything else is built off of.  For example, imagine a program
+that draws a graphical user interface.  There has to be a function to create
+the menus.  That function probably calls other functions to write text, to
+write icons, to paint the background, calculate where the mouse pointer is,
+etc.  However, ultimately, they will
+reach a set of primitives provided by the operating system to do basic line
+or point drawing.  Programming can either be viewed as breaking a large
+program down into smaller pieces until you get to the primitive functions,
+or building functions on top of primitives until you get the large picture
+in focus.
+</para>
+
+</sect1>
+
+<sect1 id="howfunctionswork">
+<title>How Functions Work</title>
+
+<para>
+Functions are composed of several different pieces:
+
+<variablelist>
+
+<varlistentry>
+<term>function name</term>
+<listitem><para>
+A function's name is a symbol<indexterm><primary>Symbol</primary></indexterm>
+that represents the address where the 
+function's code starts.  In assembly language, the symbol is defined
+by typing the the function's name followed by a colon immediately
+before the function's code.  This is just like labels you have used
+for jumping.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>function parameters</term>
+<listitem><para>
+A function's parameters<indexterm><primary>Parameters</primary></indexterm>
+are the data items that are explicitly
+given to the function for processing.  For example, in mathematics,
+there is a sine function.  If you were to ask a computer to find the sine
+of 2, sine would be the function's name, and 2 would be the parameter.  Some
+functions have many parameters, others have none.  Function parameters
+can also be used to hold data that the function wants to send back to the
+program.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>local variables</term>
+<listitem><para>
+Local variables<indexterm><primary>Variables</primary><secondary>Local variables</secondary></indexterm> 
+are data storage that a function uses
+while processing that is thrown away it returns.  It's kind of like
+a scratch pad of paper.  You get a new piece of paper every time the
+function is activated, and you have to throw it away when you are
+finished processing.  Local variables of a function are not accessible
+to any other function within a program.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>static variables</term>
+<listitem><para>
+Static variables<indexterm><primary>Variables</primary><secondary>Static variables</secondary></indexterm> are data storage that a function
+uses while processing that is not thrown away afterwards, but is
+reused for every time the function's code is activated.  This data
+is not accessible to any other part of the program.  Static
+variables should not be used unless absolutely necessary, as they
+can cause problems later on.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>global variables</term>
+<listitem><para>
+Global variables<indexterm><primary>Variables</primary><secondary>Global variables</secondary></indexterm> are data storage that a function uses for processing
+which are managed outside the function.  For example, a simple text editor
+may put the entire contents of the file it is working on in a global
+variable so it doesn't have to be passed to every function that operates
+on it.<footnote><para>This is generally considered bad practice.  Imagine
+if a program is written this way, and in the next version they decided
+to allow a single instance of the program edit multiple files.  Each function
+would then have to be modified so that the file that was being manipulated
+would be passed as a parameter.  If you had simply passed it as a parameter
+to begin with, most of your functions could have survived your upgrade
+unchanged.</para></footnote>  Configuration values are also often stored in
+global variables.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>return address</term>
+<listitem><para>
+The return address<indexterm><primary>Return address</primary></indexterm> 
+is an "invisible" parameter in that it isn't directly used during the function,
+but instead is used to find where the processor should start executing after
+the function is finished.  This is needed because functions can be
+called to do processing from many different parts of your program, and
+the function needs to be able to get back to wherever it was called
+from.  In most languages, this parameter
+is passed automatically when the function is called.  
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>return value</term>
+<listitem><para>
+The return value<indexterm><primary>Return value</primary></indexterm> is the 
+main method of transferring data back to the
+main program.  Most languages only allow a single return value for a
+function, although some allow multiple.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+These pieces are present in most programming languages.  How you specify
+each piece is different in each one, however.
+</para>
+
+<para>
+The way that the variables are stored and the parameters and return values
+are transferred by the computer varies from language to language as well.  This 
+variance is  known as
+a language's <emphasis>calling convention</emphasis><indexterm><primary>Calling
+Conventions</primary></indexterm>, because it describes how functions expect
+to get and receive data when they are called.<footnote><para>A 
+<emphasis>convention</emphasis> is a way of doing things that is standardized,
+but not forcibly so.  For example, it is a convention for people to shake
+hands when they meet.  If I refuse to shake hands with you, you may think
+I don't like you.  Following conventions is important because it makes it
+easier for others to understand what you are doing.</para></footnote>
+</para>
+
+<para>
+Assembly language can use any calling convention it wants to.  
+You can even make one up yourself.  However, if
+you want to interoperate with functions written in other 
+languages, you have to obey their calling conventions.  We 
+will use the calling convention of the C programming language 
+because it is the most widely used for our examples, and then 
+show you some other possibilities.
+</para>
+
+</sect1>
+
+<sect1 id="callingwritingassemblyfunctions">
+<title>Assembly-Language Functions using the C Calling Convention</title>
+
+<para>
+You cannot write assembly-language functions without understanding
+how the computer's <emphasis>stack</emphasis> works.  Each computer
+program that runs uses a region of memory called the stack to enable
+functions to work properly.  Think of a stack as a pile of papers
+on your desk which can be added to indefinitely.  You generally keep
+the things that you are working on toward the top, and you take things
+off as you are finished working with them.
+</para>
+
+<para>
+Your computer has a stack, too.  The computer's stack lives at the very 
+top addresses of memory.  You can push values onto the 
+top of the stack through an instruction called
+<literal>pushl</literal>, which pushes either a register or
+value onto the top of the stack.  Well, we say it's the top, but the
+"top" of the stack is actually the bottom of the stack's memory.  
+Although this is confusing, the reason for it is that when we think
+of a stack of anything - dishes, papers, etc. - we think of adding and 
+removing to the top of it.  However,
+in memory the stack starts at the top of memory and grows downward due
+to other architectural considerations.  Therefore, when we refer to the
+"top of the stack" remember it's at the bottom of the stack's memory.  When
+we are referring to the top or bottom of memory, we will specifically say 
+so.   You can also pop values off the top using an instruction called
+<literal>popl</literal>.
+</para>
+
+<para>
+When we push a value onto the stack, the top of the stack moves 
+to accomodate the addition value.  We can actually continually 
+push values onto the stack and it will keep growing further and
+further down in memory until we hit our code or data.
+So how do we know where the current "top" of the stack is?  The
+stack register, &esp;,<indexterm><primary>Stack Register</primary></indexterm>
+<indexterm><primary>Registers</primary><secondary>&esp;</secondary></indexterm>
+always contains a pointer to the current top of the stack, wherever it is.
+</para>
+
+<para>
+Every time we push something onto the stack with <literal>pushl</literal>, &esp; 
+gets subtracted by 4 so that it points to the new top of the stack (remember, 
+each word is four bytes long, and the stack grows downward).  If we want to 
+remove something from the stack, we simply use the <literal>popl</literal>
+instruction, which adds 4 to &esp; and puts the previous top value in whatever
+register you specified.  <literal>pushl</literal> and <literal>popl</literal> each
+take one operand - the register to push onto the stack for 
+<literal>pushl</literal>, or receive the data that is popped off the stack
+for <literal>popl</literal>.
+</para>
+
+<para>
+If we simply want to access the value on the top of the stack,
+we can simply use the &esp; register.  For example, the 
+following code moves whatever is at the top of the stack into
+&eax;:
+
+<programlisting>
+movl (%esp), %eax
+</programlisting>
+
+If we were to just do
+
+<programlisting>
+movl %esp, %eax
+</programlisting>
+
+&eax; would just hold the pointer to the top of the stack rather than
+the value at the top.
+Putting &esp; in parenthesis causes the computer to
+go to indirect addressing mode
+<indexterm><primary>Addressing Modes</primary><secondary>Indirect Addressing</secondary></indexterm>, 
+and therefore we get the value pointed to by &esp;.  If we want to 
+access the value right below the top of the stack, we can simply do
+
+<programlisting>
+movl 4(%esp), %eax
+</programlisting>
+
+This uses the base pointer addressing mode
+<indexterm><primary>Addressing Modes</primary><secondary>Base Pointer Addressing</secondary></indexterm>
+which simply adds 4 to &esp; before looking up the value being pointed to.
+</para>
+
+<remark>Does this need an xref to dataaccessingmethods?</remark>
+
+<para>
+In the C language calling convention, the stack is the key 
+element for implementing a function's local variables, 
+parameters, and return address. 
+</para>
+
+<para>
+Before executing a function,
+a program pushes all of the parameters for the function onto
+the stack in the reverse order that they are documented.  Then
+the program issues a <literal>call</literal> instruction
+indicating which function it wishes to start.  The 
+<literal>call</literal> instruction does two things.  First
+it pushes the address of the next instruction, which is the
+return address, onto the stack.  Then it modifies the 
+instruction pointer<indexterm><primary>Instruction Pointer</primary></indexterm><indexterm><primary>Registers</primary><secondary>&eip;</secondary></indexterm>
+to point to the start of the function.  So, at the time the
+function starts, the stack looks like this:
+
+<programlisting>
+Parameter #N
+...
+Parameter 2
+Parameter 1
+Return Address &lt;--- (%esp)
+</programlisting>
+
+Now the function itself has some work to do.  The first thing
+it does is save the current base pointer register,
+<indexterm><primary>Base Pointer Register</primary></indexterm>
+<indexterm><primary>Registers</primary><secondary>&ebp;</secondary></indexterm>
+ &ebp;, by doing
+<command>pushl %ebp</command>.  The base pointer is a special 
+register used for accessing function parameters and local variables.
+Next, it copies the stack pointer
+to &ebp; by doing <command>movl %esp, %ebp</command>.  This 
+allows you to be able to access the function parameters
+as fixed indexes from the base pointer.  You may think that you can
+use the stack pointer for this.  However, during your
+program you may do other things with the stack such as pushing
+arguments to other functions.  Copying the stack pointer into
+the base pointer at the beginning of a function allows you to always 
+know where in the stack
+your parameters are (and as we will see, local variables too).  
+So, at this point, the stack looks like
+this:
+
+<programlisting>
+Parameter #N   &lt;--- N*4+4(%ebp)
+...
+Parameter 2    &lt;--- 12(%ebp)
+Parameter 1    &lt;--- 8(%ebp)
+Return Address &lt;--- 4(%ebp)
+Old %ebp       &lt;--- (%esp) and (%ebp)
+</programlisting>
+
+This also shows how to access each parameter the function has.
+</para>
+
+<para>
+Next, the function reserves space on the stack for any local
+variables<indexterm><primary>Local Variables</primary></indexterm> it needs.
+This is done by simply moving the stack pointer out of the way.
+Let's say that we are going to need 2 words of memory
+to run a function.  We can simply move the stack pointer down 2 
+words to reserve the space.  This is done like this:
+
+<programlisting>
+subl $8, %esp
+</programlisting>
+
+This subtracts 8 from &esp; (remember, a word is four bytes 
+long).<footnote><para>Just a reminder - the dollar sign in
+front of the eight indicates immediate mode addressing, meaning
+that we load the number 8 into &esp; rather than the value at
+address 8.</para></footnote>  So now, we have 2 words for 
+local storage.  Our stack now looks like this:
+
+<programlisting>
+Parameter #N     &lt;--- N*4+4(%ebp)
+...
+Parameter 2      &lt;--- 12(%ebp)
+Parameter 1      &lt;--- 8(%ebp)
+Return Address   &lt;--- 4(%ebp)
+Old %ebp         &lt;--- (%ebp)
+Local Variable 1 &lt;--- -4(%ebp)
+Local Variable 2 &lt;--- -8(%ebp) and (%esp)
+</programlisting>
+
+So we can now access all of the data we need for this function
+by using base pointer addressing<indexterm><primary>Addressing Modes</primary><secondary>Base Pointer Addressing</secondary></indexterm> using different offsets from &ebp;
+&ebp; was made specifically for this purpose, 
+which is why it is called the base pointer.  You can use other
+registers for base pointer addressing, but the x86 architecture
+makes using the &ebp; register a lot faster.
+</para>
+
+<para>
+Global variables and static variables are accessed just like
+we have been accessing memory in previous chapters.  The only difference
+between the global and static variables is that static variables are 
+only used by the function, while global variables are used by 
+many functions. Assembly language treats them exactly the same, 
+although most other languages distinguish them.
+</para>
+
+<para>
+When a function is done executing, it does two things.
+First, it stores it's return value in &eax;.  Second, it
+returns control
+back to wherever it was called from.  Returning control is done using
+the <literal>ret</literal> instruction, which pops whatever
+value is at the top of the stack, and sets the instruction
+pointer<indexterm><primary>Registers</primary><secondary>&eip;</secondary></indexterm><indexterm><primary>Instruction Pointer</primary></indexterm>
+to that value.  However, in our program right now, the top of
+the stack isn't pointing to the return address.  Therefore,
+we have to restore the stack pointer to what it was.  So 
+to terminate the program, you have to do the following:
+
+<programlisting>
+movl %ebp, %esp
+popl %ebp
+ret
+</programlisting>
+
+This restores the %ebp register and moves the stack pointer
+back to pointing at the return address.  <emphasis>At this
+point, you should consider all local variables to be disposed
+of.</emphasis>  The reason is that after you move the stack
+pointer, future stack operations will overwrite everything
+you put there.  Therefore, you should never save the address
+of a local variable past the life of the function it was 
+created in, or else it will be overwritten on future pushes.
+Control is now handed back to the calling program or function,
+which can then examine &eax; for the return value.  The calling
+program also needs to pop off all of the parameters it 
+pushed onto the stack in order to get the stack pointer
+back where it was (you can also simply add 4*number of paramters
+to &esp; using the <literal>addl</literal> instruction, if 
+you don't need the values of the parameters anymore).
+</para>
+
+<warning>
+<title>Destruction of Registers</title>
+<para>
+When you call a function, you should assume that everything
+currently in your registers will be wiped out.  The only
+register that is guaranteed to be left with the value it
+started with is &ebp;.  &eax; is guaranteed to be overwritten,
+and the others likely are.  If there are registers you want
+to save before calling a function, you need to save them by
+pushing them on the stack before pushing the function's 
+paramters.  You can then pop them back off in reverse order
+after popping off the parameters.  Even if you know a function
+does not overwrite a register you should save it, because
+future versions of that function may.  Other calling conventions
+may be different.  For example, other calling conventions may
+place the burden on the function to save any registers it uses.
+</para>
+</warning>
+
+</sect1>
+
+<sect1>
+<title>A Function Example</title>
+
+<para>
+Let's take a look at how a function call works in a real program.  The
+function we are going to write is the <literal>power</literal>
+function.  We will give the power function two parameters -
+the number and the power we want to raise it to.  For example,
+if we gave it the paramters 2 and 3, it would raise 2 to the
+power of 3, or 2*2*2, giving 8.  In order to make this
+program simple, we will only allow numbers 1 and greater.
+</para>
+
+<para>
+The following is the code for the complete program.  As usual,
+an explanation follows:
+
+<programlisting>
+&power-s;
+</programlisting>
+</para>
+
+<para>
+Type in the program, assemble it, and run it.  Try calling
+power for different values, but remember that the result
+has to be less than 256 when it is passed back to the operating
+system.  Also try subtracting the results of the two 
+computations.  Try adding a third call to the 
+<literal>power</literal> function, and add it's result
+back in.  
+</para>
+
+<para>
+The main program code is pretty simple.  You push the 
+arguments onto the stack, call the function, and then move
+the stack pointer back.  The result is stored in &eax;.
+Note that between the two calls to <literal>power</literal>,
+we save the first value onto the stack.  This is because the
+only register that is guaranteed to be saved is &ebp;.
+Therefore we push the value onto the stack, and pop the value 
+back off after the second function call is complete.
+</para>
+
+<para>
+Let's look at how the function itself is written.  Notice
+that before the function, there is documentation as to
+what the function does, what it's arguments are, and
+what it gives as a return value.  This is useful for 
+programmers who use this function.  This is the function's
+interface.  This let's the programmer know what values are
+needed on the stack, and what will be in &eax; at the end.
+</para>
+
+<para>
+We then have the following line:
+
+<programlisting>
+	.type power,@function
+</programlisting>
+
+This tells the linker that the symbol <literal>power</literal>
+should be treated as a function.  This isn't useful now, but
+it will be when you start building larger programs that run
+multiple files.  <xref linkend="linking" /> has additional
+information on what this is used for.  Because this program
+is only in one file, it would work just the same with this
+left out.  However, it is good practice.  After that, we
+define the value of the <literal>power</literal> label:
+
+<programlisting>
+power:
+</programlisting>
+
+As mentioned previously, this defines the symbol 
+<literal>power</literal> to be the address where the instructions
+following the label begin.  This is how 
+<command>call power</command> works.  It transfers control to
+this spot of the program.  The difference between 
+<literal>call</literal> and <literal>jmp</literal> is that 
+<literal>call</literal> also pushes the return address onto
+the stack so that the function can return, while the 
+<literal>jmp</literal> does not.
+</para>
+
+<para>
+Next, we have our instructions to set up our function:
+
+<programlisting>
+	pushl %ebp
+	movl  %esp, %ebp
+	subl  $4, %esp
+</programlisting>
+
+At this point, our stack looks like this:
+
+<programlisting>
+Base Number    &lt;--- 12(%ebp)
+Power          &lt;--- 8(%ebp)
+Return Address &lt;--- 4(%ebp)
+Old %ebp       &lt;--- (%ebp)
+Current result &lt;--- -4(%ebp) and (%esp)
+</programlisting>
+
+Although we could use a register for temporary storage, this
+program uses a local variable in order to show how to set it
+up.  Often times there just aren't enough registers to store
+everything, so you have to offload them into a local variable.
+Other times, your function will need to call another function
+and send it a pointer to some of your data.  You can't have
+a pointer to a register, so you have to store it in a 
+local variable in order to send a pointer to it.
+</para>
+
+<para>
+Basically, what the program does is start with the base number,
+and store it both as the multiplier (stored in &ebx;) and the 
+current value (stored in -4(%ebp)).  It also has the power
+stored in &ecx;  It then continually 
+multiplies the current value by the multiplier, decreases 
+the power, and leaves the loop if power gets down to 1.
+</para>
+
+<para>
+By now, you should be able to go through the program without
+help.  The only things you should need to know is that
+<literal>imul</literal> does integer multiplication and stores
+the result in the second operand, and <literal>decl</literal>
+decreases the given register by 1.
+</para>
+
+<remark>Need to have defined operand a long time before now.
+Need to differentiate operands and parameters by the fact
+that operands are for instructions and parameters are for 
+functions.  Also need to have a list of
+important definitions at the end of each chapter or something.
+</remark>
+
+<para>
+A good project to try now is to extend the program so it
+will return the value of a number if the power is 0 (hint,
+the anything raised to the zero power is 1).  Keep trying.
+If it doesn't work at first, try going through your program
+by hand with a scrap of paper, keeping track of where
+&ebp; and &esp; are pointing, what is on the stack, and the
+values in each register.
+</para>
+
+</sect1>
+
+<sect1 id="recursivefunctions">
+<title>Recursive Functions</title>
+
+<remark>This next part was just cut out from the previous section.
+I decided it was too much without a formal introduction to functions.
+Anyway, it needs to be molded to fit this chapter.</remark>
+
+<para>
+The next program will stretch your brains even
+more.  The program will compute the 
+<emphasis>factorial</emphasis> of a number.  A
+factorial is the product of a number and all the numbers between it
+and one.  For example, the factorial of 7 is 7*6*5*4*3*2*1, and the
+factorial of 4 is 4*3*2*1.  Now, one thing you might notice is that
+the factorial of a number is the same as the product of a number and
+the factorial just below it.  For example, the factorial of 4 is
+4 times the factorial of 3.  The factorial of 3 is 3 times the factorial
+of 2.  2 is 2 times the factorial of 1.  The factorial of 1 is 1.  
+This type of definition is called a recursive definition.  That means,
+the definition of the factorial function includes the factorial funtion.
+However, since all functions need to end, a recursive definition must
+include a <emphasis>base case</emphasis>.  The base case is the
+point where recursion will stop.  Without a base case, the function would
+go on forever.  In the case of the factorial, it
+is the number 1.  When we hit the number 1, we don't run the factorial
+again, we just say that the factorial of 1 is 1.  So, let's run through
+what we want the code to look like for our factorial 
+function:<footnote><para>This is a function, not a program, because
+it is called more than once (specifically, its called from itself) 
+<remark>FIXME - needs more explanation</remark>
+</para></footnote>
+
+<orderedlist>
+
+<listitem><para>Examine the number</para></listitem>
+<listitem><para>Is the number 1?</para></listitem>
+<listitem><para>If so, the answer is one</para></listitem>
+<listitem><para>Otherwise, the answer is the number times the factorial of the number minus one</para></listitem>
+
+</orderedlist>
+
+This presents a problem.  Previously, we named our storage locations
+in memory where we held the values we were working on 
+(<literal>data_items</literal> in the first example).  This program, however,
+will call itself before it is finished.  Therefore, if we store our data in a register
+or fixed location in memory, it will be overwritten when we call the function 
+from itself.  When the second function returns, all of our data will be 
+overwritten with the data from the call that just returned.  To get around this, we 
+use a section of memory called the <emphasis>stack</emphasis>.
+The stack is like a stack of dishes.  You put one dish at a time on
+top, and then you take the dishes off in the reverse order (the last
+dish you put on the stack becomes the first dish you take off).  In
+your computer, there is a stack of data, that you can put stuff on
+the top and take stuff off the top.  The way this helps us with
+functions, is that whenever we call a function, we can put the
+stuff we're working with on the stack, call the function, and then
+afterwards take it back off.  We just have to be sure that we
+take off everything we put on, or the functions that calls us will
+be confused, because then they won't know where on the stack their
+stuff is.  We would be leaving our dishes on top instead of cleaning
+up after ourselves.  Confused yet?  Let's take a look at some real code to
+see how this works.
+
+<programlisting>
+&factorial-s;
+</programlisting>
+
+and assemble, link, and run it with
+
+<programlisting>
+as factorial.s -o factorial.o
+ld factorial.o -o factorial
+./factorial
+echo $?
+</programlisting>
+
+which should give you the value 24.  24 is the factorial of 4, you can
+test it out yourself with a calculator - 4 * 3 * 2 * 1 = 24.
+</para>
+
+<para>
+I'm guessing you didn't understand the whole code listing.  Let's go
+through it a line at a time to see what is happening. 
+
+<programlisting>
+_start:
+	pushl $4
+	call factorial
+</programlisting>
+
+Okay, this program is intended to compute the factorial of the number 
+4.  The way functions work, is that you are supposed to put the
+parameters of the function on the top of the stack right before
+you call it.<footnote><para>A function's <emphasis>parameters</emphasis>
+are the data that you want the function to work with.  In this case,
+the factorial function takes 1 parameter, the number you want the
+factorial of.  For any function you call, though, you have to get the
+parameters in the right order, or else the program will be operating
+on the wrong numbers.  In this case, we have only one parameter, so
+it's not a problem.</para></footnote>  The <literal>pushl</literal>
+instruction puts the given value at the top of the stack.  The next
+instruction, <literal>call</literal>, is a lot like the <literal>jmp</literal>
+instruction.  The difference is that <literal>call</literal> will put
+the address of the next instruction on top of the stack first, so 
+the factorial function knows where to go when its finished.
+</para>
+
+<para>
+Next we have the lines
+
+<programlisting>
+        popl  %ebx
+        movl  %eax, %ebx
+        movl  $1, %eax
+        int   $0x80
+</programlisting>
+
+This takes place after <literal>factorial</literal> has finished and computed
+the factorial of 4 for us.  Now we have to clean up the stack.
+The <literal>popl</literal> instruction removes the top item from the
+stack, and places it in the given register.  Since the factorial function
+isn't changing any of our parameters, we don't have a use for it, but
+you should always clean up the stack after messing with it.
+The next instruction moves <literal>%eax</literal> to
+<literal>%ebx</literal>.  What's in <literal>%eax</literal>?  It is
+<literal>factorial</literal>'s <emphasis>return value</emphasis>.  
+A return value is a value
+that isn't in the function's arguments that needs to be returned.  In
+our case, it is the value of the factorial function.  With 4 as our
+parameter, 24 should be our return value.  Return values are
+always stored in <literal>%eax</literal>.<footnote><para>Different 
+operating systems and platforms have different ways of calling functions.
+You actually can call functions any way you want, as long as you aren't
+calling functions written by other people or in other languages.  However,
+it's best to stick with the standard, because it makes your code more
+readable, and if you ever need to mix languages, you are ready.  The
+ways functions are called is known as the <emphasis>ABI</emphasis>,
+which stands for Application Binary Interface.</para></footnote>  However,
+Linux requires that the program's exit status be stored int 
+<literal>%ebx</literal>, not <literal>%eax</literal>, so we have to
+move it.  Then we do the standard exit syscall.
+</para>
+
+<para>
+The nice thing about the <literal>factorial</literal> function is that 
+
+<itemizedlist>
+
+<listitem><para>Other programmers don't have to know anything about it except it's arguments to use it</para></listitem>
+<listitem><para>It can be called multiple times and it always knows how to get back to where it was since call pushes the location of the instruction to return to</para></listitem>
+
+</itemizedlist>
+
+These are the main advantages of functions.  Larger programs also use functions to break 
+down complex pieces of code into smaller, simpler ones.  In fact, almost
+all of programming is writing and calling functions.  Let's look at
+how <literal>factorial</literal> is implemented.
+</para>
+
+<para>
+Before the function starts, we have 
+
+<programlisting>
+	.type factorial,@function
+factorial:
+</programlisting>
+
+The <literal>.type</literal> directive tells the linker that 
+<literal>factorial</literal> is a function.  This isn't really needed
+unless we were using <literal>factorial</literal> in other programs.
+Anyway, we've put it here for completeness.  The line that says 
+<literal>factorial:</literal> gives the symbol <literal>factorial</literal>
+the storage location of the next instruction.  That's how 
+<literal>call</literal> knew where to go when we said 
+<literal>call factorial</literal>.  The first instructions of the function
+are
+
+<programlisting>
+	pushl %ebp
+	movl  %esp, %ebp
+</programlisting>
+
+The register <literal>%ebp</literal> is the only register that is 
+saved by the function itself.  A function can use any other register
+without saving it.  The calling program is responsible for saving any
+other registers it needs.  The calling program should push them onto
+the stack before pushing the function's parameters.
+<literal>%ebp</literal> is then set to the value of 
+<literal>%esp</literal>.  <literal>%esp</literal> is the value of the
+<emphasis>stack pointer</emphasis>.  The stack pointer contains the
+memory location of the last item pushed onto the stack.  
+<literal>%esp</literal> is modified with every push, pop, or call 
+instruction.  We need the value of <literal>%esp</literal> to find our 
+arguments, since they were just pushed onto the stack.  Therefore,
+we save the starting value of <literal>%esp</literal> into 
+<literal>%ebp</literal> in order to always know where the stack started
+when the program was called, even if we have to push things later on.
+That way we always know where our parameters are.
+</para>
+
+<para>
+The next instruction is
+
+<programlisting>
+	movl  8(%ebp), %eax
+</programlisting>
+
+This odd instruction moves the value at the memory location
+<literal>%ebp</literal> + 8
+into the <literal>%eax</literal> register.  What's in location 
+<literal>%ebp</literal> + 8?  Well, let's think back.  What is in
+<literal>%ebp</literal>?  The current stack position.  What have we
+put on the stack?  We've put the number we want to find the factorial of
+(with <literal>pushl $4</literal>), the address of the where
+we wanted to return to after the function was over (this happens
+with the <literal>call factorial</literal>), and then the old value
+of <literal>%ebp</literal>.  Each of these values
+is four locations big.  So, <literal>%ebp</literal> holds the location
+of the old <literal>%ebp</literal>, <literal>%ebp</literal> + 4 will be the
+return address, and <literal>%ebp</literal> + 8 will be the number
+we want to find the factorial of.  So, this line moves the function
+parameter into <literal>%eax</literal>.  This will be 4 the first time
+through, then 3 the next time, then 2, then 1.
+</para>
+
+<para>
+Next, we check to see if we've hit our base case (a parameter of 1).  If
+so, we jump to the instruction labeled <literal>end_factorial</literal>,
+where it will be returned (it's already in <literal>%eax</literal>, which
+we mentioned earlier is where you put return values).  That is accomplished
+by the lines
+
+<programlisting>
+	cmpl $1, %eax
+	je end_factorial
+</programlisting>
+
+If it's not our base case, what did we say we would do?  We would call
+the <literal>factorial</literal> function again with our parameter minus
+one.  So, first we decrease <literal>%eax</literal> by one with
+
+<programlisting>
+	decl %eax
+</programlisting>
+
+<literal>decl</literal> stands for decrement.  It subtracts 1 from
+<literal>%eax</literal>.  <literal>incl</literal> stands for increment,
+and it adds 1.  After decrementing <literal>%eax</literal>,
+we push it onto the stack, since it's going to be the parameter of
+the next function call.  And then we call <literal>factorial</literal> again!
+
+<programlisting>
+	pushl %eax
+	call factorial
+</programlisting>
+
+Okay, now we've called <literal>factorial</literal>.  One thing to remember is that
+after a function call, we can never know what the registers are
+(except <literal>%esp</literal> and <literal>%ebp</literal>).  So
+even though we had the value we were called with in <literal>%eax</literal>,
+it's not there any more.  So, we can either pull it off the stack
+from the same place we got it the first time (at 
+<literal>8(%ebp)</literal>) or, since we have to pop the value we
+called the function with anyway, we can just increment that by one.
+So, we do
+
+<programlisting>
+	popl %ebx
+	incl %ebx
+</programlisting>
+
+Now, we want to multiply that number with the result of the
+factorial function.  If you remember our previous discussion,
+the result of functions are left in <literal>%eax</literal>.
+So, we need to multiply <literal>%ebx</literal> with <literal>%eax</literal>.
+This is done with the command
+
+<programlisting>
+	imul %ebx, %eax
+</programlisting>
+
+This also stores the result in <literal>%eax</literal>, which is
+exactly where we want the return value for the function to be!  Now
+we just need to leave the function.  If you remember, at the
+start of the function, we pushed <literal>%ebp</literal>, and
+moved <literal>%esp</literal> into <literal>%ebp</literal>.  Now
+we reverse the operation:
+
+<programlisting>
+end_factorial:
+	movl %ebp, %esp
+	popl %ebp
+</programlisting>
+
+Now we're already to return, so we issue the following command
+
+<programlisting>
+	ret
+</programlisting>
+
+This pops the top value off of the stack, and then jumps to it.  If
+you remember our discussion about <literal>call</literal>, we said
+that <literal>call</literal> first pushed the address of the
+next instruction onto the stack before it jumped to the beginning
+of the function.  So, here we pop it back off so we can return there.
+The function is done, and we have our answer!  
+</para>
+
+<para>
+Like our previous program, you should look over the
+program again, and make sure you know what everything does,
+looking back through the section for the explanation of anything you
+don't understand.  Then, take a piece of paper, and go through the program
+step-by-step, keeping track of what the values of the registers
+are at each step, and what values are on the stack.  Doing this
+should deepen your understanding of what is going on.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Projects</title>
+
+<itemizedlist>
+<listitem><para>Find an application on the computer you use regularly.  Try to locate a specific feature, and practice breaking that feature out into functions.  Define the function interfaces between that feature and the rest of the program.</para></listitem>
+<listitem><para>The factorial function can be written non-recursively.  Do so.</para></listitem>
+<listitem><para>The <literal>call</literal> instruction pushes the location of the next instruction onto the stack, and then jumps to the subroutine.  Rewrite the code in this chapter to not use the <literal>call</literal> function, but to do these explicitly.  After doing so, try to write it without using <literal>ret</literal> either.</para></listitem>
+<listitem><para>Come up with your own calling convention.  Rewrite the programs in this chapter using it.  An example of a different calling convention would be to pass paramters in registers rather than the stack, to pass them in a different order, to return values in other registers or memory locations.  Whatever you pick, be consistent and apply it throughout the whole program.</para></listitem>
+</itemizedlist>
+
+</sect1>
+
+</chapter>

@@ -1,0 +1,713 @@
+<chapter id="developingrobustprograms">
+<title>Developing Robust Programs</title>
+<!--
+
+Copyright 2002 Jonathan Bartlett
+
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.1 or any later version published by the Free Software
+Foundation; with no Invariant Sections, with no Front-Cover Texts,
+and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
+
+-->
+
+
+<para>
+This chapter deals with developing programs that are robust.  Robust
+programs are able to handle error conditions with grace and ease.  They
+are programs that do not crash no matter what the user does.  Building
+robust programs is essential to the practice of programming.  Writing 
+robust programs takes discipline and work - it is usually finding every
+possible problem that can occur, and coming up with an action plan for
+your program to take.
+</para>
+<remark>Make sure somewhere I cover the fact that the sooner bugs are
+found, the easier it is to fix them</remark>
+
+<sect1>
+<title>Where Does the Time Go?</title>
+
+<para>
+Programmers schedule poorly.  In almost every programming project, 
+programmers will take two, four, or even eight times as long to develop
+a program or function than they originally estimated.  There are many
+reasons for this problem, including:
+
+<itemizedlist>
+<listitem><para>Programmers not scheduling time for meetings</para></listitem>
+<listitem><para>Programmers underestimating feedback times for projects</para></listitem>
+<listitem><para>Programmers not understanding the full scope of what they are producing</para></listitem>
+<listitem><para>Programmers trying to estimate a schedule on a totally different kind of project than they are used to, thus unable to schedule accurately</para></listitem>
+<listitem><para>Programmers underestimating the amount of time it takes to get a program fully robust</para></listitem>
+</itemizedlist>
+
+The last item is the one we are interested in here.  <emphasis>It takes a lot
+of time and effort to develop robust programs.</emphasis>  More so than 
+people usually guess, including experienced programmers.  Programmers get
+so focused on simply solving the problem at hand that they fail to look at
+the possible side issues.  
+</para>
+
+<para>
+In the <literal>toupper</literal> program, we
+do not have any course of action if the file the user selects does not 
+exist.  The program will go ahead and try to work anyway.  It doesn't report
+any error message so the user won't even know that they typed in the name
+wrong.  Let's say that the destination file is on a network drive, and the
+network temporarily fails.  The operating system is returning a status
+code to us in &eax;, but we aren't checking it.  Therefore, if a failure
+occurs, the user is totally unaware.  This program is definitely not
+robust.  As you can see, even in a simply program there are a lot of
+things that can go wrong.  
+</para>
+
+<para>
+In a large program, it gets much more problematic.  There are usually many
+more possible error conditions than possible successful conditions. 
+Therefore, you should always expect to spend the majority of your time
+making your program robust.  If it takes two weeks to develop a program,
+it will likely take at least two more to make it robust.
+</para>
+
+<!--Remember that computers are exact.  They will do exactly what you tell them.
+That means that every error message that pops up on your screen was 
+programmed by someone.  -->
+
+</sect1>
+
+<sect1>
+<title>Some Tips for Developing Robust Programs</title>
+
+<sect2>
+<title>Testing</title>
+
+<para>
+Testing is one of the most essential things a programmer does.  If you haven't
+tested something, you should assume it doesn't work.  However, testing isn't
+just about making sure your program works, it's about making sure your
+program doesn't break.  For example, if I have a program that is only supposed
+to deal with positive numbers, you need to test what happens if the user enters
+a negative number.  Or a letter.  Or the number zero.  You must test what happens
+if they put spaces before their numbers, spaces after their numbers, and so on
+and so forth.
+</para>
+
+<para>
+Not only should you test your programs, you need to have others test it as well.
+You should enlist other programmers and users of your program to help you 
+test your program.  If something is a problem for your users, even if it seems
+okay to you, it needs to be fixed.  If the user doesn't know how to use your
+program correctly, that should be treated as a bug that needs to be fixed.
+</para>
+
+<para>
+When testing numeric data, there are several cases you always need to test:
+<itemizedlist>
+<listitem><para>The number 0</para></listitem>
+<listitem><para>The number 1</para></listitem>
+<listitem><para>A number within the expected range</para></listitem>
+<listitem><para>A number outside the expected range</para></listitem>
+<listitem><para>The first number in the expected range</para></listitem>
+<listitem><para>The last number in the expected range</para></listitem>
+<listitem><para>The first number below the expected range</para></listitem>
+<listitem><para>The first number above the expected range</para></listitem>
+</itemizedlist>
+
+For example, if I have a program that is supposed to accept values between 5
+and 200, I should test 0, 1, 4, 5, 153, 200, 201, and 255 at a minimum (153 
+and 255 were randomly chosen inside and outside the range, respectively).  The
+same goes for any lists of data you have.  You need to test that your program
+behaves as expected for lists of 0 items, 1 item, and so on.
+</para>
+
+<para>
+There will be some internal functions that you assume get good data because
+you have checked for errors before this point.  However, while in development
+most languages have a facility to easily check assumptions about data correctness,
+like the C languages <literal>assert</literal> macro.  These are abundantly useful.
+They make sure that your code cleans and error-checks data appropriately
+before handing it off to internal functions.
+</para>
+
+<para>
+You should test your programs at several levels.  For example, not only should
+you test your program as a whole, you need to test the individual pieces.  As you
+develop your program, you should test individual functions by providing it with
+data you create to make sure it responds appropriately.  You can develop a 
+fake main program called a <emphasis>driver</emphasis> (not to be 
+confused with hardware drivers) 
+that simply loads your function, supplies it with data, and checks the results.
+This is especially useful if you are working on pieces of an unfinished program,
+since you can't test all of the pieces together.  If the code you are testing calls
+functions that haven't been written yet, you can write a small function called a 
+<emphasis>stub</emphasis> which simply returns the values that function needs
+to proceed. 
+</para>
+
+</sect2>
+
+<sect2>
+<title>Handling Errors Effectively</title>
+
+<para>
+
+
+<remark>Remember to include user testing, numbered errors, recovery points,
+automatic recovery, well-written error messages (including possible
+recovery steps - Windows 95 example).  Also include a link to Joel on 
+Software's 12 steps.</remark>
+</para>
+
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>Making Our Program More Robust</title>
+
+<remark>This section has not been written.  The part that's here is just
+a more robust version of the program in the previous chapter.  It will
+eventually go bye-bye.</remark>
+
+<para>
+This means that these values won't change while the program is running, but they
+may be useful to change in the long run.   For example, the first constant is
+the buffer size.  This is the number of bytes the program reads in from the file
+at a time.  As you run the program, you may find that larger or smaller values
+may improve the performance, and so this is an easy place to try to tweak performance.
+Next, there are error messages, which may need to be changed for clarity.  Basically,
+any easily-changed value should be in the front of your program so that it is easy
+for others and yourself to do minor tweaks to the program without having to get into
+the depths of the code.  The buffer size constant is fairly self-explanatory.  However,
+the error messages are a little wierd.  Let's look at the first one
+
+<programlisting>
+        .equ ERR_WRONG_NR_ARGS, 1
+ERR_WRONG_NR_ARGS_MSG:
+        .ascii "ERROR: Wrong number of arguments\n"
+ERR_WRONG_NR_ARGS_MSG_END:
+        .equ ERR_WRONG_NR_ARGS_MSG_LEN, ERR_WRONG_NR_ARGS_MSG_END - ERR_WRONG_NR_ARGS_MSG
+</programlisting>
+
+The error being described occurs when the user types in the program name with the wrong
+number of arguments.  If you remember, you can either type it in with two arguments
+(the input and output file) or none (reading and writing to <literal>STDIN</literal> and
+<literal>STDOUT</literal>).  If you only type in one argument, or type in more than three,
+you get this error message (the code for printing this is later on).  Anyway, the
+first definition, <literal>ERR_WRONG_NR_ARGS</literal> is the error number that we
+will return for this error (so you can retrieve it with <command>echo $?</command>.
+The next symbol, <literal>ERR_WRONG_NR_ARGS_MSG</literal> is the location of the first
+byte of the message.  Then, we have the actual text of the message, followed by 
+<literal>\n</literal> which means to jump to the next line when printed.  The next
+symbol is <literal>ERR_WRONG_NR_ARGS_END</literal>, which points at the byte just
+past the end of the message.  This isn't used for anything, except computing the 
+length of the message.  The final definition is 
+<literal>ERR_WRONG_NR_ARGS_MSG_LEN</literal>, which is the length of the message.
+It is computed by subtracting the beginning location from the end.  This is used
+when we print the message, so we know how long to print the message.  Remember, the
+computer just stores each byte of data in the next location, so it can't tell where
+the message ends, unless we give it a length.  Anyway, we define 5 such error conditions.
+Note that the error numbers are application-specific.  Each program you write will
+have different error codes and different errors.
+</para>
+
+<para>
+You can skip the rest of the constants in the data section.  Next, in the text section,
+we define some stack positions.  These are the offsets from the stack for various items.
+<literal>ST_ARGC</literal>, <literal>ST_ARGV_0</literal>, <literal>ST_ARGV_1</literal>,
+and <literal>ST_ARGV_2</literal> are in the stack at the beginning of the program.  
+<literal>ST_ARGC</literal> refers to the number of <emphasis>arguments</emphasis> that
+were typed in to run the program.  For example, if you typed in <command>./toupper</command>,
+The value in <literal>ST_ARGC(%ebp)</literal> would be 1, for the actual command name.
+If you typed in <command>./toupper toupper.s toupper.uppercase</command>, 
+<literal>ST_ARGC(%ebp)</literal> would be 3, because you typed in three distinct words on
+the command line.  Anyway, <literal>ST_ARGV_0(%ebp)</literal> contains the address of the
+first byte of the first argument, which is the name of the command that was run. 
+<literal>ST_ARGV_1(%ebp)</literal> contains the address of the first byte of the
+second argument, if there is one.  These strings are null-terminated, which means that
+we don't need to know their length, because the last character isn't a character, but
+is instead the null character (typed as <literal>\0</literal>).  These stack positions
+are set up for you by Linux, and are present when the program is run, starting at
+offset 0.  We have it defined here as starting with 12 because the first thing we
+do is subtract 12 from the current stack position to make room for our own variables.
+</para>
+
+<para>
+The first thing the program does is <emphasis>initialize</emphasis> itself.  Almost 
+any program you write will begin by getting things organized and in their right
+places.  So, the first thing this program does is this -
+
+<programlisting>
+	subl  $ST_SIZE_RESERVE, %esp
+	movl  %esp, %ebp
+	call  allocate_init
+</programlisting>
+
+Which reserves stack space for locate variables, copies the stack pointer to 
+<literal>%ebp</literal>, and then initializes the memory manager (with the
+<command>call  allocate_init</command>).  Now, <literal>allocate_init</literal>
+is not defined anywhere in this file.  So, when you run <command>as toupper.s -o toupper.o</command>
+it doesn't know what location to put there.  Instead it marks it as 
+<emphasis>unresolved</emphasis>.  Later, when it is linked 
+(<command>ld toupper.o alloc.o -o toupper</command>), it finds the symbol in
+<filename>alloc.o</filename>, and uses the definition found there.  If you run the
+linking command, and it can't find the definitions of all your symbols, it will refuse
+to link, and complain about <emphasis>unresolved references</emphasis>.  Occasionally,
+this is because you mistyped something, like said <command>call  allocat_init</command> instead
+of <command>call  allocate_init</command>.  In this case it would complain that 
+<literal>allocate_init</literal> was an unresolved reference.  Anyway, the linking command
+puts all of the information of the two files together, and comes up with one program
+at the end.
+</para>
+
+<para>
+Now, if you remember, the program can either use two files or <literal>STDIN</literal> and
+<literal>STDOUT</literal>.  So, the next lines of the program look at <literal>ST_ARGC</literal>
+to see which one you wanted.
+
+<programlisting>
+	cmpl  $1, ST_ARGC(%ebp)
+	je    use_standard_files
+	cmpl  $3, ST_ARGC(%ebp)
+	je    open_files
+	pushl $ERR_WRONG_NR_ARGS
+	pushl $ERR_WRONG_NR_ARGS_MSG
+	pushl $ERR_WRONG_NR_ARGS_LEN
+	call  error_exit
+</programlisting>
+
+Now, <literal>ST_ARGC</literal> includes the number of all arguments, including
+the command itself.  So, if it is set to 1, you use <literal>STDIN</literal>
+and <literal>STDOUT</literal>, so the code jumps to that section of
+code.  If there are three arguments, that means that the input and output
+files have been specified, and it jumps to the code to handle that.
+Otherwise, it falls through.  In this case, the only valid values are 1
+and 3, so falling through means that there is an error - the user entered
+the wrong number of arguments.  So, you push the error number, the
+error message beginning, and the error message length, and call the
+<literal>error_exit</literal> function.  This is a little misleading,
+because unlike most functions, <literal>error_exit</literal> does not
+return.  It calls Linux's <literal>exit</literal> system call, so it never
+returns.  
+</para>
+
+<para>
+Before we go on, let's just take a look at the code labels.  From here
+to the end of the program, we have the following labels:
+
+<orderedlist>
+<listitem><para><literal>use_standard_files</literal></para></listitem>
+<listitem><para><literal>open_files</literal></para></listitem>
+<listitem><para><literal>open_fd_in</literal></para></listitem>
+<listitem><para><literal>store_fd_in</literal></para></listitem>
+<listitem><para><literal>open_fd_out</literal></para></listitem>
+<listitem><para><literal>store_fd_out</literal></para></listitem>
+<listitem><para><literal>allocate_buffer</literal></para></listitem>
+<listitem><para><literal>store_new_buffer</literal></para></listitem>
+<listitem><para><literal>read_loop_begin</literal></para></listitem>
+<listitem><para><literal>continue_read_loop</literal></para></listitem>
+<listitem><para><literal>end_loop</literal></para></listitem>
+</orderedlist>
+
+<literal>use_standard_files</literal> is used for setting up
+<literal>STDIN</literal> and <literal>STDOUT</literal>, and 
+<literal>open_files</literal> up until <literal>allocate_buffer</literal>
+are used to open up the given files and set them up for processing.
+Any time something unexpected occurs, we have a special error number and
+message, and we call <literal>error_exit</literal>.  After setting
+up the files, the two portions of the routine come back together
+at <literal>allocate_buffer</literal> where we grab memory for processing,
+go to <literal>store_new_buffer</literal> where we save the beginning
+of the buffer, go to <literal>read_loop_begin</literal> where we
+start reading and writing the files, and use 
+<literal>continue_read_loop</literal> and <literal>end_loop</literal>
+to control the loop's execution.
+</para>
+
+<para>
+Remember that opened files are represented as simple numbers in Linux.
+Also, remember that <literal>STDIN</literal> is 0, and <literal>STDOUT</literal>
+is 1.  These files are already opened and ready for use when the program
+starts.  So, all we need to do is store them where the program can
+find them later.  So, the code for <literal>use_standard_files</literal>
+looks like this:
+
+<programlisting>
+	movl  $STDIN, ST_FD_IN(%ebp)
+	movl  $STDOUT, ST_FD_OUT(%ebp)
+	jmp   allocate_buffer
+</programlisting>
+
+Very simple.  However, if you have to open the files yourself, you have
+quite a few more steps.   Let's look at some of the code for 
+<literal>open_files</literal>:
+
+<programlisting>
+	movl  ST_ARGV_1(%ebp), %ebx
+	movl  $O_RDONLY, %ecx
+	movl  $0666, %edx
+	movl  $OPEN, %eax
+	int   $LINUX_SYSCALL
+</programlisting>
+
+This code opens the input file.  What it does is take a null-terminated
+string in <literal>%ebx</literal>, a set of options in 
+<literal>%ecx</literal>, a file mode in <literal>%edx</literal>, and
+calls the <literal>open</literal> Linux system call.  We won't go into
+a detailed discussion of modes and options here, just that in this case
+we are opening this file <emphasis>read-only</emphasis>, which means
+that write operations won't be allowed.  Now, after we open the file,
+we need to make sure that it worked.  Linux generally returns positive
+numbers or 0 on success, and negative numbers on failure.  So, we have
+
+<programlisting>
+	cmpl  $0, %eax
+	jge   store_fd_in
+	pushl $ERR_OPEN_INPUT
+	pushl $ERR_OPEN_INPUT_MSG
+	pushl $ERR_OPEN_INPUT_MSG_LEN
+	call  error_exit
+</programlisting>
+
+So, if <literal>%eax</literal> is not negative, it goes to the next section
+of code, otherwise it does an error exit.  The next section of code
+is <literal>store_fd_in</literal>.  The <literal>open</literal> system
+call returns the file descriptor in <literal>%eax</literal>.  Now we
+need to store it for later use.  So, we do
+
+<programlisting>
+	movl  %eax, ST_FD_IN(%ebp)
+</programlisting>
+
+Now, this is the same place where we store <literal>STDIN</literal> in
+<literal>use_standard_files</literal>.  This way, other code sections
+don't have to know whether we are using real files or 
+<literal>STDIN</literal> and <literal>STDOUT</literal>.  They just look
+on the stack at <literal>ST_FD_IN(%ebp)</literal> and use whatever
+file descriptor is there.
+</para>
+
+<para>
+Now, we won't go over the code for <literal>open_fd_out</literal> and
+<literal>store_fd_out</literal> since it's just the same as 
+<literal>open_fd_in</literal> and <literal>store_fd_in</literal>.  The
+only difference is the options we use on the <literal>open</literal>
+system call.  In <literal>open_fd_in</literal>, we loaded 
+<literal>%ecx</literal> with <literal>$O_RDONLY</literal>.  Since we
+are writing to this file, we use <literal>$O_CREAT_WRONLY_TRUNC</literal>
+instead.  This set of options say to 
+
+<itemizedlist>
+<listitem><para>Create the file if it doesn't exist</para></listitem>
+<listitem><para>Open it for writing only</para></listitem>
+<listitem><para>Delete the file before writing if there was any data there</para></listitem>
+</itemizedlist>
+
+So, this file descriptor will be used as the output file.
+</para>
+
+<para>
+The next thing we do is allocate a buffer to use for reading,
+writing, and processing.  The size of the buffer isn't very
+important.  We've set it to 500 bytes, but really any size will do.
+Since disk access is slow, it's best to read a chunk at a time, but
+the optimal chunk size depends on a lot of factors.  To allocate
+the buffer, we do
+
+<programlisting>
+	pushl $BUFF_SIZE
+	call  allocate
+	popl  %ebx
+	cmpl  $0, %eax
+	jne   store_new_buffer
+	pushl $ERR_NO_MEM
+	pushl $ERR_NO_MEM_MSG
+	pushl $ERR_NO_MEM_MSG_LEN
+	call  error_exit
+store_new_buffer:
+	movl  %eax, ST_BUFF_PTR(%ebp)
+</programlisting>
+
+So, this code calls allocate from our last program, and, if there
+are no errors, it stores the location on the stack.  If there
+are, it dies with the memory error.
+</para>
+
+<para>
+Now we have the input file, the output file, and a buffer.  We're
+all set!  Now we just run a loop to read, convert, and write the
+files.  The code to read looks like this:
+
+<programlisting>
+read_loop_begin:
+	movl  ST_FD_IN(%ebp), %ebx
+	movl  ST_BUFF_PTR(%ebp), %ecx
+	movl  $BUFF_SIZE, %edx
+	movl  $READ, %eax
+	int   $LINUX_SYSCALL
+
+	cmpl  $END_OF_FILE, %eax
+	je    end_loop
+	jg    continue_read_loop
+
+	pushl $ERR_READ_INPUT
+	pushl $ERR_READ_INPUT_MSG
+	pushl $ERR_READ_INPUT_MSG_LEN
+	call  error_exit
+</programlisting>
+
+First we do a read system call, which fills the buffer with
+data, and stores the number of bytes read into <literal>%eax</literal>.
+If <literal>%eax</literal> is zero, we are at the end of the file, and
+if it's negative, an error occured.  So, if we are not yet at the
+end of the file, <literal>%eax</literal> will have the number of
+bytes read (it will be less than or equal to 500), and we will then
+call the function <literal>convert_to_upper</literal> with two arguments,
+the location of the buffer, and the buffer's size, which is currently
+in <literal>%eax</literal>
+
+<programlisting>
+continue_read_loop:
+	pushl ST_BUFF_PTR(%ebp)
+	pushl %eax
+	call  convert_to_upper
+	popl  %eax
+	popl  %ebx
+</programlisting>
+
+The function doesn't return anything, so we just need to pop
+back off the values we pushed.  Now the buffer has all of
+its letters converted to uppercase, so we just need to write
+it to our output file.  That looks like this:
+
+<programlisting>
+	movl  ST_FD_OUT(%ebp), %ebx
+	movl  ST_BUFF_PTR(%ebp), %ecx
+	movl  %eax, %edx
+	movl  $WRITE, %eax
+	int   $LINUX_SYSCALL
+</programlisting>
+
+This writes the buffer back out to disk.  If it's successful,
+we go back and do the loop again, otherwise, we do an error exit.
+
+<programlisting>
+	cmpl  $0, %eax
+	jge   read_loop_begin
+
+	pushl $ERR_WRITE_OUTPUT
+	pushl $ERR_WRITE_OUTPUT_MSG
+	pushl $ERR_WRITE_OUTPUT_MSG_LEN
+</programlisting>
+
+This code is a little oversimplified, because <literal>write</literal>
+might not write the entire buffer.  <literal>write</literal> returns
+the number of bytes actually written in <literal>%eax</literal>, so
+if it's different than the number it was supposed to write, it's up
+to you to make the <literal>write</literal> call again with the 
+remaining data, until it's all written.  However, this is an unusual
+situation, and it requires quite a bit of code, so we won't cover it
+here.  
+</para>
+
+<para>
+Once we hit the end of the input file, the read loop will then
+jump to <literal>end_read_loop</literal>, which has the responsibilities
+of closing the files and exiting the program
+
+<programlisting>
+end_read_loop:
+	movl  ST_FD_OUT(%ebp), %ebx
+	movl  $CLOSE, %eax
+	int   $LINUX_SYSCALL
+
+	movl  ST_FD_IN(%ebp), %ebx
+	movl  $CLOSE, %eax
+	int   $LINUX_SYSCALL
+
+	movl  $0, %ebx
+	movl  $EXIT, %eax
+	int   $LINUX_SYSCALL
+</programlisting>
+
+And now the program is finished and has returned a 0 to the operating
+system.
+</para>
+
+<para>
+Okay, so we have the basic program down, but there's still two
+missing pieces:
+
+<itemizedlist>
+<listitem><para>
+The function to actually do the conversion, <literal>convert_to_upper</literal>
+</para></listitem>
+
+<listitem><para>
+The function to do error writing, <literal>error_exit</literal>
+</para></listitem>
+</itemizedlist>
+
+Let's take a look at <literal>convert_to_upper</literal>:
+
+<programlisting>
+convert_to_upper:
+	pushl %ebp
+	movl  %esp, %ebp
+	
+	movl  ST_BUFFER(%ebp), %eax
+	movl  ST_BUFFER_LEN, %ebx
+	movl  $0, %edi
+</programlisting>
+
+This code sets up the function.  The first two lines are standard.
+Then, we move our parameters from the stack to registers so they
+are easier to deal with.  In this function, we will use 
+<literal>%eax</literal> to store the buffer location, 
+<literal>%ebx</literal> to store the buffer length, 
+<literal>%edi</literal> to store our current position in the buffer, and
+<literal>%cl</literal> to store the current byte being examined.
+Now, <literal>%cl</literal> is a wierd beast.  It is a part of
+<literal>%ecx</literal> that is one byte long (remember 
+<literal>%ecx</literal> is four bytes long).  So, if we
+use <literal>%cl</literal>, we can't use <literal>%ecx</literal>
+without overwriting <literal>%cl</literal>. 
+</para>
+
+<para>
+The next thing we do is to check the size of the buffer
+
+<programlisting>
+	cmpl  $0, %ebx
+	je    end_convert_loop
+</programlisting>
+
+This checks to make sure the buffer isn't 0 size.  If so,
+we don't bother with the loop, we just go to the end, since
+we have nothing to convert.  If the buffer actually has a size,
+we run the loop.
+</para>
+
+<para>
+The first thing we do is load the byte.
+<programlisting>
+	movb  (%eax, %edi, 1), %cl
+</programlisting>
+
+This means, take the address in <literal>%eax</literal>  (the start
+of the buffer), and add the offset in <literal>%edi</literal>.  The
+<literal>1</literal> means use <literal>%edi</literal> as-is.  It
+can also be 2 or 4, which means to multiply <literal>%edi</literal>
+by 2 or 4 before adding it to <literal>%eax</literal>.  Now that
+we have the letter we want in <literal>%cl</literal>, we can see
+if we need to convert it to uppercase.
+
+<programlisting>
+	cmpb  $LOWERCASE_A, %cl
+	jl    next_byte
+	cmpb  $LOWERCASE_Z, %cl
+	jg    next_byte
+</programlisting>
+
+
+This checks to see if the letter we have in <literal>%cl</literal>
+is between <literal>a</literal> and <literal>z</literal>.  
+If not, we just skip it and go to the
+next byte.  Notice that we're using <literal>movb</literal> and
+<literal>cmpb</literal> rather than <literal>movl</literal> and
+<literal>cmpl</literal>.  This is because we are operating on the
+byte-level.  <literal>cmpl</literal> works on longs, which are 
+four bytes.  So, if the letter is between <literal>a</literal> and 
+<literal>z</literal>, we convert it to uppercase like this
+
+<programlisting>
+	addb  $UPPER_CONVERSION, %cl
+</programlisting>
+
+Remember that everything in the computer is represented by numbers,
+so we can just add a number to <literal>%cl</literal> to convert it.
+Now, we put it back into the buffer.
+
+<programlisting>
+	movb  %cl, (%eax, %edi, 1)
+</programlisting>
+
+Now, whether we converted or not, we move to the next byte
+
+<programlisting>
+	incl  %edi
+	cmpl  %edi, %ebx
+	jne   convert_loop
+</programlisting>
+
+This increments the current position, checks to see if it 
+is equal to the length, and if not it continues back to the
+beginning.  If so we're done and can leave.
+
+<programlisting>
+	movl  %ebp, %esp
+	popl  %ebp
+	ret
+</programlisting>
+
+And the function ends.
+</para>
+
+<para>
+The <literal>error_exit</literal> function is very simple.  It
+simply writes the error to <literal>STDERR</literal> and leaves.
+First, it removes the return address from the stack.
+
+<programlisting>
+error_exit:
+	popl  %eax
+</programlisting>
+
+Then, it pops the error message length and the message address
+from the stack, and uses it to do a <literal>write</literal> to
+<literal>STDERR</literal>
+
+<programlisting>
+	popl  %edx
+	popl  %ecx
+	movl  $STDERR, %ebx
+	movl  $WRITE, %eax
+	int   $LINUX_SYSCALL
+</programlisting>
+
+We don't check for errors, because there's nothing we could do about
+them.  Now, we pop the exit status from the stack, and exit.
+
+<programlisting>
+	popl  %ebx
+	movl  $EXIT, %eax
+	int   $LINUX_SYSCALL
+</programlisting>
+
+And that's the end of the function.
+</para>
+
+<para>
+Now, that was quite a program.  You're probably still trying to
+understand it.  That's okay.  You're probably wondering how you
+would come up with that yourself.  That's okay, too.  It took
+me a while to do it myself, and I'm writing this book.  However,
+there are several lessons I want you to take away from this program:
+
+<itemizedlist>
+<listitem><para>In a normal program, more code is spent handling exceptions and errors than doing the processing</para></listitem>
+<listitem><para>Even for simple things, the computer has a lot of instructions to execute</para></listitem>
+<listitem><para>Most projects will involve several files, each one for holding groups of related functionality</para></listitem>
+</itemizedlist>
+
+Soon, we will learn a new programming language that will be both easier
+to write and easier to read, and the programs will be much, much shorter.
+However, it is important to have an understanding of how these things work
+under the hood before we simplify it.
+</para>
+
+</sect1>
+
+</chapter>
+

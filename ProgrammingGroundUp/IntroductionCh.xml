@@ -1,0 +1,199 @@
+<chapter>
+<title>Introduction</title>
+<!--
+
+Copyright 2002 Jonathan Bartlett
+
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.1 or any later version published by the Free Software
+Foundation; with no Invariant Sections, with no Front-Cover Texts,
+and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
+
+-->
+
+<sect1>
+<title>Welcome to Programming</title>
+
+<remark>Mention layout of book and instructions for reading it.</remark>
+<remark>Somewhere in this book I need to include some more intel commands, like loop and rep.</remark>
+
+<para>
+I love <indexterm><primary>programming</primary></indexterm>programming.  I enjoy the challenge, not only to make a working
+program, but to do so with style.  Programming is like poetry.  It
+conveys a message, not only to the computer, but to those who modify
+and use your program.  With a program, you build your own world
+with your own rules.  You create your world according to your 
+conception of both the problem and the solution.  Masterful
+programmers create worlds with programs that are clear and succinct,
+ much like a poem or essay.  One of the greatest programmers, Donald Knuth, 
+describes programming not as telling a computer how to do something,
+but telling a person how they would instruct a computer to do something.
+The point is that programs are meant to be read by people, not
+just computers.  Your programs will be modified and updated by others
+long after you move on to other projects.  Thus, programming is not
+as much about communicating to a computer as it is communicating to
+those who come after you.  A programmer is a problem-solver, a poet, and an
+instructor all at once.  Your goal is to solve the problem at hand,
+doing so with balance and taste, and teach your solution to
+future programmers.  I hope that this book can teach at least some
+of the poetry and magic that makes computing exciting.
+</para> 
+
+<para>
+Most introductory books on programming frustrate me to no end.  At the
+end of them you can still ask "how does the computer really work?" and
+not have a good answer.  They tend to pass over topics that are 
+difficult, even though they are important.  I will take you through
+the difficult issues, because that is the only way to move on to
+masterful programming.  My goal is to take you from knowing nothing about
+programming to understanding how to think, write, and learn like
+a programmer.  You won't know everything, but you will have a background
+for how everything fits together.  At the end of this book, you should 
+be able to
+
+<itemizedlist>
+
+<listitem><para>Understand how a program works and interacts with other programs</para></listitem>
+<listitem><para>Read other people's programs and learn how they work</para></listitem>
+<listitem><para>Learn new programming languages quickly</para></listitem>
+<listitem><para>Learn advanced concepts in computer science quickly</para></listitem>
+
+</itemizedlist>
+
+I will not teach you everything.  Computer science is a massive
+field, especially when you combine the theory with the practice of computer
+programming.  However, I will attempt to get you started on the 
+foundations so you can easily go wherever you want afterwards.
+</para>
+
+<remark>Somewhere in here, I need to include the chicken and egg problems
+for newcomers to computer science.  Also may need to include Knuth's 
+reasons for using assembly language.</remark>
+
+</sect1>
+
+<sect1>
+<title>Your Tools</title>
+
+<para>
+Hands-on learning is the best kind.  Therefore we will be giving all of 
+the examples using the GNU/Linux operating system with the GCC tool set. 
+If you are not familiar with GNU/Linux and the GCC tool set, they will
+be described shortly. <remark>FIXME - also need a link to introductory
+information on Linux, and using the command line/pico</remark>
+What I intend to show you is more about programming in general than using
+a specific tool set, but standardizing on one makes the task much
+easier.  All of these
+programs have been tested using <productname>RedHat Linux</productname>
+6.2 and 7.0.  All of these are freely available and downloadable, which
+is the reason that they are the ones used in this book.  However,
+all skills learned in this book should be easily transferable to
+any other system.  
+</para>
+
+<para>
+If you do not have access to a GNU/Linux machine, you can get an account
+at <ulink url="http://www.freeshell.org/">http://www.freeshell.org/</ulink>
+for just a $36 lifetime fee (the account is actually free, but permission
+to use the GCC tool set costs $36).  This only requires that you
+already have an Internet connection and a telnet program.  If you use
+Windows, you already have a telnet client - just click on 
+<literal>start</literal>, then <literal>run</literal>, then type in 
+<literal>telnet</literal>.  However, it is usually better to download
+<productname>Tera Term</productname> from 
+<ulink url="http://hp.vector.co.jp/authors/VA002416/teraterm.html">http://hp.vector.co.jp/authors/VA002416/teraterm.html</ulink>
+because Windows' telnet has some weird problems.  There are a lot of options
+for the Macintosh, too.  <productname>NiftyTelnet</productname> is my 
+favorite.  If you don't know how to use a telnet account, FreeShell.org
+has some information about getting started.
+</para>
+
+<para>
+So what is GNU/Linux?  GNU/Linux is an operating system modeled after
+UNIX.  The GNU part comes from the <ulink url="http://www.gnu.org/">GNU 
+Project</ulink><footnote><para>The GNU Project is a project by the Free
+Software Foundation to produce a complete, free operating 
+system.</para></footnote>, which includes most of the programs you 
+will run, including
+the GCC tool set that we will use to program with.  The GCC tool set
+contains all of the programs necessary to create programs in various
+computer languages.
+</para>
+
+<para>
+Linux is the name
+of the <emphasis>kernel</emphasis>.  The kernel is the core part of an
+operating system that keeps track of everything.  The kernel is
+both an fence and a gate.  As a gate, it allows programs
+to access hardware in a uniform way.  Without the kernel, you would have
+to write programs to deal with every device model ever made.  The kernel
+handles all device-specific interactions so you don't have to.  It also handles
+file access and interaction between processes.  For example, when you
+type, your typing goes through several programs before it hits your editor.
+The kernel controls the flow of information between programs.  
+The kernel is a program's gate to the world around it.  When you move your
+mouse, the kernel notices that, and notifies the Windowing system.  If you
+save a file, the program asks the kernel to do so.  If you are using a word
+processor and you do spell checking, the kernel controls the interaction
+between the word processor and the spell checker.  As a fence, the kernel
+prevents programs from accidentally overwriting each other's data and from
+accessing files and devices that they don't have permission to.
+</para>
+
+<para>
+In our case, the kernel
+is Linux.  Now, the kernel all by itself won't do anything.  You can't even
+boot up a computer with just a kernel.  Think of the kernel as the water pipes
+for a house.  Without the pipes, the faucets won't work, but the pipes are
+pretty useless if there are no faucets.  Together, the user applications
+(from the GNU project and other places) and the kernel (Linux) make 
+up the entire operating system, GNU/Linux.
+</para>
+
+<para>
+For the most part, this book will be using the computer's low-level
+assembly language.  There are essentially three kinds of languages:
+
+<variablelist>
+
+<varlistentry>
+<term>Machine Language</term>
+<listitem><para>
+This is what the computer actually sees and deals with.  Every
+command the computer sees is given as a number or sequence of
+numbers.  
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Assembly Language</term>
+<listitem><para>
+This is the same as machine language, except the command numbers
+have been replaced by letter sequences which are easier to memorize.
+Other small things are done to make it easier as well.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>High-Level Language</term>
+<listitem><para>
+High-level languages are there to make programming easier.  Assembly
+language requires you to work with the machine itself.  High-level
+languages allow you to describe the program in a more natural language.
+A single command in a high-level language usually is equivalent to
+several commands in an assembly language.  
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+In this book we will start with assembly language, and progress to
+a high-level language.  That way, you will see how the machine actually
+works first, and then we can make things easier later.
+</para>
+
+</sect1>
+
+</chapter>
+

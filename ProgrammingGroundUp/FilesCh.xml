@@ -1,0 +1,457 @@
+<chapter>
+<title>Dealing with Files</title>
+<!--
+
+Copyright 2002 Jonathan Bartlett
+
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.1 or any later version published by the Free Software
+Foundation; with no Invariant Sections, with no Front-Cover Texts,
+and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
+
+-->
+
+<para>
+A lot of computer programming deals with files.  After all, when we reboot our
+computers, the only thing that remains from previous sessions are what has
+been put on disk.  Data which is stored in files is called 
+<emphasis>persistent</emphasis> data, because it persists between sessions.
+</para>
+
+<sect1>
+<title>The UNIX File Concept</title>
+
+<para>
+Each operating system has it's own way of dealing with files.  However, the
+UNIX method, which is used on Linux, is the simplest and most universal.
+UNIX files, no matter what program created them, can all be accessed as a 
+stream of bytes.  When you access a file, you start by opening it by name.
+The operating system then gives you a number, called a <emphasis>file
+descriptor</emphasis>, which you use to refer to the file until you are
+through with it.  You can then read and write to the file using its
+file descriptor.  When you are done reading and writing, you then close 
+the file, which then makes the file descriptor useless.
+</para>
+
+<para>
+In our programs we will use the following system calls to deal with files:
+
+<orderedlist>
+
+<listitem><para>
+Tell Linux the name of the file to open, and what you want to do with it (read, write, 
+both read and write, create it if it doesn't exist, etc.).  This is handled with
+the <literal>open</literal> system call, which takes a filename, a number representing your read/write intentions, and a permission set as its parameters.  
+Having the number 5 in <literal>%eax</literal> when you signal the interrupt
+will indicate the <literal>open</literal> system call to Linux.
+The storage location of the first character of the filename should be stored
+in <literal>%ebx</literal>.  The read/write intentions, represented as a number,
+should be stored in <literal>%ecx</literal>.  For now, use 0 for files you want to read
+from, and 03101 for files you want to write to.  This will be explained in more detail
+in <xref linkend="truthbinarynumbers" />.  Finally, the permission set should
+be stored as a number in <literal>%edx</literal>.  If you are unfamiliar
+with UNIX permissions, just use <literal>0666</literal> for the permissions.
+</para></listitem>
+
+<listitem><para>
+Linux will then return to you a <emphasis>file descriptor</emphasis> in 
+<literal>%eax</literal>, which is a number that
+you use to refer to this file throughout your program.
+</para></listitem>
+
+<listitem><para>
+Next you will operate on the file doing reads and/or writes, each time 
+giving Linux the file descriptor you want to use.  <literal>read</literal>
+is system call 3, and to call it you need to have the file descriptor
+in <literal>%ebx</literal>, the address of a buffer for storing the 
+data that is read, and the size of the buffer.  Buffers will be explained 
+below.  <literal>read</literal> will return with either the number of 
+characters read from the file, or an error code.  Error codes can be
+distinguished because they are always negative numbers.  
+<literal>write</literal> is system call 4, and it requires the same 
+parameters as the <literal>read</literal> system call, except that the
+buffer should already be filled with the data to write out.  The 
+<literal>write</literal> system call will give back the number
+of bytes written in <literal>%eax</literal> or an error code.
+same 
+</para></listitem>
+
+<listitem><para>
+When you are through with them, you then tell Linux to close your file.  
+Afterwards, your file descriptor is no longer valid.
+This is done using <literal>close</literal>, system call 6.  The only
+parameter to <literal>close</literal> is the file descriptor, which is
+placed in <literal>%ebx</literal>.
+</para></listitem>
+
+</orderedlist>
+
+</para>
+
+</sect1>
+
+<sect1>
+<title>Buffers and <literal>.bss</literal></title>
+
+<para>
+In the previous section we mentioned buffers without explaining what they
+were.  A buffer is a continuous block of bytes used for bulk data transfer.
+When you request to read a file, the operating system needs to have a place
+to store the data it reads.  That place is called a buffer.   Usually, buffers
+are only used temporarily, while the data is transformed to another form.
+For example, let's say that you want to read in a single line of text from
+a file.  However, you do not know how long that line is.  Therefore, you
+will simply read a large number of bytes from the file into a buffer, look
+for the end-of-line character, copy that to another location, and start looking
+for the next line.  
+</para>
+
+<para>
+Another thing to note is that buffers are a fixed size, set by the programmer.
+So, if you want to read in data 500 bytes at a time, you send the 
+<literal>read</literal> system call the address of a 500-byte unused location,
+and send it the number 500 so it knows how big it is.  You can make it smaller
+or bigger, depending on your application needs.  
+</para>
+
+<para>
+To create a buffer, you need to either reserve static or dynamic storage.
+Static storage is what we have talked about so far, storage locations
+declared using <literal>.long</literal> or <literal>.byte</literal> directives.
+Dynamic storage will be discussed in the chapter on memory.<!--XREF-->
+  Now, there
+are problems with declaring buffers using <literal>.byte</literal>.
+First, it is tedious to type.  You would have to type 500 numbers after
+the <literal>.byte</literal> declaration, and they wouldn't be used
+for anything but to take up space.
+Second, it uses up space in the executable.  In the examples we've
+used so far, it doesn't use up too much, but that can change in larger 
+programs.  In order to get around this
+if you want 500 bytes you have to type in 500 numbers and it wastes 500
+bytes in the executable.  There is a solution to both of these.  So far,
+we have discussed two program sections, the <literal>.text</literal> and
+the <literal>.data</literal> sections.  There is another section called
+<literal>.bss</literal>.  This section is like the data section, except
+that it doesn't take up space in the executable.  This section can
+reserve storage, but it can't initialize it.  In the <literal>.data</literal>
+section, you could reserve storage and set it to an initial value.  In the
+<literal>.bss</literal> section, you can't set an initial value.  This is
+useful for buffers because we don't need to initialize them anyway, we
+just need to reserve storage.  In order to do this, we do the following
+commands:
+
+<programlisting>
+.section .bss
+	.lcomm my_buffer, 500
+</programlisting>
+
+This will create a symbol, <literal>my_buffer</literal>, that refers to 
+a 500-byte storage location that we can use as a buffer.  We can then do
+the following, assuming we have opened a file for reading and have placed
+the file descriptor in &ebx;:
+
+<programlisting>
+	movl $my_buffer, %ecx
+	movl 500, %edx
+	movl 3, %eax
+	int  $0x80
+</programlisting>
+
+which will read up to 500 bytes into our buffer.  In this example, I placed
+a dollar sign in front of <literal>my_buffer</literal>.  The reason for this
+is that without the dollar sign, <literal>my_buffer</literal> is treated
+as a memory location.  Instead of moving the address of 
+<literal>my_buffer</literal> into &ecx;, without the dollar sign it would
+move the first word of the data contained there into &ecx;.  The dollar
+sign makes the assembler treat <literal>my_buffer</literal> as a number,
+so the address itself, rather than what is stored there, gets moved to 
+&ecx;.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Standard and Special Files</title>
+
+<para>
+You might think that programs start without any files open by default.  This
+is not true.  Linux programs always have at least three open file descriptors 
+when they begin.  They are:
+
+<variablelist>
+
+<varlistentry>
+<term>STDIN</term>
+<listitem><para>
+This is the <emphasis>standard input</emphasis>.  It is a read-only file, and 
+usually represents your keyboard.<footnote><para>In Linux, almost everything 
+is a "file".  Your keyboard input is considered a file, and so is your 
+screen display.
+</para></footnote>
+This is always file descriptory 0.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>STDOUT</term>
+<listitem><para>
+This is the <emphasis>standard output</emphasis>.  It is a write-only file, 
+and usually represents your screen display.  This is always file descriptor 1.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>STDERR</term>
+<listitem><para>
+This is your <emphasis>standard error</emphasis>.  It is a write-only file, 
+and usually represents your screen display.  Most regular processing 
+output goes to <literal>STDOUT</literal>, but any error messages that come 
+up in the process go to <literal>STDERR</literal>.  This way, if you want to, 
+you can split them up into separate places.  This is always file
+descriptor 2.
+</para></listitem>
+</varlistentry>
+</variablelist>
+
+Any of these "files" can be redirected from or to a real file, rather
+than a screen or a keyboard.  This is outside the scope of this book, but
+any good book on the UNIX command-line will describe it in detail.
+</para>
+
+<para>
+Notice that many of the files you write to aren't files at all.  UNIX-based
+operating systems treat all input/output systems as files.  Network connections
+are treated as files, your serial port is treated like a file, your audio
+devices are treated as files, even your hard drive can be read and written 
+to like a file.  Communication between processes is usually done through
+files called pipes.   Some of these files have different methods of opening
+and creating them than regular files, but they can all be read from and
+written to using the standard <literal>read</literal> and 
+<literal>write</literal> system calls.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Using Files in a Program</title>
+
+<para>
+We are going to write a simple program to illustrate these concepts.  The 
+program will take two files, and read from one, convert all of its 
+lower-case letters to upper-case, and write to the other file.  Before we
+do so, let's think about what we need to do to get the job done:
+
+<itemizedlist>
+<listitem><para>
+Have a function that takes a block of memory and converts it to upper-case.
+This function would need an address of a block of memory and its size as
+parameters.
+</para></listitem>
+
+<listitem><para>
+Have a section of code that repeatedly reads in to a buffer, calls our
+conversion function on the buffer, and then writes the buffer back out
+to the other file.
+</para></listitem>
+
+<listitem><para>
+Begin the program by opening the necessary files.
+</para></listitem>
+</itemizedlist>
+
+Notice that I've specified things in reverse order that they will be done.  
+That's a useful trick in writing complex programs - first decide the meat
+of what is being done.  In this case, it's converting blocks of characters
+to upper-case.  Then, you think about what all needs to happen to get that
+done.  In this case, you have to open files, and continually read and write
+blocks to disk.  One of the keys of programming is continually breaking
+down problems into smaller and smaller chunks until it's small enough that
+you can easily solve the problem.
+</para>
+
+<para>
+You may have been thinking that you will never remember all of these numbers
+being thrown at you - the system call numbers, the interrupt number, etc.
+In this program we will also introduce a new directive, <literal>.equ</literal>
+which should help out.  <literal>.equ</literal> allows you to assign names
+to numbers.  For example, if you did 
+<literal>.equ LINUX_SYSCALL, 0x80</literal>, any time after that you wrote
+<literal>LINUX_SYSCALL</literal>, the assembler would substitue 
+<literal>0x80</literal> for that.  So now, you can write 
+<literal>int $LINUX_SYSCALL</literal>, which is much easier to read, and
+much easier to remember.  Coding is complex, but there are a lot of things
+we can do like this to make it easier.
+</para>
+
+<para>
+Here is the program.  Note that we have more labels than we use for jumps,
+but some of them are there for clarity and consistency.  Try to trace
+through the program and see what happens in various cases.  An in-depth
+explanation of the program will follow.
+</para>
+
+<programlisting>
+&toupper-nomm-simplified-s;
+</programlisting>
+
+<para>
+Type in this program as <filename>toupper.s</filename>, and then enter in 
+the following commands:  
+
+<programlisting>
+as toupper.s -o toupper.o
+ld toupper.o -o toupper
+</programlisting>
+
+This builds a program called <filename>toupper</filename>, which converts
+all of the lowercase characters in a file to uppercase.
+For example, to convert the file <filename>toupper.s</filename> to 
+uppercase, type in the command
+
+<programlisting>
+./toupper toupper.s toupper.uppercase
+</programlisting>
+
+and you will find in the file <filename>toupper.uppercase</filename> an 
+uppercase version of your original file.
+</para>
+
+<para>
+Let's examine how the program works.
+</para>
+
+<para>
+The first section of the program is marked <literal>CONSTANTS</literal>.  In
+programming, a constant is a value that is assigned when a program assembles or
+compiles, and is never changed.  I make a habit of placing all of my constants
+together at the beginning of the program.  It's only necessary to declare them
+before you use them, but putting them all at the beginning makes them easy to find,
+and making them all upper-case makes it obvious in your program which values are
+constants and where to find them.  In assembly language, we declare constants with
+the <literal>.equ</literal> directive as mentioned before.  Here, we simply
+give names to all of the standard numbers we've used so far, like system call
+numbers, the syscall interrupt number, and file open options.
+</para>
+
+<para>
+The next section is marked <literal>BUFFERS</literal>.  We only use one buffer in
+this program, which we call <literal>BUFFER_DATA</literal>.  We also define a 
+constant, <literal>BUFFER_SIZE</literal>, which holds the size of the buffer.  If
+we always refer to this constant rather than typing out the number 500 whenever
+we need to use the size of the buffer, if it later changes, we only need to modify
+this value, rather than having to go through the entire program and changing all
+of the values individually.
+</para>
+
+<para>
+Instead of going on the the <literal>_startup</literal> section of the program, go
+to the end where we define the convert_to_upper function.  This is the part that
+actually does the conversion.  Starting out, we have a set of constants we are 
+using.  The reason these are put here rather than at the top is that they only
+deal with this one function.  We have:
+
+<programlisting>
+	.equ  LOWERCASE_A, 'a'              #The lower boundary of our search
+	.equ  LOWERCASE_Z, 'z'              #The upper boundary of our search
+	.equ  UPPER_CONVERSION, 'A' - 'a'   #Conversion between upper and lower case
+</programlisting>
+
+The first two simply define the letters that are the boundaries of what we are
+searching for.  Remember that in the computer, letters are represented as numbers.
+Therefore, we can use <literal>LOWERCASE_A</literal> in comparisons, additions,
+subtractions, or anything else we can use numbers in.  Also, notice we define
+the constant <literal>UPPER_CONVERSION</literal>.  Since letters are represented
+as numbers, we can subtract them.  Subtracting an upper-case letter from the
+same lower-case letter gives us how much we need to add to a lower-case letter
+to make it upper case.  If that doesn't make sense, look at the 
+ASCII<footnote><para>ASCII is the numbering scheme which encodes letters 
+and digits as numbers</para></footnote> code tables
+in the appendix <!--XREF-->, and do the math yourself.
+</para>
+
+<para>
+After this, we have some constants labelled <literal>STACK POSITIONS</literal>.
+Remember that function parameters <remark>FIXME - do I ever define parameters?</remark>
+are pushed onto the stack before function calls.  These constants, prefixed with
+<literal>ST</literal> for clarity, define where in the stack we should expect
+to find each piece of data.  The return address is at position 4, the length of 
+the buffer is at position 8, and the address of the buffer is at position 12.  
+This way, when I use these stack addresses in the program, it's easier to see
+what is happening.
+</para>
+
+<para>
+Next comes the label <remark>FIXME - do I define label anywhere?</remark>
+<literal>convert_to_upper</literal>.  This is the entry point of
+the function.  The first two lines are our standard function lines
+to save the stack pointer.  The next two lines
+
+<programlisting>
+	movl  ST_BUFFER(%ebp), %eax
+	movl  ST_BUFFER_LEN(%ebp), %ebx
+</programlisting>
+
+move the function parameters into the appropriate registers for use.
+Then, we load zero into &edi;.  What we are going to do is iterate
+through each byte of the buffer by loading from the location 
+&eax; + &edi;, incrementing &edi;, and repeating until &edi;
+is equal to the buffer length in &ebx;.  The lines 
+
+<programlisting>
+	cmpl  $0, %ebx
+	je    end_convert_loop
+</programlisting>
+
+is just a sanity check to make sure that noone gave us a buffer of
+zero size.  If they did, we just clean up and leave.  Guarding
+against potential user and programming errors is an important
+task of a programmer, and is what makes usable, reliable software.
+</para>
+
+<para>
+Now we start our loop<remark>FIXME - is loop defined anywhere?  What about
+other flow-control functions?</remark>.  First,
+it moves a byte into &cl;.  The code for this is
+
+<programlisting>
+	movb  (%eax,%edi,1), %cl
+</programlisting>
+
+This says to start at &eax; and go &edi; locations forward, with each
+location being 1 byte big.  Take the value found there, and put it in
+&cl;.  Then, it checks to see if that value is in the range
+of lower-case <wordasword>a</wordasword> to lower-case <wordasword>z</wordasword>.
+To check the range, it simply checks to see if the letter is smaller than 
+<wordasword>a</wordasword>.  If it is, it can't be a lower-case letter.  Likewise,
+if it is larger than <wordasword>z</wordasword>, it can't be a lower-case letter.
+So, in each of these cases, it simply moves on.  If it is in the proper range, it
+then adds the uppercase conversion, and stores it back.
+</para>
+
+<para>
+Either way, it then goes to the next value by incrementing %cl;.  Next it checks to
+see if we are at the end of the buffer.  If we are not at the end, we jump back to 
+the beginning of the loop (the <literal>convert_loop</literal> label).  If we are
+at the end, it simply carries on to the end of the function.  Because we are just
+modifying the buffer, we don't need to return anything to the calling program - the
+changes are already in the buffer.  The label <literal>end_convert_loop</literal>
+is not needed, but it's there so it's easy to see where the parts of the program are.
+</para>
+
+<para>
+Now we know how the conversion process works.  Now we need to figure out how
+to get the data in and out of the files.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Reading Simple Records</title>
+
+<para>
+</para>
+
+</sect1>
+
+</chapter>

@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+
+<!--
+
+Copyright 2002 Jonathan Bartlett
+
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.1 or any later version published by the Free Software
+Foundation; with no Invariant Sections, with no Front-Cover Texts,
+and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
+
+-->
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" [
+
+<!ENTITY index SYSTEM "index.xml">
+
+<!ENTITY fdl-appendix SYSTEM "FDLAp.xml">
+
+<!ENTITY introduction-chapter SYSTEM "IntroductionCh.xml">
+<!ENTITY memory-chapter SYSTEM "MemoryCh.xml">
+<!ENTITY firstprogs-chapter SYSTEM "FirstProgsCh.xml">
+<!ENTITY functions-chapter SYSTEM "FunctionsCh.xml">
+<!ENTITY files-chapter SYSTEM "FilesCh.xml">
+<!ENTITY robust-chapter SYSTEM "RobustCh.xml">
+<!ENTITY memoryint-chapter SYSTEM "MemoryIntCh.xml">
+<!ENTITY linking-chapter SYSTEM "LinkingCh.xml">
+<!ENTITY counting-chapter SYSTEM "CountingCh.xml">
+<!ENTITY otherlang-chapter SYSTEM "OtherLangCh.xml">
+<!ENTITY optimization-chapter SYSTEM "OptimizationCh.xml">
+<!ENTITY guidelines-chapter SYSTEM "GuidelinesCh.xml">
+<!ENTITY wherenext-chapter SYSTEM "WhereNextCh.xml">
+
+<!ENTITY ascii-appendix SYSTEM "ASCIIAp.xml">
+<!ENTITY gui-appendix SYSTEM "GUIAp.xml">
+<!ENTITY syscall-appendix SYSTEM "SyscallAp.xml">
+
+<!ENTITY exit-s SYSTEM "exit.s">
+<!ENTITY maximum-s SYSTEM "maximum.s">
+<!ENTITY factorial-s SYSTEM "factorial.s">
+<!ENTITY alloc-s SYSTEM "alloc.s">
+<!ENTITY toupper-s SYSTEM "toupper3.s">
+<!ENTITY toupper-nomm-s SYSTEM "toupper2.s">
+<!ENTITY toupper-nomm-simplified-s SYSTEM "toupper.s">
+<!ENTITY printf-example-s SYSTEM "printf-example.s">
+<!ENTITY helloworld-lib-s SYSTEM "helloworld-lib.s">
+<!ENTITY helloworld-nolib-s SYSTEM "helloworld-nolib.s">
+<!ENTITY Hello-World-c SYSTEM "Hello-World.c">
+<!ENTITY power-s SYSTEM "power.s">
+<!ENTITY gnome-example-s SYSTEM "gnome-example.s">
+<!ENTITY gnome-example-c-c SYSTEM "gnome-example-c.c">
+<!ENTITY gnome-example-py SYSTEM "gnome-example.py">
+<!ENTITY Hello-World-perl SYSTEM "Hello-World.pl">
+<!ENTITY Hello-World-python SYSTEM "Hello-World.py">
+
+
+<!ENTITY percent "%">
+<!ENTITY eax "<literal>&percent;eax</literal>">
+<!ENTITY ebx "<literal>&percent;ebx</literal>">
+<!ENTITY ecx "<literal>&percent;ecx</literal>">
+<!ENTITY edx "<literal>&percent;edx</literal>">
+<!ENTITY edi "<literal>&percent;edi</literal>">
+<!ENTITY esp "<literal>&percent;esp</literal>">
+<!ENTITY ebp "<literal>&percent;ebp</literal>">
+<!ENTITY eip "<literal>&percent;eip</literal>">
+<!ENTITY cl "<literal>&percent;cl</literal>">
+]>
+
+<book>
+<bookinfo>
+<title>Programming from the Ground Up</title>
+<author>
+<firstname>Jonathan</firstname>
+<surname>Bartlett</surname>
+</author>
+<copyright><year>2002</year><holder>Jonathan Bartlett</holder></copyright>
+<legalnotice>
+<para>
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.1 or any later version published by the Free Software
+Foundation; with no Invariant Sections, with no Front-Cover Texts,
+and with no Back-Cover Texts.  A copy of the license is included in
+<xref linkend="fdl" />. 
+</para>
+</legalnotice>
+</bookinfo>
+
+<!-- This could be used elsewhere
+<para>
+Programming is a tool.  It helps you get from one point to another.
+Some tools, like tax software, are very specific.  Others, like
+spreadsheets, are more general.  There are even many tools for
+creating tools.  However, never forget that programming is simply
+a tool for accomplishing a purpose.  Many, many people assume that
+whatever their problem is, a computer is the best answer.  Often
+it is, but sometimes just using the phone, or keeping a box of
+note cards in the back room will solve your problem more easily
+with less work.  As a programmer, you need to know the limits
+of the tool you use.
+</para>
+-->
+
+&introduction-chapter;
+&memory-chapter;
+&firstprogs-chapter;
+&functions-chapter;
+&files-chapter;
+&robust-chapter;
+&linking-chapter;
+&memoryint-chapter;
+&counting-chapter;
+&otherlang-chapter;
+&optimization-chapter;
+&wherenext-chapter;
+
+&gui-appendix;
+&syscall-appendix;
+&ascii-appendix;
+
+&fdl-appendix;
+
+&index;
+
+</book>

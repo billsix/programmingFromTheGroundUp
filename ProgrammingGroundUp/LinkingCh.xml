@@ -1,0 +1,520 @@
+<chapter id="linking">
+<title>Sharing Functions with Code Libraries</title>
+<!--
+
+Copyright 2002 Jonathan Bartlett
+
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.1 or any later version published by the Free Software
+Foundation; with no Invariant Sections, with no Front-Cover Texts,
+and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
+
+-->
+
+<remark>Somewhere in here we need to say why we need to
+put .type label,@function before function labels</remark>
+
+<para>
+By now you should realize that the computer has to do a lot
+of work even for simple tasks.  Because of that, you have to
+do a lot of work to write the code for a computer to even do
+simple tasks.  In addition, programming tasks are usually not
+very simple.  Therefore, we neeed a way to make this process
+easier on ourselves.  There are several ways to do this, including:
+
+<itemizedlist>
+<listitem><para>Write code in a high-level language instead of assembly language</para></listitem>
+<listitem><para>Have lots of pre-written code that you can cut and paste into your own programs</para></listitem>
+<listitem><para>Have a set of functions on the system that are shared among any program that wishes to use it</para></listitem>
+</itemizedlist>
+
+All three of these are usually used in any given project.  The first option
+will be explored further in <xref linkend="highlevellanguages" />.  The
+second option is useful but it suffers from some drawbacks, including:
+
+<itemizedlist>
+<listitem><para>Every program has to have the same code in it, thus wasting
+a lot of space</para></listitem>
+<listitem><para>If a bug is found in any of the copied code, it has to be fixed in every application program</para></listitem>
+</itemizedlist>
+
+Therefore, the second option is usually used sparingly.  The third option,
+however, is used quite frequently.  The third option includes having a
+central repository of shared code.  Then, instead of each program wasting
+space storing the same copies of functions, they can simply point to the
+shared file which contains the function they need.  If a bug is found in
+one of these functions, it only has to be fixed within the shared file, 
+and all applications which use it are automatically updated.  The 
+main drawback with this approach is that it creates some dependency problems,
+including:
+
+<itemizedlist>
+<listitem><para>If multiple applications are all using the shared file, how do we know when it is safe to delete the file?  For example, if 3 applications are sharing a file of functions and 2 of them are deleted, how does the system know that there still exists an application that uses that code?</para></listitem>
+<listitem><para>Some programs accidentally rely on bugs within shared functions.  Therefore, if upgrading the shared program fixes a bug that a program depended on, it could cause that application to cease functioning.</para></listitem>
+</itemizedlist>
+
+These problems are what led to what was known as "DLL hell" in windows.
+However, it is generally assumed that the advantages outweigh the disadvantages.
+</para>
+
+<para>
+In programming, these shared code files are referred to as 
+<emphasis>shared libraries</emphasis>, <emphasis>shared objects</emphasis>, 
+<emphasis>dynamic-link libraries</emphasis>, 
+<emphasis>DLLs</emphasis>, or <emphasis>.so files</emphasis>.  We will refer
+to them as <emphasis>shared libraries</emphasis>.
+</para>
+
+<sect1>
+<title>Using a Shared Library</title>
+
+<para>
+The program we will examine here is simple - it writes the
+characters <literal>hello world</literal> to the screen and
+exits.  The regular program, <filename>helloworld-nolib.s</filename>, 
+looks like this:
+
+<programlisting>
+&helloworld-nolib-s;
+</programlisting>
+
+That's not too long.  However, take a look at how short 
+<filename>helloworld-lib</filename> is which uses a library:
+
+<programlisting>
+&helloworld-lib-s;
+</programlisting>
+
+Pretty short, huh?  Now, the first program, you can build normally,
+by doing
+
+<programlisting>
+as helloworld-nolib.s -o helloworld-nolib.o
+ld helloworld-nolib.o -o helloworld-nolib
+</programlisting>
+
+However, in order to build the second program, you have to do
+
+<programlisting>
+as helloworld-lib.s -o helloworld-lib.o
+ld -dynamic-linker /lib/ld-linux.so.2 -o helloworld-lib helloworld-lib.o -lc
+</programlisting>
+
+<literal>-dynamic-linker /lib/ld-linux.so.2</literal> allows our
+program to be linked to libraries, and the <literal>-lc</literal>
+says to link to the <literal>c</literal> library, named 
+<filename>libc.so</filename> on UNIX systems.  
+This library contains many functions.  The two we are using are
+<literal>printf</literal>, which prints strings, and 
+<literal>exit</literal>, which exits the program.  
+<!--Notice that they
+are simply referred to by name.  When the program is run by the user,
+the dynamic linker loads the libraries listed in our link statement,
+and then finds all of the function and variable names that were named by
+our program but not found at link time, and matches them up with corresponding
+entries in the shared libraries it loads.  This sounds time-consuming.  It
+is to a small degree, but it only happens once, at program startup time. -->
+
+</para>
+
+</sect1>
+
+<sect1>
+<title>How Shared Libraries Work</title>
+
+<para>
+In our first programs, all of the code was contained within the
+source file.  Such programs are called
+<emphasis>statically-linked executables</emphasis>, because
+they contained all of the necessary functionality for the program
+that wasn't handled by the kernel.  In the <literal>toupper</literal>
+program, we used both our main program file and the file containing
+our memory allocation routines.  In this case, we still combined
+all of the code together using the linker, so it was still statically-linked.
+However, in the <literal>helloworld-lib</literal> program, we started
+using shared libraries.  When you use shared libraries, your program is
+then dynamically-linked, which means that not all of the code
+needed to run the program is actually contained within the program file
+itself.  When we put the <literal>-lc</literal> on the command to
+link the <literal>helloworld</literal> program, it told the linker
+to use the <literal>c</literal> library to look up any symbols that
+weren't already defined in <filename>helloworld.o</filename>.  However,
+it doesn't actually add any code to our program, it just notes in
+the program where to look.  
+When the <literal>helloworld</literal> program begins, the file
+<filename>/lib/ld-linux.so.2</filename> is loaded first.  This is
+the dynamic linker.  This looks at our <literal>helloworld</literal>
+program and sees that it needs the <literal>c</literal> library
+to run.  So, it searches for a file called <filename>libc.so</filename>,
+looks in it for all the needed symbols (<literal>printf</literal> 
+and <literal>exit</literal> in this
+case), and then loads the library into the program's virtual memory.
+It then replaces all instances of <literal>printf</literal> in the
+program with the actual location of <literal>printf</literal> in the
+library.  It's a lot of work for just using shared code, but
+it's usually worth it.
+</para>
+
+<para>
+Run the following command:
+
+<programlisting>
+ldd ./helloworld-nolib
+</programlisting>
+
+It should report back <literal>not a dynamic executable</literal>.  
+This is just like we said - <literal>helloworld-nolib</literal> is a 
+statically-linked executable.  However, try this:
+
+<programlisting>
+ldd ./helloworld-lib
+</programlisting>
+
+It will report back something like
+
+<programlisting>
+      libc.so.6 => /lib/libc.so.6 (0x4001d000)
+      /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x400000000)
+</programlisting>
+
+Note that the numbers in parenthesis may be different.  This
+means that the program <literal>helloworld</literal> is 
+linked to <filename>libc.so.6</filename> (the <literal>.6</literal> 
+is the version number), which is found at <filename>/lib/libc.so.6</filename>,
+and <filename>/lib/ld-linux.so.2</filename> is found at 
+<filename>/lib/ld-linux.so.2</filename>.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Finding Information about Libraries</title>
+
+<para>
+Okay, so now that you know about libraries, the question is, how
+do you find out what libraries you have on your system and what
+they do?  Well, let's skip that question for a minute and ask another
+question: How do programmers describe functions to each other in their 
+documentation?  Let's
+take a look at the function <literal>printf</literal>.  It's definition
+(usually referred to as a <emphasis>prototype</emphasis>) looks like this:
+
+<programlisting>
+int printf(char *string, ...);
+</programlisting>
+
+In Linux, functions are described in a language called <literal>C</literal>.
+In fact, almost all Linux programs are written in <literal>C</literal>.  
+This definition means that there is a function <literal>printf</literal>.
+The things inside the parenthesis are the functions parameters or arguments.
+The first argument here is <literal>char *string</literal>.  This means
+there is an argument named <literal>string</literal> (the name isn't
+important, except to use for talking about it), which has a 
+type <literal>char *</literal>.  <literal>char</literal>
+means that it wants a character.  The <literal>*</literal> after it means
+that it doesn't actually want a character as an argument, but instead
+it wants the address of a character or set of characters.  If you look
+back at our <literal>helloworld program</literal>, you will notice that
+the function call looked like this:
+
+<programlisting>
+	pushl $hello
+	call  printf
+</programlisting>
+
+So, we pushed the address of the <literal>hello</literal> string, rather
+than the actual characters.  The way that <literal>printf</literal> found
+the end of the string was because we ended it with a null character
+(<literal>\0</literal>).  Many functions work that way, although not all.
+The <literal>int</literal> before the function definition means that
+the function will return an <literal>int</literal> in <literal>%eax</literal>
+when it's through.  Now, after the <literal>char *string</literal>, we
+have a series of periods, <literal>...</literal>.  This means that it
+can take additional arguments after the string.  Most functions don't
+do this.  <literal>printf</literal> will look into the 
+<literal>string</literal> parameter, and everywhere it sees 
+<literal>%s</literal>, it will look for another string to insert, and
+everywhere it sees a <literal>%d</literal> it will look for a number
+to insert.  Let's look at an example.
+
+<programlisting>
+&printf-example-s;
+</programlisting>
+
+Type it in with the filename <filename>printf-example.s</filename>,
+and then do the commands
+
+<programlisting>
+as printf-example.s -o printf-example.o
+ld printf-example.o -o printf-example -lc -dynamic-linker /lib/ld-linux.so.2
+</programlisting>
+
+Then run the program with <command>./printf-example</command>, and it
+should say
+
+<programlisting>
+Hello! Jonathan is a person who loves the number 3
+</programlisting>
+
+It doesn't do anything useful, but that's okay, it's just an example.
+Now, if you look at the code, you'll see that we actually push
+the format string last, even though it's the first argument.  You
+always push the arguments in reverse order.  The reason is that 
+the known arguments will then be in a known position, and the
+extra arguments will just be further back.  If we pushed the known
+arguments first, you wouldn't be able to tell where they were on the
+stack.  You may be wondering
+how the <literal>printf</literal> function knows how many arguments
+there are.  Well, it searches through your string, and counts how 
+many <literal>%d</literal>s and <literal>%s</literal>s it finds,
+and then grabs that number of arguments from the stack.  If the
+argument matches a <literal>%d</literal>, it treats it as a number,
+and if it matches a <literal>%s</literal>, it treats it as a pointer
+to a null-terminated string.  <literal>printf</literal> has 
+many more features than this, but these are the most-used ones.
+So, as you can see, <literal>printf</literal> can make output a
+lot easier, but it also has a lot of overhead, because it has to
+count the number of characters in the string, look through it for all of the
+control characters it needs to replace, pull them off the stack,
+convert them to a suitable representation (numbers have to be converted
+to strings, etc), and stick them all together appropriately.  
+Personally, I'm glad they put that in a library, because it's way
+too much for me to write myself.
+</para>
+
+<para>
+We've seen how to use the <literal>C</literal> prototypes to
+call library functions.  To use them effectively, however, you need to know 
+several more of the possible data types for reading functions.  Here are
+the main ones:
+
+<variablelist>
+
+<varlistentry>
+<term>int</term>
+<listitem><para>
+An int is an integer number (4 bytes on x86 platforms)
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>long</term>
+<listitem><para>
+A long is also an integer number (4 bytes on an x86 platform)
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>long long</term>
+<listitem><para>
+A long long is an integer number that's larger than a long (8 bytes on an x86 platform)
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>short</term>
+<listitem><para>
+A short is an integer number that's two bytes long
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>char</term>
+<listitem><para>
+A char is a single-byte integer number.  This is mostly used for storing
+character data, since strings usually are represented with one
+byte per character.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>float</term>
+<listitem><para>
+A float is a floating-point number (4 bytes on an x86 platform).
+Note that floats represent approximate values, not exact values.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>double</term>
+<listitem><para>
+A double is a floating-point number that is larger than a float
+(8 bytes on an x86 platform).
+Like floats, it only represent approximate values.  Now, the
+biggest registers available are only four bytes long, so doubles
+take quite a bit of trickery to work with, which we won't go into here.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>unsigned</term>
+<listitem><para>
+unsigned is a modifier used for any of the above types which 
+keeps them from being able to hold negative numbers.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>*</term>
+<listitem><para>
+An asterisk (*) is used to denote that the data isn't an actual
+value, but instead is a pointer (address value) to a location holding the given
+value (4 bytes on an x86 platform).  
+So, let's say
+in address 6 you have the number 20 stored.  If the prototype
+said to pass an integer, you would do <literal>pushl $20</literal>.
+However, if the prototype said to pass a <literal>int *</literal>,
+you would do <literal>pushl $6</literal>.  This can also be used for 
+indicating a sequence of locations, starting with the one pointed to by the 
+given value.  
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>struct</term>
+<listitem><para>
+A struct is a set of data items that have been put together under
+a name.  For example you could declare:
+
+<programlisting>
+struct teststruct {
+	int a;
+	char *b;
+};
+</programlisting>
+
+and any time you ran into <literal>struct teststruct</literal> you
+would know that it is actually two variables right next to each other,
+the first being an integer, and the second a pointer to a character
+or group of characters.  You almost always never see structs passed
+as arguments to functions.  Instead, you usually see pointers to 
+structs passed as arguments.  This is because passing structs to functions
+is fairly complicated, since they can take up so many storage locations.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>typedefs</term>
+<listitem><para>
+typedefs basically allow you to rename types.  For example, I can
+do <literal>typedef int myowntype;</literal> in a C program, and 
+any type I typed <literal>myowntype</literal>, it would be just
+as if I typed <literal>int</literal>.  This can get kind of
+annoying, because you have to look up what all of the typedefs and
+structs in a function prototype really mean.  
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+The listed sizes are for intel-compatible (x86) machines.  Other machines will
+have different sizes.  Also, even when shorter-sized parameters are
+passed to functions, they are passed as longs.
+</para>
+
+<para>
+That's how to read function documentation.  Now, let's get back to the 
+question of how to find out about libraries.
+Most of your system libraries are in <filename>/usr/lib</filename>
+or <filename>/lib</filename>.  If you want to just see what symbols they
+define, just run <command>objdump -R FILENAME</command> where 
+<literal>FILENAME</literal> is the full path to the library.  The output
+of that isn't too helpful, though.  Usually, you have to know what 
+library you want at the beginning, and then just read the documentation.
+Most libraries have manual pages for their functions.  The web is the
+best source of documentation for libraries.  Most libraries from
+the GNU project have info pages on them.  For example, to see
+the info page for the C library, type in <command>info libc</command>
+at the command line.  You can navigate info pages using <literal>n</literal>
+for next page, <literal>p</literal> for previous page, <literal>u</literal>
+for up to top-level section, and hit return to follow links.  You can
+scroll an individual page using your arrow keys.  Note that in order
+to use any library you need to use <literal>malloc</literal> and
+<literal>free</literal> from the C library instead of 
+<literal>allocate</literal> and <literal>deallocate</literal>.  You can read
+their manual page to see how they work!
+</para>
+
+</sect1>
+
+<sect1>
+<title>Building a Shared Library</title>
+
+<para>
+Let's say that we wanted to dynamically link our programs to our memory
+allocator.  First, we assemble it just like normal
+
+<programlisting>
+as alloc.s -o alloc.o
+</programlisting>
+
+Then, we must link it as a shared library, like this:
+
+<programlisting>
+ld -shared alloc.o -o liballoc.so
+</programlisting>
+
+Notice how we added the letters <literal>lib</literal> in front of the
+library name, and a <literal>.so</literal> to the end.  This happens with
+all shared libraries.  Now, let's build our <literal>toupper</literal>
+program so that it is dynamically linked with this library instead of
+statically linked:
+
+<programlisting>
+as toupper.s -o toupper.o
+ld -L . -dynamic-linker /lib/ld-linux.so.2 -o toupper toupper.o -l alloc
+</programlisting>
+
+In the previous command, <literal>-L .</literal> told the linker to look
+for libraries in the current directory<footnote><para>Remember 
+<literal>.</literal> means current directory in Linux and 
+<literal>..</literal> means the directory above this one.</para></footnote> 
+(it usually only searches <filename>/lib</filename>, 
+<filename>/usr/lib</filename>, and a few others).  
+<literal>-dynamic-linker /lib/ld-linux.so.2</literal> specified the dynamic 
+linker, and <literal>-l alloc</literal> said to search for functions in
+the library named <filename>liballoc.so</filename>.  We have built the
+file <filename>toupper</filename>, but we can no longer run it.  If you
+type in <literal>./toupper</literal>, it will say 
+
+<programlisting>
+./toupper: error while loading shared libraries: liballoc.so: cannot open shared object file: No such file or directory
+</programlisting>
+
+This is because, by default, the dynamic linker only searches 
+<filename>/lib</filename>, <filename>/usr/lib</filename>, and whatever
+directories are listed in <filename>/etc/ld.so.conf</filename> for
+libraries.  In order to run the program, you either need to move the
+library to one of these directories, or execute the following command
+
+<programlisting>
+LD_LIBRARY_PATH=.
+export LD_LIBRARY_PATH
+</programlisting>
+
+If that gives you an error, do instead
+
+<programlisting>
+setenv LD_LIBRARY_PATH .
+</programlisting>
+
+Now, you can run <literal>toupper</literal> normally by typing
+<command>./toupper</command>.  Setting 
+<literal>LD_LIBRARY_PATH</literal> tells the linker to add whatever
+paths you give it to the library search path.  
+</para>
+
+</sect1>
+
+<sect1>
+<title>Advanced Dynamic Linking Techniques</title>
+
+<para>
+One advantage of dynamic linking is that, since the code doesn't look
+for it's functions until it's running, you can change those functions
+out manually.
+</para>
+
+</sect1>
+</chapter>
