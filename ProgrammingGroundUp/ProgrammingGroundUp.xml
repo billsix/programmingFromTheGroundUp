@@ -68,7 +68,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY alloc-s SYSTEM "alloc.s">
 <!ENTITY toupper-s SYSTEM "toupper3.s">
 <!ENTITY toupper-nomm-s SYSTEM "toupper2.s">
-<!ENTITY toupper-nomm-simplified-s SYSTEM "toupper.s">
+<!ENTITY toupper-nomm-simplified-s SYSTEM "toupper-nomm-simplified.s">
 <!ENTITY printf-example-s SYSTEM "printf-example.s">
 <!ENTITY helloworld-lib-s SYSTEM "helloworld-lib.s">
 <!ENTITY helloworld-nolib-s SYSTEM "helloworld-nolib.s">

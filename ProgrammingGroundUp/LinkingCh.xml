@@ -1,5 +1,7 @@
 <chapter id="linking">
 <title>Sharing Functions with Code Libraries</title>
+
+<remark>Need to also include scanf and other input mechanisms.</remark>
 <!--
 
 Copyright 2002 Jonathan Bartlett

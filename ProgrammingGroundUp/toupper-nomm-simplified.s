@@ -101,21 +101,22 @@ read_loop_begin:
 
 	###EXIT IF WE'VE REACHED THE END###
 	cmpl  $END_OF_FILE, %eax       #check for end of file marker
-	jle   end_loop                 #if found, go to the end
+	jle   end_loop                 #if found or on error, go to the end
 
 continue_read_loop:
 	###CONVERT THE BLOCK TO UPPER CASE###
 	pushl $BUFFER_DATA             #location of the buffer
 	pushl %eax                     #size of the buffer
 	call  convert_to_upper
-	popl  %eax
-	popl  %ebx
+	popl  %eax                     #get the size of the read back
+	addl  $4, %esp                 #move the stack the rest of the
+	                               #way back
 
 	###WRITE THE BLOCK OUT TO THE OUTPUT FILE###
+	movl  %eax, %edx               #size of the buffer
 	movl  $SYS_WRITE, %eax
 	movl  ST_FD_OUT(%ebp), %ebx    #file to use
 	movl  $BUFFER_DATA, %ecx       #location of the buffer
-	movl  %eax, %edx               #size of the buffer
 	int   $LINUX_SYSCALL
 	
 	###CONTINUE THE LOOP###
