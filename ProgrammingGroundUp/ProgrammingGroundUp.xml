@@ -150,9 +150,13 @@ the authors.
 </para>
 </legalnotice>
 
+<!-- NOTE - the following are not actual legal notices, they are just
+     presented this way so they would be displayed correctly by the
+     DocBook processor
+  -->
 <legalnotice>
 <para>
-This book can be purchased in paperback at http://www.bartlettpublishing.com/
+This book can be purchased at http://www.bartlettpublishing.com/
 </para>
 </legalnotice>
 
@@ -163,7 +167,9 @@ is therefore not suitable by itself to learn how to professionally
 program in x86 assembly language, as some details have been left out
 to make the learning process smoother.  The point of the book is to
 help the student understand how assembly language and computer programming
-works, not to be a definitive reference to the subject.
+works, not to be a reference to the subject.  Reference information about
+a particular processor can be obtained by contacting the company which
+makes it.
 </para>
 </legalnotice>
 
@@ -171,8 +177,8 @@ works, not to be a definitive reference to the subject.
 <para>
 To receive a copy of this book in electronic form, please visit the website
 http://savannah.nongnu.org/projects/pgubook/  This site contains the 
-instructions for downloading a transparent copy (as defined by the GNU FDL)
-of this book.
+instructions for downloading a transparent copy of this book 
+as defined by the GNU Free Documentation License.
 </para>
 </legalnotice>
 
