@@ -70,6 +70,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY Hello-World-perl SYSTEM "Hello-World.pl">
 <!ENTITY Hello-World-python SYSTEM "Hello-World.py">
 <!ENTITY write-records SYSTEM "write-records.s">
+<!ENTITY read-records SYSTEM "read-records.s">
 
 
 <!ENTITY percent "%">

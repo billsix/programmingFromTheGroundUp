@@ -129,7 +129,7 @@ read_record:
 
 	
 _start:
-	#Copy the stack pointer to $ebp
+	#Copy the stack pointer to %ebp
 	movl  %esp, %ebp
 	#Allocate space to hold the file descriptor
 	subl  $4, %esp

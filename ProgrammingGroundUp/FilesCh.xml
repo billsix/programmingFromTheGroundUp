@@ -729,6 +729,15 @@ will be fairly straightforward, too.  It will do the following:
 <listitem><para>Write the first name to <literal>STDOUT</literal></para></listitem>
 <listitem><para>Go back to read another record</para></listitem>
 </itemizedlist>
+
+<para>
+Here is the code:
+</para>
+
+<programlisting>
+&read-records;
+</programlisting>
+
 </sect1>
 
 <sect1>
