@@ -6,5 +6,554 @@
 <para>
 </para>
 
+<!--
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta http-equiv="content-type"
+ content="text/html; charset=ISO-8859-1">
+  <title>Fundamentals 2: Introduction to Scheme</title>
+</head>
+<body>
+<h1>Fundamentals 2: Introduction to Scheme</h1>
+<h2>Why Scheme?</h2>
+<p>You might find it odd that a class on a specific language would be
+considered a fundamental. &nbsp;However, knowledge of Scheme will be the
+basis for a great deal of what we do after this. &nbsp;The reasons for
+choosing Scheme are:<br>
+</p>
+<ul>
+  <li>Scheme has a simple syntax</li>
+  <li>The Scheme language has few operations</li>
+  <li>All of Scheme's operations are very powerful</li>
+  <li>Scheme is available in numerous implementations on all platforms</li>
+  <li>Scheme can be programmed interactively, which makes it ideal for
+teaching</li>
+  <li>Scheme encourages but does not require functional programming</li>
+  <li>Scheme's syntax makes it ideal for meta-programming<br>
+  </li>
+</ul>
+<p>Don't think that the point is to teach how to program in Scheme.
+&nbsp;The point is that Scheme will be our example language for concepts
+that can be used in any language. &nbsp;Also note that although Scheme
+encourages a functional style, you can easily program Scheme in an
+imperative style as well.<br>
+</p>
+<h2>Scheme Quick Tour</h2>
+<h3>Lists</h3>
+<p>At the core of the Scheme programming language are singly-linked
+lists. &nbsp;Understanding how Scheme handles lists are fundamental for
+understanding the Scheme language.<br>
+</p>
+<h4>List Concepts<br>
+</h4>
+<p>Scheme lists consist of two main concepts:<br>
+</p>
+<ul>
+  <li>Pairs</li>
+  <li>The NULL List</li>
+</ul>
+<p>A pair is a data structure consisting of two elements of any type.
+&nbsp;In Scheme, the first member of a pair is obtained by the function <span
+ style="font-family: monospace;">car</span> and the second member of a
+pair is obtained by the function <span style="font-family: monospace;">cdr</span>.
+&nbsp;These names look odd because they actually refer to the assembly
+language instructions for them on the original computer that Lisp was
+implemented on.<br>
+</p>
+<p>In Scheme, a list is either:<br>
+</p>
+<ul>
+  <li>The NULL List</li>
+  <li>A pair whose <span style="font-family: monospace;">cdr</span> is
+also a list</li>
+</ul>
+Therefore, the following is a list:<br>
+<br>
+<pre> PAIR<br>23  PAIR<br>   22  PAIR<br>      10  PAIR<br>          5  NULL<br><br></pre>
+<p>This list is the sequence of numbers 23, 22, 10, and 5. &nbsp;If you
+start from the null, you'll notice that by our definition, the NULL is
+itself a list, the pair containing the NULL is a list because it's
+second member (it's <span style="font-family: monospace;">cdr</span>)
+is a list, the pair containing that pair is also a list because it's
+second member is a list, and so forth.<br>
+</p>
+<p>The following is NOT a list:<br>
+</p>
+<pre>  PAIR<br> 23  PAIR<br>    22  PAIR<br>       10  PAIR<br>           5  3<br><br></pre>
+<p>It is not a list because in order to be a list it has to contain a
+list. &nbsp;So, essentially, in order for a sequence of pairs linked by
+their second member (<span style="font-family: monospace;">cdr</span>)
+to be classified as a list, the last <span
+ style="font-family: monospace;">cdr</span> has to contain the NULL list.<br>
+</p>
+<h4>Representing Pairs and Lists</h4>
+<p>Pairs are represented by the following notation:<br>
+</p>
+<pre>(car . cdr)<br></pre>
+<p>For example, to represent the non-list from the previous example,
+&nbsp;we would write:<br>
+</p>
+<pre>(23 . (22 . (10 . (5 . 3))))<br></pre>
+<p>Now, to represent a list, we have to have a way to represent the
+NULL list. &nbsp;Scheme provides a handy syntax for this:<br>
+</p>
+<pre>()<br></pre>
+<p>So, to represent the list that was presented previously, we would
+write:<br>
+</p>
+<pre>(23 . (22 . (10 . (5 . ()))))<br></pre>
+<p>However, this is quite cumbersome since the list is so prevalent in
+Scheme. &nbsp;Therefore, since the previous example is a true list it
+can be represented by the following shortened syntax:<br>
+</p>
+<pre>(23 22 10 5)<br></pre>
+<p>You should note that the <span style="font-family: monospace;">cdr</span>
+of any list is also itself a list, minus the first element, and the <span
+ style="font-family: monospace;">car</span> of a list is the first
+element, with the exception of the NULL list. &nbsp;Therefore, most
+Scheme implementations use <span style="font-family: monospace;">first</span>
+and <span style="font-family: monospace;">rest</span> as equivalents of <span
+ style="font-family: monospace;">car</span> and <span
+ style="font-family: monospace;">cdr</span>.<br>
+</p>
+<h4>Lists of Lists</h4>
+<p>Now, we've talked about the <span style="font-family: monospace;">cdr</span>
+field in lists, but we haven't said anything about what's allowed in the <span
+ style="font-family: monospace;">car</span> field. &nbsp;The answer:
+anything. &nbsp;Even lists. &nbsp;The car field can hold a scalar value
+of any type (string, symbol, integer, exact rational, inexact floating
+point - these are called atoms in scheme) or a list or a vector (we will
+deal with these at a later time). &nbsp;The following consists of a main
+list,<br>
+two sublists, and a pair that is not a part of a list:<br>
+</p>
+<pre>(1 2 (3 4 5 6) 3 (4 3 2 2) (3 . 5) 1 2)<br></pre>
+<p>One thing to note is that pairs which are not lists are also
+sometimes called improper lists.<br>
+</p>
+<h3><span style="font-family: monospace;"></span>Other Types of Data</h3>
+<h4>Strings</h4>
+<p>Strings are represented as double-quoted entities. &nbsp;<span
+ style="font-family: monospace;">"hello"</span> is a string.<br>
+</p>
+<h4>Numbers</h4>
+<p>Numbers are represented as themselves. &nbsp;Scheme has support for
+both exact and inexact numbers, but which are which depends on
+implementaiont. &nbsp;<span style="font-family: monospace;">2.34</span>,<span
+ style="font-family: monospace;">2</span>, and <span
+ style="font-family: monospace;">43</span> are all numbers.<br>
+</p>
+<h4>Symbols</h4>
+<p>In most programs, the symbols that represent variables are not
+themselves data. &nbsp;In Scheme they are. &nbsp;They are simply
+represented as unqoted strings that start with a letter (there are other
+characters they can start with, too, but you're safe if you stick to
+letters).<br>
+</p>
+<p><span style="font-family: monospace;">a</span> is a symbol. &nbsp;<span
+ style="font-family: monospace;">test</span> is a symbol. &nbsp;The
+following list has two numbers, two strings, and two symbols:<br>
+</p>
+<pre>(1 qwerty "hello" whatsup "i am a dog" 26)<br></pre>
+<h4>Vectors</h4>
+<p>Vectors are basically arrays - they have a fixed size, and you can
+randomly access the elements (as opposed to lists, where you have to
+iterate through each pair to find a given element). &nbsp;Their elements
+can have any type of elements. &nbsp;Vectors are represented just like
+lists, except they open with <span style="font-family: monospace;">#(</span>
+instead of <span style="font-family: monospace;">(</span>. &nbsp;<span
+ style="font-family: monospace;">#(1 2 "hello" googoo (2 3 w))</span> is
+a 5-element vector consisting of two numbers, a string, a symbol and a
+list containing two numbers and a symbol.<br>
+</p>
+<h4><span style="font-family: monospace;"></span>Environments</h4>
+<p>Environments are an important concept in Scheme, but there isn't a
+standard way to represent them. &nbsp; In fact, most programs never need
+to. &nbsp;An environment is simply a listing of symbols which currently
+hold values, and what values they hold. &nbsp;The top-level environment
+consists of your global variables. &nbsp;The environment that functions
+operate in consist of your current top-level environment plus the
+symbols that are used as function parameters.<br>
+</p>
+<h3>The Scheme Evaluator</h3>
+<p>At the heart of Scheme is it's evaluator. &nbsp;We mentioned
+previously that lists are an important concept in Scheme. &nbsp;In fact,
+the only difference in Scheme between a program and data, is that a
+program is simply a list that is being evaluated by the evaluator.<br>
+</p>
+<p>Scheme operates in what is called the "Read Eval Print Loop" or
+REPL. &nbsp;Basically, it does the following:<br>
+</p>
+<ul>
+  <li>Read in a list or atom of Scheme data</li>
+  <li>Evaluate it with the evaluator</li>
+  <li>Print the results</li>
+  <li>Repeat</li>
+</ul>
+<p>The evaluator is slightly more complicated, but not much more so:<br>
+</p>
+<ul>
+  <li>Evaluator is called with <span style="font-family: monospace;">arg</span>
+as the thing to be evaluated and <span style="font-family: monospace;">env</span>
+as the current environment (or list of symbols and their values)</li>
+  <li>If arg is a pair (a list or an improper list):</li>
+  <ul>
+    <li>If the first element of the list is a symbol corresponding to a
+special form in the current environment</li>
+    <ul>
+      <li>Pass control to the special form's evaluator with the
+remaining arguments unevaluated</li>
+      <li>Return the result<br>
+      </li>
+    </ul>
+    <li>Otherwise<br>
+    </li>
+    <ul>
+      <li>For each element in arg:</li>
+      <ul>
+        <li>Run the evaluator with element as the arg and env as the
+environment</li>
+      </ul>
+      <li>If the first element of the list is a function</li>
+      <ul>
+        <li>Create a new environment consisting of the top-level
+environment and the mapping of the function's argument list to the
+remaining values in the current list</li>
+        <li>If the function is a primitive function, pass control to
+the function with the new environment and return the result</li>
+        <li>If the function is a user-defined function, call the
+evaluator on the function's body (which is either an atom or a list)
+using env as the current environment and return the result.</li>
+      </ul>
+      <li>Otherwise it is an error</li>
+    </ul>
+  </ul>
+  <li>If the arg is a symbol:</li>
+  <ul>
+    <li>Lookup the symbol in the current environment.</li>
+    <li>If it exists, return the value in the environment</li>
+    <li>If it does not exist it is an error</li>
+  </ul>
+  <li>Otherwise return the expression unevaluated</li>
+</ul>
+The syntax of the language is just lists data. &nbsp;The difference
+between list data and lists that are programs is where the current
+execution point is in the program! &nbsp;Here are some short example
+programs that may help you understand how Scheme works:<br>
+<br>
+<pre>(+ 5 6)<br>;Returns 11.  + is a function name, just like any other function name.<br>;Many languages have a concept of operators, but in Scheme, everything is<br>;either a function, a special form, or data<br><br>(+ (* 5 6) (/ 6 2) 5)<br>;Returns 38.  Scheme doesn't need an order of evaluation because <br>;it is fully parenthesized.<br><br>(define a 2)<br>;define is a special form.  This sets the value of the symbol "a" to 2.<br>;When a is evaluated it will evaluate to 2.<br><br>(+ a 3)<br>;Returns 5<br><br>(list 1 2 3 4)<br>;Returns the list (1 2 3 4)<br><br>(apply + (list 1 2 3 4))<br>;Returns 10.  The first argument to apply is a function, and the second<br>;one is a list.  apply applies the function to the list as if you had <br>;called it as (+ 1 2 3 4).<br><br>(map exp (list 1 2 3 4))<br>;Returns (2.71828182845905 7.38905609893065 20.0855369231877 54.5981500331442)<br>;map applies the given function to each member of the given list and returns<br>;a new list of the answers<br><br></pre>
+<h3>Basic Functions</h3>
+<h4>eq? eqv? equal?</h4>
+<p>These functions test for equality. &nbsp;<span
+ style="font-family: monospace;">eq?</span> tests to see if two values
+are in the same location in memory, <span
+ style="font-family: monospace;">eqv?</span> tests to see if two values
+are equivalent, and <span style="font-family: monospace;">equal?</span>
+does a full-recursive test for equality. &nbsp;These are <span
+ style="font-style: italic;">predicates</span> - that is, they do a
+true-false test on their argument. &nbsp;Predicates usually end in a
+question mark in scheme.<br>
+</p>
+<h4>&gt; &lt; &nbsp;&lt;= &gt;=</h4>
+<p>These are the less-than and greater-than comparisons. &nbsp;Like
+everything else in scheme, they are functions and belong at the
+beginning of a list for a procedure call.<br>
+</p>
+<h4>+ - * / abs modulo ceiling expt</h4>
+<p>Standard mathematical functions.<br>
+</p>
+<h4>zero? positive? negative? odd? even?</h4>
+<p>Standard mathematical predicates.<br>
+</p>
+<h4>number-&gt;string string-&gt;number</h4>
+<p>Converts the given number to a string, or vice-versa. &nbsp;The
+arrow (-&gt;) usually is for indicating that a procedure is a conversion
+procedure <span style="font-family: monospace;">(number-&gt;string 3)</span>
+would result in "3".<br>
+</p>
+<h4>cons</h4>
+<p>Creates a new pair. &nbsp;<span style="font-family: monospace;">(cons
+4 5)</span> produces the pair <span style="font-family: monospace;">(4
+. 5)</span>. &nbsp;<span style="font-family: monospace;">(cons 3 '())</span>
+produces a full list with one element - <span
+ style="font-family: monospace;">(3)<br>
+</span></p>
+<h4><span style="font-family: monospace;"></span>list vector</h4>
+<p>Creates a list or vector of their arguments, accordingly.<br>
+</p>
+<h4>length</h4>
+<p>Returns the size of a list. &nbsp;<span
+ style="font-family: monospace;">(length (list 1 2 3 4))</span> returns
+4.<br>
+</p>
+<h4>vector-ref list-ref</h4>
+<p>Returns the element at the given position in the list or vector,
+starting with 0. <span style="font-family: monospace;">(list-ref (list
+3 4 5 6) 2)</span> yields 5.<br>
+</p>
+<h4>number? boolean? string? symbol? pair? list? null?</h4>
+<p>Type predicates. &nbsp;When applied to an argument, returns true or
+false (represented as #t or #f) depending on whether the object is of
+the given type.<br>
+</p>
+<p>You are encouraged to read the current Scheme standard - R5RS -
+especially sections 5 and 6. &nbsp;They are very easy to read, and will
+show you the Scheme functions available to all standard Scheme
+implementations. &nbsp;Additional functions are available from add-on
+libraries, SLIB being the most popular.<br>
+</p>
+<h3>Special Forms</h3>
+<p>As we have seen in the interpreter, the only a exceptions to the way
+functions are evaluated in Scheme are known as <span
+ style="font-style: italic;">special forms</span>. &nbsp;They are
+called special forms because they are not evaluated in the normal
+function-call form. &nbsp;Each special form has it's own evaluation
+method. &nbsp;We will only look at a few special forms:<br>
+</p>
+<ul>
+  <li>if</li>
+  <li>define</li>
+  <li>let</li>
+  <li>begin<br>
+  </li>
+  <li>set!<br>
+  </li>
+  <li>lambda</li>
+  <li>quote<br>
+  </li>
+</ul>
+<h4>if<br>
+</h4>
+<p>The "if" special form is for performing normal, if-like statements.
+&nbsp;It looks like this:<br>
+</p>
+<pre>(if CONDITION RESULT-FOR-TRUE RESULT-FOR-FALSE)<br><br></pre>
+<p>CONDITION is evaluated first, yielding a true/false value. &nbsp;If
+it evaluates to true, then RESULT-FOR-TRUE is evaluated, and it's result
+becomes the return value for the entire expression. &nbsp;Some examples:<br>
+</p>
+<pre>(if (&gt; 4 2) (+ 2 4) (- 6 3) )<br></pre>
+<p>This first checks to see if 4 is greater than 2. &nbsp;Since it is,
+it executes the (+ 2 4) expression, yielding 6<br>
+</p>
+<pre>(if (eqv? 2 3) 6 7)<br></pre>
+<p>eqv? is a function that returns true if it's arguments are
+numerically equal, false otherwise. &nbsp;Since 2 and 3 are not equal,
+it will return the RESULT-FOR-FALSE expression, which is 7.<br>
+</p>
+<pre>(if #t (* 3 4) 5)<br></pre>
+<p>#t is how you say "true" in scheme, and #f is how you say "false".
+&nbsp;Since CONDITION is true, it will evaluate (* 3 4), yielding 12.<br>
+</p>
+<h4>define<br>
+</h4>
+<p>The "define" special form is for defining functions and global
+variables.<br>
+</p>
+<pre>(define a 2)<br></pre>
+<p>This sets the global variable "a" to 2. &nbsp;Later if we say (+ a
+2) we will get 4, etc.<br>
+</p>
+<h4>let<br>
+</h4>
+<p>The "let" special form is for defining local variables for use
+within a block. &nbsp;It is used like this:<br>
+</p>
+<pre>(let<br>	(<br>		(a 2)<br>		(b (+ 3 2))<br>		(c (- 5 1))<br>	)<br>	(+ a b c)<br>)<br></pre>
+<p>This defines three local variables - "a", "b", and "c", and defines
+them. &nbsp;"a" is set to 2, "b" is set to 5, and "c" is set to 4.
+&nbsp;The expression<br>
+that follows is evaluated using those new bindings. &nbsp;There are
+some variations to "let". &nbsp;"let*", for example,&nbsp; allows you to
+use the previously defined variables during the variable definition
+phase.<br>
+</p>
+<h4>set!<br>
+</h4>
+<p>The "set!" special form is for setting the contents of a variable.
+&nbsp;This is an imperative special form (not used in functional
+programming). &nbsp; &nbsp;Functions and special forms in Scheme that
+manipulate state and thus are imperative-style are usually marked with
+an exclamation point.<br>
+</p>
+<pre>(set! a 1)<br><br></pre>
+<p>Sets the variable "a" to 1 (assuming "a" has already been defined by
+"define", "let", or "lambda" - otherwise it is an error).<br>
+</p>
+<h4>begin</h4>
+<p>beginallows you to group multiple expressions in a single block.
+&nbsp;This is useful in conjunction with forms like let, which only
+allow one expression to be evaluated. &nbsp;Here's an example:<br>
+</p>
+<pre>(let<br>     (<br>       (a 1)<br>       (b 2)<br>     )<br>     (begin<br>        (set! a (+ b a))<br>        (set! b (* b 4))<br>        b<br>     )<br>)<br></pre>
+<p>This nonsensical piece of code would return 8.<br>
+</p>
+<p> </p>
+<h4>lambda<br>
+</h4>
+<p>The "lambda" special form is for defining functions. &nbsp;Functions
+in scheme are actually considered values, and are assigned to variables<br>
+just like any other value, and can be passed around in function
+arguments. &nbsp;To create a function that squares it's argument, you say<br>
+</p>
+<pre>(lambda (a) (* a a))<br><br></pre>
+<p>This will return a procedure of one argument. &nbsp;To call it, you
+can say<br>
+</p>
+<pre>((lambda (a) (* a a)) 5)<br><br></pre>
+<p>This will return 25. &nbsp;It creates a procedure which squares it's
+argument, and then, since that procedure winds up in the "procedure"
+position, it is called with the argument of 5. &nbsp;Usually, however,
+functions are stored in variables. &nbsp;For example, you might do this:<br>
+</p>
+<pre>(define square (lambda (a) (* a a)))<br><br></pre>
+<p>Now, you can simply say "(square 5)" and it will return 25.
+&nbsp;Let's look at a more complex example using more of the concepts
+we've seen:<br>
+</p>
+<pre>(define return-greater (lambda (a b)<br>   (if (&gt; a b)<br>      a<br>      b<br>   )<br>))<br><br>(return-greater 5 6)<br>;returns 6<br></pre>
+<h4>quote</h4>
+The <span style="font-family: monospace;">quote</span> special form is
+for defining static lists and symbols within a program. &nbsp;For
+example, normally if you use <span style="font-family: monospace;">a</span>
+in your program, you get the value for <span
+ style="font-family: monospace;">a</span>, and it gives an error if <span
+ style="font-family: monospace;">a</span> is not defined. &nbsp;However,
+if you do "(quote a)" it will return the symbol a itself. &nbsp;The <span
+ style="font-family: monospace;">quote</span> special form prevents
+evaluation. &nbsp;<br>
+<br>
+For example, if you were to type <span style="font-family: monospace;">(define
+a (+ 1 2))</span>, &nbsp;then "a" would get the value 3. &nbsp;However,
+if you instead type <span style="font-family: monospace;">(define a
+(quote (+ 1 2)))</span>, then <span style="font-family: monospace;">a</span>
+would get a three-element list, consisting of the symbol <span
+ style="font-family: monospace;">+</span>, then number <span
+ style="font-family: monospace;">1</span>, and the number <span
+ style="font-family: monospace;">2</span>. &nbsp;The <span
+ style="font-family: monospace;">quote</span> special form actually has
+a special syntax to make it really easy to use. &nbsp;<span
+ style="font-family: monospace;">'(a b)</span> is the same as <span
+ style="font-family: monospace;">(quote (a b))</span>. &nbsp;Similarly,
+you can say <span style="font-family: monospace;">'a</span> to get the
+symbol <span style="font-family: monospace;">a</span> instead of <span
+ style="font-family: monospace;">a</span>'s value. &nbsp;To write the
+NULL list in scheme, you write <span style="font-family: monospace;">'()</span>.
+&nbsp;If you did not use the quote, it would attempt to do a function
+call and give an error because no function is present.<span
+ style="font-family: monospace;"></span><br>
+<h2>Scheme Program Examples</h2>
+<p>Scheme is often used more as a teaching language than a production
+language. &nbsp;However, there are currently several places where Scheme
+is used actively.<br>
+</p>
+<h3>GIMP Image Filters</h3>
+<p>GIMP is the GNU Image Manipulation Project - a program to enhance
+and manipulate raster images. &nbsp;GIMP uses Scheme as its main
+scripting language - allowing you to automate any image manipulation
+task you have. &nbsp;The script we show below is how we generate the
+headings for one of our projects. &nbsp;Scripts can get much more
+complicated than this, but this one shows what a Scheme program looks
+like without getting too far into learning the GIMP specifics. &nbsp;One
+thing to note is that GIMP procedures always return lists, so even if
+it only returns one result, we have to take the <span
+ style="font-family: monospace;">car</span> of it to get the actual
+value.</p>
+<pre>;Define the name for our procedure<br>(define nmm-create-title-text<br><br>;This creates a procedure with one <br>;parameter - the text we want to generate<br>(lambda (the-text)<br><br>	;Our let statement allows us to define global variables<br>        (let<br>                (<br>			;Some Scheme implementations allow you<br>			;to not specify an initial value, but some<br>			;of them force you to specify one.  GIMP<br>			;does NOT force you to specify a value,<br>			;so all of ours will start empty<br>                        (image)            ; This is the GIMP handle for the image<br>                        (text-layer)       ; This is the GIMP handle for the text layer<br>                        (text-height)      ; Height of the text<br>                        (text-width)       ; Width of the text<br>                        (invisible-layer)  ; Invisible layer on which text is placed<br>                        (tmp-layer)        ; Temporary layer<br>                )<br>		;Begin marks a sequence of statements - basically a block<br>		;The last return value is returned, the others are ignored<br>                (begin<br>			;Set the foreground (color of the text) to dark grey<br>                        (gimp-palette-set-foreground '(51 51 51))<br><br>			;Set the background to white<br>                        (gimp-palette-set-background '(255 255 255))<br><br>			;Create a new image (start with 256x256 RGB image, but size<br>			;doesn't matter as we will resize it later<br>                        (set! image (car (gimp-image-new 256 256 RGB)))<br><br>			Create a text layer with our requested text in the font we want<br>                        (set! text-layer (car <br>				(gimp-text image -1 0 0 the-text<br>					10 TRUE 18 PIXELS "*" "times" <br>					"bold" "r" "normal" "*" "*" "*")))<br><br>			;Have GIMP calculate the width and height of the text layer<br>                        (set! text-width (car (gimp-drawable-width text-layer)))<br>                        (set! text-height (car (gimp-drawable-height text-layer)))<br><br>			;Resize the image to our calculated widths<br>                        (gimp-image-resize image text-width text-height 0 0)<br><br>			;Flatten the image into one layer (transparency is <br>			;transformed to white and the text is anti-aliased on it)<br>			;This is done for the anti-aliasing<br>                        (set! text-layer (car (gimp-image-flatten image)))<br><br>			;This sequence of steps is used to restore transparency to<br>			;a flattened image.  It's a GIMP-ism, but don't worry too much<br>			;about it<br>                        (set! tmp-layer text-layer)<br>                        (set! text-layer (car (gimp-layer-copy text-layer 1)))<br>                        (gimp-image-add-layer image text-layer -1)<br>                        (gimp-image-remove-layer image tmp-layer)<br><br>			;Now we have a layer in "text-layer" that can handle transparency,<br>			;but has no transparent pixels.  We want to remove the pure-white<br>			;pixels (those not used in anti-aliasing) so the background will<br>			;show through.<br><br>			;Select all pure-white pixels in the text layer<br>                        (gimp-by-color-select text-layer '(255 255 255) 0 0 0 0 0 0)<br><br>			;Cut the selection to transparent<br>                        (gimp-edit-cut text-layer)<br><br>			;Use the GIMP plugin called "autocrop" to shrink the image<br>			;down to its minimum width and height<br>                        (plug-in-autocrop 0 image text-layer)<br><br>			;Convert the image to "indexed" mode so it can be saved as a GIF<br>                        (gimp-convert-indexed image 0 0 255 0 1 "")<br><br>			;Return the newly created image and layer<br>                        (list image text-layer)<br>                ) ;End of BEGIN<br>        ) ;End of LET<br>)) ;End of LAMBDA and DEFINE<br><br>;Register the function with the GIMP plugin library (called script-fu)<br>;and define a simplistic GUI for manipulating it<br>(script-fu-register<br>        "script-fu-nmm-create-title-text"<br>        _"&lt;Toolbox&gt;/Xtns/Script-Fu/NMW/NMM/Create Title Text"<br>        "Creates title text for New Media Mail"<br>        "Jonathan Bartlett"<br>        "Jonathan Bartlett"<br>        "2003"<br>        ""<br>        SF-STRING _"Text" "Hello World!"<br>)<br><br></pre>
+<p>The actual GIMP program is full of such scripts for doing everything
+from animating images to creating fade effects and other fun. &nbsp;You
+can get GIMP at http://www.gimp.org/. &nbsp;GIMP is available on Linux,
+MacOS X, and Windows.<br>
+</p>
+<p> </p>
+<h2>Resources</h2>
+<h3>Books</h3>
+<ul>
+  <li><span style="text-decoration: underline;">Structure and
+Interpretation of Computer Programs</span> by Abelson, Sussman, and
+Sussman - <a
+ href="http://www.amazon.com/exec/obidos/ASIN/0262011530/freeeducation-20">buy
+book</a>, <a href="http://mitpress.mit.edu/sicp/">book's website</a>, <a
+ href="http://mitpress.mit.edu/sicp/full-text/book/book.html">read
+online version</a></li>
+  <li><span style="text-decoration: underline;">How to Design Programs</span>
+by Felleisen, Findler, Flatt, and Krishnamurthi - <a
+ href="http://www.amazon.com/exec/obidos/ASIN/0262062186/freeeducation-20">buy
+book</a>, <a href="http://www.htdp.org/">book's website</a>, <a
+ href="http://www.htdp.org/2002-09-22/Book/">read online version</a></li>
+  <li><span style="text-decoration: underline;">Scheme and the Art of
+Programming</span> by Springer and Friedman - <a
+ href="http://www.amazon.com/exec/obidos/ASIN/0262192888/freeeducation-20">buy
+the book</a></li>
+  <li><span style="text-decoration: underline;">The Scheme Programming
+Language</span> by Dybvig - <a
+ href="http://www.amazon.com/exec/obidos/ASIN/0134546466/freeeducation-20">buy
+the book</a>, <a href="http://www.scheme.com/tspl2ed.html">book's
+website</a>, <a href="http://www.scheme.com/tspl2d/index.html">read
+online version</a></li>
+</ul>
+<h3>Papers</h3>
+<h4>Standards</h4>
+<p>The Scheme standards are known as the RnRS documents - standing for
+The Revised (revision number) Report on the Algorithmic Programming
+Language Scheme. &nbsp;R5RS is the most recent document. &nbsp;These
+documents are extremely short (35 pages for the main information),
+especially for a language standard.<br>
+</p>
+<ul>
+  <li>R<sup>5</sup>RS - <a href="../packages/Scheme/papers/r5rs.pdf">PDF</a></li>
+  <li>R<sup>4</sup>RS - <a href="../packages/Scheme/papers/r4rs.html">HTML</a></li>
+  <li>R<sup>3</sup>RS - <a href="../packages/Scheme/papers/r3rs.txt">Text</a></li>
+  <li>RRS - <a href="../packages/Scheme/papers/R0RS.pdf">PDF</a></li>
+</ul>
+<h4>The Lambda Papers</h4>
+<p>These are some of the original papers describing Scheme.<br>
+</p>
+<ul>
+  <li><br>
+  </li>
+</ul>
+<br>
+<h3>Software</h3>
+<h4>Scheme Implementations</h4>
+<ul>
+  <li>DrScheme (also known as PLT Scheme and MzScheme) - Windows
+Version, Windows Source Code, MacOS Version, MacOS X Version, MacOS
+Source Code, Linux Version, Solaris Version, UNIX Source Code</li>
+  <li>GUILE - <a
+ href="../packages/Scheme/implementations/guile-1.6.4.tar.gz.tgz">Source
+Code</a></li>
+</ul>
+<h4>Applications Using Scheme</h4>
+<ul>
+  <li>The GIMP - <a
+ href="../packages/Scheme/applications/gimp-1.2.4-20030213-setup.exe">Windows
+Version</a> (requires <a
+ href="../packages/Scheme/applications/gtk+-1.3.0-20030216-setup.exe">this</a>
+to be installed first. &nbsp;To get GIF compression, install <a
+ href="../packages/Scheme/applications/gimp-1.2.4-20020907-lzw-setup.exe">this</a>
+afterwards), <a href="../packages/Scheme/applications/WindowsSource">Windows
+Source Code</a>, <a
+ href="../packages/Scheme/applications/gimp-1.2.3.tar.bz2">UNIX Source
+Code</a>, <a
+ href="../packages/Scheme/applications/gimp-data-extras-1.2.0.tar.bz2">GIMP
+extra data files</a>, <a
+ href="../packages/Scheme/applications/GimpUsersManual_SecondEdition-PDF.pdf">GIMP
+Manual</a>, <a
+ href="../packages/Scheme/applications/GimpUsersManual_SecondEdition-PDF_Color.pdf">GIMP
+Manual Colorplates</a></li>
+</ul>
+<h4>Extra Scheme Libraries</h4>
+<ul>
+  <li>SLIB (compatible with most Scheme implementations) - <a
+ href="../packages/Scheme/libraries/slib2d5.zip">Source Code</a>, <a
+ href="../packages/Scheme/libraries/slib.pdf">Documentation</a><br>
+  </li>
+</ul>
+<br>
+</body>
+</html>
+-->
 
 </chapter>
