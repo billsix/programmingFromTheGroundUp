@@ -7,13 +7,12 @@
 #
 #Variables:
 #
-#	%ecx will hold the index of the buffer
+#	%ecx will hold the count of characters processed
 #       %eax will hold the current value
+#       %edi will hold the base (10)
 #
 	.equ ST_VALUE, 8
 	.equ ST_BUFFER, 12
-
-	.equ TMP_BUFFER, -15 #(-4 - 11)
 
 	.globl integer2number
 	.type integer2number, @function
@@ -25,7 +24,7 @@ integer2number:
 	#Allocate space for temporary buffer
 	subl  $11, %esp
 
-	#Initialize the counter
+	#Current character count
 	movl  $0, %ecx
 
 	#Move the value into position
@@ -58,47 +57,56 @@ conversion_loop:
 	#us the character for the number stored in %edx
 	addl  $'0', %edx
 
-	#Now we just need to move the character into place.
-	#Remember, characters are only one byte long, so we
-	#don't have to move the entire register, just it's
-	#low byte.  In fact, if we do move the whole register,
-	#it will cause problems because it will move extra
-	#zeroes which will be treated as nulls.
-	movb  %dl, TMP_BUFFER(%ebp,%ecx,1)
+	#Now we will take this value and push it on the stack.
+	#This way, when we are done, we can just pop off the
+	#characters one-by-one and they will be in the right
+	#order.  Note that we are pushing the whole register,
+	#but we only need the byte in %dl (the last byte of the
+	#%edx register) for the character.
+	pushl %edx
+
+	#Increment the digit count
+	incl  %ecx
 
 	#Check to see if %eax is zero yet, go to next step
 	#if so.
 	cmpl  $0, %eax
 	je    end_conversion_loop
 
-	#otherwise, go to the next digit and repeat
-	incl  %ecx
-
 	#%eax already has its new value.
 
 	jmp conversion_loop
 
 end_conversion_loop:
-	#The string is now in TMP_BUFFER, but backwards.
-	#So now, we just have to copy it into the buffer
-	#given by ST_BUFFER and reverse it while copying.
+	#The string is now on the stack, if we pop it
+	#off a character at a time we can copy it into
+	#the buffer and be done.
 
 	#Get the pointer to the buffer in %edx
 	movl  ST_BUFFER(%ebp), %edx
 	
 copy_reversing_loop:
-	movb  TMP_BUFFER(%ebp,%ecx,1), %al
+	#We pushed a whole register, but we only need the 
+	#last byte.  So we are going to pop off to the
+	#entire %eax register, but then only move the small
+	#part (%al) into the character string.
+	popl  %eax
 	movb  %al, (%edx)
-	cmpl  $0, %ecx
-	je    end_copy_reversing_loop
+
+	#Decreasing %ecx so we know when we are finished
 	decl  %ecx
+	#Increasing %edx so that it will be pointing to the next byte
 	incl  %edx
-	jne   copy_reversing_loop
-	
+
+	#Check to see if we are finished
+	cmpl  $0, %ecx
+	#If so, jump to the end of the function
+	je    end_copy_reversing_loop
+	#Otherwise, repeat the loop
+	jmp   copy_reversing_loop
 
 end_copy_reversing_loop:
 	#Done copying.  Now just return
-
 	movl  %ebp, %esp
 	popl  %ebp
 	ret

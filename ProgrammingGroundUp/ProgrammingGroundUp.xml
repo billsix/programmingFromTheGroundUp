@@ -52,6 +52,8 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY syscall-appendix SYSTEM "SyscallAp.xml">
 <!ENTITY c-translation-appendix SYSTEM "CTranslationAp.xml">
 <!ENTITY history-appendix SYSTEM "HistoryAp.xml">
+<!ENTITY instructions-appendix SYSTEM "InstructionsAp.xml">
+<!ENTITY gdb-appendix SYSTEM "GDBAp.xml">
 
 <!ENTITY exit-s SYSTEM "exit.s">
 <!ENTITY maximum-s SYSTEM "maximum.s">
@@ -94,6 +96,8 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY ebp "<literal>&percent;ebp</literal>">
 <!ENTITY eip "<literal>&percent;eip</literal>">
 <!ENTITY cl "<literal>&percent;cl</literal>">
+<!ENTITY al "<literal>&percent;al</literal>">
+<!ENTITY dl "<literal>&percent;dl</literal>">
 
 <!ENTITY eax-indexed "<literal>&percent;eax</literal><indexterm><primary><literal>&percent;eax</literal></primary></indexterm>">
 <!ENTITY ebx-indexed "<literal>&percent;ebx</literal><indexterm><primary></primary></indexterm>">

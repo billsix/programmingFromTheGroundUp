@@ -595,8 +595,9 @@ to make a point that the number you are using is 32 bits.
 </para>
 
 <para>
-One common example of using flags in programming is when issuing
-system calls.  Many system calls have numerous options that are all
+When a number represents a set of options for a function or system call,
+the individual true/false elements are called <emphasis>flags</emphasis>.
+Many system calls have numerous options that are all
 set in the same register using a mechanism like we've described.
 The <literal>open</literal> system call, for example, has as its
 second parameter a list of flags to tell the operating system how
@@ -920,11 +921,14 @@ look like this:
 <para>
 The only problem is that since this process deals with the one's place first,
 it will leave the number backwards.  Therefore, we will have to finish by 
-reversing the characters.
+reversing the characters.  We will do this by storing the characters on
+the stack as we compute them.  This way, as we pop them back off to fill
+in the buffer, it will be in the reverse order that we pushed them on.
 </para>
 
 <para>
-The code for the function is as follows:
+The code for the function should be put in a file called 
+<filename>integer-to-number.s</filename> and should be entered as follows:
 </para>
 
 <programlisting>
@@ -932,24 +936,36 @@ The code for the function is as follows:
 </programlisting>
 
 <para>
-I've thrown quite a bit at you this chapter.  I apologize, but for
-modern programming it's quite important to learn how these things
-work.  Donald Knuth actually envisioned a processor that didn't 
-force the programmer to know any particular numbering system, but
-his dream was never practically realized.  Anyway, the rest of
-the chapter will simply be example programs illustrating what
-we've learned so far.
+To show this used in a full program, use the following code, along
+with the <literal>count_chars</literal> and <literal>write_newline</literal>
+functions written about in previous chapters.  The code should be
+in a file called <filename>conversion-program.s</filename>.
 </para>
-<!-- FIXME - example programs go here -->
 
-<!-- 
-Use of flags and masks.  
+<programlisting>
+&conversion-program;
+</programlisting>
 
-Program - convert binary to decimal
-        - fast multiply
+<para>
+To build the program, issue the following commands:
+</para>
 
--->
+<programlisting>
+as integer-to-number.s -o integer-to-number.o
+as count-chars.s -o count-chars.o
+as write-newline.s -o write-newline.o
+as conversion-program.s -o conversion-program.o
+ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o conversion-program
+</programlisting>
+
+<para>
+To run just type <literal>./conversion-program</literal> and the output
+should say <literal>824</literal>.
+</para>
+
 </sect1>
+
+<!-- FIXME - need a talk on floating point -->
 
 
 <sect1>
@@ -959,7 +975,14 @@ Program - convert binary to decimal
 <title>Know the Concepts</title>
 
 <itemizedlist>
-<listitem><para></para></listitem>
+<listitem><para>Convert the decimal number 5,294 to binary.</para></listitem>
+<listitem><para>Add the binary numbers 10111001 and 101011.</para></listitem>
+<listitem><para>Multiply the binary numbers 1100 1010110.</para></listitem>
+<listitem><para>Convert the results of the previous two problems into decimal.</para></listitem>
+<listitem><para>Describe how <literal>and</literal>, <literal>or</literal>, <literal>not</literal>, and <literal>xor</literal> work.</para></listitem>
+<listitem><para>What is masking for?</para></listitem>
+<listitem><para>What number would you use for the flags of the <literal>open</literal> system call if you wanted to open the file for writing, and create the file if it doesn't exist?</para></listitem>
+<listitem><para>How would you represent -55 in a thirty-two bit register?</para></listitem>
 </itemizedlist>
 
 </sect2>
@@ -968,7 +991,10 @@ Program - convert binary to decimal
 <title>Use the Concepts</title>
 
 <itemizedlist>
-<listitem><para></para></listitem>
+<listitem><para>Go back to previous programs that returned numeric results through the exit status code, and rewrite them to print out the results instead.</para></listitem>
+<listitem><para>Modify the <literal>integer2number</literal> code to return results in octal rather than decimal.</para></listitem>
+<listitem><para>Modify the <literal>integer2number</literal> code so that the conversion base is a parameter rather than hardcoded.</para></listitem>
+<listitem><para>Write a function called <literal>is_negative</literal> that takes a single integer as a parameter and returns 1 if the parameter is negative, and 0 if the parameter is positive.</para></listitem>
 </itemizedlist>
 
 </sect2>
@@ -977,7 +1003,8 @@ Program - convert binary to decimal
 <title>Going Further</title>
 
 <itemizedlist>
-<listitem><para></para></listitem>
+<listitem><para>Modify the <literal>integer2number</literal> code so that the conversion base can be greater than 10 (this requires you to use letters for numbers past 9).</para></listitem>
+<listitem><para>Create a function that does the reverse of <literal>integer2number</literal> called <literal>number2integer</literal> which takes a character string and converts it to a register-sized integer.  Test it by running that integer back through the <literal>integer2number</literal> function and displaying the results.</para></listitem>
 </itemizedlist>
 
 </sect2>
