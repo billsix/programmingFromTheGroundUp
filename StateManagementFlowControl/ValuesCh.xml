@@ -199,6 +199,7 @@ The only default lifecycle functions we will have are reference and
 dereference, which are used to keep track of when we can destroy
 a value.  Dereference also takes care of the actual value destruction
 if it is necessary.
+</para>
 
 <programlisting>
 <?lp-section-id?>CVI Default Value Lifecycle Functions<?lp-section-id-end?> =
@@ -214,23 +215,103 @@ reference:
 	#Load the value into %eax
 	movl  ST_VALUE(%ebp), %eax
 
-	<?lp-ref?>{CVI Check for Special Cases}<?lp-ref-end?>
+	<?lp-ref?>{CVI Check for Reference Special Cases}<?lp-ref-end?>
 
 	incl  REFCOUNT_POSITION(%eax)
 
 	#This label is used for the special cases to jump to
 	#if they need to to leave the function
 reference_end:
-	<?lp-ref?>{Standard Function End<?lp-ref-end?>
+	<?lp-ref?>{Standard Function End}<?lp-ref-end?>
 
-<?lp-section-id?>CVI Check for Special Cases<?lp-section-id-end?>
+<?lp-section-id?>CVI Check for Reference Special Cases<?lp-section-id-end?>
 <?lp-code?>
 	#Null lists aren't referenced
 	cmpl  $NULL_LIST, %eax
 	jz    reference_end
 <?lp-code-end?>
+
+<?lp-section-id?>CVI Default Value Lifecycle Functions<?lp-section-id-end?> =
+<?lp-code?>
+	.globl dereference
+	.type  dereference,@function
+dereference:
+	<?lp-ref?>{Standard Function Begin}<?lp-ref-end?>
+	movl  ST_VALUE(%ebp), %eax
+
+	<?lp-ref?>{CVI Check for Dereference Special Cases}<?lp-ref-end?>
+
+	decl  REFCOUNT_POSITION(%eax)
+
+	jnz   dereference_end
+
+	#Refcount is 0, must call destroying function if it exists,
+	#and then deallocate the memory
+	movl  DESTROY_FUNCTION_POSITION(%eax), %ebx
+
+	pushl %eax
+
+	cmpl  $0, %ebx
+	je    deallocate_memory
+
+	call  *%ebx
+
+deallocate_memory:
+	call  deallocate
+	
+dereference_end:
+	<?lp-ref?>{Standard Function End}<?lp-ref-end?>
+<?lp-code-end?>
 </programlisting>
 
+<para>
+The asterisk before &ebx; which has the cleanup function means to
+call to the address listed in the register.
+</para>
+
+<para>
+Now we have the following parts of the lifecycle defined:
+
+<itemizedlist>
+<listitem><para>Memory allocation</para></listitem>
+<listitem><para>Add reference</para></listitem>
+<listitem><para>Remove reference</para></listitem>
+<listitem><para>Automatic deallocation</para></listitem>
+</itemizedlist>
+
+Our system also allows values to be defined with a type specified by a
+number, so that programs can determine dynamically what type of value
+is stored at each memory location.  Let's contrast this with traditional
+assembly language programming.  In traditional assembly language programming,
+you had to keep track of what type of value is in each memory location.
+Assembly language allows you to treat any value as any type.  Computers do
+not by default store such information - everything is stored as a bit string
+no matter what it is used for.  Therefore, our system allows us to think
+of values in terms that are more easily accessible to us.  Also, the memory
+allocator allows us to not have to worry about explicitly defining storage
+for each location - we have our memory management functions 
+<emphasis>allocate</emphasis> and <emphasis>deallocate</emphasis> doing that
+for us.  In fact, with our reference counting, we never even need to
+explicitly deallocate our memory - it will do that automatically when
+there are no more references to it.  However, there are two issues that
+arise with reference counting:
+
+<itemizedlist>
+<listitem><para>It takes time because you have to continually reference and dereference your values</para></listitem>
+<listitem><para>You must have a well-defined system for when you reference and dereference values.  Otherwise, you will accidentally either leave dead objects hanging around or free objects that are in use.</para></listitem>
+</itemizedlist>
+
+Our basic protocol for referencing and dereferencing values will be like this:
+
+<itemizedlist>
+<listitem><para>As soon as an object is directly visible to a section of code, it gets referenced.</para></listitem>
+<listitem><para>Just before an object is no longer directly visible to a section of code, it gets dereferenced.</para></listitem>
+<listitem><para>When passing parameters to a function, the code calling the function must add the reference count.</para></listitem>
+<listitem><para>When passing parameters to a function, the code calling the function must also decrease the reference count.</para></listitem>
+<listitem><para>The return value of a function should be referenced by the function itself</para></listitem>
+</itemizedlist>
+
+The purpose of these rules is to make absolutely certain that an object always has a reference count, and that the same code that adds the reference count removes it.  We also refer to "directly visible" objects.  What this means is that if we have an array of elements, when we can see the array, we add a reference count to the array as a whole.  If we access an individual element of the array, we add a reference count to that element only while we can see it individually.  When we stop looking at that element, we remove the reference count.
 </para>
 
 </sect1>
@@ -239,8 +320,80 @@ reference_end:
 <title>Equivalency</title>
 
 <para>
-<remark>Value vs. Reference equivalency</remark>
+Before we implement some example values, one more topic we must cover is
+that of equivalency.  Being able to determine if two values are equivalent
+is of great importance.  However, there are many ways to determine equivalency.
+We will discuss three of them.
 </para>
+
+<variablelist>
+
+<varlistentry>
+<term>Reference Equivalency</term>
+<listitem><para>
+With reference equivalency, two values are the same if and only if they
+share the same memory location.  With reference equivalency, the numbers
+2 and 2 are not equivalent if they are stored in two different places.
+Reference equivalency work well because of its speed - all you have to
+do is compare pointers and you can be able to tell if your values are
+equal.  This is especially useful for complex structures.  
+</para>
+<para>
+Another use of reference equivalency is to find out if two complex
+structures are really the same structure.  Imagine that you are holding
+on to a can of cola.  Your friend is also holding an identical can of cola,
+both unopened.  You would use reference equivalency to see if you are each
+holding on to identical but separate cans, or both holding on to the
+same can.  If you are holding on to the same can, your cans are reference
+equivalent.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Value Equivalency</term>
+<listitem><para>
+Value equivalency simply asks if two pieces of data are equivalent.  With
+value equivalency, 2 and 2 are always equivalent, even if they are stored
+in different locations.  Two lists are equivalent only if they are both
+the same length, and each location of the first list is value equivalent
+with the corresponding location of the second list.  Complex structures
+are compared element by element for value equivalency.  Note that all
+reference equivalent values are also value equivalent.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Hybrid Equivalency</term>
+<listitem><para>
+Hybrid equivalency uses value equivalency for non-mutable values, and
+reference equivalency for mutable values.  For example, the number 2
+is always the number 2, therefore, for numbers, 2 is always hybrid
+equivalent with 2.  So what counts as a mutable value?  A mutable value
+is one that can change over time.  For example, elements of a list can
+change, so a list is a mutable value.  A person's personnel record can change 
+over time, so it is also considered mutable.  Mutable values are only
+hybrid equivalent if they are also reference equivalent.  Determining
+exactly what are and aren't mutable values is very implementation dependent.
+Because of this ambiguity, hybrid equivalency is not used often in this
+book.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>
+
+In the system we are developing, no two values are equivalent if they
+are of a different type.  However, this need not be so.  Some values
+are of different types, but represent the same value in another type.
+Remember that types are simply sets of values, and a value can exist
+in more than one set.  Implementing this in value equivalency is 
+difficult, however, because different types often hold different value
+representations in memory, even if they are for the same value.  Therefore,
+we will assume in all cases that values of different types are different
+values.
+</para>
+
 </sect1>
 
 </chapter>
