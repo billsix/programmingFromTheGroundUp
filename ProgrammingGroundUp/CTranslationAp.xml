@@ -1,0 +1,253 @@
+<appendix id="ctranslationap">
+<title>C Idioms in Assembly Language</title>
+
+<!--
+
+Copyright 2002 Jonathan Bartlett
+
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.1 or any later version published by the Free Software
+Foundation; with no Invariant Sections, with no Front-Cover Texts,
+and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
+
+-->
+
+<para>
+This appendix is for C programmers learning assembly language.  It is meant to
+give a general idea about how C constructs can be implemented in assembly 
+language.
+</para>
+
+<simplesect>
+<title>If Statement</title>
+
+<para>
+In C, an if statement consists of three parts - the condition, the true
+branch, and the false branch.  However, since assembly language is not
+a block structured language, you have to work a little to implement
+the block-like nature of C.  For example, look at the following C code:
+</para>
+
+<programlisting>
+if(a == b)
+{
+	/* True Branch Code Here */
+}
+else
+{
+	/* False Branch Code Here */
+}
+
+/* At This Point, Reconverge */
+</programlisting>
+
+<para>
+In assembly language, this can be rendered as:
+</para>
+
+<programlisting>
+	;Move a and b into registers for comparison
+	movl a, %eax
+	movl b, %ebx
+
+	;Compare
+	cmpl %eax, %ebx
+
+	;If True, go to true branch
+	je true_branch
+
+false_branch:  ;This label is unnecessary, 
+               ;only here for documentation
+	;False Branch Code Here
+
+	;Jump to recovergence point
+	jmp reconverge
+
+
+true_branch:
+	;True Branch Code Here
+
+
+reconverge:
+	;Both branches recoverge to this point
+</programlisting>
+
+<para>
+As you can see, since assembly language is linear, the blocks have to
+jump around each other.  Recovergence is handled by the programmer, not
+the system.
+</para>
+
+<para>
+A case statement is written just like a sequence of if statements.
+</para>
+
+</simplesect>
+
+<simplesect>
+<title>Function Call</title>
+
+<para>
+A function call in assembly language simply requires pushing the arguments
+to the function onto the stack in <emphasis>reverse</emphasis> order, and
+issuing a <literal>call</literal> instruction.  After calling, the arguments
+are then popped back off of the stack.  For example, consider
+the C code:
+</para>
+
+<programlisting>
+	printf("The number is %d", 88);
+</programlisting>
+
+<para>
+In assembly language, this would be rendered as:
+</para>
+
+<programlisting>
+	.section .data
+	text_string:
+	.ascii "The number is %d\0"
+
+	.section .text
+	pushl $88
+	pushl $text_string
+	call  printf
+	popl  %eax
+	popl  %eax      ;%eax is just a dummy variable,
+	                ;nothing is actually being done 
+	                ;with the value.  You can also 
+	                ;directly re-adjust %esp to the
+	                ;proper location.
+</programlisting>
+
+</simplesect>
+
+<simplesect>
+<title>Variables and Assignment</title>
+
+<para> 
+Global and static variables are declared using
+<literal>.data</literal> or <literal>.bss</literal> entries.  Local
+variables are declared by reserving space on the stack at the
+beginning of the function.  This space is given back at the end of the
+function.  
+</para>
+
+<para>
+Interestingly, global variables are accessed differently than local variables
+in assembly language.  Global variables are accessed using direct addressing,
+while local variables are accessed using base-pointer addressing.  For
+example, consider the following C code:
+</para>
+
+<programlisting>
+int my_global_var;
+
+int foo()
+{
+	int my_local_var;
+
+	my_local_var = 1;
+	my_global_var = 2;
+
+	return 0;
+}
+</programlisting>
+
+<para>
+This would be rendered in assembly language as:
+</para>
+
+<programlisting>
+	.section .data
+	.lcomm my_global_var, 4
+
+	.type foo, @function
+foo:
+	pushl %ebp            ;Save old base pointer
+	movl  %esp, $ebp      ;make stack pointer base pointer
+	subl  $4, %esp        ;Make room for my_local_var
+	.equ my_local_var, -4 ;Can now use my_local_var to 
+	                      ;find the local variable
+
+
+	movl  $1, my_local_var(%ebp)
+	movl  $2, my_global_var
+
+	movl  %ebp, %esp      ;Clean up function and return
+	popl  %ebp
+	ret
+</programlisting>
+
+<para>
+What may not be obvious is that accessing the global variable takes fewer
+machine cycles than accessing the global variable.  However, that may not
+matter because the stack is more likely to be in physical RAM (instead of swap)
+than the global variable is.
+</para>
+
+<para>
+Also note that after loading a value into a register, that value will likely
+stay in that register until that register is needed for something else.  It
+may also move registers.  For example, if you have a variable 
+<literal>foo</literal>, it may start on the stack, but the compiler will
+eventually move it into registers for processing.  If there aren't many
+variables in use, the value may simply stay in the register until it is
+needed again.  Otherwise, when that register is needed for something else,
+the value, if it's changed, is copied back to its corresponding memory 
+location.  In C, you can use the keyword <literal>volatile</literal> to
+make sure all modifications and references to the variable are done to
+the memory location itself, rather than a register copy of it, in case
+other processes, threads, or hardware may be modifying the value while
+your function is running.
+</para>
+
+</simplesect>
+
+<simplesect>
+<title>Loops</title>
+
+<para>
+Loops work a lot like if statements in assembly language - the blocks are
+formed by jumping around.  In C, a while loop consists of a loop body, and a
+test to determine whether or not it is time to exit the loop. A for loop
+is exactly the same, with optional initialization and counter-increment 
+sections.  These can simply be moved around to make a while loop.
+</para>
+
+<para>
+In C, a while loop looks like this:
+</para>
+
+<programlisting>
+	while(a &lt; b)
+	{
+		/* Do stuff here */
+	}
+
+	/* Finished Looping */
+</programlisting>
+
+<para>
+This can be rendered in assembly language like this:
+</para>
+
+<programlisting>
+loop_begin:
+	movl  a, %eax
+	movl  b, %ebx
+	cmpl  %eax, %ebx
+	jge   loop_end
+
+loop_body:
+	;Do stuff here
+	
+	jmp loop_begin
+
+loop_end:
+	;Finished looping
+</programlisting>
+
+<para>
+The x86 assembly language has some direct support for looping as well.
