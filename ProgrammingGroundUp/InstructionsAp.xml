@@ -30,6 +30,10 @@ loading the contents of the memory location, loads the computed address.
 For example, <literal>leal 5(%ebp,%ecx,1), %eax</literal> loads the address
 computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in &eax;
 </entry></row>
+<row><entry>xchgl</entry><entry>R/M, R/M</entry><entry></entry></row>
+<row><entry namest="instruction" nameend="flags">
+Exchange the given registers or register w/ memory location.
+</entry></row>
 </tbody>
 </tgroup>
 </table>
@@ -40,23 +44,159 @@ computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in &eax;
 
 <sect1>
 <title>Integer Instructions</title>
-
-<para>
-</para>
+<table>
+<title>Integer Instructions</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="instruction" />
+<colspec colname="operands" />
+<colspec colname="flags" />
+<thead>
+<row>
+<entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
+</thead>
+<tbody>
+<row><entry>adcl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Add with carry.  Adds the first argument to the second, and, if there is an overflow, sets all listed flags to true.
+</entry></row>
+<row><entry>addl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Signed integer addition.
+</entry></row>
+<row><entry>cmpl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Compares two integers.
+</entry></row>
+<row><entry>decl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Decrements the register or memory location.  Use <literal>decb</literal>
+to decrement a byte instead.
+</entry></row>
+<row><entry>divl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Performs unsigned division.
+</entry></row>
+<row><entry>idivl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Performs signed division.
+</entry></row>
+<row><entry>imull</entry><entry>R, M/I</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Performs signed multiplication.
+</entry></row>
+<row><entry>incl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Increments the given register or memory location.
+</entry></row>
+<row><entry>mull</entry><entry>R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Perform unsigned multiplication.
+</entry></row>
+<row><entry>negl</entry><entry>R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Negate the given register or memory location.
+</entry></row>
+<row><entry>sbbl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Performs subtraction with borrowing.
+</entry></row>
+<row><entry>subl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Perform subtraction.
+</entry></row>
+</tbody>
+</tgroup>
+</table>
 
 </sect1>
 
 <sect1>
 <title>Logic Instructions</title>
 
-<para>
-</para>
+<table>
+<title>Integer Instructions</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="instruction" />
+<colspec colname="operands" />
+<colspec colname="flags" />
+<thead>
+<row>
+<entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
+</thead>
+<tbody>
+<row><entry>andl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+And's the contents of the two operands together, and stores the result in the second operand.  Sets the overflow and carry flags to false.
+</entry></row>
+<row><entry>notl</entry><entry>R/M</entry><entry></entry></row>
+<row><entry namest="instruction" nameend="flags">
+Performs a logical not on each bit in the operand.  Also known as a 
+one's complement.
+</entry></row>
+<row><entry>orl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Performs a logical or between the two operands, and stores the result in the second operand.  Sets the overflow and carry flags to zero.
+</entry></row>
+<row><entry>rcll</entry><entry>R/M, I/&cl;</entry><entry>O/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Rotates the given location left the number of times in the second operand, which is either an immediate-mode value or the register &cl;.  Sets the overflow
+and carry flags.
+</entry></row>
+<row><entry>rcrl</entry><entry>R/M, I/&cl;</entry><entry>O/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Same as above, but rotates right.
+</entry></row>
+<row><entry>roll</entry><entry>R/M, I/&cl;</entry><entry>O/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Rotate left.
+</entry></row>
+<row><entry>rorl</entry><entry>R/M, I/&cl;</entry><entry>O/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Rotate right.
+</entry></row>
+<row><entry>sall</entry><entry>R/M, I/&cl;</entry><entry>C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Arithmetic shift left.
+</entry></row>
+<row><entry>sarl</entry><entry>R/M, I/&cl;</entry><entry>C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Arithmetic shift right.
+</entry></row>
+<row><entry>shll</entry><entry>R/M, I/&cl;</entry><entry>C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Logical shift left.
+</entry></row>
+<row><entry>shrl</entry><entry>R/M, I/&cl;</entry><entry>C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Logical shift right.
+</entry></row>
+<row><entry>xorl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Does an exclusive or on the two operands, and stores the result in the second operand.  Sets the overflow and carry flags to false.
+</entry></row>
+</tbody>
+</tgroup>
+</table>
 
 </sect1>
 
 <sect1>
 <title>Branching Instructions</title>
 
+<table>
+<title>Integer Instructions</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="instruction" />
+<colspec colname="operands" />
+<colspec colname="flags" />
+<thead>
+<row>
+<entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
+</thead>
+<tbody>
+</tbody>
+</tgroup>
+</table>
 <para>
 </para>
 
@@ -68,19 +208,101 @@ computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in &eax;
 <para>
 </para>
 
+<table>
+<title>Integer Instructions</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="instruction" />
+<colspec colname="operands" />
+<colspec colname="flags" />
+<thead>
+<row>
+<entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
+</thead>
+<tbody>
+</tbody>
+</tgroup>
+</table>
 </sect1>
 
+<!--
 <sect1>
 <title>Floating-Point Instructions</title>
 
+<table>
+<title>Integer Instructions</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="instruction" />
+<colspec colname="operands" />
+<colspec colname="flags" />
+<thead>
+<row>
+<entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
+</thead>
+<tbody>
+</tbody>
+</tgroup>
+</table>
 <para>
 </para>
 
 </sect1>
+-->
+
 
 <sect1>
 <title>Assembler Directives</title>
 
+<table>
+<title>Integer Instructions</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="instruction" />
+<colspec colname="operands" />
+<colspec colname="flags" />
+<thead>
+<row>
+<entry>Directive</entry><entry>Operands</entry><entry></entry></row>
+</thead>
+<tbody>
+<row><entry>.ascii</entry><entry>QUOTED STRING</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Takes the given quoted string and converts it into byte data.
+</entry></row>
+<row><entry>.byte</entry><entry>VALUES</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Takes a comma-separated list of values and inserts them right there
+in the program as data.
+</entry></row>
+<row><entry>.equ</entry><entry>LABEL, VALUE</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Sets the given label equivalent to the given value.  The value
+can be a number, a character, or an constant expression that evaluates
+to a a number or character.  From that point on, use of the label will
+be substituted for the given value.
+</entry></row>
+<row><entry>.globl</entry><entry>LABEL</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Sets the given label as global, meaning that it can be used from 
+separately-compiled object files.
+</entry></row>
+<row><entry>.include</entry><entry>FILE</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Includes the given file just as if it were typed in right there.
+</entry></row>
+<row><entry>.long</entry><entry>VALUES</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Takes a sequence of numbers separated by commas, and inserts those
+numbers as 4-byte words right where they are in the program.
+</entry></row>
+<row><entry>.section</entry><entry>SECTION NAME</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Switches the section that is being worked on.  Common sections include
+<literal>.text</literal> (for code), <literal>.data</literal> (for 
+data embedded in the program itself), and <literal>.bss</literal> (for
+uninitialized global data).
+</entry></row>
+</tbody>
+</tgroup>
+</table>
 <para>
 </para>
 
