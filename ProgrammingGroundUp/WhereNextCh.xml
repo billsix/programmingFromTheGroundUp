@@ -95,12 +95,12 @@ The following books are great ones for learning about data structures:
 
 <para>
 Program architecture, or how to design and write programs effectively,
-is not tought in this book.  This book teaches the concepts of how 
+is not taught in this book.  This book teaches the concepts of how 
 programming works, but not how to go about designing and writing a
 large-scale program.   The best books on this subject are:
 
 <itemizedlist>
-<listitem><para><citetitle>Structure and Interpretation of Computer Programs</citetitle> by <remark>FIXME - who is this by?</remark></para></listitem>
+<listitem><para><citetitle>Structure and Interpretation of Computer Programs</citetitle> by Harold Abelson and Gerald Jay Sussman with Julie Sussman, available online at <ulink url="http://mitpress.mit.edu/sicp/">http://mitpress.mit.edu/sicp/</ulink></para></listitem>
 </itemizedlist>
 
 In addition to these books, one of the best ways to learn good program
@@ -132,7 +132,7 @@ when outsourcing is an option.
 Books on project management include:
 
 <itemizedlist>
-<listitem><para><citetitle>The Mythical Man-Month</citetitle> by <remark>FIXME - who is this by?</remark></para></listitem>
+<listitem><para><citetitle>The Mythical Man-Month</citetitle> by Fred P. Brooks</para></listitem>
 </itemizedlist>
 
 </para>

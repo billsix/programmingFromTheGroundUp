@@ -226,7 +226,7 @@ perl Hello-World.pl
 As you can see, the Perl version is even shorter than the C version.
 With Perl you don't have to declare any functions or program entry points.
 You can just start typing commands and the interpretter will run them
-as it comes to them.  In fact this program only has two linesw of code,
+as it comes to them.  In fact this program only has two lines of code,
 one of which is optional.
 </para>
 

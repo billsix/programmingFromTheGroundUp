@@ -37,7 +37,7 @@ for multiple programmers to work on the project.
 Programmers use <emphasis>functions</emphasis> to break their programs
 into pieces which can be independently developed and tested.  Functions
 are units of code that do a defined piece of work on specified types of 
-data.  For example, in a word processor programmer, I may have a function called
+data.  For example, in a word processor program, I may have a function called
 <literal>handle_typed_character</literal> which is activated whenever a
 user types in a key.  The data the function uses would probably be the
 keypress itself and the document the user currently has open.  The 

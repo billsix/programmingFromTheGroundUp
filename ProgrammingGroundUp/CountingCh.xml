@@ -509,7 +509,7 @@ And I'll let you translate that back out.  So you see how these work.
 <para>
 The previous operations: AND, OR, NOT, and XOR are called <emphasis>boolean
 operator</emphasis> because they were first studied by a guy with the
-last name of Bool.  So, if someone mentiones boolean operators or 
+last name of Boole.  So, if someone mentiones boolean operators or 
 boolean algebra, you now know what they are talking about.  Anyway, there
 are also two binary operators that aren't boolean, shift and rotate.
 Shifts and rotates each do what their name implies, and can do so to
@@ -655,9 +655,8 @@ in-depth, because the concept is more important than the implementation.
 If you wish to know implementation details, you can read further 
 information on the subject.
 
-<!-- NOTE - I need a list of everywhere someone can get more information
-     on a subject 
-  -->
+<remark>NOTE - I need a list of everywhere someone can get more information 
+on a subject </remark>
 </para>
  
 <sect2>

@@ -846,12 +846,12 @@ that, you deserve a to have a coffee break.
 <sect2>
 <title>Going Further</title>
 
-</sect2>
 <itemizedlist>
 <listitem><para>Modify the first program to leave off the <literal>int</literal> instruction line. Assemble, link, and execute the new program.  What error message do you get.  Why do you think this might be?</para></listitem>
 <listitem><para>So far, we have discussed three approaches to finding the end of the list - the number 0, the ending address, and the length count.  Which approach would you use if you knew that the list was sorted?  Why?</para></listitem>
 <listitem><para>Given your knowledge of computer memory, what would the instruction <literal>movl _start, %eax</literal> do?</para></listitem>
 </itemizedlist> 
+</sect2>
 
 </sect1>
 
