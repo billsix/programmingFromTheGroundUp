@@ -284,8 +284,8 @@ permission in this book.  Parameters listed in brackets are optional.
 <title>Common GDB Debugging Commands</title>
 
 <tgroup cols="2" colsep="1" rowsep="1">
-<colspec colname="command" colwidth="0.5*" />
-<colspec colname="meaning" colwidth="1*" />
+<colspec colname="command" />
+<colspec colname="meaning" />
 <thead>
 <row><entry namest="command" nameend="meaning">Miscellaneous</entry></row>
 </thead>
