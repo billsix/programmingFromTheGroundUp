@@ -389,49 +389,56 @@ recursive procedures.
 </sect1>
 
 <sect1>
-<title>Provably Correct Programs</title>
+<title>Correct and Provably Correct Programs</title>
 
 <para>
-Bugs are a part of the daily life of every programmer.  Even the smallest loops, or the
-tiniest function call can have bugs in it.  What's more, while most programmers can 
+Bugs are a part of the daily life of every programmer.  Even the smallest loops and the
+tiniest function calls can have bugs in them.  What's more, while most programmers can 
 examine code and test code for bugs, they do not know how to prove that their programs
-perform the way they think they will.
+perform the way they think they will.  Therefore, we are first going to examine some
+of the common sources of bugs, and then show how to make programs which are provably
+correct.
 </para>
 
 <para>
 One of the primary sources of bugs in computer programs is variables changing states. 
 You might think that the programmer would be keenly aware of exactly how and
-when a variable changes state.  This is sometimes true in simple loops, but usually not in complex ones.  Usually within loops there are several ways
-that a given variable can change state.  One of several if statements may make modifications.
-The order is usually important.  However, being absolutely sure that you proceeded in the correct order for all cases is difficult.  It is even more difficult to fix bugs in such loops without causing problems for other cases.
+when a variable changes state.  This is sometimes true in simple loops, but usually not in complex ones.  Usually, within loops, there are several ways
+that a given variable can change state.  For example, if you have a complicated 
+<literal>if</literal> statement, some branches may modify one variable while others
+modify other variables.  On top of that, the order is usually important.  However, 
+being absolutely sure that the sequence coded is the correct order for all cases is 
+difficult.  Often, fixing one bug for one case will introduce other bugs in other 
+cases because of sequencing issues.
 </para>
 
 <para>
-In order to alleviate the situation, we need to be able to:
+In order to prevent these kinds of errors, we need to be able to:
 </para>
 
 <itemizedlist>
-<listitem><para>Be able to tell by sight the derivation of each variable.</para></listitem>
-<listitem><para>Be certain that no variable is performing double-duty (many programmers often use the same variable to store two related, but slightly different values).</para></listitem>
-<listitem><para>Be certain that all variables hit the state they are supposed to be in when the loop restarts (a common programming error is to not set new values for loop variables in corner cases that are rarely used and tested).</para></listitem>
+<listitem><para>Tell by sight how each variable received its present value.</para></listitem>
+<listitem><para>Be certain that no variable is performing double-duty. (Many programmers often use the same variable to store two related, but slightly different, values.)</para></listitem>
+<listitem><para>Be certain that all variables hit the state they are supposed to be in when the loop restarts.  (A common programming error is failure to set new values for loop variables in corner cases that are rarely used and tested.)</para></listitem>
 </itemizedlist>
 
 <para>
-To accomplish these goals, we only need to make one rule in our programming -- <emphasis>only assign a value to a variable
-once, and NEVER MODIFY IT</emphasis>.  This is blasphemy for many who are raised on imperative and object-oriented
-programming -- variable assignment and modification are at the core of these programming techniques!  Yet, state changes
+To accomplish these objectives, we need to make only one rule in our 
+programming. <emphasis>Assign a value to a variable only once -- and NEVER MODIFY 
+IT</emphasis>.  This rule is blasphemy for many who have been raised on 
+imperative, procedural, and object-oriented
+programming because variable assignment and modification are at the core of these programming techniques!  Yet state changes
 are consistently one of the chief programming errors for imperative programmers.
 </para>
 
 <para>
-So how does a person program without modifying variables?  Let's look at several situations where we often modify
-variables and see how we can get by without doing so.
+So how does a person program without modifying variables?  Let's look at several situations in which variables are often modified and see how we can get by without doing so.
 </para>
 
 <variablelist>
 <varlistentry>
 <term>Reusing a variable</term>
-<listitem><para>Often times a variable is reused for different, but similar purposes.  <!-- FIXME - need example -->
+<listitem><para>Often, a variable is reused for different, but similar, purposes.  <!-- FIXME - need example -->
 To alleviate this problem, create two separate variables, and just derive the second from the first the same way 
 you would do so if you were writing to the same variable.</para></listitem>
 </varlistentry>
