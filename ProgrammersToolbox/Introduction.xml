@@ -22,6 +22,13 @@ rather than helping them to solve the problem.
 </para>
 
 <para>
-The goal of this book
+The goal of this book is to introduce you to a wide variety of programming
+language constructs which greatly increase your power as a programmer.  Some
+of the constructs just save typing, but some of them lead to a vastly different
+method of thinking about and arranging your program.  Not all of these ideas 
+apply to all programming languages, but they will help you find new ways to 
+think about programming, and let you know when another language might be more
+adequate at finding a solution.
+</para>
 
 </preface>

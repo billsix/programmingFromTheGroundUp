@@ -37,8 +37,19 @@
 				(lambda (sk)
 					(amb-internal sk alternatives)
 					(prev-amb-fail))))))
+(define amb-assert-failure
+	(lambda () (amb)))
+
 
 (define amb-assert
 	(lambda (pred)
-		(if (not pred) (amb))))
+		(if (not pred) (amb-assert-failure))))
 
+(define collect-amb-possibilities
+	(lambda (x)
+		(let ((the-values '()))
+			(call/cc
+				(lambda (k)
+					(initialize-amb-fail (lambda () (k the-values)))
+					(set! the-values (cons (x) the-values ))
+					(amb-assert-failure))))))

@@ -1,10 +1,161 @@
 <chapter>
 <title>Program-Generating Programs</title>
 
-
+<sect1>
+<title>Why Write Programs to Generate Programs</title>
 
 <para>
+One of the most under-utilized programming techniques is writing programs
+that generate programs or program parts.  There are numerous applications 
+to writing programs which themselves write programs.  Program-generating
+programs are sometimes called <emphasis>meta-programs</emphasis> and 
+writing such programs is called <emphasis>meta-programming</emphasis>.
 </para>
 
+<para>
+First of all, you can write programs that will pre-generate tables of data
+for use at run-time.  For example, if you are writing a game and want a quick
+lookup table for the sin of all 8-bit integers you have the options of
+calculating each sin yourself and hand-coding it, having your program build
+the table at startup at runtime, or write a program to build the hand-coded
+table yourself.  While it may make sense to build the table at runtime for
+such a small set of numbers, other such tasks may cause program startup to
+be prohibitively slow.  In such cases, writing a program to build static 
+data tables is usually your best answer.
+</para>
+
+<para>
+Second, if you have a large application that includes a lot of boilerplate
+code, you can create a mini-language that will do the boilerplate code for
+you and allow you to code the important parts.  Now, if you can, it's best
+to abstract out the boilerplate portions into a function.  However, often
+the boilerplate code isn't so pretty.  Perhaps there's a list of variables
+that need to be declared in every instance, perhaps you need to register 
+error handlers, or perhaps there are several pieces of the boilerplate that
+have to have code inserted into it in certain circumstances.  All of these
+make a simple function call impossible.  In such cases, it is often a good
+idea to create a mini-language which allows you to work with your boilerplate
+code in an easier fashion.  This mini-language will then be converted into
+your regular source code language before compiling.
+</para>
+
+<para>
+Finally, a lot of programming languages make you write really verbose 
+statements to do really simple things.  Program-generating programs allow
+you to abbreviate such statements and save you a lot of typing.
+</para>
+
+<para>
+As languages get more features, program-generating programs get less and less
+appealing.  What might be available as a standard feature of one language
+may be only available through a program-generating program in another language.
+However, the need for program-generating programs will not go away just through
+better language design.  Program-generating programs allow you to write small,
+domain-specific languages that are easier to write and maintain than writing
+them in the target language.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Basic Textual Macro Languages</title>
+
+<para>
+Textual macros are macros that directly affect the text of the programming 
+language without knowing anything about the meaning of the programming 
+language.  The two most widely-used textual macro systems are the 
+C pre-processor and the M4 macro processor.  If you've done C programming,
+you have probably dealt with C's <literal>#define</literal> macro.  
+Textual macro expansion is a decent way to do basic meta-programming.
+Here is an example <literal>#define</literal> macro:
+</para>
+
+<programlisting>
+#define SWAP(a, b, type) { type c; c = b; b = a; a = c; }
+</programlisting>
+
+<para>
+This macro allows you to swap the two values of the given type.  This is
+best written as a macro for two reasons:<footnote><para>Note that these two 
+reasons are moot in C++ because it has both inline functions and 
+call-by-reference.</para></footnote>
+</para>
+
+<itemizedlist>
+<listitem><para>A function call would take way too much overhead for a simple operation</para></listitem>
+<listitem><para>You would have to pass their addresses to the function, rather than their values.  This isn't too bad, but it makes it messier, and prevents the compiler from being able to keep the values in registers.</para></listitem>
+</itemizedlist>
+
+<para>
+Here is an example of the macro being used:
+</para>
+
+<programlisting>
+&c-macro-swap-example;
+</programlisting>
+
+<para>
+When the C pre-processor is run, it literally changes the text from 
+<literal>SWAP(q, y, int)</literal> to 
+<literal>{ int c; c = y; y = q; q = c; }</literal>.  This is a nice, but
+fairly limitted feature.  This feature has the following problems:
+</para>
+
+<itemizedlist>
+<listitem><para>Textual substitution can get very messy when used in combination with other expressions.</para></listitem>
+<listitem><para>The C pre-processor only allows a fixed number of arguments to its macros.</para></listitem>
+<listitem><para>Because of the C language's type system, we often have to have different macros for different kinds of arguments, or at least pass the type of the parameters as arguments.</para></listitem>
+</itemizedlist>
+
+<para>
+The problem of combining macros with expressions makes macro writing 
+fairly difficult.  For example, let's say we had the following macro
+called <literal>MIN</literal>, which returned the smaller of two values:
+</para>
+
+<programlisting>
+#define MIN(x, y) ((x) > (y) ? (y) : (x))
+</programlisting>
+
+<para>
+First of all, you may be wondering why we used so many parentheses.  The
+reason is operator precedence.  For example, if you did 
+<literal>MIN(27, b=32)</literal>, without those parentheses it would expand 
+into <literal>27 > b = 32 ? b = 32 : 27</literal> which will get a compiler 
+error because <literal>27 > b</literal> will bind closer together because of
+operator precedence.  If you add the parentheses back in, it will work as
+expected.
+</para>
+
+<para>
+Unfortunately, there's still a second problem - any function that is called 
+as a parameter will be called for every time it is listed on the right-hand
+side.  Remember, the pre-processor knows nothing about the C language, and is
+just doing text substitutions.  Therefore, if you do 
+<literal>MIN(do_long_calc(), do_long_calc2())</literal>
+then it will expand into <literal>( (do_long_calc()) > (do_long_calc2()) ? (do_long_calc2()) : (do_long_calc()))</literal>.  This will take a long time, since
+at least one of the calculations will be performed twice.  It's even worse if
+those one of those calculations has side effects (like printing, modifying a
+global variable, etc.), because those side effects will happen twice.  More
+information about C pre-processor macro programming is available in the CPP
+manual (distributed w/ GCC and available from gcc.gnu.org).
+</para>
+
+<para>
+The M4 macro processor is one of the most advanced textual macro processing 
+systems.  It's main claim to fame is with the popular sendmail mailer 
+configuration file.  sendmail configuration is not fun or pretty.  There is
+an entire book just on sendmail's configuration file.  However, the makers
+of sendmail wrote a set of M4 macros to make the process easier.  In the macros
+you simply specify certain parameters, and the M4 processor applies boilerplate
+that is specific to both your local installation and sendmail in general, and
+comes up with a configuration file for you.
+</para>
+
+<para>
+For example, this is the M4 macro version of a typical sendmail configuration file:
+</para>
+
+<programlisting>
 
 </chapter>

@@ -16,6 +16,17 @@
 </articleinfo>
 -->
 
+<para>
+Memory management is one of the most fundamental areas of computer programming.
+In many scripting languages you don't have to worry about how memory is 
+managed, but that doesn't make memory management any less important.  Knowing
+the abilities and limitations of your memory manager is critical for 
+effective programming.  In most systems languages like C and C++ you have
+to do memory management.  In this chapter you will learn the basics of 
+manual, semi-automatic, and automatic memory management practices.  
+</para>
+
+
 <sect1>
 <title>Why Memory Must be Managed</title>
 
@@ -1351,6 +1362,12 @@ Collection
   </tbody>
   </tgroup>
 </table>
+
+<para>
+The remaining chapters of this book will assume that there is some sort
+of automatic memory management technique in place, whether it is integrated
+into your programming language or is a separate add-on tool.
+</para>
 
 </sect1>
 

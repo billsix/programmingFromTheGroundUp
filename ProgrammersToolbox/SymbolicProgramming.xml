@@ -1,9 +1,126 @@
 <chapter>
 <title>Symbolic Programming</title>
 
-
+<sect1>
+<title>What is Symbolic Programming?</title>
 
 <para>
+Programming languages are based on using symbols to represent values and
+functions.  When you compile your program, those symbols usually get thrown
+away, and replaced with something more efficient for your computer to handle,
+like a memory location or a stack offset (strings are very inefficient for
+computers to handle).  For example, in Perl, scalar variables are represented
+by names starting with a dollar sign.  <literal>$a</literal> is a symbol that
+represents some storage location on the computer that holds a value.  Likewise,
+in C/C++, almost any sequence of characters can be a symbol.
+</para>
+
+<para>
+There is a difference, though, between a symbol and a variable.  A symbol is
+a language construct - it is the textual representation of variables.  The
+variable is the actual storage location on the computer, and the symbol is
+the way that we refer to it in our programming languages.  Some programming
+languages allow you to store and manipulate the symbols themselves, rather than
+only using them as aliases for the variables behind-the-scenes.  Such 
+programming languages are called symbolic programming languages.
+</para>
+
+<para>
+The purpose of this chapter is to introduce you to symbolic programming,
+and specifically introduce you to the programming language scheme.  Scheme
+is a powerful programming language which will be used as the example language
+for our constructs.  We will show them in other languages, too, but we will
+reason about them in the scheme language.  Because scheme is a symbolic
+programming language, it is much better suited to reasoning about programming
+language features than other types of programming languages.
+</para>
+
+<para>
+There are many symbolic programming languages available.  These are the 
+reasons why scheme is the primary example language for this book:
+</para>
+
+<itemizedlist>
+<listitem><para>Scheme is a small language - the scheme standard is only 50 pages</para></listitem>
+<listitem><para>Scheme is a powerful language - the features provided in scheme were chosen specifically because they can be combined in powerful ways</para></listitem>
+<listitem><para>Scheme has a simple syntax - there are very few constructs to remember</para></listitem>
+<listitem><para>Scheme has numerous implementations - it can be compiled, interpretted, used as an extension language, used as a primary language, etc.</para></listitem>
+<listitem><para>Scheme can modify scheme programs easily - we'll get to this in a later chapter</para></listitem>
+</itemizedlist>
+
+</sect1>
+
+<sect1>
+<title>List Processing</title>
+
+<sect2>
+<title>An Example Scheme Program</title>
+
+<para>
+In scheme, most data is either lists, trees (lists of lists), or atoms 
+(single-valued items).  There are a few other datatypes, such as vectors 
+and structs, but they are not as important.  To get a feel for the 
+language, here is an example:
+</para>
+
+<programlisting>
+(define b 3)
+(define display-me
+	(lambda (x) 
+		(display x) 
+		(newline)))
+(display-me b)
+(display-me 5)
+</programlisting>
+
+<para>
+All example programs have been tested under at least three scheme 
+implementations - GUILE, Chicken, and DrScheme.  If you are new to
+scheme programming, you should use DrScheme.  To run a program under
+GUILE, you need to enter it into a file with a <literal>.s</literal>
+or <literal>.scm</literal> extension, and then do 
+<literal>guile -s myprogram.scm</literal>.  Chicken is a scheme compiler, so
+you will need to compile your program first, and then run it.  So, building
+your program under Chicken would look like this:
+</para>
+
+<programlisting>
+csc -hygienic myprogram.scm
+./myprogram
+</programlisting>
+
+<para>
+In DrScheme, you simply type in your scheme program, and then click on the
+"Run" button.  Go ahead and enter in this program and run it.  <emphasis>Be
+sure that the number and location of parenthesis are exactly correct, or
+else the program will not run</emphasis>.  Other languages allow you to 
+add or remove parenthesis with very little consequence.  In scheme, however,
+they are a core part of the language.  When you run the program, it should
+simply print the numbers "3" and "5".  Now let's take a look at how the 
+program works.
+</para>
+
+<para>
+In scheme, there are only three types of constructs: 
+<emphasis>function application</emphasis>
+<footnote><para>A <emphasis>function application</emphasis> is just a fancy way of saying "a function call".</para></footnote>, 
+<emphasis>special forms</emphasis>, and <emphasis>static data</emphasis>.  
+Most languages have numerous types of constructs, but scheme boils
+it down to just these categories.  In scheme, function application, 
+special forms, and some forms of data are delineated by parenthesis.  
+In the program above, every parenthesis was for either a function 
+application or a special form.  Special forms are like function 
+applications in that they perform a task, but they differ in how 
+their arguments are processed.  With functions, all of the function 
+arguments are evaluated <emphasis>before</emphasis> making the function 
+call, while special forms some arguments may be evaluated in different 
+ways or may not be evaluated at all.
+</para>
+
+<para>
+Our program makes use of two special forms - <literal>define</literal> 
+and <literal>lambda</literal>.  <literal>define</literal> is a special
+form that gives a symbol a value.
 </para>
 
 <!--
@@ -505,7 +622,7 @@ especially for a language standard.<br>
   <li>R<sup>5</sup>RS - <a href="../packages/Scheme/papers/r5rs.pdf">PDF</a></li>
   <li>R<sup>4</sup>RS - <a href="../packages/Scheme/papers/r4rs.html">HTML</a></li>
   <li>R<sup>3</sup>RS - <a href="../packages/Scheme/papers/r3rs.txt">Text</a></li>
-  <li>RRS - <a href="../packages/Scheme/papers/R0RS.pdf">PDF</a></li>
+ <li>RRS - <a href="../packages/Scheme/papers/R0RS.pdf">PDF</a></li>
 </ul>
 <h4>The Lambda Papers</h4>
 <p>These are some of the original papers describing Scheme.<br>
