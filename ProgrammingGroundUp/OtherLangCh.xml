@@ -55,9 +55,9 @@ In assembly language, what you write is what you get.
 </para>
 
 <para>
-There are also languages that are <emphasis>interpretted</emphasis>
+There are also languages that are <emphasis>interpreted</emphasis>
 languages.  These languages require that the user run a program
-called an <emphasis>interpretter</emphasis> (also called a 
+called an <emphasis>interpreter</emphasis> (also called a 
 <emphasis>run-time environment</emphasis>) that in turn runs the
 given program.  These are usually slower than compiled programs,
 since the translator has to read and interpret the code as it goes 
@@ -189,10 +189,10 @@ used as the exit code for the program.
 </para>
 
 <para>
-As you can see, using compilers and interpretters makes life much easier.
+As you can see, using compilers and interpreters makes life much easier.
 It also allows our programs to run on multiple platforms more easily.
 In assembly language, your program is tied to both the operating system
-and the hardware platform, while in compiled and interpretted languages
+and the hardware platform, while in compiled and interpreted languages
 the same code can usually run on multiple operating systems and hardware
 platforms.  For example, this program can be built and executed on x86
 hardware running Linux, Windows, UNIX, or most other operating systems.
@@ -206,7 +206,7 @@ operating systems.
 <title>Perl</title>
 
 <para>
-Perl is an interpretted language, existing mostly on Linux and UNIX-based
+Perl is an interpreted language, existing mostly on Linux and UNIX-based
 platforms.  It actually runs on almost all platforms, but you find it most
 often on Linux and UNIX-based ones.  Anyway, here is the Perl version
 of the program, which should be typed into a file named 
@@ -216,7 +216,7 @@ of the program, which should be typed into a file named
 &Hello-World-perl;
 </programlisting>
 
-Since Perl is interpretted, you don't need to compile or link it.  Just
+Since Perl is interpreted, you don't need to compile or link it.  Just
 run in with the following command:
 
 <programlisting>
@@ -225,19 +225,19 @@ perl Hello-World.pl
 
 As you can see, the Perl version is even shorter than the C version.
 With Perl you don't have to declare any functions or program entry points.
-You can just start typing commands and the interpretter will run them
+You can just start typing commands and the interpreter will run them
 as it comes to them.  In fact this program only has two lines of code,
 one of which is optional.
 </para>
 
 <para>
-The first, optional line is used for UNIX machines to tell which interpretter
+The first, optional line is used for UNIX machines to tell which interpreter
 to use to run the program.  The <literal>#!</literal> tells the computer
-that this is an interpretted program, and the 
+that this is an interpreted program, and the 
 <filename>/usr/bin/perl</filename> tells the computer to use the program
 <filename>/usr/bin/perl</filename> to interpret the program.  However, since
 we ran the program by typing in <command>perl Hello-World.pl</command>, we
-had already specified that we were using the perl interpretter.
+had already specified that we were using the perl interpreter.
 </para>
 
 <para>
@@ -245,7 +245,7 @@ The next line calls a Perl builtin function, print.  This has one parameter,
 the string to print.  The program doesn't have an explicit return
 statement - it knows to return simply because it runs off the end of the file.
 It also knows to return 0 because there were no errors while it ran.  You can
-see that interpretted languages are often focused on letting you get working 
+see that interpreted languages are often focused on letting you get working 
 code as quickly as possible, without having to do a lot of program setup.
 </para>
 

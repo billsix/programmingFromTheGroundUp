@@ -117,7 +117,7 @@ that were used in this program:
 <variablelist>
 
 <varlistentry>
-<term>gnome-init</term>
+<term>gnome_init</term>
 <listitem><para>
 Takes the command-line arguments, argument count, application
 id, and application version and initializes the GNOME 
@@ -291,7 +291,8 @@ develop the GUI for their system.
 <para>
 There is a broad range
 of choices for developing graphical applications, but 
-hopefully this appendix gave  you a taste of what is out there.
+hopefully this appendix gave  you a taste of what GUI programming
+is like.
 </para>
 
 </sect1>

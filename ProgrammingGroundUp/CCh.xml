@@ -195,5 +195,35 @@ get a listing that looks like this:
 -->
 
 </sect1>
+<sect1>
+<title>Review</title>
 
+<sect2>
+<title>Know the Concepts</title>
+
+<itemizedlist>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Use the Concepts</title>
+
+<itemizedlist>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Going Further</title>
+
+<itemizedlist>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+</sect2>
+
+</sect1>
 </chapter>

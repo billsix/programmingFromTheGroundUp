@@ -91,7 +91,7 @@ contains the following elements to accomplish this:
 
 The <emphasis>program counter</emphasis> is used to tell the computer where
 to fetch the next instruction from.  We mentioned earlier that there is no
-difference between data and a program, except in how it is interpretted by
+difference between data and a program, except in how it is interpreted by
 the CPU.  The program counter holds the location of the next instruction
 to be executed.  The CPU begins by looking at the program counter, and fetching
 whatever number is stored in memory at the location specified.  It is then
@@ -233,7 +233,7 @@ of memory that can be executed with a special marker that indicates this.
 
 </sect1>
 
-<sect1 id="interprettingmemory">
+<sect1 id="interpretingmemory">
 <title>Interpretting Memory</title>
 
 <para>
@@ -344,7 +344,7 @@ Finally, there is the <emphasis>base-pointer addressing mode</emphasis>.  This i
 similar to indirect addressing, but you also include a number called the
 <emphasis>offset</emphasis> to add to the 
 registers value before using it for lookup.  
-In <xref linkend="interprettingmemory" /> we discussed having a structure
+In <xref linkend="interpretingmemory" /> we discussed having a structure
 in memory holding customer information.  Let's say we wanted to access
 the customer's age, which was the eighth byte of the data, and we had the address 
 of the start of the structure in a register.  We could use base-pointer 

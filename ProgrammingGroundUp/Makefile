@@ -37,6 +37,7 @@ clean:
 	rm -f ProgrammingGroundUp.tex
 	rm -f ProgrammingGroundUp.dvi
 	rm -f HTML.index
+	rm -f index.xml
 
 realclean: clean
 	rm -f ProgrammingGroundUp.pdf

@@ -39,7 +39,9 @@ a lot of space</para></listitem>
 <listitem><para>If a bug is found in any of the copied code, it has to be fixed in every application program</para></listitem>
 </itemizedlist>
 
-Therefore, the second option is usually used sparingly.  The third option,
+Therefore, the second option is usually used sparingly, usually only in cases
+where you copy and paste skeleton code, and add in your program-specific
+details.  The third option,
 however, is used quite frequently.  The third option includes having a
 central repository of shared code.  Then, instead of each program wasting
 space storing the same copies of functions, they can simply point to the
@@ -50,7 +52,7 @@ main drawback with this approach is that it creates some dependency problems,
 including:
 
 <itemizedlist>
-<listitem><para>If multiple applications are all using the shared file, how do we know when it is safe to delete the file?  For example, if 3 applications are sharing a file of functions and 2 of them are deleted, how does the system know that there still exists an application that uses that code?</para></listitem>
+<listitem><para>If multiple applications are all using the shared file, how do we know when it is safe to delete the file?  For example, if three applications are sharing a file of functions and 2 of them are deleted, how does the system know that there still exists an application that uses that code?</para></listitem>
 <listitem><para>Some programs accidentally rely on bugs within shared functions.  Therefore, if upgrading the shared program fixes a bug that a program depended on, it could cause that application to cease functioning.</para></listitem>
 </itemizedlist>
 
@@ -104,7 +106,11 @@ ld -dynamic-linker /lib/ld-linux.so.2 -o helloworld-lib helloworld-lib.o -lc
 <literal>-dynamic-linker /lib/ld-linux.so.2</literal> allows our
 program to be linked to libraries, and the <literal>-lc</literal>
 says to link to the <literal>c</literal> library, named 
-<filename>libc.so</filename> on UNIX systems.  
+<filename>libc.so</filename> on GNU/Linux systems.  Given a library
+name, <literal>c</literal> in this case, the GNU/Linux linker prepends
+the string <literal>lib</literal> to the beginning and 
+appends <literal>.so</literal> to the end to form the filename.  Also,
+most library names are more than one letter long.
 This library contains many functions.  The two we are using are
 <literal>printf</literal>, which prints strings, and 
 <literal>exit</literal>, which exits the program.  
@@ -136,7 +142,11 @@ However, in the <literal>helloworld-lib</literal> program, we started
 using shared libraries.  When you use shared libraries, your program is
 then dynamically-linked, which means that not all of the code
 needed to run the program is actually contained within the program file
-itself.  When we put the <literal>-lc</literal> on the command to
+itself.  
+</para>
+
+<para>
+When we put the <literal>-lc</literal> on the command to
 link the <literal>helloworld</literal> program, it told the linker
 to use the <literal>c</literal> library to look up any symbols that
 weren't already defined in <filename>helloworld.o</filename>.  However,
@@ -152,8 +162,7 @@ and <literal>exit</literal> in this
 case), and then loads the library into the program's virtual memory.
 It then replaces all instances of <literal>printf</literal> in the
 program with the actual location of <literal>printf</literal> in the
-library.  It's a lot of work for just using shared code, but
-it's usually worth it.
+library.  
 </para>
 
 <para>
@@ -197,7 +206,7 @@ do you find out what libraries you have on your system and what
 they do?  Well, let's skip that question for a minute and ask another
 question: How do programmers describe functions to each other in their 
 documentation?  Let's
-take a look at the function <literal>printf</literal>.  It's definition
+take a look at the function <literal>printf</literal>.  It's calling interface
 (usually referred to as a <emphasis>prototype</emphasis>) looks like this:
 
 <programlisting>
@@ -516,5 +525,48 @@ for it's functions until it's running, you can change those functions
 out manually.
 </para>
 
+</sect1>
+
+
+<sect1>
+<title>Review</title>
+
+<sect2>
+<title>Know the Concepts</title>
+
+<itemizedlist>
+<listitem><para>What are the advantages and disadvantages of shared libraries?</para></listitem>
+<listitem><para>Given a library named 'foo', what would the library's filename be?</para></listitem>
+<listitem><para>What does the <literal>ldd</literal> command do?</para></listitem>
+<listitem><para>Let's say we had the files <filename>foo.o</filename> and <filename>bar.o</filename>, and you wanted to link them together, and dynamically link them to the library 'kramer'.  What would the linking command be to generate the final executable?</para></listitem>
+<listitem><para>What is <emphasis>typedef</emphasis> for?</para></listitem>
+<listitem><para>What are <emphasis>struct</emphasis>s for?</para></listitem>
+<listitem><para>What is the difference between a data element of type <emphasis>int</emphasis> and <emphasis>int *</emphasis>?  How would you access them differently in your program?</para></listitem>
+<listitem><para>If you had a object file called <filename>foo.o</filename>, what would be the command to create a shared library called 'bar'?</para></listitem>
+<listitem><para>What is the purpose of LD_LIBRARY_PATH?</para></listitem>
+<listitem><para>What is the purpose of LD_PRELOAD?</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Use the Concepts</title>
+
+<itemizedlist>
+<listitem><para>Rewrite one or more of the programs from the previous chapters to print their results to the screen using <literal>printf</literal> rather than returning the result as the exit status code.  Also, make the exit status code be 0.</para></listitem>
+<listitem><para>Use the maximum function you developed in <xref linkend="functionsreviewuseconcepts" /> to make a shared library.  Then re-write the program so that it links with the library dynamically.</para></listitem>
+<listitem><para>Rewrite the program above so that it also links with the 'c' library.  Use the 'c' library's <literal>printf</literal> function to display the result of each call to maximum.  Now that you are printing to the screen and not using status codes, you can use larger numbers.</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Going Further</title>
+
+<itemizedlist>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+</sect2>
 </sect1>
 </chapter>

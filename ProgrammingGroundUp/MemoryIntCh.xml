@@ -864,4 +864,41 @@ for real life.
 
 </sect1>
 
+<sect1>
+<title>Review</title>
+
+<sect2>
+<title>Know the Concepts</title>
+
+<itemizedlist>
+<listitem><para>Describe the Linux stack.</para></listitem>
+<listitem><para>What are the initial contents of the Linux stack?</para></listitem>
+<listitem><para>What happens when you access unmapped memory?</para></listitem>
+<listitem><para>How does the operating system prevent processes from writing over each other's memory?</para></listitem>
+<listitem><para>What happens if a piece of memory you are using is currently residing on disk?</para></listitem>
+<listitem><para>What is the <emphasis>current break?</emphasis></para></listitem>
+<listitem><para>Why do you need an allocator?</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Use the Concepts</title>
+
+<itemizedlist>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Going Further</title>
+
+<itemizedlist>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+</sect2>
+</sect1>
+
 </chapter>
