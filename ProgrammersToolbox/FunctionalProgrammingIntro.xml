@@ -84,7 +84,7 @@ is specialized.<br>
 <h3>Closures that modify their closed variables<br>
 </h3>
 <p>When you have a closed variable, you can modify it, too.&nbsp; For
-example, we can create a function that will act as a counter -- every
+example, we can create a function that will act as a counter - every
 time we call it, it will return a new number.&nbsp; We can do this using
 no global variables, even instantiating multiple counters.&nbsp; Here
 is how they work:<br>

@@ -16,6 +16,7 @@
 <!ENTITY EvaluatingLanguages SYSTEM "EvaluatingLanguages.xml">
 
 <!ENTITY c-macro-swap-example SYSTEM "Libraries/c_macro_swap_example.c">
+<!ENTITY sendmail-m4 SYSTEM "Libraries/sendmail.m4">
 ]>
 <book>
 

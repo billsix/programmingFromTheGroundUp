@@ -123,6 +123,10 @@ and <literal>lambda</literal>.  <literal>define</literal> is a special
 form that gives a symbol a value.
 </para>
 
+</sect2>
+
+</sect1>
+
 <!--
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

@@ -157,5 +157,34 @@ For example, this is the M4 macro version of a typical sendmail configuration fi
 </para>
 
 <programlisting>
+&sendmail-m4;
+</programlisting>
+
+<para>
+You don't need to understand it, but just know that this small file, after 
+being run through the m4 macro processor, generates over 1,000 lines of
+configuration.  The m4 macro processor is too in-depth to discuss in this
+book, but you can learn more about it at http://www.gnu.org/software/m4/,
+and use it for your own software.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Programs that Write Programs</title>
+
+<para>
+</para>
+
+</sect1>
+
+<sect1>
+<title>Language-Sensitive Macro Programming</title>
+
+<para>
+
+</para>
+
+</sect1>
 
 </chapter>
