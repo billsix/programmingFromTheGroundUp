@@ -1,0 +1,652 @@
+<dw-document xsi:noNamespaceSchemaLocation="http://dw.raleigh.ibm.com/developerworks/library/schema/4.0/dw-document-4.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<dw-article local-site="worldwide" ratings-form="auto" related-contents="auto" toc="auto" skill-level="3">
+<id cma-id="" domino-uid="" content-id="" original="yes"/>
+
+<keywords content="memory,malloc,garbage collection,pooling,pools,reference counting,allocator,allocation,memory management,free,boehm,gc" />
+
+<meta-last-updated day="16" month="10" year="2004" initials="jlb"/>
+
+<!-- CONTENT-AREA-PRIMARY
+Required element. Select your content area; use "none" for rare cases where content applies to no zone in particular. -->
+<content-area-primary name="linux" />
+
+<!-- CONTENT-AREA-SECONDARY
+Optional element. Select additional content areas, up to 3 plus the primary. The content areas you select form the navigation ("breadcrumb") trail at the top of the article. -->
+<!--
+<content-area-secondary name="db2" />
+<content-area-secondary name="eserver" />
+-->
+
+<series-title>The Programmer's Toolbox</series-title>
+
+<title>Memory Management</title>
+<subtitle>The choices, tradeoffs, and implementations of dynamic allocation</subtitle>
+
+<forum-url url="" />
+
+<!-- TARGET-CONTENT-FILE  
+Optional element. All attributes are required except for file-description, size, and any of the url-* attributes that don't apply to your download file. For a simple, common example (linking to a code sample zip file), see COMMON coding below.
+This element replaces <download-feature> from the previous schema. It creates a major heading, "Download", a corresponding TOC entry, and a table from which users download various types of files associated with the article (code samples, etc).  Each <target-content-file> element represents one download file and one row in the download table.
+Until the 4.1 stylesheets are released, no license will be displayed regardless of whether show-license is set to "yes" or "no".  However, if a license should be displayed, set show-license to "yes" and one will be displayed when we move to 4.1.
+The registration-required attribute should be set to "no" for now; for future use only.
+The url-license attribute is used if you want to display a license other than the standard ILAN license.
+There is no limit to the number of target-content-file elements.  
+COMMON coding: 
+<!-- <target-content-file filename="loggingplugins.zip" file-type="zip" size="16 KB" file-description="Logging plug-ins used in this article"  target-content-type="Code sample" link-method-ftp="yes"  url-ftp="ftp://www6.software.ibm.com/software/developer/library/os-eclog/loggingplugins.zip" 
+link-method-http="no" url-http="" link-method-dd="no"  url-download-director="" show-license="yes" registration-required="no"/>-->
+-->
+<!-- First file -->
+<!-- <target-content-file filename="myfile1.zip" file-type="zip" size="10 KB" file-description="50-character or less description of the file"  target-content-type="Code sample" link-method-ftp="yes"  url-ftp="ftp://blah/myfile1.zip" link-method-http="yes" url-http="http://blah/myfile1.zip" link-method-dd="yes"  url-download-director="http://blah/myfile1.zip" show-license="yes" registration-required="no"/> -->
+<!-- Second file -->
+<!-- <target-content-file filename="mypdf.pdf" file-type="pdf" size="50 KB" file-description="A PDF (not of the article, but an assoc. file)" target-content-type="Product documentation" link-method-ftp="yes"  url-ftp="ftp://blah/mypdf.pdf" link-method-http="yes" url-http="http://blah/mypdf.pdf" link-method-dd="yes"  url-download-director="http://blah/mypdf.pdf" show-license="yes" registration-required="no"/> -->
+
+<!-- PDF URL
+Optional element, but useful practice to generate and link to a PDF of the article.  A PDF icon appears at the top and bottom of the page.  Note:  This is different from any
+PDF download files that the article may reference as associated information; in that case, code the PDFs as target-content-file elements or 
+target-content-page elements. -->
+<pdf url="" size="xx KB"/>
+
+<author jobtitle="Director of Technology" company="New Media Worx" email="johnnyb@eskimo.com"  >
+<bio>Jonathan Bartlett is the author of the book Programming from the Ground Up which is an introduction to programming using Linux assembly language.  He is the lead developer at New Media Worx, 
+developing web, video, kiosk, and desktop applications for clients.</bio>
+<img src="http://www.ibm.com/developerworks/i/photo.jpg" width="64" height="80" alt="Author photo" />
+<name>Jonathan Bartlett</name>
+</author>
+
+<!-- DATE-PUBLISHED
+Required element. Include leading zeros on day and month. -->
+<date-published day="01" month="09" year="2004" />
+
+<!-- ABSTRACT
+Required element. This element does not allow HTML tagging, carriage returns, or special characters. It must be succinct; this content shows up in e-mail to a friend and search results. Avoid line breaks in the abstract; line breaks cause a javascript error. If abstract-extended is null or omitted, this abstract text also shows up in the article itself. -->
+<abstract>This article gives an overview of memory management techniques available to Linux programmers, focusing on the C language.  It shows the details of how memory management works, and then shows how to manage memory manually, how to manage memory semi-manually using referencing counting or pooling, and how to manage memory automatically using garbage collection.</abstract>
+
+
+<!-- COLUMN-INFO
+Optional element. Include this element if you have included the series-title element. The unique column icon will appear beside the abstract. The col-name and col-icon must be specified in the xml; example: col-name="alt.lang.jre" col-icon="c-j-jython.jpg" -->
+<column-info col-name="The Programmer's Toolbox" col-icon="column_icon.gif"/>
+
+<docbody>
+
+<!-- MAJOR HEADING 
+Major headings appear in the table of contents (toc) that is automatically generated. Refname, type, and toc are required attributes. If you need to refer to this heading, fill in a refname; otherwise, leave refname blank. If you don't want the heading to appear in the toc, change that value to no. If you want a different or shorter heading to appear in the toc, put it in the alttoc attribute. -->
+<heading refname="" type="major" toc="yes" alttoc="">Why Memory Must Be Managed</heading>
+
+
+<p>
+Memory management is one of the most fundamental areas of computer programming.
+In many scripting languages you don't have to worry about how memory is 
+managed, but that doesn't make memory management any less important.  Knowing
+the abilities and limitations of your memory manager is critical for 
+effective programming.  In most systems languages like C and C++ you have
+to do memory management.  In this chapter you will learn the basics of 
+manual, semi-automatic, and automatic memory management practices.  
+</p>
+
+<p>
+Back in the days of assembly language programming on the Apple II, memory
+management was not a huge concern.  You basically had run of the whole system.
+Whatever memory the system had, so did you.  You didn't even have to worry
+about figuring out how much memory it had, since every computer had the same amount.  So,
+if your memory requirements were pretty static, you just chose a memory range
+to use and used it.
+</p>
+
+<p>
+However, even in such a simple computer, you still had issues, especially
+when you may not know how much memory each part of your program was going
+to need.  If you have limitted space and varying memory needs, then you
+need some way to implement the following requirements:
+</p>
+
+<ul>
+<li>Determine if you have enough memory to process data</li>
+<li>Get a section of memory from the available memory</li>
+<li>Return a section of memory back to the pool of available memory so it can be used by other parts of the program or other programs</li>
+</ul>
+
+<p>
+The libraries which implement these requirements are called 
+<i>allocators</i> because they are responsible for allocating
+and deallocating memory.  The more dynamic a program is, the 
+more memory management becomes an issue, and the more your choice of memory
+allocator becomes important.  This article will discuss the different 
+methods available to manage memory, their benefits and drawbacks, and what 
+situations they work best in.
+</p>
+
+
+<heading refname="" type="major" toc="yes" alttoc="">C-Style Memory Allocators</heading>
+
+<p>
+The C programming language has two functions to fulfill our three requirements:
+</p>
+
+<ul>
+<li><b>malloc</b> - This allocates a given number of bytes and returns a pointer to them.  Also,
+if there isn't this much memory available, it returns a null pointer.</li>
+<li><b>free</b> - This takes a pointer to a segment of memory allocated by malloc, and returns
+it for later use by the program or the operating system (actually, some malloc
+implementations can only return memory back to the program, but not to the
+operating system).</li>
+</ul>
+
+<heading refname="" type="minor" toc="no">Physical and Virtual Memory</heading>
+
+<p>
+To understand how memory gets allocated within your program, you need
+to first understand how memory gets allocated to your program from the
+operating system.  Each process on your computer thinks that it has
+access to all of your physical memory.  Obviously, since you are
+running multiple programs at the same time, each process can't own all
+of the memory.  What happens is that your processes are using
+<i>virtual memory</i>.  Let's say that your program is
+accessing memory address 629, just for an example.  The virtual memory
+system, however, doesn't necessarily have it stored in RAM location
+629.  In fact, it may not even be in RAM - it could even have been
+moved to disk if your physical RAM was full!  Because the addresses
+don't necessarily reflect the physical location where the memory is
+stored, this is called virtual memory.  The operating system maintains
+a table of virtual address to physical address translations so that
+the computer hardware can respond properly to address requests.  And,
+if the address is on disk instead of in RAM, the operating system will
+temporarily halt your process, unload other memory to disk, load in
+the requested memory from disk, and restart your process.  This way,
+each process gets it's own address space to play in, and can access
+more memory than you have physically installed.
+</p>
+
+<p>
+On 32-bit x86 systems, each process can access 4 gigabytes of memory.  Now,
+most people don't have 4GB of memory on their system, even if you include
+swap, must less 4 GB <i>per process</i>.  Therefore, when a 
+process loads, it gets an initial allocation of memory up to a certain
+address, called the <i>system break</i>.  Past that is
+unmapped memory - memory for which no corresponding physical location has
+been assigned either in RAM or on disk.  Therefore, if a process runs out
+of memory from it's initial allocation, it has to request that the operating
+system "map in" more memory (mapping is a mathematical term for one-to-one correspondence - memory is "mapped" when it's virtual address has a 
+corresponding physical location to store it in).
+</p>
+
+<p>
+UNIX-based systems have two basic system calls which map in additional memory:
+</p>
+
+<ul>
+<li><b>brk</b> - brk() is a very simple system call.  Remember the system break - the location
+that is the edge of mapped memory for the process?  brk() simply moves that
+location forward or backward, to add or remove memory to or from the process.</li>
+<li><b>mmap</b> - mmap(), or "memory map", is like brk(), but is much more flexible.
+First of all, it can map memory in anywhere, not just at the end of
+the process.  Secondly, not only can it map virtual addresses to
+physical RAM or swap, it can map them to files and file locations, so
+that reading and writing memory addresses will read and write data to
+and from files.  We, however, are only
+concerned with mmap's ability to add mapped RAM to our process.
+munmap() does the reverse of mmap().</li>
+</ul>
+
+<p>
+As you can see, either brk() or mmap() can be used to add additional virtual
+memory to our processes.  We will use brk() in our examples because it is 
+simpler and more common.
+</p>
+
+<heading refname="" type="minor" toc="no">Implementing a Simple Allocator</heading>
+
+<p>
+If you've done much C programming, you have probably used
+malloc() and free() quite a bit.  However, you may not have taken the
+time to think about how they might be implemented in your operating
+system.  This section will show you code for a simplistic
+implementation of malloc and free, to help you understand what is
+involved with managing memory.
+</p>
+
+<p>
+To try out these examples, type in all of the code below into a file called <filename>malloc.c</filename>.
+</p>
+
+<p>
+Memory allocation on most operating systems is handled by two simple
+functions:
+</p>
+
+<ul>
+<li><code type="inline">void *malloc(long numbytes)</code> - Allocate <code type="inline">numbytes</code> of memory and return a pointer to the first byte.</li>
+<li><code type="inline">void free(void *firstbyte)</code> - Given a pointer that has been returned by a previous malloc, give the space that was allocated back to the process' "free space".</li>
+</ul>
+
+<p>
+<code type="inline">malloc_init</code> is going to be our function to initialize 
+our memory allocator. It does three things: marks our allocator as being
+initialized, finds the last valid memory address on the system, and sets
+up the pointer to the beginning of our managed memory. These
+three variables are global variables:
+</p>
+
+<code type="section">
+int has_initialized = 0;
+void *managed_memory_start;
+void *last_valid_address;
+</code>
+
+<p>
+The edge of mapped memory - last valid address - is often known as the
+<i>system break</i> or the <i>current
+break</i>. On many UNIX systems, to find the current system
+break, you use the function sbrk(0). sbrk moves the current system
+break by the number of bytes in its argument, and then returns the new
+system break. Calling it with an argument of 0 simply returns the
+current break. Here is our malloc initialization code, which finds the
+current break and initializes our variables:
+</p>
+
+<code type="section">
+/* Include the sbrk function */ 
+#include &lt;unistd.h&gt; 
+
+void malloc_init()
+{ 
+	/* grab the last valid address from the OS */ 	
+	last_valid_address = sbrk(0);    	
+
+	/* we don't have any memory to manage yet, so 
+	 *just set the beginning to be last_valid_address 
+	 */ 	
+	managed_memory_start = last_valid_address;    	
+
+	/* Okay, we're initialized and ready to go */
+ 	has_initialized = 1;   
+}
+</code>
+
+<p>
+Now, in order to properly manage memory, we need to be able to track
+what we are allocating and deallocating.  We need to do things like
+mark blocks as unused after "free" has been called on them, and be able
+to locate unused blocks when malloc is called.  Therefore, the start of every
+piece of memory returned by malloc will have this structure at the
+beginning: 
+</p>
+
+<code type="section">
+struct mem_control_block { 
+	int is_available; 
+	int size;
+};
+</code>
+
+<p>
+Now, you might think that this would cause problems for programs
+calling malloc - how do they know about this struct?  The answer is
+that they don't have to know about it - we will hide it by moving the
+pointer past this struct before we return it.  This will make the
+pointer returned point to memory that is not used for any other
+purpose.  That way, from their perspective, all they get is free, open
+memory.  Then, when they pass the pointer back via
+<code type="inline">free()</code>, we simply back up a few memory bytes to
+find this structure again.
+</p>
+
+<p>
+We're going to talk about freeing before we talk about allocating
+memory because it's simpler.  The only thing we have to do to free 
+memory is to take the pointer we're given, back up 
+<code type="inline">sizeof(struct mem_control_block)</code> bytes, and
+mark it as available. Here is the code for that:
+</p>
+
+<code type="section">
+void free(void *firstbyte) { 
+	struct mem_control_block *mcb;  
+
+	/* Backup from the given pointer to find the 
+	 * mem_control_block 
+	 */ 
+	mcb = firstbyte - sizeof(struct mem_control_block);   
+	/* Mark the block as being available */ 
+	mcb-&gt;is_available = 1;    
+	/* That's It!  We're done. */ 
+	return;   
+}  
+</code>
+
+<p>
+As you can see, in this allocator, freeing memory is done in constant
+time, using a very simple mechanism.  Allocating memory is slightly harder.  Here is the outline of
+the algorithm: 
+</p>
+
+<code type="section">
+1. If our allocator has not been initialized, initialize it
+2. Add sizeof(struct mem_control_block) to the size requested 
+3. Start at managed_memory_start
+4. Are we at last_valid address?
+5. If we are:
+   A. We didn't find any existing space that was large enough 
+      - ask the operating system for more and return that
+6. Otherwise:
+   A. Is the current space available (check is_available from 
+      the mem_control_block)?
+   B. If it is:
+      i)   Is it large enough (check "size" from the 
+           mem_control_block)?
+      ii)  If so:
+           a. Mark it as unavailable
+           b. Move past mem_control_block and return the 
+              pointer
+      iii) Otherwise:
+           a. Move forward "size" bytes
+           b. Go back go step 4
+   C. Otherwise:
+      i)   Move forward "size" bytes
+      ii)  Go back to step 4
+</code>
+
+<p>
+We're basically walking through memory using linked pointers looking 
+for open chunks.  Here is the code: 
+</p>
+
+<code type="section">
+void *malloc(long numbytes) { 
+
+	/* Holds where we are looking in memory */ 
+	void *current_location; 
+
+	/* This is the same as current_location, but cast to a 
+	 * memory_control_block 
+	 */
+	struct mem_control_block *current_location_mcb;  
+
+	/* This is the memory location we will return.  It will 
+	 * be set to 0 until we find something suitable 
+	 */  
+	void *memory_location;  
+
+	/* Initialize if we haven't already done so */
+	if(! has_initialized) 	{ 
+		malloc_init();
+	}
+
+	/* The memory we search for has to include the memory 
+	 * control block, but the user of malloc doesn't need 
+	 * to know this, so we'll just add it in for them. 
+	 */
+	numbytes = numbytes + sizeof(struct mem_control_block);  
+
+	/* Set memory_location to 0 until we find a suitable 
+	 * location 
+	 */
+	memory_location = 0;  
+
+	/* Begin searching at the start of managed memory */ 
+	current_location = managed_memory_start;  
+
+	/* Keep going until we have searched all allocated space */ 
+	while(current_location != last_valid_address) 	
+	{ 
+		/* current_location and current_location_mcb point
+		 * to the same address.  However, current_location_mcb
+		 * is of the correct type so we can use it as a struct.
+		 * current_location is a void pointer so we can use it
+		 * to calculate addresses.
+		 */
+		current_location_mcb = 
+			(struct mem_control_block *)current_location;
+
+		if(current_location_mcb-&gt;is_available)
+		{
+			if(current_location_mcb-&gt;size &gt;= numbytes)
+			{
+				/* Woohoo!  We've found an open, 
+				 * appropriately-size location.  
+				 */
+
+				/* It is no longer available */
+				current_location_mcb-&gt;is_available = 0;
+
+				/* We own it */
+				memory_location = current_location;
+
+				/* Leave the loop */
+				break;
+			}
+		}
+
+		/* If we made it here, it's because the Current memory 
+		 * block not suitable, move to the next one 
+		 */
+		current_location = current_location + 
+			current_location_mcb-&gt;size;
+	}
+
+	/* If we still don't have a valid location, we'll 
+	 * have to ask the operating system for more memory 
+	 */
+	if(! memory_location)
+	{
+		/* Move the program break numbytes further */
+		sbrk(numbytes);
+
+		/* The new memory will be where the last valid 
+		 * address left off 
+		 */
+		memory_location = last_valid_address;
+
+		/* We'll move the last valid address forward 
+		 * numbytes 
+		 */
+		last_valid_address = last_valid_address + numbytes;
+
+		/* We need to initialize the mem_control_block */
+		current_location_mcb = memory_location;
+		current_location_mcb-&gt;is_available = 0;
+		current_location_mcb-&gt;size = numbytes;
+	}
+
+	/* Now, no matter what (well, except for error conditions), 
+	 * memory_location has the address of the memory, including 
+	 * the mem_control_block 
+	 */ 
+
+	/* Move the pointer past the mem_control_block */
+	memory_location = memory_location + sizeof(struct mem_control_block);
+
+	/* Return the pointer */
+	return memory_location;
+ }
+</code>
+
+<p>
+And that is our memory manager.  Now we just have to build it and get it to run with our programs.
+</p>
+
+<p>
+To build your malloc-compatible allocator (actually, we're missing 
+some functions like <code type="inline">realloc()</code>, but 
+<code type="inline">malloc()</code> and <code type="inline">free()</code> are the
+main ones), run the following command:
+</p>
+
+<code type="section">
+gcc -shared -fpic malloc.c -o malloc.so
+</code>
+
+<p>
+This will produce a file named <i>malloc.so</i>, which
+is a shared library containing our code.
+</p>
+
+<p>
+On UNIX systems, now use your allocator in place of your
+system <code type="inline">malloc()</code> by doing:
+</p>
+
+<code type="section">
+LD_PRELOAD=/path/to/malloc.so
+export LD_PRELOAD
+</code>
+
+<p>
+The <literal>LD_PRELOAD</literal> environment variable causes the
+dynamic linker to load the symbols of the given shared library
+before any executable it loads.  It also gives precedence to the
+symbols in the library specified.  Therefore, any application we
+start from now on in this session will be using our 
+<literal>malloc()</literal> and not the system one. A few applications
+don't use <literal>malloc()</literal>, but they are the exception.  Others,
+which use the other memory-management functions like <literal>realloc()</literal>
+or which make poor assumptions about the internal behavior of <literal>malloc()</literal>
+will likely crash.  The <literal>ash</literal> shell appears to work just fine using
+our new <literal>malloc()</literal>.
+</p>
+
+<p>And this little paragraph follows a minor heading.  This paragraph mentions an article or Web site and refers the reader to the link in the <a href="#resources">Resources</a> section later in this article.</p>
+
+<!-- CODE SECTION
+You can include code listings at any point in the body of the article. Include a caption ("heading") for each code listing. Do not exceed 600 pixels or about 90 characters in width. For longer code lines, please find suitable places to split the lines; long lines do not autowrap.
+
+The width defaults to full-page width (100%), but if you need to avoid overlaying the toc or a sidebar, you can make the code listing narrower, say with a width of 65%.  Reducing the width does not split long lines; if line length exceeds the width you set, the width is ignored.
+
+For the code listing itself, type or paste in ASCII code with proper keyboard spacing.  Use the space key to indent lines. Use &lt; to represent a less-than symbol and &gt; to represent a greater-than symbol. Use &amp; for an ampersand.  If needed for clarity, use <b> and </b> for bold text (colored text is not advised), as shown below. 
+
+Do not place paragraph tags around the code section. -->
+<code type="section" width="">
+<heading refname="" type="code" toc="no">Listing 1. The build and install process</heading>
+$ bunzip2 -c latest-release.tar.bz|tar xf -
+$ cd latest-release
+$ ./configure
+$ make
+$ <b>make install</b>
+</code>
+
+<!-- INLINE CODE (code within a sentence) -->
+<p>This sentence refers to the <code type="inline">make install</code> command. Use this monospace (inline) code font for names of commands, classes, objects, methods, code snippets, and any text the user types in.  For details, see the <a href="http://dw.raleigh.ibm.com/dwcontent/dwteam/edstyle/guidelines/highlighting.html">developerWorks highlighting conventions</a>.</p>
+
+<!-- SIDEBAR -->
+<!-- Sidebars can appear anywhere in the body of the article, but make sure their placement does not collide with the toc, code listings, tables, or other elements. The heading element is recommended but not required. Do not use paragraph tags around the sidebar. The order of the elements is: sidebar, heading, as shown here. The sidebar tag can include just these optional attributes: width and align. -->
+<sidebar>
+<heading refname="" type="sidebar" toc="no">When to use a sidebar</heading>
+<p>Use a sidebar for a content detour or reinforcement.  For example, you might define terms or  provide a bit of historical background in a sidebar.  Or you might summarize the key points of a lengthy discussion.  For a sidebar in action, see the article <a href="http://www.ibm.com/developerworks/library/l-c99.html">Open source development using C99</a>.</p>
+</sidebar>
+
+<!-- FIGURE 
+Figures can appear anywhere in the body of the article. Use the heading tag to provide a caption.    Do not use paragraph tags around the figure. The order of the tags is: figure, heading, img, as shown here. The alt attribute on the img tag is required. Figures should be in gif or jpg format, and no wider than 600 pixels. -->
+<figure>
+<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 1. The Java Beans view</heading>
+<img src="http://www-128.ibm.com/developerworks/library/os-ecvisual/JBView.gif" width="211" height="168" alt="The Java Beans view"/>
+</figure>
+
+<!-- TABLE
+Tables can appear anywhere in the body of the article. Give each table a caption with the heading element (there is no heading type defined for headings, so the heading type used for figures will do). Do not use paragraph tags around the table. The order of the tags is: heading, table, as shown here. The table tag can include just these optional attributes: width, cellspacing, cellpadding, border, and cols. The table row (tr) tag can include just these optional attributes: valign, align, and bgcolor. The table data (td) tag can include just these optional attributes: valign, align, bgcolor, colspan, rowspan, and width. -->
+<heading refname="" type="minor" toc="no">Table 1. Pattern energy levels</heading>
+<p>
+      <table width="60%" cellspacing="1" cellpadding="3" border="0">
+        <tr valign="top">
+          <td>
+            <b>Pattern</b>
+          </td>
+          <td>
+            <b>Energy</b>
+          </td>
+           <td>
+            <b>Rank</b>
+          </td>
+        </tr>
+          <tr valign="top"><td>p1</td><td>-9600.0</td><td>1</td></tr>
+		<tr valign="top"><td>p2</td><td>-7104.0</td><td>3</td></tr>
+		<tr valign="top"><td>p3</td><td>-6848.0</td><td>4</td></tr>
+		<tr valign="top"><td>p4</td><td>-9472.0</td><td>2</td></tr>
+		<tr valign="top"><td>p5</td><td>-6408.0</td><td>5</td></tr>
+      </table>
+</p>
+
+<!-- LISTS -->
+<!-- Lists can appear anywhere in the body of the article. If you have an ordered list interrupted by a heading and you want the numbering to continue, use the start attribute (for example, to resume the list at number 6, use <ol start="6">. -->
+<ol>
+<li>Ordered list item</li>
+<li>Ordered list item</li>
+</ol>
+
+<ul>
+<li>Unordered list item</li>
+<li>Unordered list item</li>
+</ul>
+
+<!-- END OF ARTICLE BODY
+Required element. The body can contain paragraphs, major headings, minor headings, code listings, figures, tables, lists, sidebars, etc.-->
+</docbody>
+
+<!-- TRADEMARKS
+Optional element. Trademark text will not appear in HTML, only PDF versions of articles once the auto-PDF generation function is available. -->
+<trademarks>
+<trademark>This is a trademark statement.</trademark>
+<trademark>This is another trademark statement.</trademark>
+</trademarks>
+
+<!-- RELATED-LIST
+Optional element, but recommended. This element creates the "Related content" section in the right nav.  Include up to 6 developerWorks content items (articles, tutorials, forums, campaigns, product landing pages) that are mentioned in or relevant to the article. If this article is part of a column or series, include links to the other articles. -->
+<related-list>
+<a href="http://www.ibm.com/">Related article title</a>
+<a href="http://www.ibm.com/">Related article title</a>
+</related-list>
+
+<!-- RESOURCE-LIST
+Optional element, but recommended. This element creates the "Resources" section at the bottom of the article. Include links to all Web content mentioned in the article, and other articles, tutorials, books, Web sites, campaigns, or offers  related to the topic.  Do NOT include links to download files related to the article; they should only be referenced with <target-content-file> elements.  Resources may be from developerWorks, alphaWorks, IBM product or research sites, or non-IBM sites. Annotate each link by explaining the value and relevance for the reader. Put series titles and book titles in italics (<i>).  -->
+<resource-list>
+<ul>
+
+<!-- Example of an article resource: -->
+<li>The article <a href="http://www.ibm.com/developerworks/library/os-ecov/">Getting started with the Eclipse Platform</a> (developerWorks, November 2002) provides a history and overview of Eclipse, including details on how to install Eclipse and plug-ins.</li>
+
+<!-- Example of a book resource: -->
+<li><a href="http://devworks.krcinfo.com/WebForms/ProductDetails.aspx?ProductID=1930110960"><i>Eclipse In Action: A Guide for Java Developers</i></a> (Independent Pub Group, 2003) is a must-read for Java developers using Eclipse.</li>
+
+<!-- Example of a series resource: -->
+<li>Browse all of the <a href="http://www-106.ibm.com/developerworks/views/linux/articles.jsp?sort_order=desc&amp;expand=&amp;sort_by=Date&amp;show_abstract=true&amp;view_by=Search&amp;search_by=charming+python%3A"><i>Charming Python</i> columns</a> on developerWorks.</li>
+
+<!-- Example of a non-IBM Web site resource: -->
+<li>Get the latest version of <a href="http://www.netbeans.org/">Netbeans</a>, an open source IDE for Java application development, at the Netbeans Web site.</li>
+
+<!-- Example of a forum link (if not added automatically): -->
+<li>Share your questions and views on this article with the author 
+and other readers in the <a href="http://www.ibm.com/developerworks/forums/dw_forum.jsp?forum=160&amp;cat=5">Speed-start your Linux app discussion forum</a>.</li>
+
+<!-- Example of a zone overview page link: -->
+<li>To learn more about DB2, visit the <a href="http://www.ibm.com/developerworks/db2/">developerWorks DB2 zone</a>.  You'll find 
+technical documentation, how-to articles, education, downloads, product 
+information, and more.</li>
+
+<!-- Another example of a zone overview page link: -->
+<li>Find more resources for Linux developers in the <a href="http://www.ibm.com/developerworks/linux/">developerWorks Linux zone</a>.</li>
+
+<!-- Linux offer overview page link (if applicable): -->
+<li>Visit the <a href="http://www.ibm.com/developerworks/offers/linux-speed-start/">Speed-start your Linux app</a> site for the latest no-charge trial 
+downloads for Linux (WebSphere Studio Application Developer, WebSphere Application 
+Server, DB2 Universal Database, Tivoli Access Manager, and Tivoli Directory Server), 
+as well as how-to articles and tech support.</li>
+
+<!-- Web services offer overview page link (if applicable): -->
+<li>Access Web services knowledge, tools, and skills with <a href="http://www.ibm.com/developerworks/offers/ws-speed-start/?S_TACT=104AMW04&amp;S_CMP=ART">Speed-start Web services</a>, 
+which offers the latest Java-based software development tools and middleware 
+from IBM (trial editions), plus online tutorials and articles, and an online 
+technical forum.</li>
+
+<!-- Blog link (general): -->
+<li>Get involved in the developerWorks community by participating in 
+<a href="http://www.ibm.com/developerworks/blogs/">developerWorks blogs</a>.</li>
+
+<!-- Example of a Bookstore link: -->
+<li>Purchase <a
+href="http://devworks.krcinfo.com/WebForms/ProductList.aspx?Search=Category&amp;id=300&amp;parent=Linux"
+target="new">Linux books at discounted prices</a> in the Linux section of
+the Developer Bookstore.</li>
+
+</ul>
+</resource-list>
+
+</dw-article>
+</dw-document>
