@@ -182,7 +182,7 @@ foo:
 
 <para>
 What may not be obvious is that accessing the global variable takes fewer
-machine cycles than accessing the global variable.  However, that may not
+machine cycles than accessing the local variable.  However, that may not
 matter because the stack is more likely to be in physical memory<indexterm><primary>physical memory</primary></indexterm> (instead of swap)
 than the global variable is.
 </para>
