@@ -180,9 +180,11 @@ of the tool you use.
 &wherenext-chapter;
 
 &gui-appendix;
+&instructions-appendix;
 &syscall-appendix;
 &ascii-appendix;
 &c-translation-appendix;
+&gdb-appendix;
 
 &history-appendix;
 &fdl-appendix;
