@@ -830,8 +830,15 @@ is 0), and remember that each number takes up four storage locations."
 Then it stores that number in <literal>%eax</literal>.  This is how you write
 indexed addressing mode<indexterm><primary>indexed addressing mode</primary></indexterm>
 instructions in assembly language.  The instruction in a general form
-is this: <literal>movl BEGINNINGADDRESS(,%INDEXREGISTER,WORDSIZE)</literal>.  In
-our case <literal>data_items</literal> was our beginning address, &edi; was our
+is this: 
+</para>
+
+<programlisting>
+movl  BEGINNINGADDRESS(,%INDEXREGISTER,WORDSIZE)
+</programlisting>  
+
+<para>
+In our case <literal>data_items</literal> was our beginning address, &edi; was our
 index register<indexterm><primary>index register</primary></indexterm>, and 4 was our word size.  This topic is discussed further in <xref linkend="movaddrmodes" />.
 </para>
 
