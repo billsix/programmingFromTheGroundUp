@@ -223,8 +223,8 @@ end_loop:
 
 #PURPOSE:   This function actually does the conversion to upper case for a block
 #
-#INPUT:     The first parameter is the location of the block of memory to convert
-#           The second parameter is the length of that buffer
+#INPUT:     The first parameter is the length of that buffer
+#           The second parameter is the location of the block of memory to convert
 #
 #OUTPUT:    This function overwrites the current buffer with the upper-casified
 #           version.
