@@ -548,9 +548,9 @@ are already stored by Linux
 in an easy-to-access location, and are already null-terminated.  When 
 a Linux program begins, all pointers to command-line arguments are
 stored on the stack.  The number of arguments is stored at 
-<literal>8(%esp)</literal>, the name of the program is stored at
-<literal>12(%esp)</literal>, and the arguments are stored from 
-<literal>16(%esp)</literal> on.  In the C Programming language, this
+<literal>(%esp)</literal>, the name of the program is stored at
+<literal>4(%esp)</literal>, and the arguments are stored from 
+<literal>8(%esp)</literal> on.  In the C Programming language, this
 is referred to as the <literal>argv<indexterm><primary>argv</primary></indexterm></literal> array, so we will refer
 to it that way in our program.
 </para>
