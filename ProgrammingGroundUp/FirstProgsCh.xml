@@ -272,16 +272,19 @@ there are also several special-purpose registers<indexterm><primary>special-purp
 We'll discuss these later, just be aware that they 
 exist.<footnote><para>You may be wondering, <emphasis>why do all of these
 registers begin with the letter <literal>e</literal>?</emphasis>  The
-reason is that Intel computers used to be 16 bits rather than 32 bits.
+reason is that early generations of x86 processors were 16 bits 
+rather than 32 bits.
 Therefore, the registers were only half the length
-they are now.  When Intel doubled the size of the registers, they kept
+they are now.  In later generations of x86 processors, the size of the 
+registers doubled. They kept
 the old names to refer to the first half of the register, and added an
 <literal>e</literal> to refer to the extended versions of the register.
-Usually you will only use the extended versions.  AMD's Opteron processor,
-which also has a 64-bit mode, doubles the size of these registers yet again,
+Usually you will only use the extended versions.  Newer models also
+offer a 64-bit mode, which doubles the size of these registers yet again
 and uses an <literal>r</literal> prefix to indicate the larger registers (i.e.
-&rax; is the 64-bit version of &eax;).
-</para></footnote>
+&rax; is the 64-bit version of &eax;).  However, these processors are not 
+widely used, and are not covered in this book.
+</para></footnote>  Also, &edi; can also be used as a general-purpose register.
 </para>
 
 <para>
@@ -409,19 +412,140 @@ part of learning!
 
 </sect1>
 
-<sect1 id="maximum">
-<title>A Program that Does Something</title>
-
-<remark>
-Need to introduce the idea of flow-control.  Assembly language only
-has really basic flow-control statements, but need to talk about it
-for a background for the other languages chapter.
-</remark>
+<sect1>
+<title>Planning the Program</title>
 
 <para>
-Don't let the title of this section confuse you.  We still aren't
-doing anything useful.  But we will be doing more than simply exiting
-here.  Enter the following program as <filename>maximum.s</filename>
+In our next program we will try to find the maximum of a list of numbers.
+Computers are very detail-oriented, so in order to write the program we
+will have to have planned out a number of details.  These details include:
+</para>
+
+<itemizedlist>
+<listitem><para>Where will the original list of numbers be stored?</para></listitem>
+<listitem><para>What procedure will we need to follow to find the maximum number?</para></listitem>
+<listitem><para>How much storage do we need to carry out that procedure?</para></listitem>
+<listitem><para>Will all of the storage fit into registers, or do we need to use some memory as well?</para></listitem>
+</itemizedlist>
+
+<para>
+You might not think that something as simple as finding the maximum number from
+a list would take much planning.  You can usually tell people to find the 
+maximum number, and they can do so with little trouble.  However, our minds
+are used to putting together complex tasks automatically.  Computers need
+to be instructed through the process.  In addition, we can usually hold any
+number of things in our mind without much trouble.  We usually don't even
+realize we are doing it.  For example, if you scan a list of numbers for the
+maximum, you will probably keep in mind both the highest number you've seen
+so far, and where you are in the list.  While your mind does this
+automatically, with computers you have to explicitly set up storage for holding
+the current position on the list and the current maximum number.  You also
+have other problems such as how to know when to stop.  When reading a piece
+of paper, you can stop when you run out of numbers.  However, the computer
+only contains numbers, so it has no idea when it has reached the last of 
+<emphasis>your</emphasis> numbers.
+</para>
+
+<para>
+Yes, in computers, you have to plan every step of the way.  So, let's do
+a little planning.  First of all, just for reference, let's name the
+address where the list of numbers starts as <literal>data_items</literal>.
+Let's say that the last number in the list will be a zero, so we know where
+to stop.  We also need a value to hold the current position in the list,
+a value to hold the current list element being examined, and the current
+highest value on the list.  Let's assign each of these a register:
+</para>
+<itemizedlist>
+<listitem><para>&edi; will hold the current position in the list.</para></listitem>
+<listitem><para>&ebx; will hold the current highest value in the list.</para></listitem>
+<listitem><para>&eax; will hold the current element being examined.</para></listitem>
+</itemizedlist>
+
+<para>
+When we begin the program and look at the first item in the list, since we
+haven't seen any other items, that item will automatically be the current
+largest element in the list.  Also, we will set the current position in the
+list to be zero - the first element.  From then, we will follow the following
+steps:
+</para>
+
+<orderedlist>
+<listitem><para>Check the current list element (&eax;) to see if it's zero (the terminating element).</para></listitem>
+<listitem><para>If it is zero, exit.</para></listitem>
+<listitem><para>Increase the current position (&edi;).</para></listitem>
+<listitem><para>Load the next value in the list into the current value register (&eax;).  What addressing mode might we use here?  Why?</para></listitem>
+<listitem><para>Compare the current value (&eax;) with the current highest value (&ebx;).</para></listitem>
+<listitem><para>If the current value is greater than the current highest value, replace the current highest value with the current value.</para></listitem>
+<listitem><para>Repeat.</para></listitem>
+</orderedlist>
+
+<para>
+That is the procedure.  Many times in that procedure I made use of the word
+"if".  These places are where decisions are to be made.  You see, the computer
+doesn't follow the exact same sequence of instructions every time.  Depending
+on which "if"s are correct, the computer may follow a different set of 
+instructions.  The second time through, it might not have the highest value.
+In that case, it will skip step 6, but come back to step 7.  In every 
+case except the last one, it will skip step 2.  In more complicated programs,
+the skipping around increases dramatically.
+</para>
+
+<para>
+These "if"s are a class of instructions called <emphasis>flow 
+control</emphasis> instructions, because they tell the compute which steps
+to follow and which paths to take.  In the previous program, we did not
+have any flow control instructions, as there was only one possible path to
+take - exit.  This program is much more dynamic in that it is directed by
+data.  Depending on what data it receives, it will follow different instruction
+paths.
+</para>
+
+<para>
+In this program, this will be accomplished by two different 
+instructions, the conditional jump and the unconditional jump.  The conditional
+jump changes paths based on the results of a previous comparison or
+calculation.  The unconditional jump just goes directly to a different path
+no matter what.  The unconditional jump may seem useless, but it is very
+necessary since all of the instructions will be laid out on a line.  If a
+path needs to converge back to the main path, it will have to do this by
+an unconditional jump.  We will see more of both of these jumps in the
+next section.
+</para>
+
+<para>
+Another use of flow control is in implementing loops.  A loop is a piece
+of program code that is meant to be repeated.  In our example, the first
+part of the program (setting the current position to 0 and loading the
+current highest value with the current value) was only done once, so it
+wasn't a loop.  However, the next part is repeated over and over again
+for every number in the list.  It is only left when we have come to the
+last element, indicated by a zero.  This is called a <emphasis>loop</emphasis>
+because it occurs over and over again.  It is implemented by doing 
+unconditional jumps to the beginning of the loop at the end of the loop, which
+causes it to start over.  However, you have to always remember to have a
+conditional jump to exit the loop somewhere, or the loop will continue
+forever!  This condition is called an <emphasis>infinite loop</emphasis>.
+If we accidentally left out step 1, 2, or 3, the loop (and our program)
+would never end.
+</para>
+
+<para>
+In the next section, we will implement this program that we have planned.
+Program planning sounds complicated - and it is, to some degree.  When you
+first start programming, it's often hard to convert our normal thought
+process into a procedure that the computer can understand.  We often forget
+the number of "temporary storage locations" that our minds are using to
+process problems.  As you read and write programs, however, this will
+eventually become very natural to you.  Just have patience.
+</para>
+
+</sect1>
+
+<sect1 id="maximum">
+<title>Finding a Maximum Value</title>
+
+<para>
+Enter the following program as <filename>maximum.s</filename>
 
 <programlisting>
 &maximum-s;
@@ -457,8 +581,7 @@ refers to the location that follows it.  Then, there is a directive
 that starts with <literal>.long<indexterm><primary>.long</primary></indexterm></literal>.  That causes the assembler
 to reserve memory for the list of numbers that follow it.  
 <literal>data_items</literal> refers to the location of the first one.  
-There are
-several different types of memory locations other than <literal>.long</literal>
+There are several different types of memory locations other than <literal>.long</literal>
 that can be reserved.  The main ones are as follows:
 </para>
 
@@ -522,7 +645,7 @@ is used by the assembler to refer to the address of the first of these values.
 <para>
 Take note that the last data item in the list is a zero.  I decided 
 to use a zero to tell my program that
-we've hit the end of the list.  I could have done this other ways.  I
+it has hit the end of the list.  I could have done this other ways.  I
 could have had the size of the list hard-coded into the program.  Also,
 I could have put the length of the list as the first item, or in a separate
 location.  I also could have made a symbol which marked the last location
@@ -546,7 +669,8 @@ the program's execution.  It's not an error to write
 Anyway, play around with this line and add your own numbers.  Even
 though they are <literal>.long</literal>, the program will produce
 strange results if any number is greater than 255, because that's the
-largest allowed exit status<indexterm><primary>exit status</primary></indexterm>.  
+largest allowed 
+exit status<indexterm><primary>exit status</primary></indexterm>.  
 Also notice that if you move the 0 to
 earlier in the list, the rest get ignored.  
 <emphasis>Remember that any time
@@ -560,7 +684,9 @@ at the code.  In the comments you will notice that we've marked
 some <emphasis>variables<indexterm><primary>variables</primary></indexterm></emphasis> 
 that we plan to use.  A variable
 is a dedicated storage location used for a specific purpose, usually
-given a distinct name by the programmer.  In this program, we have several variables:
+given a distinct name by the programmer.  We talked about these in the
+previous section, but didn't give them a name.  In this program, we have 
+several variables:
 </para>
 
 <itemizedlist>
@@ -570,12 +696,13 @@ given a distinct name by the programmer.  In this program, we have several varia
 </itemizedlist>
 
 <para>
-In this case,we have few enough variables that we can hold them all in registers.
-In larger programs, you have to put them in memory, and then move
-them to registers when you are ready to use them.  We will discuss how to do that
-later.  When people start out programming, they usually underestimate the number of
-variables they will need.  People are not used to having to think through every 
-detail of a process, and therefore don't think of everything they need.
+In this case,we have few enough variables that we can hold them all in 
+registers.  In larger programs, you have to put them in memory, and then move
+them to registers when you are ready to use them.  We will discuss how 
+to do that later.  When people start out programming, they usually 
+underestimate the number of variables they will need.  People are not used 
+to having to think through every detail of a process, and therefore leave out
+needed variables in their first programming attempts.
 </para>
 
 <para>
@@ -605,8 +732,6 @@ the next instruction is tricky, but crucial to what we're doing.  It says:
 	movl data_items(,%edi,4), %eax
 </programlisting>
 
-<!-- FIXME - Dominique suggests a diagram or something here -->
- 
 <indexterm><primary>movl</primary></indexterm>
 <para>
 Now to understand this line, you need to keep several things in mind:
@@ -627,7 +752,7 @@ indexed addressing mode<indexterm><primary>indexed addressing mode</primary></in
 instructions in assembly language.  The instruction in a general form
 is this: <literal>movl BEGINNINGADDRESS(,%INDEXREGISTER,WORDSIZE)</literal>.  In
 our case <literal>data_items</literal> was our beginning address, &edi; was our
-index register, and 4 was our word size.
+index register, and 4 was our word size.  
 </para>
 
 <para>
@@ -644,7 +769,7 @@ you start at the location specified by <literal>data_items</literal>, then
 you add <literal>%edi</literal>*4 storage locations, and retrieve the number
 there.  Usually, you use the size of the numbers as your multiplier, but in
 some circumstances you'll want to do other things.</para></footnote>
-The way you write this is very awkward, but if you know what each piece does, it's not too difficult.
+The way you write this is very awkward, but if you know what each piece does, it's not too difficult.  For more information about this, see <xref linkend="movaddrmodes" />
 </para>
 
 <para>
@@ -680,14 +805,12 @@ that we execute over and over again for every element in <literal>data_items</li
 </para>
 
 <para>
-Before looking at the code, let's think
-about what our loop will have to do.<footnote><para>Keep in mind that
-upon entering the loop, we have already loaded the first data item and
-stored it as the maximum.</para></footnote>  It will have to do the following:
+In the previous section, we outlined what this loop needed to do.  Let's
+review:
 </para>
 
 <itemizedlist>
-<listitem><para>check to see if the current value being looked at is zero.  If so, that means we are at the end of our data and should exit the loop.</para></listitem>
+<listitem><para>Check to see if the current value being looked at is zero.  If so, that means we are at the end of our data and should exit the loop.</para></listitem>
 <listitem><para>We have to load the next value of our list.</para></listitem>
 <listitem><para>We have to see if the next value is bigger than our current biggest value.</para></listitem>
 <listitem><para>If it is, we have to copy it to the location we are holding the largest value in.</para></listitem>
@@ -695,8 +818,8 @@ stored it as the maximum.</para></footnote>  It will have to do the following:
 </itemizedlist>
 
 <para>
-Okay, so now lets go to the code.  We have the beginning of the loop marked with
-<literal>start_loop</literal>.  That is so we know where to go back
+Okay, so now lets go to the code.  We have the beginning of the loop 
+marked with <literal>start_loop</literal>.  That is so we know where to go back
 to at the end of our loop.  Then we have these instructions:
 </para>
 
@@ -712,11 +835,14 @@ This compare instruction also affects a register not mentioned here, the
 &eflags-indexed; register.  This is also known as the status register<indexterm><primary>status register</primary></indexterm>,
 and has many uses which we will discuss later.  Just be aware that the
 result of the comparison is stored in the status register.  The next line
-says to <emphasis>jump</emphasis> to the <literal>end_loop</literal> location
-if the values that were just compared are equal (that's what the <literal>e</literal>
-of <literal>je</literal> means).  It uses the status register to hold the value of
-the last comparison.  We used <literal>je</literal>, but there are many jump statements
-that you can use:
+is a flow control instruction which says to 
+<emphasis>jump</emphasis> to the <literal>end_loop</literal> location
+if the values that were just compared are equal (that's what the 
+<literal>e</literal>
+of <literal>je</literal> means).  It uses the status register to hold the 
+value of
+the last comparison.  We used <literal>je</literal>, but there are many jump 
+statements that you can use:
 </para>
 
 <variablelist>
@@ -804,8 +930,8 @@ our list of values in <literal>data_items</literal>.
 increments the value of &edi; by
 one.  Then the <literal>movl</literal> is just like the one we did 
 beforehand.  However, since we incremented &edi;, it is getting the
-next value from the list.  Now, &eax; has the next value to be tested.  So, let's
-test it!
+next value from the list.  Now, &eax; has the next value to be tested.  
+So, let's test it!
 </para>
 
 <programlisting>
@@ -828,7 +954,7 @@ Otherwise, we need to record that value as the largest one:
 
 <para>
 which moves the current value into &ebx;, which we are
-using to store the current largestt value,  and starts
+using to store the current largest value,  and starts
 the loop over again.  
 </para>
 
@@ -836,8 +962,10 @@ the loop over again.
 Okay, so the loop executes until it reaches a 0, when it jumps
 to <literal>loop_exit</literal>.  This part of the program calls
 the Linux kernel to exit.  If you remember from the last program,
-when you call the operating system (remember it's like signaling Batman), you store the 
-system call<indexterm><primary>system call</primary></indexterm> number in &eax-indexed; 
+when you call the operating system (remember it's like signaling Batman), 
+you store the 
+system call<indexterm><primary>system call</primary></indexterm> 
+number in &eax-indexed; 
 (1 for the <literal>exit</literal> call),
 and store the other values in the other registers.  The exit call
 requires that we put our exit status in &ebx-indexed;
@@ -868,11 +996,9 @@ to every register, so you can see more clearly what is going on.
 
 </sect1>
 
-<!-- FIXME - do I need a new chapter between here and functions? -->
-<!-- FIXME - need a review of addressing modes and syntaxes -->
-<!-- FIXME - need to discuss flow control -->
 
-<sect1>
+
+<sect1 id="movaddrmodes">
 <title>Addressing Modes</title>
 
 <para>
@@ -914,7 +1040,7 @@ All of the addressing modes mentioned in <xref linkend="dataaccessingmethods" />
 <varlistentry>
 <term>direct addressing mode</term>
 <listitem><para>
-This is done by only using the ADDRESS_OR_OFFSET portion.  Example:
+This is done by only using the <literal>ADDRESS_OR_OFFSET</literal> portion.  Example:
 <programlisting>
 movl ADDRESS, %eax
 </programlisting>
@@ -926,41 +1052,103 @@ This loads &eax; with the value at memory address <literal>ADDRESS</literal>.
 <varlistentry>
 <term>indexed addressing mode</term>
 <listitem><para>
-
+This is done by using the <literal>ADDRESS_OR_OFFSET</literal> and the <literal>%INDEX</literal> portion.  You can use any general-purpose register as the index register.  You can also have a constant multiplier of 1, 2, or 4 for the index register, to make it easier to index by bytes, double-bytes, and words.  For example, let's say that we had a string of bytes as <literal>string_start</literal> and wanted to access the third one (an index of 2 since we start counting the index at zero), and &ecx held the value 2.  If you wanted to load it into &eax; you could do the following:
+<programlisting>
+movl string_start(,%ecx,1), %eax
+</programlisting>
+This starts at <literal>string_start</literal>, and adds <literal>1 * %ecx</literal> to that address, and loads the value into &eax;.
 </para></listitem>
 </varlistentry>
-
 
 <varlistentry>
 <term>indirect addressing mode</term>
 <listitem><para>
-
+Indirect addressing mode loads a value from the address indicated by a register.  For example, if &eax; held an address, we could move the value at that
+address to &ebx; by doing the following:
+<programlisting>
+movl (%eax), %ebx
+</programlisting>
 </para></listitem>
 </varlistentry>
-
-
 
 <varlistentry>
 <term>base-pointer addressing mode</term>
 <listitem><para>
-
+Base-pointer addressing is similar to indirect addressing, except that it
+adds a constant value to the address in the register.  For example, if you
+have a record where the age value is 4 bytes into the record, and you have the
+address of the record in &eax;, you can retrieve the age into &ebx; by 
+issuing the following instruction:
+<programlisting>
+movl  4(%eax), %ebx
+</programlisting>
 </para></listitem>
 </varlistentry>
-
 
 <varlistentry>
 <term>immediate mode</term>
 <listitem><para>
-
+Immediate mode is very simple.  It does not follow the general form we have
+been using.  Immediate mode is used to load direct values into registers
+or memory locations.  For example, if you wanted to load the number 12
+into &eax;, you would simply do the following:
+<programlisting>
+movl $12, %eax
+</programlisting>
+Notice that to indicate immediate mode, we used a dollar sign in front of
+the number.  If we did not, it would be direct addressing mode, in which 
+case the value located at memory location 12 would be loaded into &eax;
+rather than the number 12 itself.
 </para></listitem>
 </varlistentry>
 
+<varlistentry>
+<term>Register addressing mode</term>
+<listitem><para>
+Register mode simply moves data in or out of a register.  In all of our 
+examples, register addressing mode was used for the other operand.
+</para></listitem>
+</varlistentry>
 
 </variablelist>
 
 <para>
 These addressing modes are very important, as every memory access will use
-one of these.
+one of these.  Every mode except immediate mode can be used as either the
+source or destination operand.  Immediate mode can only be a source operand.
+</para>
+
+<para>
+In addition to these modes, there are also different instructions for different
+sizes of values to move.  For example, we have been using 
+<literal>movl</literal> to move data a word at a time.  in many cases, you
+will only want to move data a byte at a time.  This is accomplished by the
+instruction <literal>movb</literal>.  However, since the registers we have
+discussed are word-sized and not byte-sized, you cannot use the full register.
+Instead, you have to use a portion of the register.
+</para>
+
+<para>
+Take for instance &eax;.  If you only wanted to work with two bytes at a time,
+you could just use &ax;.  &ax; is the least-significant half of the &eax; 
+register, and is useful when dealing with two-byte quantities.  &ax; is
+further divided up into &al; and &ah;.  &al; is the least-significant byte of
+&ax;, and &ah; is the most significant byte.<footnote><para>When we talk about
+the <emphasis>significa</emphasis> byte, it may be a little confusing.  
+Let's take the number 5432.  In that number, 54 is the most significant half
+of that number and 32 is the least significant half.  You can't quite divide
+it like that for registers, since they operate on base 2 rather than base 10
+numbers, but that's the basic idea.  For more information on this topic, see
+<xref linkend="countingchapter" />.</para></footnote>  Loading a value into
+&eax; will wipe out whatever was in &al; and &ah; (and also &ax;, since &ax;
+is made up of them).  Similarly, loading a value into either &al; or &ah;
+will corrupt any value that was formerly in &eax;.  Basically, it's wise
+to only use a register for either a byte or a word, but never both at the
+same time.
+</para>
+
+<para>
+For a more comprehensive list of instructions, see <xref linkend="instructionsappendix" />.
 </para>
 
 </sect1>
@@ -980,6 +1168,12 @@ one of these.
 <listitem><para>What are indexes used for?</para></listitem>
 <listitem><para>Why do indexes usually start at 0?</para></listitem>
 <listitem><para>If I issued the command <literal>movl data_items(,%edi,4), %eax</literal> and data_items was address 3634 and &edi; held the value 13, what address would you be using to move into &eax;?</para></listitem>
+<listitem><para>List the general-purpose registers.</para></listitem>
+<listitem><para>What is the difference between <literal>movl</literal> and <literal>movb</literal>?</para></listitem>
+<listitem><para>What is flow control?</para></listitem>
+<listitem><para>What does a conditional jump do?</para></listitem>
+<listitem><para>What things do you have to plan for when writing a program?</para></listitem>
+<listitem><para>Go through every instruction and list what addressing mode is being used for each operand.</para></listitem>
 </itemizedlist>
 
 </sect2>
@@ -993,6 +1187,7 @@ one of these.
 <listitem><para>Modify the <literal>maximum</literal> program to use the number 255 to end the list rather than the number 0</para></listitem>
 <listitem><para>Modify the <literal>maximum</literal> program to use an ending address rather than the number 0 to know when to stop.</para></listitem>
 <listitem><para>Modify the <literal>maximum</literal> program to use a length count rather than the number 0 to know when to stop.</para></listitem>
+<listitem><para>What would the instruction <literal>movl _start, %eax</literal> do?  Be specific, based on your knowledge of both addressing modes and the meaning of <literal>_start</literal>.  How would this differ from the instruction <literal>movl $_start, %eax</literal>?</para></listitem>
 </itemizedlist>
 
 </sect2>
@@ -1003,7 +1198,7 @@ one of these.
 <itemizedlist>
 <listitem><para>Modify the first program to leave off the <literal>int</literal> instruction line. Assemble, link, and execute the new program.  What error message do you get.  Why do you think this might be?</para></listitem>
 <listitem><para>So far, we have discussed three approaches to finding the end of the list - using a special number, using the ending address, and using the length count.  Which approach do you think is best?  Why?  Which approach would you use if you knew that the list was sorted?  Why?</para></listitem>
-<!-- FIXME - this addressing mode has not yet been introduced <listitem><para>Given your knowledge of computer memory, what would the instruction <literal>movl _start, %eax</literal> do?</para></listitem>-->
+
 </itemizedlist> 
 </sect2>
 

@@ -69,7 +69,7 @@ which we will see eventually.
 <varlistentry>
 <term>Byte</term>
 <listitem><para>
-This is the size of a storage location.  On Intel computers, a byte
+This is the size of a storage location.  On x86 processors, a byte
 can hold numbers between 0 and 255
 </para></listitem>
 </varlistentry>
@@ -77,7 +77,7 @@ can hold numbers between 0 and 255
 <varlistentry>
 <term>Word</term>
 <listitem><para>
-This is the size of a normal register.  On Intel computers, a word
+This is the size of a normal register.  On x86 processors, a word
 is four storage locations(bytes) long.
 </para></listitem>
 </varlistentry>
@@ -155,15 +155,12 @@ your memory of addressing modes, see <xref linkend="dataaccessingmethods" />.
 </sect1>
 
 <sect1>
-<title>The Memory Layout of a Linux Program
-<footnote>
+<title>The Memory Layout of a Linux Program</title>
+
 <para>
 This section is based off of Konstantin Boldyshev's document, "Startup state of a Linux/i386 ELF binary", available at 
-<ulink url="http://linuxassembly.org/startup.html">http://linuxassembly.org/startup.html</ulink>.  
+http://linuxassembly.org/startup.html
 </para>
-</footnote>
-</title>
-
 
 <para>
 When you program is loaded into memory, each <literal>.section</literal>
@@ -331,7 +328,7 @@ physical address, it can also move those mappings around as needed.
 
 <para>
 Memory is separated out into groups called <emphasis>pages</emphasis>.  When
-running Linux on Intel systems, a page is four thousand ninety six bytes of memory.
+running Linux on x86 processors, a page is four thousand ninety six bytes of memory.
 All of the memory mappings are done a page at a time.  What this means to you
 is that whenever you are programming, try to keep most memory accesses within
 the same basic range of memory, so you will only need a page or two of memory.

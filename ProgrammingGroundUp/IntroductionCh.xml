@@ -45,8 +45,8 @@ of the poetry and magic that makes computing exciting.
 Most introductory books on programming frustrate me to no end.  At the
 end of them you can still ask "how does the computer really work?" and
 not have a good answer.  They tend to pass over topics that are 
-difficult, even though they are important.  I will take you through
-the difficult issues, because that is the only way to move on to
+difficult even though they are important.  I will take you through
+the difficult issues because that is the only way to move on to
 masterful programming.  My goal is to take you from knowing nothing about
 programming to understanding how to think, write, and learn like
 a programmer.  You won't know everything, but you will have a background
@@ -83,9 +83,27 @@ It's a long climb, but very worthwhile.
 </para>
 
 <para>
+At the end of each chapter are three sets of review exercises.  The first
+set is more or less regurgitation - they check to see if can you give 
+back what you learned in the chapter.  The second set contains application 
+questions - they check to see if you can apply what you learned to solve 
+problems.  The final set is to see if you are capable of broadening your
+horizons.  Some of these questions may not be answerable until later in
+the book, but they give you some things to think about.  Other questions
+require some research into outside sources to discover the answer.  Still
+others require you to simply analyze your options and explain a best solution.
+Many of the questions don't have right or wrong answers, but that doesn't mean
+they are unimportant.  Learning the issues involved in programming, learning
+how to research answers, and learning how to look ahead are all a major
+part of a programmer's work. 
+</para>
+
+<para>
 If you have problems that you just can't get past, there is a mailing list
 for this book where readers can discuss and get help with what they are
-reading.  The address is pgubook-readers@nongnu.org.
+reading.  The address is <literal>pgubook-readers@nongnu.org</literal>.
+This mailing list is open for any type of question or discussion along the
+lines of this book.
 </para>
 </sect1>
 
@@ -93,39 +111,67 @@ reading.  The address is pgubook-readers@nongnu.org.
 <title>Your Tools</title>
 
 <para>
-Hands-on learning is the best kind.  Therefore we will be giving all of 
-the examples using the GNU/Linux operating system with the GCC tool set. 
+This book teaches assembly language for x86 processors and the GNU/Linux
+operating system.  Therefore we will be giving all of 
+the examples using the GNU/Linux standard GCC tool set. 
 If you are not familiar with GNU/Linux and the GCC tool set, they will
-be described shortly.  If you are new to Linux, you should check out
-the documentation available at http://rute.sourceforge.net/
+be described shortly.  If you are new to Linux, you 
+should check out the guide available at 
+http://rute.sourceforge.net/<footnote><para>This is quite a large 
+document.  You certainly don't need to know everything to get started 
+with this book.  You simply need to know how to navigate from the command
+line and how to use an editor like <literal>pico</literal>, 
+<literal>emacs</literal>, or <literal>vi</literal> 
+(or others).</para></footnote>
 What I intend to show you is more about programming in general than using
-a specific tool set, but standardizing on one makes the task much
-easier.
-</para>
-<para>
-All of these
-programs have been tested using <productname>RedHat Linux</productname>
-6.2 and 7.0.  All of these are freely available and downloadable, which
-is the reason that they are the ones used in this book.  However,
-all skills learned in this book should be easily transferable to
-any other system.  
+a specific tool set on a specific platform, but standardizing on one 
+makes the task much easier.
 </para>
 
 <para>
-If you do not have access to a GNU/Linux machine, you can get an account
-at <ulink url="http://www.freeshell.org/">http://www.freeshell.org/</ulink>
-for just a $36 lifetime fee (the account is actually free, but permission
-to use the GCC tool set costs $36).  This only requires that you
-already have an Internet connection and a telnet program.  If you use
+Those new to Linux should also try to get involved in their local Linux
+User's Group.  User's Group members are usually very helpful for new people,
+and will help you from everything from installing Linux to learning to
+use it most efficiently.  A listing of Linux User's Groups is available
+at http://www.linux.org/groups/
+</para>
+
+<para>
+All of these
+programs have been tested using <productname>Red Hat Linux</productname>
+8.0, and should work with any other Linux distribution, too.<footnote><para>By Linux distribution, I mean x86 Linux distribution.  Linux distributions for the Power Macintosh, the Alpha processor, or other processors will not work with this book.</para></footnote>  They will
+not work with non-Linux operating systems such as BSD or other systems.
+However, all of the <emphasis>skills</emphasis> learned in this book 
+should be easily transferable to any other system.  
+</para>
+
+<para>
+If you do not have access to a GNU/Linux machine, you can look for
+a hosting provider who offers a Linux <emphasis>shell account</emphasis>, which
+is a command-line only interface to a Linux machine.  
+There are many low-cost
+shell account providers, but you have to make sure that they match the 
+requirements above (i.e. - Linux on x86).  
+Someone at your
+local Linux User's Group may be able to give you one as well.
+Shell accounts only requires 
+that you already have an Internet connection and a telnet program.  If you use
 Windows, you already have a telnet client - just click on 
 <literal>start</literal>, then <literal>run</literal>, then type in 
 <literal>telnet</literal>.  However, it is usually better to download
-<productname>Tera Term</productname> from 
-<ulink url="http://hp.vector.co.jp/authors/VA002416/teraterm.html">http://hp.vector.co.jp/authors/VA002416/teraterm.html</ulink>
+<productname>PuTTY</productname> from
+http://www.chiart.greenend.co.uk/~sgtatham/putty/
 because Windows' telnet has some weird problems.  There are a lot of options
 for the Macintosh, too.  <productname>NiftyTelnet</productname> is my 
-favorite.  If you don't know how to use a telnet account, FreeShell.org
-has some information about getting started.
+favorite.
+</para>
+
+<para>
+If you don't have GNU/Linux and can't find a shell account service, then you
+can download <productname>Knoppix</productname> from http://www.knoppix.org/
+Knoppix is a GNU/Linux distribution that boots from CD so that you don't have
+to actually install it.  Once you are done using it, you just reboot and
+remove the CD and you are back to your regular operating system.
 </para>
 
 <para>

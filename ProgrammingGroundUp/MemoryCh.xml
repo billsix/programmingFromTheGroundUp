@@ -147,7 +147,7 @@ terms if you want to learn more about the CPU.
 Computer memory<indexterm><primary></primary></indexterm> is a numbered sequence of fixed-size storage locations.  
 The number attached to each storage location is called it's 
 <emphasis>address<indexterm><primary>address</primary></indexterm></emphasis>.  The size of a single storage location
-is called a <emphasis>byte</emphasis>.  On Intel-based computers, a byte<indexterm><primary>byte</primary></indexterm> 
+is called a <emphasis>byte</emphasis>.  On x86 processors, a byte<indexterm><primary>byte</primary></indexterm> 
 is a number between 0 and 256.  
 </para>
 
@@ -215,7 +215,7 @@ roughly 4 billion values.
 
 <para>
 Addresses are also four bytes (1 word) long, and therefore also fit into a 
-register.  Intel-based computers can access
+register.  x86 processors can access
 up to 4294967296 bytes if enough memory is installed.  Notice that this
 means that we can store addresses the same way we store any other number.
 In fact, the computer can't tell the difference between a value that is
@@ -339,7 +339,7 @@ an address to load the data from, and also specifies an <emphasis>index register
 address 2002 and an index register.  If the index register contains the
 number 4, the actual address the data is loaded from would be 2006.  This
 way, if you have a set of numbers starting at location 2002, you can cycle
-between each of them using an index register.  On Intel machines, you can
+between each of them using an index register.  On x86 processors, you can
 also specify a <emphasis>multiplier<indexterm><primary>multiplier</primary></indexterm></emphasis> for the index.  This allows you to access
 memory a byte at a time or a word at a time (4 bytes).  If you are accessing
 an entire word, your index will need to be multiplied by 4 to get the exact

@@ -4,17 +4,24 @@
 
 <!-- FIXME - need to find places that need more filling out.  Reviews, definitely.  -->
 
-<!-- FIXME - need a big/little endian discussion -->
-
 <!-- TODO -
-  * include a full explanation of memory access [what the A(B,C,D) represents]
   * Go back through and make sure that registers and memory are both fully described and fully distinguished
-  * introduce flow control in the "program that does something" section
 -->
 
+<!-- INCOMPLETE PARTS:
+  * Instructions needs some more beef from reference books
+  * Reviews need to be finished out
+  * High-level languages probable needs some help
+  * Need to look at optimization
+  * Moving on needs to be more focused on programming, including the three directions of learning
+  * Add Robert's Refcard to the GDB Appendix
+  * Back cover text
+  * Finish index
+  * Add - "if you haven't tested it, it doesn't work" to robust chapter
+  * include references to the instructions appendix
+  * do I define sign extension?
+-->
 <!-- Appendices it would be nice to have:
-  * i386 instructions
-  * difference between AT&T and Intel syntax
   * A full description of the calling sequence for UNIX
   * A complete examination of the fetch-execute cycle
   * A complete listing of registers and flags
@@ -92,6 +99,8 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 
 <!ENTITY percent "%">
+<!ENTITY ax "<literal>&percent;ax</literal>">
+<!ENTITY ah "<literal>&percent;ah</literal>">
 <!ENTITY eax "<literal>&percent;eax</literal>">
 <!ENTITY rax "<literal>&percent;rax</literal>">
 <!ENTITY ebx "<literal>&percent;ebx</literal>">
@@ -151,6 +160,15 @@ program in x86 assembly language, as some details have been left out
 to make the learning process smoother.  The point of the book is to
 help the student understand how assembly language and computer programming
 works, not to be a definitive reference to the subject.
+</para>
+</legalnotice>
+
+<legalnotice>
+<para>
+To receive a copy of this book in electronic form, please visit the website
+http://savannah.nongnu.org/projects/pgubook/  This site contains the 
+instructions for downloading a transparent copy (as defined by the GNU FDL)
+of this book.
 </para>
 </legalnotice>
 

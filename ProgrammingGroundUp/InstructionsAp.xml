@@ -23,7 +23,7 @@ be an immediate-mode value (I), a register (R), or a memory address (M).
 For example, the <literal>movl</literal> instruction is listed as
 <literal>I/R/M, R/M</literal>.  This means that the first operand can
 be any kind of value, while the second operand must be a register or memory
-location.  In addition, Intel assembly language <emphasis>never</emphasis>
+location.  In addition, x86 assembly language <emphasis>never</emphasis>
 allows more than one operand to be a memory location.
 </para>
 
@@ -58,7 +58,7 @@ Zero flag.  This flag is set to true if the result of the instructionn is zero.
 <varlistentry>
 <term>A</term>
 <listitem><para>
-Auxillary carry flag.
+Auxillary carry flag.  This flag is set for carries and borrows between the third and fourth bit.  It is not often used.
 </para></listitem>
 </varlistentry>
 
@@ -104,22 +104,41 @@ These instructions perform little, if any computation.  Instead they are mostly 
 <entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
 </thead>
 <tbody>
-<row><entry>movl</entry><entry>I/R/M, I/R/M</entry><entry>??</entry></row>
+<row><entry>movl</entry><entry>I/R/M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 This copies a word of data from one location to another.  <literal>movl %eax, %ebx</literal> copies the contents of &eax; to &ebx;
 </entry></row>
-<row><entry>movb</entry><entry>I/R/M, I/R/M</entry><entry>??</entry></row>
+<row><entry>movb</entry><entry>I/R/M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Same as <literal>movl</literal>, but operates on individual bytes.
 </entry></row>
-<row><entry>leal</entry><entry>M, I/R/M</entry><entry>??</entry></row>
+<row><entry>leal</entry><entry>M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 This takes a memory location given in the standard format, and, instead of
 loading the contents of the memory location, loads the computed address.
 For example, <literal>leal 5(%ebp,%ecx,1), %eax</literal> loads the address
 computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in &eax;
 </entry></row>
-<row><entry>xchgl</entry><entry>R/M, R/M</entry><entry></entry></row>
+<row><entry>popl</entry><entry>R/M</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Pops the top of the stack into the given location.  This is equivalent to performing the instructions:
+<programlisting>
+movl (%esp), R/M
+addl $4, %esp
+</programlisting>
+<literal>popfl</literal> is a variant which pops the top of the stack into the &eflags-indexed; register.
+</entry></row>
+<row><entry>pushl</entry><entry>I/R/M</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Pushes the given value onto the stack.
+This is the equivalent to performing the instructions:
+<programlisting>
+subl $4, %esp
+movl I/R/M, (%esp)
+</programlisting>
+<literal>pushfl</literal> is a variant which pushes the current contents of the &eflags-indexed; register onto the top of the stack.
+</entry></row>
+<row><entry>xchgl</entry><entry>R/M, R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Exchange the given registers or register w/ memory location.
 </entry></row>
@@ -156,9 +175,13 @@ Add with carry.  Adds the first argument to the second, and, if there is an over
 <row><entry namest="instruction" nameend="flags">
 Signed integer addition.
 </entry></row>
+<row><entry>cdq</entry><entry></entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Converts the &eax-indexed; into the double-word consisting of &edx-indexed;:&eax; with sign extension.
+</entry></row>
 <row><entry>cmpl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Compares two integers.
+Compares two integers.  It does this by subtracting the first operand from the second.  It discards the results, but sets the flags accordingly.
 </entry></row>
 <row><entry>decl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -234,38 +257,41 @@ one's complement.
 <row><entry namest="instruction" nameend="flags">
 Performs a logical or between the two operands, and stores the result in the second operand.  Sets the overflow and carry flags to zero.
 </entry></row>
-<row><entry>rcll</entry><entry>R/M, I/&cl;</entry><entry>O/C</entry></row>
+<row><entry>rcll</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Rotates the given location left the number of times in the second operand, which is either an immediate-mode value or the register &cl;.  Sets the overflow
-and carry flags.
+Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register &cl;.  The carry flag is included in the rotation, making it use 33 bits instead of 32.  Also sets the overflow flag.
 </entry></row>
-<row><entry>rcrl</entry><entry>R/M, I/&cl;</entry><entry>O/C</entry></row>
+<row><entry>rcrl</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Same as above, but rotates right.
 </entry></row>
-<row><entry>roll</entry><entry>R/M, I/&cl;</entry><entry>O/C</entry></row>
+<row><entry>roll</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Rotate left.
+Rotate bits to the left.  It sets the overflow and carry flags, but does not count the carry flag as part of the rotation.
 </entry></row>
-<row><entry>rorl</entry><entry>R/M, I/&cl;</entry><entry>O/C</entry></row>
+<row><entry>rorl</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Rotate right.
+Same as above, but rotates right.
 </entry></row>
-<row><entry>sall</entry><entry>R/M, I/&cl;</entry><entry>C</entry></row>
+<row><entry>sall</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Arithmetic shift left.
+Arithmetic shift left.  The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit.  Other bits are simply shifted to the left.  This is the same as the regular shift left.
 </entry></row>
-<row><entry>sarl</entry><entry>R/M, I/&cl;</entry><entry>C</entry></row>
+<row><entry>sarl</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Arithmetic shift right.
+Arithmetic shift right.  The least significant bit is shifted out to the carry flag.  The sign bit is shifted in, and kept as the sign bit.  Other bits are simply shifted to the right.
 </entry></row>
-<row><entry>shll</entry><entry>R/M, I/&cl;</entry><entry>C</entry></row>
+<row><entry>shll</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Logical shift left.
 </entry></row>
-<row><entry>shrl</entry><entry>R/M, I/&cl;</entry><entry>C</entry></row>
+<row><entry>shrl</entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Logical shift right.
+</entry></row>
+<row><entry>testl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Does a logical and of both operands and discards the results, but sets the flags accordingly.
 </entry></row>
 <row><entry>xorl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -295,7 +321,35 @@ These instructions may alter the flow of the program.
 <entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
 </thead>
 <tbody>
-<row><entry></entry></row>
+<row><entry>call</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+</entry></row>
+<row><entry>int</entry><entry>I</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+</entry></row>
+<row><entry>Jcc</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Conditional branch.  <literal>cc</literal> is the <emphasis>condition code</emphasis>.  Jumps to the given address if the condition code is true (set from the previous instruction, probably a comparison).  Otherwise, goes to the next instruction.  The condition codes are:
+<itemizedlist>
+<listitem><para><literal>[n]a[e]</literal> - above (unsigned greater than).  An <literal>n</literal> can be added for "not" and an <literal>e</literal> can be added for "or equal to"</para></listitem>
+<listitem><para><literal>[n]b[e]</literal> - below (unsigned less than)</para></listitem>
+<listitem><para><literal>[n]e</literal> - equal to</para></listitem>
+<listitem><para><literal>[n]z</literal> - zero</para></listitem>
+<listitem><para><literal>[n]g[e]</literal> - greater than (signed comparison)</para></listitem>
+<listitem><para><literal>[n]l[e]</literal> - less than (signed comparison)</para></listitem>
+<listitem><para><literal>[n]c</literal> - carry flag set</para></listitem>
+<listitem><para><literal>[n]o</literal> - overflow flag set</para></listitem>
+<listitem><para><literal>[p]p</literal> - parity flag set</para></listitem>
+<listitem><para><literal>[n]s</literal> - sign flag set</para></listitem>
+<listitem><para><literal>ecxz</literal> - &ecx-indexed; is zero</para></listitem>
+</itemizedlist>
+</entry></row>
+<row><entry>jmp</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+</entry></row>
+<row><entry>ret</entry><entry></entry><entry>O/S/Z/A/C</entry></row>
+<row><entry namest="instruction" nameend="flags">
+</entry></row>
 </tbody>
 </tgroup>
 </table>
@@ -403,7 +457,8 @@ uninitialized global data).
 The syntax for assembly language used in this book is known at the
 <emphasis>AT&amp;T</emphasis> syntax.  It is the one supported by the 
 GNU tool chain that comes standard with every Linux distribution.  However,
-the official syntax for Intel assembly language is different.  It is
+the official syntax for x86 assembly language (known as the Intel syntax)
+is different.  It is
 the same assembly language for the same platform, but it looks different.
 Some of the differences include:
 </para>
@@ -412,7 +467,6 @@ Some of the differences include:
 <listitem><para>In Intel syntax, the operands of instructions are reversed.</para></listitem>
 <listitem><para>In Intel syntax, registers are not prefixed with the percent sign (<literal>%</literal>).</para></listitem>
 <listitem><para>In Intel syntax, a dollar-sign (<literal>$</literal>) is not required to do immediate-mode addressing.  Instead, non-immediate addressing is accomplished by surrounding the address with brackets (<literal>[]</literal>).</para></listitem>
-<listitem><para></para></listitem>
 <listitem><para>In Intel syntax, the instruction name does not include the size of data being moved.  If that is ambiguous, it is explicitly stated as <literal>BYTE</literal>, <literal>WORD</literal>, or <literal>DWORD</literal> immediately after the instruction name.</para></listitem>
 <listitem><para>The way that memory addresses are represented in Intel assembly language is much different.</para></listitem>
 <listitem><para>Because the x86 processor line originally started out as a 16-bit processor, most literature about x86 processors refer to words as 16-bit values, and call 32-bit values double words.  However, we use the term "word" to refer to 32-bit values since that is the standard register size on modern x86 processors.  This is true of the syntax as well - <literal>DWORD</literal> stands for "double word" and is used for standard-sized registers.</para></listitem>
@@ -425,7 +479,7 @@ of the differences, consider the following instruction:
 </para>
 
 <programlisting>
-movl %eax, 8(%ebx,1,%edi)
+movl %eax, 8(%ebx,%edi,4)
 </programlisting>
 
 <para>

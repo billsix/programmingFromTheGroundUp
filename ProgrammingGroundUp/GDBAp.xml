@@ -2,6 +2,284 @@
 <title>Using the GDB Debugger</title>
 
 <para>
+By the time you read this appendix, you will likely have written at least
+one program with an error in it.  In assembly language, even minor errors
+usually have results such as the whole program crashing with a segmentation
+fault error.  In most programming languages, you can simply print out the
+values in your variables as you go along, and use that output to find
+out where you went wrong.  In assembly language, calling output functions
+is not so easy.  Therefore, to aid in determining the source of errors,
+you must use a <emphasis>source debugger</emphasis>.
 </para>
+
+<para>
+A debugger is a program that helps you find bugs by stepping through the 
+program one step at a time, letting you examine memory and register 
+contents along the way.  A <emphasis>source debugger</emphasis> is
+a debugger that allows you to tie the debugging operation directly 
+to the source code of a program.  This means that the debugger lets
+you look at the source code as you typed it in.
+</para>
+
+<para>
+The debugger we will be looking at is GDB - the GNU Debugger. This application
+is present on almost all GNU/Linux distributions.  It can debug programs
+in multiple languages, including assembly language.
+</para>
+
+<sect1>
+<title>An Example Debugging Session</title>
+
+<para>
+The best way to explain how a debugger works is by using it.  The program
+we will be using the debugger on is the <literal>maximum</literal>
+program used in <xref linkend="firstprogs" />.  Let's say that you entered
+the program perfectly, except that you left out the line:
+</para>
+<programlisting>
+	incl %edi
+</programlisting>
+<para>
+When you run the program, it just goes in an infinite loop - it never exits.
+To determine the cause, you need to run the program under GDB.  However,
+to do this, you need to have the assembler include debugging information in the
+executable.  All you need to do to enable this is to add the 
+<literal>--gstabs</literal> option to the <literal>as</literal> command.
+So, you would assemble it like this:
+</para>
+<programlisting>
+as --gstabs maximum.s -o maximum.o
+</programlisting>
+<para>
+Linking would be the same as normal.  "stabs" is the debugging format used
+by GDB.  Now, to run the program under the debugger, you would type in
+<literal>gdb ./maximum</literal>.  Be sure that the source files are in
+the current directory.  The output should look like this:
+</para>
+
+<screen>
+GNU gdb Red Hat Linux (5.2.1-4)
+Copyright 2002 Free Software Foundation, Inc.
+GDB is free software, covered by the GNU General Public License, and you are
+welcome to change it and/or distribute copies of it under certain conditions.
+Type "show copying" to see the conditions.
+There is absolutely no warranty for GDB.  Type "show warranty" for details.
+This GDB was configured as "i386-redhat-linux"...
+(gdb)
+</screen>
+
+<para>
+Depending on which version of GDB you are running, this output may vary
+slightly.  At this point, the program is loaded, but is not running yet.
+The debugger is waiting your command.  To run your program, just type in
+<literal>run</literal>.  This will not return, because the program
+is running in an infinite loop.  To stop the program, hit control-c.
+The screen will then say this:
+</para>
+
+<screen>
+Starting program: /home/johnnyb/BartlettPublishing/Books/PGU/Move/maximum-err
+
+Program received signal SIGINT, Interrupt.
+start_loop () at maximum-err.s:34
+34              movl data_items(,%edi,4), %eax
+Current language:  auto; currently asm
+(gdb)
+</screen>
+
+<para>
+This tells you that the program was interrupted by the SIGINT signal (from your
+control-c), and was within the section labelled <literal>start_loop</literal>,
+and was executing on line 34 when it stopped.  It gives you the code that
+it is about to execute.  Depending on exactly when you hit control-c, it may
+have stopped on a different line or a different instruction.
+</para>
+
+<para>
+One of the best ways to find bugs in a program is to follow the flow of 
+the program to see where it is branching incorrectly.  To follow the
+flow of this program, keep on entering <literal>stepi</literal> (for
+"step instruction"), which will cause the computer to execute one 
+instruction at a time.  If you do this several times, your output will
+look something like this:
+</para>
+
+<screen>
+(gdb) stepi
+35              cmpl %ebx, %eax           # compare values
+(gdb) stepi
+36              jle start_loop            # jump to loop beginning if the new
+(gdb) stepi
+32              cmpl $0, %eax             # check to see if we've hit the end
+(gdb) stepi
+33              je loop_exit
+(gdb) stepi
+34              movl data_items(,%edi,4), %eax
+(gdb) stepi
+35              cmpl %ebx, %eax           # compare values
+(gdb) stepi
+36              jle start_loop            # jump to loop beginning if the new
+(gdb) step
+32              cmpl $0, %eax             # check to see if we've hit the end
+</screen>
+
+<para>
+As you can tell, it has looped.  In general, this is good, since we wrote it
+to loop.  However, the problem is that it is 
+<emphasis>never stopping</emphasis>.  Therefore, to find out what the problem
+is, let's look at the point in our code where we should be exitting the loop:
+</para>
+
+<programlisting>
+cmpl  $0, %eax
+je    loop_exit
+</programlisting>
+
+<para>
+Basically, it is checking to see if &eax; hits zero.  If so, it should exit
+the loop.  There are several things to check here.  First of all, you 
+should make sure that <literal>loop_exit</literal> actually is outside
+the loop.  Second, you may have left this piece out altogether as it is
+not uncommon for a programmer to forget to include a way to exit a loop.
+</para>
+
+<para>
+However, neither of those are the case with this program.  So, the next
+option is that perhaps &eax; has the wrong value.  There are two ways to
+check the contents of register in GDB.  The first one is the command
+<literal>info register</literal>.  This will display the contents of
+all registers in hexadecimal.  However, we are only interested in &eax;
+at this point.  To just display &eax; we can do <literal>print/$eax</literal>
+to print it in hexadecimal, or do <literal>print/d $eax</literal> to print
+it in decimal.  Notice that in GDB, registers are prefixed with dollar
+signs rather than percent signs.  Your screen should have this on it:
+</para>
+
+<screen>
+(gdb) print/d $eax
+$1 = 3
+(gdb)
+</screen>
+
+<para>
+This means that the result of your first inquiry is 3.  Every inquiry
+you make will be assigned a number prefixed with a dollar sign.  Now,
+if you look back into the code, you will find that 3 is the first number
+in the list of numbers to search through.  If you step through the loop
+a few more times, you will find that every time &eax; has the number 3.
+</para>
+
+<para>
+Okay, now we know that &eax; is being loaded with the same value over
+and over again.  So, let's search to see where &eax; is being loaded
+from.  The line of code is this:
+</para>
+
+<programlisting>
+	movl data_items(,%edi,4), %eax
+</programlisting>
+
+<para>
+So, step until this line of code is ready to execute.  Now, this code depends
+on two values - <literal>data_items</literal> and &edi;.  
+<literal>data_items</literal> is a symbol, and therefore constant.  It's a
+good idea to check your source code to make sure the label is in front of the
+right data, but in our case it is.  Therefore, we need to look at &edi;.  So,
+we need to print it out.  It will look like this:
+</para>
+
+<screen>
+(gdb) print/d $edi
+$2 = 0
+(gdb)
+</screen>
+
+<para>
+This indicates that &edi; is set to zero, which is why it keeps on loading the
+first element of the array.  This should cause you to ask yourself two 
+questions - what is the purpose of &edi;, and how should its value be changed?
+To answer the first question, we just need to look in the comments.  
+&edi; is holding the current index of <literal>data_items</literal>.  
+Since our search is a linear search through the list of numbers in 
+<literal>data_items</literal>, it would make sense that &edi; should
+be incremented with every loop iteration.
+</para>
+
+<para>
+Scanning the code, there is no code which alters &edi; at all.  Therefore,
+we should add a line to increment &edi; at the beginning of every loop
+iteration.  This happens to be exactly the line we tossed out at the beginning.
+</para>
+
+<para>
+Hopefully this exercise provided some insight into using GDB to help you
+find errors in your programs.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Breakpoints and Other GDB Features</title>
+
+<para>
+The program we entered in the last section had an infinite loop, and could be
+easily stopped using control-c.  Other programs may simply abort or finish
+with errors.  In these cases, control-c doesn't help, because by the time
+you press control-c, the program is already finished.  To fix this, you
+need to set <emphasis>breakpoints</emphasis>.  A breakpoint is a place
+in the source code that you have marked to indicate to the debugger that
+it should stop the program when it hits that point.
+</para>
+
+<para>
+To set breakpoints you have to set them up before you run the
+program.  Before issuing the
+<literal>run</literal> command, you can set up breakpoints using the
+<literal>break</literal> command.  For example, to break on line 27, 
+issue the command <literal>break 27</literal>.  Then, when the program
+crosses line 27, it will stop running, and print out the current line
+and instruction.  You can then step through the program from that 
+point and examine registers and memory.  To look at the lines and line
+numbers of your program, you can simply use the command <literal>l</literal>.
+This will print out your program with line numbers a screen at a time.
+</para>
+
+<para>
+When dealing with functions, you can also break on the function names.
+For example, in the factorial program in <xref linkend="functionschapter" />,
+we could set a breakpoint for the factorial function by typing in
+<literal>break factorial</literal>.  This will cause the debugger to 
+break immediately after the function call and the function setup (it
+skips the pushing of &ebp-indexed; and the copying of &esp-indexed;).
+</para>
+
+<para>
+When stepping through code, you often don't want to have to step through
+every instruction of every function.  Well-tested functions are usually
+a waste of time to step through except on rare occasion.  Therefore, if
+you use the <literal>nexti</literal> command instead of the 
+<literal>stepi</literal> command, GDB will wait until completion of the
+function before going on.  Otherwise, with <literal>stepi</literal>, GDB
+would step you through every instruction within every called function.
+</para>
+
+<para>
+One problem that GDB has is with handling interrupts.  Often times
+GDB will miss the instruction that immediately follows an interrupt.
+The instruction is actually executed, but GDB doesn't step through
+it.
+</para>
+
+</sect1>
+
+<sect1>
+<title>GDB Quick-Reference</title>
+
+<para>
+This quick-reference table is copyright 2000 Robert Dondero, and is used by
+permission in this book.
+</para>
+
+</sect1>
 
 </appendix>

@@ -887,6 +887,41 @@ to binary, decimal, and octal.
 </sect1>
 
 <sect1>
+<title>Order of Bytes in a Word</title>
+
+<para>
+One thing that confuses many people when dealing with bits and bytes on a low
+level is that, when bytes are written from registers to memory, their bytes
+are written out least-significant-portion-first.  What most people expect
+is that if they have a word in a register, say <literal>0x5d23efee</literal>,
+and they write it to memory, it is actually written as 
+<literal>0xeeef235d</literal>.  The bytes are written in reverse order as
+they would appear conceptually.  Not all processors do this.  The x86 processor
+is a <emphasis>little-endian</emphasis> processor, which means that it stores
+the "little end" of its words first.  Other processors are 
+<emphasis>big endian</emphasis> processors, which means that they store 
+the "big end" of their words first, which is a bit more natural to read.  
+This difference is not normally a problem (although it has sparked many
+technical controversies throughout the years), 
+because the bytes are reversed (or not, depending on the processor) again 
+when being read back into a register.  However, this
+can be problematic in several instances:
+</para>
+
+<itemizedlist>
+<listitem><para>If you try to read in several bytes at a time using <literal>movl</literal> but deal with them on a byte-by-byte basis using the least significant byte (i.e. - &al;), this will be in a different order than they appear in memory.</para></listitem>
+<listitem><para>If you read or write files written for different architectures, you may have to account for whatever order they write their bytes in.</para></listitem>
+<listitem><para>If you read or write to network sockets, you may have to account for a different byte order in the protocol.</para></listitem>
+</itemizedlist>
+
+<para>
+As long as you are aware of the issue, it usually isn't a big deal.  For more
+in-depth look at byte order issues, you should read DAV's Endian FAQ at http://www.rdrop.com/~cary/html/endian_faq.html, especially the article "On Holy Wars and a Plea for Peace" by Daniel Cohen.
+</para>
+
+</sect1>
+
+<sect1>
 <title>Converting Numbers for Display</title>
 
 <para>
@@ -965,8 +1000,6 @@ should say <literal>824</literal>.
 
 </sect1>
 
-<!-- FIXME - need a talk on floating point -->
-
 
 <sect1>
 <title>Review</title>
@@ -983,6 +1016,7 @@ should say <literal>824</literal>.
 <listitem><para>What is masking for?</para></listitem>
 <listitem><para>What number would you use for the flags of the <literal>open</literal> system call if you wanted to open the file for writing, and create the file if it doesn't exist?</para></listitem>
 <listitem><para>How would you represent -55 in a thirty-two bit register?</para></listitem>
+<listitem><para>Describe the difference between little-endian and big-endian storage of words in memory.</para></listitem>
 </itemizedlist>
 
 </sect2>
