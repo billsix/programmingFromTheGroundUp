@@ -5,7 +5,14 @@
 
 	#Constant data of the records we want to write
 	#Each text data item is padded to the proper
-	#length with null (i.e. 0) bytes
+	#length with null (i.e. 0) bytes.
+
+	#.rept is used to pad each item.  .rept tells
+	#the assembler to repeat the section between
+	#.rept and .endr the number of times specified.
+	#This is used in this program to add extra null
+	#characters at the end of each field to fill
+	#it up
 record1:	
 	.ascii "Fredrick\0"
 	.rept 31 #Padding to 40 bytes
@@ -64,7 +71,7 @@ record3:
 file_name:
 	.ascii "test.dat\0"
 
-	.equ FILE_DESCRIPTOR, -4
+	.equ ST_FILE_DESCRIPTOR, -4
 	.globl _start
 _start:
 	#Copy the stack pointer to %ebp
@@ -82,29 +89,29 @@ _start:
 	int   $LINUX_SYSCALL
 
 	#Store the file descriptor away
-	movl  %eax, FILE_DESCRIPTOR(%ebp)
+	movl  %eax, ST_FILE_DESCRIPTOR(%ebp)
 
 	#Write the first record
-	pushl FILE_DESCRIPTOR(%ebp)
+	pushl ST_FILE_DESCRIPTOR(%ebp)
 	pushl $record1
 	call  write_record
 	addl  $8, %esp 
 
 	#Write the second record
-	pushl FILE_DESCRIPTOR(%ebp)
+	pushl ST_FILE_DESCRIPTOR(%ebp)
 	pushl $record2
 	call  write_record
 	addl  $8, %esp 
 
 	#Write the third record
-	pushl FILE_DESCRIPTOR(%ebp)
+	pushl ST_FILE_DESCRIPTOR(%ebp)
 	pushl $record3
 	call  write_record
 	addl  $8, %esp 
 
 	#Close the file descriptor
 	movl  $SYS_CLOSE, %eax
-	movl  FILE_DESCRIPTOR(%ebp), %ebx	
+	movl  ST_FILE_DESCRIPTOR(%ebp), %ebx	
 	int   $LINUX_SYSCALL
 
 	#Exit the program

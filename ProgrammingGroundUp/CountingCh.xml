@@ -14,10 +14,6 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 -->
 
-<remark>I need to make sure I include explanation of stuff like
-open flags here, and that I reference this chapter in the sections
-that use open flags</remark>
-
 <sect1>
 <title>Counting</title>
 
@@ -950,24 +946,48 @@ to binary, decimal, and octal.
 One thing that confuses many people when dealing with bits and bytes on a low
 level is that, when bytes are written from registers to memory, their bytes
 are written out least-significant-portion-first.  What most people expect
-is that if they have a word in a register, say <literal>0x5d23efee</literal>,
-and they write it to memory, it is actually written as 
-<literal>0xeeef235d</literal> on x86 processors.  The bytes are written in reverse order as they would appear conceptually, but the bits within the bytes are written normally.  
+is that if they have a word in a register, say <literal>0x5d 23 ef ee</literal> (the spacing is so you can see where the bytes are), the bytes will be 
+written in that order.  However, on x86 processors, the bytes are actually
+written in reverse order.  In memory the bytes would be 
+<literal>0xee ef 23 5d</literal> on x86 processors.  The bytes are written 
+in reverse order as they would appear conceptually, but the bits within 
+the bytes are ordered normally.  
 </para>
-
-<!-- FIXME - put drawing here -->
 
 <para>
 Not all processors behave this way.  The x86 processor
 is a <emphasis>little-endian</emphasis> processor, which means that it stores
-the "little end" of its words first.  Other processors are 
+the "little end" of its words first.  
+</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="littleendian.png" format="PNG" />
+</imageobject>
+<caption><para>Register-to-memory transfers on little-endian systems</para></caption>
+</mediaobject>
+
+<para>
+Other processors are 
 <emphasis>big endian</emphasis> processors, which means that they store 
-the "big end" of their words first, which is a bit more natural to read.  
+the "big end" of their words first, the way we would naturally read a number.
+</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="bigendian.png" format="PNG" />
+</imageobject>
+<caption><para>Register-to-memory transfers on big-endian systems</para></caption>
+</mediaobject>
+
+<para>
 This difference is not normally a problem (although it has sparked many
-technical controversies throughout the years), 
-because the bytes are reversed again (or not, if it is a big-endian processor)
-when being read back into a register.  However, this
-can be problematic in several instances:
+technical controversies throughout the years). 
+Because the bytes are reversed again (or not, if it is a big-endian processor)
+when being read back into a register, the programmer usually never 
+notices what order the bytes are in.  The byte-switching magic happens
+automatically behind the scenes.  However, the byte order can cause
+problems in several instances:
 </para>
 
 <itemizedlist>
@@ -980,6 +1000,7 @@ can be problematic in several instances:
 As long as you are aware of the issue, it usually isn't a big deal.  For more
 in-depth look at byte order issues, you should read DAV's Endian FAQ at http://www.rdrop.com/~cary/html/endian_faq.html, especially the article "On Holy Wars and a Plea for Peace" by Daniel Cohen.
 </para>
+
 
 </sect1>
 

@@ -13,7 +13,8 @@
 	.type count_chars, @function
 	.globl count_chars
 
-	.equ DATA_START_ADDRESS, 8
+	#This is where our one parameter is on the stack
+	.equ ST_STRING_START_ADDRESS, 8
 count_chars:
 	pushl %ebp
 	movl  %esp, %ebp
@@ -22,7 +23,7 @@ count_chars:
 	movl  $0, %ecx  
 
 	#Starting address of data
-	movl  DATA_START_ADDRESS(%ebp), %edx
+	movl  ST_STRING_START_ADDRESS(%ebp), %edx
 
 count_loop_begin:
 	#Grab the current character
@@ -44,6 +45,3 @@ count_loop_end:
 
 	popl  %ebp
 	ret
-
-
-

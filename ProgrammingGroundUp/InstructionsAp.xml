@@ -23,8 +23,8 @@ be an immediate-mode value (I), a register (R), or a memory address (M).
 For example, the <literal>movl</literal> instruction is listed as
 <literal>I/R/M, R/M</literal>.  This means that the first operand can
 be any kind of value, while the second operand must be a register or memory
-location.  In addition, x86 assembly language <emphasis>never</emphasis>
-allows more than one operand to be a memory location.
+location.  Note, however, that in x86 assembly language you cannot have more
+than one operand be a memory location.
 </para>
 
 <para>
@@ -43,14 +43,14 @@ Overflow flag.  This is set to true if the destination operand was not large eno
 <varlistentry>
 <term>S</term>
 <listitem><para>
-Sign flag.  This is used for signed arithmetic operations.  These operations will set the sign flag to the sign of the last result.
+Sign flag.  This is set to the sign of the last result.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term>Z</term>
 <listitem><para>
-Zero flag.  This flag is set to true if the result of the instructionn is zero.
+Zero flag.  This flag is set to true if the result of the instruction is zero.
 </para></listitem>
 </varlistentry>
 
@@ -74,7 +74,10 @@ Parity flag.  This flag is set to true if the low byte of the last result had an
 <varlistentry>
 <term>C</term>
 <listitem><para>
-Carry flag.  Used in addition to say whether or not the result would have carried over to an additional byte.
+Carry flag.  Used in arithmetic to say whether or not the result should be carried over to an additional byte.  If the carry flag is set, that usually means
+that the destination register could not hold the full result.  It is up to
+the programmer to decide on what action to take (i.e. - propogate the result
+to another byte, signal an error, or ignore it entirely).
 </para></listitem>
 </varlistentry>
 
@@ -132,7 +135,7 @@ This is the equivalent to performing <literal>subl $4, %esp</literal> followed b
 </entry></row>
 <row><entry>xchgl</entry><entry>R/M, R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Exchange the given registers or register w/ memory location.
+Exchange the values of the given operands.
 </entry></row>
 </tbody>
 </tgroup>
@@ -242,7 +245,7 @@ These instructions operate on memory as bits instead of words.
 <tbody>
 <row><entry>andl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-And's the contents of the two operands together, and stores the result in the second operand.  Sets the overflow and carry flags to false.
+Performs a logical and of the contents of the two operands, and stores the result in the second operand.  Sets the overflow and carry flags to false.
 </entry></row>
 <row><entry>notl</entry><entry>R/M</entry><entry></entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -251,7 +254,7 @@ one's complement.
 </entry></row>
 <row><entry>orl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Performs a logical or between the two operands, and stores the result in the second operand.  Sets the overflow and carry flags to zero.
+Performs a logical or between the two operands, and stores the result in the second operand.  Sets the overflow and carry flags to false.
 </entry></row>
 <row><entry>rcll</entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -404,9 +407,7 @@ to return from function calls.
 <para>
 These are instructions to the assembler and linker, instead of instructions
 to the processor.  These are used to help the assembler put your code together
-properly, and make it easier to use.  <literal>.globl</literal> and
-<literal>.type</literal> are both used by the linker to help it know which
-symbols need to be used by other programs, and what they do.
+properly, and make it easier to use.  
 </para>
 
 <table>
@@ -429,6 +430,10 @@ Takes the given quoted string and converts it into byte data.
 Takes a comma-separated list of values and inserts them right there
 in the program as data.
 </entry></row>
+<row><entry>.endr</entry><entry></entry></row>
+<row><entry namest="instruction" nameend="flags">
+Ends a repeating section defined with <literal>.rept</literal>.
+</entry></row>
 <row><entry>.equ</entry><entry>LABEL, VALUE</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Sets the given label equivalent to the given value.  The value
@@ -445,10 +450,22 @@ separately-compiled object files.
 <row><entry namest="instruction" nameend="flags">
 Includes the given file just as if it were typed in right there.
 </entry></row>
+<row><entry>.lcomm</entry><entry>SYMBOL, SIZE</entry></row>
+<row><entry namest="instruction" nameend="flags">
+This is used in the <literal>.bss</literal> section to specify storage
+that should be allocated when the program is executed.  Defines the symbol
+with the address where the storage will be located, and makes sure that
+it is the given number of bytes long.
+</entry></row>
 <row><entry>.long</entry><entry>VALUES</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Takes a sequence of numbers separated by commas, and inserts those
 numbers as 4-byte words right where they are in the program.
+</entry></row>
+<row><entry>.rept</entry><entry>COUNT</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Repeats everything between this directive and the <literal>.endr</literal>
+directives the number of times specified.
 </entry></row>
 <row><entry>.section</entry><entry>SECTION NAME</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -456,6 +473,10 @@ Switches the section that is being worked on.  Common sections include
 <literal>.text</literal> (for code), <literal>.data</literal> (for 
 data embedded in the program itself), and <literal>.bss</literal> (for
 uninitialized global data).
+</entry></row>
+<row><entry>.type</entry><entry>SYMBOL, @function</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Tells the linker that the given symbol is a function.
 </entry></row>
 </tbody>
 </tgroup>
@@ -479,17 +500,17 @@ Some of the differences include:
 </para>
 
 <itemizedlist>
-<listitem><para>In Intel syntax, the operands of instructions are reversed.</para></listitem>
+<listitem><para>In Intel syntax, the operands of instructions are often reversed.  The destination operand is listed before the source operand.</para></listitem>
 <listitem><para>In Intel syntax, registers are not prefixed with the percent sign (<literal>%</literal>).</para></listitem>
 <listitem><para>In Intel syntax, a dollar-sign (<literal>$</literal>) is not required to do immediate-mode addressing.  Instead, non-immediate addressing is accomplished by surrounding the address with brackets (<literal>[]</literal>).</para></listitem>
 <listitem><para>In Intel syntax, the instruction name does not include the size of data being moved.  If that is ambiguous, it is explicitly stated as <literal>BYTE</literal>, <literal>WORD</literal>, or <literal>DWORD</literal> immediately after the instruction name.</para></listitem>
-<listitem><para>The way that memory addresses are represented in Intel assembly language is much different.</para></listitem>
-<listitem><para>Because the x86 processor line originally started out as a 16-bit processor, most literature about x86 processors refer to words as 16-bit values, and call 32-bit values double words.  However, we use the term "word" to refer to 32-bit values since that is the standard register size on modern x86 processors.  This is true of the syntax as well - <literal>DWORD</literal> stands for "double word" and is used for standard-sized registers.</para></listitem>
-<listitem><para>Intel assembly language has the ability to address memory as a segment/offset pair.  We do not mention this because Linux does not support segmented memory, and is therefore irrelevant to Linux programming.</para></listitem>
+<listitem><para>The way that memory addresses are represented in Intel assembly language is much different (shown below).</para></listitem>
+<listitem><para>Because the x86 processor line originally started out as a 16-bit processor, most literature about x86 processors refer to words as 16-bit values, and call 32-bit values double words.  However, we use the term "word" to refer to the standard register size on a processor, which is 32 bits on an x86 processor.  The syntax also keeps this naming convention - <literal>DWORD</literal> stands for "double word" in Intel syntax and is used for standard-sized registers, which we would call simply a "word".</para></listitem>
+<listitem><para>Intel assembly language has the ability to address memory as a segment/offset pair.  We do not mention this because Linux does not support segmented memory, and is therefore irrelevant to normal Linux programming.</para></listitem>
 </itemizedlist>
 
 <para>
-Other differences exist, but they are small in comparison.  To show many
+Other differences exist, but they are small in comparison.  To show some
 of the differences, consider the following instruction:
 </para>
 
@@ -506,8 +527,10 @@ mov  [8 + %ebx + 1 * edi], eax
 </programlisting>
 
 <para>
-This makes a little more sense, as it spells out exactly how the address
-will be computed, but the order of operands is confusing.
+The memory reference is a bit easier to read than it's AT&amp;T counterpart
+because it spells out exactly how the address
+will be computed.  However, but the order of operands in Intel syntax can be 
+confusing.
 </para>
 
 </simplesect>
@@ -519,6 +542,10 @@ will be computed, but the order of operands is confusing.
 Intel has a set of comprehensive guides to their processors.  These
 are available at http://www.intel.com/design/pentium/manuals/  Note that
 all of these use the Intel syntax, not the AT&amp;T syntax.
+</para>
+
+<para>
+In addition, you can find a lot of information in the manual for the GNU assembler, available online at http://www.gnu.org/software/binutils/manual/gas-2.9.1/as.html.  Similarly, the manual for the GNU linker is available online at http://www.gnu.org/software/binutils/manual/ld-2.9.1/ld.html.
 </para>
 
 </simplesect>

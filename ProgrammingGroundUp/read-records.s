@@ -14,8 +14,13 @@ file_name:
 	#Main program
 	.globl _start
 _start:
-	.equ INPUT_DESCRIPTOR, -4
-	.equ OUTPUT_DESCRIPTOR, -8
+	#These are the locations on the stack where
+	#we will store the input and output descriptors
+	#(FYI - we could have used memory addresses in
+	#a .data section instead)
+	.equ ST_INPUT_DESCRIPTOR, -4
+	.equ ST_OUTPUT_DESCRIPTOR, -8
+	
 	#Copy the stack pointer to %ebp
 	movl  %esp, %ebp
 	#Allocate space to hold the file descriptors
@@ -30,18 +35,18 @@ _start:
 
 	#Save file descriptor
 	
-	movl  %eax, INPUT_DESCRIPTOR(%ebp)
+	movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
 
 	#Even though it's a constant, we are
 	#saving the output file descriptor in
 	#a local variable so that if we later
 	#decide that it isn't always going to
 	#be STDOUT, we can change it easily.
-	movl  $STDOUT, OUTPUT_DESCRIPTOR(%ebp)
+	movl  $STDOUT, ST_OUTPUT_DESCRIPTOR(%ebp)
 
 
 record_read_loop:	
-	pushl INPUT_DESCRIPTOR(%ebp)
+	pushl ST_INPUT_DESCRIPTOR(%ebp)
 	pushl $record_buffer
 	call  read_record
 	addl  $8, %esp
@@ -61,12 +66,12 @@ record_read_loop:
 	addl   $4, %esp
 
 	movl   %eax, %edx
-	movl   OUTPUT_DESCRIPTOR(%ebp), %ebx
+	movl   ST_OUTPUT_DESCRIPTOR(%ebp), %ebx
 	movl   $SYS_WRITE, %eax
 	movl   $RECORD_FIRSTNAME + record_buffer, %ecx
 	int    $LINUX_SYSCALL
 
-	pushl  OUTPUT_DESCRIPTOR(%ebp)
+	pushl  ST_OUTPUT_DESCRIPTOR(%ebp)
 	call   write_newline
 	addl   $4, %esp
 

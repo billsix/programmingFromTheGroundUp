@@ -1,4 +1,4 @@
-<chapter>
+<chapter id="filesch">
 <title>Dealing with Files</title>
 <!--
 
@@ -363,7 +363,7 @@ together at the beginning of the program.  It's only necessary to declare them
 before you use them, but putting them all at the beginning makes them easy to 
 find.  Making them all upper-case makes it obvious in your program which 
 values are constants and where to find them.<footnote><para>This is fairly
-standard practice among all programmers.</para></footnote>
+standard practice among programmers in all languages.</para></footnote>
 In assembly language, we 
 declare constants with
 the <literal>.equ</literal> directive as mentioned before.  Here, we simply
@@ -403,8 +403,11 @@ the constant <literal>UPPER_CONVERSION</literal>.  Since letters are represented
 as numbers, we can subtract them.  Subtracting an upper-case letter from the
 same lower-case letter gives us how much we need to add to a lower-case letter
 to make it upper case.  If that doesn't make sense, look at the 
-ASCII<footnote><para>ASCII is the numbering scheme which encodes letters 
-and digits as numbers</para></footnote> code tables themselves (see <xref linkend="asciilisting" />) and do the math yourself.
+ASCII code tables themselves (see <xref linkend="asciilisting" />).  You'll
+notice that the number for the character <literal>A</literal> is 65 and the 
+character <literal>a</literal> is 97.  The conversion factor is then -32.
+For any lowercase letter if you add -32, you will get it's 
+capital equivalent.
 </para>
 
 <para>
@@ -440,10 +443,12 @@ is equal to the buffer length in &ebx;.  The lines
 	je    end_convert_loop
 </programlisting>
 
-is just a sanity check to make sure that noone gave us a buffer of
+are just a sanity check to make sure that noone gave us a buffer of
 zero size.  If they did, we just clean up and leave.  Guarding
 against potential user and programming errors is an important
-task of a programmer, and is what makes usable, reliable software.
+task of a programmer.  You can always specify that your function should
+not take a buffer of zero size, but it's even better to have the
+function check and have a reliable exit plan if it happens.
 </para>
 
 <para>
@@ -456,7 +461,7 @@ it moves a byte into &cl;.  The code for this is
 
 This says to start at &eax; and go &edi; locations forward, with each
 location being 1 byte big.  Take the value found there, and put it in
-&cl;.  Then, it checks to see if that value is in the range
+&cl;.  After this it checks to see if that value is in the range
 of lower-case <wordasword>a</wordasword> to lower-case <wordasword>z</wordasword>.
 To check the range, it simply checks to see if the letter is smaller than 
 <wordasword>a</wordasword>.  If it is, it can't be a lower-case letter.  Likewise,
@@ -469,8 +474,8 @@ then adds the uppercase conversion, and stores it back.
 Either way, it then goes to the next value by incrementing %cl;.  Next it checks to
 see if we are at the end of the buffer.  If we are not at the end, we jump back to 
 the beginning of the loop (the <literal>convert_loop</literal> label).  If we are
-at the end, it simply carries on to the end of the function.  Because we are just
-modifying the buffer, we don't need to return anything to the calling program - the
+at the end, it simply continues on to the end of the function.  Because we are 
+modifying the buffer directly, we don't need to return anything to the calling program - the
 changes are already in the buffer.  The label <literal>end_convert_loop</literal>
 is not needed, but it's there so it's easy to see where the parts of the program are.
 </para>
@@ -492,7 +497,7 @@ the following parameters:
 </para></listitem>
 <listitem><para>
 &ebx; contains a pointer to a string that is the name of the file to open.  
-The string must be terminated with a null character.
+The string must be terminated with the null character.
 </para></listitem>
 <listitem><para>
 &ecx; contains the options used for opening the file.
@@ -521,7 +526,8 @@ is stored in &eax-indexed;.
 
 <para>
 So, what files are we opening?  In this example, we will be opening the
-files specified on the command line.  Fortunately, they are already stored
+files specified on the command line.  Fortunately, command-line parameters
+are already stored by Linux
 in an easy-to-access location, and are already null-terminated.  When 
 a Linux program begins, all pointers to command-line arguments are
 stored on the stack.  The number of arguments is stored at 
@@ -534,14 +540,14 @@ to it that way in our program.
 
 <para>
 The first thing our program does is save the current stack position
-and then reserve some space on the stack to store the file descriptors.  
-After this, it starts opening files.
+in &ebp; and then reserve some space on the stack to store the file 
+descriptors.  After this, it starts opening files.
 </para>
 
 <para>
-The first thing we do is open the input file, which is the first 
+The first file the program opens is the input file, which is the first 
 command-line argument.  We do this by setting up the system call.
-We put the file name into &ebx-indexed;, a readonly option flag
+We put the file name into &ebx-indexed;, a readonly mode
 into &ecx-indexed;, the default mode of <literal>$0666</literal>
 into &edx-indexed;, and the system call number into &eax-indexed;
 After the system call, the file is open and the file descriptor
@@ -549,7 +555,9 @@ is stored in  &eax;.<footnote><para>Notice that we don't do any
 error checking on this.  That is done just to keep the program simple.
 In normal programs, every system call should normally be checked for
 success or failure.  In failure cases, &eax; will hold an error
-code instead of a return value.</para></footnote>  The file
+code instead of a return value.  Error codes are negative, so they
+can be detected by comparing &eax-indexed; to zero and jumping if it
+is less than zero.</para></footnote>  The file
 descriptor is then transferred to it's appropriate place on the
 stack.
 </para>
@@ -557,7 +565,7 @@ stack.
 <para>
 The same is then done for the output file, except that it is 
 created with a write-only, create-if-doesn't-exist, truncate-if-does-exist
-set of options.  It's file descriptor is stored as well.
+mode.  It's file descriptor is stored as well.
 </para>
 
 <para>
@@ -566,7 +574,7 @@ will read fixed-size chunks of data from the input file, call our
 conversion function on it, and write it back to the output file.
 Although we are reading fixed-size chunks, the size of the chunks
 don't matter for this program - we are just operating on straight
-lines of data.  We could read it in with as little or as large of
+sequences of characters.  We could read it in with as little or as large of
 chunks as we want, and it still would work properly.
 </para>
 
@@ -586,7 +594,8 @@ If found, it exits the loop.  Otherwise we keep on going.
 
 <para>
 After the data is read, the <literal>convert_to_upper</literal> function 
-is called with the buffer we just read in and its size.  After this call,
+is called with the buffer we just read in and the number of characters 
+read in the previous system call.  After this function executes,
 the buffer should be capitalized and ready to write out.  The registers
 are then restored with what they had before.
 </para>

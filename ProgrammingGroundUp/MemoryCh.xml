@@ -32,6 +32,13 @@ things in a PO Box, but you can only store a single number in
 a computer memory storage location.
 </para>
 
+<mediaobject>
+<imageobject>
+<imagedata fileref="mailbox.png" format="PNG" />
+</imageobject>
+<caption><para>Memory locations are like PO Boxes</para></caption>
+</mediaobject>
+
 <para>
 You may wonder why a computer is organized this way.  It is because
 it is simple to implement.  If the computer were composed of

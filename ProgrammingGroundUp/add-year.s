@@ -13,8 +13,8 @@ output_file_name:
 	.lcomm record_buffer, RECORD_SIZE
 	
 	#Stack offsets of local variables
-	.equ INPUT_DESCRIPTOR, -4
-	.equ OUTPUT_DESCRIPTOR, -8
+	.equ ST_INPUT_DESCRIPTOR, -4
+	.equ ST_OUTPUT_DESCRIPTOR, -8
 
 	.section .text
 	.globl _start
@@ -30,7 +30,7 @@ _start:
 	movl  $0666, %edx
 	int   $LINUX_SYSCALL
 
-	movl  %eax, INPUT_DESCRIPTOR(%ebp)
+	movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
 
 	#Open file for writing
 	movl  $SYS_OPEN, %eax
@@ -39,10 +39,10 @@ _start:
 	movl  $0666, %edx
 	int   $LINUX_SYSCALL
 
-	movl  %eax, OUTPUT_DESCRIPTOR(%ebp)
+	movl  %eax, ST_OUTPUT_DESCRIPTOR(%ebp)
 
 loop_begin:
-	pushl INPUT_DESCRIPTOR(%ebp)
+	pushl ST_INPUT_DESCRIPTOR(%ebp)
 	pushl $record_buffer
 	call  read_record
 	addl  $8, %esp
@@ -59,7 +59,7 @@ loop_begin:
 	incl  record_buffer + RECORD_AGE
 
 	#Write the record out
-	pushl OUTPUT_DESCRIPTOR(%ebp)
+	pushl ST_OUTPUT_DESCRIPTOR(%ebp)
 	pushl $record_buffer
 	call  write_record
 	addl  $8, %esp

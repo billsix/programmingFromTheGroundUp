@@ -1235,6 +1235,13 @@ to only use a register for either a byte or a word, but never both at the
 same time.
 </para>
 
+<mediaobject>
+<imageobject>
+<imagedata fileref="registerdescription.png" format="PNG" />
+</imageobject>
+<caption><para>Layout of the &eax; register</para></caption>
+</mediaobject>
+
 <para>
 For a more comprehensive list of instructions, see <xref linkend="instructionsappendix" />.
 </para>

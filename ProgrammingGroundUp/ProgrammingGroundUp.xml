@@ -79,7 +79,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY gnome-example-py SYSTEM "gnome-example.py">
 <!ENTITY Hello-World-perl SYSTEM "Hello-World.pl">
 <!ENTITY Hello-World-python SYSTEM "Hello-World.py">
-<!ENTITY write-newline SYSTEM "write-newline.s">
+<!ENTITY write-newline-s SYSTEM "write-newline.s">
 <!ENTITY count-chars SYSTEM "count-chars.s">
 <!ENTITY read-record SYSTEM "read-record.s">
 <!ENTITY record-def SYSTEM "record-def.s">

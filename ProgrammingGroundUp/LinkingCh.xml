@@ -14,9 +14,6 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 -->
 
-<remark>Somewhere in here we need to say why we need to
-put .type label,@function before function labels</remark>
-
 <para>
 By now you should realize that the computer has to do a lot
 of work even for simple tasks.  Because of that, you have to
