@@ -20,6 +20,7 @@ ProgrammingGroundUp.tex: $(FULLBOOK)
 
 index.xml: HTML.index 
 	collateindex.pl -o index.xml HTML.index
+	./fixindex.pl
 
 HTML.index: $(BOOKNOINDEX)
 	collateindex.pl -N >index.xml
