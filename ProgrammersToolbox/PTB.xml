@@ -18,6 +18,19 @@
 <!ENTITY c-macro-swap-example SYSTEM "Libraries/c_macro_swap_example.c">
 <!ENTITY sendmail-m4 SYSTEM "Libraries/sendmail.m4">
 ]>
+<!--
+Articles Proposed:
+> 1) Memory Management
+> 2) List processing basics - an introduction to Scheme
+> 3) Functional Programming, Recursive Patterns, and Programs that Prove
+> Themselves Right
+> 4) Combining Functions into Bigger Functions
+> 5) Compile-time Programming 1: Scheme Macros
+> 6) Compile-time Programming 2: C++ Templates
+> 7) Lazy Evaluation and Lazy Data Structures
+> 8) Advanced Flow-Control Techniques
+
+-->
 <book>
 
 <title>The Programmer's Toolbox</title>
