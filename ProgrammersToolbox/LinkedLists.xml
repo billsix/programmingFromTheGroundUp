@@ -1,0 +1,313 @@
+<?xml version="1.0" ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN">
+<chapter>
+<title>Programming with Lists</title>
+
+<para>
+List processing is one of the computer's biggest strenghts.  Singly-linked lists 
+provide the basis for a number of interesting algorithms and techniques that are
+useful in every aspect of programming.
+</para>
+
+<para>
+In this article, we are only discussing singly linked lists.  Linked lists and lists are both
+used to mean singly linked lists in this article.
+</para>
+
+<sect1>
+<title>Linked List Refresher</title>
+
+<para>
+A singly linked list is a data structure that has an ordered sequence of nodes, where each node
+contains a data element and a pointer to the next node in the sequence.  Conceptually,
+a singly linked list of integers, for example, looks like this in the computer's memory:
+</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="linkedlistexample.png" format="PNG" />
+</imageobject>
+<caption><para><emphasis>An example of a linked list of numbers</emphasis></para></caption>
+</mediaobject>
+
+<para>
+The arrows in this diagram represent pointers to the location of the next node in memory.
+Notice that the order of the list is determined by the arrows, not by the memory locations
+of the nodes.  Finally, the last node, instead of having an arrow, simply has a mark that
+indicates that there are no more nodes in the list.  This marker is usually called the null
+value or the null list.
+</para>
+
+<sect2>
+<title>The Structure of List Nodes</title>
+
+<para>
+Coding linked lists is fairly simple.  In C++, the STL includes an implementation of 
+linked lists for you.  However, for the techniques we are going to learn, the STL implementation
+is not adequate.  Really, linked lists are pretty simple anyway.  For example, our previous
+linked lists of integers could be represented by the following node structure in C:
+</para>
+
+<programlisting>
+#define NULL 0
+struct ll_int_node {
+	int data;
+	struct ll_int_node *next;
+};
+</programlisting>
+
+<para>
+Here we have a struct that includes the first element as a data item, and the second
+element as a pointer to the next node.  <literal>NULL</literal> is defined as simply
+being a null pointer (0), since the null pointer is invalid as a pointer anyway.  To
+have a variable hold this kind of list in a program, all you have to do is have a pointer 
+which points to type <literal>struct ll_int_node</literal>, which you point at the first
+element (known as the head) of the list.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Common List Operations</title>
+
+<para>
+There are two basic update operations often performed in standard linked list
+implementations:
+</para>
+
+<itemizedlist>
+<listitem><para>Insert a node into the list</para></listitem>
+<listitem><para>Remove a node from the list</para></listitem>
+</itemizedlist>
+
+<para>
+We are actually going to approach link lists in a different way, which will
+for the most part not include these methods.  However, these methods are fairly
+easily implemented by simply allocating/deallocating node structures, and then
+modifying the pointers so that the given node is correctly sequenced in the list.
+Conceptually, it's just a matter of moving the arrows.  Care must be taken, however,
+so that the head of the list is properly updated when inserts or removals affect which
+node is the head.
+</para>
+
+</sect2>
+
+<sect2>
+<title>A More Generic List Structure</title>
+
+<para>
+It would be quite a pain if we had to come up with a different list node structure for
+every type of data we wanted to store in lists.  This would be especially painful if
+we wanted to store multiple types of data in a single list.  Therefore, we are going
+to learn a more generic way of handling data.
+</para>
+
+<para>
+In order to do this, we are going to define a structure which will, in the cases of basic C
+datatypes, be handled directly, but in the cases of complex types, be handled via a pointer.
+In order to accomplish this, we will use <emphasis>typetags</emphasis>.  A typetag is a number
+that can be used to identify a type.  It lets you know, in the case of a union, which union
+member to access.  In the case of a void pointer, it lets you know what type of data the 
+pointer is pointing to.  Here is the structure definition:
+</para>
+
+<programlisting>
+typedef struct {
+	int typetag;
+	union {
+		long long_member;
+		double double_member;
+		char char_member;
+		void *pointer_member;
+	};
+} data;
+
+/* Example declaration */
+data my_data;
+</programlisting>
+
+<para>
+In order to make this useful, you have to come up with typetags for each type you
+want, including pointer types.  Here is a full program which uses typetags to display
+different types of data based on its typetag.
+</para>
+
+<programlisting>
+#include "stdio.h"
+
+/* Typetags for builtin types */
+#define TYPETAG_LONG 1
+#define TYPETAG_DOUBLE 2
+#define TYPETAG_CHAR 3
+
+/* The structure definition from before */
+typedef struct {
+	int typetag;
+	union {
+		long long_member;
+		double double_member;
+		char char_member;
+		void *pointer_member;
+	};
+} data;
+
+/* Example struct */
+struct person {
+	char name[200];
+	char address[200];
+};
+/* Typetag for a pointer to our struct */
+#define TYPETAG_PERSON_PTR 4
+
+void display(data d)
+{
+	if(d.typetag == TYPETAG_LONG)
+	{
+		printf("%d\n", d.long_member);
+	}
+	else if(d.typetag == TYPETAG_PERSON_PTR)
+	{
+		struct person *p = (struct person *)d.pointer_member;
+		printf("%s\n%s\n", p->name, p->address);
+	}
+	/* We could go on for each type, but this is good enough for an example */
+}
+
+int main()
+{
+	data my_data;
+	data more_data;
+	struct person *p;
+
+	/* Use the "long" type */
+	my_data.typetag = TYPETAG_LONG;
+	my_data.long_member = 3;
+
+	/* Use the "person" type */
+	p = (struct person *)malloc(sizeof(struct person));
+	strcpy(p->name, "Test");
+	strcpy(p->address, "Test's Address");
+
+	more_data.typetag = TYPETAG_PERSON_PTR;
+	more_data.pointer_member = p;
+
+	display(my_data);
+	display(more_data);
+
+	return 0;
+}
+</programlisting>
+
+<para>
+If you wanted to be more object-oriented, you could also use the typetag to be an index of
+an array of vtables, but we're not going to go that deep here.  I just want you to be able
+to see how you can have a data structure that encompasses any number of data types.
+</para>
+
+<para>
+Armed with this new generic data type, we can now make a very generic list node structure:
+</para>
+
+<programlisting>
+struct generic_node {
+	data the_data;
+	struct generic_node *next;
+};
+</programlisting>
+
+<para>
+This allows you now to define lists and list operations that work regardless of the
+type of data stored in them.  However, the typetag mechanism does incur a bit of 
+overhead, but it is usually worth it compared to the frustration of recoding list after
+list.  In C++, this can be alleviated through templates.  In fact, if you create a generic
+base class (like Java's Object class), you can actually just use C++'s own typing mechanisms.
+That still falls a little short of the typetag mechanism, which does not have pointer overhead
+for basic types, but works well if you are dealing with complex types or if you do not mind
+wrapping basic types in classes.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Memory Management with Linked Lists</title>
+
+<para>
+In a <ulink url="http://www-106.ibm.com/developerworks/linux/library/l-memory/">previous article</ulink> we discussed various memory management techniques.  While manual memory management with
+linked lists is possible, it is not very friendly.
+</para>
+
+<para>
+For example, when removing a node, we have to remember to free the memory for the node.
+That's not too bad.  However, if the data portion of the node is a pointer or contains
+pointers, then we have a problem.  If there is a policy to only put copies of data structures
+into lists, and not the original structures themselves, then you can safely free the memory.
+However, often times you may want to increase speed and use less memory by just passing a
+shared pointer.  In that case, memory management becomes much more difficult.
+</para>
+
+<para>
+As a teaser, another issue with memory management comes from the idea of partial sharing
+of list nodes, which we will discuss later.  If we are sharing nodes of a list, then removing
+a list element, or even removing an entire list may not be grounds for freeing the memory if
+it is in use elsewhere.
+</para>
+
+<para>
+Because of these factors, the rest of the article will assume that you include a garbage
+collector with your program.  Adding a garbage collector to your program is simple, and is
+discussed in <ulink url="http://www-106.ibm.com/developerworks/linux/library/l-memory/">this article</ulink>.
+This allows us to share data structure willy-nilly without worries of memory management problems
+(and if you haven't shared data structures will-nilly, you're missing out).  Note that sharing
+data structures can lead to other problems, if you're not careful.  Be sure you realize that
+anytime you share a data structure through pointers, that an update to one of them affects the
+other.
+</para>
+
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>Advanced List Programming Using Shared Sublists</title>
+
+<para>
+Now that we have a handle on linked lists, I want to point out a few interesting properties
+of lists which we will exploit:
+</para>
+
+<itemizedlist>
+<listitem><para>Since node structures only go in one direction, they know nothing about the sequence of nodes that preceded them.</para></listitem>
+<listitem><para>Because nodes know nothing about the nodes that precede them, each node is itself the start of a list.</para></listitem>
+<listitem><para>Because nodes know nothing about the nodes that precede them, a given list may actually be a sublist for many other lists.</para></listitem>
+</itemizedlist>
+
+<para>
+I know those sound confusing, so here are some examples of these statements:<remark>reword</remark>
+</para>
+
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="sharedlistexamples.png" format="PNG" />
+</imageobject>
+<caption><para><emphasis>Examples of List Sharing</emphasis></para></caption>
+</mediaobject>
+
+
+
+
+
+
+
+
+</sect1>
+
+<sect1>
+<title>Scheme - a Language for List Manipulation</title>
+
+<para>
+</para>
+
+</sect1>
+
+</chapter>
