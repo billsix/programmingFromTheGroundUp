@@ -1,0 +1,175 @@
+<article>
+<title>Function Factories - Function-building Functions</title>
+
+<para>
+Functions are a wonderful part of computer programming.  Functions allow us to break our code down into simpler, more manageable steps.  They also allow us to break our programs into reusable parts -- parts that are both reusable within the program and often in other programs as well.  This article takes the function concept a step further -- using functions as factories to build other functions.
+</para>
+
+<para>
+The examples given in this article will be in the Scheme programming language and in C.  An introduction to the Scheme programming language can be found in <ulink url="">a previous artilce</ulink>.  Other Scheme introductions and Scheme function references are linked to in the <ulink url="#Resources">Resources</ulink> section of this article.
+</para>
+
+<sect1>
+<title>Creating Anonymous Functions</title>
+
+<para>
+In Scheme, functions are created by default without names.  The <emphasis>lambda</emphasis> special form creates a nameless function and then returns the value to the enclosing form or function call.  The enclosing form may:
+</para>
+
+<itemizedlist>
+<listitem><para>Set a symbol to refer to it (thus giving it a name)</para></listitem>
+<listitem><para>Store it in a data structure for later use</para></listitem>
+<listitem><para>Pass it as a parameter to a function</para></listitem>
+</itemizedlist>
+
+<para>
+In most programming languages, defining functions and naming them occur simultaneously.  This leads to a lot of confusion to new Scheme programmers, because Scheme treats a function as a value.  Just like any other value, a function can be passed as arguments, stored into variables, or stored as a part of a larger data structure.
+</para>
+
+<para>
+Here is an example function in Scheme, which squares the number given to it:
+</para>
+
+<example>
+<title>A nameless function</title>
+<programlisting>
+(lambda (x)
+	(* x x)
+)
+</programlisting>
+</example>
+
+<para>
+This defines a function with one formal parameter, <literal>x</literal>.  The function squares the parameter and returns the value.  Remember, Scheme doesn't need explicit return values, it simply returns the result of the last form evaluated in the function.
+</para>
+
+<para>
+Let's start off by giving the function a name:
+</para>
+
+<example>
+<title>Naming a function</title>
+<programlisting>
+(define square 
+	(lambda (x) 
+		(* x x)))
+
+(display (square 3))
+(newline)
+(display (square 4))
+(newline)
+</programlisting>
+</example>
+
+<para>
+This is the simplest and most common way of dealing with functions -- giving them a name and then using them in computation later on.  However, there is no rule in Scheme that forces you to give a function a name before using it.  In Scheme, the head of a list in a program must result in a function or a special form, but that doesn't mean it has to be the <emphasis>name</emphasis> of a function.  Since the <literal>lambda</literal> special form returns functions, we can actually use a <literal>lambda</literal> function definition directly in a function call.  For example, instead of writing <literal>(square 4)</literal>, we can also write <literal>( (lambda (x) (* x x)) 4)</literal>.  As you can see, the head of this list is the function definition itself.  It returns a function which is then applied to the argument <literal>4</literal>.
+</para>
+
+<para>
+Defining and calling functions immediately is an interesting concept, but not extremely useful.  However, it does illustrate the idea of functions being values themselves.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Functions as Function Arguments</title>
+
+<para>
+A practical use of nameless functions is building functions to pass as arguments to other functions.  The best example of that is the Scheme built-in function <literal>map</literal>.  Map takes two arguments -- a function of one variable and a list.  It then applies that function to each element of the list, and returns a new list made up of the results.  For example, using our square function, we can take a list of numbers and square them:
+</para>
+
+<example>
+<title>Passing functions as arguments to functions</title>
+<programlisting>
+;Our function
+(define square (lambda (x) (* x x)))
+
+;Our data
+(define my-test-data '(1 2 3 4 5 6))
+
+;Create a new list as the squares of my-test-data
+(define list-of-squares (map square my-test-data))
+
+;Display results
+(display list-of-squares)
+(newline)
+</programlisting>
+</example>
+
+<para>
+The equivalent C code would look like this:
+</para>
+
+<programlisting>
+int square(int x)
+{
+	return x * x;
+}
+
+int main()
+{
+	int my_test_data[6];
+	int list_of_squares[6];
+	int i;
+
+	my_test_data = {1, 2, 3, 4, 5, 6};
+
+	/* Note that this would only work if C had a function
+	 * called map which worked with integer functions.
+	 * It doesn't, so this is largely theoretical.  Also remember
+	 * that C doesn't know the size of the arrays, so we have to
+	 * pass it explicitly.  Also, list_of_squares has to be passed
+	 * as a parameter in C.
+	 */
+	map(square, my_test_data, list_of_squares, 6);
+
+	printf("(");
+	for(i=0; i<6; i++)
+	{
+		printf("%d", list_of_squares[i]);
+	}
+	printf(")\n");
+}
+</programlisting>
+
+<para>
+Of course, in C, unless we use a typetag mechanism like the one mentioned <ulink url="">in this article</ulink>, we would need a different function for every type of value used with <literal>map</literal>.
+</para>
+
+<para>
+In addition to being more concise, coding such a function in Scheme has an additional advantage -- the definition of the function <literal>square</literal> is not needed.  In Scheme, since functions can be created and passed just like any other value, the core of the code can be modified so that an anonymous function is passed to <literal>map</literal>.  Like this:
+</para>
+
+<example>
+<title>Passing anonymous functions as values</title>
+<programlisting>
+(define list-of-squares (map (lambda (x) (* x x)) '(1 2 3 4 5 6)))
+(display list-of-squares)
+(newline)
+</programlisting>
+</example>
+
+<para>
+So what's the purpose of this?  Well, anonymous functions have several advantages over named functions in the cases where the function is only used once:
+</para>
+
+<itemizedlist>
+<listitem><para>The program namespace isn't polluted with a lot of extra garbage.</para></listitem>
+<listitem><para>The code for the function is located in the exact spot it is used, so programmers don't have to go hunting for the code of tiny, one-use functions.</para></listitem>
+<listitem><para>The programmer doesn't have to worry about someone else later using that same function for something else, and then be tied to a particular implementation.</para></listitem>
+</itemizedlist>
+
+<para>
+In short, writing anonymous functions make the code concise, easy to follow, and makes it obvious to other programmers that this function is specialized for this one, specific use.
+</para>
+
+</sect1>
+
+<!-- templatized code -->
+<!-- C and C++ versions of map -->
+<!-- function-generating functions:
+      -- specialized operators
+      -- stateful functions
+  --> 
+
+</chapter>
