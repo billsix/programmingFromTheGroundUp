@@ -12,7 +12,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 -->
 
-<sect1>
+<simplesect>
 <title>Introduction to GUI Programming</title>
 
 <para>
@@ -25,9 +25,9 @@ to get used to learning new libraries.  Most of your time
 will be spent passing data from one library to another.
 </para>
 
-</sect1>
+</simplesect>
 
-<sect1>
+<simplesect>
 <title>The GNOME Libraries</title>
 
 <para>
@@ -71,9 +71,9 @@ and everything else you need to start programming in the GNOME
 environment.  
 </para>
 
-</sect1>
+</simplesect>
 
-<sect1>
+<simplesect>
 <title>A Simple GNOME Program in Several Languages</title>
 
 <para>
@@ -262,9 +262,9 @@ Finally, we have a version in Python.  Type it in as gnome-example.py:
 To run it type <command>python gnome-example.py</command>.
 </para>
 
-</sect1>
+</simplesect>
 
-<sect1>
+<simplesect>
 <title>GUI Builders</title>
 
 <para>
@@ -295,6 +295,6 @@ hopefully this appendix gave  you a taste of what GUI programming
 is like.
 </para>
 
-</sect1>
+</simplesect>
 
 </appendix>

@@ -27,7 +27,7 @@ is present on almost all GNU/Linux distributions.  It can debug programs
 in multiple languages, including assembly language.
 </para>
 
-<sect1>
+<simplesect>
 <title>An Example Debugging Session</title>
 
 <para>
@@ -216,9 +216,9 @@ Hopefully this exercise provided some insight into using GDB to help you
 find errors in your programs.
 </para>
 
-</sect1>
+</simplesect>
 
-<sect1>
+<simplesect>
 <title>Breakpoints and Other GDB Features</title>
 
 <para>
@@ -270,9 +270,9 @@ The instruction is actually executed, but GDB doesn't step through
 it.
 </para>
 
-</sect1>
+</simplesect>
 
-<sect1>
+<simplesect>
 <title>GDB Quick-Reference</title>
 
 <para>
@@ -375,6 +375,6 @@ permission in this book.  Parameters listed in brackets are optional.
 </tgroup>
 </table>
 
-</sect1>
+</simplesect>
 
 </appendix>

@@ -27,8 +27,8 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <style-specification use="docbook-print" id="printdraft">
 <style-specification-body>
 
-;(define %page-width% 7.5in)
-;(define %page-height% 9.25in)
+(define %page-width% 7.5in)
+(define %page-height% 9.25in)
 (define %footnote-ulinks% #f)
 (define %two-side% #t)
 (define tex-backend #t)
@@ -47,6 +47,17 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
   (list)
 )
 
+(define (section-element-list)
+  (list (normalize "sect1")
+        (normalize "sect2")
+        (normalize "sect3")
+        (normalize "sect4")
+        (normalize "sect5")
+        (normalize "section")
+        ;(normalize "simplesect")
+        (normalize "refsect1")
+        (normalize "refsect2")
+        (normalize "refsect3")))
 
 </style-specification-body>
 </style-specification>
@@ -63,6 +74,19 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 (define %visual-acuity% "presbyopic")
 (define %body-start-indent% 0pt)
 (define %hsize-bump-factor% 1.1)
+
+
+(define (section-element-list)
+  (list (normalize "sect1")
+        (normalize "sect2")
+        (normalize "sect3")
+        (normalize "sect4")
+        (normalize "sect5")
+        (normalize "section")
+        ;(normalize "simplesect")
+        (normalize "refsect1")
+        (normalize "refsect2")
+        (normalize "refsect3")))
 
 (define (toc-depth nd)
 	(if (string=? (gi nd) (normalize "book"))

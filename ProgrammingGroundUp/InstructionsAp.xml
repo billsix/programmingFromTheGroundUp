@@ -1,7 +1,7 @@
 <appendix id="instructionsappendix">
 <title>Common x86 Instructions</title>
 
-<sect1>
+<simplesect>
 <title>Reading the Tables</title>
 
 <para>
@@ -84,9 +84,9 @@ Carry flag.  Used in addition to say whether or not the result would have carrie
 Other flags exist, but they are much less important.
 </para>
 
-</sect1>
+</simplesect>
 
-<sect1>
+<simplesect>
 <title>Data Transfer Instructions</title>
 
 <para>
@@ -146,9 +146,9 @@ Exchange the given registers or register w/ memory location.
 </tgroup>
 </table>
 
-</sect1>
+</simplesect>
 
-<sect1>
+<simplesect>
 <title>Integer Instructions</title>
 
 <para>
@@ -224,9 +224,9 @@ Perform subtraction.
 </tgroup>
 </table>
 
-</sect1>
+</simplesect>
 
-<sect1>
+<simplesect>
 <title>Logic Instructions</title>
 
 <para>
@@ -301,9 +301,9 @@ Does an exclusive or on the two operands, and stores the result in the second op
 </tgroup>
 </table>
 
-</sect1>
+</simplesect>
 
-<sect1>
+<simplesect>
 <title>Flow Control Instructions</title>
 
 <para>
@@ -363,7 +363,7 @@ to return from function calls.
 <para>
 </para>
 
-</sect1>
+</simplesect>
 
 <!--
 <sect1>
@@ -390,7 +390,7 @@ to return from function calls.
 -->
 
 
-<sect1>
+<simplesect>
 <title>Assembler Directives</title>
 
 <para>
@@ -455,9 +455,9 @@ uninitialized global data).
 <para>
 </para>
 
-</sect1>
+</simplesect>
 
-<sect1>
+<simplesect>
 <title>Differences in Other Syntaxes and Terminology</title>
 
 <para>
@@ -502,5 +502,5 @@ This makes a little more sense, as it spells out exactly how the address
 will be computed, but the order of operands is confusing.
 </para>
 
-</sect1>
+</simplesect>
 </appendix>
