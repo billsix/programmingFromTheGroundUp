@@ -12,7 +12,6 @@
   * Instructions needs some more beef from reference books
   * Reviews need to be finished out
   * Finish index
-  * do I define sign extension?
 -->
 <!-- Appendices it would be nice to have:
   * A full description of the calling sequence for UNIX
@@ -36,8 +35,6 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 <!ENTITY index SYSTEM "index.xml">
 
-<!ENTITY fdl-appendix SYSTEM "FDLAp.xml">
-
 <!ENTITY introduction-chapter SYSTEM "IntroductionCh.xml">
 <!ENTITY memory-chapter SYSTEM "MemoryCh.xml">
 <!ENTITY firstprogs-chapter SYSTEM "FirstProgsCh.xml">
@@ -60,6 +57,8 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY history-appendix SYSTEM "HistoryAp.xml">
 <!ENTITY instructions-appendix SYSTEM "InstructionsAp.xml">
 <!ENTITY gdb-appendix SYSTEM "GDBAp.xml">
+<!ENTITY fdl-appendix SYSTEM "FDLAp.xml">
+<!ENTITY dedication-appendix SYSTEM "DedicationAp.xml">
 
 <!ENTITY exit-s SYSTEM "exit.s">
 <!ENTITY error-exit-s SYSTEM "error-exit.s">
@@ -185,6 +184,28 @@ as defined by the GNU Free Documentation License.
 
 </bookinfo>
 
+<!--
+<para>
+This book has been in the making for a long time.  It started several years ago
+when I was manager of Internet Systems Development at Wolfram Research.
+As part of my job I interviewed candidates for positions.  I noticed that
+the near-universal trait of qualified candidates was that they all knew 
+assembly language.  Few were experts and even fewer used it regularly, but
+everyone who knew assembly language had a deeper understanding of programming
+issues than the other candidates.
+</para>
+
+<para>
+Assembly language has long fallen out of vogue in education, and I believe
+that this is causing the current generation of programmers to have a much
+weaker foundation.   Assembly language was being viewed as an optional add-on 
+that was only useful for operating-system programmers.  I wrote this book
+to bring assembly language to the forefront of programmer education.
+</para>
+
+-->
+
+
 <!-- This could be used elsewhere
 <para>
 Programming is a tool.  It helps you get from one point to another.
@@ -223,6 +244,8 @@ of the tool you use.
 
 &history-appendix;
 &fdl-appendix;
+
+&dedication-appendix;
 
 &index;
 
