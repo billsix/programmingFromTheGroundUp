@@ -7,6 +7,14 @@ if_symbol:
 	.long 2
 	.ascii "if\0"
 
+current_continuation:
+	.long 0
+
+current_expression:
+	.long 0
+
+return_value:
+	.long 0
 
 .section .text
 eval_expression:
@@ -19,8 +27,9 @@ eval_expression:
 	jel  eval_procedure
 
 eval_literal:
-	movl current_continuation + PROC_POSITION, %eax
-	jmpl *%eax
+	movl current_continuation, %eax
+	movl PROC_POSITION(%eax), %ecx
+	jmpl *%ecx
 
 eval_symbol:
 	cmpl %eax, $if_symbol
@@ -57,5 +66,26 @@ eval_nonform_symbol:
 
 	movl %eax, %ebx
 
-	movl  current_continuation + PROC_POSITION, %eax
+	movl  current_continuation, %eax
 	jmpl  *%eax
+
+eval_procedure:
+eval_proc_operator:
+	movl  current_continuation, %eax
+	pushl $eval_proc_operands
+	pushl ENVIRONMENT_POSITION(%eax)
+	pushl %eax
+	pushl NEXT_EXPRESSION_POSITION(%eax)
+	call  continuation_create
+	movl  %eax, current_continuation
+	popl  %eax
+	popl  %eax
+	popl  %eax
+	popl  %eax
+
+	jmpl  eval_expression
+	#eval operator
+eval_proc_operands:
+	#eval operands into list
+eval_proc_apply:
+	#apply operator to operands

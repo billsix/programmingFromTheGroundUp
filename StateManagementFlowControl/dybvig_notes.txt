@@ -1,3 +1,6 @@
+Notes from R. Kent Dybvig, Three Implementation Models for Scheme,
+doctorate dissertation for U. North Carolina at Chapel Hill, 1987
+
 Heap-based interpreter - environments, call frames, control stack, closures, continuations
 environment - list of ribs - variable/value ribs
 call frames - list of four fields - expression (next expression to be evalutatied, ie return address), environment, rib (list of args evaluated so far), next frame
