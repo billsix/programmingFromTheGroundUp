@@ -30,23 +30,42 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 ;(define %page-width% 8.25in)
 ;(define %page-height% 10.75in)
 (define %footnote-ulinks% #f)
-(define %two-side% #t)
+;(define %two-side% #t)
 (define tex-backend #t)
 (define bop-footnotes #t)
 (define show-comments #t)
+;(define %visual-acuity% "presbyopic")
+(define %body-start-indent% 0pt)
+(define %hsize-bump-factor% 1.1)
+(define (toc-depth nd)
+	(if (string=? (gi nd) (normalize "book"))
+		2
+		1
+	)
+)
 
 </style-specification-body>
 </style-specification>
 <style-specification use="docbook-print" id="print">
 <style-specification-body>
 
-(define %page-width% 8.25in)
-(define %page-height% 10.25in)
+(define %page-width% 7.5in)
+(define %page-height% 9.25in)
 (define %footnote-ulinks% #f)
 (define %two-side% #t)
 (define tex-backend #t)
 (define bop-footnotes #t)
 (define show-comments #f)
+(define %visual-acuity% "presbyopic")
+(define %body-start-indent% 0pt)
+(define %hsize-bump-factor% 1.1)
+
+(define (toc-depth nd)
+	(if (string=? (gi nd) (normalize "book"))
+		2
+		1
+	)
+)
 
 </style-specification-body>
 </style-specification>
