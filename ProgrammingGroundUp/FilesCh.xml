@@ -119,8 +119,7 @@ or bigger, depending on your application needs.
 To create a buffer, you need to either reserve static or dynamic storage.
 Static storage is what we have talked about so far, storage locations
 declared using <literal>.long</literal> or <literal>.byte</literal> directives.
-Dynamic storage will be discussed in the chapter on memory.<!--XREF-->
-  Now, there
+Dynamic storage will be discussed in <xref linkend="dynamicmemory" />.  Now, there
 are problems with declaring buffers using <literal>.byte</literal>.
 First, it is tedious to type.  You would have to type 500 numbers after
 the <literal>.byte</literal> declaration, and they wouldn't be used
@@ -451,6 +450,45 @@ to get the data in and out of the files.
 
 <para>
 </para>
+
+</sect1>
+
+<sect1>
+<title>Review</title>
+
+<remark>Need a lot more review entries</remark>
+
+<sect2>
+<title>Know the Concepts</title>
+
+<itemizedlist>
+<listitem><para>Describe the lifecycle of a file descriptor.</para></listitem>
+<listitem><para>What are the standard file descriptors and what are they used for?</para></listitem>
+<listitem><para>What is a buffer?</para></listitem>
+<listitem><para>What is the difference between the <literal>.data</literal> section and the <literal>.bss</literal> section?</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Use the Concepts</title>
+
+<itemizedlist>
+<listitem><para>Write a program that will create a file called <filename>heynow.txt</filename> and write the words "Hey diddle diddle!" into it.</para></listitem>
+<listitem><para>Write a program </para></listitem>
+
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Going Further</title>
+
+<itemizedlist>
+<listitem><para></para></listitem>
+</itemizedlist>
+
+</sect2>
 
 </sect1>
 

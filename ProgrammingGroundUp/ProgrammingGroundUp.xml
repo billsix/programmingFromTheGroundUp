@@ -83,7 +83,9 @@ document under the terms of the GNU Free Documentation License,
 Version 1.1 or any later version published by the Free Software
 Foundation; with no Invariant Sections, with no Front-Cover Texts,
 and with no Back-Cover Texts.  A copy of the license is included in
-<xref linkend="fdl" />. 
+<xref linkend="fdl" />.   In addition, you are granted full rights
+to use the code examples for any purpose without even having to credit
+the authors.
 </para>
 </legalnotice>
 </bookinfo>

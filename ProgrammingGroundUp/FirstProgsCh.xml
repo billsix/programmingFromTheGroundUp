@@ -529,17 +529,22 @@ your program.  Do this now and see the results.
 All right, we've played with the data a little bit.  Now let's look
 at the code.  In the comments you will notice that we've marked
 some <emphasis>variables</emphasis> that we plan to use.  A variable
-is a storage location used for a specific purpose.  We have a variable
+is a dedicated storage location used for a specific purpose, usually
+given a distinct name by the programmer.  In this program, we have a variable
 for the current maximum number found, one for which number of the 
 list we are currently examining (called the index), and one holding the 
 current number being examined.  In this case,
 we have few enough variables that we can hold them all in registers.
 In larger programs, you have to put them in memory, and then move
-them to registers when you are ready to use them.  Anyway, we are
-using <literal>%ebx</literal> as the location of the largest item we've
-found.  <literal>%edi</literal> is used as the <emphasis>index</emphasis>
-to the current data item we're looking at.  Now, let's talk about what 
-an index is.  When we read the information from <literal>data_items</literal>,
+them to registers when you are ready to use them. 
+</para>
+
+<para>
+In this program, we are using <literal>%ebx</literal> as the location 
+of the largest item we've found.  <literal>%edi</literal> is used as the 
+<emphasis>index</emphasis> to the current data item we're looking at.  
+Now, let's talk about what an index is.  When we read the information 
+from <literal>data_items</literal>,
 we will start with the first one (data item number 0), then go to the second
 one (data item number 1), then the third (data item number 2), and so on.  
 The data item number is the <emphasis>index</emphasis> of 
@@ -586,10 +591,10 @@ Then it stores that number in <literal>%eax</literal>.  So, the number
 to 1, the number 67 would be in <literal>%eax</literal>, and if it
 was set to 2, the number 34 would be in <literal>%eax</literal>, and so
 forth.  Very strange things would happen if we used a number other than
-4 as the size of our storage locations.<footnote><para>4 isn't really the
-size of the storage locations, although looking at it that way works for
-our purposes now.  It's actually what's called a 
-<emphasis>multiplier</emphasis>.  basically, the way it works is that
+4 as the size of our storage locations.<footnote><para>The instruction 
+doesn't really use 4 for the size of the storage locations, although 
+looking at it that way works for our purposes now.  It's actually what's 
+called a <emphasis>multiplier</emphasis>.  basically, the way it works is that
 you start at the location specified by <literal>data_items</literal>, then
 you add <literal>%edi</literal>*4 storage locations, and retrieve the number
 there.  Usually, you use the size of the numbers as your multiplier, but in
@@ -827,6 +832,9 @@ that, you deserve a to have a coffee break.
 <listitem><para>How do you check the result status code of the last program you ran?</para></listitem>
 <listitem><para>What is the difference between <literal>movl $1, %eax</literal> and <literal>movl 1, %eax</literal>?</para></listitem>
 <listitem><para>Which register holds the system call number?</para></listitem>
+<listitem><para>What are indexes used for?</para></listitem>
+<listitem><para>Why do indexes usually start at 0?</para></listitem>
+<listitem><para>If I issued the command <literal>movl data_items(,%edi,4), %eax</literal> and data_items was address 3634 and &edi; held the value 13, what address would you be using to move into &eax;?</para></listitem>
 </itemizedlist>
 
 </sect2>

@@ -1,4 +1,4 @@
-<chapter>
+<chapter id="memoryintermediate">
 <title>Intermediate Memory Topics</title>
 
 <para>
@@ -339,7 +339,7 @@ usually recoverable if you start terminating your programs, but it's a pain.
 
 </sect1>
 
-<sect1>
+<sect1 id="dynamicmemory">
 <title>Getting More Memory</title>
 
 <para>

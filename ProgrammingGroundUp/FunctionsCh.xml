@@ -928,14 +928,49 @@ should deepen your understanding of what is going on.
 </sect1>
 
 <sect1>
-<title>Projects</title>
+<title>Review</title>
+
+<sect2>
+<title>Know the Concepts</title>
 
 <itemizedlist>
-<listitem><para>Find an application on the computer you use regularly.  Try to locate a specific feature, and practice breaking that feature out into functions.  Define the function interfaces between that feature and the rest of the program.</para></listitem>
-<listitem><para>The factorial function can be written non-recursively.  Do so.</para></listitem>
-<listitem><para>The <literal>call</literal> instruction pushes the location of the next instruction onto the stack, and then jumps to the subroutine.  Rewrite the code in this chapter to not use the <literal>call</literal> function, but to do these explicitly.  After doing so, try to write it without using <literal>ret</literal> either.</para></listitem>
-<listitem><para>Come up with your own calling convention.  Rewrite the programs in this chapter using it.  An example of a different calling convention would be to pass paramters in registers rather than the stack, to pass them in a different order, to return values in other registers or memory locations.  Whatever you pick, be consistent and apply it throughout the whole program.</para></listitem>
+<listitem><para>What are primitives?</para></listitem>
+<listitem><para>What are calling conventions?</para></listitem>
+<listitem><para>What is the stack?</para></listitem>
+<listitem><para>How do <literal>push</literal> and <literal>pop</literal> affect the stack?  What registers do they affect?</para></listitem>
+<listitem><para>What are local variables and what are they used for?</para></listitem>
+<listitem><para>What are &ebp; and &esp; used for?</para></listitem>
+<listitem><para>What is flow control?</para></listitem>
 </itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Use the Concepts</title>
+
+<itemizedlist>
+<listitem><para>Write a function called <literal>square</literal> which receives 1 argument and returns the square of that argument.</para></listitem>
+<listitem><para>Write a program to test your <literal>square</literal> function.</para></listitem>
+<listitem><para>The <literal>call</literal> instruction pushes the location of the next instruction onto the stack, and then jumps to the subroutine.  Rewrite the code in this chapter to not use the <literal>call</literal> function, but to do these explicitly.</para></listitem>
+<listitem><para>Try to write the program without using <literal>ret</literal> either.</para></listitem>
+<listitem><para>Explain the problems that would arise without a standard calling convention.</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Going Further</title>
+
+<itemizedlist>
+<listitem><para>Do you think it's better for a system to have a large set of primitives or a small one, assuming that the larger set can be written in terms of the smaller one?</para></listitem>
+<listitem><para>The factorial function can be written non-recursively.  Do so.</para></listitem>
+<listitem><para>Find an application on the computer you use regularly.  Try to locate a specific feature, and practice breaking that feature out into functions.  Define the function interfaces between that feature and the rest of the program.</para></listitem>
+<listitem><para>Come up with your own calling convention.  Rewrite the programs in this chapter using it.  An example of a different calling convention would be to pass paramters in registers rather than the stack, to pass them in a different order, to return values in other registers or memory locations.  Whatever you pick, be consistent and apply it throughout the whole program.</para></listitem>
+<listitem><para>Can you build a calling convention without using the stack?  What limitations might it have?</para></listitem>
+<listitem><para>What test cases should we use in our example program to check to see if it is working properly?</para></listitem>
+</itemizedlist>
+
+</sect2>
 
 </sect1>
 
