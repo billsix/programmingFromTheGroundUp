@@ -66,7 +66,7 @@ as exit.s -o exit.o
 </programlisting>
 
 <literal>as</literal><indexterm><primary><literal>as</literal></primary></indexterm> is the command which runs the assembler,  
-<filename>exit.s</filename> is the source file, and 
+<filename>exit.s</filename> is the source file<indexterm><primary>source file</primary></indexterm>, and 
 <literal>-o exit.o</literal> tells the assemble to put it's output
 in the file <filename>exit.o</filename>.
 <filename>exit.o</filename> is an <emphasis>object file<indexterm><primary>object file</primary></indexterm></emphasis>.  An
@@ -141,7 +141,9 @@ the programmer to talk to anyone who looks at the
 code in the future.  Most programs you write will generally
 be modified by others.  Get 
 into the habit of writing comments in your code that will
-help them understand both why the program exists and how it works.  Always include in your comments
+help them understand both why the program exists and how it works.  
+Always include the following in your comments:
+</para>
 
 <itemizedlist>
 
@@ -159,8 +161,6 @@ performs.  Unfortunately, figuring out what is strange and what is straightforwa
 
 </itemizedlist>
 
-</para>
-
 <para>
 After the comments, the next line says
 
@@ -173,7 +173,8 @@ instruction.  Instead, it's an instruction to the assembler itself.  These
 are called <emphasis>assembler directives<indexterm><primary>assembler directives</primary></indexterm></emphasis> or <emphasis>pseudo-operations<indexterm><primary>pseudo-operations</primary></indexterm></emphasis> because they are handled by the assembler and are not actually run by the computer.
 The <literal>.section</literal><indexterm><primary><literal>.section</literal></primary></indexterm>
 command breaks your program up into sections.  This command starts the
-data section, where you list any memory storage you will need for data.  
+data section<indexterm><primary>data section</primary></indexterm>, 
+where you list any memory storage you will need for data.  
 Our program doesn't use any, so we don't need the section.  It's just here
 for completeness.  Almost every program you write in the future will have data.
 </para>
@@ -185,8 +186,9 @@ Right after this you have
 	.section .text
 </programlisting>
 <indexterm><primary><literal>.text</literal></primary></indexterm>
-which starts the text section.  The text section of a program is where 
-the program instructions live.
+which starts the text section.  The text 
+section<indexterm><primary>text section</primary></indexterm> of a program 
+is where the program instructions live.
 </para>
 
 <para>
@@ -250,7 +252,7 @@ movl $1, %eax
 <para>
 When the program runs, this instruction transfers 
 the number <literal>1</literal> into the &eax; register.
-On IA32 machines, there are several general-purpose registers<indexterm><primary>general-purpose registers</primary></indexterm>:
+On x86 processors, there are several general-purpose registers<indexterm><primary>general-purpose registers</primary></indexterm>:
 
 <itemizedlist>
 <listitem><para>&eax-indexed;</para></listitem>
@@ -284,7 +286,7 @@ offer a 64-bit mode, which doubles the size of these registers yet again
 and uses an <literal>r</literal> prefix to indicate the larger registers (i.e.
 &rax; is the 64-bit version of &eax;).  However, these processors are not 
 widely used, and are not covered in this book.
-</para></footnote>  Also, &edi; can also be used as a general-purpose register.
+</para></footnote>  Also, &edi-indexed; can also be used as a general-purpose register.
 </para>
 
 <para>
@@ -300,42 +302,47 @@ mode.
 <para>
 This instruction is preparing for when we call the Linux kernel.  The
 number <literal>1</literal> is the number of the <literal>exit</literal><indexterm><primary><literal>exit</literal></primary></indexterm>
-<emphasis>system call</emphasis><indexterm><primary>system call</primary></indexterm>.
-We will discuss system calls in more depth soon, but basically they are requests for
-the operating system's help.  Normal programs can't do everything.  Many operations
-such as calling other programs, dealing with files, and exiting have to be handled
-by the operating system through system calls.
+<emphasis>system call</emphasis>
+<indexterm><primary>system call</primary></indexterm>.
+We will discuss system calls in more depth soon, but basically they are 
+requests for the operating system's help.  Normal programs can't do 
+everything.  Many operations such as calling other programs, dealing with 
+files, and exiting have to be handled
+by the operating system through system calls<indexterm><primary>system calls</primary></indexterm>.
 When you make a system call, which we will do shortly, the system
 call number <!--XREF - see xxxx for a list--> has to be loaded into
-&eax;.
+&eax-indexed;.
 </para>
 
 <para>
 The operating system, however, usually needs more information than just which
-call to make.   For example, when dealing with files, the operating system needs
-to know which file you are dealing with, what data you want to write, and other
+call to make.   For example, when dealing with files, the operating system 
+needs to know which file you are dealing with, what data you want to write, 
+and other
 details.  The extra details, called <emphasis>parameters<indexterm><primary>parameters</primary></indexterm></emphasis>
 are stored in other registers.  In the case of the <literal>exit</literal> system call,
-the operating system requires a status code be loaded in &ebx;.  This value
-is then returned to the system.  This is the value you retrieved when you typed
-<command>echo $?</command>.  So, we load &ebx; with <literal>0</literal>
-by typing
+the operating system requires a status code be loaded in &ebx-indexed;.  This 
+value is then returned to the system.  This is the value you retrieved 
+when you typed <command>echo $?</command>.  So, we load &ebx; with 
+<literal>0</literal> by typing the following:
+</para>
 
 <programlisting>
 movl $0, %ebx
 </programlisting>a
-</para>
 
 <para>
-Now, loading registers with these numbers doesn't do anything itself.
+Now, loading 
+registers<indexterm><primary>registers</primary></indexterm> with these 
+numbers doesn't do anything itself.
 Registers are used for all sorts of things besides system calls.  They
 are where all program logic such as addition, subtraction, and comparisons
 take place.  Linux simply requires that certain registers be loaded with
-certain values before making a system call.  &eax-indexed; is always required
-to be loaded with the system call number.  
-For the other registers, however, each system call has different requirements.  
-In the <literal>exit</literal>
-system call, &ebx-indexed; is required to be loaded with the exit status.
+certain parameter values before making a system call.  &eax-indexed; is 
+always required to be loaded with the system call number.  
+For the other registers, however, each system call has different requirements.
+In the <literal>exit<indexterm><primary>exit</primary></indexterm></literal>
+system call, &ebx-indexed; is required to be loaded with the exit status<indexterm><primary>exit status</primary></indexterm>.
 We will discuss different system calls as they are needed.  For a list of
 common system calls and what is required to be in each register, see <xref linkend="syscallap" />
 </para>
@@ -356,7 +363,7 @@ number to use.<footnote>
 <para>You
 may be wondering why it's <literal>0x80</literal> instead of just 
 <literal>80</literal>.  The reason is that the number is written in 
-hexadecimal.  In hexadecimal, a single digit can hold 16 values instead
+hexadecimal<indexterm><primary>hexadecimal</primary></indexterm>.  In hexadecimal, a single digit can hold 16 values instead
 of the normal 10.  This is done by utilizing the letters 
 <literal>a</literal> through <literal>f</literal>
 in addition to the regular digits.  <literal>a</literal> represents 10,
@@ -367,14 +374,14 @@ Tacking on an <literal>H</literal> at the end is also sometimes used instead, bu
 we won't do that in this book.  For more information about this, see <xref linkend="countingchapter" />
 </para></footnote>
 
-An <emphasis>interrupt</emphasis> interrupts the normal program flow, and
-transfers control from our program to Linux so that it will do a system
+An <emphasis>interrupt<indexterm><primary>interrupt</primary></indexterm></emphasis> interrupts the normal program flow, and
+transfers control from our program to Linux<indexterm><primary>Linux</primary></indexterm> so that it will do a system
 call.<footnote><para>Actually, the
 interrupt transfers control to whoever set up an <emphasis>interrupt
 handler</emphasis> for the interrupt number.  In the case of Linux,
 all of them are set to be handled by the Linux kernel.</para></footnote>.
 You can think of it as like signaling Batman(or 
-Larry-Boy<footnote><para>If you don't watch Veggie Tales, you should.</para></footnote>, if you prefer).
+Larry-Boy<indexterm><primary>Larry-Boy</primary></indexterm><footnote><para>If you don't watch Veggie Tales, you should.</para></footnote>, if you prefer).
 You need something done,
 you send the signal, and then he comes to the rescue.  You don't care how
 he does his work - it's more or less magic - and when he's done you're
@@ -447,7 +454,7 @@ only contains numbers, so it has no idea when it has reached the last of
 </para>
 
 <para>
-Yes, in computers, you have to plan every step of the way.  So, let's do
+In computers, you have to plan every step of the way.  So, let's do
 a little planning.  First of all, just for reference, let's name the
 address where the list of numbers starts as <literal>data_items</literal>.
 Let's say that the last number in the list will be a zero, so we know where
@@ -491,8 +498,7 @@ the skipping around increases dramatically.
 </para>
 
 <para>
-These "if"s are a class of instructions called <emphasis>flow 
-control</emphasis> instructions, because they tell the compute which steps
+These "if"s are a class of instructions called <emphasis>flow control<indexterm><primary>flow control</primary></indexterm></emphasis> instructions, because they tell the compute which steps
 to follow and which paths to take.  In the previous program, we did not
 have any flow control instructions, as there was only one possible path to
 take - exit.  This program is much more dynamic in that it is directed by
@@ -502,7 +508,10 @@ paths.
 
 <para>
 In this program, this will be accomplished by two different 
-instructions, the conditional jump and the unconditional jump.  The conditional
+instructions, the conditional 
+jump<indexterm><primary>conditional jump</primary></indexterm> and the 
+unconditional jump<indexterm><primary>unconditional jump</primary></indexterm>.
+The conditional
 jump changes paths based on the results of a previous comparison or
 calculation.  The unconditional jump just goes directly to a different path
 no matter what.  The unconditional jump may seem useless, but it is very
@@ -513,7 +522,7 @@ next section.
 </para>
 
 <para>
-Another use of flow control is in implementing loops.  A loop is a piece
+Another use of flow control<indexterm><primary>flow control</primary></indexterm> is in implementing loops<indexterm><primary>loops</primary></indexterm>.  A loop is a piece
 of program code that is meant to be repeated.  In our example, the first
 part of the program (setting the current position to 0 and loading the
 current highest value with the current value) was only done once, so it
@@ -524,7 +533,7 @@ because it occurs over and over again.  It is implemented by doing
 unconditional jumps to the beginning of the loop at the end of the loop, which
 causes it to start over.  However, you have to always remember to have a
 conditional jump to exit the loop somewhere, or the loop will continue
-forever!  This condition is called an <emphasis>infinite loop</emphasis>.
+forever!  This condition is called an <emphasis>infinite loop<indexterm><primary>infinite loop</primary></indexterm></emphasis>.
 If we accidentally left out step 1, 2, or 3, the loop (and our program)
 would never end.
 </para>
@@ -545,43 +554,52 @@ eventually become very natural to you.  Just have patience.
 <title>Finding a Maximum Value</title>
 
 <para>
-Enter the following program as <filename>maximum.s</filename>
+Enter the following program as <filename>maximum.s</filename>:
+</para>
 
 <programlisting>
 &maximum-s;
 </programlisting>
 
-Now, assemble and link it with the commands
+<para>
+Now, assemble and link it with these commands:
+</para>
 
 <programlisting>
 as maximum.s -o maximum.o
 ld maximum.o -o maximum
 </programlisting>
 
-Now run it, and check it's status
+<para>
+Now run it, and check it's status.
+</para>
 
 <programlisting>
 ./maximum
 echo $?
 </programlisting>
 
+<para>
 You'll notice it returns the value <literal>222</literal>.  Let's take
 a look at the program and what it does.  If you look in the comments, you'll
 see that the program finds the maximum of a set of numbers (aren't comments
-wonderful!).  You may also notice that in this program we actually have something in
-the data section.  These lines are the data section:
+wonderful!).  You may also notice that in this program we actually have 
+something in the data section<indexterm><primary>data section</primary></indexterm>.  
+These lines are the data section:
+</para>
 
 <programlisting>
 data_items:                       #These are the data items
         .long 3,67,34,222,45,75,54,34,44,33,22,11,66,0
 </programlisting>
 
+<para>
 Lets look at this.  <literal>data_items</literal> is a label that
 refers to the location that follows it.  Then, there is a directive
 that starts with <literal>.long<indexterm><primary>.long</primary></indexterm></literal>.  That causes the assembler
 to reserve memory for the list of numbers that follow it.  
 <literal>data_items</literal> refers to the location of the first one.  
-There are several different types of memory locations other than <literal>.long</literal>
+There are several different types of memory locations other than <literal>.long<indexterm><primary>.long</primary></indexterm></literal>
 that can be reserved.  The main ones are as follows:
 </para>
 
@@ -659,10 +677,10 @@ we haven't put any data.
 
 <para>
 Notice that we don't have a 
-<literal>.globl</literal> declaration for <literal>data_items</literal>.
+<literal>.globl<indexterm><primary>.globl</primary></indexterm></literal> declaration for <literal>data_items</literal>.
 This is because we only refer to these locations within the program.  No
 other file or program needs to know where they are located.  This is
-in contrast to the <literal>_start</literal> symbol, which Linux
+in contrast to the <literal>_start<indexterm><primary>_start</primary></indexterm></literal> symbol, which Linux
 needs to know where it is so that it knows where to begin
 the program's execution.  It's not an error to write 
 <literal>.globl data_items</literal>, it's just not necessary.
@@ -698,7 +716,7 @@ several variables:
 <para>
 In this case,we have few enough variables that we can hold them all in 
 registers.  In larger programs, you have to put them in memory, and then move
-them to registers when you are ready to use them.  We will discuss how 
+them to registers<indexterm><primary>registers</primary></indexterm> when you are ready to use them.  We will discuss how 
 to do that later.  When people start out programming, they usually 
 underestimate the number of variables they will need.  People are not used 
 to having to think through every detail of a process, and therefore leave out
@@ -713,7 +731,7 @@ Now, let's talk about what an index is.  When we read the information
 from <literal>data_items</literal>,
 we will start with the first one (data item number 0), then go to the second
 one (data item number 1), then the third (data item number 2), and so on.  
-The data item number is the <emphasis>index</emphasis> of 
+The data item number is the <emphasis>index<indexterm><primary>index</primary></indexterm></emphasis> of 
 <literal>data_items</literal>.  You'll notice that the first instruction
 we give to the computer is:
 </para>
@@ -752,7 +770,7 @@ indexed addressing mode<indexterm><primary>indexed addressing mode</primary></in
 instructions in assembly language.  The instruction in a general form
 is this: <literal>movl BEGINNINGADDRESS(,%INDEXREGISTER,WORDSIZE)</literal>.  In
 our case <literal>data_items</literal> was our beginning address, &edi; was our
-index register, and 4 was our word size.  
+index register<indexterm><primary>index register</primary></indexterm>, and 4 was our word size.  
 </para>
 
 <para>
@@ -764,12 +782,14 @@ forth.  Very strange things would happen if we used a number other than
 4 as the size of our storage locations.<footnote><para>The instruction 
 doesn't really use 4 for the size of the storage locations, although 
 looking at it that way works for our purposes now.  It's actually what's 
-called a <emphasis>multiplier</emphasis>.  basically, the way it works is that
+called a <emphasis>multiplier<indexterm><primary>multiplier</primary></indexterm></emphasis>.  basically, the way it works is that
 you start at the location specified by <literal>data_items</literal>, then
 you add <literal>%edi</literal>*4 storage locations, and retrieve the number
 there.  Usually, you use the size of the numbers as your multiplier, but in
 some circumstances you'll want to do other things.</para></footnote>
-The way you write this is very awkward, but if you know what each piece does, it's not too difficult.  For more information about this, see <xref linkend="movaddrmodes" />
+The way you write this is very awkward, but if you know what each piece does, 
+it's not too difficult.  For more information about this, see 
+<xref linkend="movaddrmodes" />
 </para>
 
 <para>
@@ -835,7 +855,7 @@ This compare instruction also affects a register not mentioned here, the
 &eflags-indexed; register.  This is also known as the status register<indexterm><primary>status register</primary></indexterm>,
 and has many uses which we will discuss later.  Just be aware that the
 result of the comparison is stored in the status register.  The next line
-is a flow control instruction which says to 
+is a flow control<indexterm><primary>flow control</primary></indexterm> instruction which says to 
 <emphasis>jump</emphasis> to the <literal>end_loop</literal> location
 if the values that were just compared are equal (that's what the 
 <literal>e</literal>
@@ -905,8 +925,8 @@ of zero.  If so, we are done and we go to
 <literal>loop_exit</literal>.<footnote><para>The names of these symbols
 can be anything you want them to be, as long as they only contain letters
 and the underscore character(<literal>_</literal>).  The only one that
-is forced is <literal>_start</literal>, and possibly others that you
-declare with <literal>.globl</literal>.  However, if its a symbol you
+is forced is <literal>_start<indexterm><primary>_start</primary></indexterm></literal>, and possibly others that you
+declare with <literal>.globl<indexterm><primary>.globl</primary></indexterm></literal>.  However, if its a symbol you
 define and only you use, feel free to call it anything you want that is 
 adequately descriptive (remember that others will have to modify your code 
 later, and will have to interpret what your symbols mean).

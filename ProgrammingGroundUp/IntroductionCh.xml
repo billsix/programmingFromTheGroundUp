@@ -113,7 +113,7 @@ lines of this book.
 <para>
 This book teaches assembly language for x86 processors and the GNU/Linux
 operating system.  Therefore we will be giving all of 
-the examples using the GNU/Linux standard GCC tool set. 
+the examples using the GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm> standard GCC tool set. 
 If you are not familiar with GNU/Linux and the GCC tool set, they will
 be described shortly.  If you are new to Linux, you 
 should check out the guide available at 
@@ -129,32 +129,34 @@ makes the task much easier.
 </para>
 
 <para>
-Those new to Linux should also try to get involved in their local Linux
+Those new to Linux should also try to get involved in their local GNU/Linux
 User's Group.  User's Group members are usually very helpful for new people,
 and will help you from everything from installing Linux to learning to
-use it most efficiently.  A listing of Linux User's Groups is available
+use it most efficiently.  A listing of GNU/Linux User's Groups is available
 at http://www.linux.org/groups/
 </para>
 
 <para>
 All of these
-programs have been tested using <productname>Red Hat Linux</productname>
-8.0, and should work with any other Linux distribution, too.<footnote><para>By Linux distribution, I mean x86 Linux distribution.  Linux distributions for the Power Macintosh, the Alpha processor, or other processors will not work with this book.</para></footnote>  They will
+programs have been tested using <productname>Red Hat Linux 8.0</productname>, 
+and should work with any other GNU/Linux distribution, too.<footnote><para>By 
+"GNU/Linux distribution", I mean an x86 GNU/Linux distribution.  GNU/Linux 
+distributions for the Power Macintosh, the Alpha processor, or other 
+processors will not work with this book.</para></footnote>  They will
 not work with non-Linux operating systems such as BSD or other systems.
 However, all of the <emphasis>skills</emphasis> learned in this book 
 should be easily transferable to any other system.  
 </para>
 
 <para>
-If you do not have access to a GNU/Linux machine, you can look for
+If you do not have access to a GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm> machine, you can look for
 a hosting provider who offers a Linux <emphasis>shell account</emphasis>, which
 is a command-line only interface to a Linux machine.  
 There are many low-cost
 shell account providers, but you have to make sure that they match the 
 requirements above (i.e. - Linux on x86).  
-Someone at your
-local Linux User's Group may be able to give you one as well.
-Shell accounts only requires 
+Someone at your local GNU/Linux User's Group may be able to give you one as 
+well.  Shell accounts only require
 that you already have an Internet connection and a telnet program.  If you use
 Windows, you already have a telnet client - just click on 
 <literal>start</literal>, then <literal>run</literal>, then type in 
@@ -167,21 +169,24 @@ favorite.
 </para>
 
 <para>
-If you don't have GNU/Linux and can't find a shell account service, then you
+If you don't have GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm>
+and can't find a shell account service, then you
 can download <productname>Knoppix</productname> from http://www.knoppix.org/
-Knoppix is a GNU/Linux distribution that boots from CD so that you don't have
+Knoppix<indexterm><primary>Knoppix</primary></indexterm> is a 
+GNU/Linux distribution that boots from CD so that you don't have
 to actually install it.  Once you are done using it, you just reboot and
 remove the CD and you are back to your regular operating system.
 </para>
 
 <para>
-So what is GNU/Linux?  GNU/Linux is an operating system modeled after
+So what is GNU/Linux?  GNU/Linux<indexterm><primary>GNU/Linux</primary></indexterm> is an operating system modeled after
 UNIX.  The GNU part comes from the <ulink url="http://www.gnu.org/">GNU 
 Project</ulink><footnote><para>The GNU Project is a project by the Free
 Software Foundation to produce a complete, free operating 
 system.</para></footnote>, which includes most of the programs you 
 will run, including
-the GCC tool set that we will use to program with.  The GCC tool set
+the GCC<indexterm><primary>GCC</primary></indexterm> tool set that we 
+will use to program with.  The GCC tool set
 contains all of the programs necessary to create programs in various
 computer languages.
 </para>
@@ -214,7 +219,7 @@ Keyboard -> Kernel -> Windowing system -> Application program
 </example>
 
 <para>
-The kernel also controls the flow of information between programs.  
+The kernel<indexterm><primary>kernel</primary></indexterm> also controls the flow of information between programs.  
 The kernel is a program's gate to the world around it.  Every time that
 data moves between processes, the kernel controls the messaging.  In our
 keyboard example above, the kernel would have to be involved for the
@@ -230,8 +235,9 @@ running programs.
 </para>
 
 <para>
-In our case, the kernel
-is Linux.  Now, the kernel all by itself won't do anything.  You can't even
+In our case, the kernel<indexterm><primary>kernel</primary></indexterm>
+is Linux<indexterm><primary>Linux</primary></indexterm>.  Now, the kernel 
+all by itself won't do anything.  You can't even
 boot up a computer with just a kernel.  Think of the kernel as the water pipes
 for a house.  Without the pipes, the faucets won't work, but the pipes are
 pretty useless if there are no faucets.  Together, the user applications
