@@ -116,6 +116,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY ecx-indexed "<literal>&percent;ecx</literal><indexterm><primary><literal>&percent;ecx</literal></primary></indexterm>">
 <!ENTITY edx-indexed "<literal>&percent;edx</literal><indexterm><primary><literal>&percent;edx</literal></primary></indexterm>">
 <!ENTITY edi-indexed "<literal>&percent;edi</literal><indexterm><primary><literal>&percent;edi</literal></primary></indexterm>">
+<!ENTITY esi-indexed "<literal>&percent;esi</literal><indexterm><primary><literal>&percent;esi</literal></primary></indexterm>">
 <!ENTITY esp-indexed "<literal>&percent;esp</literal><indexterm><primary><literal>&percent;esp</literal></primary></indexterm>">
 <!ENTITY ebp-indexed "<literal>&percent;ebp</literal><indexterm><primary><literal>&percent;ebp</literal></primary></indexterm>">
 <!ENTITY eip-indexed "<literal>&percent;eip</literal><indexterm><primary><literal>&percent;eip</literal></primary></indexterm>">

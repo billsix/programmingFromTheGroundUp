@@ -289,6 +289,8 @@ On x86 processors, there are several general-purpose registers<indexterm><primar
 <listitem><para>&ebx-indexed;</para></listitem>
 <listitem><para>&ecx-indexed;</para></listitem>
 <listitem><para>&edx-indexed;</para></listitem>
+<listitem><para>&edi-indexed;</para></listitem>
+<listitem><para>&esi-indexed;</para></listitem>
 </itemizedlist>
 
 <para>
@@ -297,7 +299,6 @@ there are also several special-purpose registers<indexterm><primary>special-purp
 </para>
 
 <itemizedlist>
-<listitem><para>&edi-indexed;</para></listitem>
 <listitem><para>&ebp-indexed;</para></listitem>
 <listitem><para>&esp-indexed;</para></listitem>
 <listitem><para>&eip-indexed;</para></listitem>
@@ -319,7 +320,7 @@ offer a 64-bit mode, which doubles the size of these registers yet again
 and uses an <literal>r</literal> prefix to indicate the larger registers (i.e.
 &rax; is the 64-bit version of &eax;).  However, these processors are not 
 widely used, and are not covered in this book.
-</para></footnote>  Also, &edi-indexed; can also be used as a general-purpose register.  Some of these registers, like &eip-indexed; and &eflags-indexed; can
+</para></footnote>  Some of these registers, like &eip-indexed; and &eflags-indexed; can
 only be accessed through special instructions.  The others can be accessed
 using the same instructions as general-purpose registers, but they have 
 special meanings, special uses, or are simply faster when used in a specific
