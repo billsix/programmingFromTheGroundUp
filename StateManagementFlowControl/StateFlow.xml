@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<!--
+
+Copyright 2002 Jonathan Bartlett
+
+Permission is granted to copy, distribute and/or modify this
+document under the terms of the GNU Free Documentation License,
+Version 1.1 or any later version published by the Free Software
+Foundation; with no Invariant Sections, with no Front-Cover Texts,
+and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
+
+-->
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" [
+
+<!ENTITY index SYSTEM "index.xml">
+
+<!ENTITY introduction-chapter SYSTEM "IntroductionCh.xml">
+<!ENTITY memory-management-chapter SYSTEM "MemoryManageCh.xml">
+<!ENTITY state-management-introduction-chapter SYSTEM "StateManageIntroCh.xml">
+
+<!ENTITY fdl-appendix SYSTEM "FDLAp.xml">
+]>
+<book>
+
+&introduction-chapter;
+&memory-management-chapter;
+&state-management-introduction-chapter;
+&fdl-appendix;
+&index;
+</book>
