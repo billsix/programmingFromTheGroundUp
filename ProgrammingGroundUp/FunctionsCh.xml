@@ -90,7 +90,7 @@ Functions are composed of several different pieces:
 A function's name is a symbol<indexterm><primary>symbol</primary></indexterm>
 that represents the address where the 
 function's code starts.  In assembly language, the symbol is defined
-by typing the the function's name as a label
+by typing the function's name as a label
 before the function's code.  This is just like labels<indexterm><primary>labels</primary></indexterm> you have used
 for jumping.
 </para></listitem>

@@ -202,7 +202,7 @@ how many I have in inventory, and so on.
 <para>
 So what about if we need numbers larger than 255?  We can simply use
 a combination of bytes to represent larger numbers.  Two bytes can
-be used to represent any number between 0 and 65536.  Four bytes
+be used to represent any number between 0 and 65535.  Four bytes
 can be used to represent any number between 0 and 4294967295.  Now, it
 is quite difficult to write programs to stick bytes together to increase
 the size of your numbers, and requires a bit of math.  Luckily, the computer
@@ -440,7 +440,7 @@ important  ones.
 
 <itemizedlist>
 <listitem><para>What data would you use in an employee record?  How would you lay it out in memory?</para></listitem>
-<listitem><para>If I had the pointer the the beginning of the employee record above, and wanted to access a particular piece of data inside of it, what addressing mode would I use?</para></listitem>
+<listitem><para>If I had the pointer to the beginning of the employee record above, and wanted to access a particular piece of data inside of it, what addressing mode would I use?</para></listitem>
 <listitem><para>In base pointer addressing mode, if you have a register holding the value 3122, and an offset of 20, what address would you be trying to access?</para></listitem>
 <listitem><para>In indexed addressing mode, if the base address is 6512, the index register has a 5, and the multiplier is 4, what address would you be trying to access?</para></listitem>
 <listitem><para>In indexed addressing mode, if the base address is 123472, the index register has a 0, and the multiplier is 4, what address would you be trying to access?</para></listitem>

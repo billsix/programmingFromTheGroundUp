@@ -388,7 +388,7 @@ of the values individually.
 </para>
 
 <para>
-Instead of going on the the <literal>_start</literal> section of the program, go
+Instead of going on to the <literal>_start</literal> section of the program, go
 to the end where we define the <literal>convert_to_upper</literal> function.  
 This is the part that actually does the conversion.
 </para>
