@@ -12,10 +12,6 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 -->
 
-<remark>
-Need to show how advanced flow-control works in other languages.
-</remark>
-
 <para>
 In this chapter we will begin to look at our first "real-world"
 programming language.  Assembly language is the language used
@@ -26,10 +22,10 @@ task easier.  Knowing a wide variety of languages is useful for
 many reasons, including
 
 <itemizedlist>
-<listitem><para>Different languages are good for different types of projects</para></listitem>
-<listitem><para>Different companies have different standard languages, so knowing more languages makes your skills more marketable</para></listitem>
-<listitem><para>The more languages you know, the easier it is to pick up new ones</para></listitem>
-<listitem><para>Different languages are based on different concepts, which will help you to learn different and better ways of doing things</para></listitem>
+<listitem><para>Different languages are based on different concepts, which will help you to learn different and better programming methods and ideas.</para></listitem>
+<listitem><para>Different languages are good for different types of projects.</para></listitem>
+<listitem><para>Different companies have different standard languages, so knowing more languages makes your skills more marketable.</para></listitem>
+<listitem><para>The more languages you know, the easier it is to pick up new ones.</para></listitem>
 </itemizedlist>
 
 As a programmer, you will often have to pick up new languages.  Professional
@@ -37,7 +33,7 @@ programmers can usually pick up a new language with about a weeks
 worth of study and practice.  Languages are simply tools, and learning
 to use a new tool should not be something a programmer flinches at.  In fact,
 if you do computer consulting you will often have to learn new languages
-on the spot in order to keep yourself employed, because it will often be your
+on the spot in order to keep yourself employed. It will often be your
 customer, not you, who decides what language is used.  This
 chapter will introduce you to a few of the languages available to you.  
 I encourage you to explore as many languages as you are interested in.
@@ -47,10 +43,11 @@ I encourage you to explore as many languages as you are interested in.
 <title>Compiled and Interpreted Languages</title>
 
 <para>
-C is a <emphasis>compiled</emphasis> language.  When you wrote in
-assembly language, each instruction you wrote was translated into
+Many languages are <emphasis>compiled</emphasis> languages.  
+When you write assembly language, each instruction you write is 
+translated into
 exactly one machine instruction for processing.  With compilers,
-an instruction can translate into one or hundreds of machine 
+a statement can translate into one or hundreds of machine 
 instructions.  In fact, depending on how advanced your compiler
 is, it might even restructure parts of your code to make it faster.
 In assembly language, what you write is what you get.
@@ -59,15 +56,14 @@ In assembly language, what you write is what you get.
 <para>
 There are also languages that are <emphasis>interpreted</emphasis>
 languages.  These languages require that the user run a program
-called an <emphasis>interpreter</emphasis> (also called a 
-<emphasis>run-time environment</emphasis>) that in turn runs the
+called an <emphasis>interpreter</emphasis> that in turn runs the
 given program.  These are usually slower than compiled programs,
 since the translator has to read and interpret the code as it goes 
 along.  However, in well-made translators, this time can be
 fairly negligible.  There is also a class of hybrid languages
 which partially compile a program before execution into byte-codes,
-which are only machine readable.  This is done because the translator can read the
-byte-codes much faster than it can read the regular language.
+which are only machine readable.  This is done because the translator 
+can read the byte-codes much faster than it can read the regular language.
 </para>
 
 <para>
@@ -78,14 +74,35 @@ but the users of your program don't.  In a translated language, you
 have to be sure that the user has a translator for your program,
 and that the computer knows which translator runs your program.  Also,
 translated languages tend to be more flexible, while compiled languages
-are more rigid.  However, each language is different, and the more 
+are more rigid.
+</para>
+
+<para>
+Language choice is usually driven by available tools and support for 
+programming methods rather than by whether a language is compiled
+or interpretted.  In fact many languages have options for either one.  
+</para>
+
+<para>
+So why does one choose one language over another?
+For example, many choose Perl because it has a vast library of functions
+for handling just about every protocol or type of data on the planet.
+Python, however, has a cleaner syntax and often lends itself to more 
+straightforward solutions.  It's cross-platform GUI tools are also excellent.  
+PHP makes writing web applications simple.  Common LISP has more power and
+features than any other environment for those willing to learn it.  Scheme is
+the model of simplicity and power combined together.
+</para>
+
+<para>
+Each language is different, and the more 
 languages you know the better programmer you will be.  Knowing the
 concepts of different languages will help you in all programming, because
 you can match the programming language to the problem better, and you
 have a larger set of tools to work with.  Even if certain features aren't
 directly supported in the language you are using, often they can be simulated.
 However, if you don't have a broad experience with languages, you won't
-know of all the possibilities.
+know of all the possibilities you have to choose from.
 </para>
 
 </sect1>
@@ -94,8 +111,7 @@ know of all the possibilities.
 <title>Your First C Program</title>
 
 <para>
-As you may have noticed, I enjoy presenting you with a program first,
-and then explaining how it works.  So, here is your first program,
+Here is your first C program,
 which prints "Hello world" to the screen and exits.  Type it in, and
 give it the name Hello-World.c
 
@@ -199,7 +215,8 @@ the same code can usually run on multiple operating systems and hardware
 platforms.  For example, this program can be built and executed on x86
 hardware running Linux, Windows, UNIX, or most other operating systems.
 In addition, it can also run on Macintosh hardware running a number of
-operating systems.
+operating systems.  For more information about C, you should also see
+<xref linkend="ctranslationap" />.
 </para>
 
 </sect1>
@@ -279,6 +296,45 @@ a file named <filename>Hello-World.py</filename>.  The program follows:
 
 You should be able to tell what the different lines of the program do.
 </para>
+
+</sect1>
+
+<sect1>
+<title>Review</title>
+
+<sect2>
+<title>Know the Concepts</title>
+
+<itemizedlist>
+<listitem><para>What is the difference between an intepretted language and a compiled language?</para></listitem>
+<listitem><para>What reasons might cause you to need to learn a new programming language?</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Use the Concepts</title>
+
+<itemizedlist>
+<listitem><para>Learn the basic syntax of a new programming language.  Recode one of the programs in this book in that language.</para></listitem>
+<listitem><para>In the program you wrote in the question above, what specific things were automated in the programming language you chose?</para></listitem>
+<listitem><para>Modify your program so that it runs 10,000 times in a row, both in assembly language and in your new language.  Then run the <literal>time</literal> command to see which is faster.  Which does come out ahead?  Why do you think that is?</para></listitem>
+<listitem><para>How does the programming language's input/output methods differ from that of the Linux system calls?</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Going Further</title>
+
+<itemizedlist>
+<listitem><para>Having seen languages which have such brevity as Perl, why do you think this book started you with a language as verbose as assembly language?</para></listitem>
+<listitem><para>How do you think high level languages have affected the process of programming?</para></listitem>
+<listitem><para>Why do you think so many languages exist?</para></listitem>
+<listitem><para>Learn two new high level languages.  How do they differ from each other?  How are they similar?  What approach to problem-solving does each take?</para></listitem>
+</itemizedlist>
+
+</sect2>
 
 </sect1>
 

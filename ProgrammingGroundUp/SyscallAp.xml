@@ -139,7 +139,7 @@ return values and error codes are also stored in &eax;.
 	<entry>new system break</entry>
 	<entry></entry>
 	<entry></entry>
-	<entry>Sets the system break (i.e. - the end of the data section)</entry>
+	<entry>Sets the system break (i.e. - the end of the data section).  If the system break is 0, it simply returns the current system break.</entry>
 </row>
 <row>
 	<entry>54</entry>

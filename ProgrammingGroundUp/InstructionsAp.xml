@@ -323,9 +323,13 @@ These instructions may alter the flow of the program.
 <tbody>
 <row><entry>call</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
+This pushes what would be the next value for &eip; onto the stack, and jumps
+to the destination address.  Used for function calls.
 </entry></row>
 <row><entry>int</entry><entry>I</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
+Causes an interrupt of the given number.  This is usually used
+for system calls and other kernel interfaces.
 </entry></row>
 <row><entry>Jcc</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -346,9 +350,12 @@ Conditional branch.  <literal>cc</literal> is the <emphasis>condition code</emph
 </entry></row>
 <row><entry>jmp</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
+An unconditional jump.  This simply sets &eip; to the destination address.
 </entry></row>
 <row><entry>ret</entry><entry></entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
+Pops a value off of the stack and then sets &eip; to that value.  Used
+to return from function calls.
 </entry></row>
 </tbody>
 </tgroup>

@@ -567,7 +567,9 @@ out manually.
 <title>Going Further</title>
 
 <itemizedlist>
-<listitem><para></para></listitem>
+<listitem><para>Make a list of all the environment variables used by the GNU/Linux dynamic linker.</para></listitem>
+<listitem><para>Research the different types of executable file formats in use today and in the history of computing.  Tell the strengths and weaknesses of each.</para></listitem>
+<listitem><para>Research the difference between strong and weak symbols, and what they are used for.</para></listitem>
 </itemizedlist>
 
 </sect2>

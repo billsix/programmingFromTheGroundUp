@@ -11,14 +11,7 @@
 <!-- INCOMPLETE PARTS:
   * Instructions needs some more beef from reference books
   * Reviews need to be finished out
-  * High-level languages probable needs some help
-  * Need to look at optimization
-  * Moving on needs to be more focused on programming, including the three directions of learning
-  * Add Robert's Refcard to the GDB Appendix
-  * Back cover text
   * Finish index
-  * Add - "if you haven't tested it, it doesn't work" to robust chapter
-  * include references to the instructions appendix
   * do I define sign extension?
 -->
 <!-- Appendices it would be nice to have:
@@ -69,6 +62,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY gdb-appendix SYSTEM "GDBAp.xml">
 
 <!ENTITY exit-s SYSTEM "exit.s">
+<!ENTITY error-exit-s SYSTEM "error-exit.s">
 <!ENTITY maximum-s SYSTEM "maximum.s">
 <!ENTITY factorial-s SYSTEM "factorial.s">
 <!ENTITY alloc-s SYSTEM "alloc.s">
@@ -154,6 +148,12 @@ the authors.
 
 <legalnotice>
 <para>
+This book can be purchased in paperback at http://www.bartlettpublishing.com/
+</para>
+</legalnotice>
+
+<legalnotice>
+<para>
 This book is not a reference book, it is an introductory book.  It
 is therefore not suitable by itself to learn how to professionally
 program in x86 assembly language, as some details have been left out
@@ -171,6 +171,7 @@ instructions for downloading a transparent copy (as defined by the GNU FDL)
 of this book.
 </para>
 </legalnotice>
+
 
 </bookinfo>
 

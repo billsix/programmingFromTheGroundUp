@@ -28,5 +28,6 @@ foo:
 	popl %ebp
 	ret
 
+	imull %eax
 
 
