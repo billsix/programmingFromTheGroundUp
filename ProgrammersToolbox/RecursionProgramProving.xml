@@ -4,34 +4,34 @@
 <title>Recursion and Provably Correct Programs</title>
 
 <para>
-In this article we are going to tackle recursive programming patterns and how
-they can be used to write provably correct programs.  Recursion is often given
-a bad name because it is thought to be slow and wasteful of space.  However,
-as we will see in this article, this need not be the case, and is not the
-case in languages like Scheme.  Examples will be given in Scheme and C.
+In this article we are going to tackle recursive programming patterns and examine how
+they can be used to write provably correct programs.  Recursion is not an often-used tool because it is thought to be slow and to waste space.  However,
+as we will see in this article, there are several techniques that can be 
+used to minimize or eliminate these problems.  
+Examples will be given in Scheme and C.
 </para>
 
 <sect1>
-<title>Why use Recursion?</title>
+<title>Why Use Recursion?</title>
 
 <para>
 For new computer science students, recursive programming is often difficult.
-It is difficult to get your mind to think that way.  It almost seems like
-circular reasoning.  When we give instructions to other humans, we rarely
+Recursive thinking is difficult because it almost seems like
+circular reasoning.  Further, when we give instructions to other people, we rarely
 direct them recursively.  Therefore, directing a computer recursively is
 at first unintuitive.
 </para>
 
 <para>
 For those of you who really are new to computer programming, here's what
-recursion is -- recursion occurs when a function calls itself directly
-or indirectly.  The classic example of recursive programming is computing
+recursion is: recursion occurs when a function calls itself directly
+or indirectly.  The classic example of recursive programming involves computing
 factorials.  The factorial of a number is that number times all of the
-numbers below it until 1.  For example, <literal>factorial(5)</literal>
-is the same as <literal>5*4*3*2*1</literal>.  <literal>factorial(3)</literal>
+numbers below it up to and including 1.  For example, <literal>factorial(5)</literal>
+is the same as <literal>5*4*3*2*1</literal>, and  <literal>factorial(3)</literal>
 is <literal>3*2*1</literal>.  An interesting property of a factorial is that
 the factorial of a number is equal to the starting number multiplied by 
-the factorial of the number immediately below it.  <literal>factorial(5)</literal> is the same
+the factorial of the number immediately below it.  For example, <literal>factorial(5)</literal> is the same
 as <literal>5 * factorial(4)</literal>.  You could almost write the 
 factorial function as simply this:
 </para>
@@ -47,12 +47,13 @@ int factorial(int n)
 </example>
 
 <para>
-The problem with this is that it would run forever.  There is no place
-where this function stops.  It would continually call <literal>factorial</literal>
-until we hit the negative numbers, and then keep on going.  Therefore, we need a way to know
+The problem with this function, however, is that it would run forever
+because there is no place where it stops.  The function would continually call <literal>factorial</literal>.  There is nothing to stop it when it hits
+zero, so it would continue calling factorial on zero and the negative 
+numbers.  Therefore, our function needs a condition to tell it
 when to stop.  In the case of a factorial, factorials of numbers less
-than one don't make any sense.  Therefore, we stop at the number one
-and return the factorial of one (which is one).  Therefore, the real
+than 1 don't make any sense.  Therefore, we stop at the number 1
+and return the factorial of 1 (which is 1).  Therefore, the real
 factorial function will look like this:
 </para>
 
@@ -75,12 +76,12 @@ int factorial(int n)
 
 <para>
 As you can see, as long as the initial value is above zero, this
-function will terminate.  This stopping point is called the
+function will terminate.  The stopping point is called the
 <emphasis>base case</emphasis>.  A base case is the bottom point of a
 recursive program where the operation is so trivial as to be able to
 return an answer directly.  All recursive programs must have at least
-one base case, and must guarantee that the program will hit one
-eventually.  Otherwise the program would run forever, or until it ran
+one base case and must guarantee that they will hit one
+eventually.  Otherwise the program would run forever or until the program ran
 out of memory or stack space.
 </para>
 
@@ -127,46 +128,46 @@ returns a sorted list.
 -->
 
 <para>
-Every recursive program follows the same basic pattern:
+Every recursive program follows the same basic sequence of steps:
 </para>
 
 <orderedlist>
-<listitem><para>Initialize the algorithm.   Recursive programs often need a seed value to start with.  This is done either by using a parameter passed to the function or by providing a gateway function which is non-recursive, but which sets up the seed values for the recursive calculation.</para></listitem>
-<listitem><para>Check to see if the current value(s) being processed match the base case.  If so, process and return the value.</para></listitem>
-<listitem><para>Redefine the answer in terms of a smaller or simpler subproblem or subproblems.</para></listitem>
-<listitem><para>Run this algorithm on the subproblem.</para></listitem>
+<listitem><para>Initialize the algorithm.   Recursive programs often need a seed value to start with.  This is accomplished either by using a parameter passed to the function or by providing a gateway function that is nonrecursive, but sets up the seed values for the recursive calculation.</para></listitem>
+<listitem><para>Check to see whether the current value(s) being processed match the base case.  If so, process and return the value.</para></listitem>
+<listitem><para>Redefine the answer in terms of a smaller or simpler sub-problem or sub-problems.</para></listitem>
+<listitem><para>Run the algorithm on the sub-problem.</para></listitem>
 <listitem><para>Combine the results in the formulation of the answer.</para></listitem>
 <listitem><para>Return the result.</para></listitem>
 </orderedlist>
 
 <para>
-When writing recursive programs, sometimes finding the simpler subproblem can
-be tricky.  However, when dealing with <emphasis>inductively-defined data sets</emphasis>,
-it is considerably easier.  An inductively-defined data set is essentially a data structure
-defined in terms of itself - this is called an inductive definition.  For example, linked lists are defined
-in terms of themselves.  A linked list consists of a node structure that contains two members -
+Sometimes, in writing recursive programs, finding the simpler sub-problem can
+be tricky.  Dealing with <emphasis>inductively-defined data sets</emphasis>, however, makes finding the sub-problem considerably easier.  An inductively-defined data set is a data structure
+defined in terms of itself -- this is called an inductive definition.  For example, linked lists are defined
+in terms of themselves.  A linked list consists of a node structure that contains two members --
 the data it is holding and a pointer to another node structure (or NULL, to terminate the list).
 Because the node structure contains a pointer to a node structure within it, it is said to be
 defined inductively.  Inductive data is fairly easy to write recursive procedures on.  Notice how, like our recursive 
-programs, the definition of a linked list also contains a base case - the NULL pointer.  That
-will work out great in order to provide a base case for most of our recursive functions.
+programs, the definition of a linked list also contains a base case -- the NULL pointer.  Since a NULL pointer terminates a list, we can also use the 
+NULL pointer condition as a base case for many of our recursive functions on
+linked lists.
 </para>
 
 <para>
-Let's look at a few examples of recursive functions on linked lists.  Let's say we have
-a list of numbers, and we want to sum them.  Let's go through each part of the recursive
-pattern and identify how they apply to to our summation function:
+Let's look at a few examples of recursive functions on linked lists.  Suppose we have
+a list of numbers, and we want to sum them.  Let's go through each step of the recursive
+sequence and identify how it applies to to our summation function:
 </para>
 
 <orderedlist>
-<listitem><para>Initialized the algorithm - this algorithm's seed value is the first node to process, which is passed as a parameter.</para></listitem>
-<listitem><para>Check for the base case - we need to check and see if the current node is the null list.  If so, we return 0, because the sum of all members of an empty list is zero.</para></listitem>
-<listitem><para>Redefine the answer in terms of a simpler subproblem - we can define the answer as the sum of the rest of the list plus the contents of the current node.  To determine the sum of the rest of the list, we call this function again with the next node.</para></listitem>
-<listitem><para>Combine the results - after the recursive call completes, we add the value of the current node to the results of the recursive call.</para></listitem>
+<listitem><para>Initialize the algorithm.  This algorithm's seed value is the first node to process, and is passed as a parameter to the function.</para></listitem>
+<listitem><para>Check for the base case. The program needs to check and see if the current node is the NULL list.  If so, we return 0, because the sum of all members of an empty list is zero.</para></listitem>
+<listitem><para>Redefine the answer in terms of a simpler sub-problem.  We can define the answer as the sum of the rest of the list plus the contents of the current node.  To determine the sum of the rest of the list, we call this function again with the next node.</para></listitem>
+<listitem><para>Combine the results.  After the recursive call completes, we add the value of the current node to the results of the recursive call.</para></listitem>
 </orderedlist>
 
 <para>
-Here is the pseudo-code and real code for the function:
+Here is the pseudo-code and the real code for the function:
 </para>
 
 <example>
@@ -183,7 +184,7 @@ function sum_list(list l)
 </example>
 
 <para>
-The pseudo-code matches almost identically with the Scheme method of doing it.
+The pseudo-code for this program matches almost identically its Scheme implementation.
 </para>
 
 <example>
@@ -217,20 +218,19 @@ int sum_list(struct list_node *l)
 </example>
 
 <para>
-You may be thinking that you know how to do it faster or better without recursion.
-If so, just hold on, and we'll get to the hows and whys.  Let's look at two more examples
+You may be thinking that you know how write this program to perform faster 
+or better without recursion.  We will get to the speed and space issues
+of recursion later on.  In the meantime, let's look at two more examples
 first.
 </para>
 
 <para>
-Let's say that we have a list of strings and want to see if a certain string is contained
-in that list.  The way to break this down into a simpler problem is to again look at the 
-individual nodes.  The subproblem is "is the search string the same as the one in <emphasis>this
+Suppose we have a list of strings and want to see whether a certain string is contained
+in that list.  The way to break this down into a simpler problem is to look again at the 
+individual nodes.  The sub-problem is this: "Is the search string the same as the one in <emphasis>this
 node</emphasis>?"  If so, you have your solution, and if not you are one step closer.  What's
-the base case?  We have two: if the current node has the string, that's a base case (returning 
-true), and if the list is empty, then that's a base case (returning false).  We may not hit
-the first base case, but we are certain that if we don't hit the first one we will at least
-hit the second one.
+the base case?  There are two: 1) if the current node has the string, that's a base case (returning 
+true), and 2) if the list is empty, then that's a base case (returning false).  This program won't always hit the first base case, because it won't always have the string being searched for.  However, we can be certain that if the program don't hit the first base case it will at least hit the second one when it gets to the end of the list.
 </para>
 
 <example>
@@ -250,10 +250,9 @@ hit the second one.
 </example>
 
 <para>
-This recursive function is pretty good, but it has one main shortcoming -- every 
+This recursive function works fine, but it has one main shortcoming -- every 
 iteration of the recursion will be passing the <emphasis>same value</emphasis> for
-<literal>the-string</literal>.  Passing the extra parameter can increase the overhead of the function call.  However, we can set up a closure at the beginning of the
-function to keep this from happening:
+<literal>the-string</literal>.  Passing the extra parameter can increase the overhead of the function call.  However, we can set up a closure at the beginning of the function to keep the string from having to be passed on each call:
 </para>
 
 <example>
@@ -275,12 +274,11 @@ function to keep this from happening:
 <para>
 This version of the program is a little harder to follow.  It defines a closure 
 called <literal>recurse</literal> that can be called with only one parameter,
-rather than two (for more information on closures, see this 
-<ulink url="http://FIXME/">earlier article</ulink>).  We don't need to pass in <literal>the-string</literal>
-because it is already in the parent environment and does not change from call to call.  Because <literal>recurse</literal>
+rather than two.  (For more information on closures, see this 
+earlier article on closures at <ulink>http://www.ibm.com/developerworks/library/l-highfunc.html</ulink>.)  We don't need to pass in <literal>the-string</literal> to <literal>recurse</literal> because it is already in the parent environment and does not change from call to call.  Because <literal>recurse</literal>
 is defined <emphasis>within</emphasis> the <literal>is-in-list2</literal> function, it can see all of the
-currently-defined variables, so they don't need to be re-passed.  This shaves off one variable being
-passed at each iteration.  This doesn't make a lot of difference in this trivial example, but it can
+currently defined variables, so they don't need to be re-passed.  This shaves off one variable being
+passed at each iteration.  Using a closure instead of passing the parameter doesn't make a lot of difference in this trivial example, but it can
 save a lot of typing, a lot of errors, and a lot of overhead of passing variables in more complex 
 functions.
 </para>
