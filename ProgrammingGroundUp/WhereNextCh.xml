@@ -165,6 +165,7 @@ In assembly language, your best resources are on the web.
 
 <itemizedlist>
 <listitem><para>http://www.linuxassembly.org/ - a great resource for Linux assembly language programmers</para></listitem>
+<listitem><para>http://www.sandpile.org/ - a repository of reference material on x86, x86-64, and compatible processors</para></listitem>
 <listitem><para>http://www.x86.org/ - Dr. Dobb's Journal Microprocessor Resources</para></listitem>
 <listitem><para>http://www.drpaulcarter.com/pcasm/ - Dr. Paul Carter's PC Assembly Language Page</para></listitem>
 <listitem><para>http://webster.cs.ucr.edu/ - The Art of Assembly Home Page</para></listitem>
