@@ -120,12 +120,71 @@ ways or may not be evaluated at all.
 <para>
 Our program makes use of two special forms - <literal>define</literal> 
 and <literal>lambda</literal>.  <literal>define</literal> is a special
-form that gives a symbol a value.
+form that gives a symbol a value.  For example <literal>(define b 3)</literal>
+gives the symbol <literal>b</literal> the value 3.  From now on, if you
+use <literal>b</literal> it will be translated into 3.
+</para>
+
+<para>
+The second special form is called <literal>lambda</literal>.  Lambda is a
+special form that creates functions, but <emphasis>does not give them a 
+name</emphasis>.  This is different from the way most programming languages
+work.  For example, in the C programming language, creating a function and
+giving it a name is one operation.  For example:
+</para>
+
+<programlisting>
+int multiply(int x, int y)
+{
+	return x * y;
+}
+</programlisting>
+
+<para>
+This piece of code creates a function that takes two integers and multiplies
+them together.  In addition, it also names the function 
+<literal>multiply</literal>.  In scheme, as well as most other symbolic
+languages, creating functions and naming them are distinct operations.  In
+fact, a function is a value just like any other.  Lambda creates a function,
+and define gives it a name.  In our program, we name the function 
+<literal>display-me</literal>.  Now, let's look at how the lambda works.
+</para>
+
+<para>
+The first part of a lambda expression is the list of arguments that it takes.
+Ours takes one argument, <literal>x</literal>.  Note that in scheme, we don't
+give our symbols types.  While scheme has a very strong sense of typing, the
+symbols themselves can represent any type.  The second part of the lambda
+expression is the body of the function - what the function will actually do.
+In this program, we do two things: display the variable we are given, and then
+display a newline.  The value returned from scheme functions is the value 
+returned by the last statement in the function body.  In our case, we don't 
+care about the return value.  So, lambda creates and returns the function, 
+and define takes the function and makes the symbol 
+<literal>display-me</literal> refer to that function.  This process of 
+connecting symbols to values is called 
+<emphasis>binding</emphasis>, and the values are said to be 
+<emphasis>bound</emphasis> to their symbols.
+</para>
+
+<para>
+The next part of the program uses the function bound to 
+<literal>display-me</literal>.  It calls that function first with 
+<literal>b</literal> and then with <literal>5</literal>.  Since 
+<literal>b</literal> is bound to 3, the first function call displays 3, and
+the second function call displays 5.
+</para>
+
+<para>
+Now that you have a basic feel for what a scheme program looks like, we're
+going to go into a little more depth as to what's actually going on in a
+scheme program.
 </para>
 
 </sect2>
 
-</sect1>
+<sect2>
+<title>Scheme Data</title>
 
 <!--
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
