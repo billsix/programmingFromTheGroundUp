@@ -570,6 +570,7 @@ it's poor behavior with virtual memory systems, it works best on large objects.
 There are many other allocators available.  Some of them include:
 </p>
 
+<ul>
 <li><b>Doug Lea Malloc</b> - Doug Lea Malloc is actually an entire family of allocators, including
 Doug Lea's original allocator, the GNU libc allocator, and ptmalloc. 
 Doug Lea's allocator has a basic structure much like our version, but
@@ -596,7 +597,7 @@ It can dramatically speed up multithreaded processes which do a lot
 of allocating and deallocating.  A paper describing this implementation
 is available at <ulink url="ftp://ftp.cs.utexas.edu/pub/emery/papers/asplos2000.pdf">ftp://ftp.cs.utexas.edu/pub/emery/papers/asplos2000.pdf</ulink>.
 </li>
-<ul>
+</ul>
 
 <p>
 There are many other allocators available, but these are the most 
@@ -766,9 +767,9 @@ programming.
 </p>
 
 <ul>
-<listitem><para>It has a simple implementation.</para></listitem>
-<listitem><para>It is easy for a programmer to use.</para></listitem>
-<listitem><para>Since the reference is part of the data structure, it has good cache locality.</para></listitem>
+<li>It has a simple implementation.</li>
+<li>It is easy for a programmer to use.</li>
+<li>Since the reference is part of the data structure, it has good cache locality.</li>
 </ul>
 
 <p>
@@ -776,12 +777,12 @@ However, it also has its drawbacks:
 </p>
 
 <ul>
-<listitem><para>Requires that the programmer never forget to call the reference counting functions.</para></listitem>
-<listitem><para>Will not release structures that are a part of a circular data structure.</para></listitem>
-<listitem><para>Additional precautions have to be taken when using exception-handling (like <literal>try</literal> or <literal>setjmp()</literal>/<literal>longjmp()</literal>) while using reference counted objects.</para></listitem>
-<listitem><para>Requires extra memory to handle the references.</para></listitem>
-<listitem><para>The reference counter takes up the first position in the structure, which is the fastest to access on most machines.</para></listitem>
-<listitem><para>Slower and more difficult to do in a multithreaded environment.</para></listitem>
+<li>Requires that the programmer never forget to call the reference counting functions.</li>
+<li>Will not release structures that are a part of a circular data structure.</li>
+<li>Additional precautions have to be taken when using exception-handling (like <literal>try</literal> or <literal>setjmp()</literal>/<literal>longjmp()</literal>) while using reference counted objects.</li>
+<li>Requires extra memory to handle the references.</li>
+<li>The reference counter takes up the first position in the structure, which is the fastest to access on most machines.</li>
+<li>Slower and more difficult to do in a multithreaded environment.</li>
 </ul>
 
 <p>
@@ -947,10 +948,10 @@ Benefits of using pooled memory allocation include:
 </p>
 
 <ul>
-<listitem><para>Simple to manage memory for the application.</para></listitem>
-<listitem><para>Memory allocation and deallocation is much faster, because it is all done a pool at a time.  Allocation can be done in O(1) time and pool release is close (it's actually O(n) time, but divided by a huge factor that makes it O(1) in most cases).</para></listitem>
-<listitem><para>Error-handling pools can be preallocated, so that your program can still recover if regular memory is exhausted.</para></listitem>
-<listitem><para>There are standard implementations which are very easy to use.</para></listitem>
+<li>Simple to manage memory for the application.</li>
+<li>Memory allocation and deallocation is much faster, because it is all done a pool at a time.  Allocation can be done in O(1) time and pool release is close (it's actually O(n) time, but divided by a huge factor that makes it O(1) in most cases).</li>
+<li>Error-handling pools can be preallocated, so that your program can still recover if regular memory is exhausted.</li>
+<li>There are standard implementations which are very easy to use.</li>
 </ul>
 
 <p>
@@ -958,10 +959,10 @@ The drawbacks for pooled memory are:
 </p>
 
 <ul>
-<listitem><para>Memory pools are only useful for programs that operate in stages.</para></listitem>
-<listitem><para>Memory pools often do not work well with third-party libraries.</para></listitem>
-<listitem><para>If program structure changes, the pools may have to be modified, which may lead to a redesign of the memory management system.</para></listitem>
-<listitem><para>Programmers have to remember which pool they need to allocate from.  In addition, if they get this wrong, it can be hard to catch.</para></listitem>
+<li>Memory pools are only useful for programs that operate in stages.</li>
+<li>Memory pools often do not work well with third-party libraries.</li>
+<li>If program structure changes, the pools may have to be modified, which may lead to a redesign of the memory management system.</li>
+<li>Programmers have to remember which pool they need to allocate from.  In addition, if they get this wrong, it can be hard to catch.</li>
 </ul>
 
 <heading refname="" type="major" toc="yes">Garbage Collection</heading>
@@ -1037,8 +1038,8 @@ heavily.  This garbage collector runs under both Windows and UNIX.
 </p>
 
 <ul>
-<listitem><para>You never have to worry about double-freeing memory or object lifetimes</para></listitem>
-<listitem><para>You can, with some collectors, use the same API that you used for normal allocation</para></listitem>
+<li>You never have to worry about double-freeing memory or object lifetimes</li>
+<li>You can, with some collectors, use the same API that you used for normal allocation</li>
 </ul>
 
 <p>
@@ -1046,10 +1047,10 @@ The drawbacks include:
 </p>
 
 <ul>
-<listitem><para>With most collectors, you have no say when your memory is going to be freed</para></listitem>
-<listitem><para>In many cases, garbage collection is slower than other forms of memory management</para></listitem>
-<listitem><para>Bugs caused by garbage collection errors are hard to debug</para></listitem>
-<listitem><para>You can still have memory leaks if you forget to set unused pointers to null</para></listitem>
+<li>With most collectors, you have no say when your memory is going to be freed</li>
+<li>In many cases, garbage collection is slower than other forms of memory management</li>
+<li>Bugs caused by garbage collection errors are hard to debug</li>
+<li>You can still have memory leaks if you forget to set unused pointers to null</li>
 </ul>
 
 <heading refname="" type="major" toc="yes">Comparison of Strategies</heading>
@@ -1060,472 +1061,336 @@ The drawbacks include:
 <tr valign="top">
 <td><b>Strategy</b></td> <td><b>Allocation Speed</b></td> <td><b>Deallocation Speed</b></td> <td><b>Cache Locality</b></td> <td><b>Ease of Use</b></td> <td><b>Generality</b></td> <td><b>Usable in Real-Time</b></td> <td><b>SMP and Thread-Friendly</b></td>
 </tr>
-    <row>
-      <entry>Custom Allocator 
-      </entry>
-      <entry>Depends on Impl 
-      </entry>
-      <entry>Depends on Impl 
-      </entry>
-      <entry>Depends on Impl 
-      </entry>
-      <entry>Very Difficult 
-      </entry>
-      <entry>None 
-      </entry>
-      <entry>Depends on Impl 
-      </entry>
-      <entry>Depends on Impl 
-      </entry>
-    </row>
-    <row>
-      <entry>Simple Allocator</entry>
-      <entry>Fast for small memory usage</entry>
-      <entry>Very fast</entry>
-      <entry>Poor 
-      </entry>
-      <entry>Easy 
-      </entry>
-      <entry>Very 
-      </entry>
-      <entry>No 
-      </entry>
-      <entry>No 
-      </entry>
-    </row>
-    <row>
-      <entry>GNU Malloc 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Fast 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Easy 
-      </entry>
-      <entry>Very 
-      </entry>
-      <entry>No 
-      </entry>
-      <entry>Moderate</entry>
-    </row>
-    <row>
-      <entry>Hoard 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Easy 
-      </entry>
-      <entry>Very 
-      </entry>
-      <entry>No 
-      </entry>
-      <entry>Yes 
-      </entry>
-    </row>
-    <row>
-      <entry>Reference Counting 
-      </entry>
-      <entry>N/A 
-      </entry>
-      <entry>N/A 
-      </entry>
-      <entry>Excellent 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Yes (depends on malloc impl) 
-      </entry>
-      <entry>Depends on Impl 
-      </entry>
-    </row>
-    <row>
-      <entry>Pooling 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Very fast 
-      </entry>
-      <entry>Excellent 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Yes (depends on malloc impl) 
-      </entry>
-      <entry>Depends on Impl 
-      </entry>
-    </row>
-    <row>
-      <entry>Garbage Collection 
-      </entry>
-      <entry>Moderate (slow when collection
+    <tr>
+      <td>Custom Allocator 
+      </td>
+      <td>Depends on Impl 
+      </td>
+      <td>Depends on Impl 
+      </td>
+      <td>Depends on Impl 
+      </td>
+      <td>Very Difficult 
+      </td>
+      <td>None 
+      </td>
+      <td>Depends on Impl 
+      </td>
+      <td>Depends on Impl 
+      </td>
+    </tr>
+    <tr>
+      <td>Simple Allocator</td>
+      <td>Fast for small memory usage</td>
+      <td>Very fast</td>
+      <td>Poor 
+      </td>
+      <td>Easy 
+      </td>
+      <td>Very 
+      </td>
+      <td>No 
+      </td>
+      <td>No 
+      </td>
+    </tr>
+    <tr>
+      <td>GNU Malloc 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Fast 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Easy 
+      </td>
+      <td>Very 
+      </td>
+      <td>No 
+      </td>
+      <td>Moderate</td>
+    </tr>
+    <tr>
+      <td>Hoard 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Easy 
+      </td>
+      <td>Very 
+      </td>
+      <td>No 
+      </td>
+      <td>Yes 
+      </td>
+    </tr>
+    <tr>
+      <td>Reference Counting 
+      </td>
+      <td>N/A 
+      </td>
+      <td>N/A 
+      </td>
+      <td>Excellent 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Yes (depends on malloc impl) 
+      </td>
+      <td>Depends on Impl 
+      </td>
+    </tr>
+    <tr>
+      <td>Pooling 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Very fast 
+      </td>
+      <td>Excellent 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Yes (depends on malloc impl) 
+      </td>
+      <td>Depends on Impl 
+      </td>
+    </tr>
+    <tr>
+      <td>Garbage Collection 
+      </td>
+      <td>Moderate (slow when collection
 occurs) 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Poor 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>No 
-      </entry>
-      <entry>Rarely 
-      </entry>
-    </row>
-    <row>
-      <entry>Incremental Garbage Collection 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>No 
-      </entry>
-      <entry>Rarely 
-      </entry>
-    </row>
-    <row>
-      <entry>Incremental Conservative Garbage
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Poor 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>No 
+      </td>
+      <td>Rarely 
+      </td>
+    </tr>
+    <tr>
+      <td>Incremental Garbage Collection 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>No 
+      </td>
+      <td>Rarely 
+      </td>
+    </tr>
+    <tr>
+      <td>Incremental Conservative Garbage
 Collection 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Moderate 
-      </entry>
-      <entry>Easy 
-      </entry>
-      <entry>Very 
-      </entry>
-      <entry>No 
-      </entry>
-      <entry>Rarely</entry>
-    </row>
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Moderate 
+      </td>
+      <td>Easy 
+      </td>
+      <td>Very 
+      </td>
+      <td>No 
+      </td>
+      <td>Rarely</td>
+    </tr>
 </table>
 
 <resource-list>
- <h3>Source Code for Memory Allocators, Debuggers, and Garbage Collectors</h3>
-<h4>Basic Allocators</h4>
-<itemizedlist>
-  <listitem>The Simple Allocator - <a
+	<!-- <h3>Source Code for Memory Allocators, Debuggers, and Garbage Collectors</h3>
+	<h4>Basic Allocators</h4>-->
+<ul>
+  <li>The Simple Allocator - <a
  href="../packages/MemoryManagement/basic-allocators/simple/simple_malloc.c">simple_malloc.c</a>
 or <a
  href="../packages/MemoryManagement/basic-allocators/simple/alloc.s">alloc.s</a> 
-  </listitem>
-  <listitem>Doug Lea's Malloc - <a
+  </li>
+  <li>Doug Lea's Malloc - <a
  href="../packages/MemoryManagement/basic-allocators/doug-lea-malloc/malloc.c">malloc.c</a>,<a
- href="../packages/MemoryManagement/basic-allocators/doug-lea-malloc/malloc.h">malloc.h</a></listitem>
-  <listitem>BSD Malloc - <a
- href="../packages/MemoryManagement/basic-allocators/BSD/malloc.c">malloc.c</a></listitem>
-  <listitem>ptmalloc - <a
+ href="../packages/MemoryManagement/basic-allocators/doug-lea-malloc/malloc.h">malloc.h</a></li>
+  <li>BSD Malloc - <a
+ href="../packages/MemoryManagement/basic-allocators/BSD/malloc.c">malloc.c</a></li>
+  <li>ptmalloc - <a
  href="../packages/MemoryManagement/basic-allocators/ptmalloc/ptmalloc.tar.gz">ptmalloc
 version 1 (.tar.gz)</a>, <a
  href="../packages/MemoryManagement/basic-allocators/ptmalloc/ptmalloc2-current.tar.gz">ptmalloc
-version 2 (.tar.gz)</a></listitem>
-  <listitem>Hoard - <a
+version 2 (.tar.gz)</a></li>
+  <li>Hoard - <a
  href="../packages/MemoryManagement/basic-allocators/hoard/libhoard-source-2.1.0.tar.gz">libhoard-source-2.1.0.tar.gz</a>,<a
  href="../packages/MemoryManagement/basic-allocators/hoard/libhoard-source-2.1.0.zip">libhoard-source-2.1.0.zip</a>,<a
  href="../packages/MemoryManagement/basic-allocators/hoard/libhoard-2.1.0-windows.zip">libhoard-2.1.0-windows.zip</a>,<a
  href="../packages/MemoryManagement/basic-allocators/hoard/libhoard-2.1.0-linux.tar.gz">libhoard-2.1.0-linux.tar.gz</a>,<a
  href="../packages/MemoryManagement/basic-allocators/hoard/libhoard-2.1.0-solaris.tar.gz">
-libhoard-2.1.0-solaris.tar.gz</a></listitem>
-  <listitem>GNU Memory-Mapped Malloc - <a
+libhoard-2.1.0-solaris.tar.gz</a></li>
+  <li>GNU Memory-Mapped Malloc - <a
  href="../packages/MemoryManagement/basic-allocators/gnu-mmalloc/mmalloc.tar.gz">mmalloc.tar.gz</a>
 (Part of the <a
  href="../packages/MemoryManagement/basic-allocators/gnu-mmalloc/gdb-5.3.tar.bz2">GNU
-Debugger</a>)</listitem>
-  <listitem>University of Toronto Malloc - <a
+Debugger</a>)</li>
+  <li>University of Toronto Malloc - <a
  href="../packages/MemoryManagement/basic-allocators/UTorontoMalloc/UToronto-malloc.tar.gz">UToronto-malloc.tar.gz</a> 
-  </listitem>
-  <listitem>ElectricFence Malloc Debugger - <a
+  </li>
+  <li>ElectricFence Malloc Debugger - <a
  href="../packages/MemoryManagement/basic-allocators/ElectricFence/ElectricFence-2.1.tar.gz">ElectricFence-2.1.tar.gz</a> 
-  </listitem>
-</itemizedlist>
-<h4>Pooled Allocators</h4>
-<itemizedlist>
-  <listitem>Apache's pooled allocator - <a
+  </li>
+</ul>
+<!--<h4>Pooled Allocators</h4>-->
+<ul>
+  <li>Apache's pooled allocator - <a
  href="../packages/MemoryManagement/pooled-allocators/apache-allocator/alloc.c">alloc.c</a>
-(from Apache 1.3.27), &nbsp;<a
+(from Apache 1.3.27), <a
  href="../packages/MemoryManagement/pooled-allocators/apache-allocator/apr_pools.c">apr_pools.c</a>
 (from the <a
  href="../packages/MemoryManagement/pooled-allocators/apache-allocator/apr_20030224174002.tar.gz">Apache
-Portable Runtime</a>)</listitem>
-  <listitem>Squid's pooled allocator - <a
- href="../packages/MemoryManagement/pooled-allocators/squid-allocator/MemPool.c">MemPool.c</a></listitem>
-  <listitem>NetBSD's pooled allocator - <a
- href="../packages/MemoryManagement/pooled-allocators/netbsd-pooled-allocator/subr_pool.c">subr_pool.c</a></listitem>
-  <listitem>Samba's pooled allocator - <a
+Portable Runtime</a>)</li>
+  <li>Squid's pooled allocator - <a
+ href="../packages/MemoryManagement/pooled-allocators/squid-allocator/MemPool.c">MemPool.c</a></li>
+  <li>NetBSD's pooled allocator - <a
+ href="../packages/MemoryManagement/pooled-allocators/netbsd-pooled-allocator/subr_pool.c">subr_pool.c</a></li>
+  <li>Samba's pooled allocator - <a
  href="../packages/MemoryManagement/pooled-allocators/samba-allocator/talloc.c">talloc.c</a> 
-  </listitem>
-</itemizedlist>
-<h4>C++ Smart Pointers &amp; Custom Allocator</h4>
-<itemizedlist>
-  <listitem>Loki C++ Library - <a href="../packages/Loki.zip">Loki.zip 
-    </a></listitem>
-</itemizedlist>
-<h4>Garbage Collectors</h4>
-<itemizedlist>
-  <listitem>Hahns Boehm Conservative Garbage Collector - <a
- href="../packages/MemoryManagement/collectors/gc6.1.tar.gz">gc6.1.tar.gz</a></listitem>
-</itemizedlist>
-<h3>Readings</h3>
+  </li>
+</ul>
+<!--<h4>C++ Smart Pointers &amp; Custom Allocator</h4>-->
+<ul>
+  <li>Loki C++ Library - <a href="../packages/Loki.zip">Loki.zip 
+    </a></li>
+</ul>
+<!--<h4>Garbage Collectors</h4>-->
+<ul>
+  <li>Hahns Boehm Conservative Garbage Collector - <a
+ href="../packages/MemoryManagement/collectors/gc6.1.tar.gz">gc6.1.tar.gz</a></li>
+</ul>
+<!--<h3>Readings</h3>
 <h4>Print 
-</h4>
-<itemizedlist>
-  <listitem>Section 2.5, "Dynamic Storage Allocation" from Fundamental Algorithms, volume 1 of The Art of Computer Programming by Donald Knuth</listitem>
-  <listitem>Section 2.3.5, "Lists and Garbage Collection" from Fundamental Algorithms, volume 1 of The Art of Computer Programming by Donald Knuth</listitem>
-  <listitem>Chapter 4, "Small Object Allocation" from Modern C++ Design by Andrei Alexandrescu</listitem>
-  <listitem>Chapter 7, "Smart Pointers" from Modern C++ Design by Andrei Alexandrescu</listitem>
-</itemizedlist>
-<h4>Electronic Papers</h4>
-<h5>General</h5>
-<itemizedlist>
-  <listitem>"Correctness in Dynamic Storage Allocation" by Grunwald and Zorn
+</h4>-->
+<ul>
+  <li>Section 2.5, "Dynamic Storage Allocation" from Fundamental Algorithms, volume 1 of The Art of Computer Programming by Donald Knuth</li>
+  <li>Section 2.3.5, "Lists and Garbage Collection" from Fundamental Algorithms, volume 1 of The Art of Computer Programming by Donald Knuth</li>
+  <li>Chapter 4, "Small Object Allocation" from Modern C++ Design by Andrei Alexandrescu</li>
+  <li>Chapter 7, "Smart Pointers" from Modern C++ Design by Andrei Alexandrescu</li>
+</ul>
+<!--<h4>Electronic Papers</h4>
+<h5>General</h5>-->
+<ul>
+  <li>"Correctness in Dynamic Storage Allocation" by Grunwald and Zorn
 (WEB) - <a
- href="http://www.cs.colorado.edu/%7Ezorn/malloc/Usenix94-Correct-DSA.ps">Postscript</a></listitem>
-  <listitem>"Predicting Lifetimes in Dynamically Allocated Memory" by Cohn
-and Singh (WEB) - <a href="http://www.cs.cmu.edu/%7Ecohn/memory.ps">Postscript</a></listitem>
-</itemizedlist>
-<h5>Virtual Memory in Modern Operating Systems</h5>
-<itemizedlist>
-  <listitem>"A New Virtual Memory Implementation for Berkeley UNIX" by
+ href="http://www.cs.colorado.edu/%7Ezorn/malloc/Usenix94-Correct-DSA.ps">Postscript</a></li>
+  <li>"Predicting Lifetimes in Dynamically Allocated Memory" by Cohn
+and Singh (WEB) - <a href="http://www.cs.cmu.edu/%7Ecohn/memory.ps">Postscript</a></li>
+</ul>
+<!--<h5>Virtual Memory in Modern Operating Systems</h5>-->
+<ul>
+  <li>"A New Virtual Memory Implementation for Berkeley UNIX" by
 Marshall Kirk McKusick and Michael J. Karels - <a
- href="../packages/MemoryManagement/papers/newvm.pdf">PDF</a></listitem>
-  <listitem>"Code Commentary on the Linux Virtual Memory Manager" by Mel
-Gorman - <a href="../packages/MemoryManagement/papers/linux-vm-code.pdf">PDF</a></listitem>
-  <listitem>"Understanding the Linux Virtual Memory Manager" by Mel Gorman - <a
+ href="../packages/MemoryManagement/papers/newvm.pdf">PDF</a></li>
+  <li>"Code Commentary on the Linux Virtual Memory Manager" by Mel
+Gorman - <a href="../packages/MemoryManagement/papers/linux-vm-code.pdf">PDF</a></li>
+  <li>"Understanding the Linux Virtual Memory Manager" by Mel Gorman - <a
  href="../packages/MemoryManagement/papers/linux-vm-understand.pdf">PDF</a> 
-  </listitem>
-</itemizedlist>
-<h5>Malloc Implementations</h5>
-<itemizedlist>
-  <listitem>"Malloc in Modern Virtual Memory Environments" by Poul-Henning
-Kamp - <a href="../packages/MemoryManagement/papers/malloc.pdf">PDF</a></listitem>
-  <listitem>"Hoard - a Scalable Memory Allocator for Multithreaded
+  </li>
+</ul>
+<!--<h5>Malloc Implementations</h5>-->
+<ul>
+  <li>"Malloc in Modern Virtual Memory Environments" by Poul-Henning
+Kamp - <a href="../packages/MemoryManagement/papers/malloc.pdf">PDF</a></li>
+  <li>"Hoard - a Scalable Memory Allocator for Multithreaded
 Environments" by Berger, McKinley, Blumofe, and Wilson (WEB) - <a
- href="ftp://ftp.cs.utexas.edu/pub/emery/papers/asplos2000.pdf">PDF</a></listitem>
-  <listitem>Chapter 8 (Intermediate Memory Topics) from Programming From the
+ href="ftp://ftp.cs.utexas.edu/pub/emery/papers/asplos2000.pdf">PDF</a></li>
+  <li>Chapter 8 (Intermediate Memory Topics) from Programming From the
 Ground Up (unpublished draft)- <a
- href="../packages/MemoryManagement/papers/ProgrammingGroundUp.pdf">PDF</a></listitem>
-  <listitem>"Design of a General Purpose Memory Allocator for the 4.3BSD UNIX
+ href="../packages/MemoryManagement/papers/ProgrammingGroundUp.pdf">PDF</a></li>
+  <li>"Design of a General Purpose Memory Allocator for the 4.3BSD UNIX
 Kernel" by Marshall Kirk McKusick and Michael J. Karels - <a
  href="../packages/MemoryManagement/papers/kernmalloc.pdf">PDF</a> 
-  </listitem>
-  <listitem>"A Memory Allocator" by Doug Lea - <a
+  </li>
+  <li>"A Memory Allocator" by Doug Lea - <a
  href="../packages/MemoryManagement/papers/malloc-discussion.html">HTML</a>
-and <a href="../packages/MemoryManagement/papers/malloc-discussion.pdf">PDF</a></listitem>
-  <listitem>"Memory Management for High-Performance Applications" by Emery D.
+and <a href="../packages/MemoryManagement/papers/malloc-discussion.pdf">PDF</a></li>
+  <li>"Memory Management for High-Performance Applications" by Emery D.
 Berger (WEB) - <a
- href="http://www.cs.utexas.edu/ftp/pub/techreports/tr02-52.pdf">PDF</a></listitem>
-</itemizedlist>
-<h5>Custom Allocators</h5>
-<itemizedlist>
-  <listitem>"Some Storage Management Techniques for Container Classes" by
+ href="http://www.cs.utexas.edu/ftp/pub/techreports/tr02-52.pdf">PDF</a></li>
+</ul>
+<!--<h5>Custom Allocators</h5>-->
+<ul>
+  <li>"Some Storage Management Techniques for Container Classes" by
 Doug Lea - <a
- href="../packages/MemoryManagement/papers/C++Report89-doug-lea.txt">Text</a></listitem>
-  <listitem>"Composing High-Performance Memory Allocators" by Berger, Zorn,
+ href="../packages/MemoryManagement/papers/C++Report89-doug-lea.txt">Text</a></li>
+  <li>"Composing High-Performance Memory Allocators" by Berger, Zorn,
 and McKinley (WEB) - <a
- href="ftp://ftp.cs.utexas.edu/pub/emery/papers/pldi2001.pdf">PDF</a></listitem>
-  <listitem>"Reconsidering Custom Memory Allocation" by Berger, Zorn, and
+ href="ftp://ftp.cs.utexas.edu/pub/emery/papers/pldi2001.pdf">PDF</a></li>
+  <li>"Reconsidering Custom Memory Allocation" by Berger, Zorn, and
 McKinley (WEB) - <a
- href="ftp://ftp.cs.utexas.edu/pub/emery/papers/reconsidering-custom.pdf">PDF</a></listitem>
-</itemizedlist>
-<h5>Garbage Collection</h5>
-<itemizedlist>
-  <listitem>"Uniprocessor Garbage Collection Techniques" by Paul R. Wilson
+ href="ftp://ftp.cs.utexas.edu/pub/emery/papers/reconsidering-custom.pdf">PDF</a></li>
+</ul>
+<!--<h5>Garbage Collection</h5>-->
+<ul>
+  <li>"Uniprocessor Garbage Collection Techniques" by Paul R. Wilson
 (WEB) - <a
- href="http://citeseer.nj.nec.com/rd/88809344%2C89086%2C1%2C0.25%2CDownload/http://citeseer.nj.nec.com/cache/papers/cs/5548/http:zSzzSzwww.mbhl.comzSz%7EdhudekzSz.zSzdocszSzgcSurvey.pdf/wilson92uniprocessor.pdf">PDF</a></listitem>
-  <listitem>"The Measured Cost of Garbage Collection" by Benjamin Zorn (WEB)
+ href="http://citeseer.nj.nec.com/rd/88809344%2C89086%2C1%2C0.25%2CDownload/http://citeseer.nj.nec.com/cache/papers/cs/5548/http:zSzzSzwww.mbhl.comzSz%7EdhudekzSz.zSzdocszSzgcSurvey.pdf/wilson92uniprocessor.pdf">PDF</a></li>
+  <li>"The Measured Cost of Garbage Collection" by Benjamin Zorn (WEB)
 - <a
- href="http://citeseer.nj.nec.com/rd/88809344%2C31007%2C1%2C0.25%2CDownload/http://citeseer.nj.nec.com/cache/papers/cs/632/ftp:zSzzSzftp.cs.colorado.eduzSzpubzSztechreportszSzzornzSzCU-CS-573-92.pdf/zorn92measured.pdf">PDF</a></listitem>
-  <listitem>"Memory Allocation Myths and Half-Truths" by Hans-Juergen Boehm
-(WEB) - <a href="http://www.hpl.hp.com/personal/Hans_Boehm/gc/myths.ps">Postscript</a></listitem>
-  <listitem>"Space Efficient Conservative Garbage Collection" by Hans-Juergen
+ href="http://citeseer.nj.nec.com/rd/88809344%2C31007%2C1%2C0.25%2CDownload/http://citeseer.nj.nec.com/cache/papers/cs/632/ftp:zSzzSzftp.cs.colorado.eduzSzpubzSztechreportszSzzornzSzCU-CS-573-92.pdf/zorn92measured.pdf">PDF</a></li>
+  <li>"Memory Allocation Myths and Half-Truths" by Hans-Juergen Boehm
+(WEB) - <a href="http://www.hpl.hp.com/personal/Hans_Boehm/gc/myths.ps">Postscript</a></li>
+  <li>"Space Efficient Conservative Garbage Collection" by Hans-Juergen
 Boehm (WEB) - <a
  href="http://www.hpl.hp.com/personal/Hans_Boehm/gc/papers/pldi93.ps.Z">Compressed
-Postscript</a></listitem>
-  <listitem>"Garbage Collection in .NET" by Chris Maunder (WEB) - <a
+Postscript</a></li>
+  <li>"Garbage Collection in .NET" by Chris Maunder (WEB) - <a
  href="http://www.codeproject.com/managedcpp/garbage_collection.asp">HTML</a> 
-  </listitem>
-</itemizedlist>
-<h4>Resources on the Web</h4>
-<itemizedlist>
-  <listitem>Malloc Debuggers - <a
- href="http://www.cs.colorado.edu/%7Ezorn/MallocDebug.html">http://www.cs.colorado.edu/~zorn/MallocDebug.html</a></listitem>
-  <listitem>Memory Management in C++ - <a
- href="http://www.cantrip.org/wave12.html">http://www.cantrip.org/wave12.html</a></listitem>
-  <listitem>Programming Alternatives: Memory Management - <a
- href="http://www.conman.org/projects/essays/memmgr.html">http://www.conman.org/projects/essays/memmgr.html</a></listitem>
-  <listitem>Garbage Collection FAQ - <a
- href="http://www.iecc.com/gclist/GC-faq.html">http://www.iecc.com/gclist/GC-faq.html</a></listitem>
-  <listitem>Richard Jone's Garbage Collection Bibliography - <a
+  </li>
+</ul>
+<!--<h4>Resources on the Web</h4>-->
+<ul>
+  <li>Malloc Debuggers - <a
+ href="http://www.cs.colorado.edu/%7Ezorn/MallocDebug.html">http://www.cs.colorado.edu/~zorn/MallocDebug.html</a></li>
+  <li>Memory Management in C++ - <a
+ href="http://www.cantrip.org/wave12.html">http://www.cantrip.org/wave12.html</a></li>
+  <li>Programming Alternatives: Memory Management - <a
+ href="http://www.conman.org/projects/essays/memmgr.html">http://www.conman.org/projects/essays/memmgr.html</a></li>
+  <li>Garbage Collection FAQ - <a
+ href="http://www.iecc.com/gclist/GC-faq.html">http://www.iecc.com/gclist/GC-faq.html</a></li>
+  <li>Richard Jone's Garbage Collection Bibliography - <a
  href="http://www.cs.ukc.ac.uk/people/staff/rej/gcbib/gcbibG.html">http://www.cs.ukc.ac.uk/people/staff/rej/gcbib/gcbibG.html</a> 
-  </listitem>
-  <listitem>Garbage Collection in .NET - <a
+  </li>
+  <li>Garbage Collection in .NET - <a
  href="http://msdn.microsoft.com/msdnmag/issues/1100/GCI/default.aspx">http://msdn.microsoft.com/msdnmag/issues/1100/GCI/default.aspx</a> 
-  </listitem>
-</itemizedlist>
+  </li>
+  </ul>
 </resource-list>
 
-</dw-article>
-</dw-document>
-
-
-
-
-<!-- CODE SECTION
-You can include code listings at any point in the body of the article. Include a caption ("heading") for each code listing. Do not exceed 600 pixels or about 90 characters in width. For longer code lines, please find suitable places to split the lines; long lines do not autowrap.
-
-The width defaults to full-page width (100%), but if you need to avoid overlaying the toc or a sidebar, you can make the code listing narrower, say with a width of 65%.  Reducing the width does not split long lines; if line length exceeds the width you set, the width is ignored.
-
-For the code listing itself, type or paste in ASCII code with proper keyboard spacing.  Use the space key to indent lines. Use &lt; to represent a less-than symbol and &gt; to represent a greater-than symbol. Use &amp; for an ampersand.  If needed for clarity, use <b> and </b> for bold text (colored text is not advised), as shown below. 
-
-Do not place paragraph tags around the code section. -->
-<code type="section" width="">
-<heading refname="" type="code" toc="no">Listing 1. The build and install process</heading>
-$ bunzip2 -c latest-release.tar.bz|tar xf -
-$ cd latest-release
-$ ./configure
-$ make
-$ <b>make install</b>
-</code>
-
-<!-- INLINE CODE (code within a sentence) -->
-<p>This sentence refers to the <code type="inline">make install</code> command. Use this monospace (inline) code font for names of commands, classes, objects, methods, code snippets, and any text the user types in.  For details, see the <a href="http://dw.raleigh.ibm.com/dwcontent/dwteam/edstyle/guidelines/highlighting.html">developerWorks highlighting conventions</a>.</p>
-
-<!-- SIDEBAR -->
-<!-- Sidebars can appear anywhere in the body of the article, but make sure their placement does not collide with the toc, code listings, tables, or other elements. The heading element is recommended but not required. Do not use paragraph tags around the sidebar. The order of the elements is: sidebar, heading, as shown here. The sidebar tag can include just these optional attributes: width and align. -->
-<sidebar>
-<heading refname="" type="sidebar" toc="no">When to use a sidebar</heading>
-<p>Use a sidebar for a content detour or reinforcement.  For example, you might define terms or  provide a bit of historical background in a sidebar.  Or you might summarize the key points of a lengthy discussion.  For a sidebar in action, see the article <a href="http://www.ibm.com/developerworks/library/l-c99.html">Open source development using C99</a>.</p>
-</sidebar>
-
-<!-- FIGURE 
-Figures can appear anywhere in the body of the article. Use the heading tag to provide a caption.    Do not use paragraph tags around the figure. The order of the tags is: figure, heading, img, as shown here. The alt attribute on the img tag is required. Figures should be in gif or jpg format, and no wider than 600 pixels. -->
-<figure>
-<heading refname="" type="figure" toc="no" name="" alttoc="">Figure 1. The Java Beans view</heading>
-<img src="http://www-128.ibm.com/developerworks/library/os-ecvisual/JBView.gif" width="211" height="168" alt="The Java Beans view"/>
-</figure>
-
-<!-- TABLE
-Tables can appear anywhere in the body of the article. Give each table a caption with the heading element (there is no heading type defined for headings, so the heading type used for figures will do). Do not use paragraph tags around the table. The order of the tags is: heading, table, as shown here. The table tag can include just these optional attributes: width, cellspacing, cellpadding, border, and cols. The table row (tr) tag can include just these optional attributes: valign, align, and bgcolor. The table data (td) tag can include just these optional attributes: valign, align, bgcolor, colspan, rowspan, and width. -->
-          </td>
-          <td>
-            <b>Energy</b>
-          </td>
-           <td>
-            <b>Rank</b>
-          </td>
-        </tr>
-          <tr valign="top"><td>p1</td><td>-9600.0</td><td>1</td></tr>
-		<tr valign="top"><td>p2</td><td>-7104.0</td><td>3</td></tr>
-		<tr valign="top"><td>p3</td><td>-6848.0</td><td>4</td></tr>
-		<tr valign="top"><td>p4</td><td>-9472.0</td><td>2</td></tr>
-		<tr valign="top"><td>p5</td><td>-6408.0</td><td>5</td></tr>
-      </table>
-</p>
-
-<!-- LISTS -->
-<!-- Lists can appear anywhere in the body of the article. If you have an ordered list interrupted by a heading and you want the numbering to continue, use the start attribute (for example, to resume the list at number 6, use <ol start="6">. -->
-<ol>
-<li>Ordered list item</li>
-<li>Ordered list item</li>
-</ol>
-
-<ul>
-<li>Unordered list item</li>
-<li>Unordered list item</li>
-</ul>
-
-<!-- END OF ARTICLE BODY
-Required element. The body can contain paragraphs, major headings, minor headings, code listings, figures, tables, lists, sidebars, etc.-->
 </docbody>
 
-<!-- TRADEMARKS
-Optional element. Trademark text will not appear in HTML, only PDF versions of articles once the auto-PDF generation function is available. -->
-<trademarks>
-<trademark>This is a trademark statement.</trademark>
-<trademark>This is another trademark statement.</trademark>
-</trademarks>
-
-<!-- RELATED-LIST
-Optional element, but recommended. This element creates the "Related content" section in the right nav.  Include up to 6 developerWorks content items (articles, tutorials, forums, campaigns, product landing pages) that are mentioned in or relevant to the article. If this article is part of a column or series, include links to the other articles. -->
-<related-list>
-<a href="http://www.ibm.com/">Related article title</a>
-<a href="http://www.ibm.com/">Related article title</a>
-</related-list>
-
-<!-- RESOURCE-LIST
-Optional element, but recommended. This element creates the "Resources" section at the bottom of the article. Include links to all Web content mentioned in the article, and other articles, tutorials, books, Web sites, campaigns, or offers  related to the topic.  Do NOT include links to download files related to the article; they should only be referenced with <target-content-file> elements.  Resources may be from developerWorks, alphaWorks, IBM product or research sites, or non-IBM sites. Annotate each link by explaining the value and relevance for the reader. Put series titles and book titles in italics (<i>).  -->
-<resource-list>
-<ul>
-
-<!-- Example of an article resource: -->
-<li>The article <a href="http://www.ibm.com/developerworks/library/os-ecov/">Getting started with the Eclipse Platform</a> (developerWorks, November 2002) provides a history and overview of Eclipse, including details on how to install Eclipse and plug-ins.</li>
-
-<!-- Example of a book resource: -->
-<li><a href="http://devworks.krcinfo.com/WebForms/ProductDetails.aspx?ProductID=1930110960"><i>Eclipse In Action: A Guide for Java Developers</i></a> (Independent Pub Group, 2003) is a must-read for Java developers using Eclipse.</li>
-
-<!-- Example of a series resource: -->
-<li>Browse all of the <a href="http://www-106.ibm.com/developerworks/views/linux/articles.jsp?sort_order=desc&amp;expand=&amp;sort_by=Date&amp;show_abstract=true&amp;view_by=Search&amp;search_by=charming+python%3A"><i>Charming Python</i> columns</a> on developerWorks.</li>
-
-<!-- Example of a non-IBM Web site resource: -->
-<li>Get the latest version of <a href="http://www.netbeans.org/">Netbeans</a>, an open source IDE for Java application development, at the Netbeans Web site.</li>
-
-<!-- Example of a forum link (if not added automatically): -->
-<li>Share your questions and views on this article with the author 
-and other readers in the <a href="http://www.ibm.com/developerworks/forums/dw_forum.jsp?forum=160&amp;cat=5">Speed-start your Linux app discussion forum</a>.</li>
-
-<!-- Example of a zone overview page link: -->
-<li>To learn more about DB2, visit the <a href="http://www.ibm.com/developerworks/db2/">developerWorks DB2 zone</a>.  You'll find 
-technical documentation, how-to articles, education, downloads, product 
-information, and more.</li>
-
-<!-- Another example of a zone overview page link: -->
-<li>Find more resources for Linux developers in the <a href="http://www.ibm.com/developerworks/linux/">developerWorks Linux zone</a>.</li>
-
-<!-- Linux offer overview page link (if applicable): -->
-<li>Visit the <a href="http://www.ibm.com/developerworks/offers/linux-speed-start/">Speed-start your Linux app</a> site for the latest no-charge trial 
-downloads for Linux (WebSphere Studio Application Developer, WebSphere Application 
-Server, DB2 Universal Database, Tivoli Access Manager, and Tivoli Directory Server), 
-as well as how-to articles and tech support.</li>
-
-<!-- Web services offer overview page link (if applicable): -->
-<li>Access Web services knowledge, tools, and skills with <a href="http://www.ibm.com/developerworks/offers/ws-speed-start/?S_TACT=104AMW04&amp;S_CMP=ART">Speed-start Web services</a>, 
-which offers the latest Java-based software development tools and middleware 
-from IBM (trial editions), plus online tutorials and articles, and an online 
-technical forum.</li>
-
-<!-- Blog link (general): -->
-<li>Get involved in the developerWorks community by participating in 
-<a href="http://www.ibm.com/developerworks/blogs/">developerWorks blogs</a>.</li>
-
-<!-- Example of a Bookstore link: -->
-<li>Purchase <a
-href="http://devworks.krcinfo.com/WebForms/ProductList.aspx?Search=Category&amp;id=300&amp;parent=Linux"
-target="new">Linux books at discounted prices</a> in the Linux section of
-the Developer Bookstore.</li>
-
-</ul>
-</resource-list>
-
 </dw-article>
 </dw-document>
+
+
+
+
