@@ -584,7 +584,7 @@ back off after the second function call is complete.
 <para>
 Let's look at how the function itself is written.  Notice
 that before the function, there is documentation as to
-what the function does, what it's arguments are, and
+what the function does, what its arguments are, and
 what it gives as a return value.  This is useful for 
 programmers who use this function.  This is the function's
 interface.  This lets the programmer know what values are
@@ -710,7 +710,7 @@ the factorial just below it.  For example, the factorial of 4 is
 4 times the factorial of 3.  The factorial of 3 is 3 times the factorial
 of 2.  2 is 2 times the factorial of 1.  The factorial of 1 is 1.  
 This type of definition is called a recursive<indexterm><primary>recursive</primary></indexterm> definition.  That means,
-the definition of the factorial function<indexterm><primary>functions</primary></indexterm> includes the factorial funtion itself. 
+the definition of the factorial function<indexterm><primary>functions</primary></indexterm> includes the factorial function itself. 
 However, since all functions need to end, a recursive definition must
 include a <emphasis>base case<indexterm><primary>base case</primary></indexterm></emphasis>.  The base case is the
 point where recursion will stop.  Without a base case, the function would
@@ -831,7 +831,7 @@ The nice thing about function calls is that:
 
 <itemizedlist>
 
-<listitem><para>Other programmers don't have to know anything about them except it's arguments to use them.</para></listitem>
+<listitem><para>Other programmers don't have to know anything about them except its arguments to use them.</para></listitem>
 <listitem><para>They provide standardized building blocks from which you can form a program.</para></listitem>
 <listitem><para>They can be called multiple times and from multiple locations and they always know how to get back to where they were since <literal>call<indexterm><primary>call</primary></indexterm></literal> pushes the return address onto the stack.</para></listitem>
 

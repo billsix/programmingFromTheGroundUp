@@ -82,7 +82,7 @@ open_fd_out:
 	###OPEN OUTPUT FILE###
 	movl  ST_ARGV_2(%ebp), %ebx        #output filename into %ebx
 	movl  $O_CREAT_WRONLY_TRUNC, %ecx  #flags for writing to the file
-	movl  $0666, %edx                  #mode for new file (if it's created)
+	movl  $0666, %edx                  #permission set for new file (if it's created)
 	movl  $OPEN, %eax                  #open the file
 	int   $LINUX_SYSCALL               #call Linux
 

@@ -200,7 +200,7 @@ In order to do this effectively, you have to develop functions whose
 sole purpose is to call functions for testing.  These are called 
 <emphasis>drivers<indexterm><primary>drivers</primary></indexterm></emphasis> 
 (not to be confused with hardware drivers) .
-They simply loads your function, supply it with data, and check the results.
+They simply load your function, supply it with data, and check the results.
 This is especially useful if you are working on pieces of an unfinished 
 program.  Since you can't test all of the pieces together, you can create
 a driver program that will test each function individually.  

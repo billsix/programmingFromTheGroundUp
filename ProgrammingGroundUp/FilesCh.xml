@@ -24,7 +24,7 @@ because it persists in files that remain on the disk even when the program isn't
 <title>The UNIX File Concept</title>
 
 <para>
-Each operating system has it's own way of dealing with files.  However, the
+Each operating system has its own way of dealing with files.  However, the
 UNIX method, which is used on Linux, is the simplest and most universal.
 UNIX files, no matter what program created them, can all be accessed as a 
 sequential stream of bytes.  When you access a file, you start by opening it by name.
@@ -113,7 +113,7 @@ For an example, let's say that you want to read in a single line of text from
 a file but you do not know how long that line is.  You would then
 simply read a large number of bytes/characters from the file into a buffer, 
 look for the end-of-line character, and copy all of the characters to that
-end-of-line character to another location.  If you didn't find and end-of-line
+end-of-line character to another location.  If you didn't find an end-of-line
 character, you would allocate another buffer and continue reading.
 You would probably wind up with some characters left over in your buffer
 in this case, which you would use as the starting point when you next need
@@ -183,9 +183,9 @@ a dollar sign in front of <literal>my_buffer</literal>.  Remember that the
 reason for this is that without the dollar sign, 
 <literal>my_buffer</literal> is treated as a memory location, and is
 accessed in direct addressing mode<indexterm><primary>direct addressing mode</primary></indexterm>.  The dollar sign switches it to immediate mode addressing,
-which actually loads the number represented by <literal>my_buffer</literal>
-(i.e. - the address of the start of our buffer).
-(which is the address of <literal>my_buffer</literal>) itself into &ecx;.
+which actually loads the number represented by <literal>my_buffer</literal> 
+itself (i.e. - the address of the start of our buffer, which is the address 
+of <literal>my_buffer</literal>) into &ecx;.
 </para>
 
 </sect1>

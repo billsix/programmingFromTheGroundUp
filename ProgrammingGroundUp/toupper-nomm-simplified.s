@@ -4,7 +4,7 @@
 #
 #PROCESSING: 1) Open the input file
 #            2) Open the output file
-#            4) While we're not at the end of the input file
+#            3) While we're not at the end of the input file
 #               a) read part of file into our memory buffer
 #               b) go through each byte of memory
 #                    if the byte is a lower-case letter, 
@@ -101,7 +101,7 @@ open_fd_out:
 	movl  ST_ARGV_2(%ebp), %ebx        
 	#flags for writing to the file
 	movl  $O_CREAT_WRONLY_TRUNC, %ecx  
-	#mode for new file (if it's created)
+	#permission set for new file (if it's created)
 	movl  $0666, %edx                  
 	#call Linux
 	int   $LINUX_SYSCALL               

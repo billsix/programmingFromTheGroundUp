@@ -59,7 +59,7 @@ end_factorial:
 	movl  %ebp, %esp    #standard function return stuff - we
 	popl  %ebp          #have to restore %ebp and %esp to where
 	                    #they were before the function started
-	ret                 #return to the function (this pops the 
+	ret                 #return from the function (this pops the 
 	                    #return value, too)
 	
 
