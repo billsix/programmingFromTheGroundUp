@@ -61,10 +61,12 @@ the current directory.  The output should look similar to this:
 <screen>
 GNU gdb Red Hat Linux (5.2.1-4)
 Copyright 2002 Free Software Foundation, Inc.
-GDB is free software, covered by the GNU General Public License, and you are
-welcome to change it and/or distribute copies of it under certain conditions.
-Type "show copying" to see the conditions.
-There is absolutely no warranty for GDB.  Type "show warranty" for details.
+GDB is free software, covered by the GNU General Public 
+License, and you are welcome to change it and/or 
+distribute copies of it under certain conditions. Type 
+"show copying" to see the conditions.  There is 
+absolutely no warranty for GDB.  Type "show warranty" 
+for details.  
 This GDB was configured as "i386-redhat-linux"...
 (gdb)
 </screen>
@@ -79,7 +81,7 @@ The screen will then say this:
 </para>
 
 <screen>
-Starting program: /home/johnnyb/BartlettPublishing/Books/PGU/Move/maximum
+Starting program: /home/johnnyb/maximum
 
 Program received signal SIGINT, Interrupt.
 start_loop () at maximum.s:34
@@ -107,21 +109,21 @@ look something like this:
 
 <screen>
 (gdb) stepi
-35              cmpl %ebx, %eax           # compare values
+35              cmpl %ebx, %eax           
 (gdb) stepi
-36              jle start_loop            # jump to loop beginning if the new
+36              jle start_loop            
 (gdb) stepi
-32              cmpl $0, %eax             # check to see if we've hit the end
+32              cmpl $0, %eax             
 (gdb) stepi
 33              je loop_exit
 (gdb) stepi
 34              movl data_items(,%edi,4), %eax
 (gdb) stepi
-35              cmpl %ebx, %eax           # compare values
+35              cmpl %ebx, %eax           
 (gdb) stepi
-36              jle start_loop            # jump to loop beginning if the new
+36              jle start_loop            
 (gdb) step
-32              cmpl $0, %eax             # check to see if we've hit the end
+32              cmpl $0, %eax             
 </screen>
 
 <para>

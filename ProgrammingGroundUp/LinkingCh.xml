@@ -122,8 +122,9 @@ ld -dynamic-linker /lib/ld-linux.so.2 \
 </programlisting>
 
 <para>
-The backslash in the first line simply means that the command continues on 
-the second line.  The option
+Remember, the backslash in the first line simply means that the command continues on 
+the next line.
+The option
 <literal>-dynamic-linker<indexterm><primary>-dynamic-linker</primary></indexterm>
  /lib/ld-linux.so.2</literal> allows our
 program to be linked to libraries.  This builds the executable so that
@@ -317,7 +318,8 @@ and then do the following commands:
 
 <programlisting>
 as printf-example.s -o printf-example.o
-ld printf-example.o -o printf-example -lc -dynamic-linker /lib/ld-linux.so.2
+ld printf-example.o -o printf-example -lc \
+   -dynamic-linker /lib/ld-linux.so.2
 </programlisting>
 
 <para>
@@ -601,7 +603,9 @@ run.  If we try it, we will get an error like the following:
 </para>
 
 <programlisting>
-./write-records: error while loading shared libraries: librecord.so: cannot open shared object file: No such file or directory
+./write-records: error while loading shared libraries: 
+librecord.so: cannot open shared object file: No such 
+file or directory
 </programlisting>
 
 <para>

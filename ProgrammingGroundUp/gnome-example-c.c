@@ -9,13 +9,19 @@
 #define MY_APP_TITLE "Gnome Example Program"
 #define MY_APP_ID "gnome-example"
 #define MY_APP_VERSION "1.000"
-#define MY_BUTTON_TEXT "I Want to Quit the GNOME Example Program"
+#define MY_BUTTON_TEXT "I Want to Quit the Example Program"
 #define MY_QUIT_QUESTION "Are you sure you want to quit?"
 
 /* Must declare functions before they are used */
-int destroy_handler(gpointer window, GdkEventAny *e, gpointer data);
-int delete_handler(gpointer window, GdkEventAny *e, gpointer data);
-int click_handler(gpointer window, GdkEventAny *e, gpointer data);
+int destroy_handler(gpointer window, 
+		GdkEventAny *e, 
+		gpointer data);
+int delete_handler(gpointer window, 
+		GdkEventAny *e, 
+		gpointer data);
+int click_handler(gpointer window, 
+		GdkEventAny *e, 
+		gpointer data);
 
 int main(int argc, char **argv)
 {
@@ -41,9 +47,12 @@ int main(int argc, char **argv)
 	gtk_widget_show(appPtr);
 
 	/* Connect the signal handlers */
-	gtk_signal_connect(appPtr, "delete_event", GTK_SIGNAL_FUNC(delete_handler), NULL);
-	gtk_signal_connect(appPtr, "destroy", GTK_SIGNAL_FUNC(destroy_handler), NULL);
-	gtk_signal_connect(btnQuit, "clicked", GTK_SIGNAL_FUNC(click_handler), NULL);
+	gtk_signal_connect(appPtr, "delete_event", 
+			GTK_SIGNAL_FUNC(delete_handler), NULL);
+	gtk_signal_connect(appPtr, "destroy", 
+			GTK_SIGNAL_FUNC(destroy_handler), NULL);
+	gtk_signal_connect(btnQuit, "clicked", 
+			GTK_SIGNAL_FUNC(click_handler), NULL);
 
 	/* Transfer control to GNOME */
 	gtk_main();
@@ -53,7 +62,9 @@ int main(int argc, char **argv)
 
 
 /* Function to receive the "destroy" signal */
-int destroy_handler(gpointer window, GdkEventAny *e, gpointer data)
+int destroy_handler(gpointer window, 
+		GdkEventAny *e, 
+		gpointer data)
 {
 	/* Leave GNOME event loop */
 	gtk_main_quit();
@@ -61,13 +72,17 @@ int destroy_handler(gpointer window, GdkEventAny *e, gpointer data)
 }
 
 /* Function to receive the "delete_event" signal */
-int delete_handler(gpointer window, GdkEventAny *e, gpointer data)
+int delete_handler(gpointer window, 
+		GdkEventAny *e, 
+		gpointer data)
 {
 	return 0;
 }
 
 /* Function to receive the "clicked" signal */
-int click_handler(gpointer window, GdkEventAny *e, gpointer data)
+int click_handler(gpointer window, 
+		GdkEventAny *e, 
+		gpointer data)
 {
 	gpointer msgbox;
 	int buttonClicked;

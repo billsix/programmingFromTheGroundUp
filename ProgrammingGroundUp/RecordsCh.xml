@@ -299,10 +299,13 @@ as read-record.s -o read-record.o
 as count-chars.s -o count-chars.o
 as write-newline.s -o write-newline.o
 as read-records.s -o read-records.o
-ld read-record.o count-chars.o write-newline.o read-records.o -o read-records
+ld read-record.o count-chars.o write-newline.o \
+   read-records.o -o read-records
 </programlisting>
 
 <para>
+The backslash in the first line simply means that the command continues on 
+the next line.
 You can run your program by doing <literal>./read-records</literal>.
 </para>
 

@@ -1089,7 +1089,7 @@ The code for the function should be put in a file called
 </para>
 
 <programlisting>
-&integer-to-number;
+&integer-to-string;
 </programlisting>
 
 <para>

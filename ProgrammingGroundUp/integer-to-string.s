@@ -10,9 +10,9 @@
 #
 #Variables:
 #
-#	%ecx will hold the count of characters processed
-#       %eax will hold the current value
-#       %edi will hold the base (10)
+# %ecx will hold the count of characters processed
+# %eax will hold the current value
+# %edi will hold the base (10)
 #
 	.equ ST_VALUE, 8
 	.equ ST_BUFFER, 12

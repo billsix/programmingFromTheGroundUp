@@ -400,9 +400,9 @@ deal with this one function.  We have these definitions:
 </para>
 
 <programlisting>
-	.equ  LOWERCASE_A, 'a'              #The lower boundary of our search
-	.equ  LOWERCASE_Z, 'z'              #The upper boundary of our search
-	.equ  UPPER_CONVERSION, 'A' - 'a'   #Conversion between upper and lower case
+	.equ  LOWERCASE_A, 'a'
+	.equ  LOWERCASE_Z, 'z'
+	.equ  UPPER_CONVERSION, 'A' - 'a' 
 </programlisting>
 
 <para>

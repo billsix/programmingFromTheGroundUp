@@ -2,12 +2,13 @@
 	.include "record-def.s"
 	.include "linux.s"
 	
-#PURPOSE:   This function reads a record from the file descriptor
+#PURPOSE:   This function reads a record from the file 
+#           descriptor
 #
 #INPUT:     The file descriptor and a buffer
 #
-#OUTPUT:    This function writes the data to the buffer and returns
-#           a status code.
+#OUTPUT:    This function writes the data to the buffer 
+#           and returns a status code.
 #
 #STACK LOCAL VARIABLES
 	.equ ST_READ_BUFFER, 8

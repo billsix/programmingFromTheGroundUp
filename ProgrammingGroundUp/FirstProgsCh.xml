@@ -370,7 +370,7 @@ details.  The extra details, called <emphasis>parameters<indexterm><primary>para
 are stored in other registers.  In the case of the <literal>exit</literal> system call,
 the operating system requires a status code be loaded in &ebx-indexed;.  This 
 value is then returned to the system.  This is the value you retrieved 
-when you typed <literalf>echo $?</literal>.  So, we load &ebx; with 
+when you typed <literal>echo $?</literal>.  So, we load &ebx; with 
 <literal>0</literal> by typing the following:
 </para>
 

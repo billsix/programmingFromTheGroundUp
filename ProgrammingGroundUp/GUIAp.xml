@@ -91,10 +91,11 @@ To build this application, execute the following commands:
 
 <programlisting>
 as gnome-example.s -o gnome-example.o
-gcc gnome-example.o `gnome-config --libs gnomeui` -o gnome-example
+gcc gnome-example.o `gnome-config --libs gnomeui` \
+    -o gnome-example
 </programlisting>
 
-Then type in <command>./gnome-example</command> to run it.
+Then type in <literal>./gnome-example</literal> to run it.
 </para>
 
 <para>
@@ -246,10 +247,11 @@ Type it in as <filename>gnome-example-c.c</filename>:
 To compile it, type
 
 <programlisting>
-gcc gnome-example-c.c `gnome-config --cflags --libs gnomeui` -o gnome-example-c
+gcc gnome-example-c.c `gnome-config --cflags \
+    --libs gnomeui` -o gnome-example-c
 </programlisting>
 
-Run it by typing <command>./gnome-example-c</command>.
+Run it by typing <literal>./gnome-example-c</literal>.
 </para>
 
 <para>
@@ -259,7 +261,7 @@ Finally, we have a version in Python.  Type it in as gnome-example.py:
 &gnome-example-py;
 </programlisting>
 
-To run it type <command>python gnome-example.py</command>.
+To run it type <literal>python gnome-example.py</literal>.
 </para>
 
 </simplesect>
