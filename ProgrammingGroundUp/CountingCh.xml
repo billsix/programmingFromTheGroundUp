@@ -738,7 +738,7 @@ If you wish to know implementation details, you can read further
 information on the subject.
 </para>
  
-<sect2>
+<sect2 id="floatingpoint">
 <title>Floating-point Numbers</title>
 
 <para>

@@ -17,9 +17,6 @@ personstring:
 numberloved:
 	.long 3
 
-	.equ EXIT, 1
-	.equ LINUX_SYSCALL, 0x80
-
 	.section .text
 	.globl _start
 _start:
@@ -32,6 +29,6 @@ _start:
 	pushl $firststring   #This is the format string in the prototype
 	call  printf
 
-	movl  $0, %ebx
-	movl  $EXIT, %eax
-	int   $LINUX_SYSCALL
+	pushl $0
+	call  exit
+
