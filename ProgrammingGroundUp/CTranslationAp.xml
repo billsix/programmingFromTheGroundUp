@@ -534,7 +534,8 @@ for local variables than we do, and then AND's &esp-indexed;
 Note that different versions of GCC do this differently.  
 </para>
 </footnote>
-This is to increase cache efficiency. 
+This is to increase memory and cache efficiency by double-word aligning 
+variables.
 </para>
 
 

@@ -614,6 +614,25 @@ Now we are ready to write our programs.
 <sect2>
 <title>Writing Records</title>
 
+<para>
+This program will simply write some hardcoded records to disk.
+It will:
+</para>
+
+<itemizedlist>
+<listitem><para>Open the file</para></listitem>
+<listitem><para>Write three records</para></listitem>
+<listitem><para>Close the file</para></listitem>
+</itemizedlist>
+
+<para>
+Here is the code:
+</para>
+
+<programlisting>
+&write-records;
+</programlisting>
+
 </sect2>
 
 </sect1>
