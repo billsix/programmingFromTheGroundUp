@@ -633,8 +633,102 @@ Here is the code:
 &write-records;
 </programlisting>
 
+<para>
+This is a fairly simple program.  It merely consists of defining
+the data we want to write in the <literal>.data</literal> section,
+and then calling the right system calls and function calls to
+accomplish it.  For a discussion of all of the system calls used,
+see <xref linkend="syscallap" />.
+</para>
+
 </sect2>
 
+<sect2>
+<title>Reading Records</title>
+
+<para>
+Now we will consider just the opposite - reading records.  In this 
+program, we will read each record, and display the first name listed
+with each record.
+</para>
+
+<para>
+Since each person's name is a different length, we will need a function
+to count the number of characters we want to write.  Since we pad each
+field with null characters, we can simply count characters until we 
+reach a null byte.<footnote><para>If you have used C, this is what
+the <literal>strlen</literal> function does.</para></footnote>
+Note that this means our records must contain at least
+one null byte each.  That's okay, though, since we are controlling how the
+records are written.
+</para>
+
+<para>
+Here is the code:
+</para>
+
+<programlisting>
+#PURPOSE:  Count the characters until a null byte is reached.
+#
+#INPUT:    The address of the character string
+#
+#OUTPUT:   Returns the count in %eax
+#
+#PROCESS:  
+#  Registers used:
+#    %ecx - character count
+#    %al - current character
+#    %edx - current character address
+
+	.type count_chars, @function
+	.globl count_chars
+
+	.equ DATA_START_ADDRESS, -8
+count_chars:
+	pushl %ebp
+	movl  %esp, %ebp
+	
+	#Counter starts at zero
+	movl  $0, %ecx  
+
+	#Starting address of data
+	movl  DATA_START_ADDRESS(%ebp), %edx
+
+count_loop_begin:
+	#Grab the current character
+	movb  (%edx), %al
+	#Is it null?
+	cmpb  $0, %al
+	#If yes, we're done
+	je    count_loop_end
+	#Otherwise, increment the counter and the pointer
+	incl  %ecx
+	incl  %edx
+	#Go back to the beginning of the loop
+	jmpl  count_loop_begin
+
+count_loop_end:
+	#We're done.  Move the count into %eax
+	#and return.
+	movl  %ecx, %eax
+
+	popl  %ebp
+	ret
+</programlisting>
+
+<para>
+As you can see, it's a fairly straightforward function.  The program
+will be fairly straightforward, too.  It will do the following:
+</para>
+
+<itemizedlist>
+<listitem><para>Open the file</para></listitem>
+<listitem><para>Attempt to read a record</para></listitem>
+<listitem><para>If we are at the end of the file, exit</para></listitem>
+<listitem><para>Otherwise, count the characters of the first name</para></listitem>
+<listitem><para>Write the first name to <literal>STDOUT</literal></para></listitem>
+<listitem><para>Go back to read another record</para></listitem>
+</itemizedlist>
 </sect1>
 
 <sect1>

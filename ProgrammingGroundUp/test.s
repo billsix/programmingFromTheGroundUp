@@ -1,16 +1,32 @@
-	.file	"test.c"
-	.version	"01.01"
-gcc2_compiled.:
-.text
-	.align 4
-.globl main
-	.type	 main,@function
-main:
-	pushl	%ebp
-	movl	%esp, %ebp
-	movl	$0, %eax
-	popl	%ebp
+	.equ PERSON_SIZE, 84
+	.equ PERSON_FIRSTNAME_OFFSET, 0
+	.equ PERSON_LASTNAME_OFFSET, 40
+	.equ PERSON_AGE_OFFSET, 80
+.section .text
+.globl _start
+_start:
+	nop
+	nop
+	nop
+	call foo
+	movl $1, %eax
+	movl $0, %ebx
+	int $0x80
+
+.globl foo
+.type foo,@function
+foo:
+	pushl %ebp
+	movl  %esp, %ebp
+
+	subl  $PERSON_SIZE, %esp
+	.equ  P_VAR, 0-PERSON_SIZE
+
+	movl  $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
+
+	movl %ebp, %esp
+	popl %ebp
 	ret
-.Lfe1:
-	.size	 main,.Lfe1-main
-	.ident	"GCC: (GNU) 2.96 20000731 (Red Hat Linux 7.1 2.96-98)"
+
+
+
