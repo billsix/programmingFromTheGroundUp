@@ -4,7 +4,7 @@
 
 <!-- FIXME - need to find places that need more filling out.  Reviews, definitely.  Also "Reading Simple Records" from the files chapter -->
 
-<!-- FIXME - need a big/little endian discussion
+<!-- FIXME - need a big/little endian discussion -->
 
 <!-- Appendices it would be nice to have:
   * i386 instructions
@@ -69,6 +69,12 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY gnome-example-py SYSTEM "gnome-example.py">
 <!ENTITY Hello-World-perl SYSTEM "Hello-World.pl">
 <!ENTITY Hello-World-python SYSTEM "Hello-World.py">
+<!ENTITY write-newline SYSTEM "write-newline.s">
+<!ENTITY count-chars SYSTEM "count-chars.s">
+<!ENTITY read-record SYSTEM "read-record.s">
+<!ENTITY record-def SYSTEM "record-def.s">
+<!ENTITY linux SYSTEM "linux.s">
+<!ENTITY write-record SYSTEM "write-record.s">
 <!ENTITY write-records SYSTEM "write-records.s">
 <!ENTITY read-records SYSTEM "read-records.s">
 

@@ -1,17 +1,5 @@
-	#Program to write records to a file
-	.equ LINUX_SYSCALL, 0x80
-	.equ SYS_EXIT, 1
-	.equ SYS_READ, 3
-	.equ SYS_WRITE, 4
-	.equ SYS_OPEN, 5
-	.equ SYS_CLOSE, 6
-
-	.equ RECORD_FIRSTNAME, 0
-	.equ RECORD_LASTNAME, 40
-	.equ RECORD_ADDRESS, 80
-	.equ RECORD_AGE, 320
-
-	.equ RECORD_SIZE, 324
+	.include "linux.s"
+	.include "record-def.s"
 
 	.section .data
 
@@ -29,105 +17,55 @@ record1:
 	.byte 0
 	.endr
 	
-	.ascii "4242 S Prairie\nTulsa, OK 55555"
-	.rept 210 #Padding to 240 bytes
+	.ascii "4242 S Prairie\nTulsa, OK 55555\0"
+	.rept 209 #Padding to 240 bytes
 	.byte 0
 	.endr
 	
 	.long 45
 	
 record2:	
-	.ascii "Fredrick\0"
-	.rept 31 #Padding to 40 bytes
+	.ascii "Marilyn\0"
+	.rept 32 #Padding to 40 bytes
 	.byte 0
 	.endr
 	
-	.ascii "Bartlett\0"
-	.rept 31 #Padding to 40 bytes
+	.ascii "Taylor\0"
+	.rept 33 #Padding to 40 bytes
 	.byte 0
 	.endr
 	
-	.ascii "4242 S Prairie\nTulsa, OK 55555"
-	.rept 210 #Padding to 240 bytes
+	.ascii "2224 S Johannan St\nChicago, IL 12345\0"
+	.rept 203 #Padding to 240 bytes
 	.byte 0
 	.endr
 	
-	.long 45
+	.long 29
 
 record3:	
-	.ascii "Fredrick\0"
+	.ascii "Derrick\0"
+	.rept 32 #Padding to 40 bytes
+	.byte 0
+	.endr
+	
+	.ascii "McIntire\0"
 	.rept 31 #Padding to 40 bytes
 	.byte 0
 	.endr
 	
-	.ascii "Bartlett\0"
-	.rept 31 #Padding to 40 bytes
+	.ascii "500 W Oakland\nSan Diego, CA 54321\0"
+	.rept 206 #Padding to 240 bytes
 	.byte 0
 	.endr
 	
-	.ascii "4242 S Prairie\nTulsa, OK 55555"
-	.rept 210 #Padding to 240 bytes
-	.byte 0
-	.endr
-	
-	.long 45
+	.long 36
 
 	#This is the name of the file we will write to
 file_name:
 	.ascii "test.txt\0"
 
-	.globl _start
 	.equ FILE_DESCRIPTOR, -4
-
-#This code was explained previously
-#STACK LOCAL VARIABLES
-	.equ ST_WRITE_BUFFER, 8
-	.equ ST_FILEDES, 16
-.section .text 
-.globl write_record
-.type, @function
-write_record:
-	pushl %ebp
-	movl  %esp, %ebp
-
-	pushl %ebx
-	movl  ST_FILEDES(%ebp), %ebx
-	movl  ST_WRITE_BUFFER(%ebp), %ecx
-	movl  $RECORD_SIZE, %edx
-	movl  $SYS_WRITE, %eax
-	int   $LINUX_SYSCALL
-
-	popl  %ebx
-
-	movl  %ebp, %esp
-	popl  %ebp
-	ret
-
-#This code was explained previously
-#STACK LOCAL VARIABLES
-	.equ ST_READ_BUFFER, 8
-	.equ ST_FILEDES, 16
-.section .text 
-.globl read_record
-.type, @function
-read_record:
-	pushl %ebp
-	movl  %esp, %ebp
-
-	pushl %ebx
-	movl  ST_FILEDES(%ebp), %ebx
-	movl  ST_READ_BUFFER(%ebp), %ecx
-	movl  $RECORD_SIZE, %edx
-	movl  $SYS_READ, %eax
-	int   $LINUX_SYSCALL
-
-	popl  %ebx
-
-	movl  %ebp, %esp
-	popl  %ebp
-	ret
-
-	
+	.globl _start
 _start:
 	#Copy the stack pointer to %ebp
 	movl  %esp, %ebp

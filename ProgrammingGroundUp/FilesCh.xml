@@ -499,32 +499,52 @@ Let's create the following example fixed-length record about people:
 In this, everything is character data except for the age, which is
 simply a numeric field, using a standard 4-byte word (we could just
 use a single byte for this, but keeping it at a word makes it easier
-to process).  We can set up constants to make this easier to process
-like this:
+to process).
+</para>
+
+<para>
+In programming, you often have certain definitions that you will use
+over and over again within the program, or perhaps within several
+programs.  It is good to separate these out into files that are 
+simply included into the assembly language files as needed.  For
+example, we will need to use the following constants which describe
+the above structure over and over, and put then in a file named
+<filename>record-def.s</filename>:
 </para>
 
 <programlisting>
-	.equ RECORD_FIRSTNAME, 0
-	.equ RECORD_LASTNAME, 40
-	.equ RECORD_ADDRESS, 80
-	.equ RECORD_AGE, 320
-
-	.equ RECORD_SIZE, 324
+&record-def;
 </programlisting>
 
 <para>
-We will write three programs using this structure and these definitions.  
+In addition, there are several constants that we have been defining over
+and over in our programs, and it is useful to put them in a file, so that
+we don't have to keep entering them over and over again.  Put the following
+constants in a file called <filename>linux.s</filename>:
+</para>
+
+<programlisting>
+&linux;
+</programlisting>
+
+<para>
+We will write three programs using the structure defined above.
 The first program will build the file.
 The second program will display the file.  The third program will add
 1 year to the age of every record.
 </para>
 
 <para>
-When writing programs, you often have to write certain functions that
-will be used over and over again.  In this case, we will have to have
-two functions that we will use: one which reads a record, and one which
-writes a record.  So what data do we need for these functions?  We need
-to know:
+In addition to the standard constants we will be using throughout the
+programs, there are also two functions that we will be using in 
+several of the programs - one which reads a record, and one which
+writes a record.
+</para>
+
+<para>
+What parameters do these functions need in order to operate?  We have
+already defined the structure definition, so we don't need that.  We
+basically need:
 </para>
 
 <itemizedlist>
@@ -537,78 +557,21 @@ Let's look at our reading function first:
 </para>
 
 <programlisting>
-#PURPOSE:   This function reads a record from the file descriptor
-#
-#INPUT:     The file descriptor and a buffer
-#
-#OUTPUT:    This function writes the data to the buffer and returns
-#           a status code.
-#
-#STACK LOCAL VARIABLES
-	.equ ST_READ_BUFFER, 8
-	.equ ST_FILEDES, 12
-.section .text 
-.globl read_record
-.type, @function
-read_record:
-	pushl %ebp
-	movl  %esp, %ebp
-
-	pushl %ebx
-	movl  ST_FILEDES(%ebp), %ebx
-	movl  ST_READ_BUFFER(%ebp), %ecx
-	movl  $RECORD_SIZE, %edx
-	movl  $SYS_READ, %eax
-	int   $LINUX_SYSCALL
-
-	#NOTE - %eax has the return value, which we will
-	#       give back to our calling program
-	popl  %ebx
-
-	movl  %ebp, %esp
-	popl  %ebp
-	ret
+&read-record;
 </programlisting>
 
 <para>
-It's a pretty simply function.  The writing one is similar:
+It's a pretty simply function.  It just writes a buffer the size of our
+structure to the given file descriptor.  The writing one is similar:
 </para>
 
 <programlisting>
-#PURPOSE:   This function writes a record to the file descriptor
-#
-#INPUT:     The file descriptor and a buffer
-#
-#OUTPUT:    This function produces a status code
-#
-#STACK LOCAL VARIABLES
-	.equ ST_WRITE_BUFFER, 8
-	.equ ST_FILEDES, 12
-.section .text 
-.globl write_record
-.type, @function
-write_record:
-	pushl %ebp
-	movl  %esp, %ebp
-
-	pushl %ebx
-	movl  ST_FILEDES(%ebp), %ebx
-	movl  ST_WRITE_BUFFER(%ebp), %ecx
-	movl  $RECORD_SIZE, %edx
-	movl  $SYS_WRITE, %eax
-	int   $LINUX_SYSCALL
-
-	#NOTE - %eax has the return value, which we will
-	#       give back to our calling program
-	popl  %ebx
-
-	movl  %ebp, %esp
-	popl  %ebp
-	ret
+&write-record;
 </programlisting>
 
 <para>
-Now we are ready to write our programs.
+Now that we have all of our common definitions down, we are ready to write
+our programs.
 </para>
 
 <sect2>
@@ -626,7 +589,7 @@ It will:
 </itemizedlist>
 
 <para>
-Here is the code:
+Type the following code into a file called <filename>write-records.s</filename>:
 </para>
 
 <programlisting>
@@ -639,6 +602,48 @@ the data we want to write in the <literal>.data</literal> section,
 and then calling the right system calls and function calls to
 accomplish it.  For a discussion of all of the system calls used,
 see <xref linkend="syscallap" />.
+</para>
+
+<para>
+You may have noticed the lines:
+</para>
+
+<programlisting>
+	.include "linux.s"
+	.include "record-def.s"
+</programlisting>
+
+<para>
+These statements cause the given files to basically be pasted right there
+in the code.  You don't need to do this with functions, because the
+linker can take care of combining functions exported with 
+<literal>.globl</literal>.  However, constants defined in another file
+do need to be imported in this way.
+</para>
+
+<para>
+To build the application, run the commands:
+</para>
+
+<programlisting>
+as write-records.s -o write-record.o
+as write-record.s -o write-record.o
+ld write-record.o write-records.o -o write-records
+</programlisting>
+
+<para>
+Here we are assembling two files separately, and then combining them
+together using the linker.  To run the program, just type the following:
+</para>
+
+<programlisting>
+./write-records
+</programlisting>
+
+<para>
+This will cause a file called <filename>test.dat</filename> to be created 
+containing the records.  However, they may not be viewable by a text 
+editor, so we need the next program to read them for us.
 </para>
 
 </sect2>
@@ -668,52 +673,7 @@ Here is the code:
 </para>
 
 <programlisting>
-#PURPOSE:  Count the characters until a null byte is reached.
-#
-#INPUT:    The address of the character string
-#
-#OUTPUT:   Returns the count in %eax
-#
-#PROCESS:  
-#  Registers used:
-#    %ecx - character count
-#    %al - current character
-#    %edx - current character address
-
-	.type count_chars, @function
-	.globl count_chars
-
-	.equ DATA_START_ADDRESS, 8
-count_chars:
-	pushl %ebp
-	movl  %esp, %ebp
-	
-	#Counter starts at zero
-	movl  $0, %ecx  
-
-	#Starting address of data
-	movl  DATA_START_ADDRESS(%ebp), %edx
-
-count_loop_begin:
-	#Grab the current character
-	movb  (%edx), %al
-	#Is it null?
-	cmpb  $0, %al
-	#If yes, we're done
-	je    count_loop_end
-	#Otherwise, increment the counter and the pointer
-	incl  %ecx
-	incl  %edx
-	#Go back to the beginning of the loop
-	jmpl  count_loop_begin
-
-count_loop_end:
-	#We're done.  Move the count into %eax
-	#and return.
-	movl  %ecx, %eax
-
-	popl  %ebp
-	ret
+&count-chars;
 </programlisting>
 
 <para>
@@ -727,6 +687,7 @@ will be fairly straightforward, too.  It will do the following:
 <listitem><para>If we are at the end of the file, exit</para></listitem>
 <listitem><para>Otherwise, count the characters of the first name</para></listitem>
 <listitem><para>Write the first name to <literal>STDOUT</literal></para></listitem>
+<listitem><para>Write a newline to <literal>STDOUT</literal></para></listitem>
 <listitem><para>Go back to read another record</para></listitem>
 </itemizedlist>
 
@@ -737,6 +698,16 @@ Here is the code:
 <programlisting>
 &read-records;
 </programlisting>
+
+</sect2>
+
+<sect2>
+<title>Modifying the Records</title>
+
+<para>
+</para>
+
+</sect2>
 
 </sect1>
 
