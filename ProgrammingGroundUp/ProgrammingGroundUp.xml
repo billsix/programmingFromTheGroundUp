@@ -45,6 +45,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY optimization-chapter SYSTEM "OptimizationCh.xml">
 <!ENTITY guidelines-chapter SYSTEM "GuidelinesCh.xml">
 <!ENTITY wherenext-chapter SYSTEM "WhereNextCh.xml">
+<!ENTITY records-chapter SYSTEM "RecordsCh.xml">
 
 <!ENTITY ascii-appendix SYSTEM "ASCIIAp.xml">
 <!ENTITY gui-appendix SYSTEM "GUIAp.xml">
@@ -77,6 +78,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY write-record SYSTEM "write-record.s">
 <!ENTITY write-records SYSTEM "write-records.s">
 <!ENTITY read-records SYSTEM "read-records.s">
+<!ENTITY add-year SYSTEM "add-year.s">
 
 
 <!ENTITY percent "%">
@@ -162,6 +164,7 @@ of the tool you use.
 &firstprogs-chapter;
 &functions-chapter;
 &files-chapter;
+&records-chapter;
 &robust-chapter;
 &linking-chapter;
 &memoryint-chapter;

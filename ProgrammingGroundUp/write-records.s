@@ -62,7 +62,7 @@ record3:
 
 	#This is the name of the file we will write to
 file_name:
-	.ascii "test.txt\0"
+	.ascii "test.dat\0"
 
 	.equ FILE_DESCRIPTOR, -4
 	.globl _start

@@ -4,7 +4,7 @@
 
 	.section .data
 file_name:
-	.ascii "test.txt\0"
+	.ascii "test.dat\0"
 	
 	.section .bss
 	.lcomm record_buffer, RECORD_SIZE

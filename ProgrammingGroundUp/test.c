@@ -1,4 +1,11 @@
+struct person {
+	char firstname[40];
+	char lastname[40];
+	int age;
+};
+
 int main()
-{
-	return 0;
+{	
+	volatile struct person p;
+	p.age = 333;
 }
