@@ -28,8 +28,19 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY ebx "<literal>&percent;ebx</literal>">
 <!ENTITY ecx "<literal>&percent;ecx</literal>">
 <!ENTITY edx "<literal>&percent;edx</literal>">
+<!ENTITY esp "<literal>&percent;esp</literal>">
+<!ENTITY ebp "<literal>&percent;ebp</literal>">
 ]>
 <book>
+<title>Tools of the Trade</title>
+<subtitle>Moving to a  Deeper Understanding of Programming Languages</subtitle>
+
+<bookinfo>
+<author>
+<firstname>Jonathan</firstname>
+<surname>Bartlett</surname>
+</author>
+</bookinfo>
 
 <article>
 <title>Need to put somewhere else</title>
