@@ -251,3 +251,257 @@ loop_end:
 
 <para>
 The x86 assembly language has some direct support for looping as well.
+The &ecx-indexed; register can be used as a counter that 
+<emphasis>ends</emphasis> with zero.  The <literal>loop</literal> instruction
+will decrement &ecx; and jump to a specified address unless &ecx; is zero.
+For example, if you wanted to execute a statement 100 times, you would
+do this in C:
+</para>
+
+<programlisting>
+	for(i=0; i < 100; i++)
+	{
+		/* Do process here */
+	}
+</programlisting>
+
+<para>
+In assembly language it would be written like this:
+</para>
+
+<programlisting>
+loop_initialize:
+	movl $100, %ecx
+loop_begin:
+	;
+	;Do Process Here
+	;
+
+	;Decrement %ecx and loops if not zero
+	loop loop_begin 
+
+rest_of_program:
+	;Continues on to here
+</programlisting>
+
+<para>
+One thing to notice is that the <literal>loop</literal> instruction 
+<emphasis>requires you to be counting backwards to zero</emphasis>.  If
+you need to count forwards or use another ending number, you should use
+the loop form which does not include the <literal>loop</literal> instruction.
+</para>
+
+<para>
+For really tight loops of character string operations, there is also the 
+<literal>rep</literal> instruction, but we will leave learning about
+that as an exercise to the reader.
+</para>
+
+</simplesect>
+
+<simplesect>
+<title>Structs</title>
+
+<para>
+Structs are simply descriptions of memory blocks.  For example,
+in C you can say:
+</para>
+
+<programlisting>
+struct person {
+	char firstname[40];
+	char lastname[40];
+	int age;
+}
+</programlisting>
+
+<para>
+This doesn't do anything by itself, except give you ways of intelligently 
+using 84 bytes of data.  You can do basically the same thing using
+<literal>.equ</literal> directives in assembly language.  Like this:
+</para>
+
+<programlisting>
+	.equ PERSON_SIZE, 84
+	.equ PERSON_FIRSTNAME_OFFSET, 0
+	.equ PERSON_LASTNAME_OFFSET, 40
+	.equ PERSON_AGE_OFFSET, 80
+</programlisting>
+
+<para>
+When you declare a variable of this type, all you are doing is reserving 84
+bytes of space.  So, if you have this in C:
+</para>
+
+<programlisting>
+void foo()
+{
+	struct person p;
+
+	/* Do stuff here */
+}
+</programlisting>
+
+<para>
+In assembly language you would have:
+</para>
+
+<programlisting>
+foo:
+	;Standard header beginning
+	pushl %ebp
+	movl %esp, %ebp
+
+	;Reserve our local variable
+	subl $PERSON_SIZE, %esp 
+	;This is the variable's offset from %ebp
+	.equ P_VAR, 0 - PERSON_SIZE
+
+	;Do Stuff Here
+
+	;Standard function ending
+	movl %ebp, %esp
+	popl %ebp
+	ret
+</programlisting>
+
+<para>
+To access structure members, you just have to use base pointer addressing with 
+the offsets defined above.  For example,
+in C you could set the person's age like this:
+</para>
+
+<programlisting>
+	p.age = 30;
+</programlisting>
+
+<para>
+In assembly language it would look like this:
+</para>
+
+<programlisting>
+	movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
+</programlisting>
+
+</simplesect>
+
+<simplesect>
+<title>Pointers</title>
+
+<para>
+Pointers are very easy.  Remember, pointers are simply the
+address that a value resides at.  Let's start by taking a
+look at global variables.  For example:
+</para>
+
+<programlisting>
+int global_data = 30;
+</programlisting>
+
+<para>
+In assembly language, this would be:
+</para>
+
+<programlisting>
+	.section .data
+global_data:
+	.long 30
+</programlisting>
+
+<para>
+Taking the address of this data in C:
+</para>
+
+<programlisting>
+	a = &amp;global_data;
+</programlisting>
+
+<para>
+Taking the address of this data in assembly language:
+</para>
+
+<programlisting>
+	movl $global_data, %eax
+</programlisting>
+
+<para>
+You see, with assembly language, you are almost always accessing memory 
+through pointers.  That's what direct addressing is.  To get the pointer
+itself, you just have to go with immediate mode addressing.
+</para>
+
+<para>
+Local variables are a little more difficult, but not much.  Here is
+how you take the address of a local variable in C:
+</para>
+
+<programlisting>
+void foo()
+{
+	int a;
+	int *b;
+
+	a = 30;
+
+	b = &amp;a;
+
+	*b = 44;
+}
+</programlisting>
+
+<para>
+The same code in assembly language:
+</para>
+
+<programlisting>
+foo:
+	;Standard opening
+	pushl %ebp
+	movl  %esp, %ebp
+
+	;Reserve two words of memory
+	subl  $8, $esp
+	.equ A_VAR, -4
+	.equ B_VAR, -4
+
+	;a = 30
+	movl $30, A_VAR(%ebp)
+
+	;b = &amp;a
+	movl $A_VAR, B_VAR(%ebp)
+	addl %ebp, B_VAR(%ebp)
+
+	;*b = 30
+	movl B_VAR(%ebp), %eax
+	movl $30, (%eax)
+
+	;Standard closing
+	movl %ebp, %esp
+	popl %ebp
+	ret
+</programlisting>
+
+<para>
+As you can see, to take the address of a local variable, the address has to
+be computed the same way the computer computes the addresses in base 
+pointer addressing.  There is an easier way - the processor provides the
+instruction <literal>lea</literal>, which stands for "load effective address".
+This lets the computer compute the address, and then load it wherever you want.
+So, we could just say:
+</para>
+
+<programlisting>
+	;b = &amp;a
+	leal A_VAR(%ebp), %eax
+	movl %eax, B_VAR(%ebp)
+</programlisting>
+
+<para>
+It's the same number of lines, but a little cleaner.  Then, to use
+this value, you simply have to move it to a general-purpose register
+and use indirect addressing, as shown in the example above.
+</para>
+
+</simplesect>
+
+</appendix>
