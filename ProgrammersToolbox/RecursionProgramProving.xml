@@ -2,7 +2,129 @@
 <title>Recursion and Provably Correct Programs</title>
 
 <sect1>
-<title>Recursion</title>
+<title>Why use Recursion?</title>
+
+<para>
+For new computer science students, recursive programming is often difficult.
+It is difficult to get your mind to think that way.  It almost seems like
+circular reasoning.
+</para>
+
+<para>
+For those of you who really are new to computer programming, here's what
+recursion is -- recursion occurs when a function calls itself directly
+or indirectly.  The classic example of recursive programming is computing
+factorials.  The factorial of a number is that number times all of the
+numbers below it until 1.  For example, <literal>factorial(5)</literal>
+is the same as <literal>5*4*3*2*1</literal>.  <literal>factorial(3)</literal>
+is <literal>3*2*1</literal>.  An interesting property of a factorial is that
+the factorial of a number is equal to the number times the factorial of the
+number immediately below it.  <literal>factorial(5)</literal> is the same
+as <literal>5 * factorial(4)</literal>.  You could almost write the 
+factorial function as simply this:
+</para>
+
+<example>
+<title>First try at factorial function</title>
+<programlisting>
+int factorial(int n)
+{
+	return n * factorial(n - 1);
+}
+</programlisting>
+</example>
+
+<para>
+The problem with this is that it would run forever.  There is no place
+where this function stops.  Therefore, what is needed is a way to know
+when to stop.  In the case of a factorial, factorials of numbers less
+than one don't make any sense.  Therefore, we stop at the number one
+and return the factorial of one (which is one).  Therefore, the real
+factorial function will look like this:
+</para>
+
+<example>
+<title>Actual factorial function</title>
+<programlisting>
+int factorial(int n)
+{
+	if(n == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		return n * factorial(n - 1);
+	}
+}
+</programlisting>
+</example>
+
+<para>
+As you can see, this function will terminate, assuming the initial 
+value was above zero.  This stopping point is called the 
+<emphasis>base case</emphasis>.  A base case is the bottom point of
+a recursive program where the operation is so trivial as to be able
+to return an answer directly.  All recursive programs must have at
+least one base case, and must guarantee that the program will hit
+one eventually.
+</para>
+
+<!--
+NOTE - REMOVING QUICKSORT BECAUSE IT IS TOO COMPLICATED
+<para>
+Let's look at one more recursive example -- the quicksort.  In the 
+quicksort, the program chooses from the data a <emphasis>pivot</emphasis>
+value.  It then compares all of the elements in the list to the pivot, 
+dividing it into two groups: those above and those below.  It then calls
+quicksort on both sublists and attaches the results together.  Let's look
+at pseudo-code for the quicksort:
+</para>
+
+<example>
+<title>Quicksort pseudo-code</title>
+<programlisting>
+Algorithm Quicksort (list L)
+	Is the list zero or one elements long?
+		If yes, then return an empty list
+	Otherwise:
+		Choose element X from L at random
+		Divide L into two lists:
+			A - elements below X
+			B - elements above X
+		Join together the following:
+			Quicksort(A) + X + Quicksort(B)
+		Return the result
+</programlisting>
+</example>
+
+<para>
+This algorithm continually divides the list into pieces and does a partial
+sort.  Note that in the join, if the left list is in order, the right
+list is in order, and there are no overlapping elements, the result must 
+be a sorted list.  Well, we verified that there were no overlapping elements
+by sorting the list members based on their relationship to X.  Then, we
+called Quicksort on the divided elements. Now, the interesting thing
+about Quicksort is that it will continually divide the list until it is
+either zero or one element large.  We know that a list of zero or one elements
+is already sorted.  Therefore, we can guarantee that Quicksort always
+returns a sorted list.
+</para>
+-->
+
+<para>
+Every recursive program follows the same basic pattern:
+</para>
+
+<orderedlist>
+<listitem><para>Initialize the algorithm (often times to set up the recursion)</para></listitem>
+<listitem><para>Check for to see if the current value matches the base case.  If so, process and return the value.</para></listitem>
+<listitem><para>Redefine the answer in terms of a smaller or simpler subproblem or subproblems.</para></listitem>
+<listitem><para>Run this algorithm on the subproblem.</para></listitem>
+<listitem><para>Combine the results in the formulation of the answer.</para></listitem>
+<listitem><para>Return the result.</para></listitem>
+</orderedlist>
+
 
 <!-- NOTE - should I talk about program proving here?  Variety of topics that could be covered:
  * recursion basics
@@ -140,8 +262,11 @@ is an assembly language template for an optimized tail-call:
 my_function:
 	...
 	...
+
 	;push arguments for the_function
+
 	call the_function
+
 	;results are already in %eax so we can just return
 	movl %ebp, %esp
 	popl %ebp
@@ -151,24 +276,83 @@ my_function:
 optimized_function:
 	...
 	...
+
 	;save the old return address
-	movl -4(%ebp), %eax
+	movl 4(%ebp), %eax
+
 	;save old %ebp
 	movl (%ebp), %ebx 
-	;Clear stack activation record (assuming no unknowns like variable-size argument lists)
+
+	;Clear stack activation record (assuming no unknowns like 
+	;variable-size argument lists)
 	addl $(SIZE_OF_PARAMETERS + 8 (old %ebp + return address)), %ebp
+
+	;restore the stack to where it was before the function call
 	movl %ebp, %esp
-	;Push arguments onto the stack
+
+	;Push arguments onto the stack here
+
 	;push return address
 	pushl %ebx 
+
+	;Execute the function
 	jmp the_function
 </programlisting>
 </example>
-	
+
+<para>
+As you can see, tail-calls take a few more instructions,
+but they can save quite a bit of memory.  There are a few restrictions
+when using them, however:
+</para>
+
+<itemizedlist>
+<listitem><para>The calling function must not depend on the parameters list
+still being on the stack when your function returns to it.</para></listitem>
+<listitem><para>The calling function must not care where the stack pointer is currently pointing (of course, it can assume that it is past its local variables).  This means that you cannot compile using <literal>-fomit-frame-pointer</literal></para></listitem>
+</itemizedlist>
+
+<para>
+When a function calls itself in a tail-call, the method is even easier.
+You simply move the new parameters on top of the old ones and do a jump to
+the point right after local variables are saved on the stack.  Since we are
+just jumping into the same function, the return address and return 
+<literal>%ebp</literal> will be the same and the stack size won't change.  
+Therefore, the only thing we need to do before the jump is replace the 
+old parameters with the new ones.
+</para>
+
+<para>
+So, for the price of a few instructions, your program can have the provability
+of a functional program and the speed and memory characteristics of an
+imperative one.  The only problem is that right now very few compilers
+implement tail-call optimizations.  Scheme implementations are required
+to implement them, and many other functional language implementations do so,
+too.  Note, however, that because functional languages sometimes use the stack
+much differently than imperative languages (or not at all) their methods of
+implementing tail-call optimizations are quite different.
+</para>
+
+
+<!--application launch failure - a shared library error - the application "null" could not be launched because of a shared library error "//blue's preschool/\miles carbon library/\/"-->
+
 </sect2>
 
 
 </sect1>
 	
+<sect1>
+<title>Recursive Patterns</title>
+
+<para>
+So far we've seen that programming using purely functional recursion allows
+us to write better, more provable code.  We've also seen how tail-call 
+optimizations usually allow this to occur having the same speed and memory
+characteristics of imperative programming.  Now we are going to examine
+the common patterns and techniques used in functional and recursive
+programming.
+</para>
+
+</sect1>
 	
 </chapter>
