@@ -59,7 +59,7 @@ Zero flag<indexterm><primary>zero flag</primary></indexterm>.  This flag is set 
 <varlistentry>
 <term>A</term>
 <listitem><para>
-Auxillary carry flag<indexterm><primary>auxillary carry flag</primary></indexterm>.  This flag is set for carries and borrows between the third and fourth bit.  It is not often used.
+Auxiliary carry flag<indexterm><primary>auxiliary carry flag</primary></indexterm>.  This flag is set for carries and borrows between the third and fourth bit.  It is not often used.
 </para></listitem>
 </varlistentry>
 
@@ -126,13 +126,13 @@ computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in &eax;
 <row><entry>popl<indexterm zone="dtins"><primary>popl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Pops the top of the stack into the given location.  This is equivalent to performing <literal>movl (%esp), R/M</literal> followed by <literal>addl $4, %esp</literal>.
-<literal>popfl</literal> is a variant which pops the top of the stack into the &eflags-indexed; register.
+<literal>popfl</literal> is a variant which pops the top of the stack into the &eflags;<indexterm zone="dtins"><primary>&percent;eflags</primary></indexterm> register.
 </entry></row>
 <row><entry>pushl<indexterm zone="dtins"><primary>pushl</primary></indexterm></entry><entry>I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Pushes the given value onto the stack.
 This is the equivalent to performing <literal>subl $4, %esp</literal> followed by <literal>movl I/R/M, (%esp)</literal>.
-<literal>pushfl</literal> is a variant which pushes the current contents of the &eflags-indexed; register onto the top of the stack.
+<literal>pushfl</literal> is a variant which pushes the current contents of the &eflags;<indexterm zone="dtins"><primary>&percent;eflags</primary></indexterm> register onto the top of the stack.
 </entry></row>
 <row><entry>xchgl<indexterm zone="dtins"><primary>xchgl</primary></indexterm></entry><entry>R/M, R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -173,7 +173,7 @@ Addition.  Adds the first operand to the second, storing the result in the secon
 </entry></row>
 <row><entry>cdq<indexterm zone="intins"><primary>cdq</primary></indexterm></entry><entry></entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Converts the &eax-indexed; word into the double-word consisting of &edx-indexed;:&eax; with sign extension.  The <literal>q</literal> signifies that it is a <emphasis>quad-word</emphasis>.  It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days.  This is usually used before issuing an <literal>idiv</literal> instruction.
+Converts the <indexterm zone="intins"><primary>&eax;</primary></indexterm><indexterm zone="intins"><primary>&edx;</primary></indexterm>&eax; word into the double-word consisting of &edx;:&eax; with sign extension.  The <literal>q</literal> signifies that it is a <emphasis>quad-word</emphasis>.  It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days.  This is usually used before issuing an <literal>idivl</literal> instruction.
 </entry></row>
 <row><entry>cmpl<indexterm zone="intins"><primary>cmpl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -186,7 +186,7 @@ to decrement a byte instead of a word.
 </entry></row>
 <row><entry>divl<indexterm zone="intins"><primary>divl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Performs unsigned division.  Divides the contents of the double-word contained in the combined &edx-indexed;:&eax-indexed; registers by the value in the register or memory location specified.  The &eax; register contains the resulting 
+Performs unsigned division.  Divides the contents of the double-word contained in the combined &edx;:&eax-indexed; registers by the value in the register or memory location specified.  The &eax; register contains the resulting 
 quotient, and the &edx; register contains the resulting remainder.  If the 
 quotient is too large to fit in &eax;, it triggers a type 0 interrupt.
 </entry></row>
@@ -359,7 +359,7 @@ Conditional branch.  <literal>cc</literal> is the <emphasis>condition code</emph
 <listitem><para><literal>[n]o</literal> - overflow flag set</para></listitem>
 <listitem><para><literal>[p]p</literal> - parity flag set</para></listitem>
 <listitem><para><literal>[n]s</literal> - sign flag set</para></listitem>
-<listitem><para><literal>ecxz</literal> - &ecx-indexed; is zero</para></listitem>
+<listitem><para><literal>ecxz</literal> - &ecx;<indexterm zone="flowins"><primary>&percent;ecx</primary></indexterm> is zero</para></listitem>
 </itemizedlist>
 </entry></row>
 <row><entry>jmp<indexterm zone="flowins"><primary>jmp</primary></indexterm></entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
@@ -424,7 +424,7 @@ properly, and make it easier to use.
 <entry>Directive</entry><entry>Operands</entry><entry></entry></row>
 </thead>
 <tbody>
-<row><entry>.ascii<indexterm><primary>.ascii</primary></indexterm></entry><entry>QUOTED STRING</entry></row>
+<row><entry>.ascii<indexterm zone="dirins"><primary>.ascii</primary></indexterm></entry><entry>QUOTED STRING</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Takes the given quoted string and converts it into byte data.
 </entry></row>
@@ -470,7 +470,7 @@ numbers as 4-byte words right where they are in the program.
 Repeats everything between this directive and the <literal>.endr</literal>
 directives the number of times specified.
 </entry></row>
-<row><entry>.section<indexterm><primary>.section</primary></indexterm></entry><entry>SECTION NAME</entry></row>
+<row><entry>.section<indexterm zone="dirins"><primary>.section</primary></indexterm></entry><entry>SECTION NAME</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Switches the section that is being worked on.  Common sections include
 <literal>.text</literal> (for code), <literal>.data</literal> (for 

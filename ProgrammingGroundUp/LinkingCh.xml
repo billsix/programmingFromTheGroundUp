@@ -443,7 +443,7 @@ So, let's say in memory location <literal>my_location</literal> you have the num
 If the prototype said to pass an <literal>int</literal>, you would 
 use direct addressing mode<indexterm><primary>direct addressing mode</primary></indexterm> and do <literal>pushl my_location</literal>.
 However, if the prototype said to pass an <literal>int *</literal>,
-you would do <literal>pushl $my_location</literal> - an immediate mode<indexterm><primary>immediate mode</primary></indexterm> push of
+you would do <literal>pushl $my_location</literal> - an immediate mode<indexterm><primary>immediate mode addressing</primary></indexterm> push of
 the address that the value resides in.  In addition to indicating the address of 
 a single value, pointers can also be used to
 pass a sequence of consecutive locations, starting with the one pointed to by the 

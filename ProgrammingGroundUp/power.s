@@ -71,7 +71,7 @@ power_loop_start:
 	cmpl  $1, %ecx       #if the power is 1, we are done
 	je    end_power
 	movl  -4(%ebp), %eax #move the current result into %eax
-	imul  %ebx, %eax     #multiply the current result by
+	imull %ebx, %eax     #multiply the current result by
 	                     #the base number
 	movl  %eax, -4(%ebp) #store the current result 
 

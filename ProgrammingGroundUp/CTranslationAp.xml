@@ -137,7 +137,7 @@ function.
 <para>
 Interestingly, global variables are accessed differently than local variables
 in assembly language.  Global variables are accessed using direct addressing<indexterm><primary>direct addressing mode</primary></indexterm>,
-while local variables are accessed using base-pointer addressing<indexterm><primary>base-pointer addressing mode</primary></indexterm>.  For
+while local variables are accessed using base pointer addressing<indexterm><primary>base pointer addressing mode</primary></indexterm>.  For
 example, consider the following C code:
 </para>
 

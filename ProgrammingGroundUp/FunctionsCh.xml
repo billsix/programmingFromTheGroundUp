@@ -308,7 +308,7 @@ parameters, and return address.
 </para>
 
 <para>
-Before executing a function<indexterm><primary>function</primary></indexterm>,
+Before executing a function<indexterm><primary>functions</primary></indexterm>,
 a program pushes all of the parameters<indexterm><primary>parameters</primary></indexterm> for the function onto
 the stack in the reverse order that they are documented.  Then
 the program issues a <literal>call<indexterm><primary>call</primary></indexterm></literal> instruction
@@ -412,9 +412,9 @@ Local Variable 2 &lt;--- -8(%ebp) and (%esp)
 
 <para>
 So we can now access all of the data we need for this function
-by using base pointer addressing<indexterm><primary>base pointer addressing</primary></indexterm> using different offsets from &ebp-indexed;
+by using base pointer addressing<indexterm><primary>base pointer addressing mode</primary></indexterm> using different offsets from &ebp-indexed;
 &ebp-indexed; was made specifically for this purpose, 
-which is why it is called the base pointer<indexterm><primary>base pointer</primary></indexterm>.  You can use other
+which is why it is called the base pointer<indexterm><primary>base pointer register</primary></indexterm>.  You can use other
 registers in base pointer addressing mode, but the x86 architecture
 makes using the &ebp-indexed; register a lot faster.
 </para>
@@ -461,7 +461,7 @@ ret
 disposed of.</emphasis>  The reason is that after you move the stack
 pointer back, future stack pushes will likely overwrite everything
 you put there.  Therefore, you should never save the address
-of a local variable<indexterm><primary>local variable</primary></indexterm> past the life of the function it was 
+of a local variable<indexterm><primary>local variables</primary></indexterm> past the life of the function it was 
 created in, or else it will be overwritten after the life of it's stack 
 frame ends.  Control has now beenhanded back to the 
 calling code,
@@ -476,7 +476,7 @@ you don't need the values of the parameters anymore).<footnote><para>This is not
 <warning>
 <title>Destruction of Registers</title>
 <para>
-When you call a function<indexterm><primary>function</primary></indexterm>, you should assume that everything
+When you call a function<indexterm><primary>functions</primary></indexterm>, you should assume that everything
 currently in your registers<indexterm><primary>registers</primary></indexterm> will be wiped out.  The only
 register that is guaranteed to be left with the value it
 started with is &ebp-indexed;.  &eax-indexed; is guaranteed to be overwritten,
@@ -504,7 +504,7 @@ them.
 <note>
 <title>Extended Specification</title>
 <para>
-Details of the C language calling convention<indexterm><primary>C language calling convention</primary></indexterm> 
+Details of the C language calling convention<indexterm><primary>calling convention</primary></indexterm> 
 (also known as the ABI<indexterm><primary>ABI</primary></indexterm>, or 
 Application Binary Interface<indexterm><primary>Application Binary Interface</primary></indexterm>) is available online.  We have oversimplified and left
 out several important pieces to make this simpler for new programmers.
@@ -580,7 +580,7 @@ We then have the following line:
 
 <para>
 <indexterm><primary>.type</primary></indexterm>
-<indexterm><primary>@function</primary></indexterm>
+<indexterm><primary>@functions</primary></indexterm>
 This tells the linker that the symbol <literal>power</literal>
 should be treated as a function.  This isn't useful now, but
 it will be when you start building larger programs that run
@@ -632,7 +632,7 @@ Current result &lt;--- -4(%ebp) and (%esp)
 <para>
 Although we could use a register for temporary storage, this
 program uses a 
-local variable<indexterm><primary>local variable</primary></indexterm>
+local variable<indexterm><primary>local variables</primary></indexterm>
 in order to show how to set it
 up.  Often times there just aren't enough registers to store
 everything, so you have to offload them into local variables.
@@ -656,8 +656,8 @@ the power, and leaves the loop if the power (in &ecx;) gets down to 1.
 <para>
 By now, you should be able to go through the program without
 help.  The only things you should need to know is that
-<literal>imul</literal> does integer multiplication and stores
-the result in the second operand, and <literal>decl</literal>
+<literal>imull<indexterm><primary>imull</primary></indexterm></literal> does integer multiplication and stores
+the result in the second operand, and <literal>decl<indexterm><primary>decl</primary></indexterm></literal>
 decreases the given register by 1.  For more information on these
 and other instructions, see <xref linkend="instructionsappendix" />
 </para>
@@ -689,7 +689,7 @@ the factorial just below it.  For example, the factorial of 4 is
 4 times the factorial of 3.  The factorial of 3 is 3 times the factorial
 of 2.  2 is 2 times the factorial of 1.  The factorial of 1 is 1.  
 This type of definition is called a recursive<indexterm><primary>recursive</primary></indexterm> definition.  That means,
-the definition of the factorial function<indexterm><primary>function</primary></indexterm> includes the factorial funtion itself. 
+the definition of the factorial function<indexterm><primary>functions</primary></indexterm> includes the factorial funtion itself. 
 However, since all functions need to end, a recursive definition must
 include a <emphasis>base case<indexterm><primary>base case</primary></indexterm></emphasis>.  The base case is the
 point where recursion will stop.  Without a base case, the function would
@@ -873,7 +873,7 @@ The next instruction is this:
 </programlisting>
 
 <para>
-This uses base pointer addressing<indexterm><primary>base pointer addressing</primary></indexterm> to move the first parameter<indexterm><primary>parameter</primary></indexterm>
+This uses base pointer addressing<indexterm><primary>base pointer addressing mode</primary></indexterm> to move the first parameter<indexterm><primary>parameter</primary></indexterm>
 of the function into &eax;.  Remember, <literal>(%ebp)</literal>
 has the old &ebp;, <literal>4(%ebp)</literal> has the return address,
 and <literal>8(%ebp)</literal> is the location of the first parameter 
@@ -946,7 +946,7 @@ This is done with this instruction:
 </para>
 
 <programlisting>
-	imul %ebx, %eax
+	imull %ebx, %eax
 </programlisting>
 
 <para>

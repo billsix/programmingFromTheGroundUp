@@ -101,7 +101,7 @@ directive.
 <listitem><para>
 A pointer is a register or memory word whose value is an 
 address.  In our programs we use <literal>%ebp</literal> as a pointer
-to the current stack frame.  All base-pointer addressing involves pointers.
+to the current stack frame.  All base pointer addressing involves pointers.
 Programming uses a lot of pointers, so
 it's an important concept to grasp.  
 </para></listitem>

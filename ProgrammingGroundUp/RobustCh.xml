@@ -224,7 +224,7 @@ fully implemented.
 
 </sect1>
 
-<sect1>
+<sect1 id="handlingerrors">
 <title>Handling Errors Effectively</title>
 
 <para>
@@ -247,7 +247,8 @@ on when reporting errors.  Therefore, it needs to be as useful as possible.
 </para>
 
 <para>
-Error codes should also be accompanied by descriptive error messages<indexterm><primary>error messages</primary></indexterm>.  
+Error codes should also be accompanied by descriptive error messages.
+<indexterm zone="handlingerrors"><primary>error messages</primary></indexterm>
 However, only in rare circumstances should the error message try to 
 predict <emphasis>why</emphasis> the error occurred.  It should simply
 relate what happened.  Back in 1995 I worked for an Internet Service Provider.
@@ -279,13 +280,13 @@ up so that reading the configuration file was a unit.  If reading the
 configuration file failed at any point (opening the file, reading the
 file, trying to decode the file, etc.) then the program would simply
 treat it as a configuration file problem and skip to the 
-<emphasis>recovery point<indexterm><primary>recovery point</primary></indexterm></emphasis> for that problem.  This way you greatly reduce the number
+<emphasis>recovery point<indexterm><primary>recovery points</primary></indexterm></emphasis> for that problem.  This way you greatly reduce the number
 of error-handling mechanism you need for your program, because error
 recovery is done on a much more general level.
 </para>
 
 <para>
-Note that even with recovery points, your error messages need to be
+Note that even with recovery points, your error messages<indexterm><primary>error messages</primary></indexterm> need to be
 specific as to what the problem was.  Recovery points are basic
 units for error recovery, not for error detection.
 Error detection still needs to be extremely exact, and the error

@@ -50,7 +50,7 @@ factorial:
 	call  factorial     #call factorial
 	movl  8(%ebp), %ebx #%eax has the return value, so we 
 	                    #reload our parameter into %ebx
-	imul  %ebx, %eax    #multiply that by the result of the
+	imull %ebx, %eax    #multiply that by the result of the
 	                    #last call to factorial (in %eax)
 	                    #the answer is stored in %eax, which 
 	                    #is good since that's where return 

@@ -31,7 +31,7 @@ ProgrammingGroundUp.tex: $(FULLBOOK)
 
 index.xml: HTML.index 
 	collateindex.pl -o index.xml HTML.index
-	./fixindex.pl
+	#./fixindex.pl
 
 HTML.index: $(BOOKNOINDEX)
 	collateindex.pl -N >index.xml
@@ -46,6 +46,7 @@ semiclean:
 	rm -f ProgrammingGroundUp.tex
 	rm -f ProgrammingGroundUp.dvi
 	rm -f ProgrammingGroundUp.ps
+	rm -f ProgrammingGroundUp.pdf
 
 clean: semiclean
 	rm -f HTML.index

@@ -29,7 +29,7 @@ UNIX method, which is used on Linux, is the simplest and most universal.
 UNIX files, no matter what program created them, can all be accessed as a 
 sequential stream of bytes.  When you access a file, you start by opening it by name.
 The operating system then gives you a number, called a 
-<emphasis>file descriptor<indexterm><primary>file descriptor</primary></indexterm></emphasis>, 
+<emphasis>file descriptor<indexterm><primary>file descriptors</primary></indexterm></emphasis>, 
 which you use to refer to the file until you are
 through with it.  You can then read and write to the file using its
 file descriptor.  When you are done reading and writing, you then close 
@@ -61,7 +61,7 @@ permissions (again, you must include the leading zero).
 </para></listitem>
 
 <listitem><para>
-Linux will then return to you a file descriptor<indexterm><primary>file descriptor</primary></indexterm> in 
+Linux will then return to you a file descriptor<indexterm><primary>file descriptors</primary></indexterm> in 
 &eax-indexed;.  Remember, this is a number that you use to refer to this file 
 throughout your program.
 </para></listitem>
@@ -87,7 +87,7 @@ of bytes written in &eax; or an error code.
 
 <listitem><para>
 When you are through with your files, you can then tell Linux to close them.  
-Afterwards, your file descriptor is no longer valid.
+Afterwards, your file descriptor<indexterm><primary>file descriptors</primary></indexterm> is no longer valid.
 This is done using <literal>close<indexterm><primary>close</primary></indexterm></literal>, system call 6.  The only
 parameter to <literal>close</literal> is the file descriptor, which is
 placed in &ebx;
@@ -363,7 +363,7 @@ Let's examine how the program works.
 
 <para>
 The first section of the program is marked <literal>CONSTANTS</literal>.  In
-programming, a constant<indexterm><primary>constant</primary></indexterm> is a value that is assigned when a program assembles or
+programming, a constant<indexterm><primary>constants</primary></indexterm> is a value that is assigned when a program assembles or
 compiles, and is never changed.  I make a habit of placing all of my constants
 together at the beginning of the program.  It's only necessary to declare them
 before you use them, but putting them all at the beginning makes them easy to 

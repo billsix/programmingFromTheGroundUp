@@ -25,6 +25,10 @@ at http://www.gnu.org/software/libc/manual/
 <para>
 Remember that &eax-indexed; holds the system call numbers, and that the
 return values and error codes are also stored in &eax;.
+<indexterm><primary>&percent;eax</primary></indexterm>
+<indexterm><primary>&percent;ebx</primary></indexterm>
+<indexterm><primary>&percent;ecx</primary></indexterm>
+<indexterm><primary>&percent;edx</primary></indexterm>
 </para>
 
 <table>
@@ -33,13 +37,13 @@ return values and error codes are also stored in &eax;.
 <colspec colnum="6" colwidth="3*" />
 <thead>
 <row>
-<entry>&eax-indexed;</entry><entry>Name</entry><entry>&ebx-indexed;</entry><entry>&ecx-indexed;</entry><entry>&edx-indexed;</entry><entry>Notes</entry>
+<entry>&eax;</entry><entry>Name</entry><entry>&ebx;</entry><entry>&ecx;</entry><entry>&edx;</entry><entry>Notes</entry>
 </row>
 </thead>
 <tbody>
 <row>
 	<entry>1</entry>
-	<entry>exit<indexterm><primary>exit</primary></indexterm></entry>
+	<entry>exit<indexterm zone="syscallap"><primary>exit</primary></indexterm></entry>
 	<entry>return value (int)</entry>
 	<entry></entry>
 	<entry></entry>
@@ -47,7 +51,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>3</entry>
-	<entry>read<indexterm><primary>read</primary></indexterm></entry>
+	<entry>read<indexterm zone="syscallap"><primary>read</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry>buffer start</entry>
 	<entry>buffer size (int)</entry>
@@ -55,7 +59,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>4</entry>
-	<entry>write<indexterm><primary>write</primary></indexterm></entry>
+	<entry>write<indexterm zone="syscallap"><primary>write</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry>buffer start</entry>
 	<entry>buffer size (int)</entry>
@@ -63,7 +67,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>5</entry>
-	<entry>open<indexterm><primary>open</primary></indexterm></entry>
+	<entry>open<indexterm zone="syscallap"><primary>open</primary></indexterm></entry>
 	<entry>null-terminated file name</entry>
 	<entry>option list</entry>
 	<entry>permission mode</entry>
@@ -71,7 +75,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>6</entry>
-	<entry>close<indexterm><primary>close</primary></indexterm></entry>
+	<entry>close<indexterm zone="syscallap"><primary>close</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry></entry>
 	<entry></entry>
@@ -79,7 +83,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>12</entry>
-	<entry>chdir<indexterm><primary>chdir</primary></indexterm></entry>
+	<entry>chdir<indexterm zone="syscallap"><primary>chdir</primary></indexterm></entry>
 	<entry>null-terminated directory name</entry>
 	<entry></entry>
 	<entry></entry>
@@ -87,7 +91,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>19</entry>
-	<entry>lseek<indexterm><primary>lseek</primary></indexterm></entry>
+	<entry>lseek<indexterm zone="syscallap"><primary>lseek</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry>offset</entry>
 	<entry>mode</entry>
@@ -95,7 +99,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>20</entry>
-	<entry>getpid<indexterm><primary>getpid</primary></indexterm></entry>
+	<entry>getpid<indexterm zone="syscallap"><primary>getpid</primary></indexterm></entry>
 	<entry></entry>
 	<entry></entry>
 	<entry></entry>
@@ -103,7 +107,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>39</entry>
-	<entry>mkdir<indexterm><primary>mkdir</primary></indexterm></entry>
+	<entry>mkdir<indexterm zone="syscallap"><primary>mkdir</primary></indexterm></entry>
 	<entry>null-terminated directory name</entry>
 	<entry>permission mode</entry>
 	<entry></entry>
@@ -111,7 +115,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>40</entry>
-	<entry>rmdir<indexterm><primary>rmdir</primary></indexterm></entry>
+	<entry>rmdir<indexterm zone="syscallap"><primary>rmdir</primary></indexterm></entry>
 	<entry>null-terminated directory name</entry>
 	<entry></entry>
 	<entry></entry>
@@ -119,7 +123,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>41</entry>
-	<entry>dup<indexterm><primary>dup</primary></indexterm></entry>
+	<entry>dup<indexterm zone="syscallap"><primary>dup</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry></entry>
 	<entry></entry>
@@ -127,7 +131,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>42</entry>
-	<entry>pipe<indexterm><primary>pipe</primary></indexterm></entry>
+	<entry>pipe<indexterm zone="syscallap"><primary>pipe</primary></indexterm></entry>
 	<entry>pipe array</entry>
 	<entry></entry>
 	<entry></entry>
@@ -135,7 +139,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>45</entry>
-	<entry>brk<indexterm><primary>brk</primary></indexterm></entry>
+	<entry>brk<indexterm zone="syscallap"><primary>brk</primary></indexterm></entry>
 	<entry>new system break</entry>
 	<entry></entry>
 	<entry></entry>
@@ -143,7 +147,7 @@ return values and error codes are also stored in &eax;.
 </row>
 <row>
 	<entry>54</entry>
-	<entry>ioctl<indexterm><primary>ioctl</primary></indexterm></entry>
+	<entry>ioctl<indexterm zone="syscallap"><primary>ioctl</primary></indexterm></entry>
 	<entry>file descriptor</entry>
 	<entry>request</entry>
 	<entry>arguments</entry>

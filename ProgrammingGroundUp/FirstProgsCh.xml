@@ -115,8 +115,11 @@ when you type this command, the only thing that happens is that you'll go
 to the next line.  That's because this program does nothing but exit.
 However, immediately after you run the program, if you type in
 
+<indexterm><primary>echo</primary></indexterm>
+<indexterm><primary>$?</primary></indexterm>
+
 <programlisting>
-echo<indexterm><primary>echo</primary></indexterm> $?<indexterm><primary>$?</primary></indexterm>
+echo $?
 </programlisting>
 
 It will say <literal>0</literal>.  What is happening is that every program
@@ -231,7 +234,7 @@ The next line
 _start:
 </programlisting>
 
-<emphasis>defines</emphasis> the value of the <literal>_start</literal><indexterm><primary>_start</primary></indexterm> label. A <emphasis>label</emphasis> 
+<emphasis>defines</emphasis> the value of the <literal>_start</literal><indexterm><primary>_start</primary></indexterm> label. A <emphasis>label<indexterm><primary>labels</primary></indexterm></emphasis> 
 is a symbol<indexterm><primary>symbol</primary></indexterm> followed by
 a colon.  Labels define a symbol's value.  When the 
 assembler<indexterm><primary>assembler</primary></indexterm> is assembling
@@ -269,11 +272,11 @@ is the destination.  Note that in these cases, the source operand is not
 modified at all.  Other instructions of this type are, for example,
 <literal>addl</literal><indexterm><primary>addl</primary></indexterm>, 
 <literal>subl</literal><indexterm><primary>subl</primary></indexterm>, and  
-<literal>imul</literal><indexterm><primary>imul</primary></indexterm>.
+<literal>imull</literal><indexterm><primary>imull</primary></indexterm>.
 These add/subtract/multiply
 the source operand from/to/by the destination operand and and save the result
 in the destination operand.  Other instructions may have an operand hardcoded
-in.  <literal>idiv</literal><indexterm><primary>idiv</primary></indexterm>, 
+in.  <literal>idivl</literal><indexterm><primary>idivl</primary></indexterm>, 
 for example, requires that the dividend be
 in &eax;, and &edx; be zero, and the quotient is then transferred to &eax;
 and the remainder to &edx;.  However, the divisor can be any register or 
@@ -333,7 +336,7 @@ way.
 So, the <literal>movl</literal><indexterm><primary><literal>movl</literal></primary></indexterm> instruction moves the number 
 <literal>1</literal> into <literal>%eax</literal>.  The 
 dollar-sign in front of the one indicates that we want to use 
-immediate mode addressing<indexterm><primary>immediate mode addressing</primary></indexterm> (refer back to <xref linkend="dataaccessingmethods" />).  Without the dollar-sign it would do direct addressing<indexterm><primary>direct addressing</primary></indexterm>,
+immediate mode addressing<indexterm><primary>immediate mode addressing</primary></indexterm> (refer back to <xref linkend="dataaccessingmethods" />).  Without the dollar-sign it would do direct addressing<indexterm><primary>direct addressing mode</primary></indexterm>,
 loading whatever number is at address <literal>1</literal>.  We want the
 actual number <literal>1</literal> loaded in, so we have to use immediate
 mode.  
@@ -389,7 +392,7 @@ certain parameter values before making a system call.  &eax-indexed; is
 always required to be loaded with the system call number.  
 For the other registers, however, each system call has different requirements.
 In the <literal>exit<indexterm><primary>exit</primary></indexterm></literal>
-system call, &ebx-indexed; is required to be loaded with the exit status<indexterm><primary>exit status</primary></indexterm>.
+system call, &ebx-indexed; is required to be loaded with the exit status<indexterm><primary>exit status code</primary></indexterm>.
 We will discuss different system calls as they are needed.  For a list of
 common system calls and what is required to be in each register, see <xref linkend="syscallap" />
 </para>
@@ -404,7 +407,7 @@ The next instruction is the "magic" one.  It looks like this:
 
 <para>
 The <literal>int<indexterm><primary>int</primary></indexterm></literal> stands for 
-<emphasis>interrupt<indexterm><primary>interrupt</primary></indexterm></emphasis>.  The
+<emphasis>interrupt<indexterm><primary>interrupts</primary></indexterm></emphasis>.  The
 <literal>0x80<indexterm><primary>0x80</primary></indexterm></literal> is the interrupt 
 number to use.<footnote>
 <para>You
@@ -421,7 +424,7 @@ Tacking on an <literal>H</literal> at the end is also sometimes used instead, bu
 we won't do that in this book.  For more information about this, see <xref linkend="countingchapter" />
 </para></footnote>
 
-An <emphasis>interrupt<indexterm><primary>interrupt</primary></indexterm></emphasis> interrupts the normal program flow, and
+An <emphasis>interrupt<indexterm><primary>interrupts</primary></indexterm></emphasis> interrupts the normal program flow, and
 transfers control from our program to Linux<indexterm><primary>Linux</primary></indexterm> so that it will do a system
 call.<footnote><para>Actually, the
 interrupt transfers control to whoever set up an <emphasis>interrupt
@@ -457,7 +460,7 @@ to be placed in &ebx-indexed;.
 Now that you've assembled, linked, run, and examined the program, you
 should make some basic edits.  Do things like change the number 
 that is loaded into <literal>%ebx</literal>, and watch it come out
-at the end with <literal>echo $?<indexterm><primary>echo $?</primary></indexterm></literal>.  Don't forget
+at the end with <literal>echo $?<indexterm><primary>echo</primary></indexterm><indexterm><primary>$?</primary></indexterm></literal>.  Don't forget
 to assemble and link it again before running it.
 Add some comments.  Don't worry, the worse thing that would happen is that the 
 program won't assemble or link, or will freeze your screen.  That's just
@@ -642,7 +645,7 @@ data_items:                       #These are the data items
 
 <para>
 Lets look at this.  <literal>data_items</literal> is a 
-label<indexterm><primary>label</primary></indexterm> that
+label<indexterm><primary>labels</primary></indexterm> that
 refers to the location that follows it.  Then, there is a directive
 that starts with <literal>.long<indexterm><primary>.long</primary></indexterm></literal>.  That causes the assembler
 to reserve memory for the list of numbers that follow it.  
@@ -747,7 +750,7 @@ Anyway, play around with this line and add your own numbers.  Even
 though they are <literal>.long</literal>, the program will produce
 strange results if any number is greater than 255, because that's the
 largest allowed 
-exit status<indexterm><primary>exit status</primary></indexterm>.  
+exit status<indexterm><primary>exit status code</primary></indexterm>.  
 Also notice that if you move the 0 to
 earlier in the list, the rest get ignored.  
 <emphasis>Remember that any time
@@ -1049,7 +1052,7 @@ system call<indexterm><primary>system call</primary></indexterm>
 number in &eax-indexed; 
 (1 for the <literal>exit</literal> call),
 and store the other values in the other registers.  The exit call
-requires that we put our exit status in &ebx-indexed;
+requires that we put our exit status<indexterm><primary>exit status code</primary></indexterm> in &ebx-indexed;
 We already have the exit status there since we are using &ebx;
 as our largest number, so all we have to do is load &eax; with the number one
 and call the kernel to exit. Like this:
@@ -1162,7 +1165,7 @@ movl (%eax), %ebx
 </varlistentry>
 
 <varlistentry>
-<term>base-pointer addressing mode<indexterm><primary>base-pointer addressing mode</primary></indexterm></term>
+<term>base pointer addressing mode<indexterm><primary>base pointer addressing mode</primary></indexterm></term>
 <listitem><para>
 Base-pointer addressing is similar to indirect addressing, except that it
 adds a constant value to the address in the register.  For example, if you
@@ -1176,7 +1179,7 @@ movl  4(%eax), %ebx
 </varlistentry>
 
 <varlistentry>
-<term>immediate mode<indexterm><primary>immediate mode</primary></indexterm></term>
+<term>immediate mode<indexterm><primary>immediate mode addressing</primary></indexterm></term>
 <listitem><para>
 Immediate mode is very simple.  It does not follow the general form we have
 been using.  Immediate mode is used to load direct values into registers
@@ -1212,7 +1215,7 @@ source or destination operand<indexterm><primary>destination operand</primary></
 In addition to these modes, there are also different instructions for different
 sizes of values to move.  For example, we have been using 
 <literal>movl</literal> to move data a word<indexterm><primary>word</primary></indexterm> at a time.  in many cases, you
-will only want to move data a byte<indexterm><primary>byte</primary></indexterm> at a time.  This is accomplished by the
+will only want to move data a byte<indexterm><primary>bytes</primary></indexterm> at a time.  This is accomplished by the
 instruction <literal>movb<indexterm><primary>movb</primary></indexterm></literal>.  However, since the registers we have
 discussed are word-sized and not byte-sized, you cannot use the full register.
 Instead, you have to use a portion of the register.

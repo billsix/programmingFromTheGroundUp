@@ -284,7 +284,7 @@ it.  This should not be a problem - just be aware that it may happen.
 
 </simplesect>
 
-<simplesect>
+<simplesect id="gdbquickref">
 <title>GDB Quick-Reference</title>
 
 <para>
@@ -302,9 +302,9 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Miscellaneous</entry></row>
 </thead>
 <tbody>
-<row><entry>quit<indexterm><primary>quit</primary></indexterm></entry><entry>Exit GDB</entry></row>
-<row><entry>help<indexterm><primary>help</primary></indexterm> [cmd]</entry><entry>Print description of debugger command <literal>cmd</literal>.  Without <literal>cmd</literal>, prints a list of topics.</entry></row>
-<row><entry>directory<indexterm><primary>directory</primary></indexterm> [dir1] [dir2] ...</entry><entry>Add directories <literal>dir1</literal>, <literal>dir2</literal>, etc. to the list of directories searched for source files.</entry></row>
+<row><entry>quit<indexterm zone="gdbquickref"><primary>quit</primary></indexterm></entry><entry>Exit GDB</entry></row>
+<row><entry>help<indexterm zone="gdbquickref"><primary>help</primary></indexterm> [cmd]</entry><entry>Print description of debugger command <literal>cmd</literal>.  Without <literal>cmd</literal>, prints a list of topics.</entry></row>
+<row><entry>directory<indexterm zone="gdbquickref"><primary>directory</primary></indexterm> [dir1] [dir2] ...</entry><entry>Add directories <literal>dir1</literal>, <literal>dir2</literal>, etc. to the list of directories searched for source files.</entry></row>
 </tbody>
 </tgroup>
 <tgroup cols="2" colsep="1" rowsep="1">
@@ -314,9 +314,9 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Running the Program</entry></row>
 </thead>
 <tbody>
-<row><entry>run<indexterm><primary>run</primary></indexterm> [arg1] [arg2] ...</entry><entry>Run the program with command line arguments <literal>arg1</literal>, <literal>arg2</literal>, etc.</entry></row>
-<row><entry>set<indexterm><primary>set</primary></indexterm> args arg1 [arg2] ...</entry><entry>Set the program's command-line arguments to <literal>arg1</literal>, <literal>arg2</literal>, etc.</entry></row>
-<row><entry>show<indexterm><primary>show</primary></indexterm> args</entry><entry>Print the program's command-line arguments.</entry></row>
+<row><entry>run<indexterm zone="gdbquickref"><primary>run</primary></indexterm> [arg1] [arg2] ...</entry><entry>Run the program with command line arguments <literal>arg1</literal>, <literal>arg2</literal>, etc.</entry></row>
+<row><entry>set<indexterm zone="gdbquickref"><primary>set</primary></indexterm> args arg1 [arg2] ...</entry><entry>Set the program's command-line arguments to <literal>arg1</literal>, <literal>arg2</literal>, etc.</entry></row>
+<row><entry>show<indexterm zone="gdbquickref"><primary>show</primary></indexterm> args</entry><entry>Print the program's command-line arguments.</entry></row>
 </tbody>
 </tgroup>
 <tgroup cols="2" colsep="1" rowsep="1">
@@ -326,20 +326,20 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Using Breakpoints</entry></row>
 </thead>
 <tbody>
-<row><entry>info<indexterm><primary>info</primary></indexterm> breakpoints</entry><entry>Print a list of all breakpoints and their numbers (breakpoint numbers are used for other breakpoint commands).</entry></row>
-<row><entry>break<indexterm><primary>break</primary></indexterm> <emphasis>linenum</emphasis></entry><entry>Set a breakpoint at line number <emphasis>linenum</emphasis>.</entry></row>
+<row><entry>info<indexterm zone="gdbquickref"><primary>info</primary></indexterm> breakpoints</entry><entry>Print a list of all breakpoints and their numbers (breakpoint numbers are used for other breakpoint commands).</entry></row>
+<row><entry>break<indexterm zone="gdbquickref"><primary>break</primary></indexterm> <emphasis>linenum</emphasis></entry><entry>Set a breakpoint at line number <emphasis>linenum</emphasis>.</entry></row>
 <row><entry>break *<emphasis>addr</emphasis></entry><entry>Set a breakpoint at memory address <emphasis>addr</emphasis>.</entry></row>
 <row><entry>break <emphasis>fn</emphasis></entry><entry>Set a breakpoint at the beginning of function <emphasis>fn</emphasis>.</entry></row>
-<row><entry>condition<indexterm><primary>condition</primary></indexterm> <emphasis>bpnum</emphasis> <emphasis>expr</emphasis></entry><entry>Break at breakpoint <emphasis>bpnum</emphasis> only if expression <emphasis>expr</emphasis> is non-zero.</entry></row>
-<row><entry>command<indexterm><primary>command</primary></indexterm> [<emphasis>bpnum</emphasis>] <emphasis>cmd1</emphasis> [<emphasis>cmd2</emphasis>] ...</entry><entry>Execute commands <emphasis>cmd1</emphasis>, <emphasis>cmd2</emphasis>, etc. whenever breakpoint <emphasis>bpnum</emphasis> (or the current breakpoint) is hit.</entry></row>
-<row><entry>continue<indexterm><primary>continue</primary></indexterm></entry><entry>Continue executing the program.</entry></row>
-<row><entry>kill<indexterm><primary>kill</primary></indexterm></entry><entry>Stop executing the program.</entry></row>
-<row><entry>delete<indexterm><primary>delete</primary></indexterm> [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Delete breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
-<row><entry>clear<indexterm><primary>clear</primary></indexterm> *<emphasis>addr</emphasis></entry><entry>Clear the breakpoint at memory address <emphasis>addr</emphasis>.</entry></row>
+<row><entry>condition<indexterm zone="gdbquickref"><primary>condition</primary></indexterm> <emphasis>bpnum</emphasis> <emphasis>expr</emphasis></entry><entry>Break at breakpoint <emphasis>bpnum</emphasis> only if expression <emphasis>expr</emphasis> is non-zero.</entry></row>
+<row><entry>command<indexterm zone="gdbquickref"><primary>command</primary></indexterm> [<emphasis>bpnum</emphasis>] <emphasis>cmd1</emphasis> [<emphasis>cmd2</emphasis>] ...</entry><entry>Execute commands <emphasis>cmd1</emphasis>, <emphasis>cmd2</emphasis>, etc. whenever breakpoint <emphasis>bpnum</emphasis> (or the current breakpoint) is hit.</entry></row>
+<row><entry>continue<indexterm zone="gdbquickref"><primary>continue</primary></indexterm></entry><entry>Continue executing the program.</entry></row>
+<row><entry>kill<indexterm zone="gdbquickref"><primary>kill</primary></indexterm></entry><entry>Stop executing the program.</entry></row>
+<row><entry>delete<indexterm zone="gdbquickref"><primary>delete</primary></indexterm> [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Delete breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
+<row><entry>clear<indexterm zone="gdbquickref"><primary>clear</primary></indexterm> *<emphasis>addr</emphasis></entry><entry>Clear the breakpoint at memory address <emphasis>addr</emphasis>.</entry></row>
 <row><entry>clear [<emphasis>fn</emphasis>]</entry><entry>Clear the breakpoint at function <emphasis>fn</emphasis>, or the current breakpoint.</entry></row>
 <row><entry>clear <emphasis>linenum</emphasis></entry><entry>Clear the breakpoint at line number <emphasis>linenum</emphasis>.</entry></row>
-<row><entry>disable<indexterm><primary>disable</primary></indexterm> [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Disable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
-<row><entry>enable<indexterm><primary>enable</primary></indexterm> [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Enable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
+<row><entry>disable<indexterm zone="gdbquickref"><primary>disable</primary></indexterm> [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Disable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
+<row><entry>enable<indexterm zone="gdbquickref"><primary>enable</primary></indexterm> [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Enable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
 </tbody>
 </tgroup>
 <tgroup cols="2" colsep="1" rowsep="1">
@@ -349,9 +349,9 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Stepping through the Program</entry></row>
 </thead>
 <tbody>
-<row><entry>nexti<indexterm><primary>nexti</primary></indexterm></entry><entry>"Step over" the next instruction (doesn't follow function calls).</entry></row>
-<row><entry>stepi<indexterm><primary>stepi</primary></indexterm></entry><entry>"Step into" the next instruction (follows function calls).</entry></row>
-<row><entry>finish<indexterm><primary>finish</primary></indexterm></entry><entry>"Step out" of the current function.</entry></row>
+<row><entry>nexti<indexterm zone="gdbquickref"><primary>nexti</primary></indexterm></entry><entry>"Step over" the next instruction (doesn't follow function calls).</entry></row>
+<row><entry>stepi<indexterm zone="gdbquickref"><primary>stepi</primary></indexterm></entry><entry>"Step into" the next instruction (follows function calls).</entry></row>
+<row><entry>finish<indexterm zone="gdbquickref"><primary>finish</primary></indexterm></entry><entry>"Step out" of the current function.</entry></row>
 </tbody>
 </tgroup>
 <tgroup cols="2" colsep="1" rowsep="1">
@@ -361,14 +361,14 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Examining Registers and Memory</entry></row>
 </thead>
 <tbody>
-<row><entry>info registers<indexterm><primary>info registers</primary></indexterm></entry><entry>Print the contents of all registers.</entry></row>
-<row><entry>print<indexterm><primary>print</primary></indexterm>/<emphasis>f</emphasis> $<emphasis>reg</emphasis></entry><entry>Print the contents of register <emphasis>reg</emphasis> using format <emphasis>f</emphasis>.  The format can be x (hexadecimal), u (unsigned decimal), o (octal), a(address), c (character), or f (floating point).</entry></row>
-<row><entry>x/<emphasis>rsf</emphasis> <emphasis>addr</emphasis></entry><entry>Print the contents of memory address <emphasis>addr</emphasis> using repeat count <emphasis>r</emphasis>, size <emphasis>s</emphasis>, and format <emphasis>f</emphasis>.  Repeat count defaults to 1 if not specified.  Size can be b (byte), h (halfword), w (word), or g (double word).  Size defaults to word if not specified.  Format is the same as for print, with the additions of s (string) and i (instruction).</entry></row>
-<row><entry>info display<indexterm><primary>info display</primary></indexterm></entry><entry>Shows a numbered list of expressions set up to display automatically at each break.</entry></row>
-<row><entry>display<indexterm><primary>display</primary></indexterm>/<emphasis>f</emphasis> $<emphasis>reg</emphasis></entry><entry>At each break, print the contents of register <emphasis>reg</emphasis> using format <emphasis>f</emphasis>.</entry></row>
+<row><entry>info registers<indexterm zone="gdbquickref"><primary>info registers</primary></indexterm></entry><entry>Print the contents of all registers.</entry></row>
+<row><entry>print<indexterm zone="gdbquickref"><primary>print</primary></indexterm>/<emphasis>f</emphasis> $<emphasis>reg</emphasis></entry><entry>Print the contents of register <emphasis>reg</emphasis> using format <emphasis>f</emphasis>.  The format can be x (hexadecimal), u (unsigned decimal), o (octal), a(address), c (character), or f (floating point).</entry></row>
+<row><entry>x<indexterm zone="gdbquickref"><primary>x</primary></indexterm>/<emphasis>rsf</emphasis> <emphasis>addr</emphasis></entry><entry>Print the contents of memory address <emphasis>addr</emphasis> using repeat count <emphasis>r</emphasis>, size <emphasis>s</emphasis>, and format <emphasis>f</emphasis>.  Repeat count defaults to 1 if not specified.  Size can be b (byte), h (halfword), w (word), or g (double word).  Size defaults to word if not specified.  Format is the same as for print, with the additions of s (string) and i (instruction).</entry></row>
+<row><entry>info display<indexterm zone="gdbquickref"><primary>info display</primary></indexterm></entry><entry>Shows a numbered list of expressions set up to display automatically at each break.</entry></row>
+<row><entry>display<indexterm zone="gdbquickref"><primary>display</primary></indexterm>/<emphasis>f</emphasis> $<emphasis>reg</emphasis></entry><entry>At each break, print the contents of register <emphasis>reg</emphasis> using format <emphasis>f</emphasis>.</entry></row>
 <row><entry>display/<emphasis>s</emphasis>i addr</entry><entry>At each break, print the contents of memory address <emphasis>addr</emphasis> using size <emphasis>s</emphasis> (same options as for the x command).</entry></row>
 <row><entry>display/<emphasis>s</emphasis>s addr</entry><entry> At each break, print the string of size <emphasis>s</emphasis> that begins in memory address <emphasis>addr</emphasis>.</entry></row>
-<row><entry>undisplay<indexterm><primary>undisplay</primary></indexterm> <emphasis>displaynum</emphasis></entry><entry>Remove <emphasis>displaynum</emphasis> from the display list.</entry></row>
+<row><entry>undisplay<indexterm zone="gdbquickref"><primary>undisplay</primary></indexterm> <emphasis>displaynum</emphasis></entry><entry>Remove <emphasis>displaynum</emphasis> from the display list.</entry></row>
 </tbody>
 </tgroup>
 <tgroup cols="2" colsep="1" rowsep="1">
@@ -378,11 +378,11 @@ permission in this book.  Parameters listed in brackets are optional.
 <row><entry namest="command" nameend="meaning">Examining the Call Stack</entry></row>
 </thead>
 <tbody>
-<row><entry>where<indexterm><primary>where</primary></indexterm></entry><entry>Print the call stack.</entry></row>
-<row><entry>backtrace<indexterm><primary>backtrace</primary></indexterm></entry><entry>Print the call stack.</entry></row>
-<row><entry>frame<indexterm><primary>frame</primary></indexterm></entry><entry>Print the top of the call stack.</entry></row>
-<row><entry>up<indexterm><primary>up</primary></indexterm></entry><entry>Move the context toward the bottom of the call stack.</entry></row>
-<row><entry>down<indexterm><primary>down</primary></indexterm></entry><entry>Move the context toward the top of the call stack.</entry></row>
+<row><entry>where<indexterm zone="gdbquickref"><primary>where</primary></indexterm></entry><entry>Print the call stack.</entry></row>
+<row><entry>backtrace<indexterm zone="gdbquickref"><primary>backtrace</primary></indexterm></entry><entry>Print the call stack.</entry></row>
+<row><entry>frame<indexterm zone="gdbquickref"><primary>frame</primary></indexterm></entry><entry>Print the top of the call stack.</entry></row>
+<row><entry>up<indexterm zone="gdbquickref"><primary>up</primary></indexterm></entry><entry>Move the context toward the bottom of the call stack.</entry></row>
+<row><entry>down<indexterm zone="gdbquickref"><primary>down</primary></indexterm></entry><entry>Move the context toward the top of the call stack.</entry></row>
 </tbody>
 </tgroup>
 </table>

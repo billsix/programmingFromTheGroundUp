@@ -260,12 +260,12 @@ need to know your processor well.
 <listitem><para>
 Different addressing modes<indexterm><primary>addressing modes</primary></indexterm> work at different speeds.  The fastest are 
 the immediate<indexterm><primary>immediate mode addressing</primary></indexterm> and register addressing modes.  Direct<indexterm><primary>direct addressing mode</primary></indexterm> is the next fastest, 
-indirect is next, and base-pointer<indexterm><primary>base-pointer addressing mode</primary></indexterm> and indexed indirect<indexterm><primary>indexed indirect addressing mode</primary></indexterm> are the slowest.  
+indirect is next, and base pointer<indexterm><primary>base pointer addressing mode</primary></indexterm> and indexed indirect<indexterm><primary>indexed indirect addressing mode</primary></indexterm> are the slowest.  
 Try to use the faster addressing modes, when possible.  One interesting
 consequence of this is that when you have a structured piece of memory 
-that you are accessing using base-pointer addressing, the first element can 
+that you are accessing using base pointer addressing, the first element can 
 be accessed the quickest.  Since it's offset is 0, you can access it using 
-indirect addressing instead of base-pointer addressing, which makes it 
+indirect addressing instead of base pointer addressing, which makes it 
 faster.
 </para></listitem>
 </varlistentry>
@@ -294,7 +294,7 @@ code is much more important except under extreme circumstances.
 <title>Global Optimization</title>
 
 <para>
-Global optimization<indexterm><primary>global optimization</primary></indexterm> has two goals.  The first one is to put your code
+Global optimization<indexterm><primary>global optimizations</primary></indexterm> has two goals.  The first one is to put your code
 in a form where it is easy to do local optimiztions.  For example, 
 if you have a large procedure that 
 performs several slow, complex calculations, you might see if you can break

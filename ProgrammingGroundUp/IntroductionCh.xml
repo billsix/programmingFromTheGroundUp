@@ -270,7 +270,7 @@ Other small things are done to make it easier as well.
 </varlistentry>
 
 <varlistentry>
-<term>High-Level Language<indexterm><primary>High-Level Language</primary></indexterm></term>
+<term>High-Level Language<indexterm><primary>high-level language</primary></indexterm></term>
 <listitem><para>
 High-level languages are there to make programming easier.  Assembly
 language requires you to work with the machine itself.  High-level

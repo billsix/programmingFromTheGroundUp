@@ -241,7 +241,7 @@ from the bottom up you have 11101011001001.
 </para>
 
 <para>
-Each digit in a binary number is called a <emphasis>bit<indexterm><primary>bit</primary></indexterm></emphasis>, which
+Each digit in a binary number is called a <emphasis>bit<indexterm><primary>bits</primary></indexterm></emphasis>, which
 stands for <emphasis>binary digit<indexterm><primary>binary digit</primary></indexterm></emphasis>.  Remember, computers divide up
 their memory into storage locations called bytes<indexterm><primary>bytes</primary></indexterm>.  Each storage location on an x86 processor (and most others) is 8 bits long.  Earlier we said
 that a byte can hold any number between 0 and 255.  The reason for this
@@ -323,7 +323,10 @@ the best representation.
 
 <para>
 Not only can you do regular arithmetic with binary numbers, they also have
-a few operations of their own, called binary<indexterm><primary>binary</primary></indexterm> or logical operations<indexterm><primary>logical operations</primary></indexterm>.  
+a few operations of their own, called binary
+<indexterm zone="truthbinarynumbers"><primary>binary operations</primary></indexterm> 
+or logical operations
+<indexterm><primary>logical operations</primary></indexterm>.  
 The standard binary operations are
 </para>
 
@@ -632,7 +635,7 @@ to make a point that the number you are using is 32 bits.
 </para>
 
 <para>
-When a number represents a set of options for a function<indexterm><primary>function</primary></indexterm> or system call<indexterm><primary>system call</primary></indexterm>,
+When a number represents a set of options for a function<indexterm><primary>functions</primary></indexterm> or system call<indexterm><primary>system call</primary></indexterm>,
 the individual true/false elements are called <emphasis>flags<indexterm><primary>flags</primary></indexterm></emphasis>.
 Many system calls have numerous options that are all
 set in the same register using a mechanism like we've described.
@@ -855,7 +858,7 @@ whether or not the number is positive or negative.
 Negative numbers will always have a <literal>1</literal> in the leftmost 
 bit.  This also changes which numbers are valid for a given number of bits.
 With signed numbers, the possible magnitude of the values is split to allow
-for both positive and negative numbers.  For example, a byte<indexterm><primary>byte</primary></indexterm> can normally have
+for both positive and negative numbers.  For example, a byte<indexterm><primary>bytes</primary></indexterm> can normally have
 values up to 255.  A signed byte, however, can store values from -128 to 127.
 </para>
 
@@ -941,7 +944,7 @@ them.  For example, the letter <literal>a</literal> represents 10, the
 letter <literal>b</literal> represents 11, and so on.  10 in hexadecimal
 is 16 in decimal.  In octal, each digit represented three bits.  In
 hexadecimal<indexterm><primary>hexadecimal</primary></indexterm>, each digit represents four bits.  Every two digits is 
-a full byte<indexterm><primary>byte</primary></indexterm>, and eight digits is a 32-bit word<indexterm><primary>word</primary></indexterm>.  So you see, it
+a full byte<indexterm><primary>bytes</primary></indexterm>, and eight digits is a 32-bit word<indexterm><primary>word</primary></indexterm>.  So you see, it
 is considerably easier to write a hexadecimal number than it is
 to write a binary number, because it's only a quarter as many digits.  
 The most important number to remember in

@@ -61,7 +61,7 @@ simply included into the assembly language files as needed.  For
 example, in our next programs we will need to access the different
 parts of the record above.  This means we need to know the offsets<indexterm><primary>offsets</primary></indexterm>
 of each field from the beginning of the record in order to access 
-them using base pointer addressing<indexterm><primary>base pointer addressing</primary></indexterm>.
+them using base pointer addressing<indexterm><primary>base pointer addressing mode</primary></indexterm>.
 The following constants describe the offsets to the above structure.
 Put them in a file named
 <filename>record-def.s</filename>:
@@ -172,10 +172,11 @@ You may have noticed the lines:
 
 <programlisting>
 	.include "linux.s"
-	.include<indexterm><primary>.include</primary></indexterm> "record-def.s"
+	.include "record-def.s"
 </programlisting>
 
 <para>
+<indexterm><primary>.include</primary></indexterm>
 These statements cause the given files to basically be pasted right there
 in the code.  You don't need to do this with functions, because the
 linker<indexterm><primary>linker</primary></indexterm> can take care of combining functions exported with 
@@ -332,7 +333,7 @@ whole instruction is a single immediate-mode<indexterm><primary>immediate mode a
 </para>
 
 <para>
-The <literal>RECORD_FIRSTNAME</literal> constant<indexterm><primary>constant</primary></indexterm> is the number of bytes
+The <literal>RECORD_FIRSTNAME</literal> constant<indexterm><primary>constants</primary></indexterm> is the number of bytes
 after the beginning of a record before we hit the first name.
 <literal>record_buffer</literal> is the name of our buffer for holding
 records.  Adding them together gets us the address of the first name
