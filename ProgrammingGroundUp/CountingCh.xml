@@ -594,7 +594,68 @@ numbering system.  We also didn't need the 31 zeroes, but I put them in
 to make a point that the number you are using is 32 bits.
 </para>
 
-<remark>Include a discussion of file-open flags here</remark>
+<para>
+One common example of using flags in programming is when issuing
+system calls.  Many system calls have numerous options that are all
+set in the same register using a mechanism like we've described.
+The <literal>open</literal> system call, for example, has as its
+second parameter a list of flags to tell the operating system how
+to open the file.  Some of the flags include:
+</para>
+
+<variablelist>
+
+
+<varlistentry>
+<term><literal>O_WRONLY</literal></term>
+<listitem><para>
+This flag is <literal>0b00000000000000000000000000000001</literal> in binary, or <literal>01</literal> in octal (or any number system for that matter).  This says to open the file in write-only mode.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><literal>O_RDWR</literal></term>
+<listitem><para>
+This flag is <literal>0b00000000000000000000000000000010</literal> in binary, or <literal>02</literal> in octal.  This says to open the file for both reading and writing.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><literal>O_CREAT</literal></term>
+<listitem><para>
+This flag is <literal>0b00000000000000000000000001000000</literal> in binary, or <literal>0100</literal> in octal.  It means to create the file if it doesn't already exist.
+</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><literal>O_TRUNC</literal></term>
+<listitem><para>
+This flag is <literal>0b00000000000000000000001000000000</literal> in binary, or <literal>01000</literal> in octal.  It means to erase the contents of the file if the file already exists.
+</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term><literal>O_APPEND</literal></term>
+<listitem><para>
+This flag is <literal>0b00000000000000000000010000000000</literal> in binary, or <literal>02000</literal> in octal.  It means to start writing at the end of the file rather than at the beginning.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>
+To use these flags, you simply OR them together in the combination that you 
+want.  For example, to open a file in write-only mode, and have it create the
+file if it doesn't exist, I would use <literal>O_WRONLY</literal> (01) and 
+<literal>O_CREAT</literal> (0100).  Or'd together, I would have 0101.
+</para>
+
+<para>
+Note that if you don't set either <literal>O_WRONLY</literal> or <literal>O_RDWR</literal>, then the file is automatically opened in read-only mode (<literal>O_RDONLY</literal>, except that it isn't really a flag since it's zero).  There
+are many other flags, but these are the important ones.
+</para>
 
 </sect1>
 

@@ -162,4 +162,15 @@ return values and error codes are also stored in &eax;.
 </tbody>
 </tgroup>
 </table>
+
+<para>
+A more complete listing of system calls, along with additional information
+is available at http://www.lxhp.in-berlin.de/lhpsyscal.html
+You can also get more information about a system call by typing in 
+<literal>man 2 SYSCALLNAME</literal> which will return you the information 
+about the system call from section 2 of the UNIX manual.  However, this 
+refers to the usage of the system call from the C programming language, 
+and may or may not be directly helpful.
+</para>
+
 </appendix>
