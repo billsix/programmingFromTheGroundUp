@@ -442,26 +442,27 @@ When using 3rd party libraries, functions that are passed to the library as argu
 <para>
 Now that we've talked about functions that can be passed as parameters, we're going to go
 a step further and talk about functions that can be <emphasis>created</emphasis> based on
-a template and <emphasis>returned</emphasis> as the result of a function call.
+a template.
 </para>
 
 <para>
 In scheme, <literal>lambda</literal> creates a function.  However,
 functions in Scheme are "bigger" concepts than in many other
-languages.  In Scheme, variables are grouped together in
-<emphasis>environments</emphasis>.  An environment is the currently
-active local variables (all of the global variables are in what is
-called the <emphasis>global environment</emphasis>).  Within a
-function, for example, the environment consists of the function's
-formal parameters and its locally declared variables.  Within a
-<literal>let</literal> special form, all of the variables declared in
-the <literal>let</literal> are added to the environment.
+languages.  To understand the difference, first you need to understand how
+Scheme views variables.  In Scheme, variables are grouped together in
+<emphasis>environments</emphasis>.  There are two kinds of environments -
+the local environment and the global environment.  The global environment
+consists of all of the global variables of a function.  Scheme handles
+the global environment essentially the same as most other programming 
+languages.  In addition to the global environment, Scheme has numerous
+local environments.  A local environment is the collection of local
+variables and formal parameters that are visible at a given point in the 
+program.  It's more than just the names of the variables, it's also the 
+storage/values they refer to.  Unlike local environments in other programming languages, local environments in Scheme can be saved for later use.
 </para>
 
 <para>
-So what does that have to do with functions?  Well, when a function is
-defined, if it is defined within a local environment, that local
-environment permanently attaches itself to the function definition.
+So how do you save a local environment, and what does that have to do with functions?  Well, in Scheme, when a function is defined, if it is defined within a local environment, that local environment permanently attaches itself to the function definition.
 Therefore, the function has access to all of the variables that were
 active and in scope when the function was created, even if the
 function that created those variables has since returned.  Confused?
@@ -479,7 +480,8 @@ That's okay.  We'll look at some examples to clear it up.
 
 		;Create a function which takes no parameters and return it
 		(lambda ()
-			;This function returns x from the parent
+			;This function returns the x defined in the enclosing
+			;local environment
 			x)))
 
 (define echo1 (make-echo-function 1))
@@ -504,22 +506,22 @@ First of all, be sure to notice that <literal>echo1</literal> and
 using any global variables and is not being passed any parameters.
 That's because when you create a function, the local environment is
 saved.  In this case, the local environment consists of
-<literal>x</literal>.  Therefore, unlike most functions, the variables
+<literal>x</literal>.  Therefore, unlike functions in most languages, the variables
 created on each call of <literal>make-echo-function</literal> survive
 even past the point where <literal>make-echo-function</literal> ends!
 As long as the function returned from
 <literal>make-echo-function</literal> survives, the local environment
 will survive, too.  In fact, when we define <literal>echo2</literal>,
 we now have two different local environments for
-<literal>make-echo-function</literal> which remain active.  The
-computer knows which one to use because the environment is tied to the
+<literal>make-echo-function</literal> which remain active.  The variable
+names are the same, but the values in those variables are different.  The
+computer knows which value to use because the environment is tied to the
 function when it is created by <literal>lambda</literal>.  This
-combination of environments and functions is called a
-<emphasis>closure</emphasis>.
+strange fusion of environments and functions is called a <emphasis>closure</emphasis>.
 </para>
 
 <para>
-Let's look at a slightly more complicated version of this.  We will
+Let's look at a slightly more complicated closure.  We will
 create a function that starts at a given number, and then, every time
 it is called, returns one number higher.
 </para>
@@ -533,7 +535,7 @@ it is called, returns one number higher.
 			(set! curval (+ curval 1))
 			curval)))
 
-(define my-counter 0)
+(define my-counter (make-counter 0))
 
 (display (my-counter)) ;writes 1
 (newline)
@@ -541,7 +543,7 @@ it is called, returns one number higher.
 (display (my-counter)) ;writes 2
 (newline)
 
-(define my-other-counter 25)
+(define my-other-counter (make-counter 25))
 
 (display (my-other-counter)) ;writes 26
 (newline)
@@ -556,11 +558,48 @@ it is called, returns one number higher.
 
 <para>
 As you can see, these types of functions can be useful for creating
-functions which maintain state from call to call.   You can also use
-this method to create functions which create specialized versions of
-other functions.  For example, let's build a function called
+functions which maintain state from call to call.  Combined with function
+parameters, this is a powerful technique for programming.  This allows you
+to make the functions that you pass as parameters even more powerful, because
+it allows you to ship pieces of state with the function.  In programming
+languages such as C, any state that might be used in a function passed as an 
+argument would either need to exist in a global variable or be passed explicitly.
+The problem is that the point of having a function parameter within a procedure
+is to extend it beyond what was originally envisioned by the programmer.  If
+we have to explicitly pass all data we want used in our function, we have defeated
+its purpose already.  We will discuss a solution to this problem later, but the 
+solution isn't nearly as elegant as being able to pass full closures which include
+environment data as a function parameter.
+</para>
+
+<para>
+When you put a function definition within an environment, what you are doing in essence
+is creating a template for a function.  Every time the <literal>lambda</literal> 
+form is evaluated, the template is used to create a new function using the current
+local environment to fill in the unknown slots.
+</para>
+
+<para>
+Callback functions make closures quite handy.  The person who
+writes the API that you use rarely knows anything about the type of
+data that you are handling.  Therefore, they don't know what kind of
+data needs to be passed to your callback function to make it work.
+With closures, you can pack all of the data you want directly into a callback
+function.  Let's say, for instance, that an API wants a callback
+function of no parameters when it builds a button that will be
+called every time that button is pushed.  That might
+seem problematic, especially if you have multiple buttons sharing a
+callback function.  If the API isn't passing you any data, how will
+you know which button was pushed?  With closures, you can define your 
+callback function within an environment containing any information you
+need to make the callback effective, and the API which calls it doesn't need to know.
+</para>
+
+<para>
+You can also use closures to create functions which create specialized versions of
+other functions.  Let's say we have a function called 
 <literal>filter-evens</literal> which takes a list and returns all
-even numbers from the list:
+even numbers from that list.  The function might look like this:
 </para>
 
 <example>
@@ -577,26 +616,32 @@ even numbers from the list:
 				(lambda (entry)
 					;if it's even, add it to new-list
 					(if (even? entry)
-						(cons entry new-list)))
+						(set! new-list (cons entry new-list))))
 				the-list)
 			;return new-list (note that this will be in
 			;reverse order that the items were in the
 			;original list)
 			new-list)))
 
-(display (filter-events '(1 2 3 4 5 6 7 8 9))) ;should display (8 6 4 2)
+(display (filter-evens '(1 2 3 4 5 6 7 8 9))) ;should display (8 6 4 2)
 (newline)
 </programlisting>
 </example>
 
 <para>
-That's a nice program, but if we want to filter for something else --
+Notice first that the function we define and pass to <literal>for-each</literal> is
+used as a closure.  <literal>new-list</literal> is defined in the enclosing
+environment.  It's going to be a different value each time <literal>filter-evens</literal>
+is called, but we will need that same value for each iteration of 
+<literal>for-each</literal>.
+</para>
+
+<para>
+Filtering even numbers is nice, but if we want to filter for something else --
 like odd numbers, numbers below 20, or even filter on non-numeric
 lists (like all addresses in the state of Oklahoma) we would basically
-have to re-code the program.  So, as we learned previously, this would
-be a great instance to make a function parameter.  This function will
-return true if the element should be in the list, and false otherwise.
-Here is how it would look:
+have to re-code the program even though it would be largely similar.  
+So, based on the criteria we discussed previously, this would be a great opportunity to make a function parameter.  This function will return true if the element should be in the list, and false otherwise. Here is how it would look:
 </para>
 
 <example>
@@ -614,7 +659,7 @@ Here is how it would look:
 					;if it matches the filter function,
 					;add it to the result list
 					(if (filter-func entry)
-						(cons entry new-list)))
+						(set! new-list (cons entry new-list))))
 				the-list)
 			;return new-list (note that this will be in
 			;reverse order that the items were in the
@@ -632,17 +677,13 @@ Here is how it would look:
 (display (filter (lambda (x) (< x 5)) number-list)) ;should display (4 3 2 1)
 (newline)
 </programlisting>
-</example>
+</example> 
 
 <para>
-That's a useful feature, but if you use a specific instance of <literal>filter</literal>
-often, it can be useful to not have to specify the function each time.
-For simple instances like this it is probably easier to just write it
-out.  For example, we can get our <literal>filter-evens</literal>
-function back by just saying <literal>(define filter-evens (lambda
-(the-list) (filter even? the-list)))</literal>.  However, we can also
-define a function which will generate new filtering functions.  We'll
-call this function <literal>make-filter</literal>:
+Now we have a pretty useful function.  However, sometimes we may want to
+pre-package a filter function so we don't have to write it out every time we use
+it.  This is especially true if the function parameter is a long lambda expression.
+In order to facilitate this, we can define a new function which will generate new filtering functions.  We'll call this function <literal>make-filter</literal>:
 </para>
 
 <example>
@@ -660,83 +701,115 @@ call this function <literal>make-filter</literal>:
 </example>
 
 <para>
-Although this example is pretty trivial, it shows that you write
-functions to build functions quite easily.
+Although these examples are pretty trivial, when you have more complicated filtering procedures <literal>make-filter</literal> can save you a lot of time and errors.
 </para>
 
+<!-- FIXME - should I subsection this? -->
 
-<remark>Maybe this should be moved up to where we finished talking
-about closures</remark>
 <para>
-Callback functions make this feature quite handy.  The person who
-writes the API that you use rarely knows anything about the type of
-data that you are handling.  Therefore, they don't know what kind of
-data needs to be passed to your callback function to make it work.
-With closures, you can pack all of the data you want into a callback
-function.  Let's say, for instance, that an API wants a callback
-function of no parameters when it builds a button, so that it will
-call your callback function when that button is pushed.  That might
-seem problematic, especially if you have multiple buttons sharing a
-callback function.  If the API isn't passing you any data, how will
-you know which button was pushed?
-</para>
-<remark>This example is getting difficult.  I need to show remapping
-arguments, so that your program can get however many arguments it
-wants, and their callback function can be however many arguments it
-wants, and you can just build and anonymous function to remap the call
-as you want it, and because of closures everything works out all
-right.  But I need to know how to convey that to an average human being.</remark>
-
-<remark>THIS IS ANOTHER POSSIBLE SECTION TO USE, BUT PROBABLY NEEDS TO
-BE REWORDED TO BE TALKING ABOUT CLOSURES, NOT FUNCTION-GENERATING-FUNCTIONS</remark>
-<para>
-As you can see, these types of functions can be useful for creating
-functions which maintain state from call to call.   You can also use
-this method to create functions which create specialized versions of
-other functions.  For example, one of the patterns defined by the Gang
-of Four <emphasis>Design Patterns</emphasis> book is the Command
-pattern.  This pattern creates a mechanism which allows the user of an
-API to designate commands which execute at certain instances
-throughout a procedure.  They are a lot like the callback functions we
-looked at earlier, except that they take no arguments and return no
-values.  They are a lot like database triggers, where you can tell an
-API to trigger an event or function at certain places.
+As mentioned, in the C programming languages closures are not directly supported.  Functions when defined have no data associated with them.  Well, you can have some
+data with static variables, but you can still only have one copy of the static variable
+active within the program.  Remember, with closures, each closure has its own environment
+attached.
 </para>
 
 <para>
-However, the APIs that use the Command pattern expect a function of no
-arguments.  However, most useful functions have arguments.  There are
-two ways around this.  You can either code a <literal>lambda</literal>
-function right there, or we can write a function which will create
-save function calls for later.  For example, let's say that we want to
-be notified every time an order is processed.  Let's add a 
-"post process command" callback function to our
-<literal>process-order</literal> function that we developed earlier.
-This way, any command of our choosing can be called after a successful
-order processing.  Let's say we want to be emailed a notification when
-an order is processed, and let's say we have a function called
-"send-email" which sends an email with the given destination, subject,
-and message.  We could call <literal>process-order</literal> like
-this:
+The way that closures are stored is by storing two pointers -- one to the function 
+itself, and one to the environment.  So, we can simulate a closure in C by having
+a struct with two void pointers (they are void so we don't have to worry about what
+the environment looks like nor what the type of the function is as it's stored).
+It looks like this:
 </para>
 
 <example>
-<title>Calling process-order using the Command pattern for notification</title>
+<title>Closure definition in C</title>
 <programlisting>
-(process-order 
-	customer-ship-calc-func 
-	customer-credit-validate-func 
-	customer-charge-order-func
-	(lambda ()
-		(send-email "order-manager@example.com" "Order Processed" "An order has been processed")))
+typedef void * (*generic_function)(void *, ...);
+typedef struct {
+	generic_function function;
+	void *environment;
+} closure;
 </programlisting>
 </example>
 
-<remark>END OF SECTION</remark>
+<para>
+The <literal>generic_function</literal> type was created in order to have the most generic calling interface to be used in a wide variety of situations.  It also makes it easy to typecase other function types to be used within the closure.  The environment is a void pointer, which is easy to use to point to anything.
+</para>
 
-<remark>ABSOLUTELY MUST HAVE CODE THAT SHOWS HOW TO DO
-ENVIRONMENTS/CLOSURES IN C</remark>
+<para>
+The parts of the program that create and consume the environment are responsible for knowing it's layout.  The <literal>closure</literal> struct just has a pointer to it.  There are some APIs that define an entire marshalling system for creating and using closures (see the <a href="#Resources">resources</a> section for a link).  But this
+is all that's necessary for a basic implementation.  Let's look at our counter example
+to get a clue on how all of this works together:
+</para>
 
+<example>
+<title>Counter closure in C</title>
+<programlisting>
+#include <stdio.h>
+#include <stdlib.h>
+
+/* Closure definitions */
+typedef void *(*generic_function)(void *p, ...);
+typedef struct {
+    generic_function function;
+	void *environment;
+} closure;
+
+int nextval(void *environment);
+
+/* This is the function that creates the closure */
+closure make_counter(int startval)
+{
+	closure c;
+
+	/* The data is very simple.  We are just storing an int,
+	   so all we need is a pointer to an int.
+	 */
+	int *value = malloc(sizeof(int));
+	*value = startval;
+
+	/* Setup the closure */
+	c.function = (generic_function)nextval;
+	c.environment = value;
+
+	/* Return the closure */
+	return c;
+}
+
+/* This is the function that is used for the closure */
+int nextval(void *environment)
+{
+	/* convert the environment data back into the form used
+	 * by our functions
+	 */
+	int *value = environment;
+
+	/* Increment */
+	(*value)++;
+
+	/* Return the result */
+	return (*value);
+}
+
+int main()
+{
+	/* Create the two closures */
+	closure my_counter = make_counter(2);
+	closure my_other_counter = make_counter(3);
+
+	/* Run the closures */
+	printf("The next value is %d\n", ((generic_function)my_counter.function)(my_counter.environment))
+	printf("The next value is %d\n", ((generic_function)my_other_counter.function)(my_other_counter.environment));
+	printf("The next value is %d\n", ((generic_function)my_counter.function)(my_counter.environment));
+
+	return 0;
+}
+</programlisting>
+</example>
+
+<para>
+We're missing some clean-up here, but if we use garbage collection as mentioned in a <ulink url="http://www.ibm.com/developerworks/linux/library/l-memory/">previous article</ulink> it's not an issue.  Anyway, many API's instead of defining a closure explicitly will simply pass the function and the environment separately.  Either way, this method gets more difficult to manage as the environments being passed become more complex.  With Scheme, it's setup to do all the work for you.
+</para>
 
 </sect1>
 
@@ -890,20 +963,29 @@ language you are working in is missing one or the other, you can
 always use one in place of the other.
 </para>
 
-<!-- FIXME - do an extended version with map or sort using closures to store counts or something -->
-
 <para>
 Now that you are a function-combining, function-passing,
 function-using guru, go forth and write generic, pluggable code.
 </para>
+
+<!-- NOTE - may want to expand this to include an example of reduce using such function techniques -->
 				
 
 </sect1>
 
 <!-- RESOURCES
- * Scheme tutorials
- * function-pointer.org
- * HTDP
+
+<resource-list>
+
+<ul>
+<li><a href="http://www.ccs.neu.edu/home/dorai/t-y-scheme/t-y-scheme.html">Teach Yourself Scheme in Fixnum Days</a> is a great online tutorial of the Scheme language.</a></li>
+<li><a href="http://www.newty.de/fpt/index.html">This site</a> has a great discussion on using function pointers in C/C++.</li>
+<li>Even if you have mastered modern programming, relearning computer science through the book <a href="http://www.htdp.org/"><i>How to Design Programs</i></a> is an eye-opening read on the expressive power of functions and functional programming.</li>
+<li>Chapter 5 of <a href="http://www.amazon.com/exec/obidos/ASIN/0262062178/freeeducation-20/"><i>Essentials of Programming Languages</i></a> has four different implementations of object-oriented Scheme, with a good discussion of the pros and cons of each.</li>
+<li><a href="http://srfi.schemers.org/srfi-1/srfi-1.html">SRFI 1</a> contains a whole load of useful functions for lists, many of which takes function parameters to extend their processing (SRFI's are like RFC's for Scheme).</li>
+<li>The Gtk+ 2.0 API has <a href="http://developer.gimp.org/api/2.0/gobject/gobject-Closures.html">a whole closure API</a> which is worth looking at.</li>
+<li>The tutorial "An Introduction to Scheme and its Implementation" has a <a href="http://www.cs.utexas.edu/users/wilson/schintro/schintro_123.html">section on how Scheme interpretters implement environments</a> for handling closures.</a></li>
+</ul>
 
 -->
 <!-- EXERCISES
