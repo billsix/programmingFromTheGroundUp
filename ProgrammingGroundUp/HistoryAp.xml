@@ -16,6 +16,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <itemizedlist>
 <listitem><para>12/17/2002 - Version 0.5 - Initial posting of book under GNU FDL</para></listitem>
 <listitem><para>07/18/2003 - Version 0.6 - Added ASCII appendix, finished the discussion of the CPU in the Memory chapter, reworked exercises into a new format, corrected several errors.  Thanks to Harald Korneliussen for the many suggestions and the ASCII table.</para></listitem>
+<listitem><para>01/11/2004 - Version 0.7 - Added C translation appendix, added the beginnings of an appendix of x86 instructions, added the beginnings of a GDB appendix, finished out the files chapter, finished out the counting chapter, added a records chapter, created a source file of common linux definitions, corrected several errors, and lots of other fixes</para></listitem>
 </itemizedlist>
 
 </appendix>
