@@ -931,6 +931,7 @@ The code for the function is as follows:
 &integer-to-number;
 </programlisting>
 
+<para>
 I've thrown quite a bit at you this chapter.  I apologize, but for
 modern programming it's quite important to learn how these things
 work.  Donald Knuth actually envisioned a processor that didn't 
