@@ -47,6 +47,8 @@ linked lists.  However, for the techniques we are going to learn, the Standard T
 is not adequate.  Really, linked lists are pretty simple.  For example, the linked lists of integers in the diagram above could be represented by the following node structure in C:
 </para>
 
+<example>
+<title>Basic linked list node structure</title>
 <programlisting>
 #define NULL 0
 struct ll_int_node {
@@ -54,6 +56,7 @@ struct ll_int_node {
 	struct ll_int_node *next;
 };
 </programlisting>
+</example>
 
 <para>
 Here we have a struct that includes the first element as a data item, and the second
@@ -115,6 +118,8 @@ struct is being pointed to.
 Here is the structure definition:
 </para>
 
+<example>
+<title>Generic data type structure</title>
 <programlisting>
 typedef struct {
 	int typetag;
@@ -129,6 +134,7 @@ typedef struct {
 /* Example declaration */
 data my_data;
 </programlisting>
+</example>
 
 <para>
 In order to make this generic data structure useful, we have to come up with a typetag value for each type we
@@ -136,6 +142,8 @@ want, including pointer types.  Here is a full program that uses typetags to dis
 different types of data based on the typetag.
 </para>
 
+<example>
+<title>Example program using typetags</title>
 <programlisting>
 #include "stdio.h"
 
@@ -201,6 +209,7 @@ int main()
 	return 0;
 }
 </programlisting>
+</example>
 
 <para>
 If we wanted to be more object-oriented, we could also use the typetag to be an index to an array of vtables.  Although an in-depth treatment of such a typetag is beyond the scope of this article, it does, nevertheless, indicate the potential power of typetags.  Our more primitive version still provides you with the concept of a single data structure that can encompass any number of data types.
@@ -210,12 +219,15 @@ If we wanted to be more object-oriented, we could also use the typetag to be an 
 Armed with this new generic data type, we can now make a very generic list node structure:
 </para>
 
+<example>
+<title>Linked list using generic nodes</title>
 <programlisting>
 struct generic_node {
 	data the_data;
 	struct generic_node *next;
 };
 </programlisting>
+</example>
 
 <para>
 With this generic list node structure, we can now define lists and list operations that work regardless of the
@@ -431,12 +443,15 @@ computer languages.
 As a quick example, let's examine the parsing of an <literal>if</literal> statement, whose syntax look like this:
 </para>
 
+<example>
+<title>Example syntax for an if statement</title>
 <programlisting>
 if(x > y)
 {
 	call_some_function(a, b, c);
 }
 </programlisting>
+</example>
 
 <para>
 In our representation, the first element of each list will represent the language operator, action, or function call, and the remaining elements represent the arguments.
@@ -537,6 +552,8 @@ First, then, we'll look at the special form used to define variable names, appro
 out these special forms, let's try entering and running the following program:
 </para>
 
+<example>
+<title>Defining variable names in Scheme</title>
 <programlisting>
 (define x 200) ;Sets x to be 200
 (define y x) ;Sets y to be x, which is evaluated to 200
@@ -556,6 +573,7 @@ out these special forms, let's try entering and running the following program:
 (display b)
 (newline)
 </programlisting>
+</example>
 
 <para>
 As is obvious from its name, <literal>display</literal> is a function that prints out its argument, and <literal>newline</literal> is a function that simply prints out an end-of-line character.
@@ -566,6 +584,8 @@ We can use any expression that we want as a value.  For example, we can use the 
 <literal>if</literal> special form as part of an expression.  Here is another code example using these concepts:
 </para>
 
+<example>
+<title>Example program using more complex Scheme expressions</title>
 <programlisting>
 (define a 20) 
 (define b (+ 20 a)) ;b is given the result of (+ 20 a).  Remember that the function name is always listed first in the list
@@ -585,6 +605,7 @@ We can use any expression that we want as a value.  For example, we can use the 
 (display d)
 (newline)
 </programlisting>
+</example>
 
 <para>
 Notice how we can stick any type of data into any variable.  In the previous program, we used both integer and string data, and never had
@@ -621,9 +642,12 @@ To create a list node in Scheme, we use the <literal>cons</literal> function.
 null list.  For example:
 </para>
 
+<example>
+<title>Example program using <literal>cons</literal> and the null list</title>
 <programlisting>
 (define myfirstschemelist (cons 23 '()))
 </programlisting>
+</example>
 
 <para>
 <literal>cons</literal> is like a specialized malloc for Scheme pairs.  In addition, since Scheme is garbage collected, we never have to worry about 
@@ -638,6 +662,8 @@ The single quotation mark in front of the null list is used to tell Scheme that 
 Following is a program in Scheme that demonstrates how to create a list of the numbers 3, 4, and 5:
 </para>
 
+<example>
+<title>Example program showing list construction</title>
 <programlisting>
 (define mylist '()) ;The null list is a list
 (set! mylist (cons 5 mylist)) ;This constructs a new node with 5 as the data, and set! makes mylist now point to the new node
@@ -645,11 +671,14 @@ Following is a program in Scheme that demonstrates how to create a list of the n
 (display mylist) ; lets see what we've created!
 (newline)
 </programlisting>
+</example>
 
 <para>
 Here we are going to demonstrate how this can be used to create shared sublists:
 </para>
 
+<example>
+<title>Example program demonstrating sublists</title>
 <programlisting>
 (define a '(1 2 3)) ;remember, ' means to treat the list as data, so now the variable a contains (1 2 3)
 (define b (cons "Hello" a)) ;remember, each list element can be of any type. 
@@ -669,6 +698,7 @@ Here we are going to demonstrate how this can be used to create shared sublists:
 (display d)
 (newline)
 </programlisting>
+</example>
 
 <para>
 To avoid confusion, it might be worthwhile to draw out each list node.  Remember, <literal>cons</literal> creates list nodes.
@@ -685,6 +715,8 @@ the value -- to get the value we would have to do a <literal>car</literal> on th
 Adding the following code to the previous program will show how <literal>car</literal> and <literal>cdr</literal> can be used:
 </para>
 
+<example>
+<title>Example program demonstrating the use of <literal>car</literal> and <literal>cdr</literal></title>
 <programlisting>
 (define e (car d)) ;e now has the data of the first node of d
 (define f (cdr d)) ;f now has the list starting AFTER the first node of d
@@ -708,6 +740,7 @@ Adding the following code to the previous program will show how <literal>car</li
 (display i)
 (newline)]
 </programlisting>
+</example>
 
 </sect2>
 
@@ -730,6 +763,8 @@ expressions to be evaluated when the function is called.
 Let's write a short function to add 2 to every element of a list and return the resulting list:
 </para>
 
+<example>
+<title>Example program to demonstrate list iteration in Scheme</title>
 <programlisting>
 (define my-list '(1 2 3)) ;our original list
 (define new-list 
@@ -748,6 +783,7 @@ Let's write a short function to add 2 to every element of a list and return the 
 (display new-list)
 (newline)
 </programlisting>
+</example>
 
 <para>
 As we can see, this creates a brand new list that is the result of applying our function to every element of the original list.  
@@ -758,6 +794,8 @@ In addition, it leaves the original list unchanged.
 As mentioned, we can also name our functions so that they can be used repeatedly:
 </para>
 
+<example>
+<title>Example program demonstrating creating and naming functions in Scheme</title>
 <programlisting>
 (define addtwo (lambda (x) (+ x 2)))
 (display (addtwo 5))
@@ -765,6 +803,7 @@ As mentioned, we can also name our functions so that they can be used repeatedly
 (display (map addtwo '(3 4 5)))
 (newline)
 </programlisting>
+</example>
 
 <para>
 In most programming languages, defining and naming functions
