@@ -135,9 +135,12 @@ The implementation will be as follows:
 <?lp-file id="cvicommonvalueimplementation" file="commonvalue.s"?>
 <?lp-section-id?>CVI Common Value Implementation<?lp-section-id-end?> =
 <?lp-code?>
+.section .data
 <?lp-ref?>{CVI Control Header Definition}<?lp-ref-end?>
-<?lp-ref?>{CVI Default Value Lifecycle Functions}<?lp-ref-end?>
 <?lp-ref?>{CVI Global Values}<?lp-ref-end?>
+
+.section .text
+<?lp-ref?>{CVI Default Value Lifecycle Functions}<?lp-ref-end?>
 <?lp-code-end?>
 </programlisting>
 
@@ -149,7 +152,7 @@ of the definition.  Note that these definitions are simply
 integer offsets from the base of a value structure.
 
 <programlisting>
-<?lp-section-id?>CVI Control Header Definition}<?lp-section-id-end?> =
+<?lp-section-id?>CVI Control Header Definition<?lp-section-id-end?> =
 <?lp-code?>
 	.globl TYPE_POSITION
 	.equ   TYPE_POSITION, 0
@@ -160,7 +163,7 @@ The control header will also include an integer containing the
 current reference count.
 
 <programlisting>
-<?lp-section-id?>CVI Control Header Definition}<?lp-section-id-end?> +=
+<?lp-section-id?>CVI Control Header Definition<?lp-section-id-end?> +=
 <?lp-code?>
 	.globl REFCOUNT_POSITION
 	.equ   REFCOUNT_POSITION, 4
@@ -171,7 +174,7 @@ Finally, we will have our function for destroying the value at the
 end.
 
 <programlisting>
-<?lp-section-id?>CVI Control Header Definition}<?lp-section-id-end?> +=
+<?lp-section-id?>CVI Control Header Definition<?lp-section-id-end?> +=
 <?lp-code?>
 	.globl DESTROY_FUNCTION_POSITION
 	.equ   DESTROY_FUNCTION_POSITION, 8
@@ -185,7 +188,7 @@ later decide to add or remove entries, we don't have to rewrite
 the value-manipulation code for each type.
 
 <programlisting>
-<?lp-section-id?>CVI Control Header Definition}<?lp-section-id-end?> +=
+<?lp-section-id?>CVI Control Header Definition<?lp-section-id-end?> +=
 <?lp-code?>
 	.globl BASE_SIZE
 	.equ   BASE_SIZE, 12
@@ -220,28 +223,12 @@ reference:
 reference_end:
 	<?lp-ref?>{Standard Function End<?lp-ref-end?>
 
-<?lp-section-id?>CVI Check for Special Cases}<?lp-section-id-end?>
+<?lp-section-id?>CVI Check for Special Cases<?lp-section-id-end?>
 <?lp-code?>
 	#Null lists aren't referenced
 	cmpl  $NULL_LIST, %eax
 	jz    reference_end
 <?lp-code-end?>
-
-
-<?lp-section-id?>Standard Function Begin<?lp-section-id-end?> =
-<?lp-code?>
-	pushl %ebp
-	movl  %esp, %ebp
-<?lp-code-end?>
-
-<?lp-section-id?>Standard Function End<?lp-section-id-end?> =
-<?lp-code?>
-	movl  %ebp, %esp
-	popl  %ebp
-<?lp-code-end?>
-
-<?lp-ref?>{CVI Default Value Lifecycle Functions}<?lp-ref-end?>
-<?lp-ref?>{CVI Global Values}<?lp-ref-end?>
 </programlisting>
 
 </para>

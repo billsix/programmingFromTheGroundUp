@@ -14,6 +14,8 @@
 	#OS-Specific
 	.globl LINUX_SYSCALL
 	.equ LINUX_SYSCALL, 0x80
+	.globl SYSCALL_BRK
+	.equ SYSCALL_BRK, 45
 	.globl SYSCALL_WRITE
 	.equ SYSCALL_WRITE, 4
 	.globl SYSCALL_EXIT

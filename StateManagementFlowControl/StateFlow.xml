@@ -12,7 +12,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 -->
 
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" [
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "/usr/share/sgml/docbook/xml-dtd-4.1.2-1.0-10/docbookx.dtd" [
 
 <!ENTITY index SYSTEM "index.xml">
 
@@ -22,8 +22,33 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY values-chapter SYSTEM "ValuesCh.xml">
 
 <!ENTITY fdl-appendix SYSTEM "FDLAp.xml">
+
+<!ENTITY percent "P">
+<!ENTITY eax "<literal>&percent;eax</literal>">
+<!ENTITY ebx "<literal>&percent;ebx</literal>">
+<!ENTITY ecx "<literal>&percent;ecx</literal>">
+<!ENTITY edx "<literal>&percent;edx</literal>">
 ]>
 <book>
+
+<article>
+<title>Need to put somewhere else</title>
+
+<programlisting>
+<?lp-section-id?>Standard Function Begin<?lp-section-id-end?> =
+<?lp-code?>
+	pushl %ebp
+	movl  %esp, %ebp
+<?lp-code-end?>
+
+<?lp-section-id?>Standard Function End<?lp-section-id-end?> =
+<?lp-code?>
+	movl %ebp, %esp
+	popl %ebp
+	ret
+<?lp-code-end?>
+</programlisting>
+</article>
 
 &introduction-chapter;
 &state-management-introduction-chapter;

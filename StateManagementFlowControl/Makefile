@@ -21,11 +21,14 @@ string.o: string.s
 symboltable.o: symboltable.s
 	as --gstabs symboltable.s -o symboltable.o
 
-common.o: common.s
-	as --gstabs common.s -o common.o
+commonsystem.o: commonsystem.s
+	as --gstabs commonsystem.s -o commonsystem.o
 
-example: string.o refcount.o pair.o alloc.o example.o symboltable.o common.o error.o
-	ld string.o refcount.o pair.o alloc.o example.o symboltable.o common.o error.o -o example
+commonvalue.o: commonvalue.s
+	as --gstabs commonvalue.s -o commonvalue.o
+
+example: string.o refcount.o pair.o alloc.o example.o symboltable.o commonsystem.o commonvalue.o error.o
+	ld string.o refcount.o pair.o alloc.o example.o symboltable.o commonsystem.o commonvalue.o error.o -o example
 
 StateFlow.pdf: StateFlow.xml
 	db2pdf -d stateflow.dsl#printdraft StateFlow.xml
