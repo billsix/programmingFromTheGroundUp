@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN">
 <chapter>
 <title>Symbolic Programming</title>
 
@@ -95,6 +97,7 @@ csc -hygienic myprogram.scm
 
 <para>
 To run your program under GUILE, do this:
+</para>
 
 <programlisting>
 guile -s myprogram.scm
@@ -214,7 +217,7 @@ interpetter!
 
 <para>
 At the core of the Scheme programming language are singly-linked
-lists. &nbsp;Understanding how Scheme handles lists are fundamental for
+lists.  Understanding how Scheme handles lists are fundamental for
 understanding the Scheme language.
 </para>
 
@@ -262,7 +265,7 @@ Therefore, the following is a list:
           5  NULL
 </programlisting>
 
-<para>This list is the sequence of numbers 23, 22, 10, and 5. &nbsp;If you
+<para>This list is the sequence of numbers 23, 22, 10, and 5.  If you
 start from the null, you'll notice that by our definition, the NULL is
 itself a list, the pair containing the NULL is a list because it's
 second member (it's <literal>cdr</literal>)
@@ -315,7 +318,7 @@ we would write:
 
 <para>
 Now, to represent a list, we have to have a way to represent the
-NULL list. &nbsp;Scheme provides a handy syntax for this:
+NULL list.  Scheme provides a handy syntax for this:
 </para>
 
 <programlisting>
@@ -413,7 +416,7 @@ sometimes called improper lists.
 
 <varlistentry>
 <term>Numbers</term>
-<listitem><para>Numbers are represented as themselves. &nbsp;Scheme has support for
+<listitem><para>Numbers are represented as themselves.  Scheme has support for
 both exact and inexact numbers, but which are which depends on
 implementaiont. <literal>2.34</literal>,<literal>2</literal>, and
 <literal>43</literal> are all numbers.
@@ -423,12 +426,12 @@ implementaiont. <literal>2.34</literal>,<literal>2</literal>, and
 <varlistentry>
 <term>Symbols</term>
 <listitem><para>In most programs, the symbols that represent variables are not
-themselves data. &nbsp;In Scheme they are. &nbsp;They are simply
+themselves data.  In Scheme they are.  They are simply
 represented as unqoted strings that start with a letter (there are other
 characters they can start with, too, but you're safe if you stick to
 letters).
 </para>
-<para><literal>a</literal> is a symbol. &nbsp;<literal>test</literal> is a symbol. &nbsp;The
+<para><literal>a</literal> is a symbol.  <literal>test</literal> is a symbol.  The
 following list has two numbers, two strings, and two symbols:
 <programlisting>
 (1 qwerty "hello" whatsup "i am a dog" 26)
@@ -441,10 +444,10 @@ following list has two numbers, two strings, and two symbols:
 <term>Vectors</term>
 <listitem><para>Vectors are basically arrays - they have a fixed size, and you can
 randomly access the elements (as opposed to lists, where you have to
-iterate through each pair to find a given element). &nbsp;Their elements
-can have any type of elements. &nbsp;Vectors are represented just like
+iterate through each pair to find a given element).  Their elements
+can have any type of elements.  Vectors are represented just like
 lists, except they open with <literal>#(</literal>
-instead of <literal>(</literal>. &nbsp;<literal>#(1 2 "hello" googoo (2 3 w))</literal> is
+instead of <literal>(</literal>.  <literal>#(1 2 "hello" googoo (2 3 w))</literal> is
 a 5-element vector consisting of two numbers, a string, a symbol and a
 list containing two numbers and a symbol.
 </para></listitem>
@@ -463,24 +466,24 @@ list containing two numbers and a symbol.
 
 <para>
 Environments are an important concept in Scheme, but there isn't a
-standard way to represent them. &nbsp; In fact, most programs never need
-to. &nbsp;An environment is simply a listing of symbols which currently
-hold values, and what values they hold. &nbsp;The top-level environment
-consists of your global variables. &nbsp;The environment that functions
+standard way to represent them.   In fact, most programs never need
+to.  An environment is simply a listing of symbols which currently
+hold values, and what values they hold.  The top-level environment
+consists of your global variables.  The environment that functions
 operate in consist of your current top-level environment plus the
 symbols that are used as function parameters.
 </para>
 
 <para>
-At the heart of Scheme is it's evaluator. &nbsp;We mentioned
-previously that lists are an important concept in Scheme. &nbsp;In fact,
+At the heart of Scheme is it's evaluator.  We mentioned
+previously that lists are an important concept in Scheme.  In fact,
 the only difference in Scheme between a program and data, is that a
 program is simply a list that is being evaluated by the evaluator.
 </para>
 
 <para>
 Scheme operates in what is called the "Read Eval Print Loop" or
-REPL. &nbsp;Basically, it does the following:
+REPL.  Basically, it does the following:
 </para>
 
 <itemizedlist>
@@ -495,13 +498,13 @@ The evaluator is slightly more complicated, but not much more so:
 </para>
 
 <itemizedlist>
-  <listitem><para>Evaluator is called with <span style="font-family: monospace;">arg</span>
-as the thing to be evaluated and <span style="font-family: monospace;">env</span>
+  <listitem><para>Evaluator is called with <literal>arg</literal>
+as the thing to be evaluated and <literal>env</literal>
 as the current environment (or list of symbols and their values)</para></listitem>
-  <listitem><para>If arg is a pair (a list or an improper list):</para></listitem>
+  <listitem><para>If arg is a pair (a list or an improper list):
   <itemizedlist>
     <listitem><para>If the first element of the list is a symbol corresponding to a
-special form in the current environment</para></listitem>
+special form in the current environment
     <itemizedlist>
       <listitem><para>Pass control to the special form's evaluator with the
 remaining arguments unevaluated</para></listitem>
@@ -509,16 +512,16 @@ remaining arguments unevaluated</para></listitem>
 
       </para></listitem>
     </itemizedlist>
-    <listitem><para>Otherwise
-
     </para></listitem>
+    <listitem><para>Otherwise
     <itemizedlist>
-      <listitem><para>For each element in arg:</para></listitem>
+      <listitem><para>For each element in arg:
       <itemizedlist>
         <listitem><para>Run the evaluator with element as the arg and env as the
 environment</para></listitem>
       </itemizedlist>
-      <listitem><para>If the first element of the list is a function</para></listitem>
+      </para></listitem>
+      <listitem><para>If the first element of the list is a function
       <itemizedlist>
         <listitem><para>Create a new environment consisting of the top-level
 environment and the mapping of the function's argument list to the
@@ -529,22 +532,28 @@ the function with the new environment and return the result</para></listitem>
 evaluator on the function's body (which is either an atom or a list)
 using env as the current environment and return the result.</para></listitem>
       </itemizedlist>
+      </para></listitem>
       <listitem><para>Otherwise it is an error</para></listitem>
     </itemizedlist>
+    </para></listitem>
   </itemizedlist>
-  <listitem><para>If the arg is a symbol:</para></listitem>
+  </para></listitem>
+  <listitem><para>If the arg is a symbol:
   <itemizedlist>
     <listitem><para>Lookup the symbol in the current environment.</para></listitem>
     <listitem><para>If it exists, return the value in the environment</para></listitem>
     <listitem><para>If it does not exist it is an error</para></listitem>
   </itemizedlist>
+  </para></listitem>
   <listitem><para>Otherwise return the expression unevaluated</para></listitem>
 </itemizedlist>
-The syntax of the language is just lists data. &nbsp;The difference
-between list data and lists that are programs is where the current
-execution point is in the program! &nbsp;Here are some short example
-programs that may help you understand how Scheme works:
 
+<para>
+The syntax of the language is just lists data.  The difference
+between list data and lists that are programs is where the current
+execution point is in the program!  Here are some short example
+programs that may help you understand how Scheme works:
+</para>
 
 
 <programlisting>
@@ -589,19 +598,19 @@ programs that may help you understand how Scheme works:
 
 <!--
 <h4>eq? eqv? equal?</h4>
-<para>These functions test for equality. &nbsp;<span
+<para>These functions test for equality.  <span
  style="font-family: monospace;">eq?</span> tests to see if two values
 are in the same location in memory, <span
  style="font-family: monospace;">eqv?</span> tests to see if two values
 are equivalent, and <span style="font-family: monospace;">equal?</span>
-does a full-recursive test for equality. &nbsp;These are <span
+does a full-recursive test for equality.  These are <span
  style="font-style: italic;">predicates</span> - that is, they do a
-true-false test on their argument. &nbsp;Predicates usually end in a
+true-false test on their argument.  Predicates usually end in a
 question mark in scheme.
 
 </para>
-<h4>&gt; &lt; &nbsp;&lt;= &gt;=</h4>
-<para>These are the less-than and greater-than comparisons. &nbsp;Like
+<h4>&gt; &lt;  &lt;= &gt;=</h4>
+<para>These are the less-than and greater-than comparisons.  Like
 everything else in scheme, they are functions and belong at the
 beginning of a list for a procedure call.
 
@@ -615,16 +624,16 @@ beginning of a list for a procedure call.
 
 </para>
 <h4>number-&gt;string string-&gt;number</h4>
-<para>Converts the given number to a string, or vice-versa. &nbsp;The
+<para>Converts the given number to a string, or vice-versa.  The
 arrow (-&gt;) usually is for indicating that a procedure is a conversion
 procedure <span style="font-family: monospace;">(number-&gt;string 3)</span>
 would result in "3".
 
 </para>
 <h4>cons</h4>
-<para>Creates a new pair. &nbsp;<span style="font-family: monospace;">(cons
+<para>Creates a new pair.  <span style="font-family: monospace;">(cons
 4 5)</span> produces the pair <span style="font-family: monospace;">(4
-. 5)</span>. &nbsp;<span style="font-family: monospace;">(cons 3 '())</span>
+. 5)</span>.  <span style="font-family: monospace;">(cons 3 '())</span>
 produces a full list with one element - <span
  style="font-family: monospace;">(3)
 
@@ -634,7 +643,7 @@ produces a full list with one element - <span
 
 </para>
 <h4>length</h4>
-<para>Returns the size of a list. &nbsp;<span
+<para>Returns the size of a list.  <span
  style="font-family: monospace;">(length (list 1 2 3 4))</span> returns
 4.
 
@@ -646,15 +655,15 @@ starting with 0. <span style="font-family: monospace;">(list-ref (list
 
 </para>
 <h4>number? boolean? string? symbol? pair? list? null?</h4>
-<para>Type predicates. &nbsp;When applied to an argument, returns true or
+<para>Type predicates.  When applied to an argument, returns true or
 false (represented as #t or #f) depending on whether the object is of
 the given type.
 
 </para>
 <para>You are encouraged to read the current Scheme standard - R5RS -
-especially sections 5 and 6. &nbsp;They are very easy to read, and will
+especially sections 5 and 6.  They are very easy to read, and will
 show you the Scheme functions available to all standard Scheme
-implementations. &nbsp;Additional functions are available from add-on
+implementations.  Additional functions are available from add-on
 libraries, SLIB being the most popular.
 
 </para>
@@ -664,30 +673,25 @@ libraries, SLIB being the most popular.
 </sect2>
 
 <sect2>
-<title>Special Forms<title>
+<title>Special Forms</title>
 
-<para>As we have seen in the interpreter, the only a exceptions to the way
-functions are evaluated in Scheme are known as <span
- style="font-style: italic;">special forms</span>. &nbsp;They are
+<para>
+As we have seen in the interpreter, the only a exceptions to the way
+functions are evaluated in Scheme are known as <literal>special
+forms</literal>.  They are
 called special forms because they are not evaluated in the normal
-function-call form. &nbsp;Each special form has it's own evaluation
-method. &nbsp;We will only look at a few special forms:
+function-call form.  Each special form has it's own evaluation
+method.  We will only look at a few special forms:
 </para>
 
 <itemizedlist>
   <listitem><para>if</para></listitem>
   <listitem><para>define</para></listitem>
   <listitem><para>let</para></listitem>
-  <listitem><para>begin
-
-  </para></listitem>
-  <listitem><para>set!
-
-  </para></listitem>
+  <listitem><para>begin</para></listitem>
+  <listitem><para>set!</para></listitem>
   <listitem><para>lambda</para></listitem>
-  <listitem><para>quote
-
-  </para></listitem>
+  <listitem><para>quote</para></listitem>
 </itemizedlist>
 
 <!--
@@ -695,34 +699,34 @@ method. &nbsp;We will only look at a few special forms:
 
 </h4>
 <para>The "if" special form is for performing normal, if-like statements.
-&nbsp;It looks like this:
+ It looks like this:
 
 </para>
 <pre>(if CONDITION RESULT-FOR-TRUE RESULT-FOR-FALSE)
 
 </pre>
-<para>CONDITION is evaluated first, yielding a true/false value. &nbsp;If
+<para>CONDITION is evaluated first, yielding a true/false value.  If
 it evaluates to true, then RESULT-FOR-TRUE is evaluated, and it's result
-becomes the return value for the entire expression. &nbsp;Some examples:
+becomes the return value for the entire expression.  Some examples:
 
 </para>
 <pre>(if (&gt; 4 2) (+ 2 4) (- 6 3) )
 </pre>
-<para>This first checks to see if 4 is greater than 2. &nbsp;Since it is,
+<para>This first checks to see if 4 is greater than 2.  Since it is,
 it executes the (+ 2 4) expression, yielding 6
 
 </para>
 <pre>(if (eqv? 2 3) 6 7)
 </pre>
 <para>eqv? is a function that returns true if it's arguments are
-numerically equal, false otherwise. &nbsp;Since 2 and 3 are not equal,
+numerically equal, false otherwise.  Since 2 and 3 are not equal,
 it will return the RESULT-FOR-FALSE expression, which is 7.
 
 </para>
 <pre>(if #t (* 3 4) 5)
 </pre>
 <para>#t is how you say "true" in scheme, and #f is how you say "false".
-&nbsp;Since CONDITION is true, it will evaluate (* 3 4), yielding 12.
+ Since CONDITION is true, it will evaluate (* 3 4), yielding 12.
 
 </para>
 <h4>define
@@ -734,7 +738,7 @@ variables.
 </para>
 <pre>(define a 2)
 </pre>
-<para>This sets the global variable "a" to 2. &nbsp;Later if we say (+ a
+<para>This sets the global variable "a" to 2.  Later if we say (+ a
 2) we will get 4, etc.
 
 </para>
@@ -742,7 +746,7 @@ variables.
 
 </h4>
 <para>The "let" special form is for defining local variables for use
-within a block. &nbsp;It is used like this:
+within a block.  It is used like this:
 
 </para>
 <pre>(let
@@ -755,11 +759,11 @@ within a block. &nbsp;It is used like this:
 )
 </pre>
 <para>This defines three local variables - "a", "b", and "c", and defines
-them. &nbsp;"a" is set to 2, "b" is set to 5, and "c" is set to 4.
-&nbsp;The expression
+them.  "a" is set to 2, "b" is set to 5, and "c" is set to 4.
+ The expression
 
-that follows is evaluated using those new bindings. &nbsp;There are
-some variations to "let". &nbsp;"let*", for example,&nbsp; allows you to
+that follows is evaluated using those new bindings.  There are
+some variations to "let".  "let*", for example,  allows you to
 use the previously defined variables during the variable definition
 phase.
 
@@ -768,8 +772,8 @@ phase.
 
 </h4>
 <para>The "set!" special form is for setting the contents of a variable.
-&nbsp;This is an imperative special form (not used in functional
-programming). &nbsp; &nbsp;Functions and special forms in Scheme that
+ This is an imperative special form (not used in functional
+programming).    Functions and special forms in Scheme that
 manipulate state and thus are imperative-style are usually marked with
 an exclamation point.
 
@@ -783,8 +787,8 @@ an exclamation point.
 </para>
 <h4>begin</h4>
 <para>beginallows you to group multiple expressions in a single block.
-&nbsp;This is useful in conjunction with forms like let, which only
-allow one expression to be evaluated. &nbsp;Here's an example:
+ This is useful in conjunction with forms like let, which only
+allow one expression to be evaluated.  Here's an example:
 
 </para>
 <pre>(let
@@ -806,34 +810,34 @@ allow one expression to be evaluated. &nbsp;Here's an example:
 <h4>lambda
 
 </h4>
-<para>The "lambda" special form is for defining functions. &nbsp;Functions
+<para>The "lambda" special form is for defining functions.  Functions
 in scheme are actually considered values, and are assigned to variables
 
 just like any other value, and can be passed around in function
-arguments. &nbsp;To create a function that squares it's argument, you say
+arguments.  To create a function that squares it's argument, you say
 
 </para>
 <pre>(lambda (a) (* a a))
 
 </pre>
-<para>This will return a procedure of one argument. &nbsp;To call it, you
+<para>This will return a procedure of one argument.  To call it, you
 can say
 
 </para>
 <pre>((lambda (a) (* a a)) 5)
 
 </pre>
-<para>This will return 25. &nbsp;It creates a procedure which squares it's
+<para>This will return 25.  It creates a procedure which squares it's
 argument, and then, since that procedure winds up in the "procedure"
-position, it is called with the argument of 5. &nbsp;Usually, however,
-functions are stored in variables. &nbsp;For example, you might do this:
+position, it is called with the argument of 5.  Usually, however,
+functions are stored in variables.  For example, you might do this:
 
 </para>
 <pre>(define square (lambda (a) (* a a)))
 
 </pre>
 <para>Now, you can simply say "(square 5)" and it will return 25.
-&nbsp;Let's look at a more complex example using more of the concepts
+ Let's look at a more complex example using more of the concepts
 we've seen:
 
 </para>
@@ -849,63 +853,69 @@ we've seen:
 </pre>
 <h4>quote</h4>
 The <span style="font-family: monospace;">quote</span> special form is
-for defining static lists and symbols within a program. &nbsp;For
+for defining static lists and symbols within a program.  For
 example, normally if you use <span style="font-family: monospace;">a</span>
 in your program, you get the value for <span
  style="font-family: monospace;">a</span>, and it gives an error if <span
- style="font-family: monospace;">a</span> is not defined. &nbsp;However,
-if you do "(quote a)" it will return the symbol a itself. &nbsp;The <span
+ style="font-family: monospace;">a</span> is not defined.  However,
+if you do "(quote a)" it will return the symbol a itself.  The <span
  style="font-family: monospace;">quote</span> special form prevents
-evaluation. &nbsp;
+evaluation.  
 
 
 
 For example, if you were to type <span style="font-family: monospace;">(define
-a (+ 1 2))</span>, &nbsp;then "a" would get the value 3. &nbsp;However,
+a (+ 1 2))</span>,  then "a" would get the value 3.  However,
 if you instead type <span style="font-family: monospace;">(define a
 (quote (+ 1 2)))</span>, then <span style="font-family: monospace;">a</span>
 would get a three-element list, consisting of the symbol <span
  style="font-family: monospace;">+</span>, then number <span
  style="font-family: monospace;">1</span>, and the number <span
- style="font-family: monospace;">2</span>. &nbsp;The <span
+ style="font-family: monospace;">2</span>.  The <span
  style="font-family: monospace;">quote</span> special form actually has
-a special syntax to make it really easy to use. &nbsp;<span
+a special syntax to make it really easy to use.  <span
  style="font-family: monospace;">'(a b)</span> is the same as <span
- style="font-family: monospace;">(quote (a b))</span>. &nbsp;Similarly,
+ style="font-family: monospace;">(quote (a b))</span>.  Similarly,
 you can say <span style="font-family: monospace;">'a</span> to get the
 symbol <span style="font-family: monospace;">a</span> instead of <span
- style="font-family: monospace;">a</span>'s value. &nbsp;To write the
+ style="font-family: monospace;">a</span>'s value.  To write the
 NULL list in scheme, you write <span style="font-family: monospace;">'()</span>.
-&nbsp;If you did not use the quote, it would attempt to do a function
+ If you did not use the quote, it would attempt to do a function
 call and give an error because no function is present.<span
  style="font-family: monospace;"></span>
 -->
 
+</sect2>
+</sect1>
 
 <sect1>
 <title>Scheme Program Examples</title>
 
 <para>
 Scheme is often used more as a teaching language than a production
-language. &nbsp;However, there are currently several places where Scheme
+language.  However, there are currently several places where Scheme
 is used actively.
 </para>
 
 <sect2>
 <title>GIMP Image Filters</title>
+
 <para>
 GIMP is the GNU Image Manipulation Project - a program to enhance
-and manipulate raster images. &nbsp;GIMP uses Scheme as its main
+and manipulate raster images.  GIMP uses Scheme as its main
 scripting language - allowing you to automate any image manipulation
-task you have. &nbsp;The script we show below is how we generate the
-headings for one of our projects. &nbsp;Scripts can get much more
+task you have.  The script we show below is how we generate the
+headings for one of our projects.  Scripts can get much more
 complicated than this, but this one shows what a Scheme program looks
-like without getting too far into learning the GIMP specifics. &nbsp;One
+like without getting too far into learning the GIMP specifics.  One
 thing to note is that GIMP procedures always return lists, so even if
-it only returns one result, we have to take the <span
- style="font-family: monospace;">car</span> of it to get the actual
-value.</para>
-<programlisting>;Define the name for our procedure
+it only returns one result, we have to take the <literal>car</literal>
+of it to get the actual
+value.
+</para>
+
+<programlisting>
+;Define the name for our procedure
 (define nmm-create-title-text
 
 ;This creates a procedure with one 
@@ -1002,18 +1012,19 @@ value.</para>
         ""
         SF-STRING _"Text" "Hello World!"
 )
+</programlisting>
 
-</programlisting>>
-<para>The actual GIMP program is full of such scripts for doing everything
-from animating images to creating fade effects and other fun. &nbsp;You
-can get GIMP at http://www.gimp.org/. &nbsp;GIMP is available on Linux,
+<para>
+The actual GIMP program is full of such scripts for doing everything
+from animating images to creating fade effects and other fun.  You
+can get GIMP at http://www.gimp.org/.  GIMP is available on Linux,
 MacOS X, and Windows.
 </para>
 
 </sect2>
 </sect1>
 
-</article>
+</chapter>
 
 <!--
 <h2>Resources</h2>
@@ -1046,7 +1057,7 @@ online version</a></para></listitem>
 <h4>Standards</h4>
 <para>The Scheme standards are known as the RnRS documents - standing for
 The Revised (revision number) Report on the Algorithmic Programming
-Language Scheme. &nbsp;R5RS is the most recent document. &nbsp;These
+Language Scheme.  R5RS is the most recent document.  These
 documents are extremely short (35 pages for the main information),
 especially for a language standard.
 
@@ -1084,7 +1095,7 @@ Code</a></para></listitem>
  href="../packages/Scheme/applications/gimp-1.2.4-20030213-setup.exe">Windows
 Version</a> (requires <a
  href="../packages/Scheme/applications/gtk+-1.3.0-20030216-setup.exe">this</a>
-to be installed first. &nbsp;To get GIF compression, install <a
+to be installed first.  To get GIF compression, install <a
  href="../packages/Scheme/applications/gimp-1.2.4-20020907-lzw-setup.exe">this</a>
 afterwards), <a href="../packages/Scheme/applications/WindowsSource">Windows
 Source Code</a>, <a
