@@ -246,7 +246,7 @@ most common of these generic list-processing functions are:
 </para></listitem>
 </varlistentry>
 
-</variablelist>
+<varlistentry>
 
 </variablelist>
 
@@ -806,7 +806,7 @@ The <literal>generic_function</literal> type was created in order to have the mo
 </para>
 
 <para>
-The parts of the program that create and consume the environment are responsible for knowing it's layout.  The <literal>closure</literal> struct just has a pointer to it.  There are some APIs that define an entire marshalling system for creating and using closures (see the <ulink url="#Resources">resources</ulink> section for a link).  But this
+The parts of the program that create and consume the environment are responsible for knowing it's layout.  The <literal>closure</literal> struct just has a pointer to it.  There are some APIs that define an entire marshalling system for creating and using closures (see the <a href="#Resources">resources</a> section for a link).  But this
 is all that's necessary for a basic implementation.  Let's look at our counter example
 to get a clue on how all of this works together:
 </para>
@@ -814,8 +814,8 @@ to get a clue on how all of this works together:
 <example>
 <title>Counter closure in C</title>
 <programlisting>
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+#include <stdio.h>
+#include <stdlib.h>
 
 /* Closure definitions */
 typedef void *(*generic_function)(void *p, ...);
