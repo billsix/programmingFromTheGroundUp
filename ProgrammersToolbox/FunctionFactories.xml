@@ -186,7 +186,7 @@ In addition to <literal>map</literal>, there are several other generic list-proc
 <term>filter</term>
 <listitem><para>
 <literal>filter</literal> takes a list and generates a new list that contains the members of the old list that match a user-specified condition.
-</para></lisitem>
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -196,16 +196,14 @@ In addition to <literal>map</literal>, there are several other generic list-proc
 </para></listitem>
 </varlistentry>
 
-<varlistentry>
+</variablelist>
 
 <para>
 There are many others, but these are the basic ones which are easiest to learn and most widely used.
 </para>
 
-</variablelist>
-
 <para>
-Detailed descriptions of each of these functions are available through the links found in the <a href="#Resources">resources</a> section.
+Detailed descriptions of each of these functions are available through the links found in the <ulink url="#Resources">resources</ulink> section.
 </para>
 
 </sect1>
@@ -737,7 +735,7 @@ The <literal>generic_function</literal> type was created in order to have the mo
 </para>
 
 <para>
-The parts of the program that create and consume the environment are responsible for knowing it's layout.  The <literal>closure</literal> struct just has a pointer to it.  There are some APIs that define an entire marshalling system for creating and using closures (see the <a href="#Resources">resources</a> section for a link).  But this
+The parts of the program that create and consume the environment are responsible for knowing it's layout.  The <literal>closure</literal> struct just has a pointer to it.  There are some APIs that define an entire marshalling system for creating and using closures (see the <ulink url="#Resources">resources</ulink> section for a link).  But this
 is all that's necessary for a basic implementation.  Let's look at our counter example
 to get a clue on how all of this works together:
 </para>
@@ -745,8 +743,8 @@ to get a clue on how all of this works together:
 <example>
 <title>Counter closure in C</title>
 <programlisting>
-#include <stdio.h>
-#include <stdlib.h>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
 
 /* Closure definitions */
 typedef void *(*generic_function)(void *p, ...);
