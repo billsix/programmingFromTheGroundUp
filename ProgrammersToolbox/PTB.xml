@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" [
+<!ENTITY MemoryManagement SYSTEM "MemoryManagement.xml">
+<!ENTITY Introduction SYSTEM "Introduction.xml">
+<!ENTITY SymbolicProgramming SYSTEM "SymbolicProgramming.xml">
+<!ENTITY FunctionalProgrammingIntro SYSTEM "FunctionalProgrammingIntro.xml">
+<!ENTITY Closures SYSTEM "Closures.xml">
+<!ENTITY RecursionProgramProving SYSTEM "RecursionProgramProving.xml">
+<!ENTITY MetaProgramming SYSTEM "MetaProgramming.xml">
+<!ENTITY SchemeMacros SYSTEM "SchemeMacros.xml">
+<!ENTITY PracticalMacros SYSTEM "PracticalMacros.xml">
+<!ENTITY Continuations SYSTEM "Continuations.xml">
+<!ENTITY OtherVariableScopes SYSTEM "OtherVariableScopes.xml">
+<!ENTITY LazyProgramming SYSTEM "LazyProgramming.xml">
+<!ENTITY EvaluatingLanguages SYSTEM "EvaluatingLanguages.xml">
+]>
+<book>
+
+<title>The Programmer's Toolbox</title>
+<subtitle>Programming Tools to Double Your Effectiveness</subtitle>
+
+<bookinfo>
+<author>
+<firstname>Jonathan</firstname>
+<surname>Bartlett</surname>
+</author>
+<copyright><year>2004</year><holder>Jonathan Bartlett</holder></copyright>
+</bookinfo>
+
+&Introduction;
+<part>
+<title>Foundations</title>
+&MemoryManagement;
+&SymbolicProgramming;
+</part>
+
+<part>
+<title>Functional Programming</title>
+&FunctionalProgrammingIntro;
+&Closures;
+&RecursionProgramProving;
+</part>
+
+<part>
+<title>Program-Generating Programs</title>
+&MetaProgramming;
+&SchemeMacros;
+&PracticalMacros;
+</part>
+
+<part>
+<title>State Management and Flow Control</title>
+&Continuations;
+&OtherVariableScopes;
+&LazyProgramming;
+</part>
+
+&EvaluatingLanguages;
+
+</book>
