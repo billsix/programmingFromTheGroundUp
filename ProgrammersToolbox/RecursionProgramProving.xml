@@ -270,6 +270,7 @@ function to keep this from happening:
 								(recurse (cdr internal-list)))))))
 			(recurse the-list))))
 </programlisting>
+</example>
 
 <para>
 This version of the program is a little harder to follow.  It defines a closure 
@@ -297,6 +298,7 @@ about, so take a look at the code, and compare it to the code above.
 
 <example>
 <title>Named let example</title>
+<programlisting>
 (define is-in-list2
 	(lambda (the-list the-string)
 		;;Named Let
@@ -496,7 +498,7 @@ recursive functions repeat by calling themselves.
 In order to guarantee that it will terminate, a loop must have one or more conditions which cause
 it to terminate, and it must be guaranteed to hit one.  Likewise, recursive functions require a
 base case, which causes the function to stop recursing. 
-</para><listitem>
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
