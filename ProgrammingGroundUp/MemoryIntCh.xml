@@ -191,10 +191,11 @@ source code.
 <para>
 The actual instructions (the <literal>.text<indexterm><primary>.text</primary></indexterm></literal> section) are loaded at the 
 address 0x08048000 (numbers starting with <literal>0x</literal> are in hexadecimal, which
-will be discussed in <xref linkend="countingchapter" />).  The <literal>.data<indexterm><primary>.data</primary></indexterm></literal>
+will be discussed in <xref linkend="countingchapter" />).<footnote><para>Addresses mentioned in this chapter are not set in stone and may vary based on kernel 
+version.</para></footnote>  The <literal>.data<indexterm><primary>.data</primary></indexterm></literal>
 section is loaded immediately after that, followed by the 
 <literal>.bss<indexterm><primary>.bss</primary></indexterm></literal>
-section.  
+section.
 </para>
 
 <para>
