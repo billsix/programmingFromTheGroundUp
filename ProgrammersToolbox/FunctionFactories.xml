@@ -2,14 +2,20 @@
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN">
 <chapter>
 <title>Higher Order Functions</title>
-<subtitle>Taking functions as arguments, function-generating functions, and anonymous funtions</subtitle>
+<subtitle>Taking functions as arguments, function-generating functions, and anonymous functions</subtitle>
 
 <para>
-Functions are a wonderful and powerful part of computer programming.  Functions allow us to break our code down into simpler, more manageable steps.  They also allow us to break our programs into reusable parts -- parts that are both reusable within the program and often in other programs as well.  This article will help you use functions to create functions that can be extended through function parameters and through combining functions with their data environments.
+Functions are a wonderful and powerful building block of computer
+programs.  Functions allow us to break our code down into simpler,
+more manageable steps.  They also allow us to break our programs into
+reusable parts -- parts that are both reusable within the program and
+often in other programs as well.  This article will teach you to create
+new functions at runtime based on templates, and will teach you to create
+functions that are configurable at runtime using function parameters.
 </para>
 
 <para>
-The examples given in this article will be in the Scheme programming language and in C.  An introduction to the Scheme programming language can be found in <ulink url="http://www.ibm.com/developerworks/linux/library/l-listproc/">a previous artilce</ulink>.  Other Scheme introductions and Scheme function references are linked to in the <ulink url="#Resources">Resources</ulink> section of this article.
+Examples in this article will use the Scheme programming language and C.  An introduction to the Scheme programming language can be found in <ulink url="http://www.ibm.com/developerworks/linux/library/l-listproc/">a previous artilce</ulink>.  Links to other Scheme introductions and Scheme function references are provided in the <ulink url="#Resources">Resources</ulink> section of this article.
 </para>
 
 <sect1>
@@ -20,17 +26,27 @@ In Scheme, functions are created by default without names.  The <emphasis>lambda
 </para>
 
 <itemizedlist>
-<listitem><para>Set a symbol to refer to it (thus giving it a name)</para></listitem>
-<listitem><para>Store it in a data structure for later use</para></listitem>
-<listitem><para>Pass it as a parameter to a function</para></listitem>
+<listitem><para>Set a symbol to refer to the value (thus giving it a name)</para></listitem>
+<listitem><para>Store the value in a data structure for later use</para></listitem>
+<listitem><para>Pass the value as a parameter to a function</para></listitem>
 </itemizedlist>
 
 <para>
-In most programming languages, defining functions and naming them occur simultaneously.  This leads to a lot of confusion to new Scheme programmers, because Scheme treats a functions like any other value.  Just like any other value, a function can be passed as arguments, stored into variables, or stored as a part of a larger data structure.  To make a Scheme function created with lambda act like a function from other languages, you would store it in a global variable.
+In most programming languages, defining functions and naming them
+occur simultaneously.  The fact that these operations are separate
+leads to a lot of confusion to new Scheme programmers.  Scheme's
+method is actually very simple, because Scheme treats functions just
+as it would other values.  Just like other values, functions can be passed as
+arguments, stored into variables, or stored as a part of a larger data
+structure.  To make a Scheme function created with lambda act like a
+function from other languages, you need to store  it in a global
+variable.
 </para>
 
+<!-- FIXME -- slowdown previous paragraph, too much information too quickly -->
+
 <para>
-Here is an example anonymous function in Scheme, which squares the number given to it:
+Here is an example of an anonymous function in Scheme that squares the number given to it:
 </para>
 
 <example>
@@ -43,7 +59,7 @@ Here is an example anonymous function in Scheme, which squares the number given 
 </example>
 
 <para>
-This defines a function with one formal parameter, <literal>x</literal>.  The function squares the parameter and returns the value.  Remember, Scheme doesn't need explicit return values, it simply returns the result of the last form evaluated in the function.
+This code defines a function with one formal parameter, <literal>x</literal>.  The function squares the parameter and returns the value.  Remember, Scheme doesn't need explicit return values.  Scheme simply returns the result of the last form evaluated in the function.
 </para>
 
 <para>
@@ -65,11 +81,11 @@ Let's continue by giving the function a name:
 </example>
 
 <para>
-This is the simplest and most common way of dealing with functions -- giving them a name and then using them in computation later on.  However, there is no rule in Scheme that forces you to give a function a name before using it.  In Scheme, the head of a list in a program must result in a function or a special form, but that doesn't mean it has to be the <emphasis>name</emphasis> of a function.  Since the <literal>lambda</literal> special form returns functions, we can actually use a <literal>lambda</literal> function definition directly in a function call.  For example, instead of writing <literal>(square 4)</literal>, we can also write <literal>( (lambda (x) (* x x)) 4)</literal>.  This is a two-element list, where the first element is the definition of the function and the second element is a number.  The head of this list is the function definition itself.  When it runs, it first evaluates everything within the list.  The <literal>lambda</literal> form evalutes to a function definition, which, since it is the head of the list, is called on the second element.  The return value of this form is the square of the number 4.
+This is the simplest and most common way of dealing with functions -- giving them a name and then using them in computation later on.  However, there is no rule in Scheme that forces us to give a function a name before using it.  In Scheme, the head of a list in a program must result in a function or a special form, but that doesn't mean it has to be the <emphasis>name</emphasis> of a function.  Because the <literal>lambda</literal> special form returns functions, we can actually use a <literal>lambda</literal> function definition directly in a function call.  For example, instead of writing <literal>(square 4)</literal>, we can also write <literal>( (lambda (x) (* x x)) 4)</literal>.  This is a two-element list, in which the first element is the definition of the function and the second element is a number.  The head of this list is the function definition itself.  When it runs, it first evaluates everything within the list.  The <literal>lambda</literal> form evaluates to a function definition, which, because it is the head of the list, is called on the second element.  The return value of this form is the square of the number 4.
 </para>
 
 <para>
-Defining and calling functions immediately (rather than naming them or passing them as a value) is an interesting concept, but not extremely useful.  However, it does illustrate the idea of functions as values and how anonymous functions work.
+Defining and calling functions immediately, rather than naming them or passing them as values, is an interesting concept, but not extremely useful.  However, it does illustrate the idea of functions as values and shows how anonymous functions work.
 </para>
 
 </sect1>
@@ -78,7 +94,14 @@ Defining and calling functions immediately (rather than naming them or passing t
 <title>Functions as Function Arguments</title>
 
 <para>
-A practical use of nameless functions is building functions to pass as arguments to other functions.  The best example of that is the Scheme built-in function <literal>map</literal>.  Map takes two arguments -- a function of one variable and a list.  It then applies that function to each element of the list, and returns a new list made up of the results.  For example, using our square function, we can take a list of numbers and square them:
+A practical use of nameless functions is that of building functions to
+pass as arguments to other functions.  The best example of this is the
+Scheme built-in function <literal>map</literal>.
+<literal>Map</literal> takes two arguments, a function of one
+variable and a list. It then applies that function to each element of
+the list and returns a new list made up of the results.  For example,
+using our square function, we can take a list of numbers and square
+them:
 </para>
 
 <example>
@@ -100,7 +123,8 @@ A practical use of nameless functions is building functions to pass as arguments
 </example>
 
 <para>
-The equivalent C code would look like this:
+This is a pretty concise program compared to other languages.
+For example, in C the equivalent code would look like this:
 </para>
 
 <programlisting>
@@ -134,11 +158,24 @@ int main()
 </programlisting>
 
 <para>
-Of course, in C, unless we use a type tag mechanism like the one mentioned <ulink url="http://www.ibm.com/developerworks/linux/library/l-listproc/">in this article</ulink>, we would need a different function for every type of value used with <literal>map</literal>.
+Of course, in C, unless we use a type-tag mechanism like the one
+mentioned <ulink
+url="http://www.ibm.com/developerworks/linux/library/l-listproc/">in
+this article</ulink>, we will need a different function for every type
+of value used with <literal>map</literal>.
 </para>
 
 <para>
-In addition to being more concise, coding such a function in Scheme has an additional advantage - the naming of the function <literal>square</literal> is not needed.  In Scheme, since functions can be created and passed just like any other value, the core of the code can be modified so that an anonymous function is passed to <literal>map</literal> instead of a named one.  In the place of the variable name <literal>square</literal> we will instead have the definition of the function written as a <literal>lambda</literal> form.  Here is the code:
+In addition to being more concise than C, coding such a function in
+Scheme has an additional advantage - the naming of the function
+<literal>square</literal> is not needed.  In Scheme, because functions
+can be created and passed just like any other value, the core of the
+code can be modified so that we don't even have to give our squaring
+function a name.  We can just define it and pass it to
+<literal>map</literal>.  In the place of the variable name
+<literal>square</literal>, we will instead have the definition of the
+function written as a <literal>lambda</literal> form.  Here is the
+code:
 </para>
 
 <example>
@@ -151,26 +188,39 @@ In addition to being more concise, coding such a function in Scheme has an addit
 </example>
 
 <para>
-So why do it this way?  Well, anonymous functions have several advantages over named functions in the cases where the function is only used once:
+So why do it this way?  Well, anonymous functions have several advantages over named functions when the function is only used once:
 </para>
 
 <itemizedlist>
 <listitem><para>The program namespace isn't polluted with a lot of functions that are only used once.</para></listitem>
-<listitem><para>The code for the function is located in the exact spot it is used, so programmers don't have to go hunting for the code of tiny, one-use functions.</para></listitem>
-<listitem><para>The function is clearly associated with the function it's being passed to, therefore it is obvious to other programmers what context it is being used in.  If you had written the function separately and then removed the code which used the function, you might never know that this function is now useless.</para></listitem>
+<listitem><para>The code for the function is located in the exact spot where it is used; therefore programmers don't have to go hunting for the code of tiny, one-use functions.</para></listitem>
+<listitem><para>The function is clearly associated with the function it's being passed to; therefore it is obvious to other programmers what context it is being used in.  If a one-use function is written separate from the calling function, if the calling function is later removed it won't be obvious that the one-use function would need to be removed as well.</para></listitem>
 </itemizedlist>
 
 <para>
-In short, writing anonymous functions make the code concise, easy to follow, and makes it obvious to other programmers that this function is specialized for this one, specific use.
+In short, using anonymous functions makes the code concise and easy to follow  and makes it obvious to other programmers when a function is specialized for one, specific use.
 </para>
 
 <para>
-Also, as you can see from the <literal>map</literal> function, passing functions as arguments allow us more control over what happens to our data downstream.  In this instance, the <literal>map</literal> function iterated through each value
-in the list, and then <emphasis>used our function</emphasis> to manage furter processing of that value.  This allows function writers and users great flexibility, since you can create functions which allow the users of that function to be able to plug in extra functionality through passing functions as arguments.
+Also, as seen from the <literal>map</literal> function, passing
+functions as arguments allows us more control over what happens to our
+data downstream.  In this instance, the <literal>map</literal>
+function iterated through each value in the list and then
+<emphasis>used our function</emphasis> to manage further processing of
+that list value.  This allows function writers and users great flexibility.
+We can create a function that allows the users of that function
+to plug in extra functionality by passing functions as arguments.
 </para>
 
 <para>
-In addition to <literal>map</literal>, there are several other generic list-processing functions that take functions as parameters.  These functions combined with custom code can produce very powerful programs very quickly.  The most common list-processing functions are:
+In addition to <literal>map</literal>, there are several other generic
+list-processing functions that take functions as parameters.  These
+functions, or ones like them, are the backbone of any data processing
+application.  Using these generic functions takes a lot of the
+repetitiveness out of programming; otherwise we are left to code loops
+after loops that all essentially work the same way.  Not only do we
+save time, we also have fewer opportunities to introduce bugs. The
+most common of these generic list-processing functions are:
 </para>
 
 <variablelist>
@@ -178,32 +228,35 @@ In addition to <literal>map</literal>, there are several other generic list-proc
 <varlistentry>
 <term>map</term>
 <listitem><para>
-<literal>map</literal> takes a list and generates a new list based on applying a user-supplied function to each list member.
+<literal>map</literal> takes a list and generates a new list by applying a user-supplied function to each list member.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term>filter</term>
 <listitem><para>
-<literal>filter</literal> takes a list and generates a new list that contains the members of the old list that match a user-specified condition.
-</para></listitem>
+<literal>filter</literal> takes a list and generates a new list containing the members of the old list that match a user-specified condition.
+</para></lisitem>
 </varlistentry>
 
 <varlistentry>
 <term>reduce</term>
 <listitem><para>
-<literal>reduce</literal> takes a list and combines the values into a single value.  This combination procedure can be summation, min-value, max-value, etc.  In order to use this correctly, you need closures which will be discussed shortly.
+<literal>reduce</literal> takes a list and combines the values into a single value.  This combining procedure can be summation, min-value, max-value, etc.  In order to use this correctly, we need to use closures which will be discussed shortly.
 </para></listitem>
 </varlistentry>
 
 </variablelist>
 
+</variablelist>
+
 <para>
-There are many others, but these are the basic ones which are easiest to learn and most widely used.
+There are several other generic list-processing functions, but these
+are the basic ones that are easiest to learn and most widely used.
 </para>
 
 <para>
-Detailed descriptions of each of these functions are available through the links found in the <ulink url="#Resources">resources</ulink> section.
+Detailed descriptions of these functions are available through the links found in the <a href="#Resources">Resources</a> section.
 </para>
 
 </sect1>
@@ -219,20 +272,29 @@ parameters.
 
 <para>
 New programmers often have trouble seeing places where passing
-functions as arguments would be useful.  In many programs, there will be one or two instances where you will have what is 
-basically the same algorithm coded multiple times, but with slight variations.  These types of functions are ideal for having functions as arguments.  The commonalities of the functions can  be rewritten together as a single function with the differences coded as other functions passed as arguments.
+functions as arguments would be useful.  In many programs, there will
+be one or two instances of what is basically the same algorithm coded
+multiple times, but with slight variations.  These are perfect
+candidates for functions as arguments.  What you can do is code the
+basic structure of the algorithm into one function.  Then, you can
+take the pieces that vary and add them back in as function parameters.
+This allows a great amount of customization within the function.  You
+can also add extra function parameters for future expansion.  Combining
+functions like this removes redundancy from your programs, and by extension
+reduces the errors that come from re-coding the same algorithm over and over
+within a program.
 </para>
 
 <para>
-Let's say that you have an order-processing algorithm composed of
+Suppose we have an order-processing algorithm composed of
 several parts:
 </para>
 
 <itemizedlist>
-<listitem><para>Process each line of the order and add up the total</para></listitem>
-<listitem><para>Calculate Shipping on the order</para></listitem>
-<listitem><para>Validate the credit line of the purchaser</para></listitem>
-<listitem><para>If successful, charge the order, send an order confirmation, and record it in the database</para></listitem>
+<listitem><para>Process each line of the order and add up the total.</para></listitem>
+<listitem><para>Calculate shipping on the order.</para></listitem>
+<listitem><para>Validate the credit line of the purchaser.</para></listitem>
+<listitem><para>If successful, charge the order, send an order confirmation, and record it in the database.</para></listitem>
 </itemizedlist>
 
 <para>
@@ -241,33 +303,35 @@ to calculate, have their credit line calculated differently, and are
 charged differently for each order.  For example, shipping might be
 calculated through a different service provider depending on the
 client.  The credit line might be checked through your own business on
-some customers, or through the credit card company on others.
+some customers, or through the credit-card company on others.
 Finally, order charging would vary depending on whether the client was
 normally billed, charged through their credit card, or performs
 automatic withdrawal.  
 </para>
+<!-- FIXME - michael thinks the above paragraph needs expansion -->
 
 <para>
-One solution to this would be to simply hardcode all of the possible
-pathways in your order-processing algorithm directly.  Then the call
-to this function would include a list of flags indicating which style
-of processing was requested.  However, as the number of different
-possibilities got larger, the order-processing algorithm would get
-unwieldy.  Another way to do it is to have these stages
-handled by independent functions passed to the algorithm.  This way, the
-order-processing algorithm only needs to have the general flow of the
-algorithm coded directly.  The specifics of each major stage would be
-handled by functions passed in.
+One way to code such a function would be to simply hardcode all of the
+possible pathways in our order-processing algorithm directly.  Then,
+the call to this function would include a list of flags indicating
+which style of processing was requested.  However, as the number of
+different possibilities got larger, the order-processing algorithm
+would get unwieldy.  Another way to code the function is to have these stages
+handled by independent functions passed to the algorithm.  This way,
+the order-processing algorithm needs to have only the general flow of
+the algorithm coded directly.  The specifics of each major stage would
+be handled by functions passed in.
 </para>
 
 <para>
-Such an algorithm would need to have parameters for the shipping
-calculation function, the credit validation function, and the order
-charging function.  Here is an example function in scheme:
+Such an algorithm would need to have parameters for the
+shipping-calculation function, the credit-validation function, and the
+order-charging function.  Here is a function in Scheme that encodes
+such an algorithm:
 </para>
 
 <example>
-<title>Example of using functions as arguments in order processing</title>
+<title>Using functions as arguments in order processing</title>
 <programlisting>
 (define process-order 
 	;;The function has one data record for the order and three functions as parameters
@@ -328,10 +392,17 @@ charging function.  Here is an example function in scheme:
 </example>
 
 <para>
-As you can see, parameters which are functions are passed just like any other parameter, the difference
-being only their use within the program.  This technique allows you to have the algorithm code the general
-flow of control, but have the specifics of the processing be parameterized.  It is difficult to say the
-point at which passing functions as parameters is more beneficial than having special cases and/or flags control the processing in your code.  However, I would look at the following for guidelines:
+Parameters that are functions are passed just like any other
+parameter, the only difference being their use within the program.
+This technique allows us to have the algorithm code the general flow
+of control, but still have the specifics of the processing
+parameterized.  Many programmers who do not know this technique either
+have lots of flags that control the processing.  That's not a bad idea
+for a few simple variations in processing, but it starts to get
+unwieldy as the number of differences grows.  It is difficult to determine
+the point at which passing functions as parameters is more beneficial
+than having special cases and/or flags control the processing in a function.
+There are, however, some guidelines.
 </para>
 
 <itemizedlist>
@@ -344,33 +415,33 @@ using most of the algorithm's local variables to generate the desired options, s
 </itemizedlist>
 
 <para>
-The C language can also have functions passed as parameters.  However,
+The C language can also have functions passed as parameters, but
 writing a parameter specification for a function in C is a little
-confusing.  C is statically typed (types are checked at compile-time)
+confusing.  C is statically typed -- that is, types are checked at 
+compile-time -- 
 while Scheme is not.  Therefore, declaring a variable or parameter as
-holding a function requires you also specifying what types of
+holding a function requires that we also specify what types of
 parameters that function takes.  For example, let's take a look at how
 we might code the <literal>map</literal> function mentioned earlier.
 That function needed to take as a parameter a function of one integer
 that also returns an integer.  The prototype of our
 <literal>square</literal> function looked like this: 
 <literal>int square(int x)</literal>.  Therefore, to declare a
-variable which holds a pointer to such a function,
-you would write this code:
+variable that holds a pointer to such a function,
+we would write the following code:
 </para>
 
 <example>
-<title>Example variable declaration for a function pointer in C</title>
+<title>Variable declaration for a function pointer in C</title>
 <programlisting>
-/* This creates a variable called "the_function" which we can store pointers to functions */
 int (*the_function)(int);
 </programlisting>
 </example>
 
 <para>
-The first <literal>int</literal> tells that the return value is an
-integer.  Then, in parenthesis, you have the pointer notation and the
-name of the variable.  Then, in parentheses after the function name,
+The first <literal>int</literal> indicates that the return value is an
+integer.  Then, in parenthesis, we have the pointer notation and the
+name of the variable in parentheses after the function name,
 is a comma-separated list of the types of arguments that the function takes.
 </para>
 
