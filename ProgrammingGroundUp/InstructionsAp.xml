@@ -210,7 +210,7 @@ Perform unsigned multiplication.  Same rules as apply to <literal>imull</literal
 </entry></row>
 <row><entry>negl<indexterm zone="intins"><primary>negl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Negate the given register or memory location.
+Negates (gives the two's complement<indexterm zone="intins"><primary>two's complement</primary></indexterm> inversion of) the given register or memory location.
 </entry></row>
 <row><entry>sbbl<indexterm zone="intins"><primary>sbbl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -253,7 +253,7 @@ Performs a logical and of the contents of the two operands, and stores the resul
 <row><entry>notl<indexterm zone="logicins"><primary>notl</primary></indexterm></entry><entry>R/M</entry><entry></entry></row>
 <row><entry namest="instruction" nameend="flags">
 Performs a logical not on each bit in the operand.  Also known as a 
-one's complement.
+one's complement<indexterm zone="logicins"><primary>one's complement</primary></indexterm>.
 </entry></row>
 <row><entry>orl<indexterm zone="logicins"><primary>orl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
