@@ -294,11 +294,169 @@ I know those sound confusing, so here are some examples of these statements:<rem
 </mediaobject>
 
 
+<para>
+In this diagram, there are three lists.  The first list is the
+sequence <literal>(1 57 26 9)</literal>.  From now on, we are going to
+write our lists in parentheses to make them easier to read.  Now,
+within that list are several sublists.  One in particular was marked
+out in the diagram -- <literal>(57 26 9)</literal>.  However, 
+<literal>(26 9)</literal>, <literal>(9)</literal> and
+<literal>()</literal> (the empty list, or null list) are all also valid
+sublists of the first list.  Because the arrows for the nodes only
+point one direction, no modification to the data has to be made to use
+a sublist.
+</para>
+
+<para>
+In addition to plain sublists, the diagram also gives an example of
+shared sublists.  The list <literal>(18 32 26 9)</literal> is actually
+sharing the last two nodes with our original list.  That means that
+any changes to the original list will affect this one as well.  That
+also means that this list does not require additional memory for the
+last two nodes.  In addition, this list may be a sublist for other
+lists, and other lists may also use <literal>(26 9)</literal> as a
+sublist.  As mentioned earlier, if you take advantage of shared lists,
+you will definitely need a memory management strategy -- probably
+garbage collection.
+</para>
+
+<sect2>
+<title>Using Sublists to Avoid Locking</title>
+
+<para>
+One advantage of linked lists is that you can use them to avoid
+locking situations.  For example, let's say that you are programming a
+game.  In this game, you maintain a list of every drawable object, and
+you have the drawing thread running independently of the game thread.
+Now, during your game you may need to add or remove objects from this
+list from time to time.  While removing objects from the list requires
+locking the list, adding items (like fired bullets) to the list does
+not, if you add items to the front of the list.  The drawing thread
+can simply iterate through the list of objects without worry, because
+it knows that even if you add game objects during the drawing period,
+they will not affect the nodes that are currently being drawn.  What
+we are drawing will simply be a sublist of the new objects list.
+</para>
+
+<para>
+This technique is effective anytime you have an unordered collection
+that has to frequently be both iterated through and appended to.  As
+long as you append to the front of the list, you won't have to even
+touch the existing list structure, allowing other threads to iterate
+through it freely.  Note, however, that if you were to add elements to
+the end of the list, rather than at the front, you would be directly
+modifying the list structure itself, and it could result in race
+conditions if you are adding to the end of the list while someone is
+iterating through it.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Using Shared Sublists for Undo Operations</title>
+
+<para>
+Shared sublists are quite useful for a number of applications, one of
+which being undo operations.  If you structure your document as an
+append-only linked list, it allows you to easily revert your changes
+back to previous states.  For example, your document would look like
+this: <literal>(modification3 modification2 modification1 original-document)</literal>.
+This allows you to undo any change simply by moving the head of the list to a sublist.
+Hitting "undo" twice would cause your document to look like this:
+<literal>(modification1 original-document)</literal>.  You can also do multiple versions
+of documents by creating branches which share a document from a specified point.  This
+is the idea behind branches in CVS, for example.  You might have 
+<literal>(branch-modification2 branch-modification1 modification1 original-document)</literal>
+as a different set of modifications to the original document.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Using Lists to Represent Trees</title>
+
+<para>
+One other use for lists is to represent multi-noded trees.  Binary trees are represented by nodes which have a data value and a
+left and right pointer.  However, there are many data structures which require trees that have more than just a left and right
+branch.  In these cases, we find that lists are excellent representations of such trees.
+</para>
+
+<para>
+It may appear that our list structure can only handle sequenced values.  They can also handle "inverted trees" by using shared sublists, 
+but this is not what we are talking about here (if you have multiple lists sharing the same sublist, it looks like a tree graphically, but
+since the lists only go in a straight sequence, you cannot access the other branches from any other branch).  However, to represent true
+trees will require a different method.
+</para>
+
+<para>
+We talked earlier about how to use tagged types to enable us to use any type of data in our node.  If we use that concept, we can
+also store pointers to list nodes in our node, allowing us to have lists as the data for a list node.  Here's how it might look:
+</para>
 
 
+<mediaobject>
+<imageobject>
+<imagedata fileref="listtreeexample.png" format="PNG" />
+</imageobject>
+<caption><para><emphasis>An example of a tree using linked lists</emphasis></para></caption>
+</mediaobject>
 
+<para>
+Each node can either be a branch or a leaf.  We can represent this using our parenthetic notation by simply using lists as values
+within our list.  This example would be represented this way: <literal>(((15 42) 22 18) 32 (6 2))</literal>.  If you take a moment
+to examine it, you will find that it is really just a list of three elements, <literal>(element1 element2 element3)</literal>, where <literal>element1</literal>
+is a list, <literal>element2</literal> is the number 32, and <literal>element3</literal> is the list <literal>(6 2)</literal>.  The list for <literal>element1</literal>
+is itself a tree, where the first element is the list <literal>(15 42)</literal>, and the remaining two elements are <literal>22</literal> and <literal>18</literal>.
+As you can see, using lists of lists, you can represent trees that have any number of branches and leaves.
+</para>
 
+</sect2>
 
+<sect2>
+<title>Using Trees to Represent Syntax</title>
+
+<para>
+One great use of trees is representing the syntax of computer languages.  You can view computer languages as a hierarchical tree of language
+constructs.  At the top is the whole program.  That program is composed of an arbitrary number of statements, which are composed of an arbitrary number
+of expressions, which are themselves composed of an arbitrary number of expressions.  Thus, trees (specifically multinode trees) are ideal for representing
+computer languages.
+</para>
+
+<para>
+As a quick example, let's examine the parsing of an <literal>if</literal> statement.  <literal>if</literal> statements look like this:
+</para>
+
+<programlisting>
+if(x > y)
+{
+	call_some_function(a, b, c);
+}
+</programlisting>
+
+<para>
+Our representation will have the first element of each list represent the language operator, action, or function call, and the remaining elements represent the arguments.
+The parse tree for this might look something like this:
+</para>
+
+<mediaobject>
+<imageobject>
+<imagedata fileref="ifparse.png" format="PNG" />
+</imageobject>
+<caption><para><emphasis>An example of a parse tree using linked lists</emphasis></para></caption>
+</mediaobject>
+
+<para>
+We would write this out as <literal>(if (> x y) (call_some_function a b c))</literal>.  Note that we always list the operators/functions first because when processing
+the parse tree, you need to know what the operator or function you are dealing with before knowing the arguments.
+</para>
+
+<para>
+What's really interesting is that a large part of the parse trees of different languages are actually very similar.  Most languages parse if statements and function
+calls in basically the same way.  It would be really interesting if there were a language that operated directly on parse trees.  In fact, there is one, which the
+next section will cover.
+</para>
+
+</sect2>
 
 </sect1>
 
@@ -306,6 +464,322 @@ I know those sound confusing, so here are some examples of these statements:<rem
 <title>Scheme - a Language for List Manipulation</title>
 
 <para>
+In this article, we have discussed several interesting features for lists and list manipulation.  We've discussed:
+</para>
+
+<itemizedlist>
+<listitem><para>Using a list node data structure for lists</para></listitem>
+<listitem><para>Using typetags to allow list nodes and variables to store data of any arbitrary type</para></listitem>
+<listitem><para>Sharing lists and using sublists</para></listitem>
+<listitem><para>Using garbage collection to simplify memory management for lists</para></listitem>
+<listitem><para>Representing lists in parenthetical notation</para></listitem>
+</itemizedlist>
+
+<para>
+While all of these are beneficial, they are somewhat tedious to actually pull off in the C programming language.  
+Having to assign typetags, and to assign data to the appropriate member of the union is tedious.  Manually processing
+list nodes can be tedious.  Using garbage collection can be easy or difficult depending on the garbage collector in use.
+Parenthetical notation is nice, but you can't use it in th C language.  What would be nice is for a programming language 
+to take all these techniques and make them an integral part of the language.  
+</para>
+
+<para>
+Thankfully, that has already been done, and the language is Lisp.  Unfortunately, Lisp is a <emphasis>huge</emphasis> 
+language.
+</para>
+
+<para>
+Thankfully, there is a derivative of Lisp called Scheme, which is both powerful and very, very simple.  In fact, the standard
+document, including the index, is only 50 pages.
+</para>
+
+<sect2>
+<title>A quick introduction to Scheme syntax</title>
+
+<para>
+Scheme is almost entirely based on lists.  Scheme data comes in two varieties -- atoms and lists (there are also vectors, but they
+are not discussed in this article).  An atom is a basic piece of data,
+like a number, a string, or a character.  Lists are linked lists of atoms, lists, or both.  Even the programs you write in Scheme
+are just lists which happen to be parse trees, like the ones we played with previously.  In fact, the example we looked at
+is actually a valid scheme program.
+</para>
+
+<para>
+Let's give a concrete, runnable scheme program: <literal>(if (> 7 5) (display "Hello There!\n"))</literal>
+</para>
+
+<para>
+This program will compare 7 and 5, and since 7 is greater than 5, it will print "hello there!" to the screen.
+To run a scheme program, you need a scheme interpretter.  If you are running Linux, you probably have the GUILE
+scheme interpretter installed.  To run a scheme program using GUILE, just type in <literal>guile -s filename.scm</literal>.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Defining and Using Variables with Scheme</title>
+
+<para>
+A scheme program is just a collection of lists.  Each list is a parse tree that is run through Scheme's evaluator to
+produce a result.  The evaluator has 4 basic cases that it handles:
+</para>
+
+<itemizedlist>
+<listitem><para>Is the data a variable name?  If so, then look up the variable and return the value (in the case of function names, this returns the function)</para></listitem>
+<listitem><para>Is the data a list?  If not, then it is just a constant value, so return it.</para></listitem>
+<listitem><para>Is the first element of the list is the name of a <emphasis>special form</emphasis> (an operator that isn't a function)?  If so, then run the evaluator's internal procedure for that special form, and return the result.</para></listitem>
+<listitem><para>Otherwise, run the evaluator on each element of the list.  The first element must evaluate to a function, and that function is called with the remaining list elements as arguments, and the result of the function is returned as the result.</para></listitem>
+</itemizedlist>
+
+<para>
+So first, we'll look at the special form that is used to define variables, appropriately called <literal>define</literal>.  Define statements look like this: <literal>(define variablename value)</literal>.  Subsequent changes to the variable are done using the <literal>set!</literal> special form.  It works just like <literal>define</literal> but is used after a variable is already defined.  To try
+out these special forms, try entering in and running the following program:
+</para>
+
+<programlisting>
+(define x 200) ;Sets x to be 200
+(define y x) ;Sets y to be x, which is evaluated to 200
+(define a 50) ;Sets a to be 50
+(define b a) ;Sets b to be a, which is evaluted to 50
+(set! b 300) ;Sets b to be 300.  Note that this does not affect the value of a
+(display "x is ") ;display displays its argument, a string in this case
+(display x) ;here, x is evaluated, and its result is displayed
+(newline) ;newline just prints a newline
+(display "y is ") ;now we are doing the same for the other variables
+(display y)
+(newline)
+(display "a is ")
+(display a)
+(newline)
+(display "b is ")
+(display b)
+(newline)
+</programlisting>
+
+<para>
+As you might have guessed, <literal>display</literal> is a function that prints out its argument, and <literal>newline</literal> is a function that simply prints out an end-of-line character.
+</para>
+
+<para>
+You can use any expression that you want as a value.  For example, you can use the addition function (called <literal>+</literal> in scheme) to calculate values.  You can even include the
+<literal>if</literal> special form as part of an expression.  Here is another code example using these concepts:
+</para>
+
+<programlisting>
+(define a 20) 
+(define b (+ 20 a)) ;b is given the result of (+ 20 a).  Remember that the function name is always listed first in the list
+(define c (if (> b a) b a)) ;read this as "if b is greater than a then b else a"
+(define d (if (eq? c b) "B and C are equal" "B and C are not equal"))
+(set! a (+ a a a)) ;a is tripled, and then a is set to the resulting value
+(display "a is ") ;now we're just printing out all our variables
+(display a)
+(newline)
+(display "b is ")
+(display b)
+(newline)
+(display "c is ")
+(display c)
+(newline)
+(display "d is ")
+(display d)
+(newline)
+</programlisting>
+
+<para>
+Notice how I can stick any type of data into any variable.  In the previous program, I used both integer and string data, and never had
+to tell the scheme language what type of data I was using.  Internally, Scheme uses typetags to differentiate between the different types of data.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Creating Lists with Scheme</title>
+
+<para>
+Of course, the whole reason of using Scheme in the first place is to handle list manipulations.  In Scheme, list nodes are called <emphasis>pairs</emphasis>.  They
+are slightly different, because the bottom half of a pair doesn't have to be a pointer to a list node.  But for our uses, we will use pairs exactly like we
+use list nodes.
+</para>
+
+<para>
+Scheme defines a list as being either:
+</para>
+
+<itemizedlist>
+<listitem><para>The null list</para></listitem>
+<listitem><para>A pair whose bottom half is a list</para></listitem>
+</itemizedlist>
+
+<para>
+This means that the bottom half of a pair that's used in a list will always point to a list.  We know we're at the end of a list when we hit the
+null list, written as <literal>()</literal>.
+</para>
+
+<para>
+To create a list node in scheme, you use the <literal>cons</literal> function (which stands for <emphasis>construct</emphasis>).  <literal>cons</literal>
+takes two arguments, the node data, and the list that the bottom half of the pair will point to.  If you are just starting a list, then you would use the
+null list.  For example:
+</para>
+
+<programlisting>
+(define myfirstschemelist (cons 23 '()))
+</programlisting>
+
+<para>
+The single-quote in front of the null list is used to tell Scheme that we are using <literal>()</literal> as data, and not as a part of our parse tree.
+<literal>cons</literal> is like a specialized malloc for Scheme pairs.  In addition, since Scheme is garbage collected, you never have to worry about 
+freeing the pair.  Once you stop using it, the Scheme runtime will take care of it for you.
+</para>
+
+<para>
+Here is a program that demonstrates creating a list in scheme of the numbers 3, 4, and 5:
+</para>
+
+<programlisting>
+(define mylist '()) ;The null list is a list
+(set! mylist (cons 5 mylist)) ;This constructs a new node with 5 as the data, and set! makes mylist now point to the new node
+(set! mylist (cons 3 (cons 4 mylist))) ;This constructs two nodes in one statement.  The result of the second cons is used as the second argument of the first cons.
+(display mylist) ; lets see what we've created!
+(newline)
+</programlisting>
+
+<para>
+Here we are going to demonstrate how this can be used to create shared sublists:
+</para>
+
+<programlisting>
+(define a '(1 2 3)) ;remember, ' means to treat the list as data, so now the variable a contains (1 2 3)
+(define b (cons "Hello" a)) ;remember, each list element can be of any type. 
+(define c (cons 55 a)) ;Lists b and c are now both sharing list a as a sublist
+(define d (cons 23 (cons "My name is Fred" (cons 22.5 b)))) ;This shared list b, which shares list a
+;Let's print them out
+(display "a is ")
+(display a)
+(newline)
+(display "b is ")
+(display b)
+(newline)
+(display "c is ")
+(display c)
+(newline)
+(display "d is ")
+(display d)
+(newline)
+</programlisting>
+
+<para>
+If you get confused, it might be worthwhile to draw out each list node.  Remember, <literal>cons</literal> creates list nodes.
+</para>
+
+<para>
+Now, in order for lists to be useful, you have to be able to retrieve the data.  The function to retrieve the data from the first
+element of a list is called <literal>car</literal> (the name is a holdover from an ancient assembly language instruction).  To
+retrieve the next node of a list, you use the function <literal>cdr</literal> (note that this retrieves the entire node, not just
+the value -- to get the value you would have to do a <literal>car</literal> on the result).
+</para>
+
+<para>
+Add the following code to the previous program to see how <literal>car</literal> and <literal>cdr</literal> can be used:
+</para>
+
+<programlisting>
+(define e (car d)) ;e now has the data of the first node of d
+(define f (cdr d)) ;f now has the list starting AFTER the first node of d
+(define g (car (cdr d))) ;g now has the data of the second node of d
+(define h (car (cdr (cdr (cdr (cdr d)))))) ;h now has hte data of the 5th node of d
+(define i (cdr (cdr (cdr (cdr d))))) ;i now has the 4th sublist of d
+
+(display "e is ")
+(display e)
+(newline)
+(display "f is ")
+(display f)
+(newline)
+(display "g is ")
+(display g)
+(newline)
+(display "h is ")
+(display h)
+(newline)
+(display "i is ")
+(display i)
+(newline)]
+</programlisting>
+
+</sect2>
+
+<sect2>
+<title>Iterating Through Lists in Scheme</title>
+
+<para>
+In addition to the normal control structures available in other languages, Scheme has some
+special ones specifically dealing with lists.  The most important one is <literal>map</literal>
+which applies a function to every element of a list.  <literal>map</literal> is called like this:
+<literal>(map function list-to-process)</literal>.  Therefore, in order to use <literal>map</literal>,
+we have to know how to define functions.  In scheme, functions are defined using the <literal>lambda</literal>
+special form.  <literal>lambda</literal> creates and returns a nameless procedure.  It can be given a name
+using <literal>define</literal>, or just used in place.  The first argument to <literal>lambda</literal> is
+the list of arguments the function can take.  The remaining arguments to <literal>lambda</literal> are the
+expressions to be evaluated when the function is called.
+</para>
+
+<para>
+Therefore, let's write a short function to add 2 to every element of a list, and return the resulting list:
+</para>
+
+<programlisting>
+(define my-list '(1 2 3)) ;our original list
+(define new-list 
+  (map
+    (lambda (x)   ;(x) is the argument list -- this takes one argument, called x
+      (+ x 2)     ;add 2 to x and return the value
+    )
+    my-list       ;this is the list to run it on.
+  )
+)
+
+(display "the original list is ")
+(display my-list)
+(newline)
+(display "the resulting list is ")
+(display new-list)
+(newline)
+</programlisting>
+
+<para>
+As you can see, this creates a brand new list that is the result of applying our function to every element of the original list.  
+In addition, it leaves the original list unchanged.
+</para>
+
+<para>
+As mentioned, you can also name your functions so that you can use them repeatedly:
+</para>
+
+<programlisting>
+(define addtwo (lambda (x) (+ x 2)))
+(display (addtwo 5))
+(newline)
+(display (map addtwo '(3 4 5)))
+(newline)
+</programlisting>
+
+<para>
+The Scheme language is a rich and powerful language for list manipulation, while still being easy to understand and grasp.  This has
+been just a primer, to give you a taste of how easy list manipulation is in list-oriented languages like Scheme.  We achieved all of
+the power of our C implementation without any of the difficulties of managing C structures, C memory, or of dealing directly with typetags.
+</para>
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>Conclusion</title>
+
+<para>
+Singly Linked Lists are a very powerful abstraction that allow you to represent numerous types of data.  Extending
+it with arbitrary data types, garbage collection, and list-oriented syntax can give you a powerful method of processing
+data.  When used with the list-oriented programming languages like scheme, the power of the list becomes not only 
+powerful, but extremely easy to use.
 </para>
 
 </sect1>
