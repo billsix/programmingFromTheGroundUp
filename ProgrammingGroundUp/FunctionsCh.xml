@@ -507,7 +507,13 @@ you don't need the values of the parameters anymore).<footnote><para>This is not
 When you call a function<indexterm><primary>functions</primary></indexterm>, you should assume that everything
 currently in your registers<indexterm><primary>registers</primary></indexterm> will be wiped out.  The only
 register that is guaranteed to be left with the value it
-started with is &ebp-indexed;.  &eax-indexed; is guaranteed to be overwritten,
+started with are &ebp-indexed; and a few others (the Linux C calling 
+convention requires functions to preserve the values of &ebx-indexed;, 
+&edi-indexed;, and &esi-indexed; if they are altered - this is not
+strictly held during this book because these programs are self-contained
+and not called by outside functions).  &ebx; also has some other uses
+in position-independent code, which is not covered in this book.
+&eax-indexed; is guaranteed to be overwritten with the return value,
 and the others likely are.  If there are registers you want
 to save before calling a function, you need to save them by
 pushing them on the stack<indexterm><primary>stack</primary></indexterm> before pushing the function's 
@@ -515,6 +521,10 @@ parameters.  You can then pop them back off in reverse order
 after popping off the parameters.  Even if you know a function
 does not overwrite a register you should save it, because
 future versions of that function may.
+</para>
+<para>
+Note that in Linux assembly language,
+functions are 
 </para>
 
 <para>
