@@ -489,8 +489,12 @@ much higher.  We'll look into that further in the next chapter.
 Anyway, since we have the <literal>data_items</literal>
 symbol, it doesn't matter because the assembler will put in the correct
 value for us.</para></footnote>  These are the numbers we
-will be searching through to find the maximum.  Note that the 
-last one is a zero.  I decided to use a zero to tell my program that
+will be searching through to find the maximum.
+</para>
+
+<para>
+Take note that the last data item in the list is a zero.  I decided 
+to use a zero to tell my program that
 we've hit the end of the list.  I could have done this other ways.  I
 could have had the size of the list hard-coded into the program.  Also,
 I could have put the length of the list as the first item, or in a separate
@@ -499,8 +503,12 @@ of the list items.  No matter how I do it, I must have some method of
 determining the end of the list.  The computer knows nothing -
 it can only do what its told.  It's not going to stop processing unless I give
 it some sort of signal.  Otherwise it would continue processing past the end
-of the list into the data that follows it, and even to locations where we haven't 
-put any data.  Also, notice that we don't have a 
+of the list into the data that follows it, and even to locations where 
+we haven't put any data.  
+</para>
+
+<para>
+Notice that we don't have a 
 <literal>.globl</literal> declaration for <literal>data_items</literal>.
 This is because we only refer to these locations within the program.  No
 other file or program needs to know where they are located.  This is
@@ -523,8 +531,8 @@ at the code.  In the comments you will notice that we've marked
 some <emphasis>variables</emphasis> that we plan to use.  A variable
 is a storage location used for a specific purpose.  We have a variable
 for the current maximum number found, one for which number of the 
-list we are currently examining (called the index), and one holding the current number
-being examined.  In this case,
+list we are currently examining (called the index), and one holding the 
+current number being examined.  In this case,
 we have few enough variables that we can hold them all in registers.
 In larger programs, you have to put them in memory, and then move
 them to registers when you are ready to use them.  Anyway, we are
@@ -728,8 +736,9 @@ can be anything you want them to be, as long as they only contain letters
 and the underscore character(<literal>_</literal>).  The only one that
 is forced is <literal>_start</literal>, and possibly others that you
 declare with <literal>.globl</literal>.  However, if its a symbol you
-define and only you use, feel free to call it anything you want that is adequately
-descriptive (remember that others will have to modify your code later)..
+define and only you use, feel free to call it anything you want that is 
+adequately descriptive (remember that others will have to modify your code 
+later).
 </para></footnote>
 </para>
 
@@ -807,17 +816,41 @@ that, you deserve a to have a coffee break.
 </sect1>
 
 <sect1>
-<title>Projects</title>
+<title>Review</title>
+
+<sect2>
+<title>Know the Concepts</title>
+<itemizedlist>
+<listitem><para>What does if mean if a line in the program starts with the '#' character?</para></listitem>
+<listitem><para>What is the difference between an assembly language file and an object code file?</para></listitem>
+<listitem><para>What does the linker do?</para></listitem>
+<listitem><para>How do you check the result status code of the last program you ran?</para></listitem>
+<listitem><para>What is the difference between <literal>movl $1, %eax</literal> and <literal>movl 1, %eax</literal>?</para></listitem>
+<listitem><para>Which register holds the system call number?</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Use the Concepts</title>
 
 <itemizedlist>
 <listitem><para>Modify the first program to return the value 3.</para></listitem>
-<listitem><para>Modify the first program to leave off the <literal>int</literal> instruction
-line. Assemble, link, and execute the new program.  What error message do you get.  Why
-do you think this might be?</para></listitem>
 <listitem><para>Modify the <literal>maximum</literal> program to find the minimum instead.</para></listitem>
 <listitem><para>Modify the <literal>maximum</literal> program to use an ending address rather than the number 0 to know when to stop.</para></listitem>
 <listitem><para>Modify the <literal>maximum</literal> program to use a length count rather than the number 0 to know when to stop.</para></listitem>
-<listitem><para>Which approach would you use (the number 0, and ending address, or a length count) if you knew that the list was sorted?  Why?</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+<sect2>
+<title>Going Further</title>
+
+</sect2>
+<itemizedlist>
+<listitem><para>Modify the first program to leave off the <literal>int</literal> instruction line. Assemble, link, and execute the new program.  What error message do you get.  Why do you think this might be?</para></listitem>
+<listitem><para>So far, we have discussed three approaches to finding the end of the list - the number 0, the ending address, and the length count.  Which approach would you use if you knew that the list was sorted?  Why?</para></listitem>
+<listitem><para>Given your knowledge of computer memory, what would the instruction <literal>movl _start, %eax</literal> do?</para></listitem>
 </itemizedlist> 
 
 </sect1>
