@@ -1,4 +1,4 @@
-<chapter>
+<chapter id="computerarchitecture">
 <title>Computer Architecture</title>
 
 <para>
@@ -11,7 +11,8 @@ engineering, but you need to understand some basics.
 Modern computer architecture<indexterm><primary>computer architecture</primary></indexterm> is based off of an architecture called
 the Von Neumann architecture<indexterm><primary>Von Neumann architecture</primary></indexterm>, named after its creator.  The Von
 Neumann architecture divides the computer up into two main parts -
-the CPU<indexterm><primary>CPU</primary></indexterm> (for Central Processing Unit) and the memory.
+the CPU<indexterm><primary>CPU</primary></indexterm> (for Central Processing Unit) and the memory.  This architecture is used in all modern computers, 
+including personal computers, supercomputers, mainframes, and even cell phones.
 </para>
 
 <sect1>
@@ -92,7 +93,7 @@ contains the following elements to accomplish this:
 The <emphasis>program counter</emphasis> is used to tell the computer where
 to fetch the next instruction from.  We mentioned earlier that there is no
 difference between the way data and programs are stored, they are just 
-interpretted differently by the CPU.  The program counter holds the location of the next instruction
+interpreted differently by the CPU.  The program counter holds the location of the next instruction
 to be executed.  The CPU begins by looking at the program counter, and fetching
 whatever number is stored in memory at the location specified.  It is then
 passed on to the <emphasis>instruction decoder</emphasis><indexterm><primary></primary></indexterm> which figures
@@ -106,7 +107,9 @@ of memory locations that are used to carry it out.
 <para>
 Now the computer uses the <emphasis>data bus</emphasis><indexterm><primary>data bus</primary></indexterm> to fetch the memory
 locations to be used in the calculation.  The data bus is the connection
-between the CPU and memory.  Some of the memory locations may actually
+between the CPU and memory.  It is the actual wire that connects them.  If
+you look at the motherboard of the computer, the wires that go out from the
+memory are your data bus.  Some of the memory locations may actually
 be <emphasis>general-purpose registers<indexterm><primary>general-purpose registers</primary></indexterm></emphasis> or 
 <emphasis>special-purpose registers<indexterm><primary>special-purpose registers</primary></indexterm></emphasis>.  A register<indexterm><primary>register</primary></indexterm> is a memory
 location that is located on the CPU itself.  Data operations are 
@@ -155,7 +158,12 @@ and even large numbers when all they can do is store numbers between
 each number.  When displaying to the screen, the computer uses 
 ASCII<indexterm><primary>ASCII</primary></indexterm> code tables to translate the numbers you are sending it
 into letters to display on the screen, with each number translating to
-exactly one letter or numeral.  For example, the capital letter A is 
+exactly one letter or numeral.<footnote><para>With the advent of international
+character sets and Unicode, this is not entirely true anymore.  However, for
+the purposes of keeping this simple for beginners, we will use the assumption
+that one number translates directly to one character.  For more information,
+see <xref linkend="asciilisting" />.</para></footnote>  For example, 
+the capital letter A is 
 represented by the number 65.   The numeral 1 is represented by the
 number 49.  So, to print out "HELLO", you would actually give the
 computer the sequence of numbers 72, 69, 76, 76, 79.  To print out
@@ -166,7 +174,7 @@ is found in <xref linkend="asciilisting" />.
 
 <para>
 In addition to using numbers to represent ASCII characters, you as the 
-programmer get to make the numbers mean anything you want them to as well.  
+programmer get to make the numbers mean anything you want them to, as well.  
 For example, if I am running a store, I would use a number to represent 
 each item I was selling.  Each number would be linked to a series of 
 other numbers which would be the ASCII<indexterm><primary>ASCII</primary></indexterm> codes for what I wanted to display 
@@ -239,7 +247,7 @@ of memory that can be executed with a special marker that indicates this.
 </sect1>
 
 <sect1 id="interpretingmemory">
-<title>Interpretting Memory</title>
+<title>Interpreting Memory</title>
 
 <para>
 Computers are very exact.  Because they are exact, you have to be
@@ -306,6 +314,8 @@ of the record.
 
 <sect1 id="dataaccessingmethods">
 <title>Data Accessing Methods</title>
+
+<!-- FIXME - this would be a good section for diagrams -->
 
 <para>
 Processors have a number of different ways of accessing data, known

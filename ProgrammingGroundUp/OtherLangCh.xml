@@ -35,14 +35,16 @@ many reasons, including
 As a programmer, you will often have to pick up new languages.  Professional
 programmers can usually pick up a new language with about a weeks
 worth of study and practice.  Languages are simply tools, and learning
-to use a new tool should not be something a programmer flinches at.  This
+to use a new tool should not be something a programmer flinches at.  In fact,
+if you do computer consulting you will often have to learn new languages
+on the spot in order to keep yourself employed, because it will often be your
+customer, not you, who decides what language is used.  This
 chapter will introduce you to a few of the languages available to you.  
 I encourage you to explore as many languages as you are interested in.
-
 </para>
 
 <sect1>
-<title>Compiled and Interpretted Languages</title>
+<title>Compiled and Interpreted Languages</title>
 
 <para>
 C is a <emphasis>compiled</emphasis> language.  When you wrote in
@@ -64,7 +66,7 @@ since the translator has to read and interpret the code as it goes
 along.  However, in well-made translators, this time can be
 fairly negligible.  There is also a class of hybrid languages
 which partially compile a program before execution into byte-codes,
-which are only machine readable.  This is done because translator can read the
+which are only machine readable.  This is done because the translator can read the
 byte-codes much faster than it can read the regular language.
 </para>
 
@@ -151,7 +153,7 @@ lines are simply comments about the program.
 <para>
 Then there is the line <literal>int main(int argc, char **argv)</literal>.
 This is the start of a function.  C Functions are declared with their 
-name, arguments and return type.  This declaration says that the functions
+name, arguments and return type.  This declaration says that the function's
 name is <literal>main</literal>, it returns an <literal>int</literal> 
 (integer - 4 bytes long on the x86 platform), and has two arguments - 
 an <literal>int</literal> called
@@ -162,7 +164,7 @@ You also don't have to worry about loading values into and out of registers
 because the compiler takes care of that, too.
 The <literal>main</literal> function is a special function in the
 C language - it is the
-start or all C programs (much like <literal>_start</literal> in our
+start of all C programs (much like <literal>_start</literal> in our
 assembly-language programs).  It always takes two parameters.  The first 
 parameter is the number of arguments given to this command, and the
 second parameter is a list of the arguments that were given.

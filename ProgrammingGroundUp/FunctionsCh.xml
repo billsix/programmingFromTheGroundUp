@@ -12,8 +12,6 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 -->
 
-<remark>I also need to talk about true functions versus subprograms/subroutines/procedures and stateless behavior</remark>
-
 <sect1>
 <title>Dealing with Complexity</title>
 
@@ -289,11 +287,9 @@ movl 4(%esp), %eax
 </programlisting>
 
 This uses the base pointer addressing mode
-<indexterm><primary>Addressing Modes</primary><secondary>Base Pointer Addressing</secondary></indexterm>
-which simply adds 4 to &esp; before looking up the value being pointed to.
+<indexterm><primary>Addressing Modes</primary><secondary>Base Pointer Addressing</secondary></indexterm> (see <xref linkend="dataaccessingmethods" />)
+which simply adds 4 to &esp; before looking up the value being pointed to.  
 </para>
-
-<remark>Does this need an xref to dataaccessingmethods?</remark>
 
 <para>
 In the C language calling convention, the stack is the key 
@@ -314,6 +310,7 @@ instruction pointer<indexterm><primary>Instruction Pointer</primary></indexterm>
 to point to the start of the function.  So, at the time the
 function starts, the stack looks like this:
 
+<!-- FIXME - Dominique says "This part can be confusing until one gets to the sample illustration code and then it makes sense." -->
 <programlisting>
 Parameter #N
 ...
@@ -507,7 +504,7 @@ that before the function, there is documentation as to
 what the function does, what it's arguments are, and
 what it gives as a return value.  This is useful for 
 programmers who use this function.  This is the function's
-interface.  This let's the programmer know what values are
+interface.  This lets the programmer know what values are
 needed on the stack, and what will be in &eax; at the end.
 </para>
 
@@ -522,9 +519,9 @@ This tells the linker that the symbol <literal>power</literal>
 should be treated as a function.  This isn't useful now, but
 it will be when you start building larger programs that run
 multiple files.  <xref linkend="linking" /> has additional
-information on what this is used for.  Because this program
+information on what this is used for.  Since this program
 is only in one file, it would work just the same with this
-left out.  However, it is good practice.  After that, we
+left out, however, it is good practice.  After that, we
 define the value of the <literal>power</literal> label:
 
 <programlisting>
@@ -591,14 +588,13 @@ decreases the given register by 1.
 <remark>Need to have defined operand a long time before now.
 Need to differentiate operands and parameters by the fact
 that operands are for instructions and parameters are for 
-functions.  Also need to have a list of
-important definitions at the end of each chapter or something.
+functions.  
 </remark>
 
 <para>
 A good project to try now is to extend the program so it
 will return the value of a number if the power is 0 (hint,
-the anything raised to the zero power is 1).  Keep trying.
+anything raised to the zero power is 1).  Keep trying.
 If it doesn't work at first, try going through your program
 by hand with a scrap of paper, keeping track of where
 &ebp; and &esp; are pointing, what is on the stack, and the
@@ -636,7 +632,6 @@ again, we just say that the factorial of 1 is 1.  So, let's run through
 what we want the code to look like for our factorial 
 function:<footnote><para>This is a function, not a program, because
 it is called more than once (specifically, its called from itself) 
-<remark>FIXME - needs more explanation</remark>
 </para></footnote>
 
 <orderedlist>
@@ -698,15 +693,19 @@ _start:
 </programlisting>
 
 Okay, this program is intended to compute the factorial of the number 
-4.  The way functions work, is that you are supposed to put the
+4.  When programming functions, you are supposed to put the
 parameters of the function on the top of the stack right before
-you call it.<footnote><para>A function's <emphasis>parameters</emphasis>
+you call it.  A function's <emphasis>parameters<indexterm><primary>parameters</primary></indexterm></emphasis>
 are the data that you want the function to work with.  In this case,
 the factorial function takes 1 parameter, the number you want the
 factorial of.  For any function you call, though, you have to get the
 parameters in the right order, or else the program will be operating
 on the wrong numbers.  In this case, we have only one parameter, so
-it's not a problem.</para></footnote>  The <literal>pushl</literal>
+it's not a problem.
+</para>
+
+<para>
+The <literal>pushl</literal>
 instruction puts the given value at the top of the stack.  The next
 instruction, <literal>call</literal>, is a lot like the <literal>jmp</literal>
 instruction.  The difference is that <literal>call</literal> will put
@@ -777,7 +776,7 @@ factorial:
 The <literal>.type</literal> directive tells the linker that 
 <literal>factorial</literal> is a function.  This isn't really needed
 unless we were using <literal>factorial</literal> in other programs.
-Anyway, we've put it here for completeness.  The line that says 
+We have included it for completeness.  The line that says 
 <literal>factorial:</literal> gives the symbol <literal>factorial</literal>
 the storage location of the next instruction.  That's how 
 <literal>call</literal> knew where to go when we said 

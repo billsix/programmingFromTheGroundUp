@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 
+<!-- FIXME - Dominique suggests I have an appendix of registers -->
+
+<!-- FIXME - Princeton guy needs a C -> Assembly appendix -->
+
+<!-- FIXME - need to find places that need more filling out.  Reviews, definitely.  Also "Reading Simple Records" from the files chapter -->
+
 <!--
 
 Copyright 2002 Jonathan Bartlett
@@ -35,6 +41,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY ascii-appendix SYSTEM "ASCIIAp.xml">
 <!ENTITY gui-appendix SYSTEM "GUIAp.xml">
 <!ENTITY syscall-appendix SYSTEM "SyscallAp.xml">
+<!ENTITY c-translation-appendix SYSTEM "CTranslationAp.xml">
 <!ENTITY history-appendix SYSTEM "HistoryAp.xml">
 
 <!ENTITY exit-s SYSTEM "exit.s">
@@ -58,6 +65,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 <!ENTITY percent "%">
 <!ENTITY eax "<literal>&percent;eax</literal>">
+<!ENTITY rax "<literal>&percent;rax</literal>">
 <!ENTITY ebx "<literal>&percent;ebx</literal>">
 <!ENTITY ecx "<literal>&percent;ecx</literal>">
 <!ENTITY edx "<literal>&percent;edx</literal>">
@@ -76,6 +84,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY ebp-indexed "<literal>&percent;ebp</literal><indexterm><primary><literal>&percent;ebp</literal></primary></indexterm>">
 <!ENTITY eip-indexed "<literal>&percent;eip</literal><indexterm><primary><literal>&percent;eip</literal></primary></indexterm>">
 <!ENTITY cl-indexed "<literal>&percent;cl</literal><indexterm><primary><literal>&percent;cl</literal></primary></indexterm>">
+<!ENTITY eflags-indexed "<literal>&percent;eflags</literal><indexterm><primary><literal>&percent;eflags</literal></primary></indexterm>">
 ]>
 
 <book>
@@ -85,7 +94,12 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <firstname>Jonathan</firstname>
 <surname>Bartlett</surname>
 </author>
-<copyright><year>2002</year><holder>Jonathan Bartlett</holder></copyright>
+<editor>
+<firstname>Dominick</firstname>
+<surname>Bruno</surname>
+<lineage>Jr.</lineage>
+</editor>
+<copyright><year>2003</year><holder>Jonathan Bartlett</holder></copyright>
 <legalnotice>
 <para>
 Permission is granted to copy, distribute and/or modify this
@@ -131,6 +145,7 @@ of the tool you use.
 &gui-appendix;
 &syscall-appendix;
 &ascii-appendix;
+&c-translation-appendix;
 
 &history-appendix;
 &fdl-appendix;

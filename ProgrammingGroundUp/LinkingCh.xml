@@ -107,20 +107,23 @@ ld -dynamic-linker /lib/ld-linux.so.2 -o helloworld-lib helloworld-lib.o -lc
 program to be linked to libraries, and the <literal>-lc</literal>
 says to link to the <literal>c</literal> library, named 
 <filename>libc.so</filename> on GNU/Linux systems.  Given a library
-name, <literal>c</literal> in this case, the GNU/Linux linker prepends
+name (<literal>c</literal> in this case) the GNU/Linux linker prepends
 the string <literal>lib</literal> to the beginning and 
 appends <literal>.so</literal> to the end to form the filename.  Also,
 most library names are more than one letter long.
 This library contains many functions.  The two we are using are
 <literal>printf</literal>, which prints strings, and 
 <literal>exit</literal>, which exits the program.  
-<!--Notice that they
+<!-- FIXME - Dominique thought that the cross-language stuff was confusing -->
+<footnote><para>
+Notice that the symbols <literal>printf</literal> and <literal>exit</literal>
 are simply referred to by name.  When the program is run by the user,
 the dynamic linker loads the libraries listed in our link statement,
 and then finds all of the function and variable names that were named by
 our program but not found at link time, and matches them up with corresponding
 entries in the shared libraries it loads.  This sounds time-consuming.  It
-is to a small degree, but it only happens once, at program startup time. -->
+is to a small degree, but it only happens once, at program startup time.
+</para></footnote>
 
 </para>
 
@@ -289,7 +292,7 @@ control characters it needs to replace, pull them off the stack,
 convert them to a suitable representation (numbers have to be converted
 to strings, etc), and stick them all together appropriately.  
 Personally, I'm glad they put that in a library, because it's way
-too much for me to write myself.
+too much for me to write myself!
 </para>
 
 <para>
@@ -408,7 +411,7 @@ is fairly complicated, since they can take up so many storage locations.
 <listitem><para>
 typedefs basically allow you to rename types.  For example, I can
 do <literal>typedef int myowntype;</literal> in a C program, and 
-any type I typed <literal>myowntype</literal>, it would be just
+any time I typed <literal>myowntype</literal>, it would be just
 as if I typed <literal>int</literal>.  This can get kind of
 annoying, because you have to look up what all of the typedefs and
 structs in a function prototype really mean.  

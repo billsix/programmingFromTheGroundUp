@@ -11,10 +11,15 @@ to being a successful programmer.
 <title>How a Computer Views Memory</title>
 
 <para>
+Let's review how memory within a computer works.  You may also want to
+re-read <xref linkend="computerarchitecture" />.
+</para>
+
+<para>
 A computer looks at memory as a long sequence of numbered storage
 locations.  A sequence of <emphasis>millions</emphasis> of numbered
 storage locations.  Everything is stored in these locations.  Your
-programs are store there, your data is stored there, everything.  
+programs are stored there, your data is stored there, everything.  
 Each storage location looks like every other one.  The locations 
 holding your program are just like the ones holding your data.  In
 fact, the computer has no idea which are which.  So, we've seen
@@ -28,7 +33,7 @@ arguments.  For example,
 	movl data_items(,%edi,4), %ebx
 </programlisting>
 
-takes up 7<remark>FIXME - NEED TO FIX - already covered</remark> storage locations.  The first two hold the instruction,
+takes up 7 storage locations.  The first two hold the instruction,
 the third one tells which registers to use, and the next four hold
 the storage location of <literal>data_items</literal>.  In memory,
 these look just like all the other numbers, and the instructions themselves
@@ -104,7 +109,7 @@ instruction pointer always has the value of the next instruction.  When
 the computer is ready to execute an instruction, it looks at the
 instruction pointer to see where to go next.  It then increments the
 instruction pointer to point to the next instruction.  After it finishes
-executing the current instruction, it looks a the instruction pointer
+executing the current instruction, it looks at the instruction pointer
 again.  That's all well and good, but what about jumps (the 
 <literal>jmp</literal> family of instructions)?  At the end of those
 instructions, the computer does _not_ look at the next instruction,
@@ -126,9 +131,11 @@ section.  Now, you can't actually do this, because you are not
 allowed to refer directly to <literal>%eip</literal>, but if you
 could this would be how.  Also note that we put a dollar sign
 in front of <literal>somewhere</literal>.  How do we know when to
-put a dollar sign and when not to?  The dollar sign says to treat
+put a dollar sign and when not to?  The dollar sign says to 
+use immediate mode addressing, which means to treat
 <literal>somewhere</literal> as a value.  If the dollar sign weren't
-there, it would move the value in the <literal>somewhere</literal>'s
+there, it would switch to direct addressing mode, moving the value in 
+the <literal>somewhere</literal>'s
 address into <literal>%eip</literal>, which is not what we want.
 In our previous programs, we often will load registers like this:
 
@@ -136,35 +143,34 @@ In our previous programs, we often will load registers like this:
 	movl  $0, %ebx
 </programlisting>
 
-If we accidentally left out the dollar sign, instead of putting the
-number zero in <literal>%ebx</literal>, we would be putting whatever
-was at address zero on our computer into <literal>%ebx</literal>.
+The dollar sign in front of the zero indicates that this is an immediate-mode
+instruction, meaning that we load the value zero itself.  If we 
+accidentally left out the dollar sign, instead of putting the
+number zero in <literal>%ebx</literal>, we would be using direct addressing
+mode, putting whatever
+was at address zero on our computer into <literal>%ebx</literal>.  To refresh
+your memory of addressing modes, see <xref linkend="dataaccessingmethods" />.
 </para>
 
 </sect1>
 
 <sect1>
-<title>The Memory Layout of a Linux Program</title>
-
+<title>The Memory Layout of a Linux Program
+<footnote>
 <para>
-Okay, this whole section is completely stolen.  Call the police, I'm
-plagiarizing.  This whole section was
-basically copied from Konstantin Boldyshev's document, <citetitle>Startup
-state of a Linux/i386 ELF binary</citetitle>, available at 
-<ulink url="http://linuxassembly.org/startup.html">http://linuxassembly.org/startup.html</ulink>.
-Blame him for any mistakes (just kidding).  This information only applies
-to Linux running on IA-32 architectures (Intel machines).   Other
-operating systems and other system architectures probably work
-differently.
+This section is based off of Konstantin Boldyshev's document, "Startup state of a Linux/i386 ELF binary", available at 
+<ulink url="http://linuxassembly.org/startup.html">http://linuxassembly.org/startup.html</ulink>.  
 </para>
+</footnote>
+</title>
+
 
 <para>
 When you program is loaded into memory, each <literal>.section</literal>
 is loaded into its own spot.  The actual code (the <literal>.text</literal>
 section) is loaded at the address 0x08048000.  The <literal>.data</literal>
-section is loaded immediately after that, followed by a section we
-haven't talked about, called the <literal>.bss</literal> 
-section.  The <literal>.bss</literal> section has all of the memory
+section is loaded immediately after that, followed by the <literal>.bss</literal> (see <xref linkend="buffersbss" />)
+section.  Remember, the <literal>.bss</literal> section has all of the memory
 locations that we reserve that we don't put values in until run-time.
 In the <literal>.data</literal> section, we put actual values into
 the storage spaces we reserved (with the <literal>.long</literal> 
@@ -252,7 +258,7 @@ pointed to, not the actual address.  If we just did
 So, the stack grows downward, while the <literal>.bss</literal> section grows 
 upward.  This middle part is called the break, and you are not allowed to 
 access it until you tell the kernel that you want to.  If you try, you
-will get an error (segmentation fault).  The same will happen if you try to
+will get an error (the error message is usually "segmentation fault").  The same will happen if you try to
 access data before the beginning of your program, 0x08048000.  In general,
 it's best not to access any location unless you have reserved storage
 for it in the stack, data, or bss sections.
@@ -372,7 +378,7 @@ a giant gap in memory that's mapped, but you aren't using.  If you continue to
 move the break for each file you load, you can easily run out of memory.  So, what
 you need is a <emphasis>memory manager</emphasis>.  A memory manager consists of
 two basic functions - <literal>allocate</literal> and <literal>deallocate</literal>.  A
-memory manager usually also has an initialization function.  Not that the function names
+memory manager usually also has an initialization function.  Note that the function names
 might not be <literal>allocate</literal> and <literal>deallocate</literal>, but that
 the functionality will be the same.
 Whenever you need a certain amount of memory, you can simply tell <literal>allocate</literal>

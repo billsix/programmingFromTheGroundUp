@@ -4,12 +4,13 @@ PROGS = alloc.s exit.s factorial.s Hello-World.c helloworld-lib.s helloworld-nol
 GRAPHICS = assembling-a-program.dia memorypages.svg memory.svg
 INDEX = index.xml
 BOOKNOINDEX = ProgrammingGroundUp.xml programming.dsl $(CHAPTERS) $(PROGS) $(GRAPHICS) $(APPENDICES)
-FULLBOOK = $(BOOKNOINDEX) $(INDEX)
+FULLBOOK = $(BOOKNOINDEX)
 JADE = openjade
 
 all: ProgrammingGroundUp.pdf
 
 ProgrammingGroundUp.pdf: ProgrammingGroundUp.tex
+	pdfjadetex ProgrammingGroundUp.tex
 	pdfjadetex ProgrammingGroundUp.tex
 	pdfjadetex ProgrammingGroundUp.tex
 	pdfjadetex ProgrammingGroundUp.tex
@@ -24,6 +25,8 @@ HTML.index: $(BOOKNOINDEX)
 	collateindex.pl -N >index.xml
 	$(JADE) -t sgml -V html-index -V nochunks -d /usr/share/sgml/docbook/dsssl-stylesheets/html/docbook.dsl xml.dcl ProgrammingGroundUp.xml >/dev/null
 	rm -f *.htm *.html
+
+index: index.xml
 
 clean:
 	rm -f ProgrammingGroundUp.log

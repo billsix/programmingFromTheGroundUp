@@ -198,7 +198,7 @@ what doesn't.
 Functions are great from the point of view of program management - they make it easy
 to break up your program into independent, understandable, and reuseable parts.  However,
 function calls do involve the overhead of pushing arguments onto the stack and doing the
-jump (remember locality of reference - your code may be on disk instead of in memory)s.  It's 
+jumps (remember locality of reference - your code may be on disk instead of in memory).  It's 
 also impossible for compilers to do optimizations across function-call boundaries.  However,
 some languages support inline functions.  These functions look, smell, taste, and act like
 real functions, except the compiler has the option to simply plug the code in exactly where
@@ -349,7 +349,7 @@ looking at all the issues, and knowing that fixing some issues may cause others.
 
 <itemizedlist>
 <listitem><para>Go back through each program in this book and try to make optimizations according to the procedures outlined in this chapter</para></listitem>
-<listitem><para>Pick a program from the previous exercize and try to calculate the performance impact on your code under specific inputs.<footnote><para>Since these programs are usually short enough not to have performance problems, looping through the program thousands of times will exaggerate the time it takes to run enough to make calculations.</para></footnote></para></listitem>
+<listitem><para>Pick a program from the previous exercise and try to calculate the performance impact on your code under specific inputs.<footnote><para>Since these programs are usually short enough not to have performance problems, looping through the program thousands of times will exaggerate the time it takes to run enough to make calculations.</para></footnote></para></listitem>
 <listitem><para>Think of a program that you find particularly slow, and try to imagine the reasons for the slowness.  Try to think of ways that these could be improved.  If the program you are thinking of is an open-source project, go and evaluate both your guessed reasons and your proposed solution based on the code itself.</para></listitem>
 </itemizedlist>
 
@@ -359,6 +359,7 @@ looking at all the issues, and knowing that fixing some issues may cause others.
 
 <sect2>
 <title>Know the Concepts</title>
+<!-- FIXME - Dominique suggestion - have an appendix with multiple versions of optimized code -->
 
 <itemizedlist>
 <listitem><para></para></listitem>

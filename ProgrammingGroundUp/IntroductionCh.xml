@@ -16,14 +16,15 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <title>Welcome to Programming</title>
 
 <para>
-I love <indexterm><primary>programming</primary></indexterm>programming.  I enjoy the challenge, not only to make a working
-program, but to do so with style.  Programming is like poetry.  It
-conveys a message, not only to the computer, but to those who modify
-and use your program.  With a program, you build your own world
-with your own rules.  You create your world according to your 
-conception of both the problem and the solution.  Masterful
-programmers create worlds with programs that are clear and succinct,
- much like a poem or essay.
+I love
+<indexterm><primary>programming</primary></indexterm>programming.  I
+enjoy the challenge to not only make a working program, but to do so
+with style.  Programming is like poetry.  It conveys a message, not
+only to the computer, but to those who modify and use your program.
+With a program, you build your own world with your own rules.  You
+create your world according to your conception of both the problem and
+the solution.  Masterful programmers create worlds with programs that
+are clear and succinct, much like a poem or essay.
 </para>
 <para>
 One of the greatest programmers, Donald Knuth, 
@@ -147,16 +148,39 @@ both an fence and a gate.  As a gate, it allows programs
 to access hardware in a uniform way.  Without the kernel, you would have
 to write programs to deal with every device model ever made.  The kernel
 handles all device-specific interactions so you don't have to.  It also handles
-file access and interaction between processes.  For example, when you
+file access and interaction between processes.  
+For example, when you
 type, your typing goes through several programs before it hits your editor.
-The kernel controls the flow of information between programs.  
-The kernel is a program's gate to the world around it.  When you move your
-mouse, the kernel notices that, and notifies the Windowing system.  If you
-save a file, the program asks the kernel to do so.  If you are using a word
-processor and you do spell checking, the kernel controls the interaction
-between the word processor and the spell checker.  As a fence, the kernel
+First, the kernel is what handles your hardware, so it is the first to receive
+notice about the keypress.  The keyboard sends in 
+<emphasis>scancodes</emphasis> to the kernel, which then converts them to the
+actual letters, numbers, and symbols they represent.  If you are using a
+windowing system (like Microsoft Windows or the X Window System), then the
+windowing system reads the keypress from the kernel, and delivers it to
+whatever program is currently in focus on the user's display.
+</para>
+
+<example>
+<title>How the computer processes keyboard sigals</title>
+<programlisting>
+Keyboard -> Kernel -> Windowing system -> Application program
+</programlisting>
+</example>
+
+<para>
+The kernel also controls the flow of information between programs.  
+The kernel is a program's gate to the world around it.  Every time that
+data moves between processes, the kernel controls the messaging.  In our
+keyboard example above, the kernel would have to be involved for the
+windowing system to communicate the keypress to the application program.
+</para>
+
+<para>
+As a fence, the kernel
 prevents programs from accidentally overwriting each other's data and from
-accessing files and devices that they don't have permission to.
+accessing files and devices that they don't have permission to.  It
+limits the amount of damage a poorly-written program can do to other 
+running programs.
 </para>
 
 <para>

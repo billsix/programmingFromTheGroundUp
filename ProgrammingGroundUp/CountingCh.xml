@@ -1,4 +1,6 @@
-<chapter>
+<chapter id="countingchapter">
+
+<!-- FIXME - See Dominique note -->
 <title>Counting Like a Computer</title>
 <!--
 
@@ -637,9 +639,9 @@ you have to describe them in excruciating detail.
 
 <para>
 The program status register has many more useful flags, but they aren't
-important for what we're doing here.  If you are interested, feel free
-to read more about it.
+important for what we're doing here.
 </para>
+<!-- FIXME - Dominique thinks we should link to more information -->
 
 </sect1>
 
@@ -654,9 +656,6 @@ and numbers with decimals are also used.  The explanations are not
 in-depth, because the concept is more important than the implementation.
 If you wish to know implementation details, you can read further 
 information on the subject.
-
-<remark>NOTE - I need a list of everywhere someone can get more information 
-on a subject </remark>
 </para>
  
 <sect2>
@@ -670,11 +669,14 @@ fixed-size, finite values.  Decimal numbers can be any length, including
 infinite length (think of a repeating decimal, like the result of
 1 / 3).  The way a computer handles this is by storing decimals
 at a fixed precision.  A computer stores decimal numbers in two
-parts - the exponent and the mantissa.  So, all numbers are stored
+parts - the exponent and the mantissa.  The mantissa is the actually
+numbers that will be used, and the exponent is what magnitude the number
+is.  For example, 12345.2 is stored as 1.23452 * 10^4.  The mantissa
+is 1.23452 and the exponent is 4.  All numbers are stored
 as X.XXXXX * 10^XXXX.  The number 1 is stored as 1.00000 * 10^0.
-So, the mantissa is only so long, and the exponent is only so long.
-This leads to some interesting problems.  For example, when a computer
-stores and integer, if you add 1 to it, the resulting number is one larger.
+Now, the mantissa and the exponent are only so long, which leads to some 
+interesting problems.  For example, when a computer
+stores an integer, if you add 1 to it, the resulting number is one larger.
 This does not necessarily happen with floating point numbers.  If the
 number is sufficiently big, like 5.234 * 10^5000, adding 1 to it might
 not even register in the mantissa (remember, both parts are only so long).
@@ -744,7 +746,7 @@ in the leftmost position.
 The numbering systems discussed so far have been decimal and binary.
 However, two others are used common in computing - octal and hexadecimal.
 In fact, they are probably written more often than binary.  Octal is
-a representation that only uses the numbers 0-7.  So, 10 is actual
+a representation that only uses the numbers 0-7.  So, 10 is actually
 the number 8 in octal (one group of eight).  121 is 81 (one group of
 64 (8^2), two groups of 8, and one left over).  What makes octal nice
 is that every 3 binary digits make one octal digit (there is no such grouping
@@ -752,7 +754,7 @@ of binary digits into decimal).  So 0 is 000, 1 is 001, 2 is 010, 3 is
 011, 4 is 100, 5 is 101, 6 is 110, and 7 is 111.  Permissions in Linux
 are done using octal.  This is because Linux permissions are based on the 
 ability to read, write and execute.  The first digit is the read permission,
-the second bit is the write permission, and the third bit is the execut
+the second bit is the write permission, and the third bit is the execute
 permission.  So, 0 (000) gives no permissions, 6 (110) gives read and
 write permission, and 5 (101) gives read, write, and execute permissions.
 These numbers are then used for the four different types of permissions.

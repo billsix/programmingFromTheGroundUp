@@ -58,7 +58,7 @@ wrong.  Let's say that the destination file is on a network drive, and the
 network temporarily fails.  The operating system is returning a status
 code to us in &eax;, but we aren't checking it.  Therefore, if a failure
 occurs, the user is totally unaware.  This program is definitely not
-robust.  As you can see, even in a simply program there are a lot of
+robust.  As you can see, even in a simple program there are a lot of
 things that can go wrong.  
 </para>
 
@@ -156,7 +156,7 @@ to proceed.
 <remark>Remember to include user testing, numbered errors, recovery points,
 automatic recovery, well-written error messages (including possible
 recovery steps - Windows 95 example).  Also include a link to Joel on 
-Software's 12 steps.</remark>
+Software's 12 steps.  Also mention Sourceforge, and other places online</remark>
 </para>
 
 </sect2>

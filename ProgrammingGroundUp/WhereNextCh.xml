@@ -59,6 +59,7 @@ databases is probably the best way to gain skill in this area.<footnote>
 databases and logical data organization.</para></footnote>  Books that
 will help you in this area are:
 
+<!-- FIXME - Dominique suggested Boole -->
 <itemizedlist>
 <listitem><para></para></listitem>
 </itemizedlist>
@@ -84,7 +85,7 @@ The following books are great ones for learning about data structures:
 
 <itemizedlist>
 <listitem><para><citetitle>The Art of Computer Programming</citetitle> by Donald Knuth (3 volume set - volume 1 is the most important)</para></listitem>
-<listitem><para><citetitle>Data Structures in C++ using the Standard Template Library</citetitle> by <remark>FIXME - Who is this by?</remark> </para></listitem>
+<listitem><para><citetitle>Data Structures in C++ using the Standard Template Library</citetitle> by Timothy Budd</para></listitem>
 </itemizedlist>
 </para>
 
@@ -133,6 +134,7 @@ Books on project management include:
 
 <itemizedlist>
 <listitem><para><citetitle>The Mythical Man-Month</citetitle> by Fred P. Brooks</para></listitem>
+<!-- FIXME - Dominique suggests Cathedral and the Bazaar, Linus' "Just for Fun", and "Open Sources", which is available online.  Probably need an XP book as well, and maybe a waterfall book -->
 </itemizedlist>
 
 </para>
@@ -154,6 +156,7 @@ books you can read to get a good grasp on the subject, including:
 <itemizedlist>
 <listitem><para><remark>FIXME - what books go here?</remark></para></listitem>
 </itemizedlist>
+<!-- RUTE, Linux NAG, others? -->
 
 </para>
 

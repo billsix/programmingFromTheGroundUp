@@ -73,7 +73,7 @@ in the file <filename>exit.o</filename>.
 object file is code that is in the machine's language, but has not
 been completely put together.  In most large programs, you will have
 several source files, and you will convert
-each one into an object file.  The linker<indexterm><primary></primary></indexterm> is the program that is
+each one into an object file.  The linker<indexterm><primary>linker</primary></indexterm> is the program that is
 responsible for putting the object files together and adding 
 information to it so that the kernel knows how to load and run it.
 In our case, we only have one object file, so the linker is only adding
@@ -84,10 +84,14 @@ file, enter the command
 ld exit.o -o exit
 </programlisting>
 
-<literal>ld</literal><indexterm><primary></primary></indexterm> is the command to run the linker, 
+<literal>ld</literal><indexterm><primary>ld</primary></indexterm> is the command to run the linker, 
 <filename>exit.o</filename> is the object file we want to link,
 and <literal>-o exit</literal> instructs the linker to output
-the new program into a file called <filename>exit</filename>.  If any
+the new program into a file called <filename>exit</filename>.<footnote><para>
+If you are new to Linux and UNIX, you may not be aware that files don't
+have to have extensions.  In fact, while Windows uses the 
+<literal>.exe</literal> extension to signify an executable program,
+UNIX executables usually have no extension.</para></footnote>  If any
 of these commands reported errors, you have either mistyped your program
 or the command.  After
 correcting the program, you have to re-run all the commands.
@@ -143,6 +147,7 @@ help them understand both why the program exists and how it works.  Always inclu
 
 <listitem><para>The purpose of the code</para></listitem>
 <listitem><para>An overview of the processing involved</para></listitem>
+<!-- FIXME - Dominique suggests an extended example of this -->
 <listitem><para>Anything strange your program does and why it does 
 it<footnote><para>You'll find that many programs end up doing things strange
 ways.  Usually there is a reason for that, but, unfortunately, programmers
@@ -223,7 +228,7 @@ The next line
 _start:
 </programlisting>
 
-<emphasis>defines</emphasis> the value of the <literal>_start</literal><indexterm><primary></primary></indexterm> label. A <emphasis>label</emphasis> 
+<emphasis>defines</emphasis> the value of the <literal>_start</literal><indexterm><primary>_start</primary></indexterm> label. A <emphasis>label</emphasis> 
 is a symbol<indexterm><primary>symbol</primary></indexterm> followed by
 a colon.  Labels define a symbol's value.  When the 
 assembler<indexterm><primary>assembler</primary></indexterm> is assembling
@@ -255,7 +260,7 @@ On IA32 machines, there are several general-purpose registers<indexterm><primary
 </itemizedlist>
 
 In addition to these general-purpose registers,
-there are also several special-purpose registers<indexterm><primary></primary></indexterm>, including
+there are also several special-purpose registers<indexterm><primary>special-purpose registers</primary></indexterm>, including
 
 <itemizedlist>
 <listitem><para>&edi-indexed;</para></listitem>
@@ -267,11 +272,16 @@ there are also several special-purpose registers<indexterm><primary></primary></
 We'll discuss these later, just be aware that they 
 exist.<footnote><para>You may be wondering, <emphasis>why do all of these
 registers begin with the letter <literal>e</literal>?</emphasis>  The
-reason is that a long time ago, the registers were only half the length
+reason is that Intel computers used to be 16 bits rather than 32 bits.
+Therefore, the registers were only half the length
 they are now.  When Intel doubled the size of the registers, they kept
 the old names to refer to the first half of the register, and added an
 <literal>e</literal> to refer to the extended versions of the register.
-Usually you will only use the extended versions.</para></footnote>
+Usually you will only use the extended versions.  AMD's Opteron processor,
+which also has a 64-bit mode, doubles the size of these registers yet again,
+and uses an <literal>r</literal> prefix to indicate the larger registers (i.e.
+&rax; is the 64-bit version of &eax;).
+</para></footnote>
 </para>
 
 <para>
@@ -287,13 +297,24 @@ mode.
 <para>
 This instruction is preparing for when we call the Linux kernel.  The
 number <literal>1</literal> is the number of the <literal>exit</literal><indexterm><primary><literal>exit</literal></primary></indexterm>
-system call.<remark>FIXME - do I need to describe system calls more?</remark>
+<emphasis>system call</emphasis><indexterm><primary>system call</primary></indexterm>.
+We will discuss system calls in more depth soon, but basically they are requests for
+the operating system's help.  Normal programs can't do everything.  Many operations
+such as calling other programs, dealing with files, and exiting have to be handled
+by the operating system through system calls.
 When you make a system call, which we will do shortly, the system
 call number <!--XREF - see xxxx for a list--> has to be loaded into
-&eax; and the other values needed for the call are stored in other
-registers.  The <literal>exit</literal> system call also requires
-a status code be loaded in &ebx; when it is called so it can return
-it to the system (this is what is retrieved when you type
+&eax;.
+</para>
+
+<para>
+The operating system, however, usually needs more information than just which
+call to make.   For example, when dealing with files, the operating system needs
+to know which file you are dealing with, what data you want to write, and other
+details.  The extra details, called <emphasis>parameters<indexterm><primary>parameters</primary></indexterm></emphasis>
+are stored in other registers.  In the case of the <literal>exit</literal> system call,
+the operating system requires a status code be loaded in &ebx;.  This value
+is then returned to the system.  This is the value you retrieved when you typed
 <command>echo $?</command>.  So, we load &ebx; with <literal>0</literal>
 by typing
 
@@ -304,23 +325,32 @@ movl $0, %ebx
 
 <para>
 Now, loading registers with these numbers doesn't do anything itself.
-This is simply how Linux expects things to be set up when you make a
-system call.  During normal programming, you can use registers to
-hold any value that you are currently working with.  However, when you
-make a system call, you have to have the registers set up as the
-system call expects.  You can find out how each system call expects
-to be set up at <!--XREF-->.
+Registers are used for all sorts of things besides system calls.  They
+are where all program logic such as addition, subtraction, and comparisons
+take place.  Linux simply requires that certain registers be loaded with
+certain values before making a system call.  &eax-indexed; is always required
+to be loaded with the system call number.  
+For the other registers, however, each system call has different requirements.  
+In the <literal>exit</literal>
+system call, &ebx-indexed; is required to be loaded with the exit status.
+We will discuss different system calls as they are needed.  For a list of
+common system calls and what is required to be in each register, see <xref linkend="syscallap" />
 </para>
 
 <para>
 The next instruction is the "magic" one.  It looks like this:
+</para>
 
 <programlisting>
 	int $0x80
 </programlisting>
 
-The <literal>int</literal> stands for <emphasis>interrupt</emphasis>.  The
-<literal>0x80</literal> is the interrupt number to use.<footnote><para>You
+<para>
+The <literal>int<indexterm><primary>int</primary></indexterm></literal> stands for 
+<emphasis>interrupt<indexterm><primary>interrupt</primary></indexterm></emphasis>.  The
+<literal>0x80<indexterm><primary>0x80</primary></indexterm></literal> is the interrupt 
+number to use.<footnote>
+<para>You
 may be wondering why it's <literal>0x80</literal> instead of just 
 <literal>80</literal>.  The reason is that the number is written in 
 hexadecimal.  In hexadecimal, a single digit can hold 16 values instead
@@ -330,51 +360,51 @@ in addition to the regular digits.  <literal>a</literal> represents 10,
 <literal>b</literal> represents 11, and so on.  0x10 represents the number
 16, and so on.  This will be discussed more in depth later, but just be
 aware that numbers starting with <literal>0x</literal> are in hexadecimal.
-Tacking on an <literal>H</literal> at the end is also sometimes used, but
-we won't do that here.
-<remark>FIXME - change to an XREF to the numbers chapter?</remark>
+Tacking on an <literal>H</literal> at the end is also sometimes used instead, but
+we won't do that in this book.  For more information about this, see <xref linkend="countingchapter" />
 </para></footnote>
+
 An <emphasis>interrupt</emphasis> interrupts the normal program flow, and
-transfers control from our program to Linux<footnote><para>Actually, the
+transfers control from our program to Linux so that it will do a system
+call.<footnote><para>Actually, the
 interrupt transfers control to whoever set up an <emphasis>interrupt
 handler</emphasis> for the interrupt number.  In the case of Linux,
 all of them are set to be handled by the Linux kernel.</para></footnote>.
-You can think of it as like signaling Batman(or Larry-Boy<footnote><para>If you don't watch Veggie Tales, you should.</para></footnote>, if you prefer).
+You can think of it as like signaling Batman(or 
+Larry-Boy<footnote><para>If you don't watch Veggie Tales, you should.</para></footnote>, if you prefer).
 You need something done,
 you send the signal, and then he comes to the rescue.  You don't care how
 he does his work - it's more or less magic - and when he's done you're
-back in control.  In this case,
-all we're doing is asking Linux to terminate the program, in which case
-we won't be back in control.  
+back in control.  In this case, all we're doing is asking Linux to 
+terminate the program, in which case we won't be back in control.  
+If we didn't signal the interrupt, then no system call would have been
+performed.
 </para>
 
+<note>
+<title>Quick System Call Review</title>
 <para>
-<remark>FIXME - I added some info on syscalls earlier, what do I need
-to trim out?</remark>
-How are
-we asking this?  Simple - Linux has a number of features called
-system calls.  These are referred to by placing the number of the 
-function you wish to use in <literal>%eax</literal>, and storing
-other information you want to pass in other registers.  Then, we
-invoke the system call by issuing <command>int $0x80</command>.
-Each system call has a list of registers it uses.  System call #1 is
-the <literal>exit</literal> system call, and it takes one parameter
-in <literal>%ebx</literal>, which is the exit status of the program.
-<footnote><para>The exit status is usually 0 if everything went well,
-otherwise, its a program-specific code.  After running a command, you
-can check it's exit status by typing in <command>echo $?</command>.  
-</para></footnote>
+To recap - Operating System features are accessed through
+system calls<indexterm><primary>system calls</primary></indexterm>.  These are invoked by setting up the registers
+in a special way and issuing the instruction <literal>int $0x80</literal>.
+Linux knows which system call we want to access by what we stored
+in the &eax-indexed; register.  Each system call has other requirements
+as to what needs to be stored in the other registers.  System call
+number 1 is the <literal>exit</literal> system call, which requires
+the status code<indexterm><primary>status code</primary></indexterm>
+to be placed in &ebx-indexed;.
 </para>
+</note>
 
 <para>
 Now that you've assembled, linked, run, and examined the program, you
 should make some basic edits.  Do things like change the number 
 that is loaded into <literal>%ebx</literal>, and watch it come out
-at the end with <command>echo $?</command>.  Don't forget
+at the end with <command>echo $?<indexterm><primary>echo $?</primary></indexterm></command>.  Don't forget
 to assemble and link it again before running it.
-Add some comments.  The worse thing that would happen is that the 
-program won't assemble or link, or will freeze your screen.  And that's
-all part of learning!
+Add some comments.  Don't worry, the worse thing that would happen is that the 
+program won't assemble or link, or will freeze your screen.  That's just
+part of learning!
 </para>
 
 </sect1>
@@ -414,7 +444,7 @@ echo $?
 You'll notice it returns the value <literal>222</literal>.  Let's take
 a look at the program and what it does.  If you look in the comments, you'll
 see that the program finds the maximum of a set of numbers (aren't comments
-wonderful!).  You may notice, however, that we actually have something in
+wonderful!).  You may also notice that in this program we actually have something in
 the data section.  These lines are the data section:
 
 <programlisting>
@@ -422,19 +452,20 @@ data_items:                       #These are the data items
         .long 3,67,34,222,45,75,54,34,44,33,22,11,66,0
 </programlisting>
 
-So, lets look at this.  <literal>data_items</literal> is a label that
+Lets look at this.  <literal>data_items</literal> is a label that
 refers to the location that follows it.  Then, there is a directive
-that starts with <literal>.long</literal>.  That causes the assembler
+that starts with <literal>.long<indexterm><primary>.long</primary></indexterm></literal>.  That causes the assembler
 to reserve memory for the list of numbers that follow it.  
 <literal>data_items</literal> refers to the location of the first one.  
 There are
 several different types of memory locations other than <literal>.long</literal>
-that can be reserved.  They are as follows:
+that can be reserved.  The main ones are as follows:
+</para>
 
 <variablelist>
 
 <varlistentry>
-<term><literal>.byte</literal></term>
+<term><literal>.byte<indexterm><primary>.byte</primary></indexterm></literal></term>
 <listitem><para>
 Bytes take up one storage location for each number.  They are limited
 to numbers between 0 and 255.
@@ -442,7 +473,7 @@ to numbers between 0 and 255.
 </varlistentry>
 
 <varlistentry>
-<term><literal>.int</literal></term>
+<term><literal>.int<indexterm><primary>.int</primary></indexterm></literal></term>
 <listitem><para>
 Ints (which differ from the <literal>int</literal> instruction) take up
 two storage locations for each number.  These are limitted to numbers
@@ -454,7 +485,7 @@ always write numbers like <literal>65535</literal>, and never like
 </varlistentry>
 
 <varlistentry>
-<term><literal>.long</literal></term>
+<term><literal>.long<indexterm><primary>.long</primary></indexterm></literal></term>
 <listitem><para>
 Longs take up four storage locations.  This is the same amount of 
 space the registers use, which is why they are used in this program.
@@ -463,12 +494,12 @@ They can hold numbers between 0 and 4294967295.
 </varlistentry>
 
 <varlistentry>
-<term><literal>.ascii</literal></term>
+<term><literal>.ascii<indexterm><primary>.ascii</primary></indexterm></literal></term>
 <listitem><para>
 The <literal>.ascii</literal> directive is to enter in characters
 into memory.  Characters each take up one storage location (they are
 converted into bytes internally).  So, if you gave the directive
-<command>.ascii "Hello there\0"</command>, you would reserve 12 storage
+<literal>.ascii "Hello there\0"</literal>, the assembler would reserve 12 storage
 locations (bytes).  The first byte contains the numeric code for 
 <literal>H</literal>, the second byte contains the numeric code for
 <literal>e</literal>, and so forth.  The last character is represented
@@ -480,21 +511,12 @@ end of the characters).  All of the letters are in quotes.
 
 </variablelist>
 
-There are more, but these are the important ones for now.  So the
-assembler reserves 14 <literal>.long</literal>s, one right after
-another.  So, since each long takes up 4 bytes, that means that
-the whole list takes up 56 bytes.  Also, remember that 
-<literal>data_items</literal> will contain the location number of
-the first item in the list.<footnote><para>Although it is possible to
-compute by hand what this location will be, it is easiest to just
-have the assembler remember that <literal>data_items</literal> refers
-to it, and have the assembler fill in the blanks when it runs.  Also,
-just so you'll know, the location number of the first item isn't 0, it's
-much higher.  We'll look into that further in the next chapter.
-Anyway, since we have the <literal>data_items</literal>
-symbol, it doesn't matter because the assembler will put in the correct
-value for us.</para></footnote>  These are the numbers we
-will be searching through to find the maximum.
+<para>
+In our example, the assembler reserves 14 <literal>.long</literal>s,
+one right after another.  Since each long takes up 4 bytes, that means
+that the whole list takes up 56 bytes.  These are the numbers we will
+be searching through to find the maximum.  <literal>data_items</literal>
+is used by the assembler to refer to the address of the first of these values.
 </para>
 
 <para>
@@ -509,7 +531,7 @@ determining the end of the list.  The computer knows nothing -
 it can only do what its told.  It's not going to stop processing unless I give
 it some sort of signal.  Otherwise it would continue processing past the end
 of the list into the data that follows it, and even to locations where 
-we haven't put any data.  
+we haven't put any data.
 </para>
 
 <para>
@@ -524,77 +546,95 @@ the program's execution.  It's not an error to write
 Anyway, play around with this line and add your own numbers.  Even
 though they are <literal>.long</literal>, the program will produce
 strange results if any number is greater than 255, because that's the
-largest allowed exit status.  Also notice that if you move the 0 to
-earlier in the list, the rest get ignored.  Remember that any time
+largest allowed exit status<indexterm><primary>exit status</primary></indexterm>.  
+Also notice that if you move the 0 to
+earlier in the list, the rest get ignored.  
+<emphasis>Remember that any time
 you change the source file, you have to re-assemble and re-link
-your program.  Do this now and see the results.
+your program.  Do this now and see the results</emphasis>.
 </para>
 
 <para>
 All right, we've played with the data a little bit.  Now let's look
 at the code.  In the comments you will notice that we've marked
-some <emphasis>variables</emphasis> that we plan to use.  A variable
+some <emphasis>variables<indexterm><primary>variables</primary></indexterm></emphasis> 
+that we plan to use.  A variable
 is a dedicated storage location used for a specific purpose, usually
-given a distinct name by the programmer.  In this program, we have a variable
-for the current maximum number found, one for which number of the 
-list we are currently examining (called the index), and one holding the 
-current number being examined.  In this case,
-we have few enough variables that we can hold them all in registers.
+given a distinct name by the programmer.  In this program, we have several variables:
+</para>
+
+<itemizedlist>
+<listitem><para>a variable for the current maximum number found</para></listitem>
+<listitem><para>a variable for which number of the list we are currently examining, called the index</para></listitem>
+<listitem><para>a variable holding the current number being examined</para></listitem>
+</itemizedlist>
+
+<para>
+In this case,we have few enough variables that we can hold them all in registers.
 In larger programs, you have to put them in memory, and then move
-them to registers when you are ready to use them. 
+them to registers when you are ready to use them.  We will discuss how to do that
+later.  When people start out programming, they usually underestimate the number of
+variables they will need.  People are not used to having to think through every 
+detail of a process, and therefore don't think of everything they need.
 </para>
 
 <para>
-In this program, we are using <literal>%ebx</literal> as the location 
-of the largest item we've found.  <literal>%edi</literal> is used as the 
-<emphasis>index</emphasis> to the current data item we're looking at.  
+In this program, we are using &ebx; as the location 
+of the largest item we've found.  &edi; is used as the 
+<emphasis>index<indexterm><primary>index</primary></indexterm></emphasis> to the current data item we're looking at.  
 Now, let's talk about what an index is.  When we read the information 
 from <literal>data_items</literal>,
 we will start with the first one (data item number 0), then go to the second
 one (data item number 1), then the third (data item number 2), and so on.  
 The data item number is the <emphasis>index</emphasis> of 
 <literal>data_items</literal>.  You'll notice that the first instruction
-we give to the computer is
+we give to the computer is:
+</para>
 
 <programlisting>
 	movl $0, %edi
 </programlisting>
 
+<para>
 Since we are using <literal>%edi</literal> as our index, and we want to start
 looking at the first item, we load <literal>%edi</literal> with 0.  Now,
-the next instruction is tricky, but crucial to what we're doing.  It says
+the next instruction is tricky, but crucial to what we're doing.  It says:
+</para>
 
 <programlisting>
 	movl data_items(,%edi,4), %eax
 </programlisting>
 
+<!-- FIXME - Dominique suggests a diagram or something here -->
+ 
+<indexterm><primary>movl</primary></indexterm>
+<para>
 Now to understand this line, you need to keep several things in mind:
+</para>
 
 <itemizedlist>
-
-<listitem><para>
-<literal>data_items</literal> is the location number of the start of our 
-number list.
-</para></listitem>
-
-<listitem><para>
-Each number is stored across 4 storage locations (because we declared it
-using <literal>.long</literal>)
-</para></listitem>
-
-<listitem><para>
-<literal>%edi</literal> is holding 0 at this point
-</para></listitem>
-
+<listitem><para><literal>data_items</literal> is the location number of the start of our number list.</para></listitem>
+<listitem><para>Each number is stored across 4 storage locations (because we declared it using <literal>.long</literal>)</para></listitem>
+<listitem><para><literal>%edi</literal> is holding 0 at this point</para></listitem>
 </itemizedlist>
 
+<para>
 So, basically what this line does is say, "start at the beginning of 
 data_items, and take the first item number (because <literal>%edi</literal> 
 is 0), and remember that each number takes up four storage locations."
-Then it stores that number in <literal>%eax</literal>.  So, the number
-3 is now in <literal>%eax</literal>.  If <literal>%edi</literal> was set 
-to 1, the number 67 would be in <literal>%eax</literal>, and if it
-was set to 2, the number 34 would be in <literal>%eax</literal>, and so
+Then it stores that number in <literal>%eax</literal>.  This is how you write
+indexed addressing mode<indexterm><primary>indexed addressing mode</primary></indexterm>
+instructions in assembly language.  The instruction in a general form
+is this: <literal>movl BEGINNINGADDRESS(,%INDEXREGISTER,WORDSIZE)</literal>.  In
+our case <literal>data_items</literal> was our beginning address, &edi; was our
+index register, and 4 was our word size.
+</para>
+
+<para>
+If you look at the numbers in <literal>data_items</literal>, you will see that the number
+3 is now in &eax;.  If &edi; was set 
+to 1, the number 67 would be in &eax;, and if it
+was set to 2, the number 34 would be in &eax;, and so
 forth.  Very strange things would happen if we used a number other than
 4 as the size of our storage locations.<footnote><para>The instruction 
 doesn't really use 4 for the size of the storage locations, although 
@@ -604,84 +644,80 @@ you start at the location specified by <literal>data_items</literal>, then
 you add <literal>%edi</literal>*4 storage locations, and retrieve the number
 there.  Usually, you use the size of the numbers as your multiplier, but in
 some circumstances you'll want to do other things.</para></footnote>
-The way you write this is very awkward, but
-if you know what each piece does, it's not too difficult.
+The way you write this is very awkward, but if you know what each piece does, it's not too difficult.
 </para>
 
 <para>
-Let's look at the next line.
+Let's look at the next line:
+</para>
 
 <programlisting>
 	movl %eax, %ebx
 </programlisting>
 
+<para>
 We have the first item to look at stored in <literal>%eax</literal>.  Since
 it is the first item, we know it's the biggest one we've looked at.  
 We store it in <literal>%ebx</literal>, since that's where we are
-keeping the largest number found.  Also, even though <literal>movl</literal>
+keeping the largest number found.  Also, even though <literal>movl<indexterm><primary>movl</primary></indexterm></literal>
 stands for <emphasis>move</emphasis>, it actually copies the value, so
 <literal>%eax</literal> and <literal>%ebx</literal> both contain the
 starting value.<footnote><para>Also, the <literal>l</literal> in 
-<literal>movl</literal> stands for <emphasis>move long</emphasis> since
+<literal>movl<indexterm><primary>movl</primary></indexterm></literal> stands for <emphasis>move long</emphasis> since
 we are moving a value that takes up four storage locations.</para></footnote>
 </para>
 
 <para>
-Now we move into a <emphasis>loop</emphasis>.  A loop is a segment of your
-program that might run more than once.  We have marked the starting
+Now we move into a <emphasis>loop<indexterm><primary>loop</primary></indexterm></emphasis>.  
+A loop is a segment of your program that might run more than once.  We have marked the starting
 location of the loop in the symbol <literal>start_loop</literal>.  The
 reason we are doing a loop is because we don't know how many
 data items we have to process, but the procedure will be the same no
-matter how many there are.  So, before looking at the code, let's think
+matter how many there are.  We don't want to have to rewrite our program for 
+every list length possible.  In fact, we don't even want to have to write out
+a comparison for every list item.  Therefore, we have a single section of code
+that we execute over and over again for every element in <literal>data_items</literal>.
+</para>
+
+<para>
+Before looking at the code, let's think
 about what our loop will have to do.<footnote><para>Keep in mind that
 upon entering the loop, we have already loaded the first data item and
-stored it as the maximum</para></footnote>  It will have to:
+stored it as the maximum.</para></footnote>  It will have to do the following:
+</para>
 
 <itemizedlist>
-
-<listitem><para>
-check to see if the current value being looked at is zero.  If so, 
-that means we are at the end of our data and should exit the loop.
-</para></listitem>
-
-<listitem><para>
-We have to load the next value of our list
-</para></listitem>
-
-<listitem><para>
-We have to see if the next value is bigger than our current biggest value.
-</para></listitem>
-
-<listitem><para>
-If it is, we have to copy it to the location we are holding the largest value
-in
-</para></listitem>
-
-<listitem><para>
-Now we need to go back to the beginning of the loop
-</para></listitem>
-
+<listitem><para>check to see if the current value being looked at is zero.  If so, that means we are at the end of our data and should exit the loop.</para></listitem>
+<listitem><para>We have to load the next value of our list.</para></listitem>
+<listitem><para>We have to see if the next value is bigger than our current biggest value.</para></listitem>
+<listitem><para>If it is, we have to copy it to the location we are holding the largest value in.</para></listitem>
+<listitem><para>Now we need to go back to the beginning of the loop.</para></listitem>
 </itemizedlist>
 
+<para>
 Okay, so now lets go to the code.  We have the beginning of the loop marked with
 <literal>start_loop</literal>.  That is so we know where to go back
-to at the end of our loop.  Then we have the instructions
+to at the end of our loop.  Then we have these instructions:
+</para>
 
 <programlisting>
 	cmpl $0, %eax
 	je end_loop
 </programlisting>
 
-The <literal>cmpl</literal> instruction compares the two values.  Here,
-we are comparing the number 0 to the number stored in <literal>%eax</literal>.
+<para>
+The <literal>cmpl<indexterm><primary>cmpl</primary></indexterm></literal> instruction compares the two values.  Here,
+we are comparing the number 0 to the number stored in &eax;
 This compare instruction also affects a register not mentioned here, the
-<literal>%eflags</literal>.  This is also known as the status register,
+&eflags-indexed; register.  This is also known as the status register<indexterm><primary>status register</primary></indexterm>,
 and has many uses which we will discuss later.  Just be aware that the
 result of the comparison is stored in the status register.  The next line
 says to <emphasis>jump</emphasis> to the <literal>end_loop</literal> location
-if the values that were just compared are equal (it uses the status register
-to find this information).   There are several jump statements we have to
-choose from:
+if the values that were just compared are equal (that's what the <literal>e</literal>
+of <literal>je</literal> means).  It uses the status register to hold the value of
+the last comparison.  We used <literal>je</literal>, but there are many jump statements
+that you can use:
+</para>
 
 <variablelist>
 
@@ -731,16 +767,15 @@ Jump if the second value was less than or equal to the first value
 <term><literal>jmp</literal></term>
 <listitem><para>
 Jump no matter what.  This does not need to be preceeded by a 
-comparison.<footnote><para>Actually, the others don't either.  You
-just have to know which instructions alter the status register and
-how they modify it.  We'll get to that later.</para></footnote>
+comparison.
 </para></listitem>
 </varlistentry>
 
 </variablelist>
 
-In this case, we are jumping if <literal>%eax</literal> holds the value
-of zero.  If so we are done, and we go to 
+<para>
+In this case, we are jumping if &eax; holds the value
+of zero.  If so, we are done and we go to 
 <literal>loop_exit</literal>.<footnote><para>The names of these symbols
 can be anything you want them to be, as long as they only contain letters
 and the underscore character(<literal>_</literal>).  The only one that
@@ -748,46 +783,52 @@ is forced is <literal>_start</literal>, and possibly others that you
 declare with <literal>.globl</literal>.  However, if its a symbol you
 define and only you use, feel free to call it anything you want that is 
 adequately descriptive (remember that others will have to modify your code 
-later).
+later, and will have to interpret what your symbols mean).
 </para></footnote>
 </para>
 
 <para>
-If the last loaded element was not zero, we go on to the next instructions,
-which are
+If the last loaded element was not zero, we go on to the next instructions:
+</para>
 
 <programlisting>
 	incl %edi
 	movl data_items(,%edi,4), %eax
 </programlisting>
 
-If you remember from our previous discussion, <literal>%edi</literal> contains
-the index to our list of values in <literal>data_items</literal> (if you
-don't remember you should go back and read that section).  
-<literal>incl</literal> increments the value of <literal>%edi</literal> by
-one.  Then the <literal>movl</literal> is just like the one before, except
-it's getting the next item, since we incremented <literal>%edi</literal>.
-Now, <literal>%eax</literal> has the next value to be tested.  So, let's
+<para>
+If you remember from our previous discussion, &edi; contains
+the index<indexterm><primary>index</primary></indexterm> to 
+our list of values in <literal>data_items</literal>.
+<literal>incl<indexterm><primary>incl</primary></indexterm></literal> 
+increments the value of &edi; by
+one.  Then the <literal>movl</literal> is just like the one we did 
+beforehand.  However, since we incremented &edi;, it is getting the
+next value from the list.  Now, &eax; has the next value to be tested.  So, let's
 test it!
+</para>
 
 <programlisting>
 	cmpl %ebx, %eax
 	jle start_loop
 </programlisting>
 
-So, here we compare our current value, stored in <literal>%eax</literal>
-to our biggest value so far, stored in <literal>%ebx</literal>.  If
+<para>
+Here we compare our current value, stored in &eax;
+to our biggest value so far, stored in &ebx;.  If
 the current value is less or equal to our biggest value so far, we don't 
 care about it, so we just jump back to the beginning of the loop.  
-Otherwise, we need to record that value as the largest one, so we
-have the instructions
+Otherwise, we need to record that value as the largest one:
+</para>
 
 <programlisting>
 	movl %eax, %ebx
 	jmp start_loop
 </programlisting>
 
-which moves the current value into <literal>%ebx</literal> and starts
+<para>
+which moves the current value into &ebx;, which we are
+using to store the current largestt value,  and starts
 the loop over again.  
 </para>
 
@@ -795,35 +836,41 @@ the loop over again.
 Okay, so the loop executes until it reaches a 0, when it jumps
 to <literal>loop_exit</literal>.  This part of the program calls
 the Linux kernel to exit.  If you remember from the last program,
-when you call the kernel (remember it's like signaling Batman), you store the 
-system call number in <literal>%eax</literal> (1 for the exit call),
+when you call the operating system (remember it's like signaling Batman), you store the 
+system call<indexterm><primary>system call</primary></indexterm> number in &eax-indexed; 
+(1 for the <literal>exit</literal> call),
 and store the other values in the other registers.  The exit call
-requires that we put our exit status in <literal>%ebx</literal>.  
-We already have the exit status there since we are using <literal>%ebx</literal>
-as our largest number, so all
-we have to do is load <literal>%eax</literal> with the number one
+requires that we put our exit status in &ebx-indexed;
+We already have the exit status there since we are using &ebx;
+as our largest number, so all we have to do is load &eax; with the number one
 and call the kernel to exit. Like this:
+</para>
 
 <programlisting>
 	movl $1, %eax
 	int  0x80
 </programlisting>
 
+<para>
 Okay, that was a lot of work and explanation, especially for such a
 small program.  But hey, you're learning a lot!  Now,
 read through the whole program again, paying special
 attention to the comments.  Make sure that you understand what is going
 on at each line.  If you don't understand a line, go back through this
-section and figure out what the line means.  You might also grab a piece
+section and figure out what the line means.
+</para>
+
+<para>
+You might also grab a piece
 of paper, and go through the program step-by-step, recording every change
 to every register, so you can see more clearly what is going on.
-As an exercise, you should modify the program so that it finds the
-smallest value, and uses the number 255 to end the program (otherwise it
-would always find 0 as the smallest value).  Enjoy!  If you can do all
-that, you deserve a to have a coffee break.
 </para>
 
 </sect1>
+
+<!-- FIXME - do I need a new chapter between here and functions? -->
+<!-- FIXME - need a review of addressing modes and syntaxes -->
+<!-- FIXME - need to discuss flow control -->
 
 <sect1>
 <title>Review</title>
@@ -850,6 +897,7 @@ that, you deserve a to have a coffee break.
 <itemizedlist>
 <listitem><para>Modify the first program to return the value 3.</para></listitem>
 <listitem><para>Modify the <literal>maximum</literal> program to find the minimum instead.</para></listitem>
+<listitem><para>Modify the <literal>maximum</literal> program to use the number 255 to end the list rather than the number 0</para></listitem>
 <listitem><para>Modify the <literal>maximum</literal> program to use an ending address rather than the number 0 to know when to stop.</para></listitem>
 <listitem><para>Modify the <literal>maximum</literal> program to use a length count rather than the number 0 to know when to stop.</para></listitem>
 </itemizedlist>
@@ -861,8 +909,8 @@ that, you deserve a to have a coffee break.
 
 <itemizedlist>
 <listitem><para>Modify the first program to leave off the <literal>int</literal> instruction line. Assemble, link, and execute the new program.  What error message do you get.  Why do you think this might be?</para></listitem>
-<listitem><para>So far, we have discussed three approaches to finding the end of the list - the number 0, the ending address, and the length count.  Which approach would you use if you knew that the list was sorted?  Why?</para></listitem>
-<listitem><para>Given your knowledge of computer memory, what would the instruction <literal>movl _start, %eax</literal> do?</para></listitem>
+<listitem><para>So far, we have discussed three approaches to finding the end of the list - using a special number, using the ending address, and using the length count.  Which approach do you think is best?  Why?  Which approach would you use if you knew that the list was sorted?  Why?</para></listitem>
+<!-- FIXME - this addressing mode has not yet been introduced <listitem><para>Given your knowledge of computer memory, what would the instruction <literal>movl _start, %eax</literal> do?</para></listitem>-->
 </itemizedlist> 
 </sect2>
 

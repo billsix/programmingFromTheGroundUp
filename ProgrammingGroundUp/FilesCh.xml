@@ -74,7 +74,6 @@ parameters as the <literal>read</literal> system call, except that the
 buffer should already be filled with the data to write out.  The 
 <literal>write</literal> system call will give back the number
 of bytes written in <literal>%eax</literal> or an error code.
-same 
 </para></listitem>
 
 <listitem><para>
@@ -91,7 +90,7 @@ placed in <literal>%ebx</literal>.
 
 </sect1>
 
-<sect1>
+<sect1 id="buffersbss">
 <title>Buffers and <literal>.bss</literal></title>
 
 <para>
@@ -266,7 +265,11 @@ to upper-case.  Then, you think about what all needs to happen to get that
 done.  In this case, you have to open files, and continually read and write
 blocks to disk.  One of the keys of programming is continually breaking
 down problems into smaller and smaller chunks until it's small enough that
-you can easily solve the problem.
+you can easily solve the problem.<footnote><para>Maureen Sprankle's
+<citetitle>Problem Solving and Programming Concepts</citetitle> is an 
+excellent book on the problem-solving process applied to computer programming.
+</para></footnote>
+<!-- FIXME - do I need to introduce flowcharting or reference it here? -->
 </para>
 
 <para>
@@ -325,9 +328,12 @@ The first section of the program is marked <literal>CONSTANTS</literal>.  In
 programming, a constant is a value that is assigned when a program assembles or
 compiles, and is never changed.  I make a habit of placing all of my constants
 together at the beginning of the program.  It's only necessary to declare them
-before you use them, but putting them all at the beginning makes them easy to find,
-and making them all upper-case makes it obvious in your program which values are
-constants and where to find them.  In assembly language, we declare constants with
+before you use them, but putting them all at the beginning makes them easy to 
+find.  Making them all upper-case makes it obvious in your program which 
+values are constants and where to find them.<footnote><para>This is fairly
+standard practice among all programmers.</para></footnote>
+In assembly language, we 
+declare constants with
 the <literal>.equ</literal> directive as mentioned before.  Here, we simply
 give names to all of the standard numbers we've used so far, like system call
 numbers, the syscall interrupt number, and file open options.
@@ -371,7 +377,7 @@ in the appendix <!--XREF-->, and do the math yourself.
 
 <para>
 After this, we have some constants labelled <literal>STACK POSITIONS</literal>.
-Remember that function parameters <remark>FIXME - do I ever define parameters?</remark>
+Remember that function parameters 
 are pushed onto the stack before function calls.  These constants, prefixed with
 <literal>ST</literal> for clarity, define where in the stack we should expect
 to find each piece of data.  The return address is at position 4, the length of 
@@ -381,7 +387,7 @@ what is happening.
 </para>
 
 <para>
-Next comes the label <remark>FIXME - do I define label anywhere?</remark>
+Next comes the label 
 <literal>convert_to_upper</literal>.  This is the entry point of
 the function.  The first two lines are our standard function lines
 to save the stack pointer.  The next two lines
@@ -409,8 +415,7 @@ task of a programmer, and is what makes usable, reliable software.
 </para>
 
 <para>
-Now we start our loop<remark>FIXME - is loop defined anywhere?  What about
-other flow-control functions?</remark>.  First,
+Now we start our loop.  First,
 it moves a byte into &cl;.  The code for this is
 
 <programlisting>
