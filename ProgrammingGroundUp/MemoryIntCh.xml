@@ -671,17 +671,17 @@ as "unavailable" and return it.  If Linux won't give us any more, return a 0.
 </para></listitem>
 
 <listitem><para>
-If the current memory segment is marked "unavailable", go to the next one, and go
+If the current memory region is marked "unavailable", go to the next one, and go
 back to step 2.
 </para></listitem>
 
 <listitem><para>
-If the current memory segment is too small to hold the requested amount of space,
+If the current memory region is too small to hold the requested amount of space,
 go back to step 2.
 </para></listitem>
 
 <listitem><para>
-If the memory segment is available and large enough, mark it as "unavailable" and
+If the memory region is available and large enough, mark it as "unavailable" and
 return it.
 </para></listitem>
 
@@ -820,7 +820,7 @@ this region is being held in &edx;, so we do this:
 
 <para>
 If the requested size is less than or equal to the current region's size, we
-can use this block.  It doesn't matter if the current segment is larger than requested,
+can use this block.  It doesn't matter if the current region is larger than requested,
 because the extra space will just be unused.  So, let's jump down to 
 <literal>allocate_here</literal> and see what happens:
 </para>
@@ -872,14 +872,14 @@ possibilities:
 <itemizedlist>
 
 <listitem><para>We will reach the end of the heap</para></listitem>
-<listitem><para>We will find a memory segment that's available and large enough</para></listitem>
+<listitem><para>We will find a memory region that's available and large enough</para></listitem>
 <listitem><para>We will go to the next location</para></listitem>
 
 </itemizedlist>
 
 <para>
 The first two items are conditions that will cause the loop to end.  The third one
-will keep it going.  However, even if we never find an open segment, 
+will keep it going.  However, even if we never find an open region, 
 we will eventually reach the end of the heap, because it is a finite size.  Therefore, we know
 that no matter which condition is true, the loop has to eventually hit a terminating condition.
 </para>
@@ -893,7 +893,7 @@ that no matter which condition is true, the loop has to eventually hit a termina
 The <literal>deallocate</literal> function is much easier than the 
 <literal>allocate</literal> one.
 That's because it doesn't have to do any searching at all.  It can just mark
-the current memory segment as <literal>AVAILABLE</literal>, and <literal>allocate</literal>
+the current memory region as <literal>AVAILABLE</literal>, and <literal>allocate</literal>
 will find it next time it is called.   So we have:
 </para>
 
@@ -965,7 +965,7 @@ unnecessary <literal>brk</literal> system calls when we already have the memory 
 </para>
 
 <para>
-Another problem we have is that if we are looking for a 5-byte segment of memory, and
+Another problem we have is that if we are looking for a 5-byte region of memory, and
 the first open one we come to is 1000 bytes, we will simply mark the whole thing
 as allocated and return it.  This leaves 995 bytes of unused, but allocated, memory.
 It would be nice in such situations to break it apart so the other 995 bytes can be
