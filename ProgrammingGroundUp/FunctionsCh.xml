@@ -47,14 +47,16 @@ told about.
 The data items a function is given to process are called it's 
 <emphasis>parameters<indexterm><primary>parameters</primary></indexterm></emphasis>.  In the word processing example, the
 key which was pressed and the document would be considered parameters 
-to the <literal>handle_typed_characters</literal> function.  Much care
-goes into determining what parameters a function takes, because if it
-is called from many places within a project, it is difficult to change
-if necessary.
+to the <literal>handle_typed_characters</literal> function.  The parameter
+list and the processing expectations of a function (what it is expected to do
+with the parameters) are called the function's interface.  Much care
+goes into designing function interfaces, because if they
+are called from many places within a project, it is difficult to change
+them if necessary.
 </para>
 
 <para>
-A typical program is composed of thousands of functions, each with a 
+A typical program is composed of hundreds or thousands of functions, each with a 
 small, well-defined task to perform.  However, ultimately there are things
 that you cannot write functions for which must be provided by the system.
 Those are called <emphasis>primitive functions<indexterm><primary>primitive functions</primary></indexterm></emphasis> (or just <emphasis>primitives<indexterm><primary>primitives</primary></indexterm></emphasis>) - they are the
@@ -66,10 +68,10 @@ etc.  However, ultimately, they will
 reach a set of primitives provided by the operating system to do basic line
 or point drawing.  Programming can either be viewed as breaking a large
 program down into smaller pieces until you get to the primitive functions,
-or building functions on top of primitives until you get the large picture
+or incrementally building functions on top of primitives until you get the large picture
 in focus.  In assembly language, the primitives are usually the same thing
 as the system calls<indexterm><primary>system calls</primary></indexterm>,
-even though they aren't true functions as we will talk about.
+even though system calls aren't true functions as we will talk about in this chapter.
 </para>
 
 </sect1>
@@ -88,7 +90,7 @@ Functions are composed of several different pieces:
 A function's name is a symbol<indexterm><primary>symbol</primary></indexterm>
 that represents the address where the 
 function's code starts.  In assembly language, the symbol is defined
-by typing the the function's name followed by a colon immediately
+by typing the the function's name as a label
 before the function's code.  This is just like labels<indexterm><primary>labels</primary></indexterm> you have used
 for jumping.
 </para></listitem>
@@ -102,9 +104,9 @@ are the data items that are explicitly
 given to the function for processing.  For example, in mathematics,
 there is a sine function.  If you were to ask a computer to find the sine
 of 2, sine would be the function's name, and 2 would be the parameter.  Some
-functions have many parameters, others have none.  Function parameters
-can also be used to hold data that the function wants to send back to the
-program.
+functions have many parameters, others have none.<footnote><para>Function parameters
+can also be used to hold pointers to data that the function wants to send back to the
+program.</para></footnote>
 </para></listitem>
 </varlistentry>
 
@@ -113,9 +115,9 @@ program.
 <listitem><para>
 Local variables<indexterm><primary>local variables</primary></indexterm> 
 are data storage that a function uses
-while processing that is thrown away it returns.  It's kind of like
-a scratch pad of paper.  You get a new piece of paper every time the
-function is activated, and you have to throw it away when you are
+while processing that is thrown away when it returns.  It's kind of like
+a scratch pad of paper.  Functions get a new piece of paper every time they
+are activated, and they have to throw it away when they are
 finished processing.  Local variables of a function are not accessible
 to any other function within a program.
 </para></listitem>
@@ -163,7 +165,9 @@ called to do processing from many different parts of your program, and
 the function needs to be able to get back to wherever it was called
 from.  In most programming languages, this parameter
 is passed automatically when the function is called.  In assembly language,
-the <literal>call<indexterm><primary>call</primary></indexterm></literal> instruction handles it for you.
+the <literal>call<indexterm><primary>call</primary></indexterm></literal> instruction handles passing
+the return address for you, and <literal>ret<indexterm><primary>ret</primary></indexterm></literal> handles
+using that address to return back to where you called the function from.
 </para></listitem>
 </varlistentry>
 
@@ -173,7 +177,7 @@ the <literal>call<indexterm><primary>call</primary></indexterm></literal> instru
 The return value<indexterm><primary>return value</primary></indexterm> is the 
 main method of transferring data back to the
 main program.  Most programming languages only allow a single return value 
-for a function, although some allow multiple.
+for a function.
 </para></listitem>
 </varlistentry>
 
@@ -205,8 +209,7 @@ You can even make one up yourself.  However, if
 you want to interoperate with functions written in other 
 languages, you have to obey their calling conventions.  We 
 will use the calling convention of the C programming language<indexterm><primary>C programming language</primary></indexterm> 
-because it is the most widely used for our examples, and then 
-show you some other possibilities.
+for our examples because it is the most widely used, and because it is the standard for Linux platforms.
 </para>
 
 </sect1>
@@ -229,22 +232,22 @@ Your computer has a stack, too.  The computer's stack<indexterm><primary>stack</
 top addresses of memory.  You can push values onto the 
 top of the stack through an instruction called
 <literal>pushl<indexterm><primary>pushl</primary></indexterm></literal>, which pushes either a register or
-value onto the top of the stack.  Well, we say it's the top, but the
+memory value onto the top of the stack.  Well, we say it's the top, but the
 "top" of the stack is actually the bottom of the stack's memory.  
 Although this is confusing, the reason for it is that when we think
 of a stack of anything - dishes, papers, etc. - we think of adding and 
 removing to the top of it.  However,
 in memory the stack starts at the top of memory and grows downward due
-to other architectural considerations.  Therefore, when we refer to the
-"top of the stack" remember it's at the bottom of the stack's memory<indexterm><primary>stack memory</primary></indexterm>.  When
-we are referring to the top or bottom of memory, we will specifically say 
-so.   You can also pop values off the top using an instruction called
+to architectural considerations.  Therefore, when we refer to the
+"top of the stack" remember it's at the bottom of the stack's memory<indexterm><primary>stack memory</primary></indexterm>.  
+You can also pop values off the top using an instruction called
 <literal>popl<indexterm><primary>popl</primary></indexterm></literal>.
+This removes the top value from the stack and places it into a register or memory location of your choosing..
 </para>
 
 <para>
 When we push a value onto the stack, the top of the stack moves 
-to accomodate the addition value.  We can actually continually 
+to accomodate the additional value.  We can actually continually 
 push values onto the stack and it will keep growing further and
 further down in memory until we hit our code or data.
 So how do we know where the current "top" of the stack is?  The
@@ -265,7 +268,7 @@ for <literal>popl</literal>.
 </para>
 
 <para>
-If we simply want to access the value on the top of the stack,
+If we simply want to access the value on the top of the stack without removing it,
 we can simply use the &esp-indexed; register in indirect addressing mode<indexterm><primary>indirect addressing mode</primary></indexterm>.  For example, the 
 following code moves whatever is at the top of the stack into
 &eax;:
@@ -334,17 +337,25 @@ Return Address &lt;--- (%esp)
 <para>
 Each of the parameters of the function have been pushed onto the stack,
 and finally the return address is there.
-Now the function itself has some work to do.  The first thing
+Now the function itself has some work to do.  
+</para>
+
+<para>
+The first thing
 it does is save the current base pointer register<indexterm><primary>base pointer register</primary></indexterm>,
  &ebp-indexed;, by doing
-<command>pushl %ebp</command>.  The base pointer is a special register<indexterm><primary>special register</primary></indexterm> used for accessing function parameters<indexterm><primary>function parameters</primary></indexterm> and local variables<indexterm><primary>local variables</primary></indexterm>.
+<literal>pushl %ebp</literal>.  The base pointer is a special register<indexterm><primary>special register</primary></indexterm> used for accessing function parameters<indexterm><primary>function parameters</primary></indexterm> and local variables<indexterm><primary>local variables</primary></indexterm>.
 Next, it copies the stack pointer<indexterm><primary>stack pointer</primary></indexterm>
-to &ebp-indexed; by doing <command>movl %esp, %ebp</command>.  This 
+to &ebp-indexed; by doing <literal>movl %esp, %ebp</literal>.  This 
 allows you to be able to access the function parameters
 as fixed indexes from the base pointer.  You may think that you can
 use the stack pointer for this.  However, during your
 program you may do other things with the stack such as pushing
-arguments to other functions.  Copying the stack pointer into
+arguments to other functions.
+</para>
+
+<para>
+Copying the stack pointer into
 the base pointer at the beginning of a function allows you to always 
 know where your parameters are (and as we will see, local variables too),
 even while you may be pushing things on and off the stack.  &ebp-indexed;
@@ -375,8 +386,8 @@ As you can see, each parameter can be accessed using base pointer addressing mod
 Next, the function reserves space on the stack for any local
 variables<indexterm><primary>local variables</primary></indexterm> it needs.
 This is done by simply moving the stack pointer<indexterm><primary>stack pointer</primary></indexterm> out of the way.
-Let's say that we are going to need 2 words of memory
-to run a function.  We can simply move the stack pointer down 2 
+Let's say that we are going to need two words of memory
+to run a function.  We can simply move the stack pointer down two
 words to reserve the space.  This is done like this:
 </para>
 
@@ -395,8 +406,11 @@ that we may make for function calls.  Also, since it is allocated on
 the stack frame for this function call, the variable will only be 
 alive during this function.  When we return, the stack frame will go
 away, and so will these variables.  That's why they are called local -
-they only exist while this function is being called.  So now, we have 2 
-words for local storage.  Our stack now looks like this:
+they only exist while this function is being called.
+</para>
+
+<para>
+Now we have two words for local storage.  Our stack now looks like this:
 </para>
 
 <programlisting>
@@ -412,7 +426,7 @@ Local Variable 2 &lt;--- -8(%ebp) and (%esp)
 
 <para>
 So we can now access all of the data we need for this function
-by using base pointer addressing<indexterm><primary>base pointer addressing mode</primary></indexterm> using different offsets from &ebp-indexed;
+by using base pointer addressing<indexterm><primary>base pointer addressing mode</primary></indexterm> using different offsets from &ebp-indexed;.
 &ebp-indexed; was made specifically for this purpose, 
 which is why it is called the base pointer<indexterm><primary>base pointer register</primary></indexterm>.  You can use other
 registers in base pointer addressing mode, but the x86 architecture
@@ -429,16 +443,18 @@ although most other languages distinguish them.
 </para>
 
 <para>
-When a function is done executing, it does three things.
-First, it stores it's return value in &eax;.  Second, it resets
-the stack to what it was before being called (it gets rid of the
-current stack frame<indexterm><primary>stack frame</primary></indexterm> and puts the stack frame of the calling code
-back into effect).  Third, it returns control
-back to wherever it was called from.  Returning control is done using
-the <literal>ret<indexterm><primary>ret</primary></indexterm></literal> instruction, which pops whatever
-value is at the top of the stack, and sets the instruction pointer<indexterm><primary>instruction pointer</primary></indexterm>, &eip-indexed;,
-to that value.  
+When a function is done executing, it does three things:
 </para>
+
+<orderedlist>
+<listitem><para>It stores it's return value in &eax-indexed;.</para></listitem>
+<listitem><para>It resets the stack to what it was when it was called (it gets rid of the current stack frame<indexterm><primary>stack frame</primary></indexterm> and puts the stack frame of the calling code back into effect).</para></listitem>
+<listitem><para>It returns control back to wherever it was called from.  This is done using the 
+<literal>ret<indexterm><primary>ret</primary></indexterm></literal> instruction, which pops whatever
+value is at the top of the stack, and sets the instruction pointer<indexterm><primary>instruction pointer</primary></indexterm>, 
+&eip-indexed;, to that value.  
+</para></listitem>
+</orderedlist>
 
 <para>
 So, before a function returns control to the code that called it, it
@@ -446,8 +462,11 @@ must restore the previous stack frame.  Note also that without doing this,
 <literal>ret</literal> wouldn't work, because in our current stack
 frame, the return address is not at the top of the stack.  Therefore, before
 we return, we have to reset the stack pointer<indexterm><primary>stack pointer</primary></indexterm> &esp-indexed; and base pointer<indexterm><primary>base pointer</primary></indexterm> &ebp-indexed; to what they
-were before the function was called.  Therefore
-to return from the function you have to do the following:
+were when the function began.
+</para>
+
+<para>
+Therefore to return from the function you have to do the following:
 </para>
 
 <programlisting>
@@ -463,8 +482,11 @@ pointer back, future stack pushes will likely overwrite everything
 you put there.  Therefore, you should never save the address
 of a local variable<indexterm><primary>local variables</primary></indexterm> past the life of the function it was 
 created in, or else it will be overwritten after the life of it's stack 
-frame ends.  Control has now beenhanded back to the 
-calling code,
+frame ends.  
+</para>
+
+<para>
+Control has now beenhanded back to the calling code,
 which can now examine &eax-indexed; for the return value<indexterm><primary>return value</primary></indexterm>.  The calling
 code also needs to pop off all of the parameters it 
 pushed onto the stack in order to get the stack pointer<indexterm><primary>stack pointer</primary></indexterm>
@@ -582,13 +604,13 @@ We then have the following line:
 <indexterm><primary>.type</primary></indexterm>
 <indexterm><primary>@functions</primary></indexterm>
 This tells the linker that the symbol <literal>power</literal>
-should be treated as a function.  This isn't useful now, but
-it will be when you start building larger programs that run
-multiple files.  <xref linkend="linking" /> has additional
-information on what this is used for.  Since this program
+should be treated as a function.  Since this program
 is only in one file, it would work just the same with this
-left out, however, it is good practice.  After that, we
-define the value of the <literal>power</literal> label:
+left out.  However, it is good practice.
+</para>
+
+<para>
+After that, we define the value of the <literal>power</literal> label:
 </para>
 
 <programlisting>
@@ -599,7 +621,7 @@ power:
 As mentioned previously, this defines the symbol 
 <literal>power</literal> to be the address where the instructions
 following the label begin.  This is how 
-<command>call power</command> works.  It transfers control to
+<literal>call power</literal> works.  It transfers control to
 this spot of the program.  The difference between 
 <literal>call<indexterm><primary>call</primary></indexterm></literal> and <literal>jmp<indexterm><primary>jmp</primary></indexterm></literal> is that 
 <literal>call</literal> also pushes the return address onto
@@ -788,7 +810,6 @@ This takes place after <literal>factorial</literal> has finished and computed
 the factorial of 4 for us.  Now we have to clean up the stack.
 The <literal>addl</literal> instruction moves the stack pointer back
 to where it was before we pushed the <literal>$4</literal> onto the stack.
-Since the factorial function
 You should always clean up your stack parameters after a function call returns.
 </para>
 
@@ -813,7 +834,7 @@ The nice thing about function calls is that:
 
 <listitem><para>Other programmers don't have to know anything about them except it's arguments to use them.</para></listitem>
 <listitem><para>They provide standardized building blocks from which you can form a program.</para></listitem>
-<listitem><para>They can be called multiple times and it always knows how to get back to where they were since <literal>call<indexterm><primary>call</primary></indexterm></literal> pushes the return address onto the stack.</para></listitem>
+<listitem><para>They can be called multiple times and from multiple locations and they always know how to get back to where they were since <literal>call<indexterm><primary>call</primary></indexterm></literal> pushes the return address onto the stack.</para></listitem>
 
 </itemizedlist>
 
@@ -888,8 +909,8 @@ it will have other values, too.
 <para>
 Next, we check to see if we've hit our base case (a parameter of 1).  If
 so, we jump to the instruction at the label <literal>end_factorial</literal>,
-where it will be returned (it's already in <literal>%eax</literal> which
-we mentioned earlier is where you put return values<indexterm><primary>return values</primary></indexterm>).  That is accomplished
+where it will be returned.  Et's already in &eax; which
+we mentioned earlier is where you put return values<indexterm><primary>return values</primary></indexterm>.  That is accomplished
 by these lines:
 </para>
 
@@ -986,7 +1007,7 @@ The function is done, and we have our answer!
 <para>
 Like our previous program, you should look over the
 program again, and make sure you know what everything does.
-Looking back through this section and the previous sections for the 
+Look back through this section and the previous sections for the 
 explanation of anything you don't understand.  Then, take a 
 piece of paper, and go through the program
 step-by-step, keeping track of what the values of the registers
