@@ -2,7 +2,44 @@
 <title>Common x86 Instructions</title>
 
 <sect1>
-<title>Integer Functions</title>
+<title>Data Transfer Instructions</title>
+
+<table>
+<title>Data Transfer Instructions</title>
+<tgroup cols="3" colsep="1" rowsep="1">
+<colspec colname="instruction" />
+<colspec colname="operands" />
+<colspec colname="flags" />
+<thead>
+<row>
+<entry>Instruction</entry><entry>Operands</entry><entry>Affected Flags</entry></row>
+</thead>
+<tbody>
+<row><entry>movl</entry><entry>I/R/M, I/R/M</entry><entry>??</entry></row>
+<row><entry namest="instruction" nameend="flags">
+This copies a word of data from one location to another.  <literal>movl %eax, %ebx</literal> copies the contents of &eax; to &ebx;
+</entry></row>
+<row><entry>movb</entry><entry>I/R/M, I/R/M</entry><entry>??</entry></row>
+<row><entry namest="instruction" nameend="flags">
+Same as <literal>movl</literal>, but operates on individual bytes.
+</entry></row>
+<row><entry>leal</entry><entry>M, I/R/M</entry><entry>??</entry></row>
+<row><entry namest="instruction" nameend="flags">
+This takes a memory location given in the standard format, and, instead of
+loading the contents of the memory location, loads the computed address.
+For example, <literal>leal 5(%ebp,%ecx,1), %eax</literal> loads the address
+computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in &eax;
+</entry></row>
+</tbody>
+</tgroup>
+</table>
+<para>
+</para>
+
+</sect1>
+
+<sect1>
+<title>Integer Instructions</title>
 
 <para>
 </para>
@@ -10,7 +47,7 @@
 </sect1>
 
 <sect1>
-<title>Logic Functions</title>
+<title>Logic Instructions</title>
 
 <para>
 </para>
@@ -34,7 +71,7 @@
 </sect1>
 
 <sect1>
-<title>Floating-Point Functions</title>
+<title>Floating-Point Instructions</title>
 
 <para>
 </para>
