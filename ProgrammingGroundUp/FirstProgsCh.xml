@@ -16,7 +16,9 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 In this chapter you will learn the process for writing and building
 Linux assembly-language programs.  In addition, you will learn the 
 structure of assembly-language programs, and a few assembly-language
-commands.
+commands.  As you go through this chapter, you may want to refer also
+to <xref linkend="instructionsappendix" /> and 
+<xref linkend="gdbappendix" />.
 </para>
 
 <para>
@@ -73,7 +75,7 @@ in the file <filename>exit.o</filename>.
 object file is code that is in the machine's language, but has not
 been completely put together.  In most large programs, you will have
 several source files, and you will convert
-each one into an object file.  The linker<indexterm><primary>linker</primary></indexterm> is the program that is
+each one into an object file.  The <emphasis>linker</emphasis><indexterm><primary>linker</primary></indexterm> is the program that is
 responsible for putting the object files together and adding 
 information to it so that the kernel knows how to load and run it.
 In our case, we only have one object file, so the linker is only adding
@@ -138,8 +140,7 @@ lots of lines that begin with
 hashes (<literal>#</literal>).  These are <emphasis>comments<indexterm><primary>comments</primary></indexterm></emphasis>.
 Comments are not translated by the assembler.  They are used only for
 the programmer to talk to anyone who looks at the
-code in the future.  Most programs you write will generally
-be modified by others.  Get 
+code in the future.  Most programs you write will be modified by others.  Get 
 into the habit of writing comments in your code that will
 help them understand both why the program exists and how it works.  
 Always include the following in your comments:
@@ -251,8 +252,37 @@ movl $1, %eax
 
 <para>
 When the program runs, this instruction transfers 
-the number <literal>1</literal> into the &eax; register.
-On x86 processors, there are several general-purpose registers<indexterm><primary>general-purpose registers</primary></indexterm>:
+the number <literal>1</literal> into the &eax; register.  In assembly language,
+many instructions have <emphasis>operands</emphasis><indexterm><primary>operands</primary></indexterm>.  <literal>movl</literal><indexterm><primary>movl</primary></indexterm> has two operands - 
+the <emphasis>source</emphasis> and the <emphasis>destination</emphasis>.  In
+this case, the source is the literal number 1, and the destination is the
+&eax; register.  Operands can be numbers, memory location references, or
+registers.  Different instructions allow different types of operands.  See
+<xref linkend="instructionsappendix" /> for more information on which 
+instructions take which kinds of operands.
+</para>
+
+<para>
+On most instructions which
+have two operands, the first one is the source operand and the second one
+is the destination.  Note that in these cases, the source operand is not
+modified at all.  Other instructions of this type are, for example,
+<literal>addl</literal><indexterm><primary>addl</primary></indexterm>, 
+<literal>subl</literal><indexterm><primary>subl</primary></indexterm>, and  
+<literal>imul</literal><indexterm><primary>imul</primary></indexterm>.
+These add/subtract/multiply
+the source operand from/to/by the destination operand and and save the result
+in the destination operand.  Other instructions may have an operand hardcoded
+in.  <literal>idiv</literal><indexterm><primary>idiv</primary></indexterm>, 
+for example, requires that the dividend be
+in &eax;, and &edx; be zero, and the quotient is then transferred to &eax;
+and the remainder to &edx;.  However, the divisor can be any register or 
+memory location.
+</para>
+
+<para>
+On x86 processors, there are several general-purpose registers<indexterm><primary>general-purpose registers</primary></indexterm> which can be used with <literal>movl</literal>:
+</para>
 
 <itemizedlist>
 <listitem><para>&eax-indexed;</para></listitem>
@@ -261,8 +291,10 @@ On x86 processors, there are several general-purpose registers<indexterm><primar
 <listitem><para>&edx-indexed;</para></listitem>
 </itemizedlist>
 
+<para>
 In addition to these general-purpose registers,
-there are also several special-purpose registers<indexterm><primary>special-purpose registers</primary></indexterm>, including
+there are also several special-purpose registers<indexterm><primary>special-purpose registers</primary></indexterm>, including:
+</para>
 
 <itemizedlist>
 <listitem><para>&edi-indexed;</para></listitem>
@@ -271,6 +303,7 @@ there are also several special-purpose registers<indexterm><primary>special-purp
 <listitem><para>&eip-indexed;</para></listitem>
 </itemizedlist>
 
+<para>
 We'll discuss these later, just be aware that they 
 exist.<footnote><para>You may be wondering, <emphasis>why do all of these
 registers begin with the letter <literal>e</literal>?</emphasis>  The
@@ -286,7 +319,11 @@ offer a 64-bit mode, which doubles the size of these registers yet again
 and uses an <literal>r</literal> prefix to indicate the larger registers (i.e.
 &rax; is the 64-bit version of &eax;).  However, these processors are not 
 widely used, and are not covered in this book.
-</para></footnote>  Also, &edi-indexed; can also be used as a general-purpose register.
+</para></footnote>  Also, &edi-indexed; can also be used as a general-purpose register.  Some of these registers, like &eip-indexed; and &eflags-indexed; can
+only be accessed through special instructions.  The others can be accessed
+using the same instructions as general-purpose registers, but they have 
+special meanings, special uses, or are simply faster when used in a specific
+way.
 </para>
 
 <para>
@@ -300,7 +337,8 @@ mode.
 </para>
 
 <para>
-This instruction is preparing for when we call the Linux kernel.  The
+The reason we are moving the number 1 into &eax; is because we are 
+preparing to call the Linux Kernel. The
 number <literal>1</literal> is the number of the <literal>exit</literal><indexterm><primary><literal>exit</literal></primary></indexterm>
 <emphasis>system call</emphasis>
 <indexterm><primary>system call</primary></indexterm>.
@@ -310,8 +348,14 @@ everything.  Many operations such as calling other programs, dealing with
 files, and exiting have to be handled
 by the operating system through system calls<indexterm><primary>system calls</primary></indexterm>.
 When you make a system call, which we will do shortly, the system
-call number <!--XREF - see xxxx for a list--> has to be loaded into
-&eax-indexed;.
+call number has to be loaded into &eax-indexed;
+(for a complete listing of system calls and their numbers,
+see <xref linkend="syscallap" />).
+Depending on the system call, other registers may have
+to have values in them as well.  Note that system calls is not the only use or
+even the main use of registers.  It is just the one we are dealing with in
+this first program.  Later programs will use registers for regular 
+computation.
 </para>
 
 <para>
@@ -594,11 +638,18 @@ data_items:                       #These are the data items
 </programlisting>
 
 <para>
-Lets look at this.  <literal>data_items</literal> is a label that
+Lets look at this.  <literal>data_items</literal> is a 
+label<indexterm><primary>label</primary></indexterm> that
 refers to the location that follows it.  Then, there is a directive
 that starts with <literal>.long<indexterm><primary>.long</primary></indexterm></literal>.  That causes the assembler
 to reserve memory for the list of numbers that follow it.  
 <literal>data_items</literal> refers to the location of the first one.  
+Because <literal>data_items</literal> is a label, any time in our program
+where we need to refer to this address we can use the 
+<literal>data_items</literal> symbol, and the assembler will substitute
+it with the address where the numbers start during assembly.  For example,
+the instruction <literal>movl data_items, %eax</literal> would move the
+value 3 into &eax;.
 There are several different types of memory locations other than <literal>.long<indexterm><primary>.long</primary></indexterm></literal>
 that can be reserved.  The main ones are as follows:
 </para>
@@ -644,9 +695,14 @@ converted into bytes internally).  So, if you gave the directive
 locations (bytes).  The first byte contains the numeric code for 
 <literal>H</literal>, the second byte contains the numeric code for
 <literal>e</literal>, and so forth.  The last character is represented
-by <literal>\0</literal>, and it is the terminating character (it will 
+by <literal>\0</literal><indexterm><primary>\0</primary></indexterm>, 
+and it is the terminating character (it will 
 never display, it just tells other parts of the program that that's the
-end of the characters).  All of the letters are in quotes.
+end of the characters).  Letters and numbers that start with a backslash
+represent characters that are not typeable on the keyboard or easily viewable
+on the screen.  
+For example, <literal>\n</literal><indexterm><primary>\n</primary></indexterm> refers to the "newline"<indexterm><primary>newline</primary></indexterm> character which causes the computer to start output on the next line and <literal>\t</literal>
+<indexterm><primary>\t</primary></indexterm> refers to the "tab"<indexterm><primary>tab</primary></indexterm> character.  All of the letters in an <literal>.ascii</literal> directive should be in quotes.
 </para></listitem>
 </varlistentry>
 
@@ -770,7 +826,7 @@ indexed addressing mode<indexterm><primary>indexed addressing mode</primary></in
 instructions in assembly language.  The instruction in a general form
 is this: <literal>movl BEGINNINGADDRESS(,%INDEXREGISTER,WORDSIZE)</literal>.  In
 our case <literal>data_items</literal> was our beginning address, &edi; was our
-index register<indexterm><primary>index register</primary></indexterm>, and 4 was our word size.  
+index register<indexterm><primary>index register</primary></indexterm>, and 4 was our word size.  This topic is discussed further in <xref linkend="movaddrmodes" />.
 </para>
 
 <para>

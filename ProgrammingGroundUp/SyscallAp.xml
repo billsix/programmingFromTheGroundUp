@@ -173,4 +173,10 @@ refers to the usage of the system call from the C programming language,
 and may or may not be directly helpful.
 </para>
 
+<para>
+For information on how System Calls are implemented on Linux, see the Linux
+Kernel 2.4 Internals section on how system calls are implemented, 
+at http://www.faqs.org/docs/kernel_2_4/lki-2.html#ss2.11
+</para>
+
 </appendix>

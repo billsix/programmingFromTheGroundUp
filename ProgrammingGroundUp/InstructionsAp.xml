@@ -503,4 +503,16 @@ will be computed, but the order of operands is confusing.
 </para>
 
 </simplesect>
+
+<simplesect>
+<title>Where to Go for More Information</title>
+
+<para>
+Intel has a set of comprehensive guides to their processors.  These
+are available at http://www.intel.com/design/pentium/manuals/  Note that
+all of these use the Intel syntax, not the AT&amp;T syntax.
+</para>
+
+</simplesect>
+
 </appendix>

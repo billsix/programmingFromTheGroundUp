@@ -156,6 +156,26 @@ outside of the areas you normally program in.
 
 </sect1>
 
+<sect1>
+<title>Further Resources on Assembly Language</title>
+
+<para>
+In assembly language, your best resources are on the web.
+</para>
+
+<itemizedlist>
+<listitem><para>http://www.linuxassembly.org/ - a great resource for Linux assembly language programmers</para></listitem>
+<listitem><para>http://www.x86.org/ - Dr. Dobb's Journal Microprocessor Resources</para></listitem>
+<listitem><para>http://www.drpaulcarter.com/pcasm/ - Dr. Paul Carter's PC Assembly Language Page</para></listitem>
+<listitem><para>http://webster.cs.ucr.edu/ - The Art of Assembly Home Page</para></listitem>
+<listitem><para>http://www.intel.com/design/pentium/manuals/ - Intel's manuals for their processors</para></listitem>
+<listitem><para>http://www.amd.com/us-en/Processors/DevelopWithAMD/0,,30_2252_739_7203,00.html - AMD's processor documentation</para></listitem>
+<listitem><para>http://www.janw.easynet.be/ - Jan Wagemaker's Linux assembly language examples</para></listitem>
+<listitem><para>http://www.azillionmonkeys.com/qed/asm.html - Paul Hsieh's x86 Assembly Page</para></listitem>
+</itemizedlist>
+
+</sect1>
+
 <!--
 <para>
 As you learn more, continue trying to build it upon the foundation you

@@ -9,7 +9,15 @@ JADE = openjade
 
 all: ProgrammingGroundUp.pdf
 
+ProgrammingGroundUp.ps: ProgrammingGroundUp.tex
+	jadetex ProgrammingGroundUp.tex
+	jadetex ProgrammingGroundUp.tex
+	jadetex ProgrammingGroundUp.tex
+	jadetex ProgrammingGroundUp.tex
+	dvips ProgrammingGroundUp.dvi -o ProgrammingGroundUp.ps
+
 ProgrammingGroundUp.pdf: ProgrammingGroundUp.tex
+	pdfjadetex ProgrammingGroundUp.tex
 	pdfjadetex ProgrammingGroundUp.tex
 	pdfjadetex ProgrammingGroundUp.tex
 	pdfjadetex ProgrammingGroundUp.tex
