@@ -24,23 +24,9 @@ Optional element. Select additional content areas, up to 3 plus the primary. The
 
 <forum-url url="" />
 
-<!-- TARGET-CONTENT-FILE  
-Optional element. All attributes are required except for file-description, size, and any of the url-* attributes that don't apply to your download file. For a simple, common example (linking to a code sample zip file), see COMMON coding below.
-This element replaces <download-feature> from the previous schema. It creates a major heading, "Download", a corresponding TOC entry, and a table from which users download various types of files associated with the article (code samples, etc).  Each <target-content-file> element represents one download file and one row in the download table.
-Until the 4.1 stylesheets are released, no license will be displayed regardless of whether show-license is set to "yes" or "no".  However, if a license should be displayed, set show-license to "yes" and one will be displayed when we move to 4.1.
-The registration-required attribute should be set to "no" for now; for future use only.
-The url-license attribute is used if you want to display a license other than the standard ILAN license.
-There is no limit to the number of target-content-file elements.  
-COMMON coding: 
-<! <target-content-file filename="loggingplugins.zip" file-type="zip" size="16 KB" file-description="Logging plug-ins used in this article"  target-content-type="Code sample" link-method-ftp="yes"  url-ftp="ftp://www6.software.ibm.com/software/developer/library/os-eclog/loggingplugins.zip" 
-link-method-http="no" url-http="" link-method-dd="no"  url-download-director="" show-license="yes" registration-required="no"/>>
->
-<! First file >
-<! <target-content-file filename="myfile1.zip" file-type="zip" size="10 KB" file-description="50-character or less description of the file"  target-content-type="Code sample" link-method-ftp="yes"  url-ftp="ftp://blah/myfile1.zip" link-method-http="yes" url-http="http://blah/myfile1.zip" link-method-dd="yes"  url-download-director="http://blah/myfile1.zip" show-license="yes" registration-required="no"/> >
-<! Second file >
-<! <target-content-file filename="mypdf.pdf" file-type="pdf" size="50 KB" file-description="A PDF (not of the article, but an assoc. file)" target-content-type="Product documentation" link-method-ftp="yes"  url-ftp="ftp://blah/mypdf.pdf" link-method-http="yes" url-http="http://blah/mypdf.pdf" link-method-dd="yes"  url-download-director="http://blah/mypdf.pdf" show-license="yes" registration-required="no"/> >
+<target-content-file filename="malloc.c" file-type="c" size="16 KB" file-description="Source code for memory allocator used in this article"  target-content-type="Code sample" show-license="no" registration-required="no"/>
 
-<! PDF URL
+<!-- PDF URL
 Optional element, but useful practice to generate and link to a PDF of the article.  A PDF icon appears at the top and bottom of the page.  Note:  This is different from any
 PDF download files that the article may reference as associated information; in that case, code the PDFs as target-content-file elements or 
 target-content-page elements. >
@@ -48,7 +34,7 @@ target-content-page elements. >
 -->
 
 <author jobtitle="Director of Technology" company="New Media Worx" email="johnnyb@eskimo.com"  >
-<bio>Jonathan Bartlett is the author of the book Programming from the Ground Up which is an introduction to programming using Linux assembly language.  He is the lead developer at New Media Worx, 
+<bio>Jonathan Bartlett is the author of the book <a href="http://www.cafeshops.com/bartlettpublish.8640017"><i>Programming from the Ground Up</i></a> which is an introduction to programming using Linux assembly language.  He is the lead developer at New Media Worx, 
 developing web, video, kiosk, and desktop applications for clients.</bio>
 <img src="http://www.ibm.com/developerworks/i/photo.jpg" width="64" height="80" alt="Author photo" />
 <name>Jonathan Bartlett</name>
@@ -120,7 +106,7 @@ situations they work best in.
 <heading refname="" type="major" toc="yes" alttoc="">C-Style Memory Allocators</heading>
 
 <p>
-The C programming language has two functions to fulfill our three requirements:
+The C programming language provides two functions to fulfill our three requirements:
 </p>
 
 <ul>
@@ -228,6 +214,7 @@ three variables are global variables:
 </p>
 
 <code type="section">
+<heading refname="" type="code" toc="no">Listing 1. Global Variables of our simple allocator</heading>
 int has_initialized = 0;
 void *managed_memory_start;
 void *last_valid_address;
@@ -245,6 +232,7 @@ current break and initializes our variables:
 </p>
 
 <code type="section">
+<heading refname="" type="code" toc="no">Listing 2. Allocator initialization function</heading>
 /* Include the sbrk function */ 
 #include &lt;unistd.h&gt; 
 
@@ -273,6 +261,7 @@ beginning:
 </p>
 
 <code type="section">
+<heading refname="" type="code" toc="no">Listing 3. Memory Control Block structure definition</heading>
 struct mem_control_block { 
 	int is_available; 
 	int size;
@@ -300,6 +289,7 @@ mark it as available. Here is the code for that:
 </p>
 
 <code type="section">
+<heading refname="" type="code" toc="no">Listing 4. Deallocation function</heading>
 void free(void *firstbyte) { 
 	struct mem_control_block *mcb;  
 
@@ -321,6 +311,7 @@ the algorithm:
 </p>
 
 <code type="section">
+<heading refname="" type="code" toc="no">Listing 5. Pseudo-code for the main allocator</heading>
 1. If our allocator has not been initialized, initialize it
 2. Add sizeof(struct mem_control_block) to the size requested 
 3. Start at managed_memory_start
@@ -352,6 +343,7 @@ for open chunks.  Here is the code:
 </p>
 
 <code type="section">
+<heading refname="" type="code" toc="no">Listing 6. The main allocator</heading>
 void *malloc(long numbytes) { 
 
 	/* Holds where we are looking in memory */ 
@@ -473,6 +465,7 @@ main ones), run the following command:
 </p>
 
 <code type="section">
+<heading refname="" type="code" toc="no">Listing 7. Compiling the allocator</heading>
 gcc -shared -fpic malloc.c -o malloc.so
 </code>
 
@@ -487,29 +480,28 @@ system <code type="inline">malloc()</code> by doing:
 </p>
 
 <code type="section">
+<heading refname="" type="code" toc="no">Listing 8. Replacing your standard malloc</heading>
 LD_PRELOAD=/path/to/malloc.so
 export LD_PRELOAD
 </code>
 
 <p>
-The <literal>LD_PRELOAD</literal> environment variable causes the
+The <code type="inline">LD_PRELOAD</code> environment variable causes the
 dynamic linker to load the symbols of the given shared library
 before any executable it loads.  It also gives precedence to the
 symbols in the library specified.  Therefore, any application we
 start from now on in this session will be using our 
-<literal>malloc()</literal> and not the system one. A few applications
-don't use <literal>malloc()</literal>, but they are the exception.  Others,
-which use the other memory-management functions like <literal>realloc()</literal>
-or which make poor assumptions about the internal behavior of <literal>malloc()</literal>
-will likely crash.  The <literal>ash</literal> shell appears to work just fine using
-our new <literal>malloc()</literal>.
+<code type="inline">malloc()</code> and not the system one. A few applications
+don't use <code type="inline">malloc()</code>, but they are the exception.  Others,
+which use the other memory-management functions like <code type="inline">realloc()</code>
+or which make poor assumptions about the internal behavior of <code type="inline">malloc()</code>
+will likely crash.  The <code type="inline">ash</code> shell appears to work just fine using
+our new <code type="inline">malloc()</code>.
 </p>
 
 <p>
-If you want to test to be sure that your <literal>malloc()</literal> is being used, you
-should add calls to <literal>write()</literal> at the entry points of your functions.
-Don't use <literal>printf()</literal>, as there is no guarantee that they will not make
-their own calls to <literal>malloc()</literal>
+If you want to test to be sure that your <code type="inline">malloc()</code> is being used, you
+should add calls to <code type="inline">write()</code> at the entry points of your functions.
 </p>
 
 <p>
@@ -526,11 +518,11 @@ memory - this may include a lot of memory located on disk as well, which means t
 <li>There is no graceful handling for out-of-memory errors (malloc
 simply assumes success)</li>
 <li>It does not implement many of the other memory functions, such as
-<literal>realloc()</literal>.</li>
-<li>Due to the fact that <literal>sbrk()</literal> may give back 
+<code type="inline">realloc()</code>.</li>
+<li>Due to the fact that <code type="inline">sbrk()</code> may give back 
 more memory than we ask for, we leak
 some memory at the end of the heap.</li>
-<li>The <literal>is_available</literal> flag uses a full 4 byte word even though it only
+<li>The <code type="inline">is_available</code> flag uses a full 4 byte word even though it only
 contains 1 bit of information.</li>
 <li>The allocator is not thread-safe.</li>
 <li>The allocator can't coalesce free space into larger blocks.</li>
@@ -543,7 +535,7 @@ contains 1 bit of information.</li>
 <heading refname="" type="minor" toc="no">Other Malloc Implementations</heading>
 
 <p>
-There are many implementations of <literal>malloc()</literal>, each with their own
+There are many implementations of <code type="inline">malloc()</code>, each with their own
 strengths and weaknesses.  There are a number of tradeoff decisions when you design
 an allocator, including:
 </p>
@@ -578,8 +570,8 @@ it incorporates indexes to make searching faster, and has the ability
 to combine multiple unused chunks into one large chunk.  It also enables
 caching to make reuse of recently-freed memory faster.  ptmalloc is
 a version of Doug Lea Malloc that was extended to support multiple threads.
-A paper describing Doug Lea's Malloc implementation is available at 
-<ulink url="http://gee.cs.oswego.edu/dl/html/malloc.html">http://gee.cs.oswego.edu/dl/html/malloc.html</ulink>.</li>
+A paper describing Doug Lea's Malloc implementation is available in
+the <a href="#resources">Resources</a> section.</li>
 <li><b>BSD Malloc</b> - BSD Malloc,
 the implementation that was distributed with 4.2 BSD and is included
 with FreeBSD, is an allocator that allocates objects from pools of
@@ -588,14 +580,13 @@ object sizes which are a power of two minus a constant.  So, if you
 request a object of a given size, it simply allocates in whatever size
 class will fit the object.  This provides for a fast implementation,
 but can waste memory. A paper describing this implementation is
-available at <ulink
-url="http://docs.freebsd.org/44doc/papers/malloc.pdf">http://docs.freebsd.org/44doc/papers/malloc.pdf</ulink>.</li>
+available in the <a href="#resources">Resources</a> section.</li>
 <li><b>Hoard</b> - Hoard was written with the goal of being very fast in a multithreaded
 environment.  Therefore, it is structured around making the best use
 of locking to keep any process from having to wait to allocate memory.
 It can dramatically speed up multithreaded processes which do a lot
 of allocating and deallocating.  A paper describing this implementation
-is available at <ulink url="ftp://ftp.cs.utexas.edu/pub/emery/papers/asplos2000.pdf">ftp://ftp.cs.utexas.edu/pub/emery/papers/asplos2000.pdf</ulink>.
+is available in the <a href="#resources">Resources</a> section.
 </li>
 </ul>
 
@@ -614,7 +605,7 @@ are based on the ones presented there.
 
 <p>
 In C++, you can implement your own allocator on a per-class or per-template
-basis by overloading <literal>operator new()</literal>.  Andrei Alexandrescu's
+basis by overloading <code type="inline">operator new()</code>.  Andrei Alexandrescu's
 <citetitle>Modern C++ Design</citetitle> describes a small object allocator
 in chapter 4, "Small Object Allocation".
 </p>
@@ -623,8 +614,8 @@ in chapter 4, "Small Object Allocation".
 
 <p>
 Not only does our memory manager have shortcomings, there are many shortcomings of 
-<literal>malloc()</literal>-based memory management that remain no matter which 
-allocator you use.  Managing memory with <literal>malloc()</literal> can be pretty daunting for programs
+<code type="inline">malloc()</code>-based memory management that remain no matter which 
+allocator you use.  Managing memory with <code type="inline">malloc()</code> can be pretty daunting for programs
 that have long-running storage they need to keep around.  If you have lots of references
 to memory floating around, it is often difficult to know when it should be released.
 Memory whose lifetime is limitted to the current function is fairly easy to manage, but
@@ -674,10 +665,16 @@ circular references.
 </p>
 
 <p>
-An example reference counting program might look like this:
+To implement reference counting, you simply need two functions - one to 
+increase the reference count, and one to decrease the reference count
+and free the memory when the count drops to zero.
+</p>
+<p>
+An example reference counting function set might look like this:
 </p>
 
 <code type="section">
+<heading refname="" type="code" toc="no">Listing 9. Basic reference counting functions</heading>
 /* Structure Definitions*/
 
 /* Base structure that holds a refcount */
@@ -689,13 +686,6 @@ struct refcountedstruct
 /* All refcounted structures must mirror struct 
  * refcountedstruct for their first variables 
  */
-struct mydata 
-{
-	int refcount; /* same as refcountedstruct */
-	int datafield1; /* Fields specific to this struct */
-	int datafield2;
-	/* other declarations would go here as appropriate */
-};
 
 /* Refcount maintenance functions */
 
@@ -720,8 +710,52 @@ void UNREF(void *data)
 		free(rstruct);
 	}
 }
+</code>
+
+<p>
+REF and UNREF might be more complicated, depending on what you wanted to do.
+For example, you may want to add locking for a multithreaded program, and you
+may want to extend refcountedstruct so that it also includes a pointer to
+a function to call before freeing the memory (like a destructor in
+object-oriented languages -- this is <i>required</i> if your structures 
+contain pointers).
+</p>
+
+<p>
+When using REF and UNREF, you need to obey these rules for pointer assignments:
+</p>
+
+<ul>
+<li>UNREF the value that the left-hand-side pointer is pointing to before the assignment.</li>
+<li>REF the value that that the left-hand-side pointer is pointing to after the assignment.</li>
+</ul>
+
+<p>
+In functions which are passed refcounted structures, the functions need to follow these rules:
+</p>
+
+<ul>
+<li>REF every pointer at the beginning of the function.</li>
+<li>UNREF every pointer at the end of the function.</li>
+</ul>
+
+<p>
+Here is a quick example of code using reference counting:
+</p>
+
+<code type="section" width="">
+<heading refname="" type="code" toc="no">Listing 10. Example using reference counting</heading>
 
 /* EXAMPLES OF USAGE */
+
+/* Data type to be refcounted */
+struct mydata 
+{
+	int refcount; /* same as refcountedstruct */
+	int datafield1; /* Fields specific to this struct */
+	int datafield2;
+	/* other declarations would go here as appropriate */
+};
 
 /* Use the functions in code */
 void dosomething(struct mydata *data)
@@ -743,17 +777,20 @@ struct mydata *globalvar1;
  */
 void storesomething(struct mydata *data)
 {
-	REF(data)
+	REF(data); /* passed as a parameter */
 
 	globalvar1 = data;
+	REF(data); /* ref because of Assignment */
+
+	UNREF(data); /* Function finished */
 }
 </code>
 
 <p>
 Since reference counting is so simple, most programmers implement it
 themselves rather than using libraries.  They do, however, depend
-on low-level allocators like <literal>malloc</literal> and 
-<literal>free</literal> to actually allocate and release their memory.
+on low-level allocators like <code type="inline">malloc</code> and 
+<code type="inline">free</code> to actually allocate and release their memory.
 </p>
 
 <p>
@@ -763,7 +800,7 @@ counting is handled automatically by the language, so that the
 programmer doesn't have to worry about it at all except for writing
 extension modules.  This takes away some speed as everything must be
 reference counted, but adds quite a bit of safety and ease of
-programming.
+programming.  Here are the benefits:
 </p>
 
 <ul>
@@ -779,7 +816,8 @@ However, it also has its drawbacks:
 <ul>
 <li>Requires that the programmer never forget to call the reference counting functions.</li>
 <li>Will not release structures that are a part of a circular data structure.</li>
-<li>Additional precautions have to be taken when using exception-handling (like <literal>try</literal> or <literal>setjmp()</literal>/<literal>longjmp()</literal>) while using reference counted objects.</li>
+<li>Slows down nearly every pointer assignment.</li>
+<li>Additional precautions have to be taken when using exception-handling (like <code type="inline">try</code> or <code type="inline">setjmp()</code>/<code type="inline">longjmp()</code>) while using reference counted objects.</li>
 <li>Requires extra memory to handle the references.</li>
 <li>The reference counter takes up the first position in the structure, which is the fastest to access on most machines.</li>
 <li>Slower and more difficult to do in a multithreaded environment.</li>
@@ -794,8 +832,7 @@ a C library), it usually degenerates into a mess that is actually more
 difficult and twisted than if you didn't use them.  Therefore, it is
 usually only useful for C++-only projects.  If you want to use smart
 pointers, you really need to read the "Smart Pointers" chapter from
-Alexandrescu's <citetitle>Modern C++ Design</citetitle> book.  Luckily,
-it is also available online at <ulink url="http://www.informit.com/content/index.asp?product_id=%7B7CBDD5B1-129D-427A-9C36-9C506D3DFABA%7D">http://www.informit.com/content/index.asp?product_id=%7B7CBDD5B1-129D-427A-9C36-9C506D3DFABA%7D</ulink>.
+Alexandrescu's <citetitle>Modern C++ Design</citetitle> book.  
 </p>
 
 <heading refname="" type="minor" toc="no">Memory Pools</heading>
@@ -835,10 +872,8 @@ To use pools in your own programs, you can either use GNU libc's
 because they are included by default in GNU-based Linux distributions.  The 
 Apache Portable Runtime is nice because it has a lot of other utilities
 to handle all aspects of writing multiplatform server software.  To learn
-more about GNU obstacks, see 
-<ulink url="http://www.gnu.org/manual/glibc-2.2.5/html_node/Obstacks.html#Obstacks">http://www.gnu.org/manual/glibc-2.2.5/html_node/Obstacks.html#Obstacks</ulink>.  
-To learn more about Apache's pooled memory implementation, see 
-<ulink url="http://apr.apache.org/docs/apr/group__apr__pools.html">http://apr.apache.org/docs/apr/group__apr__pools.html</ulink>.
+more about GNU obstacks and Apache's pooled memory implementation, see
+the links to their documentation in the <a href="#resources">Resources</a> section.
 </p>
 
 <p>
@@ -847,6 +882,7 @@ should give you an idea about how they are used:
 </p>
 
 <code type="section">
+<heading refname="" type="code" toc="no">Listing 11. Example code for obstacks</heading>
 #include &lt;obstack.h&gt;
 #include &lt;stdlib.h&gt;
 
@@ -937,8 +973,8 @@ Basically, after each major stage of operation, the obstack for that
 stage is freed.  Note, however, that if a procedure needs to allocate 
 memory that will last longer than the current stage, they can use a
 longer-term obstack as well, such as the connection or the global one.
-The <literal>NULL</literal> that is passed to 
-<literal>obstack_free()</literal> indicates that it should free the entire
+The <code type="inline">NULL</code> that is passed to 
+<code type="inline">obstack_free()</code> indicates that it should free the entire
 contents of the obstack.  Other values are available, but they usually are
 not as useful.
 </p>
@@ -1028,8 +1064,8 @@ the most popular garbage collectors available, because it's free and
 it's both conservative and incremental.  You can use it as a drop-in 
 replacement
 for your system allocator (using malloc/free instead of it's own API) by
-building it with <literal>--enable-redirect-malloc</literal>. In fact, 
-if you do this, you can use the same <literal>LD_PRELOAD</literal> trick that
+building it with <code type="inline">--enable-redirect-malloc</code>. In fact, 
+if you do this, you can use the same <code type="inline">LD_PRELOAD</code> trick that
 we used for our simple allocator to enable garbage collection in almost any 
 program on your system.  If you suspect a program is leaking memory, you 
 can use this garbage collector to keep the process size down.  Many people
@@ -1053,6 +1089,20 @@ The drawbacks include:
 <li>You can still have memory leaks if you forget to set unused pointers to null</li>
 </ul>
 
+<heading refname="" type="major" toc="yes">Conclusion</heading>
+
+<p>
+It's a world of tradeoff -- peformance, ease-of-use, ease-of-implementation, 
+and threading capability, just to name a few. 
+There are numerous patterns of memory management at your disposal to match
+your project requirements.
+Each pattern has a wide range of implementations,
+each of which has its benefits and drawbacks.  Using the default techniques
+for your programming environment is fine for many projects, but knowing the available options
+will help you when your project has special needs.
+</p>
+
+<!--
 <heading refname="" type="major" toc="yes">Comparison of Strategies</heading>
 
 <heading refname="" type="minor" toc="no">Table 1. Comparison of Memory Allocation Strategies</heading>
@@ -1221,172 +1271,122 @@ Collection
       <td>Rarely</td>
     </tr>
 </table>
-
-<resource-list>
-	<!-- <h3>Source Code for Memory Allocators, Debuggers, and Garbage Collectors</h3>
-	<h4>Basic Allocators</h4>-->
-<ul>
-  <li>The Simple Allocator - <a
- href="../packages/MemoryManagement/basic-allocators/simple/simple_malloc.c">simple_malloc.c</a>
-or <a
- href="../packages/MemoryManagement/basic-allocators/simple/alloc.s">alloc.s</a> 
-  </li>
-  <li>Doug Lea's Malloc - <a
- href="../packages/MemoryManagement/basic-allocators/doug-lea-malloc/malloc.c">malloc.c</a>,<a
- href="../packages/MemoryManagement/basic-allocators/doug-lea-malloc/malloc.h">malloc.h</a></li>
-  <li>BSD Malloc - <a
- href="../packages/MemoryManagement/basic-allocators/BSD/malloc.c">malloc.c</a></li>
-  <li>ptmalloc - <a
- href="../packages/MemoryManagement/basic-allocators/ptmalloc/ptmalloc.tar.gz">ptmalloc
-version 1 (.tar.gz)</a>, <a
- href="../packages/MemoryManagement/basic-allocators/ptmalloc/ptmalloc2-current.tar.gz">ptmalloc
-version 2 (.tar.gz)</a></li>
-  <li>Hoard - <a
- href="../packages/MemoryManagement/basic-allocators/hoard/libhoard-source-2.1.0.tar.gz">libhoard-source-2.1.0.tar.gz</a>,<a
- href="../packages/MemoryManagement/basic-allocators/hoard/libhoard-source-2.1.0.zip">libhoard-source-2.1.0.zip</a>,<a
- href="../packages/MemoryManagement/basic-allocators/hoard/libhoard-2.1.0-windows.zip">libhoard-2.1.0-windows.zip</a>,<a
- href="../packages/MemoryManagement/basic-allocators/hoard/libhoard-2.1.0-linux.tar.gz">libhoard-2.1.0-linux.tar.gz</a>,<a
- href="../packages/MemoryManagement/basic-allocators/hoard/libhoard-2.1.0-solaris.tar.gz">
-libhoard-2.1.0-solaris.tar.gz</a></li>
-  <li>GNU Memory-Mapped Malloc - <a
- href="../packages/MemoryManagement/basic-allocators/gnu-mmalloc/mmalloc.tar.gz">mmalloc.tar.gz</a>
-(Part of the <a
- href="../packages/MemoryManagement/basic-allocators/gnu-mmalloc/gdb-5.3.tar.bz2">GNU
-Debugger</a>)</li>
-  <li>University of Toronto Malloc - <a
- href="../packages/MemoryManagement/basic-allocators/UTorontoMalloc/UToronto-malloc.tar.gz">UToronto-malloc.tar.gz</a> 
-  </li>
-  <li>ElectricFence Malloc Debugger - <a
- href="../packages/MemoryManagement/basic-allocators/ElectricFence/ElectricFence-2.1.tar.gz">ElectricFence-2.1.tar.gz</a> 
-  </li>
-</ul>
-<!--<h4>Pooled Allocators</h4>-->
-<ul>
-  <li>Apache's pooled allocator - <a
- href="../packages/MemoryManagement/pooled-allocators/apache-allocator/alloc.c">alloc.c</a>
-(from Apache 1.3.27), <a
- href="../packages/MemoryManagement/pooled-allocators/apache-allocator/apr_pools.c">apr_pools.c</a>
-(from the <a
- href="../packages/MemoryManagement/pooled-allocators/apache-allocator/apr_20030224174002.tar.gz">Apache
-Portable Runtime</a>)</li>
-  <li>Squid's pooled allocator - <a
- href="../packages/MemoryManagement/pooled-allocators/squid-allocator/MemPool.c">MemPool.c</a></li>
-  <li>NetBSD's pooled allocator - <a
- href="../packages/MemoryManagement/pooled-allocators/netbsd-pooled-allocator/subr_pool.c">subr_pool.c</a></li>
-  <li>Samba's pooled allocator - <a
- href="../packages/MemoryManagement/pooled-allocators/samba-allocator/talloc.c">talloc.c</a> 
-  </li>
-</ul>
-<!--<h4>C++ Smart Pointers &amp; Custom Allocator</h4>-->
-<ul>
-  <li>Loki C++ Library - <a href="../packages/Loki.zip">Loki.zip 
-    </a></li>
-</ul>
-<!--<h4>Garbage Collectors</h4>-->
-<ul>
-  <li>Hahns Boehm Conservative Garbage Collector - <a
- href="../packages/MemoryManagement/collectors/gc6.1.tar.gz">gc6.1.tar.gz</a></li>
-</ul>
-<!--<h3>Readings</h3>
-<h4>Print 
-</h4>-->
-<ul>
-  <li>Section 2.5, "Dynamic Storage Allocation" from Fundamental Algorithms, volume 1 of The Art of Computer Programming by Donald Knuth</li>
-  <li>Section 2.3.5, "Lists and Garbage Collection" from Fundamental Algorithms, volume 1 of The Art of Computer Programming by Donald Knuth</li>
-  <li>Chapter 4, "Small Object Allocation" from Modern C++ Design by Andrei Alexandrescu</li>
-  <li>Chapter 7, "Smart Pointers" from Modern C++ Design by Andrei Alexandrescu</li>
-</ul>
-<!--<h4>Electronic Papers</h4>
-<h5>General</h5>-->
-<ul>
-  <li>"Correctness in Dynamic Storage Allocation" by Grunwald and Zorn
-(WEB) - <a
- href="http://www.cs.colorado.edu/%7Ezorn/malloc/Usenix94-Correct-DSA.ps">Postscript</a></li>
-  <li>"Predicting Lifetimes in Dynamically Allocated Memory" by Cohn
-and Singh (WEB) - <a href="http://www.cs.cmu.edu/%7Ecohn/memory.ps">Postscript</a></li>
-</ul>
-<!--<h5>Virtual Memory in Modern Operating Systems</h5>-->
-<ul>
-  <li>"A New Virtual Memory Implementation for Berkeley UNIX" by
-Marshall Kirk McKusick and Michael J. Karels - <a
- href="../packages/MemoryManagement/papers/newvm.pdf">PDF</a></li>
-  <li>"Code Commentary on the Linux Virtual Memory Manager" by Mel
-Gorman - <a href="../packages/MemoryManagement/papers/linux-vm-code.pdf">PDF</a></li>
-  <li>"Understanding the Linux Virtual Memory Manager" by Mel Gorman - <a
- href="../packages/MemoryManagement/papers/linux-vm-understand.pdf">PDF</a> 
-  </li>
-</ul>
-<!--<h5>Malloc Implementations</h5>-->
-<ul>
-  <li>"Malloc in Modern Virtual Memory Environments" by Poul-Henning
-Kamp - <a href="../packages/MemoryManagement/papers/malloc.pdf">PDF</a></li>
-  <li>"Hoard - a Scalable Memory Allocator for Multithreaded
-Environments" by Berger, McKinley, Blumofe, and Wilson (WEB) - <a
- href="ftp://ftp.cs.utexas.edu/pub/emery/papers/asplos2000.pdf">PDF</a></li>
-  <li>Chapter 8 (Intermediate Memory Topics) from Programming From the
-Ground Up (unpublished draft)- <a
- href="../packages/MemoryManagement/papers/ProgrammingGroundUp.pdf">PDF</a></li>
-  <li>"Design of a General Purpose Memory Allocator for the 4.3BSD UNIX
-Kernel" by Marshall Kirk McKusick and Michael J. Karels - <a
- href="../packages/MemoryManagement/papers/kernmalloc.pdf">PDF</a> 
-  </li>
-  <li>"A Memory Allocator" by Doug Lea - <a
- href="../packages/MemoryManagement/papers/malloc-discussion.html">HTML</a>
-and <a href="../packages/MemoryManagement/papers/malloc-discussion.pdf">PDF</a></li>
-  <li>"Memory Management for High-Performance Applications" by Emery D.
-Berger (WEB) - <a
- href="http://www.cs.utexas.edu/ftp/pub/techreports/tr02-52.pdf">PDF</a></li>
-</ul>
-<!--<h5>Custom Allocators</h5>-->
-<ul>
-  <li>"Some Storage Management Techniques for Container Classes" by
-Doug Lea - <a
- href="../packages/MemoryManagement/papers/C++Report89-doug-lea.txt">Text</a></li>
-  <li>"Composing High-Performance Memory Allocators" by Berger, Zorn,
-and McKinley (WEB) - <a
- href="ftp://ftp.cs.utexas.edu/pub/emery/papers/pldi2001.pdf">PDF</a></li>
-  <li>"Reconsidering Custom Memory Allocation" by Berger, Zorn, and
-McKinley (WEB) - <a
- href="ftp://ftp.cs.utexas.edu/pub/emery/papers/reconsidering-custom.pdf">PDF</a></li>
-</ul>
-<!--<h5>Garbage Collection</h5>-->
-<ul>
-  <li>"Uniprocessor Garbage Collection Techniques" by Paul R. Wilson
-(WEB) - <a
- href="http://citeseer.nj.nec.com/rd/88809344%2C89086%2C1%2C0.25%2CDownload/http://citeseer.nj.nec.com/cache/papers/cs/5548/http:zSzzSzwww.mbhl.comzSz%7EdhudekzSz.zSzdocszSzgcSurvey.pdf/wilson92uniprocessor.pdf">PDF</a></li>
-  <li>"The Measured Cost of Garbage Collection" by Benjamin Zorn (WEB)
-- <a
- href="http://citeseer.nj.nec.com/rd/88809344%2C31007%2C1%2C0.25%2CDownload/http://citeseer.nj.nec.com/cache/papers/cs/632/ftp:zSzzSzftp.cs.colorado.eduzSzpubzSztechreportszSzzornzSzCU-CS-573-92.pdf/zorn92measured.pdf">PDF</a></li>
-  <li>"Memory Allocation Myths and Half-Truths" by Hans-Juergen Boehm
-(WEB) - <a href="http://www.hpl.hp.com/personal/Hans_Boehm/gc/myths.ps">Postscript</a></li>
-  <li>"Space Efficient Conservative Garbage Collection" by Hans-Juergen
-Boehm (WEB) - <a
- href="http://www.hpl.hp.com/personal/Hans_Boehm/gc/papers/pldi93.ps.Z">Compressed
-Postscript</a></li>
-  <li>"Garbage Collection in .NET" by Chris Maunder (WEB) - <a
- href="http://www.codeproject.com/managedcpp/garbage_collection.asp">HTML</a> 
-  </li>
-</ul>
-<!--<h4>Resources on the Web</h4>-->
-<ul>
-  <li>Malloc Debuggers - <a
- href="http://www.cs.colorado.edu/%7Ezorn/MallocDebug.html">http://www.cs.colorado.edu/~zorn/MallocDebug.html</a></li>
-  <li>Memory Management in C++ - <a
- href="http://www.cantrip.org/wave12.html">http://www.cantrip.org/wave12.html</a></li>
-  <li>Programming Alternatives: Memory Management - <a
- href="http://www.conman.org/projects/essays/memmgr.html">http://www.conman.org/projects/essays/memmgr.html</a></li>
-  <li>Garbage Collection FAQ - <a
- href="http://www.iecc.com/gclist/GC-faq.html">http://www.iecc.com/gclist/GC-faq.html</a></li>
-  <li>Richard Jone's Garbage Collection Bibliography - <a
- href="http://www.cs.ukc.ac.uk/people/staff/rej/gcbib/gcbibG.html">http://www.cs.ukc.ac.uk/people/staff/rej/gcbib/gcbibG.html</a> 
-  </li>
-  <li>Garbage Collection in .NET - <a
- href="http://msdn.microsoft.com/msdnmag/issues/1100/GCI/default.aspx">http://msdn.microsoft.com/msdnmag/issues/1100/GCI/default.aspx</a> 
-  </li>
-  </ul>
-</resource-list>
+-->
 
 </docbody>
+
+<related-list>
+<a href="http://www-128.ibm.com/developerworks/web/library/wa-memmng/">Self-manage data buffer memory</a>
+<a href="http://www-128.ibm.com/developerworks/eserver/articles/framework.html">A Framework for the User Defined Malloc Replacement Feature</a>
+<a href="http://www-128.ibm.com/developerworks/linux/library/l-debug/index.html">Mastering Linux debugging techniques</a>
+<a href="http://www-128.ibm.com/developerworks/java/library/j-leaks/index.html">Handling memory leaks in Java programs</a>
+</related-list>
+
+<resource-list>
+<p>
+</p>
+
+<heading toc="no" type="minor">Documentation on the Web</heading>
+<ul>
+  <li><a href="http://www.gnu.org/software/libc/manual/html_node/Obstacks.html#Obstacks">The Obstacks section of the GNU C Library manual</a> gives the programming interface for obstacks.</li>
+  <li><a href="http://apr.apache.org/docs/apr/group__apr__pools.html">The Apache Portable Runtime documentation</a> describes the interface to their pooled allocator.</li>
+</ul>
+
+<heading toc="no" type="minor">Basic Allocators</heading>
+<ul>
+  <li><a href="http://gee.cs.oswego.edu/dl/html/malloc.html">Doug  Lea's Malloc</a> is one of the more popular memory allocators.</li>
+  <li><a href="http://www.freebsd.org/cgi/cvsweb.cgi/src/lib/libc/stdlib/malloc.c">BSD Malloc</a> is used in most BSD-based systems.</li>
+  <li><a href="http://www.malloc.de/en/">ptmalloc</a> is derived from Doug Lea's malloc and is used in GLIBC.</li>
+  <li><a href="http://www.cs.umass.edu/~emery/hoard/">Hoard</a> is a malloc implementation optimized for multithreaded applications.</li>
+  <li><a href="http://ftp.gnu.org/gnu/gdb/gdb-6.2.tar.gz">GNU Memory-Mapped Malloc (part of GDB)</a> is a malloc implementation which is based on mmap().</li>
+  <li><a href="http://www.pf-lug.de/projekte/haya/efence_2_4_10.zip">ElectricFence Malloc Debugger</a> is a malloc implementation which helps debug memory problems in programs.</li>
+</ul>
+
+
+<heading toc="no" type="minor">Pooled Allocators</heading>
+
+<ul>
+  <li><a href="http://www.gnu.org/software/libc/">GNU Obstacks (part of GNU Libc)</a> is the most widely installed pooled allocator, since it's on every glibc-based system.</li>
+  <li><a href="http://apr.apache.org/">Apache's pooled allocator (in the Apache Portable Runtime)</a> is the most widely used pooled allocator.</li>
+  <li><a href="ftp://ftp.vistech.net/pub/squid/squid-2/STABLE/squid-2.5.STABLE7.tar.bz2">Squid's</a> has its own pooled allocator.</li>
+  <li><a href="http://cvsweb.netbsd.org/bsdweb.cgi/src/sys/kern/subr_pool.c">NetBSD</a> has its own pooled allocator.</li>
+  <li><a href="http://www.samba.org/samba/ftp/samba-latest.tar.gz">talloc</a> is a pooled allocator which is part of Samba.</li>
+</ul>
+
+<heading toc="no" type="minor">Smart Pointers and Custom Allocators</heading>
+
+<ul>
+  <li><a href="http://sourceforge.net/projects/loki-lib/">The Loki C++ Library</a> has a number of generic patterns implemented for C++, including smart pointers and a custom small-object allocator.</li>
+</ul>
+
+<heading toc="no" type="minor">Garbage Collectors</heading>
+
+<ul>
+  <li><a href="http://www.hpl.hp.com/personal/Hans_Boehm/gc/">The Hahns Boehm Conservative Garbage Collector</a> is the most popular open-source garbage collector, which can be used in regular C/C++ programs.</li>
+</ul>
+
+<heading toc="no" type="minor">Papers on Virtual Memory in Modern Operating Systems</heading>
+
+<ul>
+  <li><a href="http://docs.freebsd.org/44doc/papers/newvm.html">"A New Virtual Memory Implementation for Berkeley UNIX" by Marshall Kirk McKusick and Michael J. Karels</a> discusses BSD's VM system.</li>
+  <li><a href="http://www.skynet.ie/~mel/projects/vm/">Mel Gorman's Linux VM Documentation</a> discusses the Linux VM system.</li>
+</ul>
+
+<heading toc="no" type="minor">Papers on Malloc</heading>
+
+<ul>
+  <li><a href="http://docs.freebsd.org/44doc/papers/malloc.html">"Malloc in Modern Virtual Memory Environments" by Poul-Henning Kamp</a> talks about BSD's malloc and how it interacts with BSD virtual memory.</li>
+  <li><a href="ftp://ftp.cs.utexas.edu/pub/emery/papers/asplos2000.pdf">"Hoard - a Scalable Memory Allocator for Multithreaded Environments" by Berger, McKinley, Blumofe, and Wilson</a> discusses the implementation of the Hoard allocator.</li>
+  <li><a href="http://docs.freebsd.org/44doc/papers/kernmalloc.html">"Design of a General Purpose Memory Allocator for the 4.3BSD UNIX Kernel" by Marshall Kirk McKusick and Michael J. Karels</a> discussed kernel-level allocators.</li>
+  <li><a href="http://gee.cs.oswego.edu/dl/html/malloc.html">A Memory Allocator" by Doug Lea</a> gives an overview of the design and implementation of allocators, including design choices and tradeoffs.</li>
+  <li><a href="http://www.cs.utexas.edu/ftp/pub/techreports/tr02-52.pdf">Memory Management for High-Performance Applications" by Emery D. Berger</a> talks about custom memory management and how it affects high-performance applications.</li>
+</ul>
+
+<heading toc="no" type="minor">Papers on Custom Allocators</heading>
+
+<ul>
+  <li><a href="ftp://g.oswego.edu/pub/papers/C++Report89.txt">"Some Storage Management Techniques for Container Classes" by Doug Lea</a> describes writing custom allocators for C++ classes.</li>
+  <li><a href="ftp://ftp.cs.utexas.edu/pub/emery/papers/pldi2001.pdf">"Composing High-Performance Memory Allocators" by Berger, Zorn, and McKinley</a> discusses writing custom allocators to increase speed for specific workloads.</li>
+  <li><a href="ftp://ftp.cs.utexas.edu/pub/emery/papers/reconsidering-custom.pdf">"Reconsidering Custom Memory Allocation" by Berger, Zorn, and McKinley</a> revisits the topic of custom allocation to see if it is really worth the trouble.</li>
+</ul>
+
+<heading toc="no" type="minor">Papers on Garbage Collection</heading>
+
+<ul>
+  <li><a href="ftp://ftp.cs.utexas.edu/pub/garbage/bigsurv.ps">"Uniprocessor Garbage Collection Techniques" by Paul R. Wilson</a> presents a basic overview of garbage collection.</li>
+  <li><a href="ftp://ftp.cs.colorado.edu/pub/techreports/zorn/CU-CS-573-92.ps.Z">"The Measured Cost of Garbage Collection" by Benjamin Zorn</a> presents hard data on garbage allocation and performance.</li>
+  <li><a href="http://www.hpl.hp.com/personal/Hans_Boehm/gc/myths.ps">"Memory Allocation Myths and Half-Truths" by Hans-Juergen Boehm</a> presents the myths surrounding garbage collection.</li>
+  <li><a href="http://www.hpl.hp.com/personal/Hans_Boehm/gc/papers/pldi93.ps.Z">"Space Efficient Conservative Garbage Collection" by Hans-Juergen Boehm</a> is a paper describing his garbage collector for C/C++.</li>
+  <li><a href="http://www.codeproject.com/managedcpp/garbage_collection.asp">"Garbage Collection in .NET" by Chris Maunder</a> discusses how the .NET runtime handles garbage collection.</li>
+</ul>
+
+<heading toc="no" type="minor">General Resources on the Web</heading>
+
+<ul>
+  <li><a href="http://www.memorymanagement.org/">The Memory Management Reference</a> contains numerous references and links to papers on memory management.</li>
+  <li><a href="http://www.cs.utexas.edu/users/oops/papers.html">OOPS Group Papers on Memory Management and Memory Hierarchies</a> is a great set of technical papers on the subject.</li>
+  <li><a href="http://www.cantrip.org/wave12.html">Memory Management in C++</a> discusses writing custom allocators for C++.</li>
+  <li><a href="http://www.conman.org/projects/essays/memmgr.html">Programming Alternatives: Memory Management</a> discusses several choices programmers have for memory management.</li>
+  <li><a href="http://www.iecc.com/gclist/GC-faq.html">The Garbage Collection FAQ</a> discusses everything you wanted to know about garbage collection.</li>
+  <li><a href="http://www.cs.ukc.ac.uk/people/staff/rej/gcbib/gcbibG.html">Richard Jone's Garbage Collection Bibliography</a> has links to any paper you ever wanted about garbage collection.</li>
+  <li><a href="http://msdn.microsoft.com/msdnmag/issues/1100/GCI/default.aspx">Garbage Collection in .NET</a> is Microsoft's reference on garbage collection issues in .NET.</li>
+  <li><a  href="http://www.cs.colorado.edu/%7Ezorn/MallocDebug.html">List of Malloc Debuggers</a> is a good list of malloc implementations used for finding memory problems in programs.</li>
+</ul>
+
+<heading toc="no" type="minor">Books</heading>
+
+<ul>
+  <li><a href="http://www.amazon.com/exec/obidos/ASIN/0471049980/freeeducation-20/"><i>C++ Pointers and Dynamic Memory Management</i></a> by Michael Daconta covers numerous techniques on memory management. </li>
+  <li><a href="http://devworks.krcinfo.com/WebForms/ProductDetails.aspx?ProductID=0521520436">Memory as a Programming Concept in C and C++</a> by Frantisek Franek</li>
+  <li><a href="http://www.amazon.com/exec/obidos/ASIN/0471941484/freeeducation-20/">Garbage Collection: Algorithms for Automatic Dynamic Memory Management</a> by Richard Jones and Rafael Lins describes the most common algorithms for garbage collection in use.</li>
+  <li>Section 2.5, "Dynamic Storage Allocation" from <a href="http://devworks.krcinfo.com/WebForms/ProductDetails.aspx?ProductID=0201896834"><i>Fundamental Algorithms</i></a>, volume 1 of <i>The Art of Computer Programming</i> by Donald Knuth describes several techniques for implementing basic allocators.</li>
+  <li>Section 2.3.5, "Lists and Garbage Collection" from <a href="http://devworks.krcinfo.com/WebForms/ProductDetails.aspx?ProductID=0201896834"><i>Fundamental Algorithms</i></a>, volume 1 of <i>The Art of Computer Programming</i> by Donald Knuth discusses garbage collection algorithms for lists.</li>
+  <li>Chapter 4, "Small Object Allocation" from <a href="http://devworks.krcinfo.com/WebForms/ProductDetails.aspx?ProductID=0201704315"><i>Modern C++ Design</i></a> by Andrei Alexandrescu describes a high-speed small-object allocator that is quite a bit more efficient than the C++ standard allocator.</li>
+  <li>Chapter 7, "Smart Pointers" from <a href="http://devworks.krcinfo.com/WebForms/ProductDetails.aspx?ProductID=0201704315"><i>Modern C++ Design</i></a> by Andrei Alexandrescu describes the implementation of smart pointers in C++.</li>
+  <li>Chapter 8, "Intermediate Memory Topics" from <a href="http://www.amazon.com/exec/obidos/ASIN/0975283847/freeeducation-20/"><i>Programming from the Ground Up</i></a> by Jonathan Bartlett contains an assembly-language version of the simple allocator used in this article.</li>
+</ul>
+
+</resource-list>
 
 </dw-article>
 </dw-document>
