@@ -32,7 +32,7 @@ is the same as <literal>5*4*3*2*1</literal>.  <literal>factorial(3)</literal>
 is <literal>3*2*1</literal>.  An interesting property of a factorial is that
 the factorial of a number is equal to the starting number multiplied by 
 the factorial of the number immediately below it.  <literal>factorial(5)</literal> is the same
-as <literal>5 * factorial(4)</literal>.  You coul almost write the 
+as <literal>5 * factorial(4)</literal>.  You could almost write the 
 factorial function as simply this:
 </para>
 
@@ -131,8 +131,8 @@ Every recursive program follows the same basic pattern:
 </para>
 
 <orderedlist>
-<listitem><para>Initialize the algorithm.   Recursive programs often need a seed value to start with.  This is usually done by providing a gateway function which is non-recursive, but which sets up the recursive calculation.  We'll talk about this more shortly.</para></listitem>
-<listitem><para>Check for to see if the current value(s) being processed match the base case.  If so, process and return the value.</para></listitem>
+<listitem><para>Initialize the algorithm.   Recursive programs often need a seed value to start with.  This is done either by using a parameter passed to the function or by providing a gateway function which is non-recursive, but which sets up the seed values for the recursive calculation.</para></listitem>
+<listitem><para>Check to see if the current value(s) being processed match the base case.  If so, process and return the value.</para></listitem>
 <listitem><para>Redefine the answer in terms of a smaller or simpler subproblem or subproblems.</para></listitem>
 <listitem><para>Run this algorithm on the subproblem.</para></listitem>
 <listitem><para>Combine the results in the formulation of the answer.</para></listitem>
@@ -159,10 +159,10 @@ pattern and identify how they apply to to our summation function:
 </para>
 
 <orderedlist>
-<listitem><para>Initialized the algorithm - this algorithm doesn't require initialization.</para></listitem>
+<listitem><para>Initialized the algorithm - this algorithm's seed value is the first node to process, which is passed as a parameter.</para></listitem>
 <listitem><para>Check for the base case - we need to check and see if the current node is the null list.  If so, we return 0, because the sum of all members of an empty list is zero.</para></listitem>
-<listitem><para>Redefine the answer in terms of a smipler subproblem - we can define the answer as the sum of the rest of the list plus the contents of the current node.</para></listitem>
-<listitem><para>Combine the results - after calling this function recursively on the rest of the list, we add the value of the current node to the results of the function call.</para></listitem>
+<listitem><para>Redefine the answer in terms of a simpler subproblem - we can define the answer as the sum of the rest of the list plus the contents of the current node.  To determine the sum of the rest of the list, we call this function again with the next node.</para></listitem>
+<listitem><para>Combine the results - after the recursive call completes, we add the value of the current node to the results of the recursive call.</para></listitem>
 </orderedlist>
 
 <para>
@@ -225,7 +225,7 @@ first.
 <para>
 Let's say that we have a list of strings and want to see if a certain string is contained
 in that list.  The way to break this down into a simpler problem is to again look at the 
-individual nodes.  The subproblem is "is this string the same as the one in <emphasis>this
+individual nodes.  The subproblem is "is the search string the same as the one in <emphasis>this
 node</emphasis>?"  If so, you have your solution, and if not you are one step closer.  What's
 the base case?  We have two: if the current node has the string, that's a base case (returning 
 true), and if the list is empty, then that's a base case (returning false).  We may not hit
@@ -252,7 +252,7 @@ hit the second one.
 <para>
 This recursive function is pretty good, but it has one main shortcoming -- every 
 iteration of the recursion will be passing the <emphasis>same value</emphasis> for
-<literal>the-string</literal>.  We can set up a closure at the beginning of the
+<literal>the-string</literal>.  Passing the extra parameter can increase the overhead of the function call.  However, we can set up a closure at the beginning of the
 function to keep this from happening:
 </para>
 
@@ -404,11 +404,10 @@ perform the way they think they will.
 
 <para>
 One of the primary sources of bugs in computer programs is variables changing states. 
-You might think that as the programmer, you would be keenly aware of exactly how and
-when a variable changes state.  Wrong.  Usually within loops there are several ways
+You might think that the programmer would be keenly aware of exactly how and
+when a variable changes state.  This is sometimes true in simple loops, but usually not in complex ones.  Usually within loops there are several ways
 that a given variable can change state.  One of several if statements may make modifications.
-The order is probably important.  However, being absolutely sure that you proceeded in the
-correct order for all cases is difficult.
+The order is usually important.  However, being absolutely sure that you proceeded in the correct order for all cases is difficult.  It is even more difficult to fix bugs in such loops without causing problems for other cases.
 </para>
 
 <para>
@@ -449,7 +448,7 @@ However, in this case, sometimes we will keep our existing value, and
 sometimes we will want a new value.  Well, again, we create a new
 variable.  In most languages, we can use the tertiary operator
 <literal>? :</literal> to set the value of the new variable.  For
-example, if we wanted to give our new variable a new value as longas
+example, if we wanted to give our new variable a new value as long as
 it's not greater than <literal>some_value</literal> we could do
 <literal>int new_variable = old_variable > some_value ? old variable : new_value;</literal>.  
 </para></listitem>
@@ -516,7 +515,7 @@ As you can see, recursive functions and loops have quite a bit in common.  In fa
 recursive functions are interchangeable.  The difference is that with recursive functions, we
 can manage to never (well, rarely) have to modify any variable, we just pass the new values as
 parameters to the next function call.  This allows us to keep all of the benefits of not having
-an updateable variable, while still having repetitive behavior.
+an updateable variable, while still having repetitive, stateful behavior.
 </para>
 
 <para>
@@ -538,7 +537,7 @@ and assume they perform as expected.  Here is the code for our report printer.
 <example>
 <title>Report-printing program using a normal loop</title>
 <programlisting>
-function print_report(struct report_line *report_lines, int num_lines)
+void print_report(struct report_line *report_lines, int num_lines)
 {
 	int num_lines_this_page = 0;
 	int page_number = 1;
@@ -584,7 +583,7 @@ they are correct.  Here is the same program done recursively:
 <example>
 <title>Report-printing program using recursion</title>
 <programlisting>
-function print_report(struct report_line *report_lines, int num_lines)
+void print_report(struct report_line *report_lines, int num_lines)
 {
 	int num_lines_this_page = 0;
 	int page_number = 1;
@@ -593,45 +592,130 @@ function print_report(struct report_line *report_lines, int num_lines)
 	int previous_group = 0; /* tells which grouping was here on the last loop */
 	int group_total = 0; /* saves totals for printout at the end of the grouping */
 
+
+	/* initialize */	
 	print_headings(page_number);
+
+	/* Seed the values */
+	print_report_i(report_lines, 0, 1, 1, 0, 0, num_lines);
 }
 
-function print_report_i(struct report_line *report_lines,
-	int num_lines,
-	int num_lines_this_
-	for(current_line = 0; current_line < num_lines; current_line++)
+void print_report_i(struct report_line *report_lines, /* our structure */
+	int current_line, /* current index into structure */
+	int num_lines_this_page, /* number of lines we've filled this page */
+	int page_number, 
+	int previous_group, /* used to know when to print totals */
+	int group_total, /* current aggregated total */
+	int num_lines) /* the total number of lines in the structure */
+{
+	if(current_line == num_lines)
 	{
-		num_lines_this_page++;
-
+		return;
+	}
+	else
+	{
 		if(num_lines_this_page == LINES_PER_PAGE)
 		{
-			page_number++;
 			page_break();
-			print_headings(page_number);
+			print_headings(page_number + 1);
+			print_report_i(
+				report_lines, 
+				current_line, 
+				1, 
+				page_number + 1, 
+				previous_group, 
+				group_total, 
+				num_lines);
 		}
-
-		current_group = get_group(report_lines[current_line]);
-		if(current_group != previous_group)
+		else
 		{
-			print_totals_for_group(group_total);
-			group_total = 0;
+			int current_group = get_group(report_lines[current_line]);
+			if(current_group != previous_group && previous_group != 0)
+			{
+				print_totals_for_group(group_total);
+				print_report_i(
+					report_lines, 
+					current_line, 
+					num_lines_this_page + 1, 
+					page_number, 
+					current_group, 
+					0, 
+					num_lines);
+			}
+			else
+			{
+				print_line(report_lines[current_line]);
+				print_report_i(
+					report_lines, 
+					current_line + 1, 
+					num_lines_this_page + 1, 
+					page_number, 
+					current_group, 
+					group_total + get_line_amount(report_lines[current_line]), 
+					num_lines);
+			}
 		}
-
-		print_line(report_lines[current_line]);
-		group_total += get_line_amount(report_lines[current_line]);
 	}
 }
 </programlisting>
 </example>
-<!-- NOTE - should I talk about program proving here?  Variety of topics that could be covered:
- * recursion basics
- * fp basics
- * program proving basics
- * inductively-defined data sets
--->
 
 <para>
-<!-- talk about recursive data types and the recursive programs that operate on them -->
+If you notice, there is never a time when the numbers we are using is not
+self-consistent.  Almost anytime you have multiple states changing, you 
+will have several lines during the state change where the program will
+not have self-consistent numbers.  If you then add a line to your program
+in the middle of such state changes, it is difficult to tell whether your
+conception of the states of the variables match reality.  After several 
+modifications, it is likely that subtle bugs will be introduced.  In this
+program, all state changes are brought about by re-running the recursive
+function with completely self-consistent data.  
+</para>
+
+<para>
+Because you never change the states of your variables, program proving is much easier. Let's look at a proof for the above program.  Since this program
+has several features, we will show short proofs for each of them.  There are three different places where we recurse, and they will be referred to as R1, R2, and R3, respectively.
+</para>
+
+<variablelist>
+
+<varlistentry>
+<term>Program Termination</term>
+<listitem><para>Assumptions: <literal>num_lines</literal> &gt;= <literal>current_line</literal> and <literal>LINES_PER_PAGE</literal> &gt; 1.  The program stops when current_line == num_lines.  current_line either increments by 1 (R3) or stays the same (R1 and R2).  R2 will only occur when the current value of current_line is different than the previous value of current_line, because current_group and previous_group are directly derived from those. R1 can only occur by changes in num_lines_this_page, which can only result from R2 and R3.  Since R2 can only occur on the basis of R3 and R1 can only occur on the basis of R2 and R3, we can conclude that current_line is increasing.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Page breaks occur after LINES_PER_PAGE lines</term>
+<listitem><para>
+Assumptions: The current page already has a page header printed on the first line.  Page breaks occur every time num_lines_this_page is equal to LINES_PER_PAGE by inspection.  Page breaks always print new headings.  New headings set the num_lines_this_page to 1 (R1).  num_lines_per_page is incremented immediately after printing group totals (R2) and report lines (R3).  Therefore every print event modifies num_lines_this_page.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Every report item line is printed exactly once</term>
+<listitem><para>
+A report item line is not printed in conjunction R1 or R2, but only with R3.  R3 increases current_line by one, while R1 and R2 preserve current_line.  current_line.  We have proven that the program terminates, and this occurs when current_line == num_lines.  Therefore, we know that each line is printed exactly once.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>
+These are just some of the proofs that are available.  They can be done much
+more rigorously, but many of us program because we can't stand the tedium of
+mathematics nor its notation.
+</para>
+
+<para> 
+Don't get me wrong -- it's not that program proofs cannot be
+done with imperative programs, it's that the number of state changes
+that occur make them unwieldy.  With recursive programs that recursive
+instead of change state, the number of occasions of state change is
+small, and they maintain self-consistency.  This does not outright
+prevent logical errors, but it does eliminate numerous classes of
+them.  This method of programming is usually termed functional
+programming.
 </para>
 
 </sect1>
@@ -855,5 +939,7 @@ programming.
 <para>
 
 </para>
+
+</sect1>
 	
 </chapter>
