@@ -76,7 +76,11 @@ language, here is an example:
 <para>
 All example programs have been tested under at least three scheme 
 implementations - GUILE, Chicken, and DrScheme.  If you are new to
-scheme programming, you should use DrScheme.  To run a program under
+scheme programming, you should use DrScheme.  If you want to compile
+your scheme programs so that they can run natively then you should use
+Chicken.  GUILE is best used as an extension language for GNU-based
+software.  There are many other implementations, but those are the
+ones the programs will be tested under.  To run a program under
 GUILE, you need to enter it into a file with a <literal>.s</literal>
 or <literal>.scm</literal> extension, and then do 
 <literal>guile -s myprogram.scm</literal>.  Chicken is a scheme compiler, so
@@ -90,31 +94,46 @@ csc -hygienic myprogram.scm
 </programlisting>
 
 <para>
+To run your program under GUILE, do this:
+
+<programlisting>
+guile -s myprogram.scm
+</programlisting>
+
+<para>
 In DrScheme, you simply type in your scheme program, and then click on the
-"Run" button.  Go ahead and enter in this program and run it.  <emphasis>Be
-sure that the number and location of parenthesis are exactly correct, or
-else the program will not run</emphasis>.  Other languages allow you to 
-add or remove parenthesis with very little consequence.  In scheme, however,
-they are a core part of the language.  When you run the program, it should
-simply print the numbers "3" and "5".  Now let's take a look at how the 
-program works.
+"Run" button.  Go ahead and enter in this program and run it.
 </para>
 
 <para>
-In scheme, there are only three types of constructs: 
-<emphasis>function application</emphasis>
-<footnote><para>A <emphasis>function application</emphasis> is just a fancy way of saying "a function call".</para></footnote>, 
-<emphasis>special forms</emphasis>, and <emphasis>static data</emphasis>.  
-Most languages have numerous types of constructs, but scheme boils
-it down to just these categories.  In scheme, function application, 
-special forms, and some forms of data are delineated by parenthesis.  
-In the program above, every parenthesis was for either a function 
-application or a special form.  Special forms are like function 
-applications in that they perform a task, but they differ in how 
-their arguments are processed.  With functions, all of the function 
-arguments are evaluated <emphasis>before</emphasis> making the function 
-call, while special forms some arguments may be evaluated in different 
-ways or may not be evaluated at all.
+<emphasis>Be sure that the number and location of parenthesis are
+exactly correct, or else the program will not run</emphasis>.  Other
+languages allow you to add or remove parenthesis with very little
+consequence.  In scheme, however, they are a core part of the
+language.  When you run the program, it should simply print the
+numbers "3" and "5".  Now let's take a look at how the program works.
+</para>
+
+<para>
+In scheme, there are only three types of constructs:
+<emphasis>function application</emphasis> <footnote><para>A
+<emphasis>function application</emphasis> is just a fancy way of
+saying "a function call".</para></footnote>, <emphasis>special
+forms</emphasis>, and <emphasis>static data</emphasis>.  Most
+languages have numerous types of constructs, but scheme boils it down
+to just these categories.  In scheme, function application, special
+forms, and some forms of data are delineated by parenthesis.  In the
+program above, every parenthesis was for either a function application
+or a special form.  Special forms are like function applications in
+that they perform a task, but they differ in how their arguments are
+processed.  With functions, all of the function arguments are
+evaluated <emphasis>before</emphasis> making the function call, while
+special forms some arguments may be evaluated in different ways or may
+not be evaluated at all.  For example, in most programming languages,
+if statements do not run both the if and the else branch, they run one
+or the other depending on the result of the condition.  In scheme, if
+statements are implemented as special forms so that only one branch
+will be executed.
 </para>
 
 <para>
@@ -380,78 +399,101 @@ One thing to note is that pairs which are not lists are also
 sometimes called improper lists.
 </para>
 
-<!--
-<h3><span style="font-family: monospace;"></span>Other Types of Data</h3>
-<h4>Strings</h4>
-<para>Strings are represented as double-quoted entities. &nbsp;<span
- style="font-family: monospace;">"hello"</span> is a string.
+</sect3>
 
-</para>
-<h4>Numbers</h4>
-<para>Numbers are represented as themselves. &nbsp;Scheme has support for
+<sect3>
+<title>Other Types of Data</title>
+
+<variablelist>
+
+<varlistentry>
+<term>Strings</term>
+<listitem><para>Strings are represented as double-quoted entities. <literal>"hello"</literal> is a string.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Numbers</term>
+<listitem><para>Numbers are represented as themselves. &nbsp;Scheme has support for
 both exact and inexact numbers, but which are which depends on
-implementaiont. &nbsp;<span style="font-family: monospace;">2.34</span>,<span
- style="font-family: monospace;">2</span>, and <span
- style="font-family: monospace;">43</span> are all numbers.
+implementaiont. <literal>2.34</literal>,<literal>2</literal>, and
+<literal>43</literal> are all numbers.
+</para></listitem>
+</varlistentry>
 
-</para>
-<h4>Symbols</h4>
-<para>In most programs, the symbols that represent variables are not
+<varlistentry>
+<term>Symbols</term>
+<listitem><para>In most programs, the symbols that represent variables are not
 themselves data. &nbsp;In Scheme they are. &nbsp;They are simply
 represented as unqoted strings that start with a letter (there are other
 characters they can start with, too, but you're safe if you stick to
 letters).
-
 </para>
-<para><span style="font-family: monospace;">a</span> is a symbol. &nbsp;<span
- style="font-family: monospace;">test</span> is a symbol. &nbsp;The
+<para><literal>a</literal> is a symbol. &nbsp;<literal>test</literal> is a symbol. &nbsp;The
 following list has two numbers, two strings, and two symbols:
-
+<programlisting>
+(1 qwerty "hello" whatsup "i am a dog" 26)
+</programlisting>
 </para>
-<pre>(1 qwerty "hello" whatsup "i am a dog" 26)
-</pre>
-<h4>Vectors</h4>
-<para>Vectors are basically arrays - they have a fixed size, and you can
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Vectors</term>
+<listitem><para>Vectors are basically arrays - they have a fixed size, and you can
 randomly access the elements (as opposed to lists, where you have to
 iterate through each pair to find a given element). &nbsp;Their elements
 can have any type of elements. &nbsp;Vectors are represented just like
-lists, except they open with <span style="font-family: monospace;">#(</span>
-instead of <span style="font-family: monospace;">(</span>. &nbsp;<span
- style="font-family: monospace;">#(1 2 "hello" googoo (2 3 w))</span> is
+lists, except they open with <literal>#(</literal>
+instead of <literal>(</literal>. &nbsp;<literal>#(1 2 "hello" googoo (2 3 w))</literal> is
 a 5-element vector consisting of two numbers, a string, a symbol and a
 list containing two numbers and a symbol.
+</para></listitem>
+</varlistentry>
 
-</para>
-<h4><span style="font-family: monospace;"></span>Environments</h4>
-<para>Environments are an important concept in Scheme, but there isn't a
+</variablelist>
+
+</sect3>
+
+</sect2>
+
+<sect2>
+<title>The Scheme Evaluator</title>
+
+<remark>Where should this go?</remark>
+
+<para>
+Environments are an important concept in Scheme, but there isn't a
 standard way to represent them. &nbsp; In fact, most programs never need
 to. &nbsp;An environment is simply a listing of symbols which currently
 hold values, and what values they hold. &nbsp;The top-level environment
 consists of your global variables. &nbsp;The environment that functions
 operate in consist of your current top-level environment plus the
 symbols that are used as function parameters.
-
 </para>
-<h3>The Scheme Evaluator</h3>
-<para>At the heart of Scheme is it's evaluator. &nbsp;We mentioned
+
+<para>
+At the heart of Scheme is it's evaluator. &nbsp;We mentioned
 previously that lists are an important concept in Scheme. &nbsp;In fact,
 the only difference in Scheme between a program and data, is that a
 program is simply a list that is being evaluated by the evaluator.
-
 </para>
-<para>Scheme operates in what is called the "Read Eval Print Loop" or
+
+<para>
+Scheme operates in what is called the "Read Eval Print Loop" or
 REPL. &nbsp;Basically, it does the following:
-
 </para>
+
 <itemizedlist>
   <listitem><para>Read in a list or atom of Scheme data</para></listitem>
   <listitem><para>Evaluate it with the evaluator</para></listitem>
   <listitem><para>Print the results</para></listitem>
   <listitem><para>Repeat</para></listitem>
 </itemizedlist>
-<para>The evaluator is slightly more complicated, but not much more so:
 
+<para>
+The evaluator is slightly more complicated, but not much more so:
 </para>
+
 <itemizedlist>
   <listitem><para>Evaluator is called with <span style="font-family: monospace;">arg</span>
 as the thing to be evaluated and <span style="font-family: monospace;">env</span>
@@ -505,7 +547,8 @@ programs that may help you understand how Scheme works:
 
 
 
-<pre>(+ 5 6)
+<programlisting>
+(+ 5 6)
 ;Returns 11.  + is a function name, just like any other function name.
 ;Many languages have a concept of operators, but in Scheme, everything is
 ;either a function, a special form, or data
@@ -534,8 +577,17 @@ programs that may help you understand how Scheme works:
 ;map applies the given function to each member of the given list and returns
 ;a new list of the answers
 
-</pre>
-<h3>Basic Functions</h3>
+</programlisting>
+
+</sect2>
+
+<sect2>
+<title>Basic Functions</title>
+
+<para>
+</para>
+
+<!--
 <h4>eq? eqv? equal?</h4>
 <para>These functions test for equality. &nbsp;<span
  style="font-family: monospace;">eq?</span> tests to see if two values
@@ -606,15 +658,22 @@ implementations. &nbsp;Additional functions are available from add-on
 libraries, SLIB being the most popular.
 
 </para>
-<h3>Special Forms</h3>
+
+-->
+
+</sect2>
+
+<sect2>
+<title>Special Forms<title>
+
 <para>As we have seen in the interpreter, the only a exceptions to the way
 functions are evaluated in Scheme are known as <span
  style="font-style: italic;">special forms</span>. &nbsp;They are
 called special forms because they are not evaluated in the normal
 function-call form. &nbsp;Each special form has it's own evaluation
 method. &nbsp;We will only look at a few special forms:
-
 </para>
+
 <itemizedlist>
   <listitem><para>if</para></listitem>
   <listitem><para>define</para></listitem>
@@ -630,6 +689,8 @@ method. &nbsp;We will only look at a few special forms:
 
   </para></listitem>
 </itemizedlist>
+
+<!--
 <h4>if
 
 </h4>
@@ -818,15 +879,22 @@ NULL list in scheme, you write <span style="font-family: monospace;">'()</span>.
 &nbsp;If you did not use the quote, it would attempt to do a function
 call and give an error because no function is present.<span
  style="font-family: monospace;"></span>
+-->
 
-<h2>Scheme Program Examples</h2>
-<para>Scheme is often used more as a teaching language than a production
+
+<sect1>
+<title>Scheme Program Examples</title>
+
+<para>
+Scheme is often used more as a teaching language than a production
 language. &nbsp;However, there are currently several places where Scheme
 is used actively.
-
 </para>
-<h3>GIMP Image Filters</h3>
-<para>GIMP is the GNU Image Manipulation Project - a program to enhance
+
+<sect2>
+<title>GIMP Image Filters</title>
+<para>
+GIMP is the GNU Image Manipulation Project - a program to enhance
 and manipulate raster images. &nbsp;GIMP uses Scheme as its main
 scripting language - allowing you to automate any image manipulation
 task you have. &nbsp;The script we show below is how we generate the
@@ -837,7 +905,7 @@ thing to note is that GIMP procedures always return lists, so even if
 it only returns one result, we have to take the <span
  style="font-family: monospace;">car</span> of it to get the actual
 value.</para>
-<pre>;Define the name for our procedure
+<programlisting>;Define the name for our procedure
 (define nmm-create-title-text
 
 ;This creates a procedure with one 
@@ -935,14 +1003,19 @@ value.</para>
         SF-STRING _"Text" "Hello World!"
 )
 
-</pre>
+</programlisting>>
 <para>The actual GIMP program is full of such scripts for doing everything
 from animating images to creating fade effects and other fun. &nbsp;You
 can get GIMP at http://www.gimp.org/. &nbsp;GIMP is available on Linux,
 MacOS X, and Windows.
-
 </para>
-<para> </para>
+
+</sect2>
+</sect1>
+
+</article>
+
+<!--
 <h2>Resources</h2>
 <h3>Books</h3>
 <itemizedlist>
@@ -1036,10 +1109,6 @@ Manual Colorplates</a></para></listitem>
 
 </body>
 </html>
+
 -->
 
-</sect3>
-</sect2>
-</sect1>
-
-</chapter>
