@@ -15,9 +15,6 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <sect1>
 <title>Welcome to Programming</title>
 
-<remark>Mention layout of book and instructions for reading it.</remark>
-<remark>Somewhere in this book I need to include some more intel commands, like loop and rep.</remark>
-
 <para>
 I love <indexterm><primary>programming</primary></indexterm>programming.  I enjoy the challenge, not only to make a working
 program, but to do so with style.  Programming is like poetry.  It
@@ -26,7 +23,10 @@ and use your program.  With a program, you build your own world
 with your own rules.  You create your world according to your 
 conception of both the problem and the solution.  Masterful
 programmers create worlds with programs that are clear and succinct,
- much like a poem or essay.  One of the greatest programmers, Donald Knuth, 
+ much like a poem or essay.
+</para>
+<para>
+One of the greatest programmers, Donald Knuth, 
 describes programming not as telling a computer how to do something,
 but telling a person how they would instruct a computer to do something.
 The point is that programs are meant to be read by people, not
@@ -50,7 +50,8 @@ masterful programming.  My goal is to take you from knowing nothing about
 programming to understanding how to think, write, and learn like
 a programmer.  You won't know everything, but you will have a background
 for how everything fits together.  At the end of this book, you should 
-be able to
+be able to do the following:
+</para>
 
 <itemizedlist>
 
@@ -61,16 +62,30 @@ be able to
 
 </itemizedlist>
 
+<para>
 I will not teach you everything.  Computer science is a massive
 field, especially when you combine the theory with the practice of computer
 programming.  However, I will attempt to get you started on the 
 foundations so you can easily go wherever you want afterwards.
 </para>
 
-<remark>Somewhere in here, I need to include the chicken and egg problems
-for newcomers to computer science.  Also may need to include Knuth's 
-reasons for using assembly language.</remark>
+<para>
+There is somewhat of a chicken and egg problem in teaching programming,
+especially assembly language.  There is a lot to learn - it's almost too
+much to learn almost at once, but each piece depends on all the others.
+Therefore, you must be patient with yourself and the computer while 
+learning to program.  If you don't understand something the first time,
+reread it.  If you still don't understand it, it is sometimes best to
+take it by faith and come back to it later.  Often after more exposure
+to programming the ideas will make more sense.  Don't get discouraged.
+It's a long climb, but very worthwhile.
+</para>
 
+<para>
+If you have problems that you just can't get past, there is a mailing list
+for this book where readers can discuss and get help with what they are
+reading.  The address is pgubook-readers@nongnu.org.
+</para>
 </sect1>
 
 <sect1>
@@ -80,11 +95,14 @@ reasons for using assembly language.</remark>
 Hands-on learning is the best kind.  Therefore we will be giving all of 
 the examples using the GNU/Linux operating system with the GCC tool set. 
 If you are not familiar with GNU/Linux and the GCC tool set, they will
-be described shortly. <remark>FIXME - also need a link to introductory
-information on Linux, and using the command line/pico</remark>
+be described shortly.  If you are new to Linux, you should check out
+the documentation available at http://rute.sourceforge.net/
 What I intend to show you is more about programming in general than using
 a specific tool set, but standardizing on one makes the task much
-easier.  All of these
+easier.
+</para>
+<para>
+All of these
 programs have been tested using <productname>RedHat Linux</productname>
 6.2 and 7.0.  All of these are freely available and downloadable, which
 is the reason that they are the ones used in this book.  However,
@@ -122,8 +140,8 @@ computer languages.
 </para>
 
 <para>
-Linux is the name
-of the <emphasis>kernel</emphasis>.  The kernel is the core part of an
+Linux<indexterm><primary>Linux</primary></indexterm> is the name
+of the <emphasis>kernel</emphasis>.  The kernel<indexterm><primary>kernel</primary></indexterm> is the core part of an
 operating system that keeps track of everything.  The kernel is
 both an fence and a gate.  As a gate, it allows programs
 to access hardware in a uniform way.  Without the kernel, you would have
@@ -158,7 +176,7 @@ assembly language.  There are essentially three kinds of languages:
 <variablelist>
 
 <varlistentry>
-<term>Machine Language</term>
+<term>Machine Language<indexterm><primary>Machine Language</primary></indexterm></term>
 <listitem><para>
 This is what the computer actually sees and deals with.  Every
 command the computer sees is given as a number or sequence of
@@ -167,7 +185,7 @@ numbers.
 </varlistentry>
 
 <varlistentry>
-<term>Assembly Language</term>
+<term>Assembly Language<indexterm><primary>Assembly Language</primary></indexterm></term>
 <listitem><para>
 This is the same as machine language, except the command numbers
 have been replaced by letter sequences which are easier to memorize.
@@ -176,7 +194,7 @@ Other small things are done to make it easier as well.
 </varlistentry>
 
 <varlistentry>
-<term>High-Level Language</term>
+<term>High-Level Language<indexterm><primary>High-Level Language</primary></indexterm></term>
 <listitem><para>
 High-level languages are there to make programming easier.  Assembly
 language requires you to work with the machine itself.  High-level
@@ -188,9 +206,8 @@ several commands in an assembly language.
 
 </variablelist>
 
-In this book we will start with assembly language, and progress to
-a high-level language.  That way, you will see how the machine actually
-works first, and then we can make things easier later.
+In this book we will learn assembly language, although we will cover a
+bit of high-level languages.  
 </para>
 
 </sect1>
