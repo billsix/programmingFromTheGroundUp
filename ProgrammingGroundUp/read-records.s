@@ -26,7 +26,7 @@ file_name:
 #This code was explained previously
 #STACK LOCAL VARIABLES
 	.equ ST_READ_BUFFER, 8
-	.equ ST_FILEDES, 16
+	.equ ST_FILEDES, 12
 .section .text 
 .globl read_record
 .type, @function
@@ -64,7 +64,7 @@ read_record:
 	.type count_chars, @function
 	.globl count_chars
 
-	.equ DATA_START_ADDRESS, -8
+	.equ DATA_START_ADDRESS, 8
 count_chars:
 	pushl %ebp
 	movl  %esp, %ebp
@@ -93,6 +93,27 @@ count_loop_end:
 	#and return.
 	movl  %ecx, %eax
 
+	popl  %ebp
+	ret
+
+	.globl write_newline
+	.type write_newline, @function
+	.section .data
+newline:
+	.ascii "\n"
+	.section .text
+	.equ ST_FILEDES, 8
+write_newline:
+	pushl %ebp
+	movl  %esp, %ebp
+
+	movl  $SYS_WRITE, %eax
+	movl  ST_FILEDES(%ebp), %ebx
+	movl  $newline, %ecx
+	movl  $1, %edx
+	int   $LINUX_SYSCALL
+
+	movl  %ebp, %esp
 	popl  %ebp
 	ret
 
@@ -147,9 +168,13 @@ record_read_loop:
 
 	movl   %eax, %edx
 	movl   OUTPUT_DESCRIPTOR(%ebp), %ebx
-	movl   $SYS_READ, %eax
+	movl   $SYS_WRITE, %eax
 	movl   $RECORD_FIRSTNAME + record_buffer, %ecx
 	int    $LINUX_SYSCALL
+
+	pushl  OUTPUT_DESCRIPTOR(%ebp)
+	call   write_newline
+	addl   $4, %esp
 
 	jmp    record_read_loop
 	

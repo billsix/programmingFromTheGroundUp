@@ -546,7 +546,7 @@ Let's look at our reading function first:
 #
 #STACK LOCAL VARIABLES
 	.equ ST_READ_BUFFER, 8
-	.equ ST_FILEDES, 16
+	.equ ST_FILEDES, 12
 .section .text 
 .globl read_record
 .type, @function
@@ -583,7 +583,7 @@ It's a pretty simply function.  The writing one is similar:
 #
 #STACK LOCAL VARIABLES
 	.equ ST_WRITE_BUFFER, 8
-	.equ ST_FILEDES, 16
+	.equ ST_FILEDES, 12
 .section .text 
 .globl write_record
 .type, @function
@@ -683,7 +683,7 @@ Here is the code:
 	.type count_chars, @function
 	.globl count_chars
 
-	.equ DATA_START_ADDRESS, -8
+	.equ DATA_START_ADDRESS, 8
 count_chars:
 	pushl %ebp
 	movl  %esp, %ebp
