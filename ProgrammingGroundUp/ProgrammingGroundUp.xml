@@ -112,6 +112,18 @@ to use the code examples for any purpose without even having to credit
 the authors.
 </para>
 </legalnotice>
+
+<legalnotice>
+<para>
+This book is not a reference book, it is an introductory book.  It
+is therefore not suitable by itself to learn how to professionally
+program in x86 assembly language, as some details have been left out
+to make the learning process smoother.  The point of the book is to
+help the student understand how assembly language and computer programming
+works, not to be a definitive reference to the subject.
+</para>
+</legalnotice>
+
 </bookinfo>
 
 <!-- This could be used elsewhere
