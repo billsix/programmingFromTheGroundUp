@@ -187,7 +187,7 @@ The ones we mainly use are <literal>.data</literal> and
 and the linker will put everything in a section together.  Let's
 take a look at one of our files.  Let's look at the 
 <literal>toupper</literal> file we created earlier.  If you
-run the command <command>objdump -h toupper</command>, you will
+run the command <literal>objdump -h toupper</literal>, you will
 get a listing that looks like this:
 </para>
 </sect2>

@@ -90,8 +90,8 @@ ld exit.o -o exit
 <filename>exit.o</filename> is the object file we want to link,
 and <literal>-o exit</literal> instructs the linker to output
 the new program into a file called <filename>exit</filename>.<footnote><para>
-If you are new to Linux and UNIX, you may not be aware that files don't
-have to have extensions.  In fact, while Windows uses the 
+If you are new to Linux and <trademark class="registered">UNIX</trademark>, you may not be aware that files don't
+have to have extensions.  In fact, while <trademark class="registered">Windows</trademark> uses the 
 <literal>.exe</literal> extension to signify an executable program,
 UNIX executables usually have no extension.</para></footnote>  If any
 of these commands reported errors, you have either mistyped your program

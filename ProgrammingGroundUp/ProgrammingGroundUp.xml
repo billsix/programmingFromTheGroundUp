@@ -148,6 +148,9 @@ and with no Back-Cover Texts.  A copy of the license is included in
 to use the code examples for any purpose without even having to credit
 the authors.
 </para>
+<para>
+All trademarks are property of their respective owners.
+</para>
 </legalnotice>
 
 <!-- NOTE - the following are not actual legal notices, they are just
@@ -184,28 +187,6 @@ as defined by the GNU Free Documentation License.
 
 
 </bookinfo>
-
-<!--
-<para>
-This book has been in the making for a long time.  It started several years ago
-when I was manager of Internet Systems Development at Wolfram Research.
-As part of my job I interviewed candidates for positions.  I noticed that
-the near-universal trait of qualified candidates was that they all knew 
-assembly language.  Few were experts and even fewer used it regularly, but
-everyone who knew assembly language had a deeper understanding of programming
-issues than the other candidates.
-</para>
-
-<para>
-Assembly language has long fallen out of vogue in education, and I believe
-that this is causing the current generation of programmers to have a much
-weaker foundation.   Assembly language was being viewed as an optional add-on 
-that was only useful for operating-system programmers.  I wrote this book
-to bring assembly language to the forefront of programmer education.
-</para>
-
--->
-
 
 <!-- This could be used elsewhere
 <para>

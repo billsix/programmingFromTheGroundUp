@@ -494,7 +494,7 @@ Tells the linker that the given symbol is a function.
 The syntax for assembly language used in this book is known at the
 <emphasis>AT&amp;T<indexterm><primary>AT&amp;T syntax</primary></indexterm></emphasis> syntax.  It is the one supported by the 
 GNU tool chain that comes standard with every Linux distribution.  However,
-the official syntax for x86 assembly language (known as the Intel syntax<indexterm><primary>Intel syntax</primary></indexterm>)
+the official syntax for x86 assembly language (known as the <trademark class="registered">Intel</trademark> syntax<indexterm><primary>Intel syntax</primary></indexterm>)
 is different.  It is
 the same assembly language for the same platform, but it looks different.
 Some of the differences include:
