@@ -8,7 +8,7 @@ In this article we are going to tackle recursive programming patterns and how
 they can be used to write provably correct programs.  Recursion is often given
 a bad name because it is thought to be slow and wasteful of space.  However,
 as we will see in this article, this need not be the case, and is not the
-case in languages like Scheme.
+case in languages like Scheme.  Examples will be given in Scheme and C.
 </para>
 
 <sect1>
@@ -721,40 +721,29 @@ programming.
 </sect1>
 
 <sect1 id="loopstorecursion">
-<title>Converting Loops to Recursive Functions</title>
+<title>Tail-Recursive Functions</title>
 
 <para>
-<!-- why you would want to do this.  give real examples -->
-<!-- talk about Scheme's "named let" to make this easier -->
+So we've seen how loops and recursive functions are related.  We've seen 
+how we can convert our loops into recursive, non-state-changing functions 
+and achieve a result that is more maintainable and provably correct than
+what we started with.  However, many people worry about the growth of
+stack space using recursive functions.  This is true for some classes of
+recursive functions.  However, for <emphasis>tail-recursive</emphasis>
+functions, which we will look at in this section, stack size remains
+constant.
 </para>
 
 <sect2>
 <title>Tail Recursion</title>
 
 <para>
-<!-- not sure which of above topics fit here -->
-</para>
-
-</sect2>
-
-<sect2>
-<title>Tail-call Optimization</title>
-
-<para>
-Tail recursion is an interesting concept, but it may seem impractical, given
-the general problems of recursive programming.  Namely, the stack.  When 
-recursive programs recurse, the stack size grows with an extra activation 
-record.  If you have a loop that executes thousands of times and you convert
-it to a tail-recursive function you will wind up with a stack frame with 
-thousands of activation records on it, and your stack will fill up quickly.  
-That is, unless your environment offers tail-call optimization.
+When we converted our loop to a recursive function, the recursive call
+was the last thing that the function did.  If you evaluate <literal>print_report_i</literal>, you will see that there is nothing further that happens in the function after the recursive call.  This is because of its loop-like behavior -- when loops hit the end of the loop or if they issue a <literal>continue</literal>, then that is the last thing they do in that block of code.
 </para>
 
 <para>
-A tail call is a function call that executes as the 
-<emphasis>very last</emphasis> step of a function, and the return value
-from that function call is the value used as the return value for the 
-present function.  For example:
+A function call (recursive or not) that is the last thing a function does is called a <emphasis>tail-call</emphasis>.  Recursion using tail-calls is called <emphasis>tail-recursion</emphasis>.  Let's look at some example function calls to see exactly what is meant by a tail-call:
 </para>
 
 <example>
@@ -801,21 +790,35 @@ int test4()
 </example>
 
 <para>
-Note that <emphasis>no other operation</emphasis> can be performed on 
+As you can see, <emphasis>no other operation</emphasis> can be performed on 
 the result of the tail-called function before it is passed back in order
 for the call to truly be a tail-call.
 </para>
 
 <para>
+Notice that since there is nothing left to do in the function, the actual stack frame for the function is not needed, either.  The only
+issue is that most programming languages don't know how to get rid of unused
+stack frames, especially in terms of finding the return address.  If we were
+to be able to find a way to remove these unneeded stack frames, our 
+tail-recursive functions would run in a constant stack size.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Tail-call Optimization</title>
+
+<para>
+The method of removing stack frames after tail-calls is called <emphasis>tail-call optimization</emphasis>.
 So what is the optimization?  Ask yourself this question -- after the function
 in tail position is called, which of our local variables will be in use?
 None.  What processing will be done to the return value?  None.  Which 
 parameters passed to the function will be used?  None.  Interestingly, it seems
 that once control is passed to the tail-called function, nothing in the stack
-is useful anymore.  The activation record, while it still takes up space,
+is useful anymore.  The function's stack frame, while it still takes up space,
 is actually at this point useless.  Therefore, the tail-call optimization
-is to overwrite the current stack frame when making a function call in tail
-position.
+is to <emphasis>overwrite</emphasis> the current stack frame with the next
+one when making a function call in tail position.
 </para>
 
 <para>
@@ -823,12 +826,10 @@ Essentially what we are doing is surgery on the stack.  The activation
 record isn't needed anymore, so we are going to cut it out, and redirect
 the tail-called function back to the function that called us.  This means
 that we have to manually rewrite the stack to fake a return address so that
-the tail-called function will return directly to our parent, modifying 
-<literal>%ebp</literal> so that the tail-called function will save the one
-used by our parent function and not ours.
+the tail-called function will return directly to our parent. 
 </para>
 
-<remark>Graphic here representing this</remark>
+<!-- <remark>Graphic here representing this</remark> -->
 
 <para>
 For those of you who like to actually mess with the low-level stuff, here
@@ -844,7 +845,7 @@ my_function:
 	...
 	...
 
-	;push arguments for the_function
+	;PUSH ARGUMENTS FOR the_function HERE
 
 	call the_function
 
@@ -866,7 +867,7 @@ optimized_function:
 
 	;Clear stack activation record (assuming no unknowns like 
 	;variable-size argument lists)
-	addl $(SIZE_OF_PARAMETERS + 8 (old %ebp + return address)), %ebp
+	addl $(SIZE_OF_PARAMETERS + 8), %ebp ;(8 is old %ebp + return address))
 
 	;restore the stack to where it was before the function call
 	movl %ebp, %esp
@@ -891,13 +892,14 @@ when using them, however:
 <listitem><para>The calling function must not depend on the parameters list
 still being on the stack when your function returns to it.</para></listitem>
 <listitem><para>The calling function must not care where the stack pointer is currently pointing (of course, it can assume that it is past its local variables).  This means that you cannot compile using <literal>-fomit-frame-pointer</literal></para></listitem>
+<listitem><para>There can be no variable-length argument lists</para></listitem>
 </itemizedlist>
 
 <para>
 When a function calls itself in a tail-call, the method is even easier.
 You simply move the new parameters on top of the old ones and do a jump to
 the point right after local variables are saved on the stack.  Since we are
-just jumping into the same function, the return address and return 
+just jumping into the same function, the return address and old 
 <literal>%ebp</literal> will be the same and the stack size won't change.  
 Therefore, the only thing we need to do before the jump is replace the 
 old parameters with the new ones.
@@ -910,35 +912,11 @@ imperative one.  The only problem is that right now very few compilers
 implement tail-call optimizations.  Scheme implementations are required
 to implement them, and many other functional language implementations do so,
 too.  Note, however, that because functional languages sometimes use the stack
-much differently than imperative languages (or not at all) their methods of
-implementing tail-call optimizations are quite different.
+much differently than imperative languages (or not use the stack at all) their methods of
+implementing tail-call optimizations can be quite different.
 </para>
 
 </sect2>
-
-
-</sect1>
-	
-<sect1>
-<title>Recursive Patterns</title>
-
-<para>
-So far we've seen that programming using purely functional recursion allows
-us to write better, more provable code.  We've also seen how tail-call 
-optimizations usually allow this to occur having the same speed and memory
-characteristics of imperative programming.  Now we are going to examine
-the common patterns and techniques used in functional and recursive
-programming.
-</para>
-
-</sect1>
-
-<sect1>
-<title>Using <literal>fold</literal>, the Swiss Army Knife of Recursive Programming</title>
-
-<para>
-
-</para>
 
 </sect1>
 	
