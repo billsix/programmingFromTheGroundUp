@@ -524,7 +524,8 @@ not go into how to create the numbers for the options until
 up with.
 </para></listitem>
 <listitem><para>
-&edx-indexed; contains the permissions<indexterm><primary>permissions</primary></indexterm> that are used to open the file.
+&edx-indexed; contains the permissions
+that are used to open the file.
 This is used in case the file has to be created first, so Linux knows 
 what permissions to create the file with.  These are expressed in octal,
 just like regular UNIX permissions.<footnote><para>If you aren't familiar
@@ -535,6 +536,7 @@ number.</para></footnote>
 </itemizedlist>
 
 <para>
+<indexterm><primary>permissions</primary></indexterm> 
 After making the system call, the file descriptor of the newly-opened file
 is stored in &eax-indexed;.
 </para>

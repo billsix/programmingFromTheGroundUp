@@ -895,7 +895,7 @@ the x86 processor has both a sign-preserving shift-right, <literal>sarl<indexter
 
 </sect1>
 
-<sect1>
+<sect1 id="octalhexadecimal">
 <title>Octal and Hexadecimal Numbers</title>
 
 <para>
@@ -911,9 +911,10 @@ of binary digits into decimal).  So 0 is 000, 1 is 001, 2 is 010, 3 is
 011, 4 is 100, 5 is 101, 6 is 110, and 7 is 111.
 </para>
 
-<para>
+<para id="octalhexadecimalpermissions">
+<indexterm zone="octalhexadecimalpermissions"><primary>permissions</primary></indexterm> 
 Permissions in Linux
-are done using octal.  This is because Linux permissions<indexterm><primary>permissions</primary></indexterm> are based on the 
+are done using octal.  This is because Linux permissions are based on the 
 ability to read, write and execute.  The first bit is the read permission,
 the second bit is the write permission, and the third bit is the execute
 permission.  So, 0 (000) gives no permissions, 6 (110) gives read and

@@ -152,6 +152,14 @@ and with no Back-Cover Texts.  A copy of the license is included in
 to use the code examples for any purpose without even having to credit
 the authors.
 </para>
+
+<para>
+To receive a copy of this book in electronic form, please visit the website
+http://savannah.nongnu.org/projects/pgubook/  This site contains the 
+instructions for downloading a transparent copy of this book 
+as defined by the GNU Free Documentation License.
+</para>
+
 <para>
 All trademarks are property of their respective owners.
 </para>
@@ -171,6 +179,13 @@ Library of Congress Control Number: 2004091465
 </para>
 
 <para>
+Publisher CIP Data Pending.
+</para>
+
+</legalnotice>
+
+<legalnotice>
+<para>
 This book can be purchased at http://www.bartlettpublishing.com/
 </para>
 </legalnotice>
@@ -185,15 +200,6 @@ help the student understand how assembly language and computer programming
 works, not to be a reference to the subject.  Reference information about
 a particular processor can be obtained by contacting the company which
 makes it.
-</para>
-</legalnotice>
-
-<legalnotice>
-<para>
-To receive a copy of this book in electronic form, please visit the website
-http://savannah.nongnu.org/projects/pgubook/  This site contains the 
-instructions for downloading a transparent copy of this book 
-as defined by the GNU Free Documentation License.
 </para>
 </legalnotice>
 

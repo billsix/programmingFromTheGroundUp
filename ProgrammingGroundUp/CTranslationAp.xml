@@ -127,9 +127,12 @@ In assembly language, this would be rendered as:
 <title>Variables and Assignment</title>
 
 <para> 
-Global<indexterm><primary>global variables</primary></indexterm> and static variables<indexterm><primary>static variables</primary></indexterm> are declared using
+<indexterm><primary>global variables</primary></indexterm> 
+<indexterm><primary>static variables</primary></indexterm> 
+<indexterm><primary>local variables</primary></indexterm> 
+Global and static variables are declared using
 <literal>.data</literal> or <literal>.bss</literal> entries.  Local
-variables<indexterm><primary>local variables</primary></indexterm> are declared by reserving space on the stack at the
+variables are declared by reserving space on the stack at the
 beginning of the function.  This space is given back at the end of the
 function.  
 </para>

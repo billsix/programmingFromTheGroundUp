@@ -81,6 +81,7 @@ even though system calls aren't true functions as we will talk about in this cha
 
 <para>
 Functions are composed of several different pieces:
+</para>
 
 <variablelist>
 
@@ -138,7 +139,8 @@ can cause problems later on.
 <varlistentry>
 <term>global variables</term>
 <listitem><para>
-Global variables<indexterm><primary>global variables</primary></indexterm> are data storage that a function uses for processing
+Global variables
+are data storage that a function uses for processing
 which are managed outside the function.  For example, a simple text editor
 may put the entire contents of the file it is working on in a global
 variable so it doesn't have to be passed to every function that operates
@@ -183,6 +185,8 @@ for a function.
 
 </variablelist>
 
+<para>
+<indexterm><primary>global variables</primary></indexterm> 
 These pieces are present in most programming languages.  How you specify
 each piece is different in each one, however.
 </para>
@@ -433,8 +437,10 @@ registers in base pointer addressing mode, but the x86 architecture
 makes using the &ebp-indexed; register a lot faster.
 </para>
 
-<para>
-Global variables<indexterm><primary>global variables</primary></indexterm> and static variables<indexterm><primary>static variables</primary></indexterm> are accessed just like
+<para id="tmppara1">
+<indexterm zone="tmppara1"><primary>static variables</primary></indexterm>
+<indexterm zone="tmppara1"><primary>global variables</primary></indexterm> 
+Global variables and static variables are accessed just like the memory
 we have been accessing memory in previous chapters.  The only difference
 between the global and static variables is that static variables are 
 only used by one function, while global variables are used by 
