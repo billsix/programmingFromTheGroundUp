@@ -35,6 +35,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <!ENTITY ascii-appendix SYSTEM "ASCIIAp.xml">
 <!ENTITY gui-appendix SYSTEM "GUIAp.xml">
 <!ENTITY syscall-appendix SYSTEM "SyscallAp.xml">
+<!ENTITY history-appendix SYSTEM "HistoryAp.xml">
 
 <!ENTITY exit-s SYSTEM "exit.s">
 <!ENTITY maximum-s SYSTEM "maximum.s">
@@ -119,6 +120,7 @@ of the tool you use.
 &syscall-appendix;
 &ascii-appendix;
 
+&history-appendix;
 &fdl-appendix;
 
 &index;
