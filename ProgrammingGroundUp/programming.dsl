@@ -43,6 +43,10 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 		1
 	)
 )
+(define ($generate-book-lot-list$)
+  (list)
+)
+
 
 </style-specification-body>
 </style-specification>
@@ -65,6 +69,9 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 		2
 		1
 	)
+)
+(define ($generate-book-lot-list$)
+  (list)
 )
 
 </style-specification-body>
