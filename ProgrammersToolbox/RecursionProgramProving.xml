@@ -87,7 +87,7 @@ out of memory or stack space.
 <!--
 NOTE - REMOVING QUICKSORT BECAUSE IT IS TOO COMPLICATED
 <para>
-Let's look at one more recursive example -- the quicksort.  In the 
+Let's look at one more recursive example - the quicksort.  In the 
 quicksort, the program chooses from the data a <emphasis>pivot</emphasis>
 value.  It then compares all of the elements in the list to the pivot, 
 dividing it into two groups: those above and those below.  It then calls
