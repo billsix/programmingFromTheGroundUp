@@ -873,6 +873,99 @@ to every register, so you can see more clearly what is going on.
 <!-- FIXME - need to discuss flow control -->
 
 <sect1>
+<title>Addressing Modes</title>
+
+<para>
+In <xref linkend="dataaccessingmethods" /> we learned the different types
+of addressing modes available for use in assembly language.  This section
+will deal with how those addressing modes are represented in assembly
+language instructions.
+</para>
+
+<para>
+The general form of memory address references is this:
+</para>
+
+<programlisting>
+ADDRESS_OR_OFFSET(%BASE_OR_OFFSET,%INDEX,MULTIPLIER)
+</programlisting>
+
+<para>
+All of the fields are optional.  To calculate the address, simply perform
+the following calculation:
+</para>
+
+<programlisting>
+FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIPLIER * %INDEX
+</programlisting>
+
+<para>
+<literal>ADDRESS_OR_OFFSET</literal> and <literal>MULTIPLIER</literal> must
+both be constants, while the other two must be registers.  If one of the
+pieces is left out, it is just substituted with zero in the equation.
+</para>
+
+<para>
+All of the addressing modes mentioned in <xref linkend="dataaccessingmethods" /> except immediate-mode can be represented in this fashion.
+</para>
+
+<variablelist>
+
+<varlistentry>
+<term>direct addressing mode</term>
+<listitem><para>
+This is done by only using the ADDRESS_OR_OFFSET portion.  Example:
+<programlisting>
+movl ADDRESS, %eax
+</programlisting>
+This loads &eax; with the value at memory address <literal>ADDRESS</literal>.
+</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term>indexed addressing mode</term>
+<listitem><para>
+
+</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term>indirect addressing mode</term>
+<listitem><para>
+
+</para></listitem>
+</varlistentry>
+
+
+
+<varlistentry>
+<term>base-pointer addressing mode</term>
+<listitem><para>
+
+</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term>immediate mode</term>
+<listitem><para>
+
+</para></listitem>
+</varlistentry>
+
+
+</variablelist>
+
+<para>
+These addressing modes are very important, as every memory access will use
+one of these.
+</para>
+
+</sect1>
+
+<sect1>
 <title>Review</title>
 
 <sect2>
