@@ -643,7 +643,7 @@ on the Internet:
 <listitem><para>The man page for <literal>ld.so</literal> contains a lot of information about how the Linux dynamic linker works.</para></listitem>
 <listitem><para>http://www.benyossef.com/presentations/dlink/ is a great presentation on dynamic linking in Linux.</para></listitem>
 <listitem><para>http://www.linuxjournal.com/article.php?sid=1059 and http://www.linuxjournal.com/article.php?sid=1060 provide a good introduction to the ELF<indexterm><primary>ELF</primary></indexterm> file format, with more detail available at http://www.cs.ucdavis.edu/~haungs/paper/node10.html</para></listitem>
-<listitem><para>http://www.iecc.com/linker/linker10.html contains a great description of how dynamic linking works with ELF files, which is the main executable file format used by Linux.</para></listitem>
+<listitem><para>http://www.iecc.com/linker/linker10.html contains a great description of how dynamic linking works with ELF files.</para></listitem>
 </itemizedlist>
 
 </sect1>

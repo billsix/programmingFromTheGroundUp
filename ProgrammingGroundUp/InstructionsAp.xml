@@ -164,11 +164,11 @@ integers.
 <tbody>
 <row><entry>adcl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Add with carry.  Adds the first argument to the second, and, if there is an overflow, sets overflow and carry to true.
+Add with carry.  Adds the carry bit and the first operand to the second, and, if there is an overflow, sets overflow and carry to true.  This is usually used for operations larger than a machine word.  The addition on the least-significant word would take place using <literal>addl</literal>, while additions to the other words would used the <literal>adcl</literal> instruction to take the carry from the previous add into account.  For the usual case, this is not used, and <literal>addl</literal> is used instead.
 </entry></row>
 <row><entry>addl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Signed integer addition.
+Addition.  Adds the first operand to the second, storing the result in the second.  If the result is larger than the destination register, the overflow and carry bits are set to true.  This instruction operates on both signed and unsigned integers.
 </entry></row>
 <row><entry>cdq</entry><entry></entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -213,11 +213,13 @@ Negate the given register or memory location.
 </entry></row>
 <row><entry>sbbl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Performs subtraction with borrowing.
+Subtract with borrowing.  This is used in the same way that <literal>adc</literal> is, except for subtraction.  Normally only <literal>subl</literal> is used.
 </entry></row>
 <row><entry>subl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Perform subtraction.
+Subtract the two operands.  This subtracts the first operand from the second,
+and stores the result in the second operand.  This instruction can be used on
+both signed and unsigned numbers.
 </entry></row>
 </tbody>
 </tgroup>

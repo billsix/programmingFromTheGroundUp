@@ -33,22 +33,22 @@ current_break:
 
 
 
-###########CONSTANTS###########
+######STRUCTURE INFORMATION####
+	.equ HEADER_SIZE, 8  #size of space for memory segment header
+	.equ HDR_AVAIL_OFFSET, 0 #Location of the "available" flag in the header
+	.equ HDR_SIZE_OFFSET, 4  #Location of the size field in the header
 
+	
+###########CONSTANTS###########
 	.equ UNAVAILABLE, 0  #This is the number we will use to mark
 	                     #space that has been given out
 	.equ AVAILABLE, 1    #This is the number we will use to mark
 	                     #space that has been returned, and is
 	                     #available for giving
-	.equ BRK, 45         #system call number for the break system call
+	.equ SYS_BRK, 45     #system call number for the break system call
 
 	.equ LINUX_SYSCALL, 0x80 #make system calls easier to read
 
-
-######STRUCTURE INFORMATION####
-	.equ HEADER_SIZE, 8  #size of space for memory segment header
-	.equ HDR_AVAIL_OFFSET, 0 #Location of the "available" flag in the header
-	.equ HDR_SIZE_OFFSET, 4  #Location of the size field in the header
 
 	.section .text
 
@@ -69,7 +69,7 @@ allocate_init:
 
 	#If the brk system call is called with 0 in %ebx, it
 	#returns the last valid usable address	
-	movl  $BRK, %eax             #find out where the break is
+	movl  $SYS_BRK, %eax        #find out where the break is
 	movl  $0, %ebx              
 	int   $LINUX_SYSCALL
 
@@ -148,9 +148,6 @@ alloc_loop_begin:                   #here we iterate through each
 	jle   allocate_here         #the size to the needed size.  If its
 	                            #big enough, go to allocate_here
 
-	#may want to add code here to 
-	#combine allocations
-
 next_location:
 	addl  $HEADER_SIZE, %eax    #The total size of the memory segment
 	addl  %edx, %eax            #is the sum of the size requested 
@@ -197,7 +194,7 @@ move_break:                         #if we've made it here, that
 	pushl %ecx
 	pushl %ebx
 
-	movl  $BRK, %eax            #reset the break (%ebx has the requested
+	movl  $SYS_BRK, %eax            #reset the break (%ebx has the requested
 	                            #break point)
 	int   $LINUX_SYSCALL        #under normal conditions, this should
 	                            #return the new break in %eax, which
@@ -275,6 +272,4 @@ deallocate:
 
 	ret                       #return
 ########END OF FUNCTION##########
-
-	
 
