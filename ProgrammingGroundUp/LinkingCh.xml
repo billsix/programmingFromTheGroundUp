@@ -25,12 +25,14 @@ easier on ourselves.  There are several ways to do this, including:
 <itemizedlist>
 <listitem><para>Write code in a high-level language instead of assembly language</para></listitem>
 <listitem><para>Have lots of pre-written code that you can cut and paste into your own programs</para></listitem>
-<listitem><para>Have a set of functions on the system that are shared among any program that wishes to use it</para></listitem>
+<listitem><para>Have a set of functions<indexterm><primary>functions</primary></indexterm> on the system that are shared among any program that wishes to use it</para></listitem>
 </itemizedlist>
 
-All three of these are usually used to some degree in any given project.  The first option
+All three of these are usually used to some degree in any given project.  The 
+first option
 will be explored further in <xref linkend="highlevellanguages" />.  The
 second option is useful but it suffers from some drawbacks, including:
+</para>
 
 <itemizedlist>
 <listitem><para>Code that is copied often has to be majorly modified to fit the surrounding code.</para></listitem>
@@ -38,32 +40,36 @@ second option is useful but it suffers from some drawbacks, including:
 <listitem><para>If a bug is found in any of the copied code it has to be fixed in every application program.</para></listitem>
 </itemizedlist>
 
-Therefore, the second option is usually used sparingly.  It is  usually only used in cases
-where you copy and paste skeleton code for a specific type of task, and add in your 
-program-specific
-details.  The third option is the one that is used the most often.  The third option includes having a
-central repository of shared code.  Then, instead of each program wasting
+<para>
+Therefore, the second option is usually used sparingly.  It is  usually 
+only used in cases where you copy and paste skeleton code<indexterm><primary>skeleton code</primary></indexterm> 
+for a specific type of task, and add in your program-specific
+details.  The third option is the one that is used the most often.  The third option includes having a central repository of shared code.  Then, instead of each program wasting
 space storing the same copies of functions, they can simply point to the
-shared files which contain the functions they need.  If a bug is found in
-one of these functions, it only has to be fixed within the shared file, 
-and all applications which use it are automatically updated.  The 
+shared libraries<indexterm><primary>shared libraries</primary></indexterm> 
+which contain the functions they need.  If a bug is found in
+one of these functions, it only has to be fixed within the single function library 
+file, and all applications which use it are automatically updated.  The 
 main drawback with this approach is that it creates some dependency problems,
 including:
+</para>
 
 <itemizedlist>
 <listitem><para>If multiple applications are all using the shared file, how do we know when it is safe to delete the file?  For example, if three applications are sharing a file of functions and 2 of the programs are deleted, how does the system know that there still exists an application that uses that code, and therefore it shouldn't be deleted?</para></listitem>
 <listitem><para>Some programs inadvertantly rely on bugs within shared functions.  Therefore, if upgrading the shared program fixes a bug that a program depended on, it could cause that application to cease functioning.</para></listitem>
 </itemizedlist>
 
+<para>
 These problems are what lead to what is known as "DLL hell".
 However, it is generally assumed that the advantages outweigh the disadvantages.
 </para>
 
 <para>
 In programming, these shared code files are referred to as 
-<emphasis>shared libraries</emphasis>, <emphasis>shared objects</emphasis>, 
-<emphasis>dynamic-link libraries</emphasis>, 
-<emphasis>DLLs</emphasis>, or <emphasis>.so files</emphasis>.  We will refer
+<emphasis>shared libraries<indexterm><primary>shared libraries</primary></indexterm></emphasis>, 
+<emphasis>shared objects<indexterm><primary>shared objects</primary></indexterm></emphasis>, 
+<emphasis>dynamic-link libraries<indexterm><primary>dynamic-link libraries</primary></indexterm></emphasis>, 
+<emphasis>DLLs<indexterm><primary>DLLs</primary></indexterm></emphasis>, or <emphasis>.so files</emphasis>.  We will refer
 to them as <emphasis>shared libraries</emphasis>.
 </para>
 
@@ -96,7 +102,7 @@ It's even shorter!
 </para>
 
 <para>
-Now, building programs which use shared libraries is a little
+Now, building programs which use shared libraries<indexterm><primary>shared libraries</primary></indexterm> is a little
 different than normal.  You can build the first program normally
 by doing this:
 </para>
@@ -119,12 +125,13 @@ ld -dynamic-linker /lib/ld-linux.so.2 \
 <para>
 The backslash in the first line simply means that the command continues on 
 the second line.  The option
-<literal>-dynamic-linker /lib/ld-linux.so.2</literal> allows our
+<literal>-dynamic-linker<indexterm><primary>-dynamic-linker</primary></indexterm>
+ /lib/ld-linux.so.2</literal> allows our
 program to be linked to libraries.  This builds the executable so that
 before executing, the operating system will load the program 
 <filename>/lib/ld-linux.so.2</filename> to load in external libraries
 and link them with the program.  This program is known as a 
-<emphasis>dynamic linker</emphasis>.
+<emphasis>dynamic linker<indexterm><primary>dynamic linker</primary></indexterm></emphasis>.
 </para>
 
 <para>
@@ -137,18 +144,19 @@ the string <literal>lib</literal> to the beginning of the library name and
 appends <literal>.so</literal> to the end of it to form the library's
 filename.  This library contains many functions to automate
 all types of tasks.  The two we are using are
-<literal>printf</literal>, which prints strings, and 
-<literal>exit</literal>, which exits the program.  
+<literal>printf<indexterm><primary>printf</primary></indexterm></literal>, which prints strings, and 
+<literal>exit<indexterm><primary>exit</primary></indexterm></literal>, which exits the program.  
 </para>
 
 <para>
 Notice that the symbols <literal>printf</literal> and <literal>exit</literal>
 are simply referred to by name within the program.  In previous chapters, the 
 linker would resolve all of the names to physical memory addresses, and the
-names would be thrown away.  When using dynamic linking, the name itself
+names would be thrown away.  When using dynamic linking<indexterm><primary>dynamic linking</primary></indexterm>, the name itself
 resides within the executable, and is resolved by the dynamic linker when it
 is run.  When the program is run by the user,
-the dynamic linker loads the libraries listed in our link statement,
+the dynamic linker<indexterm><primary>dynamic linker</primary></indexterm> loads the 
+shared libraries<indexterm><primary>shared libraries</primary></indexterm> listed in our link statement,
 and then finds all of the function and variable names that were named by
 our program but not found at link time, and matches them up with corresponding
 entries in the shared libraries it loads.  It then replaces all of the names
@@ -164,7 +172,7 @@ is to a small degree, but it only happens once - at program startup time.
 <para>
 In our first programs, all of the code was contained within the
 source file.  Such programs are called
-<emphasis>statically-linked executables</emphasis>, because
+<emphasis>statically-linked executables<indexterm><primary>statically-linked</primary></indexterm></emphasis>, because
 they contained all of the necessary functionality for the program
 that wasn't handled by the kernel.  In the programs we wrote in
 <xref linkend="records" />, we used both our main program file 
@@ -173,7 +181,7 @@ we combined all of the code together using the linker at link-time, so it
 was still statically-linked.
 However, in the <literal>helloworld-lib</literal> program, we started
 using shared libraries.  When you use shared libraries, your program is
-then <emphasis>dynamically-linked</emphasis>, which means that not all of the code
+then <emphasis>dynamically-linked<indexterm><primary>dynamically-linked</primary></indexterm></emphasis>, which means that not all of the code
 needed to run the program is actually contained within the program file
 itself, but in external libraries.
 </para>
@@ -181,17 +189,17 @@ itself, but in external libraries.
 <para>
 When we put the <literal>-lc</literal> on the command to
 link the <literal>helloworld</literal> program, it told the linker
-to use the <literal>c</literal> library (<filename>libc.so</filename>) to look up any symbols that
+to use the <literal>c</literal> library (<filename>libc.so</filename>) to look up any symbols<indexterm><primary>symbols</primary></indexterm> that
 weren't already defined in <filename>helloworld.o</filename>.  However,
 it doesn't actually add any code to our program, it just notes in
 the program where to look.  
 When the <literal>helloworld</literal> program begins, the file
-<filename>/lib/ld-linux.so.2</filename> is loaded first.  This is
-the dynamic linker.  This looks at our <literal>helloworld</literal>
+<filename>/lib/ld-linux.so.2<indexterm><primary>/lib/ld-linux.so.2</primary></indexterm></filename> is loaded first.  This is
+the dynamic linker<indexterm><primary>dynamic linker</primary></indexterm>.  This looks at our <literal>helloworld</literal>
 program and sees that it needs the <literal>c</literal> library
 to run.  So, it searches for a file called <filename>libc.so</filename>
-in the standard places (listed in <filename>/etc/ld.so.conf</filename>
-and in the contents of the <literal>LD_LIBRARY_PATH</literal> environment variable),
+in the standard places (listed in <filename>/etc/ld.so.conf<indexterm><primary>/etc/ld.so.conf</primary></indexterm></filename>
+and in the contents of the <literal>LD_LIBRARY_PATH<indexterm><primary>LD_LIBRARY_PATH</primary></indexterm></literal> environment variable),
 then looks in it for all the needed symbols (<literal>printf</literal> 
 and <literal>exit</literal> in this
 case), and then loads the library into the program's virtual memory.
@@ -204,7 +212,7 @@ library.
 Run the following command:
 
 <programlisting>
-ldd ./helloworld-nolib
+ldd<indexterm><primary>ldd</primary></indexterm> ./helloworld-nolib
 </programlisting>
 
 It should report back <literal>not a dynamic executable</literal>.  
@@ -244,8 +252,8 @@ do you find out what libraries you have on your system and what
 they do?  Well, let's skip that question for a minute and ask another
 question: How do programmers describe functions to each other in their 
 documentation?  Let's
-take a look at the function <literal>printf</literal>.  It's calling interface
-(usually referred to as a <emphasis>prototype</emphasis>) looks like this:
+take a look at the function <literal>printf</literal>.  It's calling interface<indexterm><primary>calling interface</primary></indexterm>
+(usually referred to as a <emphasis>prototype<indexterm><primary>prototype</primary></indexterm></emphasis>) looks like this:
 </para>
 
 <programlisting>
@@ -253,7 +261,7 @@ int printf(char *string, ...);
 </programlisting>
 
 <para>
-In Linux, functions are described in the C programming language.
+In Linux, functions<indexterm><primary>functions</primary></indexterm> are described in the C programming language<indexterm><primary>C programming language</primary></indexterm>.
 In fact, most Linux programs are written in C.  That is why most documentation
 and binary compatibility is defined using the C language.  The interface to
 the <literal>printf</literal> function above is described using the C programming language.
@@ -261,12 +269,12 @@ the <literal>printf</literal> function above is described using the C programmin
 
 <para>
 This definition means that there is a function <literal>printf</literal>.
-The things inside the parenthesis are the functions parameters or arguments.
-The first argument here is <literal>char *string</literal>.  This means
-there is an argument named <literal>string</literal> (the name isn't
+The things inside the parenthesis are the function's parameters<indexterm><primary>parameters</primary></indexterm> or arguments.
+The first parameter here is <literal>char *string</literal>.  This means
+there is a parameter named <literal>string</literal> (the name isn't
 important, except to use for talking about it), which has a 
-type <literal>char *</literal>.  <literal>char</literal>
-means that it wants a character.  The <literal>*</literal> after it means
+type <literal>char *</literal>.  <literal>char<indexterm><primary>char</primary></indexterm></literal>
+means that it wants a single-byte character.  The <literal>*<indexterm><primary>*</primary></indexterm></literal> after it means
 that it doesn't actually want a character as an argument, but instead
 it wants the address of a character or sequence of characters.  If you look
 back at our <literal>helloworld program</literal>, you will notice that
@@ -281,14 +289,14 @@ the function call looked like this:
 <para>
 So, we pushed the address of the <literal>hello</literal> string, rather
 than the actual characters.  You might notice that we didn't push the length
-of the string.  The way that <literal>printf</literal> found
-the end of the string was because we ended it with a null character
+of the string.  The way that <literal>printf<indexterm><primary>printf</primary></indexterm></literal> found
+the end of the string was because we ended it with a null character<indexterm><primary>null character</primary></indexterm>
 (<literal>\0</literal>).  Many functions work that way, especially C language
-functions.  The <literal>int</literal> before the function definition tell what
+functions.  The <literal>int<indexterm><primary>int</primary></indexterm></literal> before the function definition tell what
 type of value the function will return in &eax-indexed; when it returns.
 <literal>printf</literal> will return an <literal>int</literal>
 when it's through.  Now, after the <literal>char *string</literal>, we
-have a series of periods, <literal>...</literal>.  This means that it
+have a series of periods, <literal>...<indexterm><primary>...</primary></indexterm></literal>.  This means that it
 can take an indefinite number of additional arguments after the string.  
 Most functions can only take a specified number of arguments.  <literal>printf</literal>,
 however, can take many.  It will look into the 
@@ -324,24 +332,25 @@ Hello! Jonathan is a person who loves the number 3
 
 <para>
 Now, if you look at the code, you'll see that we actually push
-the format string last, even though it's the first argument.  You
-always push the arguments in reverse order.<footnote>
+the format string last, even though it's the first parameter listed.  You
+always push a functions parameters in reverse order.<footnote>
 <para>
-The reason that arguments are pushed in the reverse order is because
-of functions which take a variable number of arguments like 
-<literal>printf</literal>.  The arguments pushed in last 
+The reason that parameters are pushed in the reverse order is because
+of functions which take a variable number of parameters like 
+<literal>printf</literal>.  The parameters pushed in last 
 will be in a known position relative to the top of the stack.  The
-program can then use these arguments to determine where on the stack
-the additional arguments are, and what type they are.
-If we pushed the known arguments first, you wouldn't be able to tell where they were on the
-stack.  
+program can then use these parameters to determine where on the stack
+the additional arguments are, and what type they are.  For example, 
+<literal>printf</literal> uses the format string to determine how many
+other parameters are being sent.  If we pushed the known arguments first, 
+you wouldn't be able to tell where they were on the stack.  
 </para></footnote>
 You may be wondering
-how the <literal>printf</literal> function knows how many arguments
+how the <literal>printf<indexterm><primary>printf</primary></indexterm></literal> function knows how many parameters
 there are.  Well, it searches through your string, and counts how 
 many <literal>%d</literal>s and <literal>%s</literal>s it finds,
-and then grabs that number of arguments from the stack.  If the
-argument matches a <literal>%d</literal>, it treats it as a number,
+and then grabs that number of parameters from the stack.  If the
+parameter matches a <literal>%d</literal>, it treats it as a number,
 and if it matches a <literal>%s</literal>, it treats it as a pointer
 to a null-terminated string.  <literal>printf</literal> has 
 many more features than this, but these are the most-used ones.
@@ -354,7 +363,7 @@ to strings, etc), and stick them all together appropriately.
 </para>
 
 <para>
-We've seen how to use the <literal>C</literal> prototypes to
+We've seen how to use the C programming language<indexterm><primary>C programming language</primary></indexterm> prototypes<indexterm><primary>prototypes</primary></indexterm> to
 call library functions.  To use them effectively, however, you need to know 
 several more of the possible data types for reading functions.  Here are
 the main ones:
@@ -363,35 +372,35 @@ the main ones:
 <variablelist>
 
 <varlistentry>
-<term><literal>int</literal></term>
+<term><literal>int<indexterm><primary>int</primary></indexterm></literal></term>
 <listitem><para>
 An <literal>int</literal> is an integer number (4 bytes on x86 processor).
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>long</literal></term>
+<term><literal>long<indexterm><primary>long</primary></indexterm></literal></term>
 <listitem><para>
 A <literal>long</literal> is also an integer number (4 bytes on an x86 processor).
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>long long</literal></term>
+<term><literal>long long<indexterm><primary>long long</primary></indexterm></literal></term>
 <listitem><para>
 A <literal>long long</literal> is an integer number that's larger than a <literal>long</literal> (8 bytes on an x86 processor).
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>short</literal></term>
+<term><literal>short<indexterm><primary>short</primary></indexterm></literal></term>
 <listitem><para>
 A short is an integer number that's shorter than an <literal>int</literal> (2 bytes on an x86 processor).
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>char</literal></term>
+<term><literal>char<indexterm><primary>char</primary></indexterm></literal></term>
 <listitem><para>
 A <literal>char</literal> is a single-byte integer number.  This is mostly used for storing
 character data, since ASCII strings usually are represented with one byte per character.
@@ -399,7 +408,7 @@ character data, since ASCII strings usually are represented with one byte per ch
 </varlistentry>
 
 <varlistentry>
-<term><literal>float</literal></term>
+<term><literal>float<indexterm><primary>float</primary></indexterm></literal></term>
 <listitem><para>
 A <literal>float</literal> is a floating-point number (4 bytes on an x86 processor). 
 Floating-point numbers will be explained in more depth in <xref linkend="floatingpoint" />.
@@ -407,16 +416,15 @@ Floating-point numbers will be explained in more depth in <xref linkend="floatin
 </varlistentry>
 
 <varlistentry>
-<term><literal>double</literal></term>
+<term><literal>double<indexterm><primary>double</primary></indexterm></literal></term>
 <listitem><para>
 A <literal>double</literal> is a floating-point number that is larger than a float
 (8 bytes on an x86 processor).
-Like floats, it only represent approximate values.  
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>unsigned</literal></term>
+<term><literal>unsigned<indexterm><primary>unsigned</primary></indexterm></literal></term>
 <listitem><para>
 <literal>unsigned</literal> is a modifier used for any of the above types which 
 keeps them from being used as signed quantities.  The difference between signed
@@ -425,25 +433,25 @@ and unsigned numbers will be discussed in <xref linkend="countingchapter" />.
 </varlistentry>
 
 <varlistentry>
-<term><literal>*</literal></term>
+<term><literal>*<indexterm><primary>*</primary></indexterm></literal></term>
 <listitem><para>
 An asterisk (<literal>*</literal>) is used to denote that the data isn't an actual
 value, but instead is a pointer to a location holding the given
 value (4 bytes on an x86 processor).  
 So, let's say in memory location <literal>my_location</literal> you have the number 20 stored.  
 If the prototype said to pass an <literal>int</literal>, you would 
-use direct addressing mode and do <literal>pushl my_location</literal>.
+use direct addressing mode<indexterm><primary>direct addressing mode</primary></indexterm> and do <literal>pushl my_location</literal>.
 However, if the prototype said to pass an <literal>int *</literal>,
-you would do <literal>pushl $my_location</literal> - an immediate mode push of
+you would do <literal>pushl $my_location</literal> - an immediate mode<indexterm><primary>immediate mode</primary></indexterm> push of
 the address that the value resides in.  In addition to indicating the address of 
 a single value, pointers can also be used to
 pass a sequence of consecutive locations, starting with the one pointed to by the 
-given value.  This is called an array.  
+given value.  This is called an array<indexterm><primary>array</primary></indexterm>.  
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>struct</literal></term>
+<term><literal>struct<indexterm><primary>struct</primary></indexterm></literal></term>
 <listitem><para>
 A <literal>struct</literal> is a set of data items that have been put together under
 a name.  For example you could declare:
@@ -466,7 +474,7 @@ is fairly complicated, since they can take up so many storage locations.
 </varlistentry>
 
 <varlistentry>
-<term><literal>typedefs</literal></term>
+<term><literal>typedef<indexterm><primary>typedef</primary></indexterm></literal></term>
 <listitem><para>
 A <literal>typedef</literal> basically allows you to rename a type.  For example, I can
 do <literal>typedef int myowntype;</literal> in a C program, and 
@@ -484,17 +492,17 @@ are useful for giving types more meaningful and descriptive names.
 <title>Compatibility Note</title>
 <para>
 The listed sizes are for intel-compatible (x86) machines.  Other machines will
-have different sizes.  Also, even when shorter-sized parameters are
-passed to functions, they are passed as longs.
+have different sizes.  Also, even when parameters shorter than a word are
+passed to functions, they are passed as longs on the stack.
 </para>
 </note>
 
 <para>
 That's how to read function documentation.  Now, let's get back to the 
 question of how to find out about libraries.
-Most of your system libraries are in <filename>/usr/lib</filename>
-or <filename>/lib</filename>.  If you want to just see what symbols they
-define, just run <literal>objdump -R FILENAME</literal> where 
+Most of your system libraries are in <filename>/usr/lib<indexterm><primary>/usr/lib</primary></indexterm></filename>
+or <filename>/lib<indexterm><primary>/lib</primary></indexterm></filename>.  If you want to just see what symbols they
+define, just run <literal>objdump<indexterm><primary>objdump</primary></indexterm> -R FILENAME</literal> where 
 <literal>FILENAME</literal> is the full path to the library.  The output
 of that isn't too helpful, though, for finding an interface that you might
 need.  Usually, you have to know what 
@@ -516,14 +524,14 @@ library include:
 </para>
 
 <itemizedlist>
-<listitem><para><literal>size_t strlen (const char *s)</literal> calculates the size of null-terminated strings.</para></listitem>
-<listitem><para><literal>int strcmp (const char *s1, const char *s2)</literal> compares two strings alphabetically.</para></listitem>
-<listitem><para><literal>char * strdup (const char *s)</literal> takes the pointer to a string, and creates a new copy in a new location, and returns the new location.</para></listitem>
-<listitem><para><literal>FILE * fopen (const char *filename, const char *opentype)</literal> opens a managed, buffered file (allows easier reading and writing than using file descriptors directly).<footnote><para><literal>stdin</literal>, <literal>stdout</literal>, and <literal>stderr</literal> (all lower case) can be used in these programs to refer to the files of their corresponding file descriptors.</para></footnote><footnote><para><literal>FILE</literal> is a struct.  You don't need to know it's contents to use it.  You only have to store the pointer and pass it to the relevant other functions.</para></footnote></para></listitem>
-<listitem><para><literal>int fclose (FILE *stream)</literal> closes a file opened with <literal>fopen</literal>.</para></listitem>
-<listitem><para><literal>char * fgets (char *s, int count, FILE *stream)</literal> fetches a line of characters into string <literal>s</literal>.</para></listitem>
-<listitem><para><literal>int fputs (const char *s, FILE *stream)</literal> writes a string to the given open file.</para></listitem>
-<listitem><para><literal>int fprintf (FILE *stream, const char *template, ...)</literal> is just like <literal>printf</literal>, but it uses an open file rather than defaulting to using standard output.</para></listitem>
+<listitem><para><literal>size_t strlen<indexterm><primary>strlen</primary></indexterm> (const char *s)</literal> calculates the size of null-terminated strings.</para></listitem>
+<listitem><para><literal>int strcmp<indexterm><primary>strcmp</primary></indexterm> (const char *s1, const char *s2)</literal> compares two strings alphabetically.</para></listitem>
+<listitem><para><literal>char * strdup<indexterm><primary>strdup</primary></indexterm> (const char *s)</literal> takes the pointer to a string, and creates a new copy in a new location, and returns the new location.</para></listitem>
+<listitem><para><literal>FILE * fopen<indexterm><primary>fopen</primary></indexterm> (const char *filename, const char *opentype)</literal> opens a managed, buffered file (allows easier reading and writing than using file descriptors directly).<footnote><para><literal>stdin</literal>, <literal>stdout</literal>, and <literal>stderr</literal> (all lower case) can be used in these programs to refer to the files of their corresponding file descriptors.</para></footnote><footnote><para><literal>FILE</literal> is a struct.  You don't need to know it's contents to use it.  You only have to store the pointer and pass it to the relevant other functions.</para></footnote></para></listitem>
+<listitem><para><literal>int fclose<indexterm><primary>fclose</primary></indexterm> (FILE *stream)</literal> closes a file opened with <literal>fopen</literal>.</para></listitem>
+<listitem><para><literal>char * fgets<indexterm><primary>fgets</primary></indexterm> (char *s, int count, FILE *stream)</literal> fetches a line of characters into string <literal>s</literal>.</para></listitem>
+<listitem><para><literal>int fputs<indexterm><primary>fputs</primary></indexterm> (const char *s, FILE *stream)</literal> writes a string to the given open file.</para></listitem>
+<listitem><para><literal>int fprintf<indexterm><primary>fprintf</primary></indexterm> (FILE *stream, const char *template, ...)</literal> is just like <literal>printf</literal>, but it uses an open file rather than defaulting to using standard output.</para></listitem>
 </itemizedlist>
 
 <para>
@@ -537,7 +545,7 @@ You can find the complete manual on this library by going to http://www.gnu.org/
 
 <para>
 Let's say that we wanted to take all of our shared code from 
-<xref linkend="records" /> and build it into a shared library to
+<xref linkend="records" /> and build it into a shared library<indexterm><primary>shared library</primary></indexterm> to
 use in our programs.  The first thing we would do is assemble them
 like normal:
 </para>
@@ -558,7 +566,7 @@ ld -shared write-record.o read-record.o -o librecord.so
 </programlisting>
 
 <para>
-This links both of these files together into a shared library
+This links both of these files together into a shared library<indexterm><primary>shared library</primary></indexterm>
 called <filename>librecord.so</filename>.  This file can now
 be used for multiple programs.  If we need to update the functions
 contained within it, we can just update this one file and not
@@ -580,7 +588,8 @@ ld -L . -dynamic-linker /lib/ld-linux.so.2 \
 <para>
 In this command, <literal>-L .</literal> told the linker to look
 for libraries in the current directory (it usually only searches 
-<filename>/lib</filename> directory, <filename>/usr/lib</filename>
+<filename>/lib<indexterm><primary>/lib</primary></indexterm></filename> directory, 
+<filename>/usr/lib<indexterm><primary>/usr/lib</primary></indexterm></filename>
 directory, and a few others).  As we've seen, the option
 <literal>-dynamic-linker /lib/ld-linux.so.2</literal> specified the dynamic 
 linker.  The option <literal>-lrecord</literal> tells the linker to search 
@@ -599,7 +608,7 @@ run.  If we try it, we will get an error like the following:
 <para>
 This is because, by default, the dynamic linker only searches 
 <filename>/lib</filename>, <filename>/usr/lib</filename>, and whatever
-directories are listed in <filename>/etc/ld.so.conf</filename> for
+directories are listed in <filename>/etc/ld.so.conf<indexterm><primary>/etc/ld.so.conf</primary></indexterm></filename> for
 libraries.  In order to run the program, you either need to move the
 library to one of these directories, or execute the following command:
 </para>
@@ -608,6 +617,7 @@ library to one of these directories, or execute the following command:
 LD_LIBRARY_PATH=.
 export LD_LIBRARY_PATH
 </programlisting>
+<indexterm><primary>LD_LIBRARY_PATH</primary></indexterm>
 
 <para>
 Alternatively, if that gives you an error, do this instead:
@@ -632,7 +642,7 @@ on the Internet:
 <itemizedlist>
 <listitem><para>The man page for <literal>ld.so</literal> contains a lot of information about how the Linux dynamic linker works.</para></listitem>
 <listitem><para>http://www.benyossef.com/presentations/dlink/ is a great presentation on dynamic linking in Linux.</para></listitem>
-<listitem><para>http://www.linuxjournal.com/article.php?sid=1059 and http://www.linuxjournal.com/article.php?sid=1060 provide a good introduction to the ELF file format, with more detail available at http://www.cs.ucdavis.edu/~haungs/paper/node10.html</para></listitem>
+<listitem><para>http://www.linuxjournal.com/article.php?sid=1059 and http://www.linuxjournal.com/article.php?sid=1060 provide a good introduction to the ELF<indexterm><primary>ELF</primary></indexterm> file format, with more detail available at http://www.cs.ucdavis.edu/~haungs/paper/node10.html</para></listitem>
 <listitem><para>http://www.iecc.com/linker/linker10.html contains a great description of how dynamic linking works with ELF files, which is the main executable file format used by Linux.</para></listitem>
 </itemizedlist>
 

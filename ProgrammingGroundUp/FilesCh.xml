@@ -233,21 +233,20 @@ descriptor 2.
 </variablelist>
 
 <para>
-Any of these "files" can be redirected from or to a real file, rather
+Any of these "files<indexterm><primary>files</primary></indexterm>" can be redirected from or to a real file, rather
 than a screen or a keyboard.  This is outside the scope of this book, but
-any good book on the UNIX command-line will describe it in detail.
+any good book on the UNIX command-line<indexterm><primary>command-line</primary></indexterm> will describe it in detail.
 The program itself does not even need to be aware of this indirection - 
-it can just use the standard file descriptors as usual.  
+it can just use the standard file descriptors<indexterm><primary>file descriptors</primary></indexterm> as usual.  
 </para>
 
 <para>
 Notice that many of the files you write to aren't files at all.  UNIX-based
 operating systems treat all input/output systems as files.  Network connections
-are treated as files, your serial port is treated like a file, even your audio
+are treated as files<indexterm><primary>files</primary></indexterm>, your serial port is treated like a file, even your audio
 devices are treated as files.  Communication between processes is 
-usually done through special
-files called pipes.   Some of these files have different methods of opening
-and creating them than regular files (i.e. - they don't use the <literal>open</literal> system call), but they can all be read from and
+usually done through special files<indexterm><primary>special files</primary></indexterm> called pipes<indexterm><primary>pipes</primary></indexterm>.   Some of these files have different methods of opening
+and creating them than regular files<indexterm><primary>regular files</primary></indexterm> (i.e. - they don't use the <literal>open</literal> system call), but they can all be read from and
 written to using the standard <literal>read</literal> and 
 <literal>write</literal> system calls.
 </para>
@@ -262,6 +261,7 @@ We are going to write a simple program to illustrate these concepts.  The
 program will take two files, and read from one, convert all of its 
 lower-case letters to upper-case, and write to the other file.  Before we
 do so, let's think about what we need to do to get the job done:
+</para>
 
 <itemizedlist>
 <listitem><para>
@@ -281,11 +281,13 @@ Begin the program by opening the necessary files.
 </para></listitem>
 </itemizedlist>
 
+<para>
 Notice that I've specified things in reverse order that they will be done.  
 That's a useful trick in writing complex programs - first decide the meat
 of what is being done.  In this case, it's converting blocks of characters
-to upper-case.  Then, you think about what all needs to happen to get that
-done.  In this case, you have to open files, and continually read and write
+to upper-case.  Then, you think about what all needs to be setup and processed to 
+get that to happen.  In this case, you have to open files, 
+and continually read and write
 blocks to disk.  One of the keys of programming is continually breaking
 down problems into smaller and smaller chunks until it's small enough that
 you can easily solve the problem.  Then you can build these chunks back
@@ -300,9 +302,9 @@ excellent book on the problem-solving process applied to computer programming.
 You may have been thinking that you will never remember all of these numbers
 being thrown at you - the system call numbers, the interrupt number, etc.
 In this program we will also introduce a new directive, <literal>.equ</literal>
-which should help out.  <literal>.equ</literal> allows you to assign names
+which should help out.  <literal>.equ<indexterm><primary>.equ</primary></indexterm></literal> allows you to assign names
 to numbers.  For example, if you did 
-<literal>.equ LINUX_SYSCALL, 0x80</literal>, any time after that you wrote
+<literal>.equ LINUX_SYSCALL, 0x80<indexterm><primary>0x80</primary></indexterm></literal>, any time after that you wrote
 <literal>LINUX_SYSCALL</literal>, the assembler would substitue 
 <literal>0x80</literal> for that.  So now, you can write 
 </para>
@@ -318,8 +320,8 @@ we can do like this to make it easier.
 </para>
 
 <para>
-Here is the program.  Note that we have more labels than we actually use for 
-jumps,
+Here is the program.  Note that we have more labels<indexterm><primary>labels</primary></indexterm>
+ than we actually use for jumps,
 because some of them are just there for clarity.  Try to trace
 through the program and see what happens in various cases.  An in-depth
 explanation of the program will follow.
@@ -332,22 +334,26 @@ explanation of the program will follow.
 <para>
 Type in this program as <filename>toupper.s</filename>, and then enter in 
 the following commands:  
+</para>
 
 <programlisting>
 as toupper.s -o toupper.o
 ld toupper.o -o toupper
 </programlisting>
 
+<para>
 This builds a program called <filename>toupper</filename>, which converts
 all of the lowercase characters in a file to uppercase.
 For example, to convert the file <filename>toupper.s</filename> to 
-uppercase, type in the command
+uppercase, type in the following command:
+</para>
 
 <programlisting>
 ./toupper toupper.s toupper.uppercase
 </programlisting>
 
-and you will find in the file <filename>toupper.uppercase</filename> an 
+<para>
+You will now find in the file <filename>toupper.uppercase</filename> an 
 uppercase version of your original file.
 </para>
 
@@ -357,7 +363,7 @@ Let's examine how the program works.
 
 <para>
 The first section of the program is marked <literal>CONSTANTS</literal>.  In
-programming, a constant is a value that is assigned when a program assembles or
+programming, a constant<indexterm><primary>constant</primary></indexterm> is a value that is assigned when a program assembles or
 compiles, and is never changed.  I make a habit of placing all of my constants
 together at the beginning of the program.  It's only necessary to declare them
 before you use them, but putting them all at the beginning makes them easy to 
@@ -366,13 +372,13 @@ values are constants and where to find them.<footnote><para>This is fairly
 standard practice among programmers in all languages.</para></footnote>
 In assembly language, we 
 declare constants with
-the <literal>.equ</literal> directive as mentioned before.  Here, we simply
+the <literal>.equ<indexterm><primary>.equ</primary></indexterm></literal> directive as mentioned before.  Here, we simply
 give names to all of the standard numbers we've used so far, like system call
 numbers, the syscall interrupt number, and file open options.
 </para>
 
 <para>
-The next section is marked <literal>BUFFERS</literal>.  We only use one buffer in
+The next section is marked <literal>BUFFERS</literal>.  We only use one buffer<indexterm><primary>buffer</primary></indexterm> in
 this program, which we call <literal>BUFFER_DATA</literal>.  We also define a 
 constant, <literal>BUFFER_SIZE</literal>, which holds the size of the buffer.  If
 we always refer to this constant rather than typing out the number 500 whenever
@@ -384,10 +390,14 @@ of the values individually.
 <para>
 Instead of going on the the <literal>_start</literal> section of the program, go
 to the end where we define the <literal>convert_to_upper</literal> function.  
-This is the part that
-actually does the conversion.  Starting out, we have a set of constants we are 
-using.  The reason these are put here rather than at the top is that they only
-deal with this one function.  We have:
+This is the part that actually does the conversion.
+</para>
+
+<para>
+This section begins with a list of constants that we will use 
+The reason these are put here rather than at the top is that they only
+deal with this one function.  We have these definitions:
+</para>
 
 <programlisting>
 	.equ  LOWERCASE_A, 'a'              #The lower boundary of our search
@@ -395,6 +405,7 @@ deal with this one function.  We have:
 	.equ  UPPER_CONVERSION, 'A' - 'a'   #Conversion between upper and lower case
 </programlisting>
 
+<para>
 The first two simply define the letters that are the boundaries of what we are
 searching for.  Remember that in the computer, letters are represented as numbers.
 Therefore, we can use <literal>LOWERCASE_A</literal> in comparisons, additions,
@@ -403,7 +414,8 @@ the constant <literal>UPPER_CONVERSION</literal>.  Since letters are represented
 as numbers, we can subtract them.  Subtracting an upper-case letter from the
 same lower-case letter gives us how much we need to add to a lower-case letter
 to make it upper case.  If that doesn't make sense, look at the 
-ASCII code tables themselves (see <xref linkend="asciilisting" />).  You'll
+ASCII<indexterm><primary>ASCII</primary></indexterm> code tables 
+themselves (see <xref linkend="asciilisting" />).  You'll
 notice that the number for the character <literal>A</literal> is 65 and the 
 character <literal>a</literal> is 97.  The conversion factor is then -32.
 For any lowercase letter if you add -32, you will get it's 
@@ -412,13 +424,13 @@ capital equivalent.
 
 <para>
 After this, we have some constants labelled <literal>STACK POSITIONS</literal>.
-Remember that function parameters 
-are pushed onto the stack before function calls.  These constants, prefixed with
-<literal>ST</literal> for clarity, define where in the stack we should expect
-to find each piece of data.  The return address is at position 4, the length of 
-the buffer is at position 8, and the address of the buffer is at position 12.  
-This way, when I use these stack addresses in the program, it's easier to see
-what is happening.
+Remember that function parameters<indexterm><primary>function parameters</primary></indexterm> 
+are pushed onto the stack before function calls.  These constants (prefixed with
+<literal>ST</literal> for clarity) define where in the stack we should expect
+to find each piece of data.  The return address<indexterm><primary>return address</primary></indexterm> is at position 4 + &esp;, the length of 
+the buffer is at position 8 + &esp;, and the address of the buffer is at position 
+12 + &esp;.   Using symbols for these numbers instead of the numbers themselves
+makes it easier to see what data is being used and moved.
 </para>
 
 <para>
@@ -436,7 +448,7 @@ move the function parameters into the appropriate registers for use.
 Then, we load zero into &edi;.  What we are going to do is iterate
 through each byte of the buffer by loading from the location 
 &eax; + &edi;, incrementing &edi;, and repeating until &edi;
-is equal to the buffer length in &ebx;.  The lines 
+is equal to the buffer length stored in &ebx;.  The lines 
 
 <programlisting>
 	cmpl  $0, %ebx
@@ -459,15 +471,17 @@ it moves a byte into &cl;.  The code for this is
 	movb  (%eax,%edi,1), %cl
 </programlisting>
 
-This says to start at &eax; and go &edi; locations forward, with each
-location being 1 byte big.  Take the value found there, and put it in
+It is using an indexed indirect addressing mode<indexterm><primary>indexed indirect addressing mode</primary></indexterm>.  
+It says to start at &eax; 
+and go &edi; locations forward, with each
+location being 1 byte big.  It takes the value found there, and put it in
 &cl;.  After this it checks to see if that value is in the range
 of lower-case <wordasword>a</wordasword> to lower-case <wordasword>z</wordasword>.
 To check the range, it simply checks to see if the letter is smaller than 
 <wordasword>a</wordasword>.  If it is, it can't be a lower-case letter.  Likewise,
 if it is larger than <wordasword>z</wordasword>, it can't be a lower-case letter.
 So, in each of these cases, it simply moves on.  If it is in the proper range, it
-then adds the uppercase conversion, and stores it back.
+then adds the uppercase conversion, and stores it back into the buffer.
 </para>
 
 <para>
@@ -487,7 +501,8 @@ to get the data in and out of the files.
 
 <para>
 Before reading and writing the files we must open them. The UNIX 
-<literal>open</literal> system call is what handles this.  It takes
+<literal>open<indexterm><primary>open</primary></indexterm></literal> 
+system call is what handles this.  It takes
 the following parameters:
 </para>
 
@@ -496,11 +511,11 @@ the following parameters:
 &eax-indexed; contains the system call number as usual - 5 in this case.
 </para></listitem>
 <listitem><para>
-&ebx; contains a pointer to a string that is the name of the file to open.  
-The string must be terminated with the null character.
+&ebx-indexed; contains a pointer to a string that is the name of the file to open.  
+The string must be terminated with the null character<indexterm><primary>null character</primary></indexterm>.
 </para></listitem>
 <listitem><para>
-&ecx; contains the options used for opening the file.
+&ecx-indexed; contains the options used for opening the file.
 These tell Linux how to open the file.  They can indicate things such
 as open for reading, open for writing, open for reading and writing, create
 if it doesn't exist, delete the file if it already exists, etc.  We will
@@ -509,12 +524,12 @@ not go into how to create the numbers for the options until
 up with.
 </para></listitem>
 <listitem><para>
-&edx-indexed; contains the permissions that are used to open the file.
+&edx-indexed; contains the permissions<indexterm><primary>permissions</primary></indexterm> that are used to open the file.
 This is used in case the file has to be created first, so Linux knows 
 what permissions to create the file with.  These are expressed in octal,
 just like regular UNIX permissions.<footnote><para>If you aren't familiar
 with UNIX permissions, just put <literal>$0666</literal> here.  Don't
-forget the leading zero, as it means that the number is an octal 
+forget the leading zero, as it means that the number is an octal<indexterm><primary>octal</primary></indexterm> 
 number.</para></footnote>
 </para></listitem>
 </itemizedlist>
@@ -526,7 +541,9 @@ is stored in &eax-indexed;.
 
 <para>
 So, what files are we opening?  In this example, we will be opening the
-files specified on the command line.  Fortunately, command-line parameters
+files specified on the 
+command-line<indexterm><primary>command-line</primary></indexterm>.  Fortunately, 
+command-line parameters
 are already stored by Linux
 in an easy-to-access location, and are already null-terminated.  When 
 a Linux program begins, all pointers to command-line arguments are
@@ -534,7 +551,7 @@ stored on the stack.  The number of arguments is stored at
 <literal>8(%esp)</literal>, the name of the program is stored at
 <literal>12(%esp)</literal>, and the arguments are stored from 
 <literal>16(%esp)</literal> on.  In the C Programming language, this
-is referred to as the <literal>argv</literal> array, so we will refer
+is referred to as the <literal>argv<indexterm><primary>argv</primary></indexterm></literal> array, so we will refer
 to it that way in our program.
 </para>
 
@@ -547,11 +564,11 @@ descriptors.  After this, it starts opening files.
 <para>
 The first file the program opens is the input file, which is the first 
 command-line argument.  We do this by setting up the system call.
-We put the file name into &ebx-indexed;, a readonly mode
+We put the file name into &ebx-indexed;, the read-only mode number
 into &ecx-indexed;, the default mode of <literal>$0666</literal>
 into &edx-indexed;, and the system call number into &eax-indexed;
 After the system call, the file is open and the file descriptor
-is stored in  &eax;.<footnote><para>Notice that we don't do any
+is stored in  &eax-indexed;.<footnote><para>Notice that we don't do any
 error checking on this.  That is done just to keep the program simple.
 In normal programs, every system call should normally be checked for
 success or failure.  In failure cases, &eax; will hold an error
@@ -565,7 +582,7 @@ stack.
 <para>
 The same is then done for the output file, except that it is 
 created with a write-only, create-if-doesn't-exist, truncate-if-does-exist
-mode.  It's file descriptor is stored as well.
+mode.  Its file descriptor is stored as well.
 </para>
 
 <para>
@@ -580,9 +597,11 @@ chunks as we want, and it still would work properly.
 
 <para>
 The first part of the loop is to read the data.  This uses the 
-<literal>read</literal> system call.  This call just takes a
+<literal>read<indexterm><primary>read</primary></indexterm></literal> 
+system call.  This call just takes a
 file descriptor to read from, a buffer to write into, and the
-size of the buffer (i.e. - the maximum number of bytes that
+size of the buffer<indexterm><primary>buffer</primary></indexterm>
+(i.e. - the maximum number of bytes that
 could be written).  The system call returns the number of bytes
 actually read, or end-of-file (the number 0).
 </para>
@@ -601,7 +620,7 @@ are then restored with what they had before.
 </para>
 
 <para>
-Finally, we issue a <literal>write</literal> system call, which is exactly
+Finally, we issue a <literal>write<indexterm><primary>write</primary></indexterm></literal> system call, which is exactly
 like the <literal>read</literal> system call, except that it moves the
 data from the buffer out to the file.  Now we just go back to the beginning
 of the loop.

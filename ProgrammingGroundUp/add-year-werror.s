@@ -38,13 +38,13 @@ _start:
 	#Otherwise it will handle the error
 	#condition that the negative number
 	#represents.
-	testl $-1, %eax
-	jns   continue_processing
+	cmpl  $0, %eax
+	jl    continue_processing
 
 	#Send the error
 	.section .data
 no_open_file_code:
-	.ascii "0001\0"
+	.ascii "0001: \0"
 no_open_file_msg:
 	.ascii "Can't Open Input File\0"
 

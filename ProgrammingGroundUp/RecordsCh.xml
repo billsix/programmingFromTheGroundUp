@@ -3,11 +3,11 @@
 
 <para>
 As mentioned in <xref linkend="filesch" />,
-many applications deal with data that is <emphasis>persistent</emphasis> - 
+many applications deal with data that is <emphasis>persistent<indexterm><primary>persistent</primary></indexterm></emphasis> - 
 meaning that the data lives longer than the program by being stored on disk 
 inf files.  You can shut down the program and open it back up, and you are
 back where you started.  Now, there are two basic kinds of persistent
-data - structured and unstructured.  Unstructured data is like what we
+data - structured and unstructured.  Unstructured data<indexterm><primary>unstructured data</primary></indexterm> is like what we
 dealt with in the <literal>toupper</literal> program.  It just dealt with text files that
 were entered by a person.  The contents of the files weren't usable by
 a program because a program can't interpret what the user is trying to
@@ -15,12 +15,12 @@ say in random text.
 </para>
 
 <para>
-Structured data, on the other hand, is what computers excel at handling.
-This is data that is divided up into fields and records.  For the most
+Structured data<indexterm><primary>structured data</primary></indexterm>, on the other hand, is what computers excel at handling.
+Structured data is data that is divided up into fields<indexterm><primary>fields</primary></indexterm> and records<indexterm><primary>records</primary></indexterm>.  For the most
 part, the fields and records are fixed-length.  Because the data is
 divided into fixed-length records and fixed-format fields, the computer can interpret
 the data.  Structured data can contain variable-length fields,
-but at that point you are usually better off with a database.
+but at that point you are usually better off with a database<indexterm><primary>database</primary></indexterm>.
 <footnote>
 <para>
 A database is a program which handles persistent structured data for you.
@@ -34,7 +34,7 @@ References for learning how databases work are listed in <xref linkend="wherenex
 </para>
 
 <para>
-This section deals with reading and writing simple fixed-length records.
+This chapter deals with reading and writing simple fixed-length records<indexterm><primary>records</primary></indexterm>.
 Let's say we wanted to store some basic information about people
 we know.  We could imagine the following example fixed-length record about people:
 </para>
@@ -59,9 +59,9 @@ over and over again within the program, or perhaps within several
 programs.  It is good to separate these out into files that are 
 simply included into the assembly language files as needed.  For
 example, in our next programs we will need to access the different
-parts of the record above.  This means we need to know the offsets
+parts of the record above.  This means we need to know the offsets<indexterm><primary>offsets</primary></indexterm>
 of each field from the beginning of the record in order to access 
-them using base pointer addressing.
+them using base pointer addressing<indexterm><primary>base pointer addressing</primary></indexterm>.
 The following constants describe the offsets to the above structure.
 Put them in a file named
 <filename>record-def.s</filename>:
@@ -74,8 +74,8 @@ Put them in a file named
 <para>
 In addition, there are several constants that we have been defining over
 and over in our programs, and it is useful to put them in a file, so that
-we don't have to keep entering them over and over again.  Put the following
-constants in a file called <filename>linux.s</filename>:
+we don't have to keep entering them.  Put the following
+constants<indexterm><primary>constants</primary></indexterm> in a file called <filename>linux.s</filename>:
 </para>
 
 <programlisting>
@@ -83,7 +83,7 @@ constants in a file called <filename>linux.s</filename>:
 </programlisting>
 
 <para>
-We will write three programs in this chapter using the structure defined above.
+We will write three programs in this chapter using the structure defined in <filename>record-def.s</filename>.
 The first program will build a file containing several records as defined
 above. The second program will display the records in the file.  The 
 third program will add
@@ -160,7 +160,7 @@ Type the following code into a file called <filename>write-records.s</filename>:
 
 <para>
 This is a fairly simple program.  It merely consists of defining
-the data we want to write in the <literal>.data</literal> section,
+the data we want to write in the <literal>.data<indexterm><primary>.data</primary></indexterm></literal> section,
 and then calling the right system calls and function calls to
 accomplish it.  For a refresher of all of the system calls used,
 see <xref linkend="syscallap" />.
@@ -172,24 +172,24 @@ You may have noticed the lines:
 
 <programlisting>
 	.include "linux.s"
-	.include "record-def.s"
+	.include<indexterm><primary>.include</primary></indexterm> "record-def.s"
 </programlisting>
 
 <para>
 These statements cause the given files to basically be pasted right there
 in the code.  You don't need to do this with functions, because the
-linker can take care of combining functions exported with 
-<literal>.globl</literal>.  However, constants defined in another file
+linker<indexterm><primary>linker</primary></indexterm> can take care of combining functions exported with 
+<literal>.globl<indexterm><primary>.globl</primary></indexterm></literal>.  However, constants<indexterm><primary>constants</primary></indexterm> defined in another file
 do need to be imported in this way.
 </para>
 
 <para>
 Also, you may have noticed the use of a new assembler directive, 
-<literal>.rept</literal>.  This directive repeats the contents of
-the file between the <literal>.rept</literal> and the <literal>.endr</literal>
+<literal>.rept<indexterm><primary>.rept</primary></indexterm></literal>.  This directive repeats the contents of
+the file between the <literal>.rept</literal> and the <literal>.endr<indexterm><primary>.endr</primary></indexterm></literal>
 directives the number of times specified after <literal>.rept</literal>.
-This is usually used the way we used it - to pad values in the 
-<literal>.data</literal> section.  In our case, we are adding null bytes
+This is usually used the way we used it - to pad<indexterm><primary>pad</primary></indexterm> values in the 
+<literal>.data<indexterm><primary>.data</primary></indexterm></literal> section.  In our case, we are adding null characters<indexterm><primary>null characters</primary></indexterm>
 to the end of each field until they are their defined lengths.
 </para>
 
@@ -205,7 +205,8 @@ ld write-record.o write-records.o -o write-records
 
 <para>
 Here we are assembling two files separately, and then combining them
-together using the linker.  To run the program, just type the following:
+together using the linker<indexterm><primary>linker</primary></indexterm>.  
+To run the program, just type the following:
 </para>
 
 <programlisting>
@@ -233,15 +234,15 @@ with each record.
 <para>
 Since each person's name is a different length, we will need a function
 to count the number of characters we want to write.  Since we pad each
-field with null characters, we can simply count characters until we 
-reach a null byte.<footnote><para>If you have used C, this is what
-the <literal>strlen</literal> function does.</para></footnote>
+field with null characters<indexterm><primary>null characters</primary></indexterm>, we can simply count characters until we 
+reach a null character.<footnote><para>If you have used C, this is what
+the <literal>strlen<indexterm><primary>strlen</primary></indexterm></literal> function does.</para></footnote>
 Note that this means our records must contain at least
-one null byte each.  
+one null character each.  
 </para>
 
 <para>
-Here is the code.  Put it in a file called <literal>count-chars.s</literal>:
+Here is the code.  Put it in a file called <filename>count-chars.s</filename>:
 </para>
 
 <programlisting>
@@ -251,7 +252,7 @@ Here is the code.  Put it in a file called <literal>count-chars.s</literal>:
 <para>
 As you can see, it's a fairly straightforward function.  It simply 
 loops through the bytes, counting as it goes, until it hits a null 
-byte.  Then it returns the count.
+character.  Then it returns the count.
 </para>
 
 <para>
@@ -318,17 +319,17 @@ The one construct that might be new is the line that says:
 <para>
 It looks like we are combining and add instruction with a push instruction,
 but we are not.  You see, both <literal>RECORD_FIRSTNAME</literal> and
-<literal>record_buffer</literal> are constants.  The first is a direct
-constant, created through the use of a <literal>.equ</literal> directive,
-while the latter is defined automatically by the assemble through its use
-as a label (it's value being the address that the data that follows it will
+<literal>record_buffer</literal> are constants<indexterm><primary>constants</primary></indexterm>.  The first is a direct
+constant, created through the use of a <literal>.equ<indexterm><primary>.equ</primary></indexterm></literal> directive,
+while the latter is defined automatically by the assembler<indexterm><primary>assembler</primary></indexterm> through its use
+as a label (it's value being the address<indexterm><primary>address</primary></indexterm> that the data that follows it will
 start at).  Since they are both constants that the assembler knows, it
 is able to add them together while it is assembling your program, so the
-whole instruction is a single immediate-mode push of a single constant.
+whole instruction is a single immediate-mode<indexterm><primary>immediate mode addressing</primary></indexterm> push of a single constant.
 </para>
 
 <para>
-The <literal>RECORD_FIRSTNAME</literal> constant is the number of bytes
+The <literal>RECORD_FIRSTNAME</literal> constant<indexterm><primary>constant</primary></indexterm> is the number of bytes
 after the beginning of a record before we hit the first name.
 <literal>record_buffer</literal> is the name of our buffer for holding
 records.  Adding them together gets us the address of the first name
@@ -377,7 +378,11 @@ ld add-year.o read-record.o write-record.o -o add-year
 </programlisting>
 
 <para>
-To run the program, just type in the following<footnote><para>This is assuming you created the file in a previous run of <literal>write-records</literal>.  If not, you need to run <literal>write-records</literal> first before running this program.</para></footnote>:
+To run the program, just type in the following<footnote>
+<para>This is assuming you created the file in a previous run of 
+<literal>write-records</literal>.  If not, you need to run 
+<literal>write-records</literal> first before running this 
+program.</para></footnote>:
 </para>
 
 <programlisting>
@@ -393,10 +398,10 @@ and write the new records to the file <filename>testout.dat</filename>.
 As you can see, writing fixed-length records is pretty simple.  You 
 only have to read in blocks of data to a buffer, process them, and write
 them back out.  Unfortunately, this program doesn't write the new ages
-out so you can verify your program's effectiveness.  This is because we
+out to the screen so you can verify your program's effectiveness.  This is because we
 won't get to displaying numbers until <xref linkend="linking" /> and
 <xref linkend="countingchapter" />.
-After reading that, you may want to come back and rewrite this program to
+After reading those you may want to come back and rewrite this program to
 display the numeric data that we are modifying.
 </para>
 
