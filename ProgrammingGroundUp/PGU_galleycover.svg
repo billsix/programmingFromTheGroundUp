@@ -7,10 +7,11 @@
    sodipodi:version="0.32"
    width="8in"
    height="9.75in"
-   sodipodi:docname="PGU_galleycover.svg"
+   sodipodi:docname="/home/johnnyb/Projects/BartlettPublishing/Books/PGU/ProgrammingGroundUp/Move3/PGU_galleycover.svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink">
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   sodipodi:docbase="/home/johnnyb/Projects/BartlettPublishing/Books/PGU/ProgrammingGroundUp/Move3/">
   <defs
      id="defs550" />
   <sodipodi:namedview
@@ -18,226 +19,221 @@
      showgrid="true"
      gridspacingy="0.19685in"
      gridspacingx="0.19685in" />
+  <rect
+     style="font-size:12;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     id="rect696"
+     width="808.077515"
+     height="924.707275"
+     x="-27.7689857"
+     y="-8.33068848" />
   <text
      style="fill:black;stroke:none;font-family:Bitstream Charter;font-style:normal;font-weight:normal;font-size:20;fill-opacity:1;stroke-opacity:1;stroke-width:1pt;stroke-linejoin:miter;stroke-linecap:butt;text-anchor:start;writing-mode:lr;"
      x="96.5775681"
-     y="96.8306732"
+     y="110.715179"
      id="text551">
     <tspan
        x="96.5775681"
-       y="96.8306732"
+       y="110.715179"
        sodipodi:role="line"
-       id="tspan1238">
+       id="tspan625">
 Programming from the Ground Up</tspan>
     <tspan
        x="96.5775681"
-       y="116.830673"
+       y="130.715179"
        sodipodi:role="line"
-       id="tspan1240">
+       id="tspan627">
 by Jonathan Bartlett</tspan>
     <tspan
        x="96.5775681"
-       y="136.830673"
+       y="150.715179"
        sodipodi:role="line"
-       id="tspan1242">
+       id="tspan629">
 </tspan>
     <tspan
        x="96.5775681"
-       y="156.830673"
+       y="170.715179"
        sodipodi:role="line"
-       id="tspan1244">
-Pre-Publication Advance Review Copy. </tspan>
+       id="tspan631">
+Pre-Publication Advance Review Copy.</tspan>
     <tspan
        x="96.5775681"
-       y="176.830673"
+       y="190.715179"
        sodipodi:role="line"
-       id="tspan1246">
+       id="tspan633">
 Index and Appendices Included.</tspan>
     <tspan
        x="96.5775681"
-       y="196.830673"
+       y="210.715179"
        sodipodi:role="line"
-       id="tspan1248">
+       id="tspan635">
 328 pgs. $34.95 retail.  7.5&quot;x9.25&quot;.  Perfect Bound.</tspan>
     <tspan
        x="96.5775681"
-       y="216.830673"
+       y="230.715179"
        sodipodi:role="line"
-       id="tspan1250">
+       id="tspan637">
 </tspan>
     <tspan
        x="96.5775681"
-       y="236.830673"
+       y="250.715179"
        sodipodi:role="line"
-       id="tspan1252">
+       id="tspan639">
 ISBN 0-9752838-4-7</tspan>
     <tspan
        x="96.5775681"
-       y="256.830673"
+       y="270.715179"
        sodipodi:role="line"
-       id="tspan1254">
+       id="tspan641">
 Library of Congress Control Number: 2004091465</tspan>
     <tspan
        x="96.5775681"
-       y="276.830673"
+       y="290.715179"
        sodipodi:role="line"
-       id="tspan1256">
-COMPUTERS / Programming Languages / Assembly Language</tspan>
+       id="tspan643">
+Computers / Programming Languages / Assembly Language</tspan>
     <tspan
        x="96.5775681"
-       y="296.830673"
+       y="310.715179"
        sodipodi:role="line"
-       id="tspan1258">
+       id="tspan645">
 CIP pending</tspan>
     <tspan
        x="96.5775681"
-       y="316.830673"
+       y="330.715179"
        sodipodi:role="line"
-       id="tspan1260">
+       id="tspan647">
 </tspan>
     <tspan
        x="96.5775681"
-       y="336.830673"
+       y="350.715179"
        sodipodi:role="line"
-       id="tspan1262">
+       id="tspan649">
 Published by:</tspan>
     <tspan
        x="96.5775681"
-       y="356.830673"
+       y="370.715179"
        sodipodi:role="line"
-       id="tspan1264">
+       id="tspan651">
 Bartlett Publishing</tspan>
     <tspan
        x="96.5775681"
-       y="376.830673"
+       y="390.715179"
        sodipodi:role="line"
-       id="tspan1266">
+       id="tspan653">
 4208 W San Anwtonio</tspan>
     <tspan
        x="96.5775681"
-       y="396.830673"
+       y="410.715179"
        sodipodi:role="line"
-       id="tspan1268">
+       id="tspan655">
 Broken Arrow, OK 74012</tspan>
     <tspan
        x="96.5775681"
-       y="416.830673"
+       y="430.715179"
        sodipodi:role="line"
-       id="tspan1270">
+       id="tspan657">
 http://www.bartlettpublishing.com/</tspan>
     <tspan
        x="96.5775681"
-       y="436.830673"
+       y="450.715179"
        sodipodi:role="line"
-       id="tspan1272">
+       id="tspan659">
 info@bartlettpublishing.com</tspan>
     <tspan
        x="96.5775681"
-       y="456.830673"
+       y="470.715179"
        sodipodi:role="line"
-       id="tspan1274">
+       id="tspan661">
 </tspan>
     <tspan
        x="96.5775681"
-       y="476.830673"
+       y="490.715179"
        sodipodi:role="line"
-       id="tspan1276">
-Distributed by Ingram and Baker and Taylor.</tspan>
-    <tspan
-       x="96.5775681"
-       y="496.830673"
-       sodipodi:role="line"
-       id="tspan1278">
-</tspan>
-    <tspan
-       x="96.5775681"
-       y="516.830673"
-       sodipodi:role="line"
-       id="tspan1280">
+       id="tspan663">
 Short description:</tspan>
     <tspan
        x="96.5775681"
-       y="536.830673"
+       y="510.715179"
        sodipodi:role="line"
-       id="tspan1282">
-An introduction to computer programming using Linux </tspan>
+       id="tspan665">
+An introduction to computer programming using Linux</tspan>
     <tspan
        x="96.5775681"
-       y="556.830673"
+       y="530.715179"
        sodipodi:role="line"
-       id="tspan1284">
-assembly language.  One of the few books that teach </tspan>
+       id="tspan667">
+assembly language.  One of the few books that teach</tspan>
     <tspan
        x="96.5775681"
-       y="576.830673"
+       y="550.715179"
        sodipodi:role="line"
-       id="tspan1286">
-programming starting from the perspective of the machine </tspan>
+       id="tspan669">
+programming starting from the perspective of the machine</tspan>
     <tspan
        x="96.5775681"
-       y="596.830673"
+       y="570.715179"
        sodipodi:role="line"
-       id="tspan1288">
+       id="tspan671">
 itself.</tspan>
     <tspan
        x="96.5775681"
-       y="616.830673"
+       y="590.715179"
        sodipodi:role="line"
-       id="tspan1290">
+       id="tspan673">
 </tspan>
     <tspan
        x="96.5775681"
-       y="636.830673"
+       y="610.715179"
        sodipodi:role="line"
-       id="tspan1292">
+       id="tspan675">
 Author Bio:</tspan>
     <tspan
        x="96.5775681"
-       y="656.830673"
+       y="630.715179"
        sodipodi:role="line"
-       id="tspan1294">
-Jonathan Bartlett is the Director of Technology at </tspan>
+       id="tspan677">
+Jonathan Bartlett is the Director of Technology at</tspan>
     <tspan
        x="96.5775681"
-       y="676.830673"
+       y="650.715179"
        sodipodi:role="line"
-       id="tspan1296">
-New Media Worx.  He has been the lead developer for </tspan>
+       id="tspan679">
+New Media Worx.  He has been the lead developer for</tspan>
     <tspan
        x="96.5775681"
-       y="696.830673"
+       y="670.715179"
        sodipodi:role="line"
-       id="tspan1298">
-many projects at several companies including </tspan>
+       id="tspan681">
+many projects at several companies including</tspan>
     <tspan
        x="96.5775681"
-       y="716.830673"
+       y="690.715179"
        sodipodi:role="line"
-       id="tspan1300">
+       id="tspan683">
 New Media Worx and Wolfram Research.</tspan>
     <tspan
        x="96.5775681"
-       y="736.830673"
+       y="710.715179"
        sodipodi:role="line"
-       id="tspan1302">
+       id="tspan685">
 </tspan>
     <tspan
        x="96.5775681"
-       y="756.830673"
+       y="730.715179"
        sodipodi:role="line"
-       id="tspan1304">
-An electronic pre-publication edition of this book is being </tspan>
+       id="tspan687">
+An electronic pre-publication edition of this book is being</tspan>
     <tspan
        x="96.5775681"
-       y="776.830673"
+       y="750.715179"
        sodipodi:role="line"
-       id="tspan1306">
-used this semester at Princeton University in their </tspan>
+       id="tspan689">
+used this semester at Princeton University in their</tspan>
     <tspan
        x="96.5775681"
-       y="796.830673"
+       y="770.715179"
        sodipodi:role="line"
-       id="tspan1308">
+       id="tspan691">
 COS 217 &quot;Introduction to Programming Systems&quot; class.</tspan>
   </text>
 </svg>
