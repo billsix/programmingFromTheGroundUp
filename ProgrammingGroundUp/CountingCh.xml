@@ -244,7 +244,7 @@ from the bottom up you have 11101011001001.
 Each digit in a binary number is called a <emphasis>bit</emphasis>, which
 stands for <emphasis>binary digit</emphasis>.  Computers divide up
 their memory into storage locations called bytes.  Each storage location 
-on an IA32 computer (and most others) is 8 bits long.  Earlier we said
+on an x86 processor (and most others) is 8 bits long.  Earlier we said
 that a byte can hold any number between 0 and 255.  The reason for this
 is that the largest number you can fit into 8 bits is 255.  You can
 see this for yourself if you convert binary 11111111 into decimal:
@@ -261,7 +261,7 @@ number you can hold in 32 bits is 4294967295 (4 billion).  The largest
 number you can hold in 64 bits is 18,446,744,073,709,551,615.  The
 largest number you can hold in 128 bits is
 340,282,366,920,938,463,463,374,607,431,768,211,456.  Anyway, you
-see the picture.  For IA32, most of the time you will deal with 4-byte
+see the picture.  For x86 processors, most of the time you will deal with 4-byte
 numbers (32 bits), because that's the size of the registers.
 </para>
 
@@ -320,6 +320,7 @@ can come up with.
 <para>
 Not only can you do regular arithmetic with binary numbers, they also have
 a few operations of their own.  The standard binary operations are
+</para>
 
 <itemizedlist>
 <listitem><para>AND</para></listitem>
@@ -328,15 +329,32 @@ a few operations of their own.  The standard binary operations are
 <listitem><para>XOR</para></listitem>
 </itemizedlist>
 
+<para>
 Before we look at examples, I'll describe them for you.
 AND takes two bits and returns one bit.  AND will return a 1 only if
 both bits are 1, and a 0 otherwise.  For example, 1 AND 1 is 1, but
-1 AND 0 is 0, 0 AND 1 is 0, and 0 AND 0 is 0.  OR takes two bits
+1 AND 0 is 0, 0 AND 1 is 0, and 0 AND 0 is 0.  
+</para>
+
+<para>
+OR takes two bits
 and returns one bit.  It will return 1 if either of the original bits
 is 1.  For example, 1 OR 1 is 1, 1 OR 0 is one, 0 OR 1 is 1, but 0 OR 0
-is 0.  NOT only takes one bit, and returns it's opposite NOT 1 is 0 and
-NOT 0 is 1.  Finally, XOR is like OR, except it returns 0 if both bits
-are 1.  Computers can do these operations on whole registers at a time.
+is 0.
+</para>
+
+<para>
+NOT only takes one bit, and returns it's opposite NOT 1 is 0 and
+NOT 0 is 1.  
+</para>
+
+<para>
+Finally, XOR is like OR, except it returns 0 if both bits
+are 1.
+</para>
+
+<para>
+Computers can do these operations on whole registers at a time.
 For example, if a register has 10100010101010010101101100101010 and
 another one has 10001000010101010101010101111010, you can run any of
 these operations on the whole registers.  For example, if we were to
@@ -382,8 +400,8 @@ returns 0.
 </programlisting>
 
 This is the same two numbers used in the OR operation, so you can 
-compare how they work.  Also, if you XOR a number with itself, you get 
-0, like this:
+compare how they work.  Also, if you XOR a number with itself, you 
+will always get 0, like this:
 
 <programlisting>
 10100010101010010101101100101010 XOR 
@@ -526,7 +544,7 @@ Shift left  10010111 = 00101110
 Rotate left 10010111 = 00101111
 </programlisting>
 
-Notice that if you rotate a number for every digit it has, you wind up
+Notice that if you rotate a number for every digit it has (i.e. - rotating a 32-bit number 32 times), you wind up
 with the same number.  However, if you shift a number for every digit 
 you have, you wind up with 0.  So, what are these shifts useful for?
 Well, if you have binary numbers representing things, you use shifts
