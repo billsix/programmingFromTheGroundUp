@@ -238,5 +238,46 @@ important  ones.
 
 </sect1>
 
+<sect1>
+<title>Review</title>
+
+<sect2>
+<title>Know the Concepts</title>
+
+<itemizedlist>
+<listitem><para>What is a register?  How would computation be more difficult without registers?</para></listitem>
+<listitem><para>How do you represent numbers larger than 255?</para></listitem>
+<listitem><para>How big are the registers on the machines we will be using?</para></listitem>
+<listitem><para>How does a computer know how to interpret a given byte or set of bytes of memory?</para></listitem>
+<listitem><para>What are the addressing modes and what are they used for?</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+
+<sect2>
+<title>Use the Concepts</title>
+
+<itemizedlist>
+<listitem><para>What data would you use in an employee record?  How would you lay it out in memory?</para></listitem>
+<listitem><para>If I had the pointer the the beginning of the employee record above, and wanted to access a particular piece of data inside of it, what addressing mode would I use?</para></listitem>
+<listitem><para>Write a paragraph describing how to increase the customer's age by one year in the customer record in this chapter.  Assume that the register &eax; has the pointer to the record stored.  Do not use any pronouns.  At each step, make sure you are explicit as to where the intermediate results will be stored.</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+
+<sect2>
+<title>Going Further</title>
+
+<itemizedlist>
+<listitem><para>What are the minimum number of addressing modes needed for computation?</para></listitem>
+<listitem><para>Why include addressing modes that aren't strictly needed?</para></listitem>
+</itemizedlist>
+
+</sect2>
+
+</sect1>
+
 </chapter>
 
