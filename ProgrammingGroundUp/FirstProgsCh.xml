@@ -548,7 +548,7 @@ the skipping around increases dramatically.
 </para>
 
 <para>
-These "if"s are a class of instructions called <emphasis>flow control<indexterm><primary>flow control</primary></indexterm></emphasis> instructions, because they tell the compute which steps
+These "if"s are a class of instructions called <emphasis>flow control<indexterm><primary>flow control</primary></indexterm></emphasis> instructions, because they tell the computer which steps
 to follow and which paths to take.  In the previous program, we did not
 have any flow control instructions, as there was only one possible path to
 take - exit.  This program is much more dynamic in that it is directed by
@@ -731,7 +731,7 @@ I could have put the length of the list as the first item, or in a separate
 location.  I also could have made a symbol which marked the last location
 of the list items.  No matter how I do it, I must have some method of 
 determining the end of the list.  The computer knows nothing -
-it can only do what its told.  It's not going to stop processing unless I give
+it can only do what it is told.  It's not going to stop processing unless I give
 it some sort of signal.  Otherwise it would continue processing past the end
 of the list into the data that follows it, and even to locations where 
 we haven't put any data.
@@ -915,7 +915,7 @@ to at the end of our loop.  Then we have these instructions:
 
 <programlisting>
 	cmpl $0, %eax
-	je end_loop
+	je loop_exit
 </programlisting>
 
 <para>
@@ -926,7 +926,7 @@ This compare instruction also affects a register not mentioned here, the
 and has many uses which we will discuss later.  Just be aware that the
 result of the comparison is stored in the status register.  The next line
 is a flow control<indexterm><primary>flow control</primary></indexterm> instruction which says to 
-<emphasis>jump</emphasis> to the <literal>end_loop</literal> location
+<emphasis>jump</emphasis> to the <literal>loop_exit</literal> location
 if the values that were just compared are equal (that's what the 
 <literal>e</literal>
 of <literal>je</literal> means).  It uses the status register to hold the 
@@ -1067,7 +1067,7 @@ and call the kernel to exit. Like this:
 
 <programlisting>
 	movl $1, %eax
-	int  0x80
+	int  $0x80
 </programlisting>
 
 <para>
@@ -1266,7 +1266,7 @@ For a more comprehensive list of instructions, see <xref linkend="instructionsap
 <sect2>
 <title>Know the Concepts</title>
 <itemizedlist>
-<listitem><para>What does if mean if a line in the program starts with the '#' character?</para></listitem>
+<listitem><para>What does it mean if a line in the program starts with the '#' character?</para></listitem>
 <listitem><para>What is the difference between an assembly language file and an object code file?</para></listitem>
 <listitem><para>What does the linker do?</para></listitem>
 <listitem><para>How do you check the result status code of the last program you ran?</para></listitem>

@@ -328,7 +328,7 @@ address.  If the length of the fields within our records could change,
 we would have no idea where the next field started.  Because records
 would be different sizes, it would also be hard to find where the
 next record began.  Therefore, almost all records are of fixed lengths.
-Variable-length data is usually store separately from the rest of the
+Variable-length data is usually stored separately from the rest of the
 record.
 </para>
 

@@ -62,7 +62,7 @@ power:
 	movl  %esp, %ebp     #make stack pointer the base pointer
 	subl  $4, %esp       #get room for our local storage
 
-	movl  8(%ebp), %ebx  #put first argument in %eax
+	movl  8(%ebp), %ebx  #put first argument in %ebx
 	movl  12(%ebp), %ecx #put second argument in %ecx
 
 	movl  %ebx, -4(%ebp) #store current result

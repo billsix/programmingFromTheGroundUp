@@ -399,7 +399,7 @@ subl $8, %esp
 This subtracts 8 from &esp; (remember, a word is four bytes 
 long).<footnote><para>Just a reminder - the dollar sign in
 front of the eight indicates immediate mode addressing<indexterm><primary>immediate mode addressing</primary></indexterm>, meaning
-that we load the number 8 into &esp; rather than the value at
+that we subtract the number 8 itself from &esp; rather than the value at
 address 8.</para></footnote>  This way, we can use the stack for
 variable storage without worring about clobbering them with pushes
 that we may make for function calls.  Also, since it is allocated on 
@@ -486,11 +486,11 @@ frame ends.
 </para>
 
 <para>
-Control has now beenhanded back to the calling code,
+Control has now been handed back to the calling code,
 which can now examine &eax-indexed; for the return value<indexterm><primary>return value</primary></indexterm>.  The calling
 code also needs to pop off all of the parameters it 
 pushed onto the stack in order to get the stack pointer<indexterm><primary>stack pointer</primary></indexterm>
-back where it was (you can also simply add 4 * number of paramters
+back where it was (you can also simply add 4 * number of parameters
 to &esp-indexed; using the <literal>addl</literal> instruction, if 
 you don't need the values of the parameters anymore).<footnote><para>This is not always strictly needed unless you are saving registers on the stack before a function call.  The base pointer keeps the stack frame in a reasonably consistent state.  However, it is still a good idea, and is absolutely necessary if you are temporarily saving registers on the stack..</para></footnote>
 </para>
@@ -505,7 +505,7 @@ started with is &ebp-indexed;.  &eax-indexed; is guaranteed to be overwritten,
 and the others likely are.  If there are registers you want
 to save before calling a function, you need to save them by
 pushing them on the stack<indexterm><primary>stack</primary></indexterm> before pushing the function's 
-paramters.  You can then pop them back off in reverse order
+parameters.  You can then pop them back off in reverse order
 after popping off the parameters.  Even if you know a function
 does not overwrite a register you should save it, because
 future versions of that function may.
@@ -519,7 +519,6 @@ place the burden on the function to save any registers it uses.  Be sure
 to check to make sure the calling conventions of your languages 
 are compatible before trying to mix languages.  Or in the case of assembly
 language, be sure you know how to call the other language's functions.
-them.
 </para>
 </warning>
 
@@ -547,7 +546,7 @@ Let's take a look at how a function call<indexterm><primary>function call</prima
 function we are going to write is the <literal>power</literal>
 function.  We will give the power function two parameters -
 the number and the power we want to raise it to.  For example,
-if we gave it the paramters 2 and 3, it would raise 2 to the
+if we gave it the parameters 2 and 3, it would raise 2 to the
 power of 3, or 2*2*2, giving 8.  In order to make this
 program simple, we will only allow numbers 1 and greater.
 </para>
@@ -909,7 +908,7 @@ it will have other values, too.
 <para>
 Next, we check to see if we've hit our base case (a parameter of 1).  If
 so, we jump to the instruction at the label <literal>end_factorial</literal>,
-where it will be returned.  Et's already in &eax; which
+where it will be returned.  It's already in &eax; which
 we mentioned earlier is where you put return values<indexterm><primary>return values</primary></indexterm>.  That is accomplished
 by these lines:
 </para>
@@ -1055,7 +1054,7 @@ should deepen your understanding of what is going on.
 <listitem><para>Do you think it's better for a system to have a large set of primitives or a small one, assuming that the larger set can be written in terms of the smaller one?</para></listitem>
 <listitem><para>The factorial function can be written non-recursively.  Do so.</para></listitem>
 <listitem><para>Find an application on the computer you use regularly.  Try to locate a specific feature, and practice breaking that feature out into functions.  Define the function interfaces between that feature and the rest of the program.</para></listitem>
-<listitem><para>Come up with your own calling convention.  Rewrite the programs in this chapter using it.  An example of a different calling convention would be to pass paramters in registers rather than the stack, to pass them in a different order, to return values in other registers or memory locations.  Whatever you pick, be consistent and apply it throughout the whole program.</para></listitem>
+<listitem><para>Come up with your own calling convention.  Rewrite the programs in this chapter using it.  An example of a different calling convention would be to pass parameters in registers rather than the stack, to pass them in a different order, to return values in other registers or memory locations.  Whatever you pick, be consistent and apply it throughout the whole program.</para></listitem>
 <listitem><para>Can you build a calling convention without using the stack?  What limitations might it have?</para></listitem>
 <listitem><para>What test cases should we use in our example program to check to see if it is working properly?</para></listitem>
 </itemizedlist>

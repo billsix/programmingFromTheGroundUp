@@ -195,7 +195,7 @@ computer languages.
 Linux<indexterm><primary>Linux</primary></indexterm> is the name
 of the <emphasis>kernel</emphasis>.  The kernel<indexterm><primary>kernel</primary></indexterm> is the core part of an
 operating system that keeps track of everything.  The kernel is
-both an fence and a gate.  As a gate, it allows programs
+both a fence and a gate.  As a gate, it allows programs
 to access hardware in a uniform way.  Without the kernel, you would have
 to write programs to deal with every device model ever made.  The kernel
 handles all device-specific interactions so you don't have to.  It also handles
