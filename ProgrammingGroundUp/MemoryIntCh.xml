@@ -303,7 +303,7 @@ the processor to pretend that this memory is actually at the address
 <para>
 Each program gets its own sandbox to play in.  Every program running
 on your computer thinks that it was loaded at memory address 0x0804800,
-and that it's stack starts at 0xbffffff.  When Linux loads a program,
+and that its stack starts at 0xbffffff.  When Linux loads a program,
 it finds a section of unused memory, and then tells the processor to use
 that section of memory as the address 0x0804800 for this program.  The
 address that a program believes it uses is called the 
@@ -412,7 +412,7 @@ usually recoverable if you start terminating your memory-hungry programs, but it
 <note>
 <title>Resident Set Size</title>
 <para>
-The amount of memory that your program currently has in physical memory is called it's
+The amount of memory that your program currently has in physical memory is called its
 resident set size<indexterm><primary>resident set size</primary></indexterm>, and
 can be viewed by using the program <literal>top</literal>.  The resident set size
 is listed under the column labelled "RSS".
@@ -930,7 +930,7 @@ allocations.  On allocation number 1000, you have to search through 999 memory r
 to find that you have to request more memory.  As you can see, that's getting pretty
 slow.  In addition, remember that Linux can keep pages of memory on disk instead of in
 memory.  So, since you have to go through every piece of memory your program's memory, that means that Linux
-has to load every part of memory that's currently on disk to check to see if its available.  
+has to load every part of memory that's currently on disk to check to see if it is available.  
 You can see how this could get really, really slow.<footnote><para>This is why adding more
 memory to your computer makes it run faster.  The more memory your computer has, the
 less it puts on disk, so it doesn't have to always be interrupting your programs to

@@ -162,7 +162,7 @@ terms if you want to learn more about the CPU.
 
 <para>
 Computer memory<indexterm><primary>computer memory</primary></indexterm> is a numbered sequence of fixed-size storage locations.  
-The number attached to each storage location is called it's 
+The number attached to each storage location is called its 
 <emphasis>address<indexterm><primary>address</primary></indexterm></emphasis>.  The size of a single storage location
 is called a <emphasis>byte</emphasis>.  On x86 processors, a byte<indexterm><primary>bytes</primary></indexterm> 
 is a number between 0 and 255.  
@@ -225,7 +225,16 @@ Registers keep the contents of numbers that you are currently manipulating.
 On the computers
 we are using, registers are each four bytes long.  The size of a typical
 register is called a computer's <emphasis>word<indexterm><primary>word</primary></indexterm></emphasis> size.  x86 processors have four-byte words.  This means that it is most natural on
-these computers to do computations four bytes at a time.  This gives us
+these computers to do computations four bytes at a time.<footnote>
+<para>
+Previous incarnations of x86 processors only had two-byte words.  Therefore,
+most other literature dealing with x86 processors refers to two-byte entities
+as words for historical reasons, and therefore refer to four-byte entities as 
+double-words.  We are using the term <emphasis>word</emphasis> to mean the 
+normal register size of a computer, which in this case is four bytes.  More
+information is available in <xref linkend="instructionsappendix" />,
+</para></footnote>
+  This gives us
 roughly 4 billion values.
 </para>
 
@@ -297,8 +306,8 @@ this:
 Start of Record:
      Customer's name (50 bytes) - start of record
      Customer's address (50 bytes) - start of record + 50 bytes
-     Customer's age (1 word - 4 bytes) - start of record + 100 bytes
-     Customer's id number (1 word - 4 bytes) - start of record + 104 bytes
+     Customer's age (1 word = 4 bytes) - start of record + 100 bytes
+     Customer's id number (1 word = 4 bytes) - start of record + 104 bytes
 </programlisting>
 
 This way, given the address of a customer record, you know where the rest

@@ -44,7 +44,7 @@ told about.
 </para>
 
 <para>
-The data items a function is given to process are called it's 
+The data items a function is given to process are called its 
 <emphasis>parameters<indexterm><primary>parameters</primary></indexterm></emphasis>.  In the word processing example, the
 key which was pressed and the document would be considered parameters 
 to the <literal>handle_typed_characters</literal> function.  The parameter
@@ -447,7 +447,7 @@ When a function is done executing, it does three things:
 </para>
 
 <orderedlist>
-<listitem><para>It stores it's return value in &eax-indexed;.</para></listitem>
+<listitem><para>It stores its return value in &eax-indexed;.</para></listitem>
 <listitem><para>It resets the stack to what it was when it was called (it gets rid of the current stack frame<indexterm><primary>stack frame</primary></indexterm> and puts the stack frame of the calling code back into effect).</para></listitem>
 <listitem><para>It returns control back to wherever it was called from.  This is done using the 
 <literal>ret<indexterm><primary>ret</primary></indexterm></literal> instruction, which pops whatever
@@ -481,7 +481,7 @@ disposed of.</emphasis>  The reason is that after you move the stack
 pointer back, future stack pushes will likely overwrite everything
 you put there.  Therefore, you should never save the address
 of a local variable<indexterm><primary>local variables</primary></indexterm> past the life of the function it was 
-created in, or else it will be overwritten after the life of it's stack 
+created in, or else it will be overwritten after the life of its stack 
 frame ends.  
 </para>
 
@@ -566,7 +566,7 @@ power for different values, but remember that the result
 has to be less than 256 when it is passed back to the operating
 system.  Also try subtracting the results of the two 
 computations.  Try adding a third call to the 
-<literal>power</literal> function, and add it's result
+<literal>power</literal> function, and add its result
 back in.  
 </para>
 

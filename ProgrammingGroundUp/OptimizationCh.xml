@@ -264,7 +264,7 @@ indirect is next, and base pointer<indexterm><primary>base pointer addressing mo
 Try to use the faster addressing modes, when possible.  One interesting
 consequence of this is that when you have a structured piece of memory 
 that you are accessing using base pointer addressing, the first element can 
-be accessed the quickest.  Since it's offset is 0, you can access it using 
+be accessed the quickest.  Since its offset is 0, you can access it using 
 indirect addressing instead of base pointer addressing, which makes it 
 faster.
 </para></listitem>

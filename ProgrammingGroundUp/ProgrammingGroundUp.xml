@@ -136,7 +136,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <surname>Bruno</surname>
 <lineage>Jr.</lineage>
 </editor>
-<copyright><year>2003</year><holder>Jonathan Bartlett</holder></copyright>
+<copyright><year>2004</year><holder>Jonathan Bartlett</holder></copyright>
 <!-- NOTE - I'll add these back in when the DSSSL stylesheets actually support them -->
 <!-- NOTE - I have to at least use DocBook 4.2 to get these entities, which means I have to point RH to a special catalog file because the XML 4.2 version is messed up (uses SGML directory instead of XML) -->
 <!--<biblioid class="isbn">0-9752838-4-7</biblioid>-->

@@ -508,7 +508,7 @@ and use indirect addressing<indexterm><primary>indirect addressing mode</primary
 <title>Getting GCC to Help</title>
 
 <para>
-One of the nice things about GCC<indexterm><primary>GCC</primary></indexterm> is it's ability to spit out assembly
+One of the nice things about GCC<indexterm><primary>GCC</primary></indexterm> is its ability to spit out assembly
 language code.  To convert a C language file to assembly, you can simply
 do:
 </para>

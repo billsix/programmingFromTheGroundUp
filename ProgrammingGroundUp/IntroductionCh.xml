@@ -72,8 +72,9 @@ foundations so you can easily go wherever you want afterwards.
 
 <para>
 There is somewhat of a chicken and egg problem in teaching programming,
-especially assembly language.  There is a lot to learn - it's almost too
-much to learn almost at once, but each piece depends on all the others.
+especially assembly language.  There is a lot to learn - it is almost too
+much to learn almost at all at once.  However, each piece depends on all 
+the others, which makes learning it a piece at a time difficult.
 Therefore, you must be patient with yourself and the computer while 
 learning to program.  If you don't understand something the first time,
 reread it.  If you still don't understand it, it is sometimes best to

@@ -151,7 +151,7 @@ return values and error codes are also stored in &eax;.
 	<entry>file descriptor</entry>
 	<entry>request</entry>
 	<entry>arguments</entry>
-	<entry>This is used to set parameters on device files.  It's actual usage varies based on the type of file or device your descriptor references.</entry>
+	<entry>This is used to set parameters on device files.  Its actual usage varies based on the type of file or device your descriptor references.</entry>
 </row>
 <!--
 <row>

@@ -528,7 +528,7 @@ mov  [8 + %ebx + 1 * edi], eax
 </programlisting>
 
 <para>
-The memory reference is a bit easier to read than it's AT&amp;T counterpart
+The memory reference is a bit easier to read than its AT&amp;T counterpart
 because it spells out exactly how the address
 will be computed.  However, but the order of operands in Intel syntax can be 
 confusing.

@@ -352,7 +352,7 @@ is 0.
 </para>
 
 <para>
-NOT only takes one bit, and returns it's opposite NOT 1 is 0 and
+NOT only takes one bit and returns its opposite.  NOT 1 is 0 and
 NOT 0 is 1.  
 </para>
 

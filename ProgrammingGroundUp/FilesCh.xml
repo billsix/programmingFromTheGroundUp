@@ -418,7 +418,7 @@ ASCII<indexterm><primary>ASCII</primary></indexterm> code tables
 themselves (see <xref linkend="asciilisting" />).  You'll
 notice that the number for the character <literal>A</literal> is 65 and the 
 character <literal>a</literal> is 97.  The conversion factor is then -32.
-For any lowercase letter if you add -32, you will get it's 
+For any lowercase letter if you add -32, you will get its 
 capital equivalent.
 </para>
 
@@ -575,7 +575,7 @@ success or failure.  In failure cases, &eax; will hold an error
 code instead of a return value.  Error codes are negative, so they
 can be detected by comparing &eax-indexed; to zero and jumping if it
 is less than zero.</para></footnote>  The file
-descriptor is then transferred to it's appropriate place on the
+descriptor is then transferred to its appropriate place on the
 stack.
 </para>
 

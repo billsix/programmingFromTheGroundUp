@@ -298,7 +298,7 @@ the processor to pretend that this memory is actually at the address
 <para>
 Each program gets its own sandbox to play in.  Every program running
 on your computer thinks that it was loaded at memory address 0x0804800,
-and that it's stack starts at 0xbffffff.  When Linux loads a program,
+and that its stack starts at 0xbffffff.  When Linux loads a program,
 it finds a section of memory, and then tells the processor to use
 that section of memory as the address 0x0804800 for this program.  The
 address that a program believes it uses is called the virtual address,
@@ -344,7 +344,7 @@ Otherwise, Linux will have to keep moving pages on and off of disk to keep up
 with you.  Disk access is slow, so this can really slow down your program.  Also,
 if you have a lot of programs that are all moving around too fast into memory, your
 machine can get so bogged down moving pages on and off of disk that the system
-becomes unusable.  Programmers call this <emphasis>swap death</emphasis>.  It's
+becomes unusable.  Programmers call this <emphasis>swap death</emphasis>.  It is
 usually recoverable if you start terminating your programs, but it's a pain.
 </para>
 
@@ -446,7 +446,7 @@ A local variable is a variable that is allocated on the stack when a procedure i
 variable is declared as above, and is allocated when the program begins.  So, global variables last
 for the length of the program, while local variables only last for the run of the procedure.  It is
 good programming practice to use as few global variables as possible, but there are some cases
-where its unavoidable.  We will look more at local variables later.
+where it is unavoidable.  We will look more at local variables later.
 </para>
 
 <para>
@@ -682,7 +682,7 @@ the available flag is set to <literal>UNAVAILABLE</literal>, you go to the code
 labeled <literal>next_location</literal>.  If the available flag is set to
 <literal>AVAILABLE</literal>, then we keep on going.  This is known as 
 <emphasis>falling through</emphasis>, because we didn't test for this condition and
-jump to another location - this is the default.  We didn't have to jump here, it's
+jump to another location - this is the default.  We didn't have to jump here, it is
 just the next instruction.  
 </para>
 

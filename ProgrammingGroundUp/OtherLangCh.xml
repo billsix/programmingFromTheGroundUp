@@ -104,7 +104,7 @@ So why does one choose one language over another?
 For example, many choose Perl because it has a vast library of functions
 for handling just about every protocol or type of data on the planet.
 Python, however, has a cleaner syntax and often lends itself to more 
-straightforward solutions.  It's cross-platform GUI tools are also excellent.  
+straightforward solutions.  Its cross-platform GUI tools are also excellent.  
 PHP makes writing web applications simple.  Common LISP has more power and
 features than any other environment for those willing to learn it.  Scheme is
 the model of simplicity and power combined together.  C is easy to interface
@@ -177,7 +177,7 @@ preprocessor is done and the main compiler goes to work.
 <para>
 Now, everything in <filename>stdio.h</filename> is
 now in your program just as if you typed it there yourself.  The angle brackets
-around the filename tell the compiler to look in it's standard
+around the filename tell the compiler to look in its standard
 paths for the file (<filename>/usr/include<indexterm><primary>/usr/include</primary></indexterm></filename> and 
 <filename>/usr/local/include<indexterm><primary>/usr/local/include</primary></indexterm></filename>, usually).  If it was
 in quotes, like <literal>#include "stdio.h"</literal> it would
@@ -307,7 +307,7 @@ according to the computer's memory architecture, which meant that strings
 had to be treated as a sequence of multiple values, with a pointer to the
 first letter.  Perl pretends that strings can be stored directly as values,
 and thus hides the complication of manipulating them for you.  In fact,
-one of Perl's main strengths is it's ability and speed at manipulating
+one of Perl's main strengths is its ability and speed at manipulating
 text.  
 </para>
 

@@ -114,7 +114,7 @@ main compiler.  This directive tells the preprocessor to look
 for the file <filename>stdio.h</filename> and paste it into
 your program.  So, everything in <filename>stdio.h</filename> is
 now in your program just as if you typed it there yourself.  The angle brackets
-around the filename tell the compiler to look in it's standard
+around the filename tell the compiler to look in its standard
 paths for the file (<filename>/usr/include</filename> and 
 <filename>/usr/local/include</filename>, usually).  If it was
 in quotes, like <literal>#include "stdio.h"</literal> it would

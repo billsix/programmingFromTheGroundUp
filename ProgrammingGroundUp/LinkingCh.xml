@@ -252,7 +252,7 @@ do you find out what libraries you have on your system and what
 they do?  Well, let's skip that question for a minute and ask another
 question: How do programmers describe functions to each other in their 
 documentation?  Let's
-take a look at the function <literal>printf</literal>.  It's calling interface<indexterm><primary>calling interface</primary></indexterm>
+take a look at the function <literal>printf</literal>.  Its calling interface<indexterm><primary>calling interface</primary></indexterm>
 (usually referred to as a <emphasis>prototype<indexterm><primary>prototype</primary></indexterm></emphasis>) looks like this:
 </para>
 
@@ -528,7 +528,7 @@ library include:
 <listitem><para><literal>size_t strlen<indexterm><primary>strlen</primary></indexterm> (const char *s)</literal> calculates the size of null-terminated strings.</para></listitem>
 <listitem><para><literal>int strcmp<indexterm><primary>strcmp</primary></indexterm> (const char *s1, const char *s2)</literal> compares two strings alphabetically.</para></listitem>
 <listitem><para><literal>char * strdup<indexterm><primary>strdup</primary></indexterm> (const char *s)</literal> takes the pointer to a string, and creates a new copy in a new location, and returns the new location.</para></listitem>
-<listitem><para><literal>FILE * fopen<indexterm><primary>fopen</primary></indexterm> (const char *filename, const char *opentype)</literal> opens a managed, buffered file (allows easier reading and writing than using file descriptors directly).<footnote><para><literal>stdin</literal>, <literal>stdout</literal>, and <literal>stderr</literal> (all lower case) can be used in these programs to refer to the files of their corresponding file descriptors.</para></footnote><footnote><para><literal>FILE</literal> is a struct.  You don't need to know it's contents to use it.  You only have to store the pointer and pass it to the relevant other functions.</para></footnote></para></listitem>
+<listitem><para><literal>FILE * fopen<indexterm><primary>fopen</primary></indexterm> (const char *filename, const char *opentype)</literal> opens a managed, buffered file (allows easier reading and writing than using file descriptors directly).<footnote><para><literal>stdin</literal>, <literal>stdout</literal>, and <literal>stderr</literal> (all lower case) can be used in these programs to refer to the files of their corresponding file descriptors.</para></footnote><footnote><para><literal>FILE</literal> is a struct.  You don't need to know its contents to use it.  You only have to store the pointer and pass it to the relevant other functions.</para></footnote></para></listitem>
 <listitem><para><literal>int fclose<indexterm><primary>fclose</primary></indexterm> (FILE *stream)</literal> closes a file opened with <literal>fopen</literal>.</para></listitem>
 <listitem><para><literal>char * fgets<indexterm><primary>fgets</primary></indexterm> (char *s, int count, FILE *stream)</literal> fetches a line of characters into string <literal>s</literal>.</para></listitem>
 <listitem><para><literal>int fputs<indexterm><primary>fputs</primary></indexterm> (const char *s, FILE *stream)</literal> writes a string to the given open file.</para></listitem>

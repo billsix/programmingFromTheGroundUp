@@ -157,7 +157,7 @@ makes the widget be the contents of the application window
 This must be called on every widget created (application 
 window, buttons, text entry boxes, etc) in order
 for them to be visible.  However, in order for a given 
-widget to be visible, all of it's parents must be visible 
+widget to be visible, all of its parents must be visible 
 as well.
 </para></listitem>
 </varlistentry>
@@ -180,7 +180,7 @@ NULL, which is 0.
 <varlistentry>
 <term>gtk_main</term>
 <listitem><para>
-This function causes GNOME to enter into it's main loop.
+This function causes GNOME to enter into its main loop.
 To make application programming easier, GNOME handles the
 main loop of the program for us.  GNOME will check for
 events and call the appropriate callback functions when
@@ -193,7 +193,7 @@ handler.
 <varlistentry>
 <term>gtk_main_quit</term>
 <listitem><para>
-This function causes GNOME to exit it's main loop at the
+This function causes GNOME to exit its main loop at the
 earliest opportunity.
 </para></listitem>
 </varlistentry>
