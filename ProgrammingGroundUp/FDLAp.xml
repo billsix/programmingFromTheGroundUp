@@ -2,8 +2,8 @@
 
    <title>GNU Free Documentation License</title>
 
-  <sect1 id="fdl-preamble">
-    <title>0. PREAMBLE</title>
+    <para><literal>0. PREAMBLE</literal></para>
+
     <para>
       The purpose of this License is to make a manual, textbook, or
       other written document <quote>free</quote> in the sense of
@@ -32,9 +32,9 @@
       printed book. We recommend this License principally for works
       whose purpose is instruction or reference.
     </para>
-  </sect1>
-  <sect1 id="fdl-section1">
-    <title>1. APPLICABILITY AND DEFINITIONS</title>
+
+	<para><literal>1. APPLICABILITY AND DEFINITIONS</literal></para>
+
     <para id="fdl-document">
       This License applies to any manual or other work that contains a
       notice placed by the copyright holder saying it can be
@@ -122,10 +122,9 @@
       most prominent appearance of the work's title, preceding the
       beginning of the body of the text.
     </para>
-  </sect1>
-    
-  <sect1 id="fdl-section2">
-    <title>2. VERBATIM COPYING</title>
+   
+	<para><literal>2. VERBATIM COPYING</literal></para>
+
     <para>
       You may copy and distribute the <link
       linkend="fdl-document">Document</link> in any medium, either
@@ -137,18 +136,16 @@
       control the reading or further copying of the copies you make or
       distribute. However, you may accept compensation in exchange for
       copies. If you distribute a large enough number of copies you
-      must also follow the conditions in <link
-      linkend="fdl-section3">section 3</link>.
+      must also follow the conditions in 
+      section 3.
     </para>
     
     <para>
       You may also lend copies, under the same conditions stated
       above, and you may publicly display copies.
     </para>
-    </sect1>
     
-  <sect1 id="fdl-section3">
-    <title>3. COPYING IN QUANTITY</title>
+    <para><literal>3. COPYING IN QUANTITY</literal></para>
     <para>
       If you publish printed copies of the <link
       linkend="fdl-document">Document</link> numbering more than 100,
@@ -200,16 +197,14 @@
       redistributing any large number of copies, to give them a chance
       to provide you with an updated version of the Document.
     </para>
-    </sect1>
     
-  <sect1 id="fdl-section4">
-    <title>4. MODIFICATIONS</title>
+    <para><literal>4. MODIFICATIONS</literal></para>
     <para>
       You may copy and distribute a <link
       linkend="fdl-modified">Modified Version</link> of the <link
       linkend="fdl-document">Document</link> under the conditions of
-      sections <link linkend="fdl-section2">2</link> and <link
-      linkend="fdl-section3">3</link> above, provided that you release
+      sections 2 and 
+      3 above, provided that you release
       the Modified Version under precisely this License, with the
       Modified Version filling the role of the Document, thus
       licensing distribution and modification of the Modified Version
@@ -449,14 +444,13 @@
       assert or imply endorsement of any <link
       linkend="fdl-modified">Modified Version </link>.
     </para>
-  </sect1>
     
-  <sect1 id="fdl-section5">
-    <title>5. COMBINING DOCUMENTS</title>
+    <para><literal>5. COMBINING DOCUMENTS</literal></para>
+
     <para>
       You may combine the <link linkend="fdl-document">Document</link>
       with other documents released under this License, under the
-      terms defined in <link linkend="fdl-section4">section 4</link>
+      terms defined in section 4
       above for modified versions, provided that you include in the
       combination all of the <link linkend="fdl-invariant">Invariant
       Sections</link> of all of the original documents, unmodified,
@@ -485,10 +479,8 @@
       and any sections entitled <quote>Dedications</quote>.  You must
       delete all sections entitled <quote>Endorsements.</quote>
     </para>
-    </sect1>
     
-  <sect1 id="fdl-section6">
-    <title>6. COLLECTIONS OF DOCUMENTS</title>
+    <para><literal>6. COLLECTIONS OF DOCUMENTS</literal></para>
     <para>
       You may make a collection consisting of the <link
       linkend="fdl-document">Document</link> and other documents
@@ -506,10 +498,8 @@
       follow this License in all other respects regarding verbatim
       copying of that document.
     </para>
-    </sect1>
     
-  <sect1 id="fdl-section7">
-    <title>7. AGGREGATION WITH INDEPENDENT WORKS</title>
+    <para><literal>7. AGGREGATION WITH INDEPENDENT WORKS</literal></para>
     <para>
       A compilation of the <link
       linkend="fdl-document">Document</link> or its derivatives with
@@ -522,24 +512,22 @@
       other self-contained works thus compiled with the Document , on
       account of their being thus compiled, if they are not themselves
       derivative works of the Document.  If the <link
-      linkend="fdl-cover-texts">Cover Text</link> requirement of <link
-      linkend="fdl-section3">section 3</link> is applicable to these
+      linkend="fdl-cover-texts">Cover Text</link> requirement of 
+      section 3 is applicable to these
       copies of the Document, then if the Document is less than one
       quarter of the entire aggregate, the Document's Cover Texts may
       be placed on covers that surround only the Document within the
       aggregate. Otherwise they must appear on covers around the whole
       aggregate.
     </para>
-    </sect1>
     
-  <sect1 id="fdl-section8">
-    <title>8. TRANSLATION</title>
+    <para><literal>8. TRANSLATION</literal></para>
+
     <para>
       Translation is considered a kind of modification, so you may
       distribute translations of the <link
-      linkend="fdl-document">Document</link> under the terms of <link
-      linkend="fdl-section4">section 4</link>. Replacing <link
-      linkend="fdl-invariant"> Invariant Sections</link> with
+      linkend="fdl-document">Document</link> under the terms of 
+      section 4. Replacing  Invariant Sections with
       translations requires special permission from their copyright
       holders, but you may include translations of some or all
       Invariant Sections in addition to the original versions of these
@@ -549,10 +537,8 @@
       translation and the original English version of this License,
       the original English version will prevail.
     </para>
-    </sect1>
     
-  <sect1 id="fdl-section9">
-    <title>9. TERMINATION</title>
+    <para><literal>9. TERMINATION</literal></para>
     <para>
       You may not copy, modify, sublicense, or distribute the <link
       linkend="fdl-document">Document</link> except as expressly
@@ -563,10 +549,8 @@
       License will not have their licenses terminated so long as such
       parties remain in full compliance.
     </para>
-    </sect1>
     
-  <sect1 id="fdl-section10">
-    <title>10. FUTURE REVISIONS OF THIS LICENSE</title>
+    <para><literal>10. FUTURE REVISIONS OF THIS LICENSE</literal></para>
     <para>
       The <ulink type="http"
       url="http://www.gnu.org/fsf/fsf.html">Free Software
@@ -590,10 +574,8 @@
       you may choose any version ever published (not as a draft) by
       the Free Software Foundation.
     </para>
-  </sect1>
 
-  <sect1 id="fdl-using">
-    <title>Addendum</title>
+    <para><literal>Addendum</literal></para>
     <para>
       To use this License in a document you have written, include a copy of
       the License in the document and put the following copyright and
@@ -636,7 +618,6 @@
       url="http://www.gnu.org/copyleft/gpl.html"> GNU General Public
       License</ulink>, to permit their use in free software.
     </para>
-  </sect1>
 </appendix>  
 
 
