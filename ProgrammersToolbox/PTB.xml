@@ -12,6 +12,7 @@
 <!ENTITY Continuations SYSTEM "Continuations.xml">
 <!ENTITY OtherVariableScopes SYSTEM "OtherVariableScopes.xml">
 <!ENTITY LazyProgramming SYSTEM "LazyProgramming.xml">
+<!ENTITY Ambiguous SYSTEM "Ambiguous.xml">
 <!ENTITY EvaluatingLanguages SYSTEM "EvaluatingLanguages.xml">
 ]>
 <book>
@@ -53,6 +54,7 @@
 &Continuations;
 &OtherVariableScopes;
 &LazyProgramming;
+&Ambiguous;
 </part>
 
 &EvaluatingLanguages;
