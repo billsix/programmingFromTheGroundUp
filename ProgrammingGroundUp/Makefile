@@ -13,6 +13,9 @@ ProgrammingGroundUp.pdf: ProgrammingGroundUp.tex
 	pdfjadetex ProgrammingGroundUp.tex
 	pdfjadetex ProgrammingGroundUp.tex
 	pdfjadetex ProgrammingGroundUp.tex
+
+draft: ProgrammingGroundUp.tex
+	$(JADE) -t tex -d programming.dsl#printdraft xml.dcl ProgrammingGroundUp.xml
 	pdfjadetex ProgrammingGroundUp.tex
 
 ProgrammingGroundUp.tex: $(FULLBOOK)
@@ -29,18 +32,16 @@ HTML.index: $(BOOKNOINDEX)
 
 index: index.xml
 
-clean:
+semiclean:
 	rm -f ProgrammingGroundUp.log
 	rm -f ProgrammingGroundUp.aux
 	rm -f ProgrammingGroundUp.tex
 	rm -f ProgrammingGroundUp.dvi
+	rm -f ProgrammingGroundUp.ps
+
+clean: semiclean
 	rm -f HTML.index
 	rm -f index.xml
-
-realclean: clean
-	rm -f ProgrammingGroundUp.pdf
-	rm -f ProgrammingGroundUp.ps
-	rm -rf html/
 
 download:
 	scp -C johnnyb@eskimo.com:/u/j/johnnyb/Projects/ProgrammingGroundUp/*.* .

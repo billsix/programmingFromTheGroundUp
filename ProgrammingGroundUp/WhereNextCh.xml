@@ -21,6 +21,143 @@ science.
 </para>
 
 <para>
+There are essentially three methods to learn to program:
+</para>
+
+<itemizedlist>
+<listitem><para>From the Bottom Up - This is how this book teaches.  It starts with low-level programming, and works toward more generalized teaching.</para></listitem>
+<listitem><para>From the Top Down - This is the opposite direction.  This focuses on what you want to do with the computer, and teaches you how to break it down more and more until you get to the low levels.</para></listitem>
+<listitem><para>From the Middle - This is characterized by books which teach a specific programming language or API.  These are not as concerned with concepts as they are with specifics.</para></listitem>
+</itemizedlist>
+
+<para>
+Different people like different approaches, but a good programmer takes all of 
+them into account.  The bottom-up approaches help you understand the machine 
+aspects, the top-down approaches help you understand the problem-area aspects,
+and the middle approaches help you with practical questions and answers.  To
+leave any of these aspects out would be a mistake.
+</para>
+
+<para>
+Computer Programming is a vast subject.  As a programmer, you will need
+to be prepared to be constantly learning and pushing your limits.  These
+books will help you do that.  They not only teach their subjects, but also
+teach various ways and methods of <emphasis>thinking</emphasis>.  As
+Alan Perlis said, "A language that doesn't affect the way you think about
+programming is not worth knowing" 
+(http://www.cs.yale.edu/homes/perlis-alan/quotes.html).  If you are 
+constantly looking for new and better ways of doing and thinking, you
+will make a successful programmer.  If you do not seek to enhance yourself,
+"A little sleep, a little slumber, a little folding of the hands to rest - 
+and poverty will come on you like a bandit and scarcity like an armed man."
+(Proverbs 24:33-34 NIV).  Perhaps not quite that severe, but still, it's best
+to always be learning.
+</para>
+
+<para>
+These books were selected because of their content and the amount of respect
+they have in the computer science world.  Each of them brings something
+unique.  There are many books here.  The best way to start would be to
+look through online reviews of several of the books, and find a starting
+point that interests you.
+</para>
+
+<sect1>
+<title>From the Bottom Up</title>
+
+<para>
+This list is in the best reading order I could find.  It's not necessarily
+easiest to hardest, but based on subject matter.  
+</para>
+
+<itemizedlist>
+<listitem><para><citetitle>Programming from the Ground Up</citetitle> by Jonathan Bartlett</para></listitem>
+<listitem><para><citetitle>Introduction to Algorithms</citetitle> by Thomas H. Cormen, Charles E. Leiserson, and Ronald L. Rivest</para></listitem>
+<listitem><para><citetitle>The Art of Computer Programming</citetitle> by Donald Knuth (3 volume set - volume 1 is the most important)</para></listitem>
+<listitem><para><citetitle>Programming Languages</citetitle> by Samuel N. Kamin</para></listitem>
+<listitem><para><citetitle>Modern Operating Systems</citetitle> by Andrew Tanenbaum</para></listitem>
+<listitem><para><citetitle>Linkers and Loaders</citetitle> by John Levine</para></listitem>
+<listitem><para><citetitle>Computer Organization and Design: The Hardware/Software Interface</citetitle> by David Patterson and John Hennessy</para></listitem>
+</itemizedlist>
+
+</sect1>
+
+<sect1>
+<title>From the Top Down</title>
+
+<para>
+These books are arranged from the simplest to the hardest.  However, they
+can be read in any order you feel comfortable with.
+</para>
+
+<itemizedlist>
+<listitem><para><citetitle>How to Design Programs</citetitle> by Matthias Felleisen, Robert Bruce Findler, Matthew Flatt, and Shiram Krishnamurthi, available online at http://www.htdp.org/</para></listitem>
+<listitem><para><citetitle>Simply Scheme: An Introduction to Computer Science</citetitle> by Brian Harvey and Matthew Wright</para></listitem>
+<listitem><para><citetitle>How to Think Like a Computer Scientist: Learning with Python</citetitle> by Allen Downey, Jeff Elkner, and Chris Meyers, available online at http://www.greenteapress.com/thinkpython/</para></listitem>
+<listitem><para><citetitle>Structure and Interpretation of Computer Programs</citetitle> by Harold Abelson and Gerald Jay Sussman with Julie Sussman, available online at http://mitpress.mit.edu/sicp/</para></listitem>
+<listitem><para><citetitle>Design Patterns</citetitle> by Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides</para></listitem>
+<listitem><para><citetitle>What not How: The Rules Approach to Application Development</citetitle> by Chris Date</para></listitem>
+<listitem><para><citetitle>The Algorithm Design Manual</citetitle> by Steve Skiena</para></listitem>
+<listitem><para><citetitle>Programming Language Pragmatics</citetitle> by Michael Scott</para></listitem>
+<listitem><para><citetitle>Essentials of Programming Languages</citetitle> by Daniel P. Friedman, Mitchell Wand, and Christopher T. Haynes</para></listitem>
+</itemizedlist>
+
+</sect1>
+
+<sect1>
+<title>From the Middle Out</title>
+
+<para>
+Each of these is the best book on its subject.  If you need to know these
+languages, these will tell you all you need to know.
+</para>
+
+<itemizedlist>
+<listitem><para><citetitle>Programming Perl</citetitle> by Larry Wall, Tom Christiansen, and Jon Orwant</para></listitem>
+<listitem><para><citetitle>Common LISP: The Language</citetitle> by Guy R. Steele</para></listitem>
+<listitem><para><citetitle>ANSI Common LISP</citetitle> by Paul Graham</para></listitem>
+<listitem><para><citetitle>The C Programming Language</citetitle> by Brian W. Kernighan and Dennis M. Ritchie</para></listitem>
+<listitem><para><citetitle>The Waite Group's C Primer Plus</citetitle> by Stephen Prata</para></listitem>
+<listitem><para><citetitle>The C++ Programming Language</citetitle> by Bjarne Stroustrup</para></listitem>
+<listitem><para><citetitle>Thinking in Java</citetitle> by Bruce Eckel, available online at http://www.mindview.net/Books/TIJ/</para></listitem>
+<listitem><para><citetitle>The Scheme Programming Language</citetitle> by Kent Dybvig</para></listitem>
+<listitem><para><citetitle>Linux Assembly Language Programming</citetitle> by Bob Neveln</para></listitem>
+</itemizedlist>
+
+</sect1>
+
+<sect1>
+<title>Specialized Topics</title>
+
+<para>
+These books are the best books that cover their topic.  They are thorough and
+authoritative.  To get a broad base of knowledge, you should read several
+outside of the areas you normally program in.
+</para>
+
+<itemizedlist>
+<listitem><para>Practical Programming - <citetitle>Programming Pearls</citetitle> and <citetitle>More Programming Pearls</citetitle> by Jon Louis Bentley</para></listitem>
+<listitem><para>Databases - <citetitle>Understanding Relational Databases</citetitle> by Fabian Pascal</para></listitem>
+<listitem><para>Project Management - <citetitle>The Mythical Man-Month</citetitle> by Fred P. Brooks</para></listitem>
+<listitem><para>UNIX Programming - <citetitle>The Art of UNIX Programming</citetitle> by Eric S. Raymond, available online at http://www.catb.org/~esr/writings/taoup/</para></listitem>
+<listitem><para>UNIX Programming - <citetitle>Advanced Programming in the UNIX Environment</citetitle> by W. Richard Stevens</para></listitem>
+<listitem><para>Network Programming - <citetitle>UNIX Network Programming</citetitle> (2 volumes) by W. Richard Stevens</para></listitem>
+<listitem><para>Generic Programming - <citetitle>Modern C++ Design</citetitle> by Andrei Alexandrescu</para></listitem>
+<listitem><para>Compilers - <citetitle>The Art of Compiler Design: Theory and Practice</citetitle> by Thomas Pittman and James Peters</para></listitem>
+<listitem><para>Compilers - <citetitle>Advanced Compiler Design and Implementation</citetitle> by Steven Muchnick</para></listitem>
+<listitem><para>Development Process - <citetitle>Refactoring: Improving the Design of Existing Code</citetitle> by Martin Fowler, Kent Beck, John Brant, William Opdyke, and Don Roberts</para></listitem>
+<listitem><para>Typesetting - <citetitle>Computers and Typesetting</citetitle (5 volumes) by Donald Knuth</para></listitem>
+<listitem><para>Cryptography - <citetitle>Applied Cryptography</citetitle> by Bruce Schneier</para></listitem>
+<listitem><para>Linux - <citetitle>Professional Linux Programming by Neil Matthew, Richard Stones, and 14 other people</para></listitem>
+<listitem><para>Linux Kernel - <citetitle>Linux Device Drivers</citetitle> by Alessandro Rubini and Jonathan Corbet</para></listitem>
+<listitem><para>Open Source Programming - <citetitle>The Cathedral and the Bazaar: Musings on Linux and Open Source by an Accidental Revolutionary</citetitle> by Eric S. Raymond</para></listitem>
+<listitem><para>Computer Architecture - <citetitle>Computer Architecture: A Quantitative Approach</citetitle> by David Patterson and John Hennessy</para></listitem>
+</itemizedlist>
+
+</sect1>
+
+<!--
+<para>
 As you learn more, continue trying to build it upon the foundation you
 have already laid.  When you learn new languages and APIs, remember that
 they all eventually go down to the assembly language level.  It's nothing
@@ -59,7 +196,6 @@ databases is probably the best way to gain skill in this area.<footnote>
 databases and logical data organization.</para></footnote>  Books that
 will help you in this area are:
 
-<!-- FIXME - Dominique suggested Boole -->
 <itemizedlist>
 <listitem><para></para></listitem>
 </itemizedlist>
@@ -84,8 +220,6 @@ help you understand data structure design much better.
 The following books are great ones for learning about data structures:
 
 <itemizedlist>
-<listitem><para><citetitle>The Art of Computer Programming</citetitle> by Donald Knuth (3 volume set - volume 1 is the most important)</para></listitem>
-<listitem><para><citetitle>Data Structures in C++ using the Standard Template Library</citetitle> by Timothy Budd</para></listitem>
 </itemizedlist>
 </para>
 
@@ -101,7 +235,6 @@ programming works, but not how to go about designing and writing a
 large-scale program.   The best books on this subject are:
 
 <itemizedlist>
-<listitem><para><citetitle>Structure and Interpretation of Computer Programs</citetitle> by Harold Abelson and Gerald Jay Sussman with Julie Sussman, available online at <ulink url="http://mitpress.mit.edu/sicp/">http://mitpress.mit.edu/sicp/</ulink></para></listitem>
 </itemizedlist>
 
 In addition to these books, one of the best ways to learn good program
@@ -133,8 +266,6 @@ when outsourcing is an option.
 Books on project management include:
 
 <itemizedlist>
-<listitem><para><citetitle>The Mythical Man-Month</citetitle> by Fred P. Brooks</para></listitem>
-<!-- FIXME - Dominique suggests Cathedral and the Bazaar, Linus' "Just for Fun", and "Open Sources", which is available online.  Probably need an XP book as well, and maybe a waterfall book -->
 </itemizedlist>
 
 </para>
@@ -156,8 +287,6 @@ books you can read to get a good grasp on the subject, including:
 <itemizedlist>
 <listitem><para><remark>FIXME - what books go here?</remark></para></listitem>
 </itemizedlist>
-<!-- RUTE, Linux NAG, others? -->
-
 </para>
 
 </sect1>
@@ -209,4 +338,5 @@ Books with
 
 </sect2>
 </sect1>
+-->
 </chapter>

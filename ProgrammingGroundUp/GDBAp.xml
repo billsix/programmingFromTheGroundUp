@@ -276,9 +276,104 @@ it.
 <title>GDB Quick-Reference</title>
 
 <para>
-This quick-reference table is copyright 2000 Robert Dondero, and is used by
-permission in this book.
+This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and is used by
+permission in this book.  Parameters listed in brackets are optional.
 </para>
+
+<table>
+<title>Common GDB Debugging Commands</title>
+
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="command" colwidth="0.5*" />
+<colspec colname="meaning" colwidth="1*" />
+<thead>
+<row><entry namest="command" nameend="meaning">Miscellaneous</entry></row>
+</thead>
+<tbody>
+<row><entry>quit</entry><entry>Exit GDB</entry></row>
+<row><entry>help [cmd]</entry><entry>Print description of debugger command <literal>cmd</literal>.  Without <literal>cmd</literal>, prints a list of topics.</entry></row>
+<row><entry>directory [dir1] [dir2] ...</entry><entry>Add directories <literal>dir1</literal>, <literal>dir2</literal>, etc. to the list of directories searched for source files.</entry></row>
+</tbody>
+</tgroup>
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="command" />
+<colspec colname="meaning" />
+<thead>
+<row><entry namest="command" nameend="meaning">Running the Program</entry></row>
+</thead>
+<tbody>
+<row><entry>run [arg1] [arg2] ...</entry><entry>Run the program with command line arguments <literal>arg1</literal>, <literal>arg2</literal>, etc.</entry></row>
+<row><entry>set args arg1 [arg2] ...</entry><entry>Set the program's command-line arguments to <literal>arg1</literal>, <literal>arg2</literal>, etc.</entry></row>
+<row><entry>show args</entry><entry>Print the program's command-line arguments.</entry></row>
+</tbody>
+</tgroup>
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="command" />
+<colspec colname="meaning" />
+<thead>
+<row><entry namest="command" nameend="meaning">Using Breakpoints</entry></row>
+</thead>
+<tbody>
+<row><entry>info breakpoints</entry><entry>Print a list of all breakpoints and their numbers (breakpoint numbers are used for other breakpoint commands).</entry></row>
+<row><entry>break <emphasis>linenum</emphasis></entry><entry>Set a breakpoint at line number <emphasis>linenum</emphasis>.</entry></row>
+<row><entry>break *<emphasis>addr</emphasis></entry><entry>Set a breakpoint at memory address <emphasis>addr</emphasis>.</entry></row>
+<row><entry>break <emphasis>fn</emphasis></entry><entry>Set a breakpoint at the beginning of function <emphasis>fn</emphasis>.</entry></row>
+<row><entry>condition <emphasis>bpnum</emphasis> <emphasis>expr</emphasis></entry><entry>Break at breakpoint <emphasis>bpnum</emphasis> only if expression <emphasis>expr</emphasis> is non-zero.</entry></row>
+<row><entry>command [<emphasis>bpnum</emphasis>] <emphasis>cmd1</emphasis> [<emphasis>cmd2</emphasis>] ...</entry><entry>Execute commands <emphasis>cmd1</emphasis>, <emphasis>cmd2</emphasis>, etc. whenever breakpoint <emphasis>bpnum</emphasis> (or the current breakpoint) is hit.</entry></row>
+<row><entry>continue</entry><entry>Continue executing the program.</entry></row>
+<row><entry>kill</entry><entry>Stop executing the program.</entry></row>
+<row><entry>delete [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Delete breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
+<row><entry>clear *<emphasis>addr</emphasis></entry><entry>Clear the breakpoint at memory address <emphasis>addr</emphasis>.</entry></row>
+<row><entry>clear [<emphasis>fn</emphasis>]</entry><entry>Clear the breakpoint at function <emphasis>fn</emphasis>, or the current breakpoint.</entry></row>
+<row><entry>clear <emphasis>linenum</emphasis></entry><entry>Clear the breakpoint at line number <emphasis>linenum</emphasis>.</entry></row>
+<row><entry>disable [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Disable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
+<row><entry>enable [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ...</entry><entry>Enable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified.</entry></row>
+</tbody>
+</tgroup>
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="command" />
+<colspec colname="meaning" />
+<thead>
+<row><entry namest="command" nameend="meaning">Stepping through the Program</entry></row>
+</thead>
+<tbody>
+<row><entry>nexti</entry><entry>"Step over" the next instruction (doesn't follow function calls).</entry></row>
+<row><entry>stepi</entry><entry>"Step into" the next instruction (follows function calls).</entry></row>
+<row><entry>finish</entry><entry>"Step out" of the current function.</entry></row>
+</tbody>
+</tgroup>
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="command" />
+<colspec colname="meaning" />
+<thead>
+<row><entry namest="command" nameend="meaning">Examining Registers and Memory</entry></row>
+</thead>
+<tbody>
+<row><entry>info registers</entry><entry>Print the contents of all registers.</entry></row>
+<row><entry>print/<emphasis>f</emphasis> $<emphasis>reg</emphasis></entry><entry>Print the contents of register <emphasis>reg</emphasis> using format <emphasis>f</emphasis>.  The format can be x (hexadecimal), u (unsigned decimal), o (octal), a(address), c (character), or f (floating point).</entry></row>
+<row><entry>x/<emphasis>rsf</emphasis> <emphasis>addr</emphasis></entry><entry>Print the contents of memory address <emphasis>addr</emphasis> using repeat count <emphasis>r</emphasis>, size <emphasis>s</emphasis>, and format <emphasis>f</emphasis>.  Repeat count defaults to 1 if not specified.  Size can be b (byte), h (halfword), w (word), or g (double word).  Size defaults to word if not specified.  Format is the same as for print, with the additions of s (string) and i (instruction).</entry></row>
+<row><entry>info display</entry><entry>Shows a numbered list of expressions set up to display automatically at each break.</entry></row>
+<row><entry>display/<emphasis>f</emphasis> $<emphasis>reg</emphasis></entry><entry>At each break, print the contents of register <emphasis>reg</emphasis> using format <emphasis>f</emphasis>.</entry></row>
+<row><entry>display/<emphasis>s</emphasis>i addr</entry><entry>At each break, print the contents of memory address <emphasis>addr</emphasis> using size <emphasis>s</emphasis> (same options as for the x command).</entry></row>
+<row><entry>display/<emphasis>s</emphasis>s addr</entry><entry> At each break, print the string of size <emphasis>s</emphasis> that begins in memory address <emphasis>addr</emphasis>.</entry></row>
+<row><entry>undisplay <emphasis>displaynum</emphasis></entry><entry>Remove <emphasis>displaynum</emphasis> from the display list.</entry></row>
+</tbody>
+</tgroup>
+<tgroup cols="2" colsep="1" rowsep="1">
+<colspec colname="command" />
+<colspec colname="meaning" />
+<thead>
+<row><entry namest="command" nameend="meaning">Examining the Call Stack</entry></row>
+</thead>
+<tbody>
+<row><entry>where</entry><entry>Print the call stack.</entry></row>
+<row><entry>backtrace</entry><entry>Print the call stack.</entry></row>
+<row><entry>frame</entry><entry>Print the top of the call stack.</entry></row>
+<row><entry>up</entry><entry>Move the context toward the bottom of the call stack.</entry></row>
+<row><entry>down</entry><entry>Move the context toward the top of the call stack.</entry></row>
+</tbody>
+</tgroup>
+</table>
 
 </sect1>
 
