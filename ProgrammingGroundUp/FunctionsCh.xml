@@ -899,9 +899,8 @@ has the old &ebp;, <literal>4(%ebp)</literal> has the return address,
 and <literal>8(%ebp)</literal> is the location of the first parameter 
 to the function.  If you think back, this will be the value 4
 on the first call, since
-that was what we pushed on the stack before calling the function
-(with <literal>pushl $4</literal>).  
-parameter into <literal>%eax</literal>.  As this function calls itself,
+that was what we pushed on the stack before calling the function the
+first time (with <literal>pushl $4</literal>).  As this function calls itself,
 it will have other values, too.
 </para>
 
