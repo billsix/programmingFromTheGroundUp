@@ -121,21 +121,13 @@ computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in &eax;
 </entry></row>
 <row><entry>popl</entry><entry>R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Pops the top of the stack into the given location.  This is equivalent to performing the instructions:
-<programlisting>
-movl (%esp), R/M
-addl $4, %esp
-</programlisting>
+Pops the top of the stack into the given location.  This is equivalent to performing <literal>movl (%esp), R/M</literal> followed by <literal>addl $4, %esp</literal>.
 <literal>popfl</literal> is a variant which pops the top of the stack into the &eflags-indexed; register.
 </entry></row>
 <row><entry>pushl</entry><entry>I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Pushes the given value onto the stack.
-This is the equivalent to performing the instructions:
-<programlisting>
-subl $4, %esp
-movl I/R/M, (%esp)
-</programlisting>
+This is the equivalent to performing <literal>subl $4, %esp</literal> followed by <literal>movl I/R/M, (%esp)</literal>.
 <literal>pushfl</literal> is a variant which pushes the current contents of the &eflags-indexed; register onto the top of the stack.
 </entry></row>
 <row><entry>xchgl</entry><entry>R/M, R/M</entry><entry>O/S/Z/A/C</entry></row>
@@ -169,7 +161,7 @@ integers.
 <tbody>
 <row><entry>adcl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Add with carry.  Adds the first argument to the second, and, if there is an overflow, sets all listed flags to true.
+Add with carry.  Adds the first argument to the second, and, if there is an overflow, sets overflow and carry to true.
 </entry></row>
 <row><entry>addl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -177,36 +169,40 @@ Signed integer addition.
 </entry></row>
 <row><entry>cdq</entry><entry></entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Converts the &eax-indexed; into the double-word consisting of &edx-indexed;:&eax; with sign extension.
+Converts the &eax-indexed; word into the double-word consisting of &edx-indexed;:&eax; with sign extension.  The <literal>q</literal> signifies that it is a <emphasis>quad-word</emphasis>.  It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days.  This is usually used before issuing an <literal>idiv</literal> instruction.
 </entry></row>
 <row><entry>cmpl</entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Compares two integers.  It does this by subtracting the first operand from the second.  It discards the results, but sets the flags accordingly.
+Compares two integers.  It does this by subtracting the first operand from the second.  It discards the results, but sets the flags accordingly.  Usually used before a conditional jump.
 </entry></row>
 <row><entry>decl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Decrements the register or memory location.  Use <literal>decb</literal>
-to decrement a byte instead.
+to decrement a byte instead of a word.
 </entry></row>
 <row><entry>divl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Performs unsigned division.
+Performs unsigned division.  Divides the contents of the double-word contained in the combined &edx-indexed;:&eax-indexed; registers by the value in the register or memory location specified.  The &eax; register contains the resulting 
+quotient, and the &edx; register contains the resulting remainder.  If the 
+quotient is too large to fit in &eax;, it triggers a type 0 interrupt.
 </entry></row>
 <row><entry>idivl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Performs signed division.
+Performs signed division.  Operates just like <literal>divl</literal> above.
 </entry></row>
-<row><entry>imull</entry><entry>R, M/I</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>imull</entry><entry>R/M/I, R</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Performs signed multiplication.
+Performs signed multiplication and stores the result in the second operand.
+If the second operand is left out, it is assumed to be &eax;, and the full
+result is stored in the double-word &edx-indexed;:&eax-indexed;.
 </entry></row>
 <row><entry>incl</entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Increments the given register or memory location.
+Increments the given register or memory location.  Use <literal>incb</literal> to increment a byte instead of a word.
 </entry></row>
-<row><entry>mull</entry><entry>R/M</entry><entry>O/S/Z/A/P/C</entry></row>
+<row><entry>mull</entry><entry>R/M/I, R</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Perform unsigned multiplication.
+Perform unsigned multiplication.  Same rules as apply to <literal>imull</literal>.
 </entry></row>
 <row><entry>negl</entry><entry>R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -325,6 +321,7 @@ These instructions may alter the flow of the program.
 <row><entry namest="instruction" nameend="flags">
 This pushes what would be the next value for &eip; onto the stack, and jumps
 to the destination address.  Used for function calls.
+Alternatively, the destination address can be an asterisk followed by a register for an indirect function call.  For example, <literal>call *%eax</literal> will call the function at the address in &eax;.
 </entry></row>
 <row><entry>int</entry><entry>I</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -333,7 +330,9 @@ for system calls and other kernel interfaces.
 </entry></row>
 <row><entry>Jcc</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
+<para>
 Conditional branch.  <literal>cc</literal> is the <emphasis>condition code</emphasis>.  Jumps to the given address if the condition code is true (set from the previous instruction, probably a comparison).  Otherwise, goes to the next instruction.  The condition codes are:
+</para>
 <itemizedlist>
 <listitem><para><literal>[n]a[e]</literal> - above (unsigned greater than).  An <literal>n</literal> can be added for "not" and an <literal>e</literal> can be added for "or equal to"</para></listitem>
 <listitem><para><literal>[n]b[e]</literal> - below (unsigned less than)</para></listitem>
@@ -350,7 +349,7 @@ Conditional branch.  <literal>cc</literal> is the <emphasis>condition code</emph
 </entry></row>
 <row><entry>jmp</entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-An unconditional jump.  This simply sets &eip; to the destination address.
+An unconditional jump.  This simply sets &eip; to the destination address.  Alternatively, the destination address can be an asterisk followed by a register for an indirect jump.  For example, <literal>jmp *%eax</literal> will jump to the address in &eax;.
 </entry></row>
 <row><entry>ret</entry><entry></entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">

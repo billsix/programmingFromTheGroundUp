@@ -8,9 +8,12 @@ _start:
 	nop
 	nop
 	nop
-	call foo
+	movl $3, %eax
+	movl $2, %ecx
+	pushl $3
+	imull %ecx, (%esp)
+	movl (%esp), %ebx
 	movl $1, %eax
-	movl $0, %ebx
 	int $0x80
 
 .globl foo
