@@ -40,8 +40,7 @@ start_loop:	                  # start loop
 	jmp start_loop            # jump to loop beginning
 
 loop_exit:
-	# %ebx is the return value, and it already has the number
+	# %ebx is the status code for the exit system call
+	# and it already has the maximum number
         movl $1, %eax             #1 is the exit() syscall
         int  $0x80
-
-

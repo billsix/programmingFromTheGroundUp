@@ -9,8 +9,9 @@ import gnome.ui
 
 ####DEFINE CALLBACK FUNCTIONS FIRST####
 
-#In Python, functions have to be defined before they are used,
-#so we have to define our callback functions first.
+#In Python, functions have to be defined before 
+#they are used, so we have to define our callback 
+#functions first.
 
 def destroy_handler(event):
 	gtk.mainquit()
@@ -42,10 +43,12 @@ def click_handler(event):
 ####MAIN PROGRAM####
 
 #Create new application window
-myapp = gnome.ui.GnomeApp("gnome-example", "Gnome Example Program")
+myapp = gnome.ui.GnomeApp(
+	"gnome-example", "Gnome Example Program")
 
 #Create new button
-mybutton = gtk.GtkButton("I Want to Quit the GNOME Example program")
+mybutton = gtk.GtkButton(
+	"I Want to Quit the GNOME Example program")
 myapp.set_contents(mybutton)
 
 #Makes the button show up 

@@ -26,7 +26,8 @@ _start:
 	pushl numberloved    #This is the %d
 	pushl $personstring  #This is the second %s
 	pushl $name          #This is the first %s
-	pushl $firststring   #This is the format string in the prototype
+	pushl $firststring   #This is the format string 
+	                     #in the prototype
 	call  printf
 
 	pushl $0

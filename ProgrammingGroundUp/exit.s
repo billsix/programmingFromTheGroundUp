@@ -15,8 +15,6 @@
 
 	#VARIABLES:
 	#          %eax holds the system call number 
-	#          (this is always the case)
-	#
 	#          %ebx holds the return status 
 	#
 	.section .data

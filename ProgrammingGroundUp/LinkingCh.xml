@@ -1,7 +1,6 @@
 <chapter id="linking">
 <title>Sharing Functions with Code Libraries</title>
 
-<remark>Need to also include scanf and other input mechanisms.</remark>
 <!--
 
 Copyright 2002 Jonathan Bartlett
@@ -629,7 +628,7 @@ setenv LD_LIBRARY_PATH .
 
 <para>
 Now, you can run <literal>write-records</literal> normally by typing
-<command>./write-records</command>.  Setting 
+<literal>./write-records</literal>.  Setting 
 <literal>LD_LIBRARY_PATH</literal> tells the linker to add whatever
 paths you give it to the library search path for dynamic libraries
 </para>

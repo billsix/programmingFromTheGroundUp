@@ -1019,7 +1019,7 @@ should deepen your understanding of what is going on.
 <title>Use the Concepts</title>
 
 <itemizedlist>
-<listitem><para>Write a function called <literal>square</literal> which receives 1 argument and returns the square of that argument.</para></listitem>
+<listitem><para>Write a function called <literal>square</literal> which receives one argument and returns the square of that argument.</para></listitem>
 <listitem><para>Write a program to test your <literal>square</literal> function.</para></listitem>
 <listitem><para>Convert the maximum program given in <xref linkend="maximum" /> so that it is a function which takes a pointer to several values and returns their maximum.  Write a program that calls maximum with 3 different lists, and returns the result of the last one as the program's exit status code.</para></listitem>
 <listitem><para>Explain the problems that would arise without a standard calling convention.</para></listitem>

@@ -255,7 +255,7 @@ to use to run the program.  The <literal>#!</literal> tells the computer
 that this is an interpreted program, and the 
 <filename>/usr/bin/perl</filename> tells the computer to use the program
 <filename>/usr/bin/perl</filename> to interpret the program.  However, since
-we ran the program by typing in <command>perl Hello-World.pl</command>, we
+we ran the program by typing in <literal>perl Hello-World.pl</literal>, we
 had already specified that we were using the perl interpreter.
 </para>
 
@@ -316,7 +316,7 @@ You should be able to tell what the different lines of the program do.
 <title>Use the Concepts</title>
 
 <itemizedlist>
-<listitem><para>Learn the basic syntax of a new programming language.  Recode one of the programs in this book in that language.</para></listitem>
+<listitem><para>Learn the basic syntax of a new programming language.  Re-code one of the programs in this book in that language.</para></listitem>
 <listitem><para>In the program you wrote in the question above, what specific things were automated in the programming language you chose?</para></listitem>
 <listitem><para>Modify your program so that it runs 10,000 times in a row, both in assembly language and in your new language.  Then run the <literal>time</literal> command to see which is faster.  Which does come out ahead?  Why do you think that is?</para></listitem>
 <listitem><para>How does the programming language's input/output methods differ from that of the Linux system calls?</para></listitem>
@@ -374,7 +374,7 @@ The ones we mainly use are <literal>.data</literal> and
 and the linker will put everything in a section together.  Let's
 take a look at one of our files.  Let's look at the 
 <literal>toupper</literal> file we created earlier.  If you
-run the command <command>objdump -h toupper</command>, you will
+run the command <literal>objdump -h toupper</literal>, you will
 get a listing that looks like this:
 </para>
 </sect2>

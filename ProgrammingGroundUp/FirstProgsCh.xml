@@ -281,7 +281,8 @@ memory location.
 </para>
 
 <para>
-On x86 processors, there are several general-purpose registers<indexterm><primary>general-purpose registers</primary></indexterm> which can be used with <literal>movl</literal>:
+On x86 processors, there are several general-purpose registers<indexterm><primary>general-purpose registers</primary></indexterm><footnote><para>Note that on x86 processors, even the general-purpose registers have some special purposes, or used to before it went 32-bit.  However, these are general-purpose registers for most instructions.  Each of them has at least one instruction where it is used in a special way.  However, for most of them, those instructions aren't covered in this book.</para></footnote>
+ (all of which can be used with <literal>movl</literal>):
 </para>
 
 <itemizedlist>
@@ -302,6 +303,7 @@ there are also several special-purpose registers<indexterm><primary>special-purp
 <listitem><para>&ebp-indexed;</para></listitem>
 <listitem><para>&esp-indexed;</para></listitem>
 <listitem><para>&eip-indexed;</para></listitem>
+<listitem><para>&eflags-indexed;</para></listitem>
 </itemizedlist>
 
 <para>
@@ -368,7 +370,7 @@ details.  The extra details, called <emphasis>parameters<indexterm><primary>para
 are stored in other registers.  In the case of the <literal>exit</literal> system call,
 the operating system requires a status code be loaded in &ebx-indexed;.  This 
 value is then returned to the system.  This is the value you retrieved 
-when you typed <command>echo $?</command>.  So, we load &ebx; with 
+when you typed <literalf>echo $?</literal>.  So, we load &ebx; with 
 <literal>0</literal> by typing the following:
 </para>
 
@@ -426,7 +428,7 @@ interrupt transfers control to whoever set up an <emphasis>interrupt
 handler</emphasis> for the interrupt number.  In the case of Linux,
 all of them are set to be handled by the Linux kernel.</para></footnote>.
 You can think of it as like signaling Batman(or 
-Larry-Boy<indexterm><primary>Larry-Boy</primary></indexterm><footnote><para>If you don't watch Veggie Tales, you should.</para></footnote>, if you prefer).
+Larry-Boy<indexterm><primary>Larry-Boy</primary></indexterm><footnote><para>If you don't watch Veggie Tales, you should.  Start with Dave and the Giant Pickle.</para></footnote>, if you prefer).
 You need something done,
 you send the signal, and then he comes to the rescue.  You don't care how
 he does his work - it's more or less magic - and when he's done you're
@@ -455,7 +457,7 @@ to be placed in &ebx-indexed;.
 Now that you've assembled, linked, run, and examined the program, you
 should make some basic edits.  Do things like change the number 
 that is loaded into <literal>%ebx</literal>, and watch it come out
-at the end with <command>echo $?<indexterm><primary>echo $?</primary></indexterm></command>.  Don't forget
+at the end with <literal>echo $?<indexterm><primary>echo $?</primary></indexterm></literal>.  Don't forget
 to assemble and link it again before running it.
 Add some comments.  Don't worry, the worse thing that would happen is that the 
 program won't assemble or link, or will freeze your screen.  That's just
@@ -1239,7 +1241,7 @@ same time.
 <imageobject>
 <imagedata fileref="registerdescription.png" format="PNG" />
 </imageobject>
-<caption><para>Layout of the &eax; register</para></caption>
+<caption><para><emphasis>Layout of the &eax; register</emphasis></para></caption>
 </mediaobject>
 
 <para>

@@ -1,9 +1,12 @@
-#PURPOSE: Convert an integer number to a decimal string for display
+#PURPOSE: Convert an integer number to a decimal string 
+#         for display
 #
-#INPUT:   A buffer large enough to hold the largest possible number
+#INPUT:   A buffer large enough to hold the largest 
+#         possible number
 #         An integer to convert
 #
-#OUTPUT:  The buffer will be overwritten with the decimal string
+#OUTPUT:  The buffer will be overwritten with the 
+#         decimal string
 #
 #Variables:
 #
@@ -14,9 +17,9 @@
 	.equ ST_VALUE, 8
 	.equ ST_BUFFER, 12
 
-	.globl integer2number
-	.type integer2number, @function
-integer2number:
+	.globl integer2string
+	.type integer2string, @function
+integer2string:
 	#Normal function beginning
 	pushl %ebp
 	movl  %esp, %ebp
@@ -49,24 +52,26 @@ conversion_loop:
 	#an index on the ASCII table starting from the
 	#character '0'.  The ascii code for '0' plus zero
 	#is still the ascii code for '0'.  The ascii code
-	#for '0' plus 1 is the ascii code for the character
-	#'1'.  Therefore, the following instruction will give
-	#us the character for the number stored in %edx
+	#for '0' plus 1 is the ascii code for the 
+	#character '1'.  Therefore, the following 
+	#instruction will give us the character for the 
+	#number stored in %edx
 	addl  $'0', %edx
 
-	#Now we will take this value and push it on the stack.
-	#This way, when we are done, we can just pop off the
-	#characters one-by-one and they will be in the right
-	#order.  Note that we are pushing the whole register,
-	#but we only need the byte in %dl (the last byte of the
-	#%edx register) for the character.
+	#Now we will take this value and push it on the 
+	#stack.  This way, when we are done, we can just 
+	#pop off the characters one-by-one and they will 
+	#be in the right order.  Note that we are pushing 
+	#the whole register, but we only need the byte 
+	#in %dl (the last byte of the %edx register) for 
+	#the character.
 	pushl %edx
 
 	#Increment the digit count
 	incl  %ecx
 
-	#Check to see if %eax is zero yet, go to next step
-	#if so.
+	#Check to see if %eax is zero yet, go to next
+	#step if so.
 	cmpl  $0, %eax
 	je    end_conversion_loop
 
@@ -83,16 +88,17 @@ end_conversion_loop:
 	movl  ST_BUFFER(%ebp), %edx
 	
 copy_reversing_loop:
-	#We pushed a whole register, but we only need the 
-	#last byte.  So we are going to pop off to the
-	#entire %eax register, but then only move the small
-	#part (%al) into the character string.
+	#We pushed a whole register, but we only need
+	#the last byte.  So we are going to pop off to
+	#the entire %eax register, but then only move the
+	#small part (%al) into the character string.
 	popl  %eax
 	movb  %al, (%edx)
 
 	#Decreasing %ecx so we know when we are finished
 	decl  %ecx
-	#Increasing %edx so that it will be pointing to the next byte
+	#Increasing %edx so that it will be pointing to 
+	#the next byte
 	incl  %edx
 
 	#Check to see if we are finished

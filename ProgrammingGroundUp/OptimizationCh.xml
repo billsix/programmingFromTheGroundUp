@@ -247,9 +247,9 @@ knows which instructions are the fastest.  However, this can change
 from processor to processor.  For more information on this topic, you need to 
 see the user's manual that is provided for the specific chip you are using.  
 As an example, let's look at the process of loading the number 0 into a 
-register.  On most processors, doing a <command>movl $0, %eax</command> is 
+register.  On most processors, doing a <literal>movl $0, %eax</literal> is 
 not the quickest way.  The quickest way is to exclusive-or the register with 
-itself, <command>xorl %eax, %eax</command>.  This is because it only has
+itself, <literal>xorl %eax, %eax</literal>.  This is because it only has
 to access the register, and doesn't have to transfer any data.  
 For users of high-level languages, the compiler handles this kind of 
 optimizations for you.  For assembly-language programmers, you

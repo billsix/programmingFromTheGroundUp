@@ -16,7 +16,7 @@ _start:
 	pushl $tmp_buffer
 	#Number to convert
 	pushl $824
-	call  integer2number
+	call  integer2string
 	addl  $8, %esp
 
 	#Get the character count for our system call

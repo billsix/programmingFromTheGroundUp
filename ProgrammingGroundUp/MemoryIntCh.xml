@@ -266,7 +266,7 @@ The last accessible memory address to your program is called the
 <imageobject>
 <imagedata fileref="memorylayout.png" format="PNG" />
 </imageobject>
-<caption><para>Memory Layout of a Linux Program at Startup</para></caption>
+<caption><para><emphasis>Memory Layout of a Linux Program at Startup</emphasis></para></caption>
 </mediaobject>
 
 </sect1>

@@ -4,11 +4,7 @@
 	#          4 is 4 * 3 * 2 * 1, or 24, and so on.
 	#
 
-	#This program shows how to call a function.  You
-	#call a function by first pushing all the arguments,
-	#then you call the function, and the resulting
-	#value is in %eax.  The program can also change the
-	#passed parameters if it wants to.
+	#This program shows how to call a function recursively. 
 
 	.section .data
 

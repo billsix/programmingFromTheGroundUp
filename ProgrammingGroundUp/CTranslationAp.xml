@@ -47,30 +47,30 @@ In assembly language, this can be rendered as:
 </para>
 
 <programlisting>
-	;Move a and b into registers for comparison
+	#Move a and b into registers for comparison
 	movl a, %eax
 	movl b, %ebx
 
-	;Compare
+	#Compare
 	cmpl %eax, %ebx
 
-	;If True, go to true branch
+	#If True, go to true branch
 	je true_branch
 
-false_branch:  ;This label is unnecessary, 
-               ;only here for documentation
-	;False Branch Code Here
+false_branch:  #This label is unnecessary, 
+               #only here for documentation
+	#False Branch Code Here
 
-	;Jump to recovergence point
+	#Jump to recovergence point
 	jmp reconverge
 
 
 true_branch:
-	;True Branch Code Here
+	#True Branch Code Here
 
 
 reconverge:
-	;Both branches recoverge to this point
+	#Both branches recoverge to this point
 </programlisting>
 
 <para>
@@ -114,11 +114,11 @@ In assembly language, this would be rendered as:
 	pushl $text_string
 	call  printf
 	popl  %eax
-	popl  %eax      ;%eax is just a dummy variable,
-	                ;nothing is actually being done 
-	                ;with the value.  You can also 
-	                ;directly re-adjust %esp to the
-	                ;proper location.
+	popl  %eax      #%eax is just a dummy variable,
+	                #nothing is actually being done 
+	                #with the value.  You can also 
+	                #directly re-adjust %esp to the
+	                #proper location.
 </programlisting>
 
 </simplesect>
@@ -165,17 +165,17 @@ This would be rendered in assembly language as:
 
 	.type foo, @function
 foo:
-	pushl %ebp            ;Save old base pointer
-	movl  %esp, $ebp      ;make stack pointer base pointer
-	subl  $4, %esp        ;Make room for my_local_var
-	.equ my_local_var, -4 ;Can now use my_local_var to 
-	                      ;find the local variable
+	pushl %ebp            #Save old base pointer
+	movl  %esp, $ebp      #make stack pointer base pointer
+	subl  $4, %esp        #Make room for my_local_var
+	.equ my_local_var, -4 #Can now use my_local_var to 
+	                      #find the local variable
 
 
 	movl  $1, my_local_var(%ebp)
 	movl  $2, my_global_var
 
-	movl  %ebp, %esp      ;Clean up function and return
+	movl  %ebp, %esp      #Clean up function and return
 	popl  %ebp
 	ret
 </programlisting>
@@ -241,12 +241,12 @@ loop_begin:
 	jge   loop_end
 
 loop_body:
-	;Do stuff here
+	#Do stuff here
 	
 	jmp loop_begin
 
 loop_end:
-	;Finished looping
+	#Finished looping
 </programlisting>
 
 <para>
@@ -273,15 +273,15 @@ In assembly language it would be written like this:
 loop_initialize:
 	movl $100, %ecx
 loop_begin:
-	;
-	;Do Process Here
-	;
+	#
+	#Do Process Here
+	#
 
-	;Decrement %ecx and loops if not zero
+	#Decrement %ecx and loops if not zero
 	loop loop_begin 
 
 rest_of_program:
-	;Continues on to here
+	#Continues on to here
 </programlisting>
 
 <para>
@@ -348,18 +348,18 @@ In assembly language you would have:
 
 <programlisting>
 foo:
-	;Standard header beginning
+	#Standard header beginning
 	pushl %ebp
 	movl %esp, %ebp
 
-	;Reserve our local variable
+	#Reserve our local variable
 	subl $PERSON_SIZE, %esp 
-	;This is the variable's offset from %ebp
+	#This is the variable's offset from %ebp
 	.equ P_VAR, 0 - PERSON_SIZE
 
-	;Do Stuff Here
+	#Do Stuff Here
 
-	;Standard function ending
+	#Standard function ending
 	movl %ebp, %esp
 	popl %ebp
 	ret
@@ -455,27 +455,27 @@ The same code in assembly language:
 
 <programlisting>
 foo:
-	;Standard opening
+	#Standard opening
 	pushl %ebp
 	movl  %esp, %ebp
 
-	;Reserve two words of memory
+	#Reserve two words of memory
 	subl  $8, $esp
 	.equ A_VAR, -4
-	.equ B_VAR, -4
+	.equ B_VAR, -8
 
-	;a = 30
+	#a = 30
 	movl $30, A_VAR(%ebp)
 
-	;b = &amp;a
+	#b = &amp;a
 	movl $A_VAR, B_VAR(%ebp)
 	addl %ebp, B_VAR(%ebp)
 
-	;*b = 30
+	#*b = 30
 	movl B_VAR(%ebp), %eax
 	movl $30, (%eax)
 
-	;Standard closing
+	#Standard closing
 	movl %ebp, %esp
 	popl %ebp
 	ret
@@ -491,7 +491,7 @@ So, we could just say:
 </para>
 
 <programlisting>
-	;b = &amp;a
+	#b = &amp;a
 	leal A_VAR(%ebp), %eax
 	movl %eax, B_VAR(%ebp)
 </programlisting>

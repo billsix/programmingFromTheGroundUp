@@ -31,7 +31,7 @@ _start:
 	                          #out into %ebx
 
 	addl  %eax, %ebx          #add them together
-	                          #result in %ebx
+	                          #the result is in %ebx
 	
 	movl  $1, %eax            #exit (%ebx is returned)
 	int   $0x80

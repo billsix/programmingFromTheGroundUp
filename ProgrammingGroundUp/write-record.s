@@ -1,7 +1,8 @@
 
 	.include "linux.s"
 	.include "record-def.s"	
-#PURPOSE:   This function writes a record to the file descriptor
+#PURPOSE:   This function writes a record to 
+#           the given file descriptor
 #
 #INPUT:     The file descriptor and a buffer
 #
