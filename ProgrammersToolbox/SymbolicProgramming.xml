@@ -3,6 +3,140 @@
 <chapter>
 <title>Symbolic Programming</title>
 
+<para>
+Although our topic transcends any one specific programming language, we
+are going to use one as the model for our discussions -- the Scheme 
+programming language.  Alan Perlis said that a computer language that
+doesn't change the way you think about programming isn't worth learning.
+Scheme will change the way you think about programming.  Scheme is a
+very easy language to learn, and its especially easy if you don't expect
+it to behave or look like other languages you know.
+</para>
+
+<sect1>
+<title>Types of Data in Scheme</title>
+
+<para>
+The easiest way to understand the Scheme language is to start out looking
+at Scheme data.  There are four basic types of scheme data:
+</para>
+
+<variablelist>
+
+<varlistentry>
+<term>Atoms</term>
+<listitem><para>
+An atom is a single-valued element.  There are many types of atoms, including
+numbers, strings, and symbols (we'll discuss symbols later).  
+The following are all examples of scheme atoms:
+</para>
+	<itemizedlist>
+	<listitem><para><literal>24</literal> (a number)</para></listitem>
+	<listitem><para><literal>"Hello"</literal> (a string)</para></listitem>
+	<listitem><para><literal>Hello</literal> (a symbol)</para></listitem>
+	</itemizedlist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Pairs</term>
+<listitem><para>
+A pair is a container for other scheme data.  A pair, also called a 
+<emphasis>cons</emphasis> cell, contains two elements.  For historical
+reasons, the first element of a pair is referred to as the 
+<emphasis>car</emphasis> while the second element is referred to as the
+<emphasis>cdr</emphasis>.  The car and cdr can be any type of scheme data.
+In scheme, pairs are represented like this: <literal>(car . cdr)</literal>.
+The following are examples of scheme pairs:
+</para>
+	<itemizedlist>
+	<listitem><para><literal>(1 . 2)</literal> (the car is 1 and the cdr is 2)</para></listitem>
+	<listitem><para><literal>("hello" . 3)</literal> (the car is "hello" and the cdr is 3)</para></listitem>
+	<listitem><para><literal>(1 . (2 . 3))</literal> (the car is 1 and the cdr is a pair)</para></listitem>
+	<listitem><para><literal>(hello . there)</literal> (the car is the symbol <literal>hello</literal> and the cdr is the symbol <literal>there</literal>)</para></listitem>
+	</itemizedlist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Lists</term>
+<listitem><para>
+While there are many kinds of lists in computer science, when people refer
+to lists in the context of scheme they are referring to singly-linked lists.
+In scheme, a singly-linked list is composed of pairs, where the car contains
+the data, and the cdr contains the rest of the list -- either another pair or
+the <emphasis>null list</emphasis> for a terminator.  The null list is a 
+special data item in scheme that represents an empty list.  Note that all
+sublists of a list are themselves lists.
+</para>
+<para>
+In scheme, the null list is represented like this: <literal>()</literal>.
+While you can write out a list by simply writing out all of the pairs, there
+is a short form.  A list of the numbers 1, 2, and 3 would be written like this
+using pairs: <literal>(1 . (2 . (3 . ())))</literal>.  That's way too verbose.
+Scheme has a shorthand for writing lists: <literal>(1 2 3)</literal>.  They
+both mean the same thing, but the latter is easier to write.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Vectors</term>
+<listitem><para>
+Vectors are containers that hold a specific, fixed number of elements, 
+referenced by a numeric index.  A vector of the numbers 1, 2, and 3 would
+be represented like this: <literal>#(1 2 3)</literal>.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>
+Lists are by far the most commonly used data type in scheme.  Take time to
+concentrate on how lists are represented by pairs and the null list.
+</para>
+
+<para>
+We mentioned symbols earlier.  In most programming languages, symbols are 
+simply names for variables.  For instance, take a look at the following
+C code:
+</para>
+
+<programlisting>
+int multiply(int a, int b)
+{
+	return(a*b);
+}
+</programlisting>
+
+<para>
+In this code, <literal>a</literal> and <literal>b</literal> are symbols
+which represent the stack positions of the data being passed to the functions.
+While symbols are also used in scheme to represent data locations, in Scheme
+symbols can themselves be data.  In C and other languages, only the data can
+be passed around and stored.  In Scheme, the symbols themselves can be passed
+to functions and stored in variables.
+</para>
+
+<para>
+Symbols behave quite a bit like strings.  However, they really represented 
+<emphasis>interned</emphasis> strings.  An interned string has the following
+interesting properties:
+<para>
+<itemizedlist>
+<listitem><para>All equivalent symbols share the same memory address.</para></listitem>
+<listitem><para>Symbols are not mutable.</para></listitem>
+<listitem><para>Symbols are permanently stored in memory.</para></listitem>
+</itemizedlist>
+<para>
+This means that symbols can be compared for equality in a single machine 
+instruction.  In addition, since symbols are stored in memory permanently,
+the system does not have the memory management overhead involved with strings
+(in Scheme, memory management is handled for you by the language runtime, 
+but it still has to be done).  At this point you probably still don't quite 
+get the point of symbols.  That's okay, we'll get there eventually!
+</para>
+
+
 <sect1>
 <title>What is Symbolic Programming?</title>
 

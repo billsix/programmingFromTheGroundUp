@@ -125,6 +125,10 @@ Every recursive program follows the same basic pattern:
 <listitem><para>Return the result.</para></listitem>
 </orderedlist>
 
+<para>
+When writing recursive programs, sometimes finding the simpler subproblem can
+be tricky.  
+
 
 <!-- NOTE - should I talk about program proving here?  Variety of topics that could be covered:
  * recursion basics
