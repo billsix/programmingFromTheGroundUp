@@ -1,4 +1,10 @@
-all: example StateFlow.pdf
+all: pdf tangle example
+
+pdf: 
+	db2pdf -d stateflow.dsl#printdraft StateFlow.xml
+
+tangle:
+	xmltangle StateFlow.xml
 
 error.o: error.s
 	as --gstabs error.s -o error.o
@@ -12,9 +18,6 @@ example.o: example.s
 pair.o: pair.s
 	as --gstabs pair.s -o pair.o
 
-refcount.o: refcount.s
-	as --gstabs refcount.s -o refcount.o
-
 string.o: string.s
 	as --gstabs string.s -o string.o
 
@@ -27,8 +30,6 @@ commonsystem.o: commonsystem.s
 commonvalue.o: commonvalue.s
 	as --gstabs commonvalue.s -o commonvalue.o
 
-example: string.o refcount.o pair.o alloc.o example.o symboltable.o commonsystem.o commonvalue.o error.o
-	ld string.o refcount.o pair.o alloc.o example.o symboltable.o commonsystem.o commonvalue.o error.o -o example
+example: string.o pair.o alloc.o example.o symboltable.o commonsystem.o commonvalue.o error.o
+	ld string.o pair.o alloc.o example.o symboltable.o commonsystem.o commonvalue.o error.o -o example
 
-StateFlow.pdf: StateFlow.xml
-	db2pdf -d stateflow.dsl#printdraft StateFlow.xml
