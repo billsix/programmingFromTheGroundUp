@@ -1,10 +1,174 @@
 <chapter>
 <title>Recursion and Provably Correct Programs</title>
 
+<sect1>
+<title>Recursion</title>
 
+<!-- NOTE - should I talk about program proving here?  Variety of topics that could be covered:
+ * recursion basics
+ * fp basics
+ * program proving basics
+ * inductively-defined data sets
+-->
 
 <para>
+<!-- talk about recursive data types and the recursive programs that operate on them -->
 </para>
 
+</sect1>
 
+<sect1>
+<title>Converting Loops to Recursive Functions</title>
+
+<para>
+<!-- why you would want to do this.  give real examples -->
+<!-- talk about Scheme's "named let" to make this easier -->
+</para>
+
+<sect2>
+<title>Tail Recursion</title>
+
+<para>
+<!-- not sure which of above topics fit here -->
+</para>
+
+</sect2>
+
+<sect2>
+<title>Tail-call Optimization</title>
+
+<para>
+Tail recursion is an interesting concept, but it may seem impractical, given
+the general problems of recursive programming.  Namely, the stack.  When 
+recursive programs recurse, the stack size grows with an extra activation 
+record.  If you have a loop that executes thousands of times and you convert
+it to a tail-recursive function you will wind up with a stack frame with 
+thousands of activation records on it, and your stack will fill up quickly.  
+That is, unless your environment offers tail-call optimization.
+</para>
+
+<para>
+A tail call is a function call that executes as the 
+<emphasis>very last</emphasis> step of a function, and the return value
+from that function call is the value used as the return value for the 
+present function.  For example:
+</para>
+
+<example>
+<title>Tail-calls and non-tail calls</title>
+<programlisting>
+int test1()
+{
+	int a = 3;
+	test1(); /* recursive, but not a tail call */
+	a = a + 4;
+	return a;
+}
+
+int test2()
+{
+	int q = 4;;
+	q = q + 5;
+	return q + test1(); /* test1() is not in tail position.
+	                     * There is still more work to be
+	                     * done after test1() returns (like
+	                     * adding q to the result
+	                     */
+}
+
+int test3()
+{
+	int b = 5;
+
+	b = b + 2;
+
+	return test1();  /* This is a tail-call.  The return value
+	                  * of test1() is used as the return value
+	                  * for this function.
+	                  */
+}
+
+int test4()
+{
+	test3(); /* not in tail position */
+	test3(); /* not in tail position */
+	return test3(); /* in tail position */
+}
+</programlisting>
+</example>
+
+<para>
+Note that <emphasis>no other operation</emphasis> can be performed on 
+the result of the tail-called function before it is passed back in order
+for the call to truly be a tail-call.
+</para>
+
+<para>
+So what is the optimization?  Ask yourself this question -- after the function
+in tail position is called, which of our local variables will be in use?
+None.  What processing will be done to the return value?  None.  Which 
+parameters passed to the function will be used?  None.  Interestingly, it seems
+that once control is passed to the tail-called function, nothing in the stack
+is useful anymore.  The activation record, while it still takes up space,
+is actually at this point useless.  Therefore, the tail-call optimization
+is to overwrite the current stack frame when making a function call in tail
+position.
+</para>
+
+<para>
+Essentially what we are doing is surgery on the stack.  The activation
+record isn't needed anymore, so we are going to cut it out, and redirect
+the tail-called function back to the function that called us.  This means
+that we have to manually rewrite the stack to fake a return address so that
+the tail-called function will return directly to our parent, modifying 
+<literal>%ebp</literal> so that the tail-called function will save the one
+used by our parent function and not ours.
+</para>
+
+<remark>Graphic here representing this</remark>
+
+<para>
+For those of you who like to actually mess with the low-level stuff, here
+is an assembly language template for an optimized tail-call:
+</para>
+
+<example>
+<title>Assembly language template for tail-calls</title>
+<programlisting>
+;;Unoptimized tail-call
+
+my_function:
+	...
+	...
+	;push arguments for the_function
+	call the_function
+	;results are already in %eax so we can just return
+	movl %ebp, %esp
+	popl %ebp
+	ret
+
+;;Optimized tail-call
+optimized_function:
+	...
+	...
+	;save the old return address
+	movl -4(%ebp), %eax
+	;save old %ebp
+	movl (%ebp), %ebx 
+	;Clear stack activation record (assuming no unknowns like variable-size argument lists)
+	addl $(SIZE_OF_PARAMETERS + 8 (old %ebp + return address)), %ebp
+	movl %ebp, %esp
+	;Push arguments onto the stack
+	;push return address
+	pushl %ebx 
+	jmp the_function
+</programlisting>
+</example>
+	
+</sect2>
+
+
+</sect1>
+	
+	
 </chapter>
