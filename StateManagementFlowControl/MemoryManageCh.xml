@@ -223,11 +223,11 @@ alloc_loop_begin:
 	je    move_break
 
 	#Check to see if the current space is available for use
+	movl  HDR_SIZE_OFFSET(%eax), %edx  
 	cmpl  $UNAVAILABLE, HDR_AVAIL_OFFSET(%eax)  
 	je    next_location         
 
 	#Check to see if this piece of memory is large enough
-	movl  HDR_SIZE_OFFSET(%eax), %edx  
 	cmpl  %edx, %ecx           
 	jle   allocate_here       
 
@@ -318,48 +318,39 @@ error:
 <sect1>
 <title>Deallocate</title>
 
+<para>
+With the structure we've created, deallocation of memory is simple.
+Given the pointer to the memory region we gave in the allocate function,
+we simply back up to the header section, and mark the region as unallocated.
+Doing it this way, however, means that whenever you allocate memory, you never
+know what is going to already be there.  You can't assume that it just contains zeroes.  It will probably contain old, deleted values.
+</para>
+
+<para>
+Because this function may be called quite a bit, it contains lots of
+speedups.  For example, since we are not calling any sub-functions
+and not returning any values, we have omitted the standard function 
+entry and exit code.  That means that the beginning of stack variables
+is 4 bytes past &esp;, rather than 8 bytes past &ebp; like we normally
+see.
+</para>
 
 <programlisting>	
 <?lp-section-id?>MM Procedure to Deallocate Memory<?lp-section-id-end?> = 
 <?lp-code?>
-	##deallocate##
-	#PURPOSE:    The purpose of this function is to give back
-	#            a segment of memory to the pool after we're done
-	#            using it.
-	#
-	#PARAMETERS: The only parameter is the address of the memory
-	#            we want to return to the memory pool.
-	#
-	#RETURN VALUE:
-	#            There is no return value
-	#
-	#PROCESSING: 
-	#            If you remember, we actually hand the program the
-	#            start of the memory that they can use, which is
-	#            8 storage locations after the actual start of the
-	#            memory segment.  All we have to do is go back
-	#            8 locations and mark that memory as available,
-	#            so that the allocate function knows it can use it.
 	.globl deallocate
 	.type deallocate,@function
 	.equ ST_MEMORY_SEG, 4     #stack position of the memory segment to free
 deallocate:
-	                          #since the function is so simple, we
-	                          #don't need any of the fancy function
-	                          #stuff. 
+	movl  ST_MEMORY_SEG(%esp), %eax 
 
-	movl  ST_MEMORY_SEG(%esp), %eax #get the address of the memory to free 
-	                          #(normally this is 8(%ebp), but since
-	                          #we didn't push %ebp or move %esp to 
-	                          #%ebp, we can just do 4(%esp)
+	#get the pointer to the real beginning of the memory
+	subl  $HEADER_SIZE, %eax  
 
-	subl  $HEADER_SIZE, %eax  #get the pointer to the real beginning
-	                          #of the memory
+	#mark it as available
+	movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)  
 
-	movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)  #mark it as available
-
-	ret                       #return
-########END OF FUNCTION##########
+	ret 
 <?lp-code-end?>
 </programlisting>
 
