@@ -1,9 +1,10 @@
-#!/usr/bin/perl -pi 
+#!/usr/bin/perl -p
 
 BEGIN {
 	undef $/;
 }
 
+s!<remark>(.*?)</remark>!<\!-- $1 -->!si;
 s!<\!DOCTYPE.*?>!!si;
 s!<(chapter|article)>!<dw-document xsi:noNamespaceSchemaLocation="http://dw.raleigh.ibm.com/developerworks/library/schema/4.0/dw-document-4.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n\n<dw-article local-site="worldwide" ratings-form="auto" related-contents="auto" toc="auto" skill-level="3">\n<id cma-id="" domino-uid="" content-id="" original="yes"/>\n<keywords content="FIXME -- ADD KEYWORDS" />\n\n<\!-- FIXME - update meta -->\n<meta-last-updated day="16" month="10" year="2004" initials="jlb"/>\n\n<content-area-primary name="linux" />\n!si;
 
