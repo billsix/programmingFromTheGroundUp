@@ -451,10 +451,41 @@ to get the data in and out of the files.
 </sect1>
 
 <sect1>
-<title>Reading Simple Records</title>
+<title>Reading and Writing Simple Records</title>
 
 <para>
+Most applications deal with data that is <emphasis>persistent</emphasis> - 
+meaning that the data lives longer than the program by being stored on disk 
+inf files.  You can shut down the program and open it back up, and you are
+back where you started.  Now, there are two basic kinds of persistent
+data - structured and unstructured.  Unstructured data is like what we
+dealt with in the previous program.  It just dealt with text files that
+were entered by a person.  The contents of the files weren't usable by
+a program because a program can't interpret what the user is trying to
+say in random text.
 </para>
+
+<para>
+Structured data, on the other hand, is what computers excel at handling.
+This is data that is divided up into fields and records.  For the most
+part, the fields and records are fixed-length.  Because the data is
+divided into fixed-length records and fields, the computer can interpret
+the data properly.  Structured data can contain variable-length fields,
+but at that point you are usually better off with a database.
+<footnote>
+<para>
+A database is a program which handles persistent structured data for you.
+You don't have to write the programs to read and write the data to disk,
+to do lookups, or even to do basic processing.  It is a very high-level
+interface to structured data which, although it adds some overhead and
+additional complexity, is very useful for complex data processing tasks.
+</para>
+</footnote>
+</para>
+
+<para>
+This section deals with reading and writing simple fixed-length records.
+
 
 </sect1>
 

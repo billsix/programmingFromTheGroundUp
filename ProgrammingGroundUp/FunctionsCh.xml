@@ -453,6 +453,19 @@ place the burden on the function to save any registers it uses.
 </para>
 </warning>
 
+<note>
+<title>Extended Specification</title>
+<para>
+Details of the calling convention (also known as the ABI, or Application
+Binary Interface) is available online.  We have oversimplified and left
+out several important pieces to make this simpler for new programmers.
+For full details, you should check out the documents available at
+http://www.linuxbase.org/spec/refspecs/  Specifically, you should look
+for the <citetitle>System V Application Binary Interface - Intel386
+Architecture Processor Supplement</citetitle>.
+</para>
+</note>
+
 </sect1>
 
 <sect1>

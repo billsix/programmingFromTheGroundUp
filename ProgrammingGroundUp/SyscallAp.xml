@@ -30,6 +30,7 @@ return values and error codes are also stored in &eax;.
 <table>
 <title>Important Linux System Calls</title>
 <tgroup cols="6" colsep="1" rowsep="1">
+<colspec colnum="6" colwidth="3*" />
 <thead>
 <row>
 <entry>&eax-indexed;</entry><entry>Name</entry><entry>&ebx-indexed;</entry><entry>&ecx-indexed;</entry><entry>&edx-indexed;</entry><entry>Notes</entry>

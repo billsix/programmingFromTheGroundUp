@@ -312,7 +312,7 @@ struct person {
 	char firstname[40];
 	char lastname[40];
 	int age;
-}
+};
 </programlisting>
 
 <para>
@@ -500,6 +500,68 @@ So, we could just say:
 It's the same number of lines, but a little cleaner.  Then, to use
 this value, you simply have to move it to a general-purpose register
 and use indirect addressing, as shown in the example above.
+</para>
+
+</simplesect>
+
+<simplesect>
+<title>Getting GCC to Help</title>
+
+<para>
+One of the nice things about GCC is it's ability to spit out assembly
+language code.  To convert a C language file to assembly, you can simply
+do:
+</para>
+
+<programlisting>
+gcc -S file.c
+</programlisting>
+
+<para>
+The output will be in <filename>file.s</filename>.  It's not the most
+readable output - most of the variable names have been removed and replaced
+either with numeric stack locations or references to automatically-generated
+labels.  To start with, you probably want to turn off optimizations with
+<literal>-O0</literal> so that the assembly language output will follow
+your source code better.
+</para>
+
+<para>
+Something else you might notice is that GCC reserves more stack space
+for local variables than we do, and then AND's &esp-indexed;
+<footnote>
+<para>
+Note that different versions of GCC do this differently.  
+</para>
+</footnote>
+This is to increase cache efficiency. 
+</para>
+
+
+<para>
+Finally, at the end of functions, we usually do the following instructions
+to clean up the stack before issuing a <literal>ret</literal> instruction:
+</para>
+
+<programlisting>
+	movl %ebp, %esp
+	popl %ebp
+</programlisting>
+
+<para>
+However, GCC output will usually just include the instruction 
+<literal>leave</literal>.  This instruction is simply the combination
+of the above two instructions.  We do not use <literal>leave</literal>
+in this text because we want to be clear about exactly what is happening
+at the processor level.
+</para>
+
+<para>
+I encourage you to take a C program you have written and compile it
+to assembly language and trace the logic.  Then, add in optimizations
+and try again.  See how the compiler chose to rearrange your program
+to be more optimized, and try to figure out why it chose the arrangement
+and instructions it did.
 </para>
 
 </simplesect>
