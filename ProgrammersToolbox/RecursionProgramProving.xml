@@ -438,29 +438,27 @@ So how does a person program without modifying variables?  Let's look at several
 <variablelist>
 <varlistentry>
 <term>Reusing a variable</term>
-<listitem><para>Often, a variable is reused for different, but similar, purposes.  <!-- FIXME - need example -->
-To alleviate this problem, create two separate variables, and just derive the second from the first the same way 
-you would do so if you were writing to the same variable.</para></listitem>
+<listitem><para>Often, a variable is reused for different, but similar, purposes.  For example, sometimes if part of a loop needs an index to the current position in the first half of a loop, and the index immediately before or after for the rest of the loop, many programmers use the same variable for both cases, just incrementing it in the middle.  However, this can easily cause the programmer to confuse the two uses as the program is modified.  To prevent this problem, the best solution is to create two separate variables, and just derive the second from the first the same way you would do so if you were just writing to the same variable.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Conditional Modification of a Variable</term>
+<term>Conditional modification of a variable</term>
 <listitem><para>
 This is a subset of the "reusing a variable" problem.
 However, in this case, sometimes we will keep our existing value, and
-sometimes we will want a new value.  Well, again, we create a new
+sometimes we will want a new value.  Again, we create a new
 variable.  In most languages, we can use the tertiary operator
 <literal>? :</literal> to set the value of the new variable.  For
-example, if we wanted to give our new variable a new value as long as
-it's not greater than <literal>some_value</literal> we could do
+example, if we wanted to give our new variable a new value, as long as
+it's not greater than <literal>some_value</literal>, we could write
 <literal>int new_variable = old_variable > some_value ? old variable : new_value;</literal>.  
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Looping Variables</term>
+<term>Loop variables</term>
 <listitem><para>
-We will show how to get rid of these later.
+We will show the problems and solutions with loop variables later.
 </para></listitem>
 </varlistentry>
 
@@ -469,17 +467,17 @@ We will show how to get rid of these later.
 <para>
 Once we have rid ourselves of all variable state changes, we can know that when we first define
 our function, the definition of our function will hold for as long as the variable lasts.  This 
-makes sequencing orders of operations much easier, especially when modifying existing code.
+makes sequencing orders of operations much easier, especially for modifying existing code.
 You don't have to worry about what sequence a variable might have been modified in, and what 
-assumptions were being made about its state at each juncture.  Since a variable cannot change
+assumptions were being made about its state at each juncture.  Because a variable cannot change
 state, the full definition of how it is derived is shown right where it is declared!  You never
 have to go searching through code to find the incorrect or misordered state change again!  
 </para>
 
 <para>
-Now, the question is, how do we do loops without assignment?  The answer is 
+Now, the question is: How do we do loops without assignment?  The answer lies in 
 <emphasis>recursive functions</emphasis>.  This may be surprising, but let's look at the properties of loops and see how
-they compare to recursive functions:
+they compare to recursive functions.
 </para>
 
 <variablelist>
@@ -495,19 +493,19 @@ recursive functions repeat by calling themselves.
 </varlistentry>
 
 <varlistentry>
-<term>Terminating Conditions</term>
+<term>Terminating conditions</term>
 <listitem><para>
-In order to guarantee that it will terminate, a loop must have one or more conditions which cause
-it to terminate, and it must be guaranteed to hit one.  Likewise, recursive functions require a
-base case, which causes the function to stop recursing. 
+In order to guarantee that it will terminate, a loop must have one or more conditions that cause
+it to terminate, and it must be guaranteed at some point to hit one of these conditions.  Likewise, recursive functions require a
+base case that causes the function to stop recursing. 
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term>State</term>
 <listitem><para>
-Loops have a current state which is updated as the loop progresses.  Recursive functions have a 
-current state which is passed as parameters.
+Loops have a current state that is updated as the loop progresses.  Recursive functions have a 
+current state that is passed as parameters.
 </para></listitem>
 </varlistentry>
 
@@ -516,7 +514,7 @@ current state which is passed as parameters.
 <para>
 As you can see, recursive functions and loops have quite a bit in common.  In fact, loops and
 recursive functions are interchangeable.  The difference is that with recursive functions, we
-can manage to never (well, rarely) have to modify any variable, we just pass the new values as
+rarely have to modify any variable. We just pass the new values as
 parameters to the next function call.  This allows us to keep all of the benefits of not having
 an updateable variable, while still having repetitive, stateful behavior.
 </para>
