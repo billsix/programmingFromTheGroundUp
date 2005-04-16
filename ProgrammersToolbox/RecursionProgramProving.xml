@@ -686,7 +686,7 @@ one feature, they are usually proved independently.  Since this program
 has several features, we will show short proofs for a few of them.  
 For the proofs, we will refer to the three recursion points of the program
 as R1, R2, and R3, respectively.  All programs will have the implicit
-assumption that <literal>report_lines is a valid pointer, and that <literal>num_lines</literal>
+assumption that <literal>report_lines</literal> is a valid pointer, and that <literal>num_lines</literal>
 accurately reflects the number of lines represented by <literal>report_lines</literal>
 </para>
 
@@ -791,8 +791,8 @@ printed on the page.
 <term>Theorem 2</term>
 <para>
 Our second theorem is that if <literal>num_lines_this_page</literal> accurately
-reflects the number of lines printed, and a page break is performed every
-time <literal>num_lines_this_page == LINES_PER_PAGE</literal>, then we know
+reflects the number of lines printed (condition 1), and a page break is performed every
+time <literal>num_lines_this_page == LINES_PER_PAGE</literal> (condition 2), then we know
 that our program will do a page break after printing <literal>LINES_PER_PAGE</literal> lines.
 </para></listitem>
 </varlistentry>
@@ -815,6 +815,7 @@ page break/heading print combination (condition 3).  The requirements for
 Theorem 1 have been met, so we have proved that the program will do a page 
 break after printing <literal>LINES_PER_PAGE</literal> lines.
 </para></listitem>
+</varlistentry>
 </variablelist>
 
 </sect2>
@@ -823,19 +824,50 @@ break after printing <literal>LINES_PER_PAGE</literal> lines.
 <title>Proof that every report item line is printed exactly once</title>
 <para>
 We need to verify that the program always prints every line of the report, 
-and never skips a line.  We will show that 
+and never skips a line.  We will show that if <literal>print_report_i</literal>
+prints exactly one line for <literal>current_line == X</literal>, it will also either print exactly one line or 
+terminate on <literal>current_line == X + 1</literal>.  This is our inductive
+step.  However, since we have both a starting and a terminating condition, we
+must prove both of them correct.  Therefore, we must prove the base case that
+<literal>print_report_i</literal> works when <literal>current_line == 0</literal>, and
+that it will <emphasis>only</emphasis> terminate when <literal>current_line == num_lines</literal>.
 </para>
 
 <variablelist>
+<varlistentry>
 <term>Theorem 1</term>
 <listitem><para>
-
-
-A report item line is not printed in conjunction R1 or R2, but only with R3.  R3 increases current_line by one, while R1 and R2 preserve current_line.  current_line.  We have proven that the program terminates, and this occurs when current_line == num_lines.  Therefore, we know that each line is printed exactly once.
+If <literal>current_line</literal> is only incremented after a <literal>print_line</literal> (condition 1) call, 
+and <literal>print_line</literal> is only called before <literal>current_line</literal> is incremented (condition 2), 
+then for every number that <literal>current_line</literal> passes through a single line will be printed.
 </para></listitem>
 </varlistentry>
 
-</variablelist>
+<varlistentry>
+<term>Theorem 2</term>
+<listitem><para>
+If theorem 1 is true (condition 1), and <literal>current_line</literal> passes through every number from 0 to 
+<literal>num_lines - 1</literal> (condition 2), and terminates when <literal>current_line == num_lines</literal> 
+(condition 3), then every report item line is printed exactly once.
+</para>
+</varlistentry>
+
+<varlistentry>
+<term>Proof</term>
+<para>
+Conditions 1 and 2 of Theorem 1 are true by inspection.  R3 is the only place where <literal>current_line</literal> 
+increases, and it occurs immediately after the only invocation of <literal>print_line</literal>.  Therefore, theorem
+1 is proven, and so is condition 1 of theorem 2.  Conditions 2 and 3 can be proven by induction, and in fact just
+a rehash of the first proof of termination.  We can take our proof of termination to prove conclusively condition 3.
+Condition 2 is true on the basis of that proof and the assumption that <literal>current_line</literal> starts at 0.
+Therefore, we have proven that every line of the report is printed exactly once.
+</para>
+</varlistentry>
+
+</sect2>
+
+<sect2>
+<title>Proofs and Recursive Programming</title>
 
 <para>
 These are just some of the proofs that we could do on the program.  
@@ -847,7 +879,9 @@ nor its notation.
 <para> 
 Using recursion tremendously simplifies the verification of programs.  It's 
 not that program proofs cannot be done with imperative programs, but that the 
-number of state changes that occur make them unwieldy.  With recursive programs that recurse instead of change state, the number of occasions of state change is small, and they maintain self-consistency by setting all of the recursion
+number of state changes that occur make them unwieldy.  With recursive programs 
+that recurse instead of change state, the number of occasions of state change 
+is small, and they maintain self-consistency by setting all of the recursion
 variables at once.  This does not completely prevent logical errors, but it 
 does eliminate numerous classes of them.  This method of programming using only
 recursion for state changes and repetition is usually termed 
@@ -856,7 +890,7 @@ recursion for state changes and repetition is usually termed
 
 </sect1>
 
-<sect1 id="loopstorecursion">
+<sect1>
 <title>Tail-Recursive Functions</title>
 
 <para>
@@ -1001,7 +1035,7 @@ optimized_function:
 	movl 4(%ebp), %eax
 
 	;save old %ebp
-	movl (%ebp), %ebx 
+	movl (%ebp), %ecx 
 
 	;Clear stack activation record (assuming no unknowns like 
 	;variable-size argument lists)
@@ -1015,11 +1049,10 @@ optimized_function:
 	;push return address
 	pushl %eax
 
-	;push old ebp
-	pushl %ebx 
+	;set ebp to old ebp
+	movl %ecx, %ebp
 
-	;Execute the function (this has to jump to the point in the function
-	;AFTER the old %ebp is saved
+	;Execute the function 
 	jmp the_function
 </programlisting>
 </example>
@@ -1033,7 +1066,7 @@ for using them, however:
 <itemizedlist>
 <listitem><para>The calling function must not depend on the parameter list
 still being on the stack when your function returns to it.</para></listitem>
-<listitem><para>The calling function must not care where the stack pointer is currently pointing. (Of course, it can assume that it is past its local variables.)  This means that you cannot compile using <literal>-fomit-frame-pointer</literal></para></listitem>
+<listitem><para>The calling function must not care where the stack pointer is currently pointing. (Of course, it can assume that it is past its local variables.)  This means that you cannot compile using <literal>-fomit-frame-pointer</literal></para>, and that any registers that you save on the stack should be done in reference to <literal>%ebp</literal> instead of <literal>%esp</literal>.</listitem>
 <listitem><para>There can be no variable-length argument lists.</para></listitem>
 </itemizedlist>
 
@@ -1069,5 +1102,26 @@ tail-call optimization using -O2 on GCC 3.4.
 </sect2>
 
 </sect1>
+
+<sect1>
+<title>Conclusion</title>
+<para>
+Recursion is a great art, enabling programs that are easy to verify correctness without sacrificing performance.  However,
+they require the programmer to look at programming in a new light.  Imperative programming is often more natural and 
+intuitive of a starting place for new programmers, which is why most programming introductions focus on imperative 
+languages and methods.  However, as programs become more complex, recursive programming gives the programmer a better
+way of organizing code in a way that is both maintainable and logically consistent.
+</para>
+
+</sect1>
+
+<!-- RESOURCES
+
+<resource-list>
+
+<ul>
+</ul>
+
+-->
 	
 </chapter>
