@@ -274,8 +274,9 @@ iteration of the recursion will be passing the <emphasis>same value</emphasis> f
 <para>
 This version of the program is a little harder to follow.  It defines a closure 
 called <literal>recurse</literal> that can be called with only one parameter,
-rather than two.  (For more information on closures, see this 
-earlier article on closures at <ulink>http://www.ibm.com/developerworks/library/l-highfunc.html</ulink>.)  We don't need to pass in <literal>the-string</literal> to <literal>recurse</literal> because it is already in the parent environment and does not change from call to call.  Because <literal>recurse</literal>
+rather than two.  (For more information on closures, see 
+<ulink url="http://www.ibm.com/developerworks/library/l-highfunc.html">this 
+earlier article on closures</ulink>.)  We don't need to pass in <literal>the-string</literal> to <literal>recurse</literal> because it is already in the parent environment and does not change from call to call.  Because <literal>recurse</literal>
 is defined <emphasis>within</emphasis> the <literal>is-in-list2</literal> function, it can see all of the
 currently defined variables, so they don't need to be re-passed.  This shaves off one variable being
 passed at each iteration.  Using a closure instead of passing the parameter doesn't make a lot of difference in this trivial example, but it can
@@ -789,7 +790,7 @@ printed on the page.
 
 <varlistentry>
 <term>Theorem 2</term>
-<para>
+<listitem><para>
 Our second theorem is that if <literal>num_lines_this_page</literal> accurately
 reflects the number of lines printed (condition 1), and a page break is performed every
 time <literal>num_lines_this_page == LINES_PER_PAGE</literal> (condition 2), then we know
@@ -849,20 +850,22 @@ then for every number that <literal>current_line</literal> passes through a sing
 If theorem 1 is true (condition 1), and <literal>current_line</literal> passes through every number from 0 to 
 <literal>num_lines - 1</literal> (condition 2), and terminates when <literal>current_line == num_lines</literal> 
 (condition 3), then every report item line is printed exactly once.
-</para>
+</para></listitem>
 </varlistentry>
 
 <varlistentry>
 <term>Proof</term>
-<para>
+<listitem><para>
 Conditions 1 and 2 of Theorem 1 are true by inspection.  R3 is the only place where <literal>current_line</literal> 
 increases, and it occurs immediately after the only invocation of <literal>print_line</literal>.  Therefore, theorem
 1 is proven, and so is condition 1 of theorem 2.  Conditions 2 and 3 can be proven by induction, and in fact just
 a rehash of the first proof of termination.  We can take our proof of termination to prove conclusively condition 3.
 Condition 2 is true on the basis of that proof and the assumption that <literal>current_line</literal> starts at 0.
 Therefore, we have proven that every line of the report is printed exactly once.
-</para>
+</para></listitem>
 </varlistentry>
+
+</variablelist>
 
 </sect2>
 
@@ -887,6 +890,8 @@ does eliminate numerous classes of them.  This method of programming using only
 recursion for state changes and repetition is usually termed 
 <emphasis>functional programming</emphasis>.
 </para>
+
+</sect2>
 
 </sect1>
 
@@ -1066,7 +1071,7 @@ for using them, however:
 <itemizedlist>
 <listitem><para>The calling function must not depend on the parameter list
 still being on the stack when your function returns to it.</para></listitem>
-<listitem><para>The calling function must not care where the stack pointer is currently pointing. (Of course, it can assume that it is past its local variables.)  This means that you cannot compile using <literal>-fomit-frame-pointer</literal></para>, and that any registers that you save on the stack should be done in reference to <literal>%ebp</literal> instead of <literal>%esp</literal>.</listitem>
+<listitem><para>The calling function must not care where the stack pointer is currently pointing. (Of course, it can assume that it is past its local variables.)  This means that you cannot compile using <literal>-fomit-frame-pointer</literal>, and that any registers that you save on the stack should be done in reference to <literal>%ebp</literal> instead of <literal>%esp</literal>.</para></listitem>
 <listitem><para>There can be no variable-length argument lists.</para></listitem>
 </itemizedlist>
 
