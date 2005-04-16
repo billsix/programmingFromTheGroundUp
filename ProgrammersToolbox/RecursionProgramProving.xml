@@ -521,18 +521,16 @@ an updateable variable, while still having repetitive, stateful behavior.
 
 <para>
 Let's take a look at a common loop for printing reports and see how it can convert into a recursive function.
-This loop will perform the following operations:
 </para>
 
 <itemizedlist>
-<listitem><para>Print out the page number and page headers at each page break.</para></listitem>
-<listitem><para>We'll assume that the report lines are grouped by some numeric criteria.  We'll pretend there is some total we are keeping track of for these groups.</para></listitem>
-<listitem><para>At the end of each grouping, we'll print out the totals for that group.</para></listitem>
+<listitem><para>This loop will print out the page number and page headers at each page break.</para></listitem>
+<listitem><para>We will assume that the report lines are grouped by some numeric criteria and we will pretend there is some total we are keeping track of for these groups.</para></listitem>
+<listitem><para>At the end of each grouping, we will print out the totals for that group.</para></listitem>
 </itemizedlist>
 
 <para>
-For demonstration purposes, we've left out all of the subordinate functions.  We'll just assume they exist
-and assume they perform as expected.  Here is the code for our report printer.
+For demonstration purposes, we've left out all of the subordinate functions, just assuming they exist and that they perform as expected.  Here is the code for our report printer:
 </para>
 
 <example>
@@ -576,7 +574,7 @@ void print_report(struct report_line *report_lines, int num_lines)
 </example>
 
 <para>
-I've intentionally left several bugs in the program.  Try and see if you can spot them.  Because we
+Several bugs have been intentionally left in the program.  Try to see if you can spot them.  Because we
 are continually modifying state variables, it is difficult to see whether or not at any given moment
 they are correct.  Here is the same program done recursively:
 </para>
@@ -662,40 +660,177 @@ void print_report_i(struct report_line *report_lines, /* our structure */
 </example>
 
 <para>
-If you notice, there is never a time when the numbers we are using is not
+Notice that there is never a time when the numbers we are using are not
 self-consistent.  Almost anytime you have multiple states changing, you 
-will have several lines during the state change where the program will
+will have several lines during the state change at which the program will
 not have self-consistent numbers.  If you then add a line to your program
-in the middle of such state changes, it is difficult to tell whether your
-conception of the states of the variables match reality.  After several 
-modifications, it is likely that subtle bugs will be introduced.  In this
+in the middle of such state changes you will have major difficulties if your
+conception of the states of the variables do not match what is really 
+happening.  After several 
+modifications, it is likely that subtle bugs will be introduced because of 
+sequencing and state issues.  In this
 program, all state changes are brought about by re-running the recursive
 function with completely self-consistent data.  
 </para>
 
 <para>
-Because you never change the states of your variables, program proving is much easier. Let's look at a proof for the above program.  Since this program
-has several features, we will show short proofs for each of them.  There are three different places where we recurse, and they will be referred to as R1, R2, and R3, respectively.
+Because you never change the states of your variables, program proving is much easier. Let's look at a proof for the above program.  As a reminder for those
+of you who have not done program proving since college (or perhaps never at
+all), when doing program proving, you are essentially looking for a property 
+of a program (usually designated P) and making sure that the property holds
+true.  This is done using <emphasis>axioms</emphasis>, which are assumed 
+truths, and <emphasis>theorems</emphasis> which are statements about the
+program inferred from the axioms.  The goal is to link together theorems 
+in such as way as to prove property P true.  If a program has more than
+one feature, they are usually proved independently.  Since this program
+has several features, we will show short proofs for a few of them.  
+For the proofs, we will refer to the three recursion points of the program
+as R1, R2, and R3, respectively.  All programs will have the implicit
+assumption that <literal>report_lines is a valid pointer, and that <literal>num_lines</literal>
+accurately reflects the number of lines represented by <literal>report_lines</literal>
+</para>
+
+<sect2>
+<title>Proving Program Termination</title>
+
+<para>
+This proof will verify that for any given set of lines, the program will
+terminate.  This proof will use a common technique for proofs in recursive
+programs called an <emphasis>inductive proof</emphasis>.  An inductive proof
+consists of two parts.  First, you need to prove that property P holds true 
+for a given set of parameters.  Then you prove an induction that says if P 
+holds true for a value of X, then it must hold true for a value of X + 1 (or X - 1, or any sort of stepwise treatment).  This way you can prove property P for
+all numbers sequenced until the one you prove for.
+</para>
+
+<para>
+In this program, we're going to prove that <literal>print_report_i</literal>
+terminates for <literal>current_line == num_lines</literal>, and then show that if
+<literal>print_report_i</literal> terminates for a given <literal>current_line</literal>, it will also terminate for <literal>current_line - 1</literal>, assuming <literal>current_line > 0</literal>.
 </para>
 
 <variablelist>
 
 <varlistentry>
-<term>Program Termination</term>
-<listitem><para>Assumptions: <literal>num_lines</literal> &gt;= <literal>current_line</literal> and <literal>LINES_PER_PAGE</literal> &gt; 1.  The program stops when current_line == num_lines.  current_line either increments by 1 (R3) or stays the same (R1 and R2).  R2 will only occur when the current value of current_line is different than the previous value of current_line, because current_group and previous_group are directly derived from those. R1 can only occur by changes in num_lines_this_page, which can only result from R2 and R3.  Since R2 can only occur on the basis of R3 and R1 can only occur on the basis of R2 and R3, we can conclude that current_line is increasing.
+<term>Assumptions</term>
+<listitem><para>
+We will assume that <literal>num_lines &gt;= current_line</literal> and <literal>LINES_PER_PAGE &gt; 1</literal>.  
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Page breaks occur after LINES_PER_PAGE lines</term>
+<term>Base case proof</term>
 <listitem><para>
-Assumptions: The current page already has a page header printed on the first line.  Page breaks occur every time num_lines_this_page is equal to LINES_PER_PAGE by inspection.  Page breaks always print new headings.  New headings set the num_lines_this_page to 1 (R1).  num_lines_per_page is incremented immediately after printing group totals (R2) and report lines (R3).  Therefore every print event modifies num_lines_this_page.
+By inspection, we can see that the program immediately terminates when 
+<literal>current_line == num_lines</literal>.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term>Every report item line is printed exactly once</term>
+<term>Inductive step proof</term>
 <listitem><para>
+In each iteration of the program, <literal>current_line</literal> either 
+increments by 1 (R3) or stays the same (R1 and R2).  R2 will only occur 
+when the current value of <literal>current_line</literal> is different than 
+the previous value of <literal>current_line</literal>, because 
+<literal>current_group</literal> and <literal>previous_group</literal> are 
+directly derived from it. R1 can only occur by changes in 
+<literal>num_lines_this_page</literal>, which can only result from 
+R2 and R3.  Since R2 can only occur on the basis of R3, and R1 can only occur 
+on the basis of R2 and R3, we can conclude that <literal>current_line</literal>
+must increase, and can only increase monotonically.  Therefore, if some value 
+of <literal>current_line</literal> terminates, then all values before 
+<literal>current_line</literal> will terminate.
+</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>
+We have now proven that given our assumptions, 
+<literal>print_report_i</literal> will terminate.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Proof that page breaks occur after LINES_PER_PAGE lines</title>
+
+<para>
+This program keeps track of where to do page breaks.  Therefore, it is
+worthwhile to prove that the page-breaking mechanism works.  As mentioned
+before, proofs use axioms and theorems to make their case.  Two theorems
+will be developed to show the proof.  If the conditions of the theorems are
+shown to be true, then we can use the theorem to establish the truth of the
+theorem's result for our program.
+</para>
+
+<variablelist>
+
+<varlistentry>
+<term>Assumptions</term>
+<listitem><para>
+The current page already has a page header printed on the first line.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Theorem 1</term>
+<listitem><para>
+Our first theorem that we will use to prove this is that if 
+<literal>num_lines_this_page</literal> is set to the correct starting value
+(condition 1), <literal>num_lines_per_page</literal> increases by 1 for every 
+line printed (condition 2), and <literal>num_lines_per_page</literal> is 
+reset after a page break (condition 3), then 
+<literal>num_lines_this_page</literal> accurately reflects the number of lines
+printed on the page.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Theorem 2</term>
+<para>
+Our second theorem is that if <literal>num_lines_this_page</literal> accurately
+reflects the number of lines printed, and a page break is performed every
+time <literal>num_lines_this_page == LINES_PER_PAGE</literal>, then we know
+that our program will do a page break after printing <literal>LINES_PER_PAGE</literal> lines.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Proof</term>
+<listitem><para>
+We are assuming condition 1 of Theorem 1.  This would be obvious from 
+inspection anyway if we assume <literal>print_report_i</literal> was called 
+from <literal>print_report</literal>.
+</para>
+<para>
+Condition 2 can be determined by verifying that each procedure which prints
+a line corresponds to an increase of <literal>num_lines_this_page</literal>.
+Line printing is done (1) When printing group totals, (2) when printing
+individual report lines, and (3) when printing page headings.  By inspection,
+(1) and (2) increase <literal>num_lines_this_page</literal> by 1, and (3) 
+resets <literal>num_lines_this_page</literal> to the appropriate value after a 
+page break/heading print combination (condition 3).  The requirements for 
+Theorem 1 have been met, so we have proved that the program will do a page 
+break after printing <literal>LINES_PER_PAGE</literal> lines.
+</para></listitem>
+</variablelist>
+
+</sect2>
+
+<sect2>
+<title>Proof that every report item line is printed exactly once</title>
+<para>
+We need to verify that the program always prints every line of the report, 
+and never skips a line.  We will show that 
+</para>
+
+<variablelist>
+<term>Theorem 1</term>
+<listitem><para>
+
+
 A report item line is not printed in conjunction R1 or R2, but only with R3.  R3 increases current_line by one, while R1 and R2 preserve current_line.  current_line.  We have proven that the program terminates, and this occurs when current_line == num_lines.  Therefore, we know that each line is printed exactly once.
 </para></listitem>
 </varlistentry>
@@ -703,20 +838,20 @@ A report item line is not printed in conjunction R1 or R2, but only with R3.  R3
 </variablelist>
 
 <para>
-These are just some of the proofs that are available.  They can be done much
-more rigorously, but many of us program because we can't stand the tedium of
-mathematics nor its notation.
+These are just some of the proofs that we could do on the program.  
+They can be done much more rigorously, but many of us chose programming
+instead of mathematics because we can't stand the tedium of mathematics 
+nor its notation.
 </para>
 
 <para> 
-Don't get me wrong -- it's not that program proofs cannot be
-done with imperative programs, it's that the number of state changes
-that occur make them unwieldy.  With recursive programs that recursive
-instead of change state, the number of occasions of state change is
-small, and they maintain self-consistency.  This does not outright
-prevent logical errors, but it does eliminate numerous classes of
-them.  This method of programming is usually termed functional
-programming.
+Using recursion tremendously simplifies the verification of programs.  It's 
+not that program proofs cannot be done with imperative programs, but that the 
+number of state changes that occur make them unwieldy.  With recursive programs that recurse instead of change state, the number of occasions of state change is small, and they maintain self-consistency by setting all of the recursion
+variables at once.  This does not completely prevent logical errors, but it 
+does eliminate numerous classes of them.  This method of programming using only
+recursion for state changes and repetition is usually termed 
+<emphasis>functional programming</emphasis>.
 </para>
 
 </sect1>
