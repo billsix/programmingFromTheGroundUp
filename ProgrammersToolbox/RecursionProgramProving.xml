@@ -675,17 +675,24 @@ function with completely self-consistent data.
 </para>
 
 <para>
-Because you never change the states of your variables, program proving is much easier. Let's look at a proof for the above program.  As a reminder for those
+Because you never change the states of your variables, program proving is much easier. Let's look at a 
+few proofs for properties of the above program.  As a reminder for those
 of you who have not done program proving since college (or perhaps never at
 all), when doing program proving, you are essentially looking for a property 
-of a program (usually designated P) and making sure that the property holds
+of a program (usually designated P) and proving that the property holds
 true.  This is done using <emphasis>axioms</emphasis>, which are assumed 
 truths, and <emphasis>theorems</emphasis> which are statements about the
-program inferred from the axioms.  The goal is to link together theorems 
+program inferred from the axioms.  The goal is to link together axioms and theorems 
 in such as way as to prove property P true.  If a program has more than
 one feature, they are usually proved independently.  Since this program
 has several features, we will show short proofs for a few of them.  
-For the proofs, we will refer to the three recursion points of the program
+</para>
+
+<para>
+Since we are doing an informal proof, we will not name the axioms we are using
+nor will we attempt to prove the intermediate theorems used to make the proof
+work.  Hopefully they will be obvious enough that proofs of them will be unnecessary.
+In the proofs, we will refer to the three recursion points of the program
 as R1, R2, and R3, respectively.  All programs will have the implicit
 assumption that <literal>report_lines</literal> is a valid pointer, and that <literal>num_lines</literal>
 accurately reflects the number of lines represented by <literal>report_lines</literal>
@@ -1125,6 +1132,14 @@ way of organizing code in a way that is both maintainable and logically consiste
 <resource-list>
 
 <ul>
+<li>A great intro to programming using functional programming, including many recursive techniques, is <a href="http://www.htdp.org/">How to Design Programs</a>.</li>
+<li>A more difficult introduction, but which goes into much more depth, is <a href="http://mitpress.mit.edu/sicp/full-text/book/book.html">Structure and Interpretation of Computer Programs</a>.
+<li>Understanding the issues of recursive programs with respect to the stack require <a href="http://www.cafeshops.com/bartlettpublish.8640017">some knowledge of how assembly language works</a>.</li>
+<li><a href="http://personal.vsnl.com/erwin/recursion.htm">More examples of recursion in action</a>.
+<li>For those of you who haven't done proofs in a while or at all, <a href="http://zimmer.csufresno.edu/~larryc/proofs/proofs.html">here is a good introduction to proof-writing</a>.</li>
+<li>If you need another explanation of proof by induction, check out <a href="http://www.geocities.com/Athens/Delphi/5136/Induction.html">this tutorial on mathematical induction</a>.
+<li>You probably didn't know that <a href="http://patterns.projects.cis.ksu.edu/documentation/patterns.shtml">proofs have patterns, too</a>.</li>
+<li>
 </ul>
 
 -->
