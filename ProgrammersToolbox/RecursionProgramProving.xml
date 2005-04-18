@@ -96,7 +96,7 @@ quicksort on both sublists and attaches the results together.  Let's look
 at pseudo-code for the quicksort:
 </para>
 
-<example>
+example
 <title>Quicksort pseudo-code</title>
 <programlisting>
 Algorithm Quicksort (list L)
@@ -111,7 +111,7 @@ Algorithm Quicksort (list L)
 			Quicksort(A) + X + Quicksort(B)
 		Return the result
 </programlisting>
-</example>
+/example
 
 <para>
 This algorithm continually divides the list into pieces and does a partial
@@ -143,12 +143,12 @@ Every recursive program follows the same basic sequence of steps:
 <para>
 Sometimes, in writing recursive programs, finding the simpler sub-problem can
 be tricky.  Dealing with <emphasis>inductively-defined data sets</emphasis>, however, makes finding the sub-problem considerably easier.  An inductively-defined data set is a data structure
-defined in terms of itself -- this is called an inductive definition.  For example, linked lists are defined
-in terms of themselves.  A linked list consists of a node structure that contains two members --
+defined in terms of itself - this is called an inductive definition.  For example, linked lists are defined
+in terms of themselves.  A linked list consists of a node structure that contains two members -
 the data it is holding and a pointer to another node structure (or NULL, to terminate the list).
 Because the node structure contains a pointer to a node structure within it, it is said to be
 defined inductively.  Inductive data is fairly easy to write recursive procedures on.  Notice how, like our recursive 
-programs, the definition of a linked list also contains a base case -- the NULL pointer.  Since a NULL pointer terminates a list, we can also use the 
+programs, the definition of a linked list also contains a base case - the NULL pointer.  Since a NULL pointer terminates a list, we can also use the 
 NULL pointer condition as a base case for many of our recursive functions on
 linked lists.
 </para>
@@ -250,7 +250,7 @@ true), and 2) if the list is empty, then that's a base case (returning false).  
 </example>
 
 <para>
-This recursive function works fine, but it has one main shortcoming -- every 
+This recursive function works fine, but it has one main shortcoming - every 
 iteration of the recursion will be passing the <emphasis>same value</emphasis> for
 <literal>the-string</literal>.  Passing the extra parameter can increase the overhead of the function call.  However, we can set up a closure at the beginning of the function to keep the string from having to be passed on each call:
 </para>
@@ -360,7 +360,7 @@ examined data item in the function call.  The function looks like this:
 				;;Base case #1 - end of list
 				(if (null? remaining-items)
 					#t
-					(if (< previous-item (car remaining-items))
+					(if (&lt; previous-item (car remaining-items))
 						;;Recursive case, check the rest of the list
 						(is-ascending-recurse (car remaining-items) (cdr remaining-items))
 						;;Base case #2 - not in ascending order
@@ -369,12 +369,12 @@ examined data item in the function call.  The function looks like this:
 </example>
 
 <para>
-This program begins by first checking a boundary condition -- whether or not the list is empty.  An empty list is considered ascending.
+This program begins by first checking a boundary condition - whether or not the list is empty.  An empty list is considered ascending.
 It then seeds the recursive function with the first item on the list, and the remaining list.
 Next, the base case is checked.  The only way to get to the end of the list is if everything so far
 has been in order.  Therefore, if the list is empty, the list is in ascending order.  Otherwise,
 we check the current item.  If the current item is in ascending order, we then have only a subset
-of the problem left to solve -- whether or not the rest of the list is in ascending order.  So
+of the problem left to solve - whether or not the rest of the list is in ascending order.  So
 we recurse with the rest of the list and try it again.
 </para>
 
@@ -425,7 +425,7 @@ In order to prevent these kinds of errors, we need to be able to:
 
 <para>
 To accomplish these objectives, we need to make only one rule in our 
-programming. <emphasis>Assign a value to a variable only once -- and NEVER MODIFY 
+programming. <emphasis>Assign a value to a variable only once - and NEVER MODIFY 
 IT</emphasis>.  This rule is blasphemy for many who have been raised on 
 imperative, procedural, and object-oriented
 programming because variable assignment and modification are at the core of these programming techniques!  Yet state changes
@@ -452,7 +452,7 @@ variable.  In most languages, we can use the tertiary operator
 <literal>? :</literal> to set the value of the new variable.  For
 example, if we wanted to give our new variable a new value, as long as
 it's not greater than <literal>some_value</literal>, we could write
-<literal>int new_variable = old_variable > some_value ? old variable : new_value;</literal>.  
+<literal>int new_variable = old_variable &gt; some_value ? old variable : new_value;</literal>.  
 </para></listitem>
 </varlistentry>
 
@@ -548,7 +548,7 @@ void print_report(struct report_line *report_lines, int num_lines)
 
 	print_headings(page_number);
 
-	for(current_line = 0; current_line < num_lines; current_line++)
+	for(current_line = 0; current_line &lt; num_lines; current_line++)
 	{
 		num_lines_this_page++;
 
@@ -714,7 +714,7 @@ all numbers sequenced until the one you prove for.
 <para>
 In this program, we're going to prove that <literal>print_report_i</literal>
 terminates for <literal>current_line == num_lines</literal>, and then show that if
-<literal>print_report_i</literal> terminates for a given <literal>current_line</literal>, it will also terminate for <literal>current_line - 1</literal>, assuming <literal>current_line > 0</literal>.
+<literal>print_report_i</literal> terminates for a given <literal>current_line</literal>, it will also terminate for <literal>current_line - 1</literal>, assuming <literal>current_line &gt; 0</literal>.
 </para>
 
 <variablelist>
@@ -1012,8 +1012,6 @@ the tail-called function back to the function that called us.  This means
 that we have to manually rewrite the stack to fake a return address so that
 the tail-called function will return directly to our parent. 
 </para>
-
-<!-- <remark>Graphic here representing this</remark> -->
 
 <para>
 For those who actually like to mess with the low-level stuff, here
