@@ -116,7 +116,7 @@ Let's look at our reading function first:
 </programlisting>
 
 <para>
-It's a pretty simply function.  It just reads data the size of our structure
+It's a pretty simple function.  It just reads data the size of our structure
 into an appropriately sized buffer from the given file descriptor.  The 
 writing one is similar:
 </para>
