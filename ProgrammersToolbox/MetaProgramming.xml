@@ -1,3 +1,5 @@
+<?xml version="1.0" ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN">
 <chapter>
 <title>Program-Generating Programs</title>
 
@@ -9,7 +11,11 @@ One of the most under-utilized programming techniques is writing programs
 that generate programs or program parts.  There are numerous applications 
 to writing programs which themselves write programs.  Program-generating
 programs are sometimes called <emphasis>meta-programs</emphasis> and 
-writing such programs is called <emphasis>meta-programming</emphasis>.
+writing such programs is called <emphasis>meta-programming</emphasis>.  
+</para>
+
+<para>
+There are many different uses of meta-programming.
 </para>
 
 <para>
@@ -25,9 +31,10 @@ data tables is usually your best answer.
 </para>
 
 <para>
-Second, if you have a large application that includes a lot of boilerplate
+Second, if you have a large application where many of the functions
+include a lot of boilerplate
 code, you can create a mini-language that will do the boilerplate code for
-you and allow you to code the important parts.  Now, if you can, it's best
+you and allow you to only code the important parts.  Now, if you can, it's best
 to abstract out the boilerplate portions into a function.  However, often
 the boilerplate code isn't so pretty.  Perhaps there's a list of variables
 that need to be declared in every instance, perhaps you need to register 
@@ -55,12 +62,21 @@ domain-specific languages that are easier to write and maintain than writing
 them in the target language.
 </para>
 
+<para>
+The tools that are used to create these domain-specific languages are usually
+referred to as <emphasis>macro languages</emphasis>.  This article will discuss
+several kinds of macro languages, and show how they can be used to improve
+your code.
+</para>
+
 </sect1>
 
 <sect1>
 <title>Basic Textual Macro Languages</title>
 
 <para>
+The first kind of meta-programming we are going to look at are textual macros
+languages.
 Textual macros are macros that directly affect the text of the programming 
 language without knowing anything about the meaning of the programming 
 language.  The two most widely-used textual macro systems are the 
@@ -71,19 +87,18 @@ Here is an example <literal>#define</literal> macro:
 </para>
 
 <programlisting>
-#define SWAP(a, b, type) { type c; c = b; b = a; a = c; }
+#define SWAP(a, b, type) { type __tmp_c; c = b; b = a; a = c; }
 </programlisting>
 
 <para>
 This macro allows you to swap the two values of the given type.  This is
-best written as a macro for two reasons:<footnote><para>Note that these two 
-reasons are moot in C++ because it has both inline functions and 
-call-by-reference.</para></footnote>
+best written as a macro for several reasons:
 </para>
 
 <itemizedlist>
 <listitem><para>A function call would take way too much overhead for a simple operation</para></listitem>
 <listitem><para>You would have to pass their addresses to the function, rather than their values.  This isn't too bad, but it makes it messier, and prevents the compiler from being able to keep the values in registers.</para></listitem>
+<listitem><para>You would have to code a different function for each type of item you wanted to swap.</para></listitem>
 </itemizedlist>
 
 <para>
@@ -91,13 +106,23 @@ Here is an example of the macro being used:
 </para>
 
 <programlisting>
-&c-macro-swap-example;
+#define SWAP(a, b, type) { type __tmp_c; c = b; b = a; a = c; }
+int main()
+{
+	int a = 3;
+	int b = 5;
+	printf("a is %d and b is %d\n", a, b);
+	SWAP(a, b, int);
+	printf("a is now %d and b is now %d\n", a, b);
+
+	return 0;
+}
 </programlisting>
 
 <para>
 When the C pre-processor is run, it literally changes the text from 
-<literal>SWAP(q, y, int)</literal> to 
-<literal>{ int c; c = y; y = q; q = c; }</literal>.  This is a nice, but
+<literal>SWAP(a, b, int)</literal> to 
+<literal>{ int __tmp_c; __tmp_c = b; b = a; a = __tmp_c; }</literal>.  Textual substitutaion is a nice, but
 fairly limitted feature.  This feature has the following problems:
 </para>
 
@@ -105,6 +130,7 @@ fairly limitted feature.  This feature has the following problems:
 <listitem><para>Textual substitution can get very messy when used in combination with other expressions.</para></listitem>
 <listitem><para>The C pre-processor only allows a fixed number of arguments to its macros.</para></listitem>
 <listitem><para>Because of the C language's type system, we often have to have different macros for different kinds of arguments, or at least pass the type of the parameters as arguments.</para></listitem>
+<listitem><para>Because we are only doing textual substitution, C is not smart enough to rename our temporary variable if it conflicts with one of the arguments passed to it.  Our macro would utterly fail if it were passed a variable called <literal>__tmp_c</literal></para></listitem>
 </itemizedlist>
 
 <para>
@@ -136,8 +162,12 @@ just doing text substitutions.  Therefore, if you do
 then it will expand into <literal>( (do_long_calc()) > (do_long_calc2()) ? (do_long_calc2()) : (do_long_calc()))</literal>.  This will take a long time, since
 at least one of the calculations will be performed twice.  It's even worse if
 those one of those calculations has side effects (like printing, modifying a
-global variable, etc.), because those side effects will happen twice.  More
-information about C pre-processor macro programming is available in the CPP
+global variable, etc.), because those side effects will happen twice.  This can
+cause it to be even incorrect if the functions return different things each time.
+</para>
+
+<para>
+More information about C pre-processor macro programming is available in the CPP
 manual (distributed w/ GCC and available from gcc.gnu.org).
 </para>
 
@@ -157,15 +187,46 @@ For example, this is the M4 macro version of a typical sendmail configuration fi
 </para>
 
 <programlisting>
-&sendmail-m4;
+divert(-1)
+include(`/usr/share/sendmail-cf/m4/cf.m4')
+VERSIONID(`linux setup for Red Hat Linux')dnl
+OSTYPE(`linux')
+define(`confDEF_USER_ID',``8:12'')dnl
+undefine(`UUCP_RELAY')dnl
+undefine(`BITNET_RELAY')dnl
+define(`PROCMAIL_MAILER_PATH',`/usr/bin/procmail')dnl
+define(`ALIAS_FILE', `/etc/aliases')dnl
+define(`UUCP_MAILER_MAX', `2000000')dnl
+define(`confUSERDB_SPEC', `/etc/mail/userdb.db')dnl
+define(`confPRIVACY_FLAGS', `authwarnings,novrfy,noexpn,restrictqrun')dnl
+define(`confAUTH_OPTIONS', `A')dnl
+define(`confTO_IDENT', `0')dnl
+FEATURE(`no_default_msa',`dnl')dnl
+FEATURE(`smrsh',`/usr/sbin/smrsh')dnl
+FEATURE(`mailertable',`hash -o /etc/mail/mailertable.db')dnl
+FEATURE(`virtusertable',`hash -o /etc/mail/virtusertable.db')dnl
+FEATURE(redirect)dnl
+FEATURE(always_add_domain)dnl
+FEATURE(use_cw_file)dnl
+FEATURE(use_ct_file)dnl
+FEATURE(local_procmail,`',`procmail -t -Y -a $h -d $u')dnl
+FEATURE(`access_db',`hash -T&lt;TMPF&gt; -o /etc/mail/access.db')dnl
+FEATURE(`blacklist_recipients')dnl
+EXPOSED_USER(`root')dnl
+DAEMON_OPTIONS(`Port=smtp,Addr=127.0.0.1, Name=MTA')
+FEATURE(`accept_unresolvable_domains')dnl
+MAILER(smtp)dnl
+MAILER(procmail)dnl
+Cwlocalhost.localdomain
 </programlisting>
 
 <para>
 You don't need to understand it, but just know that this small file, after 
 being run through the m4 macro processor, generates over 1,000 lines of
-configuration.  The m4 macro processor is too in-depth to discuss in this
-book, but you can learn more about it at http://www.gnu.org/software/m4/,
-and use it for your own software.
+configuration.  Similarly, autoconf produces shell scripts based on
+simple macros.  The m4 macro processor is too in-depth to discuss 
+here, but a link to more information about it is available in the
+<ulink url="#references">references</ulink> section.
 </para>
 
 </sect1>
@@ -173,16 +234,349 @@ and use it for your own software.
 <sect1>
 <title>Programs that Write Programs</title>
 
+<sect2>
+<title>A Survey of Program Generators</title>
+
 <para>
+GNU/Linux systems come with several program-writing programs.  The most popular
+are probably:
+<itemizedlist>
+<listitem><para>Flex - a lexical analyzer generator</para></listitem>
+<listitem><para>Bison - a parser generator</para></listitem>
+<listitem><para>Gperf - a perfect hash function generator</para></listitem>
+</itemizedlist>
+</para>
+
+<para>
+These tools all generate output for the C language.  You may wonder, though, why
+are these implemented as program-generators instead of as functions?  There are several
+reasons, among them are:
+</para>
+
+<itemizedlist>
+<listitem><para>The inputs to these functions are very complicated and not easily expressible in a form that is valid C code.</para></listitem>
+<listitem><para>These programs compute and generate many static lookup tables to operate, and therefore it is better to do this once during pre-compile time than during every invocation of the program.</para></listitem>
+<listitem><para>Many aspects of the functioning of these systems are customizable with arbitrary code placed in specific positions, which use variables and functions which are part of the structure built by the system.</para></listitem>
+</itemizedlist>
+
+<para>
+These tools are each focused on building a particular type of program.  Bison is used to generate parsers, and Flex is used to generate
+lexical analyzers.  Other tools are more focused on automating specific methods of programming.  For example, Embedded SQL is used to
+easily combine database access with C.  While there are many libraries available that allow you to access databases in C, Embedded SQL
+makes it much easier by combining SQL entities as part of the C language.  Many Embedded SQL implementations, however, are basically just
+specialized macro processors that generate regular C programs as output.  Using the Embedded SQL, however, makes the database access much
+more natural, intuitive, and error-free than doing so through the use of libraries.  With Embedded SQL, the intricacies of database programming
+are masked by a sort of macro sublanguage.  
+</para>
+
+</sect2>
+
+<sect2>
+<title>An example use of a program generator</title>
+
+<para>
+To see how a program generator works, we'll look at a short Embedded SQL program.  PostgreSQL comes with an Embedded SQL compiler,
+<literal>ecpg</literal>.  To run this program, you need to create a database in PostgreSQL called "test".  Then, in that database, issue
+the following commands:
+</para>
+
+<programlisting>
+create table people (id serial primary key, name varchar(50));
+insert into people (name) values ('Tony');
+insert into people (name) values ('Bob');
+insert into people (name) values ('Mary');
+</programlisting>
+
+<para>
+We will create a simple program to read and print out the contents of the database, sorted by the <literal>name</literal> field.
+Here is the program:
+</para>
+
+<programlisting>
+#include &lt;stdio.h&gt;
+int main()
+{
+	/* Setup database connection -- replace postgres/password w/ the username/password on your system*/
+	EXEC SQL CONNECT TO unix:postgresql://localhost/test USER postgres/password;
+
+	/* These variables are going to be used for temporary storage w/ the database */
+	EXEC SQL BEGIN DECLARE SECTION;
+	int my_id;
+	VARCHAR my_name[200];
+	EXEC SQL END DECLARE SECTION;
+
+	/* This is the statement we are going to execute */
+	EXEC SQL DECLARE test_cursor CURSOR FOR
+		SELECT id, name FROM people ORDER BY name;
+
+	/* Run the statement */
+	EXEC SQL OPEN test_cursor;
+
+	EXEC SQL WHENEVER NOT FOUND GOTO close_test_cursor;
+	while(1) /* our previous statement will handle exitting the loop */
+	{
+		/* Fetch the next value */
+		EXEC SQL FETCH test_cursor INTO :my_id, :my_name;
+		printf("Fetched ID is %d and fetched name is %s\n", my_id, my_name.arr);
+	}
+
+	/* Cleanup */
+	close_test_cursor:
+	EXEC SQL CLOSE test_cursor;
+	EXEC SQL DISCONNECT;
+
+	return 0;
+}
+</programlisting>
+
+<para>
+If you've done database programming in C before with a regular database library, you can tell that this is a lot more natural way to
+code.  Normal C coding does not allow returning multiple return types of arbitrary type
+, but our <literal>EXEC SQL FETCH</literal> line does precisely that.  
+</para>
+
+<para>
+To compile and run the program, just put it into a file called <literal>test.pgc</literal> and run the following commands:
+</para>
+
+<programlisting>
+ecpg test.pgc
+gcc test.c -lecpg -o test
+./test
+</programlisting>
+
+</sect2>
+
+<sect2>
+<title>Building our own program generator</title>
+
+<para>
+Now that we've seen several types of program generators, and the types of things that they can do, we are now
+going to write our own small program generator.  Probably the simplest useful program generator we could write
+would be one to build static lookup tables.  In programming in C, often times to build fast functions you simply
+create a lookup table of all of the answers.  This means that you either need to precompute them by hand (which
+is wasteful of your time) or build them at runtime (which is wasteful of the user's time).  Here we will build
+a generator that will take a function or set of functions on an integer, and build lookup tables for the answer.
+</para>
+
+<para>
+To think of how to do this, let's start from the end and work backwards.  Let's say that we want a lookup table that 
+will return square roots of numbers between 5 and 20.  Working this out by hand, it would probably look something like this:
+</para>
+
+<programlisting>
+/* our lookup table */
+double square_roots[21];
+
+/* function to load the table at runtime */
+void init_square_roots()
+{
+	int i;
+	for(i = 5; i < 21; i++)
+	{
+		square_roots[i] = sqrt((double)i);
+	}
+}
+
+/* program that uses the table */
+int main ()
+{
+	init_square_roots();
+	printf("The square root of 5 is %f\n", square_roots[5]);
+	return 0;
+}
+</programlisting>
+
+<para>
+Now, if we were to convert this to a statically initialized array, we would remove the first part of the program and replace it with something like this:
+</para>
+
+<programlisting>
+double square_roots[] = {
+	/* these are the ones we skipped */ 0.0, 0.0, 0.0, 0.0, 0.0
+	2.236068, /* Square root of 5 */
+	2.449490, /* Square root of 6 */
+	2.645751, /* Square root of 7 */
+	2.828427, /* Square root of 8 */
+	3.0, /* Square root of 9 */
+	...
+	4.472136 /* Square root of 20 */
+};
+</programlisting>
+
+<para>
+So, what we need is a program that will produce these values, and print them out like this so they are loaded in at compile-time.
+</para>
+
+<para>
+Let's analyze the different pieces we have working here:
+</para>
+<itemizedlist>
+<listitem><para>An array name</para></listitem>
+<listitem><para>An array type</para></listitem>
+<listitem><para>A start index</para></listitem>
+<listitem><para>An end index</para></listitem>
+<listitem><para>A default value for the skipped entries</para></listitem>
+<listitem><para>An expression to compute the final value</para></listitem>
+</itemizedlist>
+
+<para>
+Therefore, we can simply spell all of these out as a colon-separated list.  So we will probably want our macro 
+to look something like this:
+</para>
+
+<programlisting>
+/* sqrt.in */
+/* Our macro invocation to build us the table.  The format is: */
+/* TABLE:array name:type:start index:end index:default:expression */
+/* VAL is used as the placeholder for the current index in the expression */
+TABLE:square_roots:double:5:20:0.0:sqrt(VAL)
+
+int main()
+{
+	printf("The square root of 5 is %f\n", square_roots[5]);
+	return 0;
+}
+</programlisting>
+
+<para>
+Now we just need a program to convert one form into another.  For this
+simple example I decided to use Perl, because it can evaluate user code
+in a string, and its syntax is largely C-like.  This allows it to load
+and process user code dynamically.
+</para>
+
+<para>
+We want our program generator to pass through all non-templated portions unchanged.
+Therefore, the basic organization is going to be this:
+</para>
+
+<orderedlist>
+<listitem><para>Read in a line</para></listitem>
+<listitem><para>Should the line be processed?</para></listitem>
+<listitem><para>If so, process the line and generate output.</para></listitem>
+<listitem><para>If not, simply copy the line directly to the output unchanged.</para></listitem>
+</orderedlist>
+
+<para>
+Here is the Perl code to create our table generator:
+</para>
+
+<programlisting>
+#!/usr/bin/perl
+#
+#tablegen.pl
+#
+
+##Puts each program line into $line
+while(my $line = &lt;&gt;)
+{
+	#Is this a macro invocation?
+	if($line =~ m/TABLE:/)
+	{
+		#If so, split it apart into its component pieces
+		my ($dummy, $table_name, $type, $start_idx, $end_idx, $default, $procedure) = split(m/:/, $line, 7);
+
+		#The main difference between C and Perl for mathematical expressions is that
+		#Perl prefixes its variables with a dollar sign, so we will add that here
+		$procedure =~ s/VAL/\$VAL/g;
+	
+		#Print out the array declaration
+		print "${type} ${table_name} [] = {\n";
+
+		#Go through each array element
+		foreach my $VAL (0 .. $end_idx)
+		{
+			#Only process an answer if we have reached our starting index
+			if($VAL &gt;= $start_idx)
+			{
+				#evaluate the procedure specified (this sets $@ if there are any errors)
+				$result = eval $procedure;
+				die("Error processing: $@") if $@;
+			}
+			else
+			{
+				#if we haven't reached the starting index, just use the default
+				$result = $default;
+			}
+
+			#Print out the value
+			print "\t${result}";
+
+			#If there are more to be processed, add a comma after the value
+			if($VAL != $end_idx)
+			{ 
+				print ","; 
+			}
+
+			print "\n"
+		}
+
+		#Finish the declaration
+		print "};\n";
+	}
+	else
+	{
+		#If this is not a macro invocation, just copy the line directly to the output
+		print $line;
+	}
+}
+</programlisting>
+
+<para>
+To run this program do this:
+</para>
+
+<programlisting>
+./tablegen.pl &lt; sqrt.in &gt; sqrt.c
+gcc sqrt.c -o sqrt
+./a.out
+</programlisting>
+
+<para>
+So in just a few lines of code we created a simple program generator that can dramatically ease 
+our programming tasks.  Just with that single macro we can take away a lot of work for any 
+program that has to generate mathematical tables indexed by integer.  A little extra work
+could also allow tables containing full struct definitions, and a little more would get 
+the ability to not waste space at the front of the array with useless empty entries.
+</para>
+
+</sect2>
+
+
+</sect1>
+
+<sect1>
+<title>Language-Sensitive Macro Programming with Scheme</title>
+
+<para>
+While program generators know a little bit about the target language, they are usually
+not full parsers, and cannot fully take the target language into account without rewriting
+a complete compiler.  However, this might be simplified if there was a language that was
+already represented with a simple data structure.  In the Scheme programming language, 
+the language itself is represented as a linked list, and 
+<ulink url="http://www.ibm.com/developerworks/linux/library/l-listproc/">the Scheme programming language is built for list processing</ulink>!
+This makes Scheme almost the ideal language for creating programs that are transformed -- no massive
+parsing is needed to parse the program, and Scheme itself is a list-processing language.
+</para>
+
+<para>
+In fact, Schemes abilities to do transformation go even beyond that.  The Scheme standard defines
+a macro language specifically built to make it easier to make additions to the language.  On top
+of that, most Scheme implementations provide additional features to aid in building 
+program-generating programs.
+</para>
+
+<para>
+1) look back at problems w/ C macros and language, 2) show Scheme versions, 3) show hygienic macros and why they are cool, 4) mention limits
 </para>
 
 </sect1>
 
 <sect1>
-<title>Language-Sensitive Macro Programming</title>
-
+<title>Super-powered Macro Programming with Lisp</title>
 <para>
-
+Redo the table macro with Lisp and eval-when
 </para>
 
 </sect1>
