@@ -568,7 +568,212 @@ program-generating programs.
 </para>
 
 <para>
-1) look back at problems w/ C macros and language, 2) show Scheme versions, 3) show hygienic macros and why they are cool, 4) mention limits
+Let's re-examine the problems of our C macros.  Let's look first at the <literal>SWAP</literal>
+macro.  The problem with this macro is that, first, you had to explicitly say what types of
+values you were swapping, and second, you had to use a name for the temporary variable that
+you were sure wasn't in use elsewhere.  Let's look at what the equivalent looks like in 
+Scheme and how Scheme solves these issues:
+</para>
+
+<programlisting>
+;;Define SWAP to be a macro
+(define-syntax SWAP
+	;;We are using the syntax-rules method of macro-building
+	(syntax-rules ()
+		;;Rule Group
+		(
+			;;This is the pattern we are matching
+			(SWAP a b)
+			;;This is what we want it to transform into
+			(let
+				(
+					(c b))
+				(set! b a)
+				(set! a c)))))
+
+(define first 2)
+(define second 9)
+(SWAP first second)
+(display "first is: ")
+(display first)
+(newline)
+(display "second is: ")
+(display second)
+(newline)
+</programlisting>
+
+<para>
+This is a <literal>syntax-rules</literal> macro.  <literal>define-syntax</literal> is
+used to define macro transformations in Scheme.  After the <literal>define-syntax</literal>
+keyword comes the name of the macro we are defining.  After that comes the transformation.
+<literal>syntax-rules</literal> is the type of transformation we are applying.  Within the
+parentheses are any other macro-specific symbols we are keeping other than the macro
+name itself (we aren't using any).  After that come a sequence of transforming rules.
+The syntax transformer will go through each rule and try to find a matching pattern.
+After it finds one, it runs the given transformation.  In our case we only have one
+patten: <literal>(SWAP a b)</literal>.  <literal>a</literal> and <literal>b</literal> are
+pattern variables and are kept as-is throughout the macro.
+</para>
+
+<para>
+From the initial look of it, it may appear that this has the some of the same pitfalls of 
+the C version.  Of course, since we're dealing with Scheme, the types are bound to the
+values themselves, not the variable names, so we don't even have to worry about that.
+However, doesn't this have the same problem of variable naming that the original one had?
+Namely, if one of our variables were named <literal>c</literal>, wouldn't that cause a 
+conflict?
+</para>
+
+<para>
+Actually, it wouldn't.  Macros in Scheme using <literal>syntax-rules</literal>
+are <emphasis>hygienic</emphasis>.  This means that
+all temporary variables used by a macro are automatically renamed 
+<emphasis>before the substitution occurs</emphasis> in order to prevent them from having
+conflicting names.  Therefore, in this macro, <literal>c</literal> will be renamed to something
+else before substitutions if one of the substitution variables is named <literal>c</literal>.
+In fact, it will likely be renamed anyway.  Here is a possible result of the macro 
+transformation on the program:
+</para>
+
+<programlisting>
+(define first 2)
+(define second 9)
+(let 
+	(
+		(__generated_symbol_1 second))
+	(set! second first)
+	(set! first __generated_symbol_1))
+(display "first is: ")
+(display first)
+(newline)
+(display "second is: ")
+(display second)
+(newline)
+</programlisting>
+
+<para>
+As you can see, Scheme's hygienic macros can bring you the benefits of
+other macro systems without many of their pitfalls.  However, sometimes
+you want macros to not be hygienic.  For example, you may want to 
+introduce bindings in your macro which are accessible to the code you
+are transforming.  Simply declaring a variable will not do, as the 
+<literal>syntax-rules</literal> system will simply rename the variable.
+Therefore, most schemes also include a non-hygienic macro system called
+<literal>syntax-case</literal>.  <literal>syntax-case</literal> macros
+are harder to write, but they are much more powerful, as you have pretty
+much the entire Scheme runtime available to you for transformation.  
+<literal>syntax-case</literal> macros are not really standard, but they
+are implemented on nearly every Scheme system.
+</para>
+
+<para>
+Let's look at the basic form of a <literal>syntax-case</literal> macro.
+Let's define a macro called <literal>at-compile-time</literal>
+which will execute a given form during compilation.
+</para>
+
+<programlisting>
+;;Define our macro
+(define-syntax at-compile-time
+	;;x is the syntax object to be transformed
+	(lambda (x)
+		(syntax-case x ()
+			(
+				;;Pattern just like a syntax-rules pattern
+				(at-compile-time expression)
+
+				;;with-syntax allows us to build syntax objects
+				;;dynamically
+				(with-syntax 
+					(
+						;this is the syntax object we are building
+						(expression-value 
+							;after computing expression, transform it into a syntax object
+							(datum->syntax-object 
+								;syntax domain
+								(syntax at-compile-time) 
+								;quote the value so that its a literal value
+								(list 'quote 
+								;compute the value to transform (quote 
+									(eval 
+										;;convert the expression from the syntax representation
+										;;to a list representation
+										(syntax-object->datum (syntax expression)))))))
+					;;Just return the generated value as the result
+					(syntax expression-value))))))
+
+(define a 
+	;;converts to 5 at compile-time
+	(at-compile-time (+ 2 3)))
+</programlisting>
+
+<para>
+This will perform the given operation at compile time (more specifically, this will perform
+the given operation at macro-expansion time, which is not always the same as compile time
+in Scheme systems).  Any expression that is allowed at compile-time on your Scheme system
+will be available to use in this expression.  Now lets see how it works.
+</para>
+
+<para>
+With <literal>syntax-case</literal>, you actually are defining a transforming function,
+which is where the lambda comes in.  The <literal>x</literal> is the expression being
+transformed.  <literal>with-syntax</literal> defines additional syntax elements that can
+be used in the transforming expression.  <literal>syntax</literal> takes the syntax
+elements and combines them back together, following the same rules as the transformer
+in <literal>syntax-rules</literal>.
+</para>
+
+<para>
+Now that we've defined the ability to perform computations at compile time, we can
+use this to make an even better version of the <literal>TABLE</literal> macro that
+we defined for the C language.  Here is how you would do it in Scheme with our
+<literal>at-compile-time</literal> macro:
+</para>
+
+<programlisting>
+(define sqrt-table 
+	(at-compile-time 
+		(list->vector
+			(let build
+				(
+					(val 0))
+				(if (> val 20)
+					'()
+					(cons (sqrt val) (build (+ val 1))))))))
+
+(display (vector-ref sqrt-table 5))
+(newline)
+</programlisting>
+
+<para>
+However, we can even make this easier for ourselves by making a further macro for
+table-building that will be remarkably similar to our C language macro:
+</para>
+
+<programlisting>
+(define-syntax build-compiled-table
+	(syntax-rules ()
+		(
+			(build-compiled-table name start end default func)
+			(define name
+				(at-compile-time
+					(list->vector
+						(let build
+							(
+								(val 0))
+							(if (> val end)
+								'()
+								(if (< val start)
+									(cons default (build (+ val 1)))
+									(cons (func val) (build (+ val 1))))))))))))
+
+(build-compiled-table sqrt-table 5 20 0.0 sqrt)
+(display (vector-ref sqrt-table 5))
+(newline)
+</programlisting>
+
+<para>
+Now we have a function that allows us to easily build whatever kind of tables we wish.
 </para>
 
 </sect1>
