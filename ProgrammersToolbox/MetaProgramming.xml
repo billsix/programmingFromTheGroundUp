@@ -694,11 +694,14 @@ which will execute a given form during compilation.
 								(syntax at-compile-time) 
 								;quote the value so that its a literal value
 								(list 'quote 
-								;compute the value to transform (quote 
+								;compute the value to transform 
 									(eval 
 										;;convert the expression from the syntax representation
 										;;to a list representation
-										(syntax-object->datum (syntax expression)))))))
+										(syntax-object->datum (syntax expression))
+										;;environment to evaluate in
+										(interaction-environment)
+										)))))
 					;;Just return the generated value as the result
 					(syntax expression-value))))))
 
