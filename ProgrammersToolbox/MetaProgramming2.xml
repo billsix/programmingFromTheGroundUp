@@ -1,0 +1,281 @@
+<?xml version="1.0" ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS/DTD DocBook XML V4.1.2//EN">
+<chapter>
+<title>Metaprogramming Applications and Techniques in Scheme</title>
+
+<para>
+In the previous article, we looked at why metaprogramming, or
+programming with program generators, was so useful.  This article
+aims to teach some techniques and applications of metaprogramming
+in the Scheme programming language.
+</para>
+
+<sect1>
+<title>Writing <literal>syntax-case</literal> Macros in Scheme</title>
+
+<para>
+While <literal>syntax-case</literal> macros are not a standard part of Scheme, 
+they are the most widely used macro types that allow both hygienic and non-hygienic
+forms, and are very closely related to the standard <literal>syntax-rules</literal>
+macros.
+</para>
+
+<para>
+<literal>syntax-case</literal> macros follow the following form:
+</para>
+
+<programlisting>
+(define-syntax macro-name
+	(lambda (x)
+		(syntax-case x (other keywords go here if any)
+			(
+				;;First Pattern
+				(macro-name macro-arg1 macro-arg2)
+				;;Expansion of macro (can be one or multiple forms)
+				;;(syntax is a reserved word)
+				(syntax expansion of macro goes here)
+			)
+			(
+				;Second Pattern -- a 1-argument version
+				(macro-name macro-arg1)
+				;;Expansion of macro
+				(syntax expansion of macro goes here)
+			))))
+</programlisting>
+
+<para>
+What you are doing here is defining <literal>macro-name</literal> to be a keyword 
+used for transformation.  The function defined with <literal>lambda</literal> is
+a function used by the macro transformer to convert the expression <literal>x</literal>
+into its expansion.
+</para>
+
+<para>
+<literal>syntax-case</literal> takes the expression, <literal>x</literal> as its first argument.
+The second argument is a list of keywords which are to be taken literally within the syntax
+patterns.  The other identifiers used in the patterns will be used as template variables.
+<literal>syntax-case</literal> then takes a sequence of pattern/transformer combinations.  It proceeds
+through each one, trying to match the input form to the pattern, and, if it matches, it produces the
+associated expansion.
+</para>
+
+<sect2>
+<title>Some Simple Examples</title>
+
+<para>
+Let's look at a simple example.  Let's say that we wanted to write a more verbose version of the <literal>if</literal>
+statement than Scheme's version.  Let's say that we want to find the greater of two variables and return it.  The code
+would look like this:
+</para>
+
+<programlisting>
+(if (> a b) a b)
+</programlisting>
+
+<para>
+To a non-scheme programmer, there are no textual indications to indicate which is the "then" branch and which is the "else" branch.  
+To aid this, we can create our own, custom if statement that added the "then" and "else" keywords.  It would look like this:
+</para>
+
+<programlisting>
+(my-if (> a b) then a else b)
+</programlisting>
+
+<para>
+Here is the macro to do this:
+</para>
+
+<programlisting>
+;;define my-if as a macro
+(define-syntax my-if
+	(lambda (x)
+		;;establish that "then" and "else" are keywords
+		(syntax-case x (then else)
+			(
+				;;pattern to match
+				(my-if condition then yes-result else no-result)
+				;;transformer
+				(syntax (if condition yes-result no-result))
+			))))
+</programlisting>
+
+<para>
+When this macro executes, it will match the <literal>my-if</literal> expression up to the template like this:
+</para>
+
+<programlisting>
+(my-if  (> a b)  then     a      else    b)
+   |       |      |       |       |      |
+   |       |      |       |       |      |
+   v       v      v       v       v      v
+(my-if condition then yes-result else no-result)
+</programlisting>
+
+<para>
+Therefore, in the transforming expression, anywhere where it says <literal>condition</literal> it is replaced
+by <literal>(> a b)</literal>.  It doesn't matter that <literal>(> a b)</literal> is a list.  It is a single
+element in the containing list, so it is treated as a unit in the pattern.  The resulting <literal>syntax</literal>
+expression simply rearranges each of these parts into a new expression.
+</para>
+
+<para>
+This transformation happens <emphasis>before execution</emphasis> during what is known as macro-expansion time.
+On many compiled schemes this is at compile time.  This means that macros are only executed once, at the beginning
+of the program or at compile time, and never have to be re-evaluated again.  Therefore, our <literal>my-if</literal>
+statement has no runtime overhead whatsoever -- it is converted to a simple <literal>if</literal> at run-time.
+</para>
+
+<para>
+The next example we are going to do is the famous <literal>swap!</literal> macro.  This is a very simple macro
+to swap the values of two identifiers.  It is used like this:
+</para>
+
+<programlisting>
+(define a 1)
+(define b 2)
+(swap! a b)
+(display "a is now ")(display a)(newline)
+(display "b is now ")(display b)(newline)
+</programlisting>
+
+<para>
+This is likewise a simple macro.  However, this macro also introduces a new temporary variable to handle the swap.  Here is our macro:
+</para>
+
+<programlisting>
+;;Define a new macro
+(define-syntax swap!
+	(lambda (x)
+		;;we don't have any keywords this time
+		(syntax-case x ()
+			(
+				(swap! a b)
+				(syntax 
+					(let ((c a))
+						(set! a b)
+						(set! b c)))
+			))))
+</programlisting>
+
+<para>
+This introduces a new variable called <literal>c</literal>.  But what if one of the
+arguments to be swapped is called <literal>c</literal>?  <literal>syntax-case</literal>
+simplifies this problem by replacing <literal>c</literal> with a unique, unused variable
+name when the macro expands.  Therefore, the syntax transformer will take care of this
+all its own.  Note, however, that <literal>syntax-case</literal> does not
+replace <literal>let</literal>.  This is because <literal>let</literal> is a globally-defined
+identifier.  This idea of replacing introduced variable names with non-conflicting names is
+called <emphasis>hygiene</emphasis>, and the resulting macros are called <emphasis>hygienic macros</emphasis>.
+</sect2>
+
+<sect2>
+<title>Introducing Identifiers</title>
+
+<para>
+The nice thing about hygienic macros is that they can be safely used everywhere without fear of
+stomping on existing variable names.  However, there are cases in which you will want your macros
+to be non-hygienic.  For example, let's say that you wanted to create a macro that introduced a
+variable into a scope that could be used by the person calling the macro.  This would be non-hygienic,
+because you are polluting the namespace of the macro.  However, as we will see later, it is quite useful.
+</para>
+
+<para>
+For a simple example, let's say that we wanted to write a macro which introduced the definitions of 
+several math constants for use within the macro (yes, this could be better accomplished using other means,
+but I'm just using this for a simple example).  Let's say we wanted to define <literal>pi</literal> and
+<literal>e</literal>.  The macro invocation might look something like this:
+</para>
+
+<programlisting>
+(with-math-defines
+	(* pi e))
+</programlisting>
+
+<para>
+If we tried to set this up like the previous macros it would fail.
+</para>
+
+<programlisting>
+(define-syntax with-math-defines
+	(lambda (x)
+		(syntax-rules x ()
+			(
+				(with-math-defines expression)
+				(syntax
+					(let ( (pi 3.14) (e 2.71828) )
+						expression))
+			))))
+</programlisting>
+
+<para>
+This formulation won't work.  The reason is that, as mentioned earlier, Scheme will
+<emphasis>rename</emphasis> <literal>pi</literal> and <literal>e</literal> so
+they don't conflict with other names in enclosing or nested scopes.  Therefore,
+you have to perform the transformation more programmatically to get what you want.
+</para>
+
+<para>
+In order to introduce these bindings manually, you need to follow these steps:
+</para>
+
+<itemizedlist>
+<listitem><para>Convert the expression and store it in a variable using <literal>syntax-object->datum</literal></para</listitem>
+<listitem><para>Create a list containing your custom code and the converted expression.</para></listitem>
+<listitem><para>Use <literal>datum->syntax-object</literal> to convert the new expression back into a syntax object for Scheme to use</para></listitem>
+<listitem><para>Store the resulting syntax object into a new pattern variable</para></listitem>
+<listitem><para>Use a <literal>syntax</literal> expression to perform the transformation.</para></listitem>
+</itemizedlist>
+
+<para>
+In effect, you are converting the expression to a list you can manipulate, manipulating that list, and then converting it back into a Scheme expression for output.  Here is what the code looks like:
+</para>
+
+<programlisting>
+(define-syntax with-math-defines
+	(lambda (x)
+		(syntax-case x ()
+			(
+				;;Pattern
+				(with-math-defines expression)
+
+				;;with-syntax defines new pattern avriables
+				(with-syntax (
+						(expr
+							;;transform into a syntax object
+							(datum->syntax-object
+								;;syntax domain magic
+								(syntax k)
+								`(let ( (pi 3.14) (e 2.72))
+									,(syntax-object->datum (syntax expression))))))
+					(syntax expr))
+			))))
+</programlisting>
+
+<para>
+If you are not very familiar with Scheme, the backquote, called a quasiquote, is similar to the quote operator, except that it allows
+non-quoted data to be included if it is preceded by a comma, called the unquote operator.  This lets us splice in the expression into
+our bit of boilerplate code.  Then the whole shebang is converted back into a syntax object as the final transformation.  Since we explicitly
+spliced in the new variables into the existing syntax object, there is no chance for them to be overwritten.  Also note that the expression
+<literal>(syntax k)</literal> in <literal>datum->syntax-object</literal> is necessary but essentially meaningless.  It is used to invoke a
+little bit of "magic" within the syntax processor so that the <literal>datum->syntax-object</literal> function will know where it is.  It
+is always written as <literal>(syntax k)</literal>.
+</para>
+
+<para>
+The problem with non-hygienic macros is that they can overwrite and be overwritten by other variables in user code.  This makes mixing non-hygienic
+macros especially dangerous, as the macros will not be aware of what variables the other macros are using, and they may stomp on each other's variables.
+Therefore, non-hygienic macros should only be used when there is no other way to accomplish the same effect using normal functions or hygienic macros.
+</para>
+
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>Building Boilerplate Macros</title>
+
+<para>
+A whole lot of the code written in large applications is boilerplate code.  This is tedious to write, and, if a bug is ever found in the boilerplate code, it
+is very, very difficult to find every instance that the boilerplate is used and rewrite the code.  Boilerplate code is one of the few places where 
+non-hygienic macros are useful.  A lot of boilerplat is simply setting up variables that are going to be used within your function.  Therefore, the
+boilerplate macros should be introducing a large set of common bindings, as well as perhaps other things.

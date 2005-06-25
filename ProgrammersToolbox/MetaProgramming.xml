@@ -49,7 +49,9 @@ your regular source code language before compiling.
 <para>
 Finally, a lot of programming languages make you write really verbose 
 statements to do really simple things.  Program-generating programs allow
-you to abbreviate such statements and save you a lot of typing.
+you to abbreviate such statements and save you a lot of typing.  This
+will also save you from a lot of mistakes as well, since there is less
+to mistype.
 </para>
 
 <para>
@@ -73,6 +75,9 @@ your code.
 
 <sect1>
 <title>Basic Textual Macro Languages</title>
+
+<sect2>
+<title>The C Preprocessor, CPP</title>
 
 <para>
 The first kind of meta-programming we are going to look at are textual macros
@@ -171,6 +176,11 @@ More information about C pre-processor macro programming is available in the CPP
 manual (distributed w/ GCC and available from gcc.gnu.org).
 </para>
 
+</sect2>
+
+<sect2>
+<title>The M4 Macro Processor</title>
+
 <para>
 The M4 macro processor is one of the most advanced textual macro processing 
 systems.  It's main claim to fame is with the popular sendmail mailer 
@@ -189,7 +199,7 @@ For example, this is the M4 macro version of a typical sendmail configuration fi
 <programlisting>
 divert(-1)
 include(`/usr/share/sendmail-cf/m4/cf.m4')
-VERSIONID(`linux setup for Red Hat Linux')dnl
+VERSIONID(`linux setup for my Linux dist')dnl
 OSTYPE(`linux')
 define(`confDEF_USER_ID',``8:12'')dnl
 undefine(`UUCP_RELAY')dnl
@@ -223,16 +233,53 @@ Cwlocalhost.localdomain
 <para>
 You don't need to understand it, but just know that this small file, after 
 being run through the m4 macro processor, generates over 1,000 lines of
-configuration.  Similarly, autoconf produces shell scripts based on
-simple macros.  The m4 macro processor is too in-depth to discuss 
-here, but a link to more information about it is available in the
-<ulink url="#references">references</ulink> section.
+configuration.  
 </para>
+
+<para>
+Similarly, autoconf uses m4 to produce shell scripts based on simple macros.
+If you've ever installed a program where the first thing you did was type
+in <literal>./configure</literal>, you probably used a program generated using
+autoconf macros.  Here is a simple autoconf program which generates a 
+<literal>configure</literal> program over 3,000 lines long:
+</para>
+
+<programlisting>
+AC_INIT(hello.c)
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE(hello,0.1)
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_OUTPUT(Makefile)
+</programlisting>
+
+<para>
+When run through the macro processor, this will create a shell script
+that will do the standard configuration checks, look for the standard
+paths and compiler commands, and build a <literal>config.h</literal>
+and a <literal>Makefile</literal> for you from templates.
+</para>
+
+<para>
+The details of the m4 macro processor are too in-depth to discuss 
+here, but a link to more information about it is available in the
+<ulink url="#references">references</ulink> section, as well
+as information on these two applications of it -- sendmail and autoconf.
+</para>
+
+</sect2>
 
 </sect1>
 
 <sect1>
 <title>Programs that Write Programs</title>
+
+<para>
+In the previous section, we dealt with the m4 macro system, and showed how 
+using macros can turn a little bit of code into a whole lot.  The m4 system
+is a generic textual substitution program.  In this section we are going to
+look at highly specialized program generators.  
+</para>
 
 <sect2>
 <title>A Survey of Program Generators</title>
@@ -331,8 +378,8 @@ int main()
 
 <para>
 If you've done database programming in C before with a regular database library, you can tell that this is a lot more natural way to
-code.  Normal C coding does not allow returning multiple return types of arbitrary type
-, but our <literal>EXEC SQL FETCH</literal> line does precisely that.  
+code.  Normal C coding does not allow returning multiple return values of arbitrary type, 
+but our <literal>EXEC SQL FETCH</literal> line does precisely that.  
 </para>
 
 <para>
@@ -561,7 +608,7 @@ parsing is needed to parse the program, and Scheme itself is a list-processing l
 </para>
 
 <para>
-In fact, Schemes abilities to do transformation go even beyond that.  The Scheme standard defines
+In fact, Scheme's abilities to do transformation go even beyond that.  The Scheme standard defines
 a macro language specifically built to make it easier to make additions to the language.  On top
 of that, most Scheme implementations provide additional features to aid in building 
 program-generating programs.
@@ -617,8 +664,8 @@ pattern variables and are kept as-is throughout the macro.
 
 <para>
 From the initial look of it, it may appear that this has the some of the same pitfalls of 
-the C version.  Of course, since we're dealing with Scheme, the types are bound to the
-values themselves, not the variable names, so we don't even have to worry about that.
+the C version.  However, since we're dealing with Scheme, the types are bound to the
+values themselves, not the variable names, so we don't even have to worry about the type problems with the C version.
 However, doesn't this have the same problem of variable naming that the original one had?
 Namely, if one of our variables were named <literal>c</literal>, wouldn't that cause a 
 conflict?
@@ -663,7 +710,8 @@ Therefore, most schemes also include a non-hygienic macro system called
 are harder to write, but they are much more powerful, as you have pretty
 much the entire Scheme runtime available to you for transformation.  
 <literal>syntax-case</literal> macros are not really standard, but they
-are implemented on nearly every Scheme system.
+are implemented on many Scheme systems.  Those that do not have <literal>syntax-case</literal>
+usually have other, similar systems available.
 </para>
 
 <para>
@@ -691,7 +739,7 @@ which will execute a given form during compilation.
 							;after computing expression, transform it into a syntax object
 							(datum->syntax-object 
 								;syntax domain
-								(syntax at-compile-time) 
+								(syntax k) 
 								;quote the value so that its a literal value
 								(list 'quote 
 								;compute the value to transform 
@@ -723,8 +771,17 @@ which is where the lambda comes in.  The <literal>x</literal> is the expression 
 transformed.  <literal>with-syntax</literal> defines additional syntax elements that can
 be used in the transforming expression.  <literal>syntax</literal> takes the syntax
 elements and combines them back together, following the same rules as the transformer
-in <literal>syntax-rules</literal>.
+in <literal>syntax-rules</literal>.  Let's look at what's happening a step at a time:
 </para>
+
+<orderedlist>
+<listitem><para>The <literal>at-compile-time</literal> expression is matched.</para></listitem>
+<listitem><para>In the innermost part of the transformation, <literal>expression</literal> is converted to a list representation, and is evaluated as normal scheme code.</para></listitem>
+<listitem><para>The result is the combined with the symbol <literal>quote</literal> into a list, so that Scheme will treat it as a literal value when it becomes code.</para></listitem>
+<listitem><para>This data is converted into a syntax object.</para></listitem>
+<listitem><para>This syntax object is given the name <literal>expression-value</literal> for expressing it in the output.</para></listitem>
+<listitem><para>The transformer <literal>(syntax expression-value)</literal> says that <literal>expression-value</literal> is the entirety of the output from this macro.</para></listitem>
+</orderedlist>
 
 <para>
 Now that we've defined the ability to perform computations at compile time, we can
@@ -782,11 +839,49 @@ Now we have a function that allows us to easily build whatever kind of tables we
 </sect1>
 
 <sect1>
-<title>Super-powered Macro Programming with Lisp</title>
+<title>Review</title>
+
 <para>
-Redo the table macro with Lisp and eval-when
+This article has covered a large amount of territory, so lets take a moment to review.  First we discussed
+which problems were best solvable with a program-generating program.  These included:
+</para>
+
+<itemizedlist>
+<listitem><para>programs that need pre-generate data tables</para></listitem>
+<listitem><para>programs that have a lot of boilerplate code that cannot be abstracted into functiosn</para></listitem>
+<listitem><para>programs that use techniques that are overly verbose in the language you are writing them in</para></listitem>
+</itemizedlist>
+
+<para>
+We then looked at several meta-programming systems and examples of their usage.  This included generic textual substitution systems,
+as well as domain-specific program and function generators.  We then examined a specific instance of table-building, and went through
+the motions of writing a code-generating program to build static tables in C.
+</para>
+
+<para>
+Finally, we looked at Scheme, and saw how it was able to tackle the issues we faced in the C language using constructs that were 
+part of the language itself.  We saw how Scheme itself was built to be a language and to be a program-generating language for itself.
+Because these techniques are built into the language itself, it is both simpler to program and doesn't suffer from many of the same 
+problems inherent in other techniques discussed.  This allows the programmer to simply and easily add domain-specific extensions to 
+the Scheme language in the place that program generators have traditionally held.
+</para>
+
+<para>
+In the next installment, we are going to focus more in detail on how Scheme macros are programmed, and how they can make life
+significantly easier for large-scale programming tasks.
 </para>
 
 </sect1>
+
+<!--- REFERENCES
+
+Need that reference to intermediate macros
+
+<ul>
+<li></li>
+</ul>
+
+
+-->
 
 </chapter>
