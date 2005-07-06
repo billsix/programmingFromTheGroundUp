@@ -8,23 +8,25 @@
 
 <para>
 One of the most under-utilized programming techniques is writing programs
-that generate programs or program parts.  There are numerous applications 
-to writing programs which themselves write programs.  Program-generating
+that generate programs or program parts.  
+Writing programs which themselves write programs has numerous applications.
+Program-generating
 programs are sometimes called <emphasis>meta-programs</emphasis> and 
 writing such programs is called <emphasis>meta-programming</emphasis>.  
 </para>
 
 <para>
-There are many different uses of meta-programming.
+There are many different uses for meta-programming.
 </para>
 
 <para>
 First of all, you can write programs that will pre-generate tables of data
 for use at run-time.  For example, if you are writing a game and want a quick
-lookup table for the sin of all 8-bit integers you have the options of
-calculating each sin yourself and hand-coding it, having your program build
-the table at startup at runtime, or write a program to build the hand-coded
-table yourself.  While it may make sense to build the table at runtime for
+lookup table for the sine of all 8-bit integers you can either
+calculate each sine yourself and hand-code it, have your program build
+the table at startup at runtime, or write a program to build the custom
+code for the table before compile-time.
+While it may make sense to build the table at runtime for
 such a small set of numbers, other such tasks may cause program startup to
 be prohibitively slow.  In such cases, writing a program to build static 
 data tables is usually your best answer.
@@ -34,14 +36,14 @@ data tables is usually your best answer.
 Second, if you have a large application where many of the functions
 include a lot of boilerplate
 code, you can create a mini-language that will do the boilerplate code for
-you and allow you to only code the important parts.  Now, if you can, it's best
-to abstract out the boilerplate portions into a function.  However, often
-the boilerplate code isn't so pretty.  Perhaps there's a list of variables
-that need to be declared in every instance, perhaps you need to register 
-error handlers, or perhaps there are several pieces of the boilerplate that
-have to have code inserted into it in certain circumstances.  All of these
+you and allow you to code only the important parts.  Now, if you can, it's best
+to abstract out the boilerplate portions into a function.  Often, however,
+the boilerplate code isn't so pretty.  Maybe there's a list of variables
+that need to be declared in every instance, maybe you need to register 
+error handlers, or maybe there are several pieces of the boilerplate that
+have to have code inserted in certain circumstances.  All of these
 make a simple function call impossible.  In such cases, it is often a good
-idea to create a mini-language which allows you to work with your boilerplate
+idea to create a mini-language that allows you to work with your boilerplate
 code in an easier fashion.  This mini-language will then be converted into
 your regular source code language before compiling.
 </para>
@@ -49,23 +51,24 @@ your regular source code language before compiling.
 <para>
 Finally, a lot of programming languages make you write really verbose 
 statements to do really simple things.  Program-generating programs allow
-you to abbreviate such statements and save you a lot of typing.  This
-will also save you from a lot of mistakes as well, since there is less
-to mistype.
+you to abbreviate such statements and save a lot of typing, which
+also prevents a lot of mistakes because there is less
+chance of mistyping.
 </para>
 
 <para>
-As languages get more features, program-generating programs get less and less
-appealing.  What might be available as a standard feature of one language
-may be only available through a program-generating program in another language.
-However, the need for program-generating programs will not go away just through
-better language design.  Program-generating programs allow you to write small,
+As languages acquire more features, program-generating programs get less and less
+appealing.  What is available as a standard feature of one language
+may be available only through a program-generating program in another language.
+However, inadequate language design is not the only reason for needing
+program-generating programs.
+Program-generating programs allow you to develop and use small,
 domain-specific languages that are easier to write and maintain than writing
 them in the target language.
 </para>
 
 <para>
-The tools that are used to create these domain-specific languages are usually
+The tools used to create these domain-specific languages are usually
 referred to as <emphasis>macro languages</emphasis>.  This article will discuss
 several kinds of macro languages, and show how they can be used to improve
 your code.
@@ -77,18 +80,18 @@ your code.
 <title>Basic Textual Macro Languages</title>
 
 <sect2>
-<title>The C Preprocessor, CPP</title>
+<title>The C Preprocessor (CPP)</title>
 
 <para>
-The first kind of meta-programming we are going to look at are textual macros
-languages.
+The first kind of meta-programming we are going to look at involves textual macro languages.
 Textual macros are macros that directly affect the text of the programming 
-language without knowing anything about the meaning of the programming 
-language.  The two most widely-used textual macro systems are the 
-C pre-processor and the M4 macro processor.  If you've done C programming,
-you have probably dealt with C's <literal>#define</literal> macro.  
-Textual macro expansion is a decent way to do basic meta-programming.
-Here is an example <literal>#define</literal> macro:
+language without knowing or dealing in anything about the meaning of the programming 
+language.  The two most widely used textual macro systems are the 
+C preprocessor and the M4 macro processor.  If you've done C programming,
+you have probably dealt with the <literal>#define</literal> macro of C.  
+Textual macro expansion, while not ideal, is an easy way to do basic meta-programming in many languages that don't have better program-generation 
+capabilities.
+Here is an example of a <literal>#define</literal> macro:
 </para>
 
 <programlisting>
@@ -102,7 +105,7 @@ best written as a macro for several reasons:
 
 <itemizedlist>
 <listitem><para>A function call would take way too much overhead for a simple operation</para></listitem>
-<listitem><para>You would have to pass their addresses to the function, rather than their values.  This isn't too bad, but it makes it messier, and prevents the compiler from being able to keep the values in registers.</para></listitem>
+<listitem><para>You would have to pass the variables' addresses to the function, rather than the variables' values. (This isn't too bad, but passing addresses  makes the function call messier, and prevents the compiler from being able to keep the values in registers.)</para></listitem>
 <listitem><para>You would have to code a different function for each type of item you wanted to swap.</para></listitem>
 </itemizedlist>
 
@@ -127,21 +130,25 @@ int main()
 <para>
 When the C pre-processor is run, it literally changes the text from 
 <literal>SWAP(a, b, int)</literal> to 
-<literal>{ int __tmp_c; __tmp_c = b; b = a; a = __tmp_c; }</literal>.  Textual substitutaion is a nice, but
-fairly limitted feature.  This feature has the following problems:
+<literal>{ int __tmp_c; __tmp_c = b; b = a; a = __tmp_c; }</literal>.  
+</para>
+
+<para>
+Textual substitution is a useful, but
+fairly limited feature.  This feature has the following problems:
 </para>
 
 <itemizedlist>
 <listitem><para>Textual substitution can get very messy when used in combination with other expressions.</para></listitem>
-<listitem><para>The C pre-processor only allows a fixed number of arguments to its macros.</para></listitem>
-<listitem><para>Because of the C language's type system, we often have to have different macros for different kinds of arguments, or at least pass the type of the parameters as arguments.</para></listitem>
-<listitem><para>Because we are only doing textual substitution, C is not smart enough to rename our temporary variable if it conflicts with one of the arguments passed to it.  Our macro would utterly fail if it were passed a variable called <literal>__tmp_c</literal></para></listitem>
+<listitem><para>The C preprocessor allows only a fixed number of arguments to its macros.</para></listitem>
+<listitem><para>Because of the C language's type system, we often have to have different macros for different kinds of arguments or at least pass the type of the parameters as arguments.</para></listitem>
+<listitem><para>Because we are doing only textual substitution, C is not smart enough to rename our temporary variable if it conflicts with one of the arguments passed to it.  Our macro would utterly fail if it were passed a variable called <literal>__tmp_c</literal></para></listitem>
 </itemizedlist>
 
 <para>
 The problem of combining macros with expressions makes macro writing 
-fairly difficult.  For example, let's say we had the following macro
-called <literal>MIN</literal>, which returned the smaller of two values:
+fairly difficult.  For example, let's say you had the following macro
+called <literal>MIN</literal> that returns the smaller of two values:
 </para>
 
 <programlisting>
@@ -149,31 +156,32 @@ called <literal>MIN</literal>, which returned the smaller of two values:
 </programlisting>
 
 <para>
-First of all, you may be wondering why we used so many parentheses.  The
+First of all, you may be wondering why so many parentheses were used.  The
 reason is operator precedence.  For example, if you did 
 <literal>MIN(27, b=32)</literal>, without those parentheses it would expand 
 into <literal>27 > b = 32 ? b = 32 : 27</literal> which will get a compiler 
 error because <literal>27 > b</literal> will bind closer together because of
-operator precedence.  If you add the parentheses back in, it will work as
+operator precedence.  If you put the parentheses back in, it will work as
 expected.
 </para>
 
 <para>
-Unfortunately, there's still a second problem - any function that is called 
+Unfortunately, there's still a second problem.  Any function called 
 as a parameter will be called for every time it is listed on the right-hand
 side.  Remember, the pre-processor knows nothing about the C language, and is
 just doing text substitutions.  Therefore, if you do 
-<literal>MIN(do_long_calc(), do_long_calc2())</literal>
-then it will expand into <literal>( (do_long_calc()) > (do_long_calc2()) ? (do_long_calc2()) : (do_long_calc()))</literal>.  This will take a long time, since
+<literal>MIN(do_long_calc(), do_long_calc2())</literal>,
+ it will expand into <literal>( (do_long_calc()) > (do_long_calc2()) ? (do_long_calc2()) : (do_long_calc()))</literal>.  This will take a long time because
 at least one of the calculations will be performed twice.  It's even worse if
-those one of those calculations has side effects (like printing, modifying a
-global variable, etc.), because those side effects will happen twice.  This can
-cause it to be even incorrect if the functions return different things each time.
+one of those calculations has side effects (like printing, modifying a
+global variable, etc.) because these side effects will be processed twice.  
+This "multiple call" problem can even cause the macro to return the wrong
+value if one of the functions returns a different value each call.
 </para>
 
 <para>
-More information about C pre-processor macro programming is available in the CPP
-manual (distributed w/ GCC and available from gcc.gnu.org).
+More information about C pre-processor macro programming is available in the 
+CPP manual (see the <ulink url="#references">References</ulink> section for a link).
 </para>
 
 </sect2>
@@ -183,8 +191,9 @@ manual (distributed w/ GCC and available from gcc.gnu.org).
 
 <para>
 The M4 macro processor is one of the most advanced textual macro processing 
-systems.  It's main claim to fame is with the popular sendmail mailer 
-configuration file.  sendmail configuration is not fun or pretty.  There is
+systems.  It's main claim to fame is as a helper tool for 
+the popular Sendmail mailer 
+configuration file.  The Sendmail configuration is neither fun nor pretty.  There is
 an entire book just on sendmail's configuration file.  However, the makers
 of sendmail wrote a set of M4 macros to make the process easier.  In the macros
 you simply specify certain parameters, and the M4 processor applies boilerplate
@@ -232,15 +241,15 @@ Cwlocalhost.localdomain
 
 <para>
 You don't need to understand it, but just know that this small file, after 
-being run through the m4 macro processor, generates over 1,000 lines of
+being run through the M4 macro processor, generates over 1,000 lines of
 configuration.  
 </para>
 
 <para>
-Similarly, autoconf uses m4 to produce shell scripts based on simple macros.
+Similarly, autoconf uses M4 to produce shell scripts based on simple macros.
 If you've ever installed a program where the first thing you did was type
 in <literal>./configure</literal>, you probably used a program generated using
-autoconf macros.  Here is a simple autoconf program which generates a 
+autoconf macros.  Here is a simple autoconf program that generates a 
 <literal>configure</literal> program over 3,000 lines long:
 </para>
 
@@ -261,10 +270,10 @@ and a <literal>Makefile</literal> for you from templates.
 </para>
 
 <para>
-The details of the m4 macro processor are too in-depth to discuss 
-here, but a link to more information about it is available in the
-<ulink url="#references">references</ulink> section, as well
-as information on these two applications of it -- sendmail and autoconf.
+The details of the M4 macro processor are too complex to discuss 
+here, but links to more information about the M4 macro processor and
+its use in Sendmail and Autoconf is provided in the
+<ulink url="#references">references</ulink> section.
 </para>
 
 </sect2>
@@ -275,9 +284,9 @@ as information on these two applications of it -- sendmail and autoconf.
 <title>Programs that Write Programs</title>
 
 <para>
-In the previous section, we dealt with the m4 macro system, and showed how 
-using macros can turn a little bit of code into a whole lot.  The m4 system
-is a generic textual substitution program.  In this section we are going to
+In the previous section, we dealt with the M4 macro system, and showed how 
+using macros can turn a little bit of code into a whole lot.  The M4 system
+is a generic textual-substitution program.  In this section we will
 look at highly specialized program generators.  
 </para>
 
@@ -288,41 +297,51 @@ look at highly specialized program generators.
 GNU/Linux systems come with several program-writing programs.  The most popular
 are probably:
 <itemizedlist>
-<listitem><para>Flex - a lexical analyzer generator</para></listitem>
-<listitem><para>Bison - a parser generator</para></listitem>
-<listitem><para>Gperf - a perfect hash function generator</para></listitem>
+<listitem><para>Flex, a lexical analyzer generator</para></listitem>
+<listitem><para>Bison, a parser generator</para></listitem>
+<listitem><para>Gperf, a perfect hash-function generator</para></listitem>
 </itemizedlist>
 </para>
 
 <para>
-These tools all generate output for the C language.  You may wonder, though, why
-are these implemented as program-generators instead of as functions?  There are several
-reasons, among them are:
+These tools all generate output for the C language.  You may wonder, though, 
+why these are implemented as program-generators instead of as functions.
+There are several reasons, among which are the following:
 </para>
 
 <itemizedlist>
 <listitem><para>The inputs to these functions are very complicated and not easily expressible in a form that is valid C code.</para></listitem>
-<listitem><para>These programs compute and generate many static lookup tables to operate, and therefore it is better to do this once during pre-compile time than during every invocation of the program.</para></listitem>
-<listitem><para>Many aspects of the functioning of these systems are customizable with arbitrary code placed in specific positions, which use variables and functions which are part of the structure built by the system.</para></listitem>
+<listitem><para>These programs compute and generate many static lookup tables for operation, and therefore it is better to generate these tables once during pre-compile time than during every invocation of the program.</para></listitem>
+<listitem><para>Many aspects of the functioning of these systems are customizable with arbitrary code placed in specific positions.  This code can then use variables and functions which are part of the generated structure built by the program generator, without having to define and derive all of the variables manually.</para></listitem>
 </itemizedlist>
 
 <para>
-These tools are each focused on building a particular type of program.  Bison is used to generate parsers, and Flex is used to generate
-lexical analyzers.  Other tools are more focused on automating specific methods of programming.  For example, Embedded SQL is used to
-easily combine database access with C.  While there are many libraries available that allow you to access databases in C, Embedded SQL
-makes it much easier by combining SQL entities as part of the C language.  Many Embedded SQL implementations, however, are basically just
-specialized macro processors that generate regular C programs as output.  Using the Embedded SQL, however, makes the database access much
-more natural, intuitive, and error-free than doing so through the use of libraries.  With Embedded SQL, the intricacies of database programming
+Each of these tools is focused on building a particular type of program.  Bison is used to generate parsers, and Flex is used to generate
+lexical analyzers.  Other tools are more focused on automating specific 
+aspects of programming.  For example, integrating database access methods 
+into imperative languages is often a chore.  For making this both easier 
+and more standardized, Embedded SQL is a metaprogramming system used to 
+easily combine database access with C.  
+</para>
+
+<para>
+While there are many libraries available that allow you to access databases 
+in C, using a program generator such as Embedded SQL
+makes combining C and database access much easier by merging SQL entities into C as an extended part of the language.  Many Embedded SQL implementations, however, are basically just
+specialized macro processors that generate regular C programs as output.  Using the Embedded SQL, though, makes the database access much
+more natural, intuitive, and error-free for the programmer than doing so through the direct use of libraries.  With Embedded SQL, the intricacies of database programming
 are masked by a sort of macro sublanguage.  
 </para>
 
 </sect2>
 
 <sect2>
-<title>An example use of a program generator</title>
+<title>An Example Usage of a Program Generator</title>
 
 <para>
-To see how a program generator works, we'll look at a short Embedded SQL program.  PostgreSQL comes with an Embedded SQL compiler,
+To see how a program generator works, let's look at a short Embedded SQL 
+program.  In order to do this, we need an Embedded SQL processor. 
+PostgreSQL comes with an Embedded SQL compiler,
 <literal>ecpg</literal>.  To run this program, you need to create a database in PostgreSQL called "test".  Then, in that database, issue
 the following commands:
 </para>
@@ -335,8 +354,7 @@ insert into people (name) values ('Mary');
 </programlisting>
 
 <para>
-We will create a simple program to read and print out the contents of the database, sorted by the <literal>name</literal> field.
-Here is the program:
+Here is a simple program to read and print out the contents of the database, sorted by the <literal>name</literal> field:
 </para>
 
 <programlisting>
@@ -395,20 +413,22 @@ gcc test.c -lecpg -o test
 </sect2>
 
 <sect2>
-<title>Building our own program generator</title>
+<title>Building A Program Generator</title>
 
 <para>
-Now that we've seen several types of program generators, and the types of things that they can do, we are now
-going to write our own small program generator.  Probably the simplest useful program generator we could write
-would be one to build static lookup tables.  In programming in C, often times to build fast functions you simply
+Now that you've seen several types of program generators and the types of things that they can do, it is now
+time to write a small program generator.  Probably the simplest useful program generator you could write
+would be one to build static lookup tables.  Often, in order to build fast
+functions in C programming, you simply
 create a lookup table of all of the answers.  This means that you either need to precompute them by hand (which
-is wasteful of your time) or build them at runtime (which is wasteful of the user's time).  Here we will build
+is wasteful of your time) or build them at runtime (which is wasteful of the user's time).  Here, you will build
 a generator that will take a function or set of functions on an integer, and build lookup tables for the answer.
 </para>
 
 <para>
-To think of how to do this, let's start from the end and work backwards.  Let's say that we want a lookup table that 
-will return square roots of numbers between 5 and 20.  Working this out by hand, it would probably look something like this:
+To think of how to make such a program, let's start from the end and work backward.  Let's say you want a lookup table that 
+will return square roots of numbers between 5 and 20.  A simple program
+can be written to generate such a table like this:
 </para>
 
 <programlisting>
@@ -435,7 +455,7 @@ int main ()
 </programlisting>
 
 <para>
-Now, if we were to convert this to a statically initialized array, we would remove the first part of the program and replace it with something like this:
+Now, to convert this to a statically initialized array, one would remove the first part of the program and replace it with something like this, calculated by hand:
 </para>
 
 <programlisting>
@@ -452,7 +472,7 @@ double square_roots[] = {
 </programlisting>
 
 <para>
-So, what we need is a program that will produce these values, and print them out like this so they are loaded in at compile-time.
+So, what is needed is a program that will produce these values, and print them out in a table like the one above so they are loaded in at compile-time.
 </para>
 
 <para>
@@ -468,8 +488,8 @@ Let's analyze the different pieces we have working here:
 </itemizedlist>
 
 <para>
-Therefore, we can simply spell all of these out as a colon-separated list.  So we will probably want our macro 
-to look something like this:
+These are all very simple, well-defined pieces.  They can simply be spelled out as a simple list.  So we will probably want our macro call to combine these
+elements in a colon-separated list and look something like this:
 </para>
 
 <programlisting>
@@ -487,14 +507,14 @@ int main()
 </programlisting>
 
 <para>
-Now we just need a program to convert one form into another.  For this
-simple example I decided to use Perl, because it can evaluate user code
+Now we just need a program to convert our macro into standard C.  For this
+simple example Perl will be used because it can evaluate user code
 in a string, and its syntax is largely C-like.  This allows it to load
 and process user code dynamically.
 </para>
 
 <para>
-We want our program generator to pass through all non-templated portions unchanged.
+Our program generator should pass through all non-templated portions unchanged.
 Therefore, the basic organization is going to be this:
 </para>
 
@@ -581,11 +601,11 @@ gcc sqrt.c -o sqrt
 </programlisting>
 
 <para>
-So in just a few lines of code we created a simple program generator that can dramatically ease 
-our programming tasks.  Just with that single macro we can take away a lot of work for any 
+So in just a few lines of code you created a simple program generator that can dramatically ease 
+your programming tasks.  With just that single macro, you can take away a lot of work for any 
 program that has to generate mathematical tables indexed by integer.  A little extra work
-could also allow tables containing full struct definitions, and a little more would get 
-the ability to not waste space at the front of the array with useless empty entries.
+would also allow tables containing full struct definitions, and a little more would 
+ensure that  space isn't wastedat the front of the array with useless empty entries.
 </para>
 
 </sect2>
@@ -597,15 +617,17 @@ the ability to not waste space at the front of the array with useless empty entr
 <title>Language-Sensitive Macro Programming with Scheme</title>
 
 <para>
-While program generators know a little bit about the target language, they are usually
+While program generators usually understand a little bit about the target language, they are usually
 not full parsers, and cannot fully take the target language into account without rewriting
-a complete compiler.  However, this might be simplified if there was a language that was
+a complete compiler.  However, this might be simplified if there was a language 
 already represented with a simple data structure.  In the Scheme programming language, 
 the language itself is represented as a linked list, and 
 <ulink url="http://www.ibm.com/developerworks/linux/library/l-listproc/">the Scheme programming language is built for list processing</ulink>!
 This makes Scheme almost the ideal language for creating programs that are transformed -- no massive
 parsing is needed to parse the program, and Scheme itself is a list-processing language.
 </para>
+
+<!-- FIXME -- I'm here in editting -->
 
 <para>
 In fact, Scheme's abilities to do transformation go even beyond that.  The Scheme standard defines
@@ -878,9 +900,18 @@ significantly easier for large-scale programming tasks.
 Need that reference to intermediate macros
 
 <ul>
-<li></li>
+<li><a href="http://gcc.gnu.org/onlinedocs/gcc-4.0.0/cpp/">The GNU CPP manual</a> has a lot of information about what is available for GCC macro processing, as well as all of the caveats you need to know when programming them.</li>
+<li>For more information about M4, here is the <a href="http://www.gnu.org/software/m4/manual/m4.html">manual for GNU M4</a>.</li>
+<li>For a quick introduction to M4 check out <a href="http://www.linuxjournal.com/article/5594">Linux Journal tutorial</a>.</li>
+<li>If you want to know more about on Sendmail's M4 macros, here is <a href="http://www.sendmail.org/m4/readme.html">the official reference</a>.</li>
+<li>You can learn more about Flex and Bison through either this <a href="http://ds9a.nl/lex-yacc/cvs/output/lexyacc.html#toc9">tutorial</a> or this <a href="http://www.amazon.com/exec/obidos/ASIN/1565920007/freeeducation-20/">book</a>.</li>
+<li>More information about Embedded SQL with PostgreSQL is <a href="http://www.postgresql.org/docs/8.0/interactive/ecpg.html">here</a>.</li>
+<li>For DB2 developers, here is a <a href="http://www-128.ibm.com/developerworks/edu/i-dw-db2-cert7033-i.html">tutorial on Embedded SQL with DB2</a>.</li>
+<li>Here is a <a href="http://schemecookbook.org/Cookbook/GettingStartedMacros">list of tutorials</a> to get you started with Scheme macro programming using <tt>syntax-case</tt> and <tt>syntax-rules</tt>.</li>
+<li>An interesting resource for the code generating aspect of programming is the <a href="http://www.codegeneration.net/">Code Generation Network</a>.</li>
+<li>Here is a quick and pragmatic list of <a href="http://www.devx.com/Java/Article/15511">reasons why code generation is important</a>.</li>
+<li>There are few books that cover code generation but <a href="http://www.amazon.com/exec/obidos/ASIN/1930110979/freeeducation-20/">here is a fairly good one</a>.</li>
 </ul>
-
 
 -->
 
