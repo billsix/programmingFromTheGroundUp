@@ -94,9 +94,12 @@ capabilities.
 Here is an example of a <literal>#define</literal> macro:
 </para>
 
+<example>
+<title>Simple macro to swap two values</title>
 <programlisting>
 #define SWAP(a, b, type) { type __tmp_c; c = b; b = a; a = c; }
 </programlisting>
+</example>
 
 <para>
 This macro allows you to swap the two values of the given type.  This is
@@ -113,6 +116,8 @@ best written as a macro for several reasons:
 Here is an example of the macro being used:
 </para>
 
+<example>
+<title>Using the SWAP macro</title>
 <programlisting>
 #define SWAP(a, b, type) { type __tmp_c; c = b; b = a; a = c; }
 int main()
@@ -126,6 +131,7 @@ int main()
 	return 0;
 }
 </programlisting>
+</example>
 
 <para>
 When the C pre-processor is run, it literally changes the text from 
@@ -151,9 +157,12 @@ fairly difficult.  For example, let's say you had the following macro
 called <literal>MIN</literal> that returns the smaller of two values:
 </para>
 
+<example>
+<title>Macro to return the minimum of two values</title>
 <programlisting>
 #define MIN(x, y) ((x) > (y) ? (y) : (x))
 </programlisting>
+</example>
 
 <para>
 First of all, you may be wondering why so many parentheses were used.  The
@@ -205,6 +214,8 @@ comes up with a configuration file for you.
 For example, this is the M4 macro version of a typical sendmail configuration file:
 </para>
 
+<example>
+<title>Sample sendmail configuration with M4 macros</title>
 <programlisting>
 divert(-1)
 include(`/usr/share/sendmail-cf/m4/cf.m4')
@@ -238,6 +249,7 @@ MAILER(smtp)dnl
 MAILER(procmail)dnl
 Cwlocalhost.localdomain
 </programlisting>
+</example>
 
 <para>
 You don't need to understand it, but just know that this small file, after 
@@ -253,6 +265,8 @@ autoconf macros.  Here is a simple autoconf program that generates a
 <literal>configure</literal> program over 3,000 lines long:
 </para>
 
+<example>
+<title>Sample autoconf script using M4 macros</title>
 <programlisting>
 AC_INIT(hello.c)
 AM_CONFIG_HEADER(config.h)
@@ -261,6 +275,7 @@ AC_PROG_CC
 AC_PROG_INSTALL
 AC_OUTPUT(Makefile)
 </programlisting>
+</example>
 
 <para>
 When run through the macro processor, this will create a shell script
@@ -346,17 +361,22 @@ PostgreSQL comes with an Embedded SQL compiler,
 the following commands:
 </para>
 
+<example>
+<title>Database creation script for example program</title>
 <programlisting>
 create table people (id serial primary key, name varchar(50));
 insert into people (name) values ('Tony');
 insert into people (name) values ('Bob');
 insert into people (name) values ('Mary');
 </programlisting>
+</example>
 
 <para>
 Here is a simple program to read and print out the contents of the database, sorted by the <literal>name</literal> field:
 </para>
 
+<example>
+<title>Example Embedded SQL program</title>
 <programlisting>
 #include &lt;stdio.h&gt;
 int main()
@@ -393,6 +413,7 @@ int main()
 	return 0;
 }
 </programlisting>
+</example>
 
 <para>
 If you've done database programming in C before with a regular database library, you can tell that this is a lot more natural way to
@@ -404,11 +425,14 @@ but our <literal>EXEC SQL FETCH</literal> line does precisely that.
 To compile and run the program, just put it into a file called <literal>test.pgc</literal> and run the following commands:
 </para>
 
+<example>
+<title>Building an Embedded SQL program</title>
 <programlisting>
 ecpg test.pgc
 gcc test.c -lecpg -o test
 ./test
 </programlisting>
+</example>
 
 </sect2>
 
@@ -431,6 +455,8 @@ will return square roots of numbers between 5 and 20.  A simple program
 can be written to generate such a table like this:
 </para>
 
+<example>
+<title>Generate and use a lookup table of square roots</title>
 <programlisting>
 /* our lookup table */
 double square_roots[21];
@@ -453,11 +479,14 @@ int main ()
 	return 0;
 }
 </programlisting>
+</example>
 
 <para>
 Now, to convert this to a statically initialized array, one would remove the first part of the program and replace it with something like this, calculated by hand:
 </para>
 
+<example>
+<title>Square root program with a static lookup table</title>
 <programlisting>
 double square_roots[] = {
 	/* these are the ones we skipped */ 0.0, 0.0, 0.0, 0.0, 0.0
@@ -470,6 +499,7 @@ double square_roots[] = {
 	4.472136 /* Square root of 20 */
 };
 </programlisting>
+</example>
 
 <para>
 So, what is needed is a program that will produce these values, and print them out in a table like the one above so they are loaded in at compile-time.
@@ -492,6 +522,8 @@ These are all very simple, well-defined pieces.  They can simply be spelled out 
 elements in a colon-separated list and look something like this:
 </para>
 
+<example>
+<title>Our ideal method for generating a compile-time table of square roots</title>
 <programlisting>
 /* sqrt.in */
 /* Our macro invocation to build us the table.  The format is: */
@@ -505,6 +537,7 @@ int main()
 	return 0;
 }
 </programlisting>
+</example>
 
 <para>
 Now we just need a program to convert our macro into standard C.  For this
@@ -530,6 +563,8 @@ Therefore, the basic organization of the macro processor should look like this:
 Here is the Perl code to create our table generator:
 </para>
 
+<example>
+<title>Program generator for the table macro</title>
 <programlisting>
 #!/usr/bin/perl
 #
@@ -590,16 +625,20 @@ while(my $line = &lt;&gt;)
 	}
 }
 </programlisting>
+</example>
 
 <para>
 To run this program do this:
 </para>
 
+<example>
+<title>Running the program generator</title>
 <programlisting>
 ./tablegen.pl &lt; sqrt.in &gt; sqrt.c
 gcc sqrt.c -o sqrt
 ./a.out
 </programlisting>
+</example>
 
 <para>
 So in just a few lines of code you created a simple program generator that can dramatically ease 
@@ -643,6 +682,8 @@ you were sure wasn't in use elsewhere.  Let's examine what the equivalent looks 
 Scheme and how Scheme solves these issues:
 </para>
 
+<example>
+<title>Value-swapping macro in Scheme</title>
 <programlisting>
 ;;Define SWAP to be a macro
 (define-syntax SWAP
@@ -668,6 +709,7 @@ Scheme and how Scheme solves these issues:
 (display second)
 (newline)
 </programlisting>
+</example>
 
 <para>
 This is a <literal>syntax-rules</literal> macro.  There are several macro systems for Scheme, but <literal>syntax-rules</literal> is the standard.  In a <literal>syntax-rules</literal> macro, <literal>define-syntax</literal> is
@@ -702,6 +744,8 @@ In fact, it will likely be renamed anyway.  Here is a possible result of the mac
 transformation on the program:
 </para>
 
+<example>
+<title>Possible transformation of the value-swapping macro</title>
 <programlisting>
 (define first 2)
 (define second 9)
@@ -717,6 +761,7 @@ transformation on the program:
 (display second)
 (newline)
 </programlisting>
+</example>
 
 <para>
 As you can see, Scheme's hygienic macros can bring you the benefits of
@@ -740,6 +785,8 @@ Let's define a macro called <literal>at-compile-time</literal>
 that will execute a given form during compilation.
 </para>
 
+<example>
+<title>Macro to generate a value or set of values at compile time</title>
 <programlisting>
 ;;Define our macro
 (define-syntax at-compile-time
@@ -777,6 +824,7 @@ that will execute a given form during compilation.
 	;;converts to 5 at compile-time
 	(at-compile-time (+ 2 3)))
 </programlisting>
+</example>
 
 <para>
 This will perform the given operation at compile time.  More specifically, it will perform
@@ -809,6 +857,8 @@ we defined for the C language.  Here is how you would do it in Scheme with our
 <literal>at-compile-time</literal> macro:
 </para>
 
+<example>
+<title>Building the square root table in Scheme</title>
 <programlisting>
 (define sqrt-table 
 	(at-compile-time 
@@ -823,12 +873,15 @@ we defined for the C language.  Here is how you would do it in Scheme with our
 (display (vector-ref sqrt-table 5))
 (newline)
 </programlisting>
+</example>
 
 <para>
 This can be made even easier to use by making a further macro for
 table-building that will be remarkably similar to our C language macro:
 </para>
 
+<example>
+<title>Macro to build lookup tables at compile time</title>
 <programlisting>
 (define-syntax build-compiled-table
 	(syntax-rules ()
@@ -850,6 +903,7 @@ table-building that will be remarkably similar to our C language macro:
 (display (vector-ref sqrt-table 5))
 (newline)
 </programlisting>
+</example>
 
 <para>
 Now you have a function that allows you to easily build whatever kind of tables you wish.
