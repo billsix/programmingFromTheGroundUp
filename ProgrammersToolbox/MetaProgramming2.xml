@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!DOCTYPE chapter PUBLIC "-//OASIS/DTD DocBook XML V4.1.2//EN">
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN">
 <chapter>
 <title>Metaprogramming Applications and Techniques in Scheme</title>
 
@@ -166,6 +166,8 @@ all its own.  Note, however, that <literal>syntax-case</literal> does not
 replace <literal>let</literal>.  This is because <literal>let</literal> is a globally-defined
 identifier.  This idea of replacing introduced variable names with non-conflicting names is
 called <emphasis>hygiene</emphasis>, and the resulting macros are called <emphasis>hygienic macros</emphasis>.
+</para>
+
 </sect2>
 
 <sect2>
@@ -219,7 +221,7 @@ In order to introduce these bindings manually, you need to follow these steps:
 </para>
 
 <itemizedlist>
-<listitem><para>Convert the expression and store it in a variable using <literal>syntax-object->datum</literal></para</listitem>
+<listitem><para>Convert the expression and store it in a variable using <literal>syntax-object->datum</literal></para></listitem>
 <listitem><para>Create a list containing your custom code and the converted expression.</para></listitem>
 <listitem><para>Use <literal>datum->syntax-object</literal> to convert the new expression back into a syntax object for Scheme to use</para></listitem>
 <listitem><para>Store the resulting syntax object into a new pattern variable</para></listitem>
@@ -279,3 +281,8 @@ A whole lot of the code written in large applications is boilerplate code.  This
 is very, very difficult to find every instance that the boilerplate is used and rewrite the code.  Boilerplate code is one of the few places where 
 non-hygienic macros are useful.  A lot of boilerplat is simply setting up variables that are going to be used within your function.  Therefore, the
 boilerplate macros should be introducing a large set of common bindings, as well as perhaps other things.
+</para>
+
+</sect1>
+
+</chapter>
