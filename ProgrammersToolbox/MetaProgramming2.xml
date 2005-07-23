@@ -26,21 +26,22 @@ macros.
 
 <programlisting>
 (define-syntax macro-name
-	(lambda (x)
-		(syntax-case x (other keywords go here if any)
-			(
-				;;First Pattern
-				(macro-name macro-arg1 macro-arg2)
-				;;Expansion of macro (can be one or multiple forms)
-				;;(syntax is a reserved word)
-				(syntax expansion of macro goes here)
-			)
-			(
-				;Second Pattern -- a 1-argument version
-				(macro-name macro-arg1)
-				;;Expansion of macro
-				(syntax expansion of macro goes here)
-			))))
+  (lambda (x)
+    (syntax-case x (other keywords go here if any)
+      (
+        ;;First Pattern
+        (macro-name macro-arg1 macro-arg2)
+        ;;Expansion of macro (one or multiple forms)
+        ;;(syntax is a reserved word)
+        (syntax (expansion of macro goes here))
+      )
+      (
+        ;;Second Pattern -- a 1-argument version
+        (macro-name macro-arg1)
+        ;;Expansion of macro
+        (syntax (expansion of macro goes here))
+      )
+)))
 </programlisting>
 
 <para>
@@ -88,15 +89,16 @@ Here is the macro to do this:
 <programlisting>
 ;;define my-if as a macro
 (define-syntax my-if
-	(lambda (x)
-		;;establish that "then" and "else" are keywords
-		(syntax-case x (then else)
-			(
-				;;pattern to match
-				(my-if condition then yes-result else no-result)
-				;;transformer
-				(syntax (if condition yes-result no-result))
-			))))
+  (lambda (x)
+    ;;establish that "then" and "else" are keywords
+    (syntax-case x (then else)
+      (
+        ;;pattern to match
+        (my-if condition then yes-result else no-result)
+        ;;transformer
+        (syntax (if condition yes-result no-result))
+       )
+)))
 </programlisting>
 
 <para>
@@ -145,16 +147,17 @@ This is likewise a simple macro.  However, this macro also introduces a new temp
 <programlisting>
 ;;Define a new macro
 (define-syntax swap!
-	(lambda (x)
-		;;we don't have any keywords this time
-		(syntax-case x ()
-			(
-				(swap! a b)
-				(syntax 
-					(let ((c a))
-						(set! a b)
-						(set! b c)))
-			))))
+  (lambda (x)
+    ;;we don't have any keywords this time
+      (syntax-case x ()
+        (
+          (swap! a b)
+          (syntax 
+            (let ((c a))
+              (set! a b)
+              (set! b c)))
+        )
+)))
 </programlisting>
 
 <para>
@@ -199,14 +202,15 @@ If we tried to set this up like the previous macros it would fail.
 
 <programlisting>
 (define-syntax with-math-defines
-	(lambda (x)
-		(syntax-rules x ()
-			(
-				(with-math-defines expression)
-				(syntax
-					(let ( (pi 3.14) (e 2.71828) )
-						expression))
-			))))
+  (lambda (x)
+    (syntax-rules x ()
+      (
+        (with-math-defines expression)
+        (syntax
+          (let ( (pi 3.14) (e 2.71828) )
+               expression))
+      )
+)))
 </programlisting>
 
 <para>
@@ -234,23 +238,25 @@ In effect, you are converting the expression to a list you can manipulate, manip
 
 <programlisting>
 (define-syntax with-math-defines
-	(lambda (x)
-		(syntax-case x ()
-			(
-				;;Pattern
-				(with-math-defines expression)
+  (lambda (x)
+    (syntax-case x ()
+      (
+        ;;Pattern
+        (with-math-defines expression)
 
-				;;with-syntax defines new pattern avriables
-				(with-syntax (
-						(expr
-							;;transform into a syntax object
-							(datum->syntax-object
-								;;syntax domain magic
-								(syntax k)
-								`(let ( (pi 3.14) (e 2.72))
-									,(syntax-object->datum (syntax expression))))))
-					(syntax expr))
-			))))
+        ;;with-syntax defines new pattern avriables
+        (with-syntax 
+          (
+            (expr
+              ;;transform into a syntax object
+              (datum->syntax-object
+                ;;syntax domain magic
+                (syntax k)
+                `(let ( (pi 3.14) (e 2.72))
+                      ,(syntax-object->datum (syntax expression))))))
+          (syntax expr))
+      )
+)))
 </programlisting>
 
 <para>
@@ -280,7 +286,379 @@ Therefore, non-hygienic macros should only be used when there is no other way to
 A whole lot of the code written in large applications is boilerplate code.  This is tedious to write, and, if a bug is ever found in the boilerplate code, it
 is very, very difficult to find every instance that the boilerplate is used and rewrite the code.  Boilerplate code is one of the few places where 
 non-hygienic macros are useful.  A lot of boilerplat is simply setting up variables that are going to be used within your function.  Therefore, the
-boilerplate macros should be introducing a large set of common bindings, as well as perhaps other things.
+boilerplate macros should be introducing a large set of common
+bindings, as well as perhaps other housekeeping tasks.
+</para>
+
+<para>
+Let's say that we are building a CGI application consisting of many
+independent CGI scripts.  Normally only a session ID is passed to
+each script via a cookie.  However, in nearly every page we need to
+know the username, group number, and the current job being worked on.
+In addition, we need to redirect the user if they do not have an 
+appropriate cookie.  Let's look at some code to do this 
+(hypothetical webserver functions will be prefixed with <literal>webserver:</literal>):
+</para>
+
+<example>
+<title>Boilerplate code for web application</title>
+<programlisting>
+(define (handle-cgi-request req)
+  (let (
+        (session-id (webserver:cookie req "sessionid")))
+    (if (not (webserver:valid-session-id session-id))
+        (webserver:redirect-to-login-page)
+        (let (
+              (username (webserver:username-for-session session-id))
+              (group (webserver:group-for-user username))
+              (current-job (webserver:current-job-for-user username)))
+          ;;Code for processing goes here
+          ))))
+</programlisting>
+</example>
+
+<para>
+While some of that can be handled by a procedure, the bindings
+certainly cannot.  However, we can reduce it using a macro.  Here is
+the code to do so:
+</para>
+
+<example>
+<title>Macro of the boilerplate code</title>
+<programlisting>
+(define-syntax cgi-boilerplate
+  (lambda (x)
+    (syntax-case x ()
+      (
+        (cgi-boilerplate expr)
+        (datum->syntax-object
+          (syntax k)
+          `(let (
+                 (session-id (webserver:cookie req "sessionid")))
+                (if (not (webserver:valid-session-id session-id))
+                    (webserver:redirect-to-login-page)
+                    (let (
+                          (username (webserver:username-for-session session-id))
+                          (group (webserver:group-for-user username))
+                          (current-job (webserver:current-job-for-user username)))
+                        ,(syntax-object->datum (syntax expr))))))
+      )
+)))
+</programlisting>
+</example>
+
+<para>
+We can now create new forms based on our boilerplate code by doing:
+</para>
+
+<example>
+<title>Example use of boilerplate</title>
+<programlisting>
+(define (handle-cgi-request req)
+  (cgi-boilerplate
+   (begin
+     ;;Do whatever I want here
+     )))
+</programlisting>
+</example>
+
+<para>
+In addition, since we are not defining our variables explicitly, adding
+new variable definitions to our boilerplate won't affect its calling 
+conventions, so new features can be added without having to create a whole
+new function.
+</para>
+
+<para>
+In any large project, there are inevitably templates to follow which
+cannot be reduced to functions, usually because of the bindings being
+created.  Why not use boilerplate instead?  Likewise, you can have
+other standard macros which make use of variables defined in the boilerplate.
+This significantly reduces typing, because you do not have to constantly
+be writing and rewriting variable bindings, derivations, and parameter 
+passing.  It also reduces errors in the same manner.
+</para>
+
+<para>
+However, all is not roses with this scenario.  There are many significant
+problems that can occur, including:
+</para>
+
+<itemizedlist>
+<listitem><para>Accidentally overwriting bindings by using the same name for a variable as exists in the binding.</para></listitem>
+<listitem><para>Difficulty tracing problems because the inputs and the outputs of the macros are implicit not explicit.</para></listitem>
+
+<!-- NOTE - in recursion we noted that explicit parameter passing was one of the benefits, and here we're saying "not so much".  They are two different cases (in looping it is modification, as opposed to here where it is simply assignment), but still some of the same issues can occur -->
+
+</itemizedlist>
+
+<para>
+These can be largely avoided by doing a few things in conjunction with
+your boilerplate macros:
+</para>
+
+<itemizedlist>
+<listitem><para>Have a naming convention which clearly labels macros as such, as well as indicate that a variable came from boilerplate code.  This could be done by affixing <literal>-m</literal> to macros and <literal>-b</literal> to variables defined within a boilerplate.</para></listitem>
+<listitem><para>Carefully document all boilerplate macros, as well as changes to the macros.</para></listitem>
+<listitem><para>Only use boilerplate macros when the savings in repetitiveness clearly outweigh the negatives of implicit functionality.</para></listitem>
+</itemizedlist>
+
+</sect1>
+
+<sect1>
+<title>Using Macros for Domain-Specific Languages</title>
+
+<para>
+Many times in programming what is really needed is a small domain-specific
+language.  There are many examples of domain-specific languages in use 
+today:
+</para>
+
+<itemizedlist>
+<listitem><para>Configuration files</para></listitem>
+<listitem><para>Web markup languages like HTML</para></listitem>
+<listitem><para>Job control languages</para></listitem>
+</itemizedlist>
+
+<para>
+These languages are not necessarily turing-complete.  The commonality between
+them is that they all have a lot of implicit assumptions and implicit state
+that would have to be dealt with explicitly in a general-purpose programming 
+language.  Scheme allows you to have the best of both worlds by being able
+to define macros which operate as specialized domain-specific languages.
+</para>
+
+<para>
+For the first example of this, we will consider a security
+configuration file.  Let's say that we want to detail different
+security domains within a configuration file.  We will want to have
+several different security domains, each of which have different
+access controls and restrictions.
+</para>
+
+<para>
+Many systems already have declarative security.  Specifically, J2EE has
+some of the declarative security features we are going to look at:
+</para>
+
+<example>
+<title>J2EE Declarative Security Example</title>
+<programlisting>
+<![CDATA[
+<security-constraint>
+  <web-resource-collection>
+      <web-resource-name>Test Resource</web-resource-name>
+      <description>This is an example Resource</description>
+      <url-pattern>/Test</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+    <role-name>USERS</role-name>
+  </auth-constraint>
+</security-constraint>
+]]>
+</programlisting>
+</example>
+
+<para>
+In this code, we are limitting access to a certain URL based on a
+given user's role, and telling the authentication mechanism to use for
+someone who is not logged in.  This can be done in a similar way with
+a macro in Scheme.  We could define a macro that would allow us to do
+something like this:
+</para>
+
+<example>
+<title>Using a Declarative Security Macro in Scheme</title>
+<programlisting>
+(resource "Test Resource" "This is an example resource" "/Test"
+   (auth-constraints (role "USERS")))
+</programlisting>
+</example>
+
+<para>
+This is what the macro definition for the previous macro invocation might look like (all functions prefixed with <literal>webserver:</literal> are hypothetical functions provided by the webserver):
+</para>
+
+<example>
+<title>Writing the Declarative Security Macro</title>
+<programlisting>
+(define-syntax auth-constraints
+  (lambda (x)
+    (syntax-case x (auth-constraints time role)
+      (
+        ;;This causes the constraints to be processed one at a 
+        ;;time within a (begin) clause
+        (auth-constraints constraint1 constraint2 ...)
+        (syntax 
+          (begin 
+            (auth-constraints constraint1) 
+            (auth-constraints constraint2 ...)))
+      )
+      (
+        ;;This gives the expansion for the role checking mechanism
+        ;;(note that "credentials" is defined in the "resource" macro below)
+        (auth-constraints (role rolename ...))
+        (syntax 
+          (if 
+            (not 
+              (webserver:is-in-role-list credentials (list rolename ...))) 
+            (webserver:report-unauthorized) 
+            #f))
+      )
+      (
+        ;;Allows a time-based checking
+        (auth-constraints (time beginning ending))
+        (syntax 
+          (let (
+                (now (webserver:getunixtime))) 
+               (if 
+                 (or (< now beginning) (> now ending)) 
+                 (webserver:report-unauthorized) #f)))
+      )
+      (
+        ;;Unknown case -- assume it is code or is transformed by 
+        ;;another macro
+        (auth-constraints unknown)
+        (syntax unknown)
+      )
+)))
+      
+(define-syntax resource
+  (lambda (x)
+    (syntax-case x ()
+      (
+        (resource name description url security-features) 
+        (with-syntax 
+          (
+            ;;This builds the function to check security information
+            (security-function 
+              (datum->syntax-object 
+                (syntax k)
+                `(lambda (credentials) 
+                   ,@(syntax-object->daturm (syntax security-features))))
+          (syntax
+            (webserver:add-security-function 
+              name description url security-function)))))))
+</programlisting>
+</example>
+
+<para>
+These macros require a little bit of explanation.  The 
+<literal>resource</literal> macro basically builds a function for processing security credentials, and then passes that as an argument to <literal>webserver:add-security-function</literal>.  It defines a function with a single argument, <literal>credentials</literal>, which will be used by the <literal>auth-constraints</literal> macro.
+</para>
+
+<para>
+The <literal>auth-constraints</literal> macro is a little more complicated.  
+It can take one of two forms -- either having a single constraint to process
+or a list of constraints to process.  The first section of the macro breaks
+down the list of constraints case into multiple single constraints cases.
+The <literal>...</literal> is used to indicate possible continuation of 
+similar forms.  We are taking advantage of the fact that after a macro 
+expansion occurs, the result is then macro-expanded again, continuing 
+until no more expansions take place.  If you follow the iterated expansions
+of <literal>auth-constraints</literal> you will see that it will indeed
+expand into a list of individual <literal>auth-constraints</literal> macros,
+which will then be processed individually.
+</para>
+
+<para>
+<literal>auth-constraints</literal>
+contains two extra features that aren't being used in the example.  The first
+is a time-based authorization mechanism, and the second is the ability to
+be further expanded by other macros and code.  The time-based authorization
+mechanism is merely an example of how multiple types of constraints can be
+added in to this mechanism, and the expansion option will be used in a later
+example.
+</para>
+
+<para>
+These macros will expand our security declarations into this:
+</para>
+
+<example>
+<title>Expansion of Scheme Declarative Security</title>
+<programlisting>
+(webserver:add-security-function 
+  "Test Resource" 
+  "This is an example resource" 
+  "/Test"
+  (lambda (credentials)
+    (begin
+      (if (not (webserver:is-in-role-list credentials (list "USERS")))
+        (webserver:report-unauthorized)
+        #f))))
+</programlisting>
+</example>
+
+<para>
+This leads to the obvious question of "why?"  Why did we bother to implement this as a macro?  What was wrong with the XML declaration used by Java?  There are two issues that make macros preferable to data-languages like the XML declarative security file:
+</para>
+
+<itemizedlist>
+<listitem><para>The declarative information is transformed into an imperative form at compile-time, rather than each time it is used at run-time.</para></listitem>
+<listitem><para>More importantly, if the declarative language is not expressive enough for your needs, <emphasis>you can include imperative statements within your file as well</emphasis>.</para></listitem>
+</itemizedlist>
+
+<para>
+While the first feature is useful, the second feature is what
+makes it worthwhile.  Since the macro expands to regular code anyway,
+you can always switch back to normal programming if the declarative
+language doesn't suit your needs.  In fact, if the transformation is
+well-documented, you can even mix declarative and imperative
+statements within your configuration.  
+</para>
+
+<para>
+Let's say, for example, that you wanted to check the domain that the user was coming from against an external list of rogue IP addresses.  Here is how we could do it:
+</para>
+
+<example>
+<title>Mixture of Declarative and Imperative Security Features</title>
+<programlisting>
+(resource "Test Resource" "This is an example resource" "/Test"
+  (auth-constraints 
+    (role "USERS")
+    (if (rogue-ip-list:contains (webserver:ip-address credentials)) 
+      (webserver:report-unauthorized)
+      #f)))
+</programlisting>
+</example>
+
+<para> This allows the ultimate in flexibility for programming.  You
+can program declaratively, using domain-specific sublanguages, but
+still revert to your full-featured programming language if the
+sublanguage does not meet your needs fully.  </para>
+</sect1>
+
+<sect1>
+<title>Conclusion</title>
+
+<para>
+Metaprogramming has many uses in large-scale computer programming.  The
+biggest issues in metaprogramming include:
+</para>
+
+<itemizedlist>
+<listitem><para>Deciding whether or not to use a language which directly supports metaprogramming</para></listitem>
+<listitem><para>Deciding for which parts of a program are best suited for metaprogramming, and for which parts it would be overkill</para></listitem>
+</itemizedlist>
+
+<para>
+We have touched on the tools needed to do metaprogramming in Scheme, as well
+as given examples of using metaprogramming for:
+</para>
+
+<itemizedlist>
+<listitem><para>Making syntax nicer</para></listitem>
+<listitem><para>Automating boilerplate generation</para></listitem>
+<listitem><para>Writing declarative subprograms</para></listitem>
+</itemizedlist>
+
+<para>
+Really, in Scheme, you can use the macro facility to define nearly any sort of 
+domain-specific language you want.  The tools are there.  It's just a matter of
+deciding which features are implemented more easily and more clearly using 
+macro expansions versus regular code.
 </para>
 
 </sect1>

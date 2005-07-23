@@ -4,35 +4,41 @@
 
 <dw-article local-site="worldwide" ratings-form="auto" related-contents="auto" toc="auto" skill-level="3">
 <id cma-id="" domino-uid="" content-id="" original="yes"/>
-<keywords content="FIXME -- ADD KEYWORDS" />
+<keywords content="scheme,macro,code generator,code generation,program generator,syntax-rules,syntax-case,embedded sql,M4" />
 
 <!-- FIXME - update meta -->
-<meta-last-updated day="16" month="10" year="2004" initials="jlb"/>
+<meta-last-updated day="07" month="07" year="2005" initials="jlb"/>
 
 <content-area-primary name="linux" />
 
-<title>Program-Generating Programs</title>
+<title>Code Generating Programs</title>
+<subtitle>The art of metaprogramming</subtitle>
 
-<author jobtitle="Director of Technology" company="New Media Worx" email="johnnyb.com"  >
+<author jobtitle="Director of Technology" company="New Media Worx" email="johnnyb@eskimo.com"  >
 <bio>Jonathan Bartlett is the author of the book <a href="http://www.cafeshops.com/bartlettpublish.8640017"><i>Programming from the Ground Up</i></a> which is an introduction to programming using Linux assembly language.  He is the lead developer at New Media Worx, developing web, video, kiosk, and desktop applications for clients.
 </bio>
 <name>Jonathan Bartlett</name>
 </author>
 
 <!-- FIXME - update date published -->
-<date-published day="01" month="09" year="2004" />
+<date-published day="07" month="07" year="2005" />
 
-<heading refname="" type="major" toc="yes" alttoc="">Why Write Programs to Generate Programs</heading><abstract>
+<abstract>
 One of the most under-utilized programming techniques is writing programs
 that generate programs or program parts.  
-Writing programs which themselves write programs has numerous applications.
-Program-generating
-programs are sometimes called <i>meta-programs</i> and 
-writing such programs is called <i>meta-programming</i>.  
 </abstract><docbody>
 
+<heading refname="" type="major" toc="yes" alttoc="">Why Write Programs to Generate Code</heading>
+
 <p>
-There are many different uses for meta-programming.
+Writing programs which themselves write code has numerous applications.
+Code-generating
+programs are sometimes called <i>metaprograms</i> and 
+writing such programs is called <i>metaprogramming</i>.  
+</p>
+
+<p>
+There are many different uses for metaprogramming.
 </p>
 
 <p>
@@ -66,19 +72,19 @@ your regular source code language before compiling.
 
 <p>
 Finally, a lot of programming languages make you write really verbose 
-statements to do really simple things.  Program-generating programs allow
+statements to do really simple things.  Code generating programs allow
 you to abbreviate such statements and save a lot of typing, which
 also prevents a lot of mistakes because there is less
 chance of mistyping.
 </p>
 
 <p>
-As languages acquire more features, program-generating programs get less and less
+As languages acquire more features, code generating programs get less and less
 appealing.  What is available as a standard feature of one language
-may be available only through a program-generating program in another language.
+may be available only through a code generating program in another language.
 However, inadequate language design is not the only reason for needing
-program-generating programs.
-Program-generating programs allow you to develop and use small,
+code generating programs.
+Code generating programs allow you to develop and use small,
 domain-specific languages that are easier to write and maintain than writing
 them in the target language.
 </p>
@@ -97,13 +103,14 @@ your code.
 <heading refname="" type="minor" toc="no" alttoc="">The C Preprocessor (CPP)</heading>
 
 <p>
-The first kind of meta-programming we are going to look at involves textual macro languages.
+The first kind of metaprogramming we are going to look at involves textual macro languages.
 Textual macros are macros that directly affect the text of the programming 
 language without knowing or dealing in anything about the meaning of the programming 
 language.  The two most widely used textual macro systems are the 
 C preprocessor and the M4 macro processor.  If you've done C programming,
 you have probably dealt with the <code type="inline">#define</code> macro of C.  
-Textual macro expansion, while not ideal, is an easy way to do basic meta-programming in many languages that don't have better program-generation 
+Textual macro expansion, while not ideal, is an easy way to do basic
+metaprogramming in many languages that don't have better code generation 
 capabilities.
 Here is an example of a <code type="inline">#define</code> macro:
 </p>
@@ -201,7 +208,7 @@ value if one of the functions returns a different value each call.
 
 <p>
 More information about C pre-processor macro programming is available in the 
-CPP manual (see the <a href="#references">References</a> section for a link).
+CPP manual (see the <a href="#resources">Resources</a> section for a link).
 </p>
 
 
@@ -296,7 +303,7 @@ and a <code type="inline">Makefile</code> for you from templates.
 The details of the M4 macro processor are too complex to discuss 
 here, but links to more information about the M4 macro processor and
 its use in Sendmail and Autoconf is provided in the
-<a href="#references">references</a> section.
+<a href="#resources">Resources</a> section.
 </p>
 
 
@@ -309,10 +316,10 @@ its use in Sendmail and Autoconf is provided in the
 In the previous section, we dealt with the M4 macro system, and showed how 
 using macros can turn a little bit of code into a whole lot.  The M4 system
 is a generic textual-substitution program.  In this section we will
-look at highly specialized program generators.  
+look at highly specialized code generators.  
 </p>
 
-<heading refname="" type="minor" toc="no" alttoc="">A Survey of Program Generators</heading>
+<heading refname="" type="minor" toc="no" alttoc="">A Survey of Code Generators</heading>
 
 <p>
 GNU/Linux systems come with several program-writing programs.  The most popular
@@ -326,14 +333,14 @@ are probably:
 
 <p>
 These tools all generate output for the C language.  You may wonder, though, 
-why these are implemented as program-generators instead of as functions.
+why these are implemented as code generators instead of as functions.
 There are several reasons, among which are the following:
 </p>
 
 <ul>
 <li>The inputs to these functions are very complicated and not easily expressible in a form that is valid C code.</li>
 <li>These programs compute and generate many static lookup tables for operation, and therefore it is better to generate these tables once during pre-compile time than during every invocation of the program.</li>
-<li>Many aspects of the functioning of these systems are customizable with arbitrary code placed in specific positions.  This code can then use variables and functions which are part of the generated structure built by the program generator, without having to define and derive all of the variables manually.</li>
+<li>Many aspects of the functioning of these systems are customizable with arbitrary code placed in specific positions.  This code can then use variables and functions which are part of the generated structure built by the code generator, without having to define and derive all of the variables manually.</li>
 </ul>
 
 <p>
@@ -347,7 +354,7 @@ easily combine database access with C.
 
 <p>
 While there are many libraries available that allow you to access databases 
-in C, using a program generator such as Embedded SQL
+in C, using a code generator such as Embedded SQL
 makes combining C and database access much easier by merging SQL entities into C as an extended part of the language.  Many Embedded SQL implementations, however, are basically just
 specialized macro processors that generate regular C programs as output.  Using the Embedded SQL, though, makes the database access much
 more natural, intuitive, and error-free for the programmer than doing so through the direct use of libraries.  With Embedded SQL, the intricacies of database programming
@@ -356,10 +363,10 @@ are masked by a sort of macro sublanguage.
 
 
 
-<heading refname="" type="minor" toc="no" alttoc="">An Example Usage of a Program Generator</heading>
+<heading refname="" type="minor" toc="no" alttoc="">An Example Usage of a Code Generator</heading>
 
 <p>
-To see how a program generator works, let's look at a short Embedded SQL 
+To see how a code generator works, let's look at a short Embedded SQL 
 program.  In order to do this, we need an Embedded SQL processor. 
 PostgreSQL comes with an Embedded SQL compiler,
 <code type="inline">ecpg</code>.  To run this program, you need to create a database in PostgreSQL called "test".  Then, in that database, issue
@@ -438,11 +445,11 @@ gcc test.c -lecpg -o test
 
 
 
-<heading refname="" type="minor" toc="no" alttoc="">Building A Program Generator</heading>
+<heading refname="" type="minor" toc="no" alttoc="">Building A Code Generator</heading>
 
 <p>
-Now that you've seen several types of program generators and the types of things that they can do, it is now
-time to write a small program generator.  Probably the simplest useful program generator you could write
+Now that you've seen several types of code generators and the types of things that they can do, it is now
+time to write a small code generator.  Probably the simplest useful code generator you could write
 would be one to build static lookup tables.  Often, in order to build fast
 functions in C programming, you simply
 create a lookup table of all of the answers.  This means that you either need to precompute them by hand (which
@@ -545,7 +552,7 @@ and process user code dynamically.
 </p>
 
 <p>
-Our program generator should process the macro declarations, but 
+Our code generator should process the macro declarations, but 
 pass through all non-macro portions unchanged.
 Therefore, the basic organization of the macro processor should look like this:
 </p>
@@ -562,7 +569,7 @@ Here is the Perl code to create our table generator:
 </p>
 
 <code type="section">
-<heading refname="" type="code" toc="no">Listing 12. Program generator for the table macro</heading>
+<heading refname="" type="code" toc="no">Listing 12. Code generator for the table macro</heading>
 #!/usr/bin/perl
 #
 #tablegen.pl
@@ -629,7 +636,7 @@ To run this program do this:
 </p>
 
 <code type="section">
-<heading refname="" type="code" toc="no">Listing 13. Running the program generator</heading>
+<heading refname="" type="code" toc="no">Listing 13. Running the code generator</heading>
 ./tablegen.pl &lt; sqrt.in &gt; sqrt.c
 gcc sqrt.c -o sqrt
 ./a.out
@@ -637,7 +644,7 @@ gcc sqrt.c -o sqrt
 
 
 <p>
-So in just a few lines of code you created a simple program generator that can dramatically ease 
+So in just a few lines of code you created a simple code generator that can dramatically ease 
 your programming tasks.  With just that single macro, you can take away a lot of work for any 
 program that has to generate mathematical tables indexed by integer.  A little extra work
 would also allow tables containing full struct definitions, and a little more would 
@@ -652,7 +659,7 @@ ensure that  space isn't wastedat the front of the array with useless empty entr
 <heading refname="" type="major" toc="yes" alttoc="">Language-Sensitive Macro Programming with Scheme</heading>
 
 <p>
-While program generators usually understand a little bit about the target language, they are usually
+While code generators usually understand a little bit about the target language, they are usually
 not full parsers, and cannot fully take the target language into account without rewriting
 a complete compiler.  However, this might be simplified if there was a language 
 already represented with a simple data structure.  In the Scheme programming language, 
@@ -666,7 +673,7 @@ parsing is needed to parse the program, and Scheme itself is a list-processing l
 In fact, Scheme's abilities to do transformation go even beyond that.  The Scheme standard defines
 a macro language specifically built to make it easier to make additions to the language.  On top
 of that, most Scheme implementations provide additional features to aid in building 
-program-generating programs.
+code-generating programs.
 </p>
 
 <p>
@@ -905,7 +912,7 @@ Now you have a function that allows you to easily build whatever kind of tables 
 
 <p>
 This article has covered a large amount of territory, so lets take a moment to review.  First we discussed
-which problems were best solved with a program-generating program.  These include:
+which problems were best solved with a code generating program.  These include:
 </p>
 
 <ul>
@@ -915,34 +922,42 @@ which problems were best solved with a program-generating program.  These includ
 </ul>
 
 <p>
-We then looked at several meta-programming systems and examples of their use.  This included generic textual-substitution systems
+We then looked at several metaprogramming systems and examples of their use.  This included generic textual-substitution systems
 as well as domain-specific program and function generators.  We then examined a specific instance of table-building and went through
 the motions of writing a code-generating program to build static tables in C.
 </p>
 
 <p>
 Finally, we looked at Scheme, and saw how it is able to tackle the issues we faced in the C language using constructs that were 
-part of the Scheme language itself.  We saw how Scheme itself is built to be both a language and a program-generating language for itself.
+part of the Scheme language itself.  We saw how Scheme itself is built
+to be both a language and a code generating language for itself.
 Because these techniques are built into the language itself, it is simpler to program and doesn't suffer from many of the same 
 problems inherent in other techniques discussed.  This allows the programmer to simply and easily add domain-specific extensions to 
-the Scheme language in the place that program generators have traditionally held.
+the Scheme language in the place that code generators have traditionally held.
 </p>
 
 <p>
 In the next installment, we will examine in more detail how Scheme macros are programmed and how they can make large-scale programming tasks significantly easier..
 </p>
 
+</docbody>
 
-
-<!--- RESOURCES
+<related-list>
+<a href="http://www-128.ibm.com/developerworks/linux/library/l-listproc/">Better programming through effective list handling</a>
+<a href="http://www-128.ibm.com/developerworks/ibm/library/ibm-codegen/index.html">Using XML and XSL for code generation</a>
+<a href="http://www-128.ibm.com/developerworks/edu/x-dw-codexslt-i.html">Code generation using XSLT</a>
+<a href="http://www-128.ibm.com/developerworks/java/library/j-dyn0610/index.html">Replacing reflection with code generation</a>
+<a href="http://www-128.ibm.com/developerworks/opensource/library/os-ecemf3/index.html">Customize generated models and editors with Eclipse's JMerge</a>
+<a href="http://www-128.ibm.com/developerworks/websphere/library/techarticles/0406_barosa/0406_barosa.html">Web transactions without Java code using VisualAge Generator and WebSphere</a>
+</related-list>
 
 <resource-list>
-
 <ul>
 <li><a href="http://gcc.gnu.org/onlinedocs/gcc-4.0.0/cpp/">The GNU CPP manual</a> has a lot of information about what is available for GCC macro processing, as well as all of the caveats you need to know when programming them.</li>
 <li>For more information about M4, here is the <a href="http://www.gnu.org/software/m4/manual/m4.html">manual for GNU M4</a>.</li>
 <li>For a quick introduction to M4 check out <a href="http://www.linuxjournal.com/article/5594">Linux Journal tutorial</a>.</li>
 <li>If you want to know more about on Sendmail's M4 macros, here is <a href="http://www.sendmail.org/m4/readme.html">the official reference</a>.</li>
+<li>To know more about the GNU build system and how many tasks can be automated with autoconf and M4 macros, see the <a href="http://www.amath.washington.edu/~lf/tutorials/autoconf/toolsmanual.html">GNU build system tutorial</a>.</li>
 <li>You can learn more about Flex and Bison through either this <a href="http://ds9a.nl/lex-yacc/cvs/output/lexyacc.html#toc9">tutorial</a> or this <a href="http://www.amazon.com/exec/obidos/ASIN/1565920007/freeeducation-20/">book</a>.</li>
 <li>More information about Embedded SQL with PostgreSQL is <a href="http://www.postgresql.org/docs/8.0/interactive/ecpg.html">here</a>.</li>
 <li>For DB2 developers, here is a <a href="http://www-128.ibm.com/developerworks/edu/i-dw-db2-cert7033-i.html">tutorial on Embedded SQL with DB2</a>.</li>
@@ -951,15 +966,6 @@ In the next installment, we will examine in more detail how Scheme macros are pr
 <li>Here is a quick and pragmatic list of <a href="http://www.devx.com/Java/Article/15511">reasons why code generation is important</a>.</li>
 <li>There are few books that cover code generation but <a href="http://www.amazon.com/exec/obidos/ASIN/1930110979/freeeducation-20/">here is a fairly good one</a>.</li>
 </ul>
-</resource-list>
-
--->
-
-</docbody>
-<related-list>
-</related-list>
-
-<resource-list>
 </resource-list>
 
 </dw-article>

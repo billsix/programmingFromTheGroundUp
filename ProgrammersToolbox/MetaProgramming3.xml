@@ -34,13 +34,14 @@ tutorials listed in the <ulink url="#resources">Resources</ulink>
 section.  Here is a small regular expression in Perl that will
 substitute all <literal>&lt;h1&gt;</literal>'s with
 <literal>&lt;h2&gt;</literal>'s in an HTML string:
+</para>
 
 <example>
 <title>Perl Regular Expression for Substituting HTML Tags</title>
 <programlisting>
 <![CDATA[
 $html_str =~ s!<(/?)h1>!<${1}h2>!g;
-[[>
+]]>
 </programlisting>
 </example>
 
@@ -59,15 +60,12 @@ hasn't been written yet) that you could not express the above regular
 expression like this:
 </para>
 
-<example>
-<title>A Perl Regular Expression as a Diagram</title>
 <mediaobject>
 <imageobject>
 <imagedata fileref="RegExDiagram.png" format="PNG" />
 </imageobject>
-<!-- <caption><para><emphasis> </emphasis></para></caption> -->
+<caption><para><emphasis>A Perl Regular Expression as a Diagram</emphasis></para></caption>
 </mediaobject>
-</example>
 
 <para>
 This works not only for domain-specific languages, but also for
@@ -93,8 +91,8 @@ expression, the same amount of programming information is present in
 each graph.  This is the first point I want to communicate: 
 </para>
 
-<primaryconcept>Graphical representations of programming concepts do
-not reduce the amount of programming involved.</primaryconcept>
+<note><para>Graphical representations of programming concepts do
+not reduce the amount of programming involved.</para></note>
 
 <para>
 For some of you who have used visual tools for programming, this may
@@ -103,12 +101,12 @@ clear by distinguishing it from two other points I would like to
 convey:
 </para>
 
-<primaryconcept>Domain-specific languages may reduce the amount of
-programming involved.</primaryconcept>
+<note><para>Domain-specific languages may reduce the amount of
+programming involved.</para></note>
 
-<primaryconcept>Some domain-specific languages are easier to enter
+<note><para>Some domain-specific languages are easier to enter
 textually, while others are easier to enter
-graphically.</primaryconcept>
+graphically.</para></note>
 
 <para>
 Many of the visual programming tools can be viewed as domain-specific
@@ -175,31 +173,31 @@ algorithm)</para></listitem>
 Therefore:
 </para>
 
-<primaryconcept>
+<note><para>
 Programs built using graphical representations can contain more
 non-programmatic information than textual representations can.
-</primaryconcept>
+</para></note>
 
-<primaryconcept>
+<note><para>
 All graphical models which are used by the final program 
 <emphasis>are still code</emphasis>, and thus require a coder to
 implement correctly.
-</primaryconcept>
+</para></note>
 
-<primaryconcept>
+<note><para>
 Because graphical models are code, they cannot be built in an ad-hoc
 way, but within the semantics of the modelling tool.
-</primaryconcept>
+</para></note>
 
-<primaryconcept>
+<note><para>
 In most non-trivial situations, full programming languages must be
 used to supplement the domain-specific languages.
-</primaryconcept>
+</para></note>
 
-<primaryconcept>
+<note><para>
 One of the primary benefits of programmers over domain experts are
 their understandings of edge cases.
-</primaryconcept>
+</para></note>
 
 <para>
 This includes both programmatic edge-cases (when using or combining
@@ -253,6 +251,9 @@ Model-Driven Architecture</title>
 
 <sect1>
 <title>Model-Driven Architecture Programming Example</title>
+
+<para>
+</para>
 
 </sect1>
 
