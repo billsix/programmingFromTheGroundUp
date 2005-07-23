@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN">
+<chapter>
+<title>Enterprise Metaprogramming</title>
+
+<para>
+Enterprise-wide metaprogramming systems exist, and are quite useful.
+However, many people are unaware of both their utilities and their
+difficulties, as well as how they fit in to metaprogramming in
+general.  The Model-Driven Architecture (MDA) is the currently
+developing standard for UML-based metaprogramming.  We are going to
+discuss the ways in which the MDA is both similar and different to
+metaprogramming models on smaller scales.
+</para>
+
+<remark>
+FIXME - Need a high-level description of MDA and what it's goals are
+</remark>
+
+<sect1>
+<title>The Benefits and Limits of Graphical Programming and Metaprogramming</title>
+
+<para>
+Before we dive into enterprise metaprogramming, let's look at regular
+metaprogramming from a slightly different angle.  Let's start off by
+looking at regular expressions.
+</para>
+
+<para>
+Regular expressions are basically a small sublanguage built for text
+processing, used to match and replace strings of characters.  For
+those of you not familiar with regular expressions, there are
+tutorials listed in the <ulink url="#resources">Resources</ulink>
+section.  Here is a small regular expression in Perl that will
+substitute all <literal>&lt;h1&gt;</literal>'s with
+<literal>&lt;h2&gt;</literal>'s in an HTML string:
+
+<example>
+<title>Perl Regular Expression for Substituting HTML Tags</title>
+<programlisting>
+<![CDATA[
+$html_str =~ s!<(/?)h1>!<${1}h2>!g;
+[[>
+</programlisting>
+</example>
+
+<para>
+The language for doing a regular expression is not Perl, it is a
+domain-specific language that Perl happens to have a hook into.
+However, the exact syntax of the regular expression is not that
+important.  There are many other ways it could be written.  Basically,
+whether you are communicating to the computer in a full-featured
+programming language or a small domain-specific language, you have to
+have some way of communicating to the compiler or interpretter the
+symbols of that language.  We often do this by typing code, but there
+is no technical reason for us to limit ourselves in such a way.  For
+example, there is no technical reason (except that a parser simply
+hasn't been written yet) that you could not express the above regular
+expression like this:
+</para>
+
+<example>
+<title>A Perl Regular Expression as a Diagram</title>
+<mediaobject>
+<imageobject>
+<imagedata fileref="RegExDiagram.png" format="PNG" />
+</imageobject>
+<!-- <caption><para><emphasis> </emphasis></para></caption> -->
+</mediaobject>
+</example>
+
+<para>
+This works not only for domain-specific languages, but also for
+general programming languages.  Since compilers operate on symbols,
+there is no constraint that the symbols have to come in as text --
+they can just as easily appear graphically.  There are two reasons we
+normally use text to program computers instead of graphics:
+</para>
+
+<itemizedlist>
+<listitem><para>Typing is often faster than having to position
+graphs</para></listitem>
+<listitem><para>The inertia of text-based programming systems (there
+are millions of people already trained to do this, and thousands of
+tools already capable of assisting you)</para></listitem>
+</itemizedlist>
+
+<para>
+In fact, for the case of regular expressions, it is fairly clear that
+it will be more difficult to enter in the code graphically.  However,
+note that in the two representations of the regular
+expression, the same amount of programming information is present in
+each graph.  This is the first point I want to communicate: 
+</para>
+
+<primaryconcept>Graphical representations of programming concepts do
+not reduce the amount of programming involved.</primaryconcept>
+
+<para>
+For some of you who have used visual tools for programming, this may
+seem contrary to experience.  However, I think my point will be more
+clear by distinguishing it from two other points I would like to
+convey:
+</para>
+
+<primaryconcept>Domain-specific languages may reduce the amount of
+programming involved.</primaryconcept>
+
+<primaryconcept>Some domain-specific languages are easier to enter
+textually, while others are easier to enter
+graphically.</primaryconcept>
+
+<para>
+Many of the visual programming tools can be viewed as domain-specific
+sublanguages.  It is the restricted sublanguage that requires less
+programming, not the visual nature.  However, the visual nature can
+make the programming easier.  For example, let's look at a Win32
+resource script for building dialog boxes:
+</para>
+
+<example>
+<title>Example Win32 Resource Script</title>
+<programlisting>
+IDD_TEST DIALOG DISCARDABLE 0, 0, 200, 200
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Hello There!"
+FONT 8, "MS Sans Serif"
+BEGIN
+DEFPUSHBUTTON "OK",IDOK,108,8,50,14
+END
+</programlisting>
+</example>
+
+<para>
+Now, this requires the programmer to "put in" the same amount of
+information as if I had used a graphical tool to build the dialog box
+and position it.  The difference is that it is much easier to select
+widgets and position them with a mouse than it is to type out their
+names and then type in their coordinates.
+</para>
+
+<para>
+So far we have deduced that:
+</para>
+
+<itemizedlist>
+<listitem><para>Graphical representations of programming concepts do not reduce the amount of programming involved.</para></listitem>
+<listitem><para>Domain-specific languages may reduce the amount of
+programming involved.</para></listitem>
+<listitem><para>Some domain-specific languages are easier to enter
+textually, while others are easier to enter
+graphically.</para></listitem>
+</itemizedlist>
+
+<para>
+Now although graphical representations of programs contain the same
+amount of programmatic information as textual representations,
+graphical representations can contain more non-programmatic
+information, such as:
+</para>
+
+<itemizedlist>
+<listitem><para>Different components can be spatially arranged to make
+more sense to other people in a graphical environment.</para></listitem>
+<listitem><para>Graphs, drawings, and other graphical explanatory
+elements and visual cues can be added directly to the source code in a
+graphical environment to help explain a process.</para></listitem>
+<listitem><para>Code can be assigned to regions which are hidden or
+exposed depending on the detail of the view (i.e. being able to hide
+error-checking code when you just want to analyze the
+algorithm)</para></listitem>
+</itemizedlist>
+
+<para>
+Therefore:
+</para>
+
+<primaryconcept>
+Programs built using graphical representations can contain more
+non-programmatic information than textual representations can.
+</primaryconcept>
+
+<primaryconcept>
+All graphical models which are used by the final program 
+<emphasis>are still code</emphasis>, and thus require a coder to
+implement correctly.
+</primaryconcept>
+
+<primaryconcept>
+Because graphical models are code, they cannot be built in an ad-hoc
+way, but within the semantics of the modelling tool.
+</primaryconcept>
+
+<primaryconcept>
+In most non-trivial situations, full programming languages must be
+used to supplement the domain-specific languages.
+</primaryconcept>
+
+<primaryconcept>
+One of the primary benefits of programmers over domain experts are
+their understandings of edge cases.
+</primaryconcept>
+
+<para>
+This includes both programmatic edge-cases (when using or combining
+libraries) as well as domain edge-cases (where the domain definition
+is inconsistent or under-specified).  The programmer's job in the
+former case is to solve the problem himself by special-casing or
+reorganizing the code.  In the latter case his job is to communicate
+the difficulties to the domain experts so that they can specify the
+solution.
+</para>
+
+<para>
+It should never be thought that graphical modelling tools will be able
+to remove the programmer from the equation, unless of course domain
+experts are eventually trained in programming itself.  It is
+invariable that in complex abstractions of complex systems that
+detecting and special-casing edge cases will be needed.  To do that
+requires a high degree of logical exactness, which is characteristic
+of good programmers.
+</para>
+
+</sect1>
+
+<sect1>
+<title>The Model-Driven Architecture's Extension to
+Metaprogramming</title>
+
+<para>
+So far, the concepts we have touched on are fairly generic to any sort
+of domain-specific or metaprogramming model one might encounter.
+The last section's purpose was to define some of the
+limits involved in what metaprogramming of any kind can do.
+This section will focus on what makes enterprise metaprogramming
+unique, specifically the model-driven architecture.
+</para>
+
+<sect2>
+<title>The Need for a Model-Driven Architecture</title>
+<para>
+</para>
+</sect2>
+
+<sect2>
+<title>Platform-Independent Models - the Cornerstone of the
+Model-Driven Architecture</title>
+<para>
+</para>
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>Model-Driven Architecture Programming Example</title>
+
+</sect1>
+
+<sect1>
+<title>Conclusion</title>
+<para>
+</para>
+</sect1>
+
+</chapter>
