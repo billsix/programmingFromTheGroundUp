@@ -510,9 +510,9 @@ to define macros which operate as specialized domain-specific languages.
 </para>
 
 <para>
-For the first example of this, we will consider a security
-configuration file.  Let's say that we want to detail different
-security domains within a configuration file.  We will want to have
+For the first example of this, let's will consider a security
+configuration file to detail different
+security domains within a configuration file.  There will be
 several different security domains, each of which have different
 access controls and restrictions.
 </para>
@@ -563,12 +563,15 @@ This is what the macro definition for the previous macro invocation might look l
 <example>
 <title>Writing the Declarative Security Macro</title>
 <programlisting>
+;;This macro creates expressions which check the validity
+;;of the authentication credentials in the variable "credentials"
+;;and reports and redirects unauthorized access.
 (define-syntax auth-constraints
   (lambda (x)
     (syntax-case x (auth-constraints time role)
       (
         ;;This causes the constraints to be processed one at a 
-        ;;time within a (begin) clause
+        ;;time within a (begin) clause.
         (auth-constraints constraint1 constraint2 ...)
         (syntax 
           (begin 
@@ -603,7 +606,12 @@ This is what the macro definition for the previous macro invocation might look l
         (syntax unknown)
       )
 )))
-      
+
+;;Each resource definition expands to a function to check
+;;credentials.  It piggy-backs onto the macros defined above,
+;;which make up the body of the credential-checking function.      
+;;This sets up the "credentials" parameter which is used in the
+;;expressions above
 (define-syntax resource
   (lambda (x)
     (syntax-case x ()
@@ -624,7 +632,13 @@ This is what the macro definition for the previous macro invocation might look l
 </example>
 
 <para>
-These macros require a little bit of explanation.  The 
+These macros require a little bit of explanation.  First of all, there is a new construct 
+introduced, <literal>...</literal>.  This notation essentially means "repeating as before".
+It can be used both in the macro pattern and in the expansion.
+</para>
+
+<para>
+The 
 <literal>resource</literal> macro basically builds a function for processing security credentials, and then passes that as an argument to <literal>webserver:add-security-function</literal>.  It defines a function with a single argument, <literal>credentials</literal>, which will be used by the <literal>auth-constraints</literal> macro.
 </para>
 
@@ -639,7 +653,7 @@ expansion occurs, the result is then macro-expanded again, continuing
 until no more expansions take place.  If you follow the iterated expansions
 of <literal>auth-constraints</literal> you will see that it will indeed
 expand into a list of individual <literal>auth-constraints</literal> macros,
-which will then be processed individually.
+which will then be processed individually using the remaining macro forms.
 </para>
 
 <para>
@@ -672,18 +686,18 @@ These macros will expand our security declarations into this:
 </example>
 
 <para>
-This leads to the obvious question of "why?"  Why did we bother to implement this as a macro?  What was wrong with the XML declaration used by Java?  There are two issues that make macros preferable to data-languages like the XML declarative security file:
+This leads to the obvious question of "why?"  Why did we bother to implement this as a macro?  What was wrong with the XML declaration used by Java?  There are two issues that make a macro set preferable to data languages like the XML declarative security file:
 </para>
 
 <itemizedlist>
-<listitem><para>The declarative information is transformed into an imperative form at compile-time, rather than each time it is used at run-time.</para></listitem>
-<listitem><para>More importantly, if the declarative language is not expressive enough for your needs, <emphasis>you can include imperative statements within your file as well</emphasis>.</para></listitem>
+<listitem><para>The declarative information is transformed into an imperative form at compile-time, rather than each time it is used at run-time, resulting in faster code.</para></listitem>
+<listitem><para>More importantly, if the declarative language is not expressive enough for your needs, <emphasis>you can include imperative statements within your file as well, using the full expressive power of the programming language</emphasis>.</para></listitem>
 </itemizedlist>
 
 <para>
 While the first feature is useful, the second feature is what
 makes it worthwhile.  Since the macro expands to regular code anyway,
-you can always switch back to normal programming if the declarative
+you can always switch back to imperative programming if the declarative
 language doesn't suit your needs.  In fact, if the transformation is
 well-documented, you can even mix declarative and imperative
 statements within your configuration.  
@@ -715,18 +729,10 @@ sublanguage does not meet your needs fully.  </para>
 <title>Conclusion</title>
 
 <para>
-Metaprogramming has many uses in large-scale computer programming.  The
-biggest issues in metaprogramming include:
-</para>
-
-<itemizedlist>
-<listitem><para>Deciding whether or not to use a language which directly supports metaprogramming</para></listitem>
-<listitem><para>Deciding for which parts of a program are best suited for metaprogramming, and for which parts it would be overkill</para></listitem>
-</itemizedlist>
-
-<para>
-We have touched on the tools needed to do metaprogramming in Scheme, as well
-as given examples of using metaprogramming for:
+Metaprogramming has many uses in large-scale computer programming.  This article touched 
+on the tools needed to do metaprogramming in Scheme, as well
+as given several metaprogramming examples.  Metaprogramming techniques were
+applied to several application areas:
 </para>
 
 <itemizedlist>
@@ -736,12 +742,26 @@ as given examples of using metaprogramming for:
 </itemizedlist>
 
 <para>
-Really, in Scheme, you can use the macro facility to define nearly any sort of 
+In Scheme, you can use the macro facility to define nearly any sort of 
 domain-specific language you want.  The tools are there.  It's just a matter of
 deciding which features are implemented more easily and more clearly using 
 macro expansions versus regular code.
 </para>
 
 </sect1>
+
+<!--- RESOURCES
+
+<resource-list>
+<ul>
+<li>The main publication describing <tt>syntax-case</tt> is Kent Dybvig's <a href="http://www.cs.indiana.edu/~dyb/pubs/tr356.pdf">Writing Hygienic Macros in Scheme with Syntax-case</a>.</li>
+<li>Dybvig further expanded upon that description in <a href="http://www.scheme.com/tspl3/syntax.html#./syntax:h0">chapter 8 of The Scheme Programming Language</a>.</li>
+<li>There is only one good guide for intermediate-level macro programming in Scheme and <a href="http://home.comcast.net/~prunesquallor/macro.txt">this is it</a>.<li>
+<li><a href="http://www.paulgraham.com/onlisptext.html">On Lisp</a> thoroughly describes the problems, solutions, and possibilities in writing macros in lisp-like systems.</li>
+</ul>
+</resource-list>
+
+-->
+
 
 </chapter>
