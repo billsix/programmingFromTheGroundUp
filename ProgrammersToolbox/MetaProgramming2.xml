@@ -5,7 +5,7 @@
 
 <para>
 In the previous article, we looked at why metaprogramming, or
-programming with program generators, was so useful.  This article
+programming with code generators, was so useful.  This article
 aims to teach some techniques and applications of metaprogramming
 in the Scheme programming language.
 </para>
@@ -24,6 +24,8 @@ macros.
 <literal>syntax-case</literal> macros follow the following form:
 </para>
 
+<example>
+<title>General form of <literal>syntax-case</literal> macros</title>
 <programlisting>
 (define-syntax macro-name
   (lambda (x)
@@ -43,6 +45,7 @@ macros.
       )
 )))
 </programlisting>
+</example>
 
 <para>
 What you are doing here is defining <literal>macro-name</literal> to be a keyword 
@@ -52,7 +55,7 @@ into its expansion.
 </para>
 
 <para>
-<literal>syntax-case</literal> takes the expression, <literal>x</literal> as its first argument.
+<literal>syntax-case</literal> takes the expression, <literal>x</literal>, as its first argument.
 The second argument is a list of keywords which are to be taken literally within the syntax
 patterns.  The other identifiers used in the patterns will be used as template variables.
 <literal>syntax-case</literal> then takes a sequence of pattern/transformer combinations.  It proceeds
@@ -69,23 +72,31 @@ statement than Scheme's version.  Let's say that we want to find the greater of 
 would look like this:
 </para>
 
+<example>
+<title>Standard <literal>if</literal> statement</title>
 <programlisting>
 (if (> a b) a b)
 </programlisting>
+</example>
 
 <para>
 To a non-scheme programmer, there are no textual indications to indicate which is the "then" branch and which is the "else" branch.  
 To aid this, we can create our own, custom if statement that added the "then" and "else" keywords.  It would look like this:
 </para>
 
+<example>
+<title>An extended <literal>if</literal> statement</title>
 <programlisting>
 (my-if (> a b) then a else b)
 </programlisting>
+</example>
 
 <para>
 Here is the macro to do this:
 </para>
 
+<example>
+<title>Macro to define the extended <literal>if</literal> statement</title>
 <programlisting>
 ;;define my-if as a macro
 (define-syntax my-if
@@ -100,11 +111,14 @@ Here is the macro to do this:
        )
 )))
 </programlisting>
+</example>
 
 <para>
 When this macro executes, it will match the <literal>my-if</literal> expression up to the template like this:
 </para>
 
+<example>
+<title>Matching a macro invocation to a macro definition pattern</title>
 <programlisting>
 (my-if  (> a b)  then     a      else    b)
    |       |      |       |       |      |
@@ -112,6 +126,7 @@ When this macro executes, it will match the <literal>my-if</literal> expression 
    v       v      v       v       v      v
 (my-if condition then yes-result else no-result)
 </programlisting>
+</example>
 
 <para>
 Therefore, in the transforming expression, anywhere where it says <literal>condition</literal> it is replaced
@@ -122,16 +137,18 @@ expression simply rearranges each of these parts into a new expression.
 
 <para>
 This transformation happens <emphasis>before execution</emphasis> during what is known as macro-expansion time.
-On many compiled schemes this is at compile time.  This means that macros are only executed once, at the beginning
-of the program or at compile time, and never have to be re-evaluated again.  Therefore, our <literal>my-if</literal>
+On many compiler-based scheme implementations macro-expansion time occurs during compile time.  
+This means that macros are only executed once, at the beginning of the program or at compile time,
+and never have to be re-evaluated again.  Therefore, our <literal>my-if</literal>
 statement has no runtime overhead whatsoever -- it is converted to a simple <literal>if</literal> at run-time.
 </para>
 
 <para>
-The next example we are going to do is the famous <literal>swap!</literal> macro.  This is a very simple macro
-to swap the values of two identifiers.  It is used like this:
+The next example we are going to do is the famous <literal>swap!</literal> macro.  This is a very simple macro to swap the values of two identifiers.  It is used like this:
 </para>
 
+<example>
+<title>Example usage of the <literal>swap!</literal> macro</title>
 <programlisting>
 (define a 1)
 (define b 2)
@@ -139,11 +156,14 @@ to swap the values of two identifiers.  It is used like this:
 (display "a is now ")(display a)(newline)
 (display "b is now ")(display b)(newline)
 </programlisting>
+</example>
 
 <para>
 This is likewise a simple macro.  However, this macro also introduces a new temporary variable to handle the swap.  Here is our macro:
 </para>
 
+<example>
+<title>Definition of the <literal>swap!</literal> macro</title>
 <programlisting>
 ;;Define a new macro
 (define-syntax swap!
@@ -159,16 +179,19 @@ This is likewise a simple macro.  However, this macro also introduces a new temp
         )
 )))
 </programlisting>
+</example>
 
 <para>
 This introduces a new variable called <literal>c</literal>.  But what if one of the
 arguments to be swapped is called <literal>c</literal>?  <literal>syntax-case</literal>
-simplifies this problem by replacing <literal>c</literal> with a unique, unused variable
+solves this problem by replacing <literal>c</literal> with a unique, unused variable
 name when the macro expands.  Therefore, the syntax transformer will take care of this
 all its own.  Note, however, that <literal>syntax-case</literal> does not
 replace <literal>let</literal>.  This is because <literal>let</literal> is a globally-defined
 identifier.  This idea of replacing introduced variable names with non-conflicting names is
-called <emphasis>hygiene</emphasis>, and the resulting macros are called <emphasis>hygienic macros</emphasis>.
+called <emphasis>hygiene</emphasis>, and the resulting macros are called <emphasis>hygienic macros</emphasis>.  Hygienic macros can be safely used anywhere without fear of stomping on existing
+variable names.  For a wide variety of metaprogramming tasks, this feature makes macros more 
+predictable and easier to work with.
 </para>
 
 </sect2>
@@ -177,29 +200,32 @@ called <emphasis>hygiene</emphasis>, and the resulting macros are called <emphas
 <title>Introducing Identifiers</title>
 
 <para>
-The nice thing about hygienic macros is that they can be safely used everywhere without fear of
-stomping on existing variable names.  However, there are cases in which you will want your macros
-to be non-hygienic.  For example, let's say that you wanted to create a macro that introduced a
-variable into a scope that could be used by the person calling the macro.  This would be non-hygienic,
-because you are polluting the namespace of the macro.  However, as we will see later, it is quite useful.
+While hygienic macros make introducing variable names within macros safe, there are cases in 
+which you will want your macros to be non-hygienic.  For example, let's say that you wanted to 
+create a macro that introduced a variable into a scope that could be used by the person calling 
+the macro.  This would be non-hygienic,  because the macro is polluting the namespace of the user's code.  However, there are many times when this ability is useful.
 </para>
 
 <para>
 For a simple example, let's say that we wanted to write a macro which introduced the definitions of 
-several math constants for use within the macro (yes, this could be better accomplished using other means,
-but I'm just using this for a simple example).  Let's say we wanted to define <literal>pi</literal> and
-<literal>e</literal>.  The macro invocation might look something like this:
+several math constants for use within the macro (yes, this could be better accomplished using 
+other means, but I'm just using this for a simple example).  Let's say we wanted to define <literal>pi</literal> and <literal>e</literal> using a macro invocation like the following:
 </para>
 
+<example>
+<title>Example invocation of a math constant macro</title>
 <programlisting>
 (with-math-defines
 	(* pi e))
 </programlisting>
+</example>
 
 <para>
 If we tried to set this up like the previous macros it would fail.
 </para>
 
+<example>
+<title>Math constant macro that doesn't work</title>
 <programlisting>
 (define-syntax with-math-defines
   (lambda (x)
@@ -212,30 +238,75 @@ If we tried to set this up like the previous macros it would fail.
       )
 )))
 </programlisting>
+</example>
 
 <para>
 This formulation won't work.  The reason is that, as mentioned earlier, Scheme will
 <emphasis>rename</emphasis> <literal>pi</literal> and <literal>e</literal> so
 they don't conflict with other names in enclosing or nested scopes.  Therefore,
-you have to perform the transformation more programmatically to get what you want.
+these will get new names, and the code <literal>(* pi e)</literal> will be referencing
+undefined variables.  We need a way to introduce literal symbols which can be used by
+the developer invoking the macro.
 </para>
 
 <para>
-In order to introduce these bindings manually, you need to follow these steps:
+In order to introduce code into a macro that won't be modified by Scheme's automatic hygiene,
+the code must be converted from a list of symbols into a <emphasis>syntax object</emphasis>
+which can then be assigned to a pattern variable and inserted in the transformed expression.
+<literal>with-syntax</literal> is essentially a "let" statement for macros.  It has the same
+basic form, but is used for assigning syntax objects to template variables.
 </para>
-
-<itemizedlist>
-<listitem><para>Convert the expression and store it in a variable using <literal>syntax-object->datum</literal></para></listitem>
-<listitem><para>Create a list containing your custom code and the converted expression.</para></listitem>
-<listitem><para>Use <literal>datum->syntax-object</literal> to convert the new expression back into a syntax object for Scheme to use</para></listitem>
-<listitem><para>Store the resulting syntax object into a new pattern variable</para></listitem>
-<listitem><para>Use a <literal>syntax</literal> expression to perform the transformation.</para></listitem>
-</itemizedlist>
 
 <para>
-In effect, you are converting the expression to a list you can manipulate, manipulating that list, and then converting it back into a Scheme expression for output.  Here is what the code looks like:
+In order to be able to create a new template variable, you need to be able to translate symbols 
+and expressions back and forth between list representation (the way syntax is written) and the more 
+abstract syntax object representation.  The functions that do these conversions are:
 </para>
 
+<variablelist>
+<varlistentry>
+<term>datum-&gt;syntax-object</term>
+<listitem><para>
+This converts a list to the more abstract syntax object representation.  The first parameter 
+to this function is usually <literal>(syntax k)</literal>, which is a little magic formula that
+helps the syntax converter get the context correct.  The second parameter is the expression that
+needs to be converted into a syntax object.  The result is a syntax object that can be assigned
+to a template variable using <literal>with-syntax</literal>.
+</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>syntax-object-&gt;datum</term>
+<listitem><para>
+This is the reverse process of the <literal>datum-&gt;syntax-object</literal>.  This takes
+a syntax object and converts it into an expression that can be manipulated using normal
+Scheme list-processing functions.
+</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>syntax</term>
+<listitem><para>
+This takes a transformation expression consisting of template variables and constant expressions
+and returns the resulting syntax object.
+</para></listitem>
+</varlistentry>
+
+<para>
+For example, to get the literal values in a template variable, you would use <literal>syntax</literal> and <literal>syntax-object-&gt;datum</literal> in combination.  You could then manipulate
+the expression and use <literal>datum-&gt;syntax-object</literal> to get it back into a syntax
+object which can be assigned to a template variable using <literal>with-syntax</literal>.  Then,
+in the final transformation expression, the new template variable can be used like any other.
+</para>
+
+<para>
+In effect, you are converting the Scheme syntax to a list you can manipulate, manipulating that list, and then converting it back into a Scheme syntax expression for output.
+</para>
+
+<para>
+Here is what the macro definition to define math symbols looks like using these functions:
+</para>
+
+<example>
+<title>Math constant macro that works</title>
 <programlisting>
 (define-syntax with-math-defines
   (lambda (x)
@@ -244,20 +315,26 @@ In effect, you are converting the expression to a list you can manipulate, manip
         ;;Pattern
         (with-math-defines expression)
 
-        ;;with-syntax defines new pattern avriables
+        ;;with-syntax defines new pattern variables
         (with-syntax 
           (
-            (expr
-              ;;transform into a syntax object
+            (expr ;;the new pattern variable
+              ;;convert expression into a syntax object
               (datum->syntax-object
                 ;;syntax domain magic
                 (syntax k)
+                ;;expression to convert
                 `(let ( (pi 3.14) (e 2.72))
+                      ;;Insert the code for the "expression" template 
+                      ;;variable here.
                       ,(syntax-object->datum (syntax expression))))))
+          ;;Use the newly-created "expr" pattern 
+          ;;variable as the resulting expression
           (syntax expr))
       )
 )))
 </programlisting>
+</example>
 
 <para>
 If you are not very familiar with Scheme, the backquote, called a quasiquote, is similar to the quote operator, except that it allows
@@ -270,9 +347,10 @@ is always written as <literal>(syntax k)</literal>.
 </para>
 
 <para>
-The problem with non-hygienic macros is that they can overwrite and be overwritten by other variables in user code.  This makes mixing non-hygienic
+The problem with non-hygienic macros is that the introduced variables can overwrite and be overwritten by other variables in the code.  This makes mixing non-hygienic
 macros especially dangerous, as the macros will not be aware of what variables the other macros are using, and they may stomp on each other's variables.
-Therefore, non-hygienic macros should only be used when there is no other way to accomplish the same effect using normal functions or hygienic macros.
+Therefore, non-hygienic macros should only be used when there is no other way to accomplish the same effect using normal functions or hygienic macros, and the macro's symbol introductions should be 
+carefully documented.
 </para>
 
 </sect2>
@@ -285,18 +363,20 @@ Therefore, non-hygienic macros should only be used when there is no other way to
 <para>
 A whole lot of the code written in large applications is boilerplate code.  This is tedious to write, and, if a bug is ever found in the boilerplate code, it
 is very, very difficult to find every instance that the boilerplate is used and rewrite the code.  Boilerplate code is one of the few places where 
-non-hygienic macros are useful.  A lot of boilerplat is simply setting up variables that are going to be used within your function.  Therefore, the
+non-hygienic macros are useful.  A large part of boilerplate code is simply setting up variables that are going to be used within your function.  Therefore, the
 boilerplate macros should be introducing a large set of common
 bindings, as well as perhaps other housekeeping tasks.
 </para>
 
 <para>
 Let's say that we are building a CGI application consisting of many
-independent CGI scripts.  Normally only a session ID is passed to
+independent CGI scripts.  In most CGI applications, much of the state
+is stored in a database, but only a session ID is passed to
 each script via a cookie.  However, in nearly every page we need to
-know the username, group number, and the current job being worked on.
+know the other standard information such as the username, group number, 
+the current job being worked on, or whatever else information is pertinent.
 In addition, we need to redirect the user if they do not have an 
-appropriate cookie.  Let's look at some code to do this 
+appropriate cookie.  Let's look at some code that could be a standard boilerplate 
 (hypothetical webserver functions will be prefixed with <literal>webserver:</literal>):
 </para>
 
@@ -319,8 +399,8 @@ appropriate cookie.  Let's look at some code to do this
 
 <para>
 While some of that can be handled by a procedure, the bindings
-certainly cannot.  However, we can reduce it using a macro.  Here is
-the code to do so:
+certainly cannot.  However, we can turn most of it into a macro.  
+The macro can be implemented like this:
 </para>
 
 <example>
@@ -372,21 +452,22 @@ new function.
 <para>
 In any large project, there are inevitably templates to follow which
 cannot be reduced to functions, usually because of the bindings being
-created.  Why not use boilerplate instead?  Likewise, you can have
-other standard macros which make use of variables defined in the boilerplate.
-This significantly reduces typing, because you do not have to constantly
+created.  Using boilerplate macros can make maintenance of such templated
+code much easier.  Likewise, other standard macros can be created
+which make use of variables defined in the boilerplate.
+Using macros like this significantly reduces typing, because you do not have to constantly
 be writing and rewriting variable bindings, derivations, and parameter 
-passing.  It also reduces errors in the same manner.
+passing.   This also reduces the potential for errors in such code.
 </para>
 
 <para>
-However, all is not roses with this scenario.  There are many significant
+However, boilerplate macros are not a panacea.  There are many significant
 problems that can occur, including:
 </para>
 
 <itemizedlist>
-<listitem><para>Accidentally overwriting bindings by using the same name for a variable as exists in the binding.</para></listitem>
-<listitem><para>Difficulty tracing problems because the inputs and the outputs of the macros are implicit not explicit.</para></listitem>
+<listitem><para>Accidentally overwriting bindings by using a introducing a variable name that was previously defined in a macro.</para></listitem>
+<listitem><para>Difficulty tracing problems because the inputs and the outputs of the macros are implicit, not explicit.</para></listitem>
 
 <!-- NOTE - in recursion we noted that explicit parameter passing was one of the benefits, and here we're saying "not so much".  They are two different cases (in looping it is modification, as opposed to here where it is simply assignment), but still some of the same issues can occur -->
 
@@ -399,7 +480,7 @@ your boilerplate macros:
 
 <itemizedlist>
 <listitem><para>Have a naming convention which clearly labels macros as such, as well as indicate that a variable came from boilerplate code.  This could be done by affixing <literal>-m</literal> to macros and <literal>-b</literal> to variables defined within a boilerplate.</para></listitem>
-<listitem><para>Carefully document all boilerplate macros, as well as changes to the macros.</para></listitem>
+<listitem><para>Carefully document all boilerplate macros, especially the introduced variable bindings and all changes between versions.</para></listitem>
 <listitem><para>Only use boilerplate macros when the savings in repetitiveness clearly outweigh the negatives of implicit functionality.</para></listitem>
 </itemizedlist>
 
