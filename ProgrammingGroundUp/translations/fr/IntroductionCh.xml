@@ -134,7 +134,7 @@ foundations so you can easily go wherever you want afterwards.
 <para>
 Il y a quelque chose du problème de la poule et de l'oeuf dans
 l'apprentissage de la programmation, particulièrement de
-l'assembleur.  Il y a beaucoup à apprendre ; presque trop à apprendre
+l'assembleur.  Il y a beaucoup à apprendre&nbsp;; presque trop à apprendre
 en une seule fois.  Cependant, chaque partie dépend de toutes les
 autres, ce qui rend difficile d'apprendre une partie à la fois.  Donc,
 vous devez être patient avec vous-même et avec l'ordinateur en
@@ -157,9 +157,9 @@ to programming the ideas will make more sense.  Don't get discouraged.
 It's a long climb, but very worthwhile.
 -->
 <para>À la fin de chaque chapitre se trouvent trois jeux d'exercices
-de révision.  Le premier est plus ou moins de la régurgitation ;
+de révision.  Le premier est plus ou moins de la régurgitation&nbsp;;
 il vérifie que vous vous souvenez ce que vous avez appris dans le
-chapitre.  Le second contient des questions d'application ; il
+chapitre.  Le second contient des questions d'application&nbsp;; il
 vérifie que vous pouvez appliquer ce que vous avez appris pour
 résoudre des problèmes.  Le dernier sert à voir si vous pouvez
 élargir votre horizon.  Certaines de ces questions ne pourront pas
@@ -311,7 +311,7 @@ votre Groupe d'Utilisateurs GNU/Linux local devrait aussi pouvoir vous
 en indiquer un.  Les comptes shell nécessitent seulement que vous ayez
 déjà une connexion Internet et un programme telnet.  Si vous utilisez 
 <trademark class="registered">Windows</trademark>, vous avez déjà un
-client telnet ; cliquez juste sur <literal>Démarrer</literal>, puis
+client telnet&nbsp;; cliquez juste sur <literal>Démarrer</literal>, puis
 <literal>Exécuter</literal>, puis tapez <literal>telnet</literal>.
 Cependant, il est préférable de télécharger
 <productname>PuTTY</productname> depuis 
@@ -361,7 +361,7 @@ remove the CD and you are back to your regular operating system.
 -->
 
 <para>
-Alors qu'est-ce que GNU/Linux ?  Gnu/Linux
+Alors qu'est-ce que GNU/Linux&nbsp;?  Gnu/Linux
 <indexterm><primary>GNU/Linux</primary></indexterm> est un système
 d'exploitation modelé à partir d'
 <trademark class="registered">UNIX</trademark>.  La partie GNU vient
