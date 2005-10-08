@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN">
 
-<!-- FIXME -- need to emphasize that when you use scheme
+<!-- FIXME - need to emphasize that when you use scheme
 code-generation
   a) you don't need to have an extra step in compilation
   b) you never have to worry about someone using the generated code

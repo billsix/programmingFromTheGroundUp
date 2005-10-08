@@ -290,6 +290,8 @@ and returns the resulting syntax object.
 </para></listitem>
 </varlistentry>
 
+</variablelist>
+
 <para>
 For example, to get the literal values in a template variable, you would use <literal>syntax</literal> and <literal>syntax-object-&gt;datum</literal> in combination.  You could then manipulate
 the expression and use <literal>datum-&gt;syntax-object</literal> to get it back into a syntax
