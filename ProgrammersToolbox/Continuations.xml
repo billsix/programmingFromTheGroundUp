@@ -370,7 +370,8 @@ So, the <emphasis>result</emphasis> of the macro expansion will need to look som
 <example>
 <title>The Desired Expansion of a Hypothetical Exception Macro</title>
 <programlisting>
-;;throw is the procedure that handles signalling errors
+;;This establishes the throw function as globally availabe, but displays an
+;;error message if used without being in a try block.
 (define throw (lambda (x) (display "No try clause is active!") (newline)))
 
 (let* (
@@ -517,19 +518,219 @@ Using this, we can guard against some problems in our <literal>try</literal> mac
 <example>
 <title>Improved Try/Catch with dynamic-wind</title>
 <programlisting>
+;;This establishes the throw function as globally availabe, but displays an
+;;error message if used without being in a try block.
+(define throw (lambda (x) (display "No try clause is active!") (newline)))
+
+;;establishes syntax for a "try" block
+(define-syntax try
+  (lambda (x)
+    (syntax-case x (catch)
+      (
+       (try expression (catch exception exception-handler-expression))
+       (syntax         
+          ;;Exit point using continuation k-exit
+          (call-with-current-continuation
+            (lambda (k-exit)
+              (let (
+                    ;;These are the two exception handlers - the old and the
+                    ;;new.  Dynamic wind sets them up and tears them down 
+                    ;;upon entering and exiting from scope
+                    (old-throw throw)
+                    (error-handler
+                      (lambda (exception)
+                        (k-exit exception-handler-expression))))
+                   (dynamic-wind
+                     ;;Entering scope -- set exception handler
+                     (lambda () (set! throw error-handler))
+                     ;;Actual processing
+                     (lambda () expression)
+                     ;;Exitting scope -- set exception handler to old value
+                     (lambda () (set! throw old-throw)))))))))))
 </programlisting>
 </example>
+
+<para>
+This version is actually shorter, and it satisfies both the original test cases, and the one using continuations.  Also, in case you think we are cheating by adding a new control structure with <literal>dynamic-wind</literal>, Kent Dybvig has shown that <literal>dynamic-wind</literal> can be implemented in terms of <literal>call-with-current-continuation</literal>.  
+</para>
+
+<para>
+We haven't covered all of the places where try/catch might produce unexpected behavior, but this is sufficient for most cases.  We will revisit possible problems later on. 
+</para>
+
+<!-- Exercise 1: extend the above with a "finally" clause.  Should the finally clause be executed when flow jumps out of the current flow of control through non-exception continuations?  Why or why not?  
+     Exercise 2: how might "finally" present difficulties in the faces of arbitrary continuations?
+     Exercise 3: how might the ubiquitous presence of continuations affect the way programs are reasoned about?
+  -->
 
 </sect2>
 
 <sect2>
 <title>Generators using Continuations</title>
 
+<para>
+Generators were previously mentioned as a form of flow control.  Python is the most commonly used language which implements generators.  Let's think about how generators work and how continuations can be used to implement them.
+</para>
+
+<para>
+First of all, a generator is created.  This must necessarily entail the saving of a stack frame via either a continuation or a closure.  Next, you return a value, and bookmark your current position within the function.   This also means that you need to have already bookmarked where you are returning  to. 
+</para>
+
+<para>
+So, our generator has two bookmarks, which are implemented with continuations.  The first bookmark is a variable that is created when the generator is first created.  This will hold the position that the generator function is currently in.  Then, when you run the generator, you also will have a continuation that is the return point in the calling function.  Right before returning, you create a continuation of the current location, and save it for the next invocation.
+</para>
+
+<para>
+Now, let's look at the scheme interface we might want for the Python-style generators:
+</para>
+
+<example>
+<title>Example of using a Python-style generator</title>
+<programlisting>
+(define-syntax generator
+   (syntax-rules ()
+     (
+       (generator (yieldfunc) body ...)
+       (let (
+             (placeholder #f)  ;;placeholder in this function
+             (return-proc #f)  ;;how to get out
+             (finished #f))    ;;whether or not it is finished
+         ;;this is the generator entrance
+         (lambda ()
+           (call-with-current-continuation
+             (lambda (tmp-return-proc)
+               ;;save the way out in "return-proc"
+               (set! return-proc tmp-return-proc)
+               (let (
+                     ;;"yieldfunc" resets the placeholder and returns the value
+                     (yieldfunc 
+                       (lambda (x)
+                         (call-with-current-continuation
+                           (lambda (current-placeholder)
+                             ;;new placeholder
+                             (set! placeholder current-placeholder)
+                             ;;return value
+                             (return-proc x))))))
+
+                 ;;If the generator is done, return a special value
+                 (if finished
+                     'generator-finished
+
+                     ;;If this is the first time, there will not be a 
+                     ;;placeholder established, so we just run the body.  
+                     ;;If there is a placeholder, we resume to that point
+                     (if placeholder
+                       (placeholder 'unspecified)
+                       (let (
+                             (final-value (begin body ...)))
+                         (set! finished #t)
+                         (return-proc final-value))))))))))))
+
+(define sequence-generator
+  ;;Initial parameters
+  (lambda (start end increment)
+    ;;"yield" will be used to generate a single value
+    (generator (yield)
+      ;;Main function body
+      (let loop ((curval start))
+         (if (eqv? curval end)
+             curval
+             (begin
+                ;;yield the value
+                (yield curval)
+                ;;continue on
+                (loop (+ curval increment))))))))
+
+;;Example usage
+(define my-sequence (sequence-generator 1 3 1))
+(display (my-sequence))(newline)
+(display (my-sequence))(newline)
+(display (my-sequence))(newline)
+(display (my-sequence))(newline)
+</programlisting>
+</example>
+
+<para>
+The code is a little difficult to follow.  It becomes even more complex if we add the ability to query whether or not the generator has any more values, or any other state query.  Notice, though, the two generator-wide functions -- one is the procedure to return to the calling program, and the other one is the current location where the generator is executing.  It may seem odd that the return procedure is stored in a generator-wide scoped variable.  However, it needs to be in order for the right version of the variable to be active after the continuation call.  Otherwise, after the first call, it would revert to the version that was active when the placeholder continuation was created.
+</para>
+
+<!-- NOTE on interaction w/ exceptions -->
 
 </sect2>
 
 <sect2>
 <title>Backtracking using Continuations</title>
+
+<para>
+Finally, we will look at backtracking.  The interface to our backtracker will be a function called <literal>amb</literal>.  This function will take a list of values.  For each value, <literal>amb</literal> will set up a backtrack-bookmark.  If the current value in the list doesn't work out (signified by calling the <literal>amb-fail</literal> function), the program "backtracks" to the last bookmark, and tries a new value.  We will also define a utility function called <literal>amb-assert</literal> which will signal <literal>amb-fail</literal> if the parameter is not true.  Here is an example of these functions in use:
+</para>
+
+<example>
+<title>Using backtracking in Scheme</title>
+<programlisting>
+(let* (
+      (a (amb 1 2 3 4 5 6 7))
+      (b (amb 5 6 7 8 9 10)))
+  (amb-assert (> a b))
+  (display "a is ") (display a) (newline)
+  (display "b is ") (display b) (newline))
+</programlisting>
+</example>
+
+<para>
+The first time this function runs, it will choose <literal>1</literal> for <literal>a</literal> and <literal>5</literal> for <literal>b</literal>.  Since <literal>a</literal> is not greater than <literal>b</literal>, it will fail, and go back to the last bookmarked backtrack location.  In this case, it will be in the assignment of <literal>b</literal>.  It will then try each value of <literal>b</literal>.  None of them will work, so it will then go and backtrack to the point where <literal>a</literal> is assigned.  It will then try <literal>2</literal> with every value of <literal>b</literal>.  It will continue like this until it finds a value of <literal>a</literal> that is greater than <literal>b</literal>, at which point it will continue on.
+</para>
+
+<para>
+Here is the implementation:
+</para>
+
+<example>
+<title>Implementation of backtracking</title>
+<programlisting>
+;AMB definition
+(define amb:fail '*)
+
+(define amb:initialize-fail
+  (lambda x
+    (set! amb:fail
+      (if (null? x)
+         (lambda () (error "amb tree exhausted!"))
+         (car x)))))
+
+(amb:initialize-fail)
+
+(define amb:amb
+  (lambda alternatives
+    (letrec ( 
+             (amb-internal 
+	       (lambda (sk alts)
+                 (if (null? alts)
+                   (prev-amb-fail)
+                   (begin
+                      (call/cc
+                        (lambda (fk)
+                          (set! amb:fail
+                            (lambda ()
+                              (set! amb:fail prev-amb-fail)
+                              (fk 'fail)))
+                          (sk (car alts))))
+                      (amb-internal sk (cdr alts))))))
+             (prev-amb-fail amb:fail))
+      (call/cc
+        (lambda (sk)
+          (amb-internal sk alternatives)
+            (prev-amb-fail))))))
+
+(define amb:assert-failure
+  (lambda () (amb:amb)))
+
+
+(define amb:assert
+  (lambda (pred)
+    (if (not pred) (amb:assert-failure))))
+</programlisting>
+</example>
 
 </sect2>
 
