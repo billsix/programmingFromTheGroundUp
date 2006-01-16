@@ -1,3 +1,5 @@
+<?xml version="1.0" ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN">
 <chapter>
 <title>Continuations and Advanced Flow Control</title>
 
@@ -10,7 +12,7 @@ flow control in radically new ways.
 <sect1>
 <title>Advanced Flow Control Examples</title>
 
-<sect1>
+<sect2>
 <title>Non-local Exits</title>
 
 <para>
@@ -654,7 +656,9 @@ Now, let's look at the scheme interface we might want for the Python-style gener
 The code is a little difficult to follow.  It becomes even more complex if we add the ability to query whether or not the generator has any more values, or any other state query.  Notice, though, the two generator-wide functions -- one is the procedure to return to the calling program, and the other one is the current location where the generator is executing.  It may seem odd that the return procedure is stored in a generator-wide scoped variable.  However, it needs to be in order for the right version of the variable to be active after the continuation call.  Otherwise, after the first call, it would revert to the version that was active when the placeholder continuation was created.
 </para>
 
-<!-- NOTE on interaction w/ exceptions -->
+<para>
+We mentioned earlier that there might be problems with our exception-based continuations.  Basically, the question is, if you have a try block when you start a generator, and a try block when you run a generator, and an exception is thrown in the generating function, which catch block is run?  In the implementations we are using, the first catch block would be used.  Is this the most intuitive way for this to happen?  It depends a lot on the individual case.  However, these sorts of continuation/continuation interactions can be problematic because it is not entirely clear what the "appropriate" action should be.  
+</para>
 
 </sect2>
 
@@ -753,6 +757,8 @@ It helps when reading the code to remember that the "failure continuation" is th
 
 </sect2>
 
+</sect1>
+
 <sect1>
 <title>Continuations: the Swiss Army Flow Control</title>
 
@@ -794,25 +800,15 @@ References
 <li>The book Linux Device Drivers <a href="http://www.xml.com/ldd/chapter/book/ch02.html#buierr">gives a great example</a> of how unstructured exits can be much nicer to use.</li>
 <li>Sun has a tutorial on throwing exceptions in Java <a href="http://java.sun.com/docs/books/tutorial/essential/exceptions/throwing.html">here</a>.</li>
 <li>Some of the pitfalls of exception handling in Java are discussed <a href="http://www.onjava.com/pub/a/onjava/2003/11/19/exceptions.html">here</a>.</li>
+<li>Python generators are <a href="http://www-128.ibm.com/developerworks/library/l-pycon.html?t=gr,lnxw16=PyIntro">described here</a>.</li>
+<li>Everyone needs to know <a href="http://linuxgazette.net/100/pramode.html">Python generator tricks</a>.</li>
+<li>For those who don't know how to do logic programming, <a href="http://www.coli.uni-saarland.de/~kris/learn-prolog-now/">learn Prolog now</a>.</li>
+<li>Here is <a href="http://www.compapp.dcu.ie/~alex/LOGIC/start.html">another good Prolog introduction</a>.</li>
+<li>Without continuations, here's what you have to go through to get <a href="http://homepage.mac.com/sigfpe/Computing/continuations.html">backtracking in C</a>.</li>
+<li>If you want to know more about where continuations came from, <a href="http://www.dcs.qmul.ac.uk/~peterl/danvy/">here is their history</a>.</li>
+<li>Continuations have the possibility to <a href="http://www.iro.umontreal.ca/~feeley/cours/ift6232/doc/pres1/web-continuations.ps">dramatically change the way web programs are implemented</a>.</li>
+<li>Cocoon <a href="http://www-128.ibm.com/developerworks/java/library/j-contin.html">supports the use of continuations in Java web programming</a>.  It can also be <a href="http://www.ccs.neu.edu/scheme/pubs/ase2001-gfkf.pdf">done in Scheme</a>, or even in <a href="http://siscweb.sourceforge.net/overview.html">a Java-based Scheme</a>.</li>
 </ul>
 -->
 
-<!--
-Stuff to keep in mind:
-
-http://www.octopull.demon.co.uk/java/ExceptionalJava.html
-http://www.onjava.com/pub/a/onjava/2004/06/16/dbcancel.html
-http://www.mcs.vuw.ac.nz/~robert/Directory/JavaPitfalls.html
-http://www.oreilly.com/catalog/javanut/excerpt/index.html#except
-http://today.java.net/pub/a/today/2003/12/04/exceptions.html
-http://www.javaworld.com/javaworld/jw-08-2000/jw-0818-exceptions-p2.html
-http://people.csail.mit.edu/jhbrown/scheme/continuations03.scm
-http://www.dcs.qmul.ac.uk/~peterl/danvy/
-http://www.answers.com/topic/control-flow
-http://pplab.snu.ac.kr/courses/PL2001/papers/p261-knuth.pdf
-http://www.notfah.com/wiki/Control_flow
-http://forum.java.sun.com/thread.jspa?threadID=520218&start=75&tstart=0
-http://vorlon.cwru.edu/~beer/EECS345/
-http://www.nsl.com/papers/continuations.htm
--->
 </chapter>
