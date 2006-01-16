@@ -662,7 +662,7 @@ The code is a little difficult to follow.  It becomes even more complex if we ad
 <title>Backtracking using Continuations</title>
 
 <para>
-Finally, we will look at backtracking.  The interface to our backtracker will be a function called <literal>amb</literal>.  This function will take a list of values.  For each value, <literal>amb</literal> will set up a backtrack-bookmark.  If the current value in the list doesn't work out (signified by calling the <literal>amb-fail</literal> function), the program "backtracks" to the last bookmark, and tries a new value.  We will also define a utility function called <literal>amb-assert</literal> which will signal <literal>amb-fail</literal> if the parameter is not true.  Here is an example of these functions in use:
+Finally, we will look at backtracking.  The interface to our backtracker will be a function called <literal>amb</literal>.  This function will take a list of values.  For each value, <literal>amb</literal> will set up a backtrack-bookmark.  If the current value in the list doesn't work out (signified by calling the <literal>amb:fail</literal> function), the program "backtracks" to the last bookmark, and tries a new value.  We will also define a utility function called <literal>amb:assert</literal> which will signal <literal>amb:fail</literal> if the parameter is not true.  Here is an example of these functions in use:
 </para>
 
 <example>
@@ -671,7 +671,7 @@ Finally, we will look at backtracking.  The interface to our backtracker will be
 (let* (
       (a (amb 1 2 3 4 5 6 7))
       (b (amb 5 6 7 8 9 10)))
-  (amb-assert (> a b))
+  (amb:assert (> a b))
   (display "a is ") (display a) (newline)
   (display "b is ") (display b) (newline))
 </programlisting>
@@ -700,31 +700,46 @@ Here is the implementation:
 
 (amb:initialize-fail)
 
-(define amb:amb
+(define amb
   (lambda alternatives
     (letrec ( 
              (amb-internal 
+               ;;"sk" returns the value (success continuation),
+               ;;"alts is the list of values
 	       (lambda (sk alts)
+                 ;;fail if there are no alternatives
                  (if (null? alts)
                    (prev-amb-fail)
                    (begin
                       (call/cc
+                        ;;"fk" is where to go when an 
+                        ;;alternative fails (failure continuation)
                         (lambda (fk)
+                          ;;set the failure function to come back here
                           (set! amb:fail
                             (lambda ()
                               (set! amb:fail prev-amb-fail)
                               (fk 'fail)))
+                          ;;return the first alternative
                           (sk (car alts))))
+                      ;;We get here after a failure, so we
+                      ;;run the function again using the rest
+                      ;;of the list
                       (amb-internal sk (cdr alts))))))
+             ;;this is the previous failure function
              (prev-amb-fail amb:fail))
       (call/cc
+        ;;bookmark the way to the assignment into "sk"
         (lambda (sk)
+          ;;go through each alternative
           (amb-internal sk alternatives)
-            (prev-amb-fail))))))
+          ;;After going through them, note that we have a failure
+          (prev-amb-fail))))))
 
+;;Callilng "amb" without arguments will cause a failure.  This function
+;;just makes it a little more obvious what is supposed to be happening.
 (define amb:assert-failure
-  (lambda () (amb:amb)))
-
+  (lambda () (amb)))
 
 (define amb:assert
   (lambda (pred)
@@ -732,10 +747,18 @@ Here is the implementation:
 </programlisting>
 </example>
 
+<para>
+It helps when reading the code to remember that the "failure continuation" is the way that the backtracker gets back into the list of values, and the "success continuation" is the way the function returns the next value back into the normal program flow.
+</para>
+
 </sect2>
 
 <sect1>
-<title>Other Uses of Continuations</title>
+<title>Continuations: the Swiss Army Flow Control</title>
+
+<para>
+As you can see, continuations can be used to implement all sorts of advanced flow control statements.  With just a few statements, continuations can be built into exceptions, generators, backtrackers, and other types of advanced flow control.  This article has only scratched the surface of what is available.  With continuations you can also do things such as convert web applications into a more traditional flow control structure and implement user-level threads.  Unfortunately, many languages have not implemented continuations, and thus leave their users without the many flow control features available.  If a language only has continuations, it can implement the other advanced flow control features in a nearly trivial manner.
+</para>
 
 </sect1>
 
