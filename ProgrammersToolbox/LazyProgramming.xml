@@ -2,25 +2,18 @@
 <title>Lazy Programming</title>
 
 <para>
-Lazy programming is a technique which helps programmers make some easy runtime speed savings without usually having to make extensive modifications to the original source code.  It is a useful technique for all programmers, and an essential technique for functional programmers trying to get the most speed out of their code.
+Lazy programming is a general concept of delaying the processing of a function or request until the results are needed.  This concept has numerous applications, from the obvious to the obscure, and thinking in terms of lazy programming can help you rid your code of unneeded computation.
 </para>
 
 <sect1>
-<title>What is Lazy Programming?</title>
+<title>Simple Lazy Programming in Scheme</title>
 
 <para>
-Lazy programming is a technique that allows you to delay the evaluation of code until you need the resulting value.  The code to be executed is stored as a <emphasis>promise</emphasis>.  If you force the promise to produce a value, it will
-run the code.  The promise then saves the result, so that future requests for the value will be returned instantly, and the code does not have to run.
+Lazy programming is a technique that allows you to delay the evaluation of code until you need the resulting value.  In Scheme, lazy programming is explicitly supported through library functions.  Scheme's <emphasis>delay</emphasis> special form takes a block of code, and, rather than executing it, the code to be executed and its parameters are stored as a <emphasis>promise</emphasis>.  If you <emphasis>force</emphasis> the promise to produce a value, it will then run the code.  The promise then saves the result, so that future requests for the value will be returned instantly without having to execute the code again.
 </para>
 
 <para>
-While the concepts of <emphasis>delay</emphasis>, <emphasis>promises</emphasis>, and <emphasis>forcing</emphasis> all correspond to specific Scheme constructs,
-this is a much more general method of programming that you have probably used
-in some way before.  The goal is to establish lazy programming as a more formal concept, and perhaps introduce new uses that you can use in your own programs.
-</para>
-
-<para>
-The Scheme constructs for lazy programming are very simple.  <literal>delay</literal> takes an expression as an argument, and, rather than evaluating that argument, it produces a promise.  The function <literal>force</literal> takes the promise as a value.  The first time that a promise is forced it executes the code, saves the value, and then returns the value.  All subsequent <literal>force</literal>s will simply return the saved value.  Here are some examples of <literal>delay</literal> and <literal>force</literal> in action:
+Here is a simple example of how <literal>delay</literal> and <literal>force</literal> work together:
 </para>
 
 <example>
@@ -47,9 +40,221 @@ The Scheme constructs for lazy programming are very simple.  <literal>delay</lit
 </example>
 
 <para>
-As you can see, lazy programming is fairly straightforward.  However, using it to its full potential requires more than just knowing how the constructs work.
+These constructs are fairly simple to use, but what are they used for?  Generally, lazy programming is used when a function generates a value which may not be used by the calling program.  For example, lets say that we had a function which computed the mean, variance, and the standard deviation of a list of numbers.  Here is one way of doing it:
 </para>
 
+<example>
+<title>Simple Statistical Calculations</title>
+<programlisting>
+(define (square x) (* x x))
+(define (calculate-statistics the-series)
+   (let* (
+          (size (length the-series))
+          (sum (apply + the-series))
+          (mean (/ sum size))
+          ;variance is the sum of  (x[i] - mean)^2
+          (variance 
+            (let* (
+                   (variance-list (map (lambda (x) (square (- x mean))) the-series)))
+              (/ (apply + variance-list) size)))
+          (standard-deviation (sqrt variance)))
+     (vector mean variance standard-deviation)))
+
+;Run the program
+(display (calculate-statistics '(2 6 4 3 7 4 3 6 7 8 43 4 3 2 36 75 3)))
+(newline)
+</programlisting>
+</example>
+
+<para>
+Now, let's say that we only want the standard deviation under certain conditions.  This function has already spent a lot of computational power computing it.  There are several ways we could solve this.  We could have separate functions for calculating the mean, variance, and standard deviation.  However, in that case, each function would have to re-do the work of calculating the mean.  If you needed all three, you would wind up calculating the mean three times, the variance twice, and the standard deviation once.  That's a lot of extra, useless, work.  Now, you could also require that the standard deviation function be passed the mean, and force the user to call the mean-calculating function for you.  That is possible, but it makes a really horrendous API, with the interface reflecting all sorts of implementation-specific pieces.
+</para>
+
+<para>
+A better way might be to use lazy evaluation to delay computation:
+</para>
+
+<example>
+<title>Statistical Calculations with Lazy Evaluation</title>
+<programlisting>
+(define (square x) (* x x))
+(define (calculate-statistics the-series)
+   (let* (
+          (size (delay (length the-series)))
+          (mean (delay (/ (apply + the-series) (force size))))
+          ;variance is the sum of  (x[i] - mean)^2
+          (variance 
+            (delay 
+              (let* (
+                     (variance-list (map (lambda (x) (square (- x (force mean)))) the-series)))
+                (/ (apply + variance-list) (force size)))))
+          (standard-deviation (delay (sqrt (force variance)))))
+     (vector mean variance standard-deviation)))
+
+;Run the program
+(define stats (calculate-statistics '(2 6 4 3 7 4 3 6 7 8 43 4 3 2 36 75 3)))
+(define mean (force (vector-ref stats 0)))
+(define variance (force (vector-ref stats 1)))
+(define stddev (force (vector-ref stats 2)))
+(display (list mean variance stddev))
+(newline)
+</programlisting>
+</example>
+
+<para>
+In this version of <literal>calculate-statistics</literal>, <emphasis>nothing happens until a value is needed</emphasis>, and, just as importantly, <emphasis>nothing is calculated more than once</emphasis>.  If you request the variance first, it will run <emphasis>and save</emphasis> the mean first, then it will run and save the variance.  If you next ask for the mean, it has already been calculated, so it simply returns the value.  If you next ask for the standard deviation, it uses the saved value for the variance, and calculates it from that.  Now, there is no unnecessary computation performed.
+</para>
+
+<para>
+This could be done fairly simply in an object-oriented language as well.  Anywhere you need a group of related calculations, you can create a class to hold intermediate values.  The constructor takes the initial values used, and all of the values would be set to null.  Instead of using force, you would have a getter for each value, which would check to see if the value is null, and if not, run the calculation.  Here is the skeleton of such a class in Java:
+</para>
+
+<example>
+<title>Reformulating Lazy Evaluation in Java</title>
+<programlisting>
+public class StatisticsCalculator {
+       private List the_series;
+       private Double mean;
+       private Integer size;
+       private Double variance;
+       private Double standard_deviation;
+       public StatisticsCalculator(List l)
+       {
+          the_series = l;
+       }
+       public int getSize()
+       {
+          if(size == null)
+          {
+             size = the_series.size();
+          }
+          return size;
+       }
+       public double getStandardDeviation()
+       {
+          if(stddev == null)
+          {
+             stddev = Math.sqrt(getVariance());
+          }
+          return stddev;
+       }
+       ...
+       ...
+}
+</programlisting>
+</example>
+
+<para>
+As you can see, the class itself acts as a multivalued promise, and the instance variables hold the results of the calculations.  Each function checks whether or not the code has been executed by checking to see if the variables are null.  If a variable does not have a value when it is needed, the code is executed and the value is saved.  Note that if <literal>null</literal> was in the valid range for the value, you would need an auxillary flag to use for whether or not the code had been executed, rather than just checking to see if the value is null.
+</para>
+
+<para>
+As you can see, lazy programming techniques can be used to help make a sensible and efficient API for functions which return interdependent values.  In addition, lazy techniques can be implemented through classes in languages that do not have direct support for lazy programming.  
+</para>
+</sect1>
+
+<sect1>
+<title>Indeterminate Lists</title>
+<para>
+Let's say that I have a list of all the numbers that are a multiple of five.  Then, I want to square all of those numbers.  Finally, I want to iterate through the result and display all of those whose results are less than 500.  What?  I can't operate on infinite lists?  Why not?
+</para>
+
+<para>
+Indeed, while it may be counter-intuitive, infinite lists can take less room to store than many finite ones, provided the infinite list is based on a <emphasis>generative rule</emphasis>.  In the above example, the original list is based on the rule <literal>X[i] = (i + 1) * 5</literal>, where <literal>X[i]</literal> is the value at list index <literal>i</literal>.  <literal>X[i]</literal> can also be expressed in terms of its predecessor: <literal>X[i] = X[i-1] + 5; X[0] = 5</literal>.  Using <literal>force</literal> and <literal>delay</literal>, we can construct a <emphasis>stream</emphasis> of values based on this rule:
+</para>
+
+<example>
+<title>Example of a Stream</title>
+<programlisting>
+;This is the generative rule for the list. It returns a pair 
+;with the CAR being the next value, and the CDR being a promise 
+;for the next pair
+(define (my-generative-rule last-val)
+        (let (
+              (next-val (+ last-val 5)))
+          (cons next-val (delay (my-generative-rule next-val)))))
+;Since the CDR is a promise of a pair, rather than a pair itself, 
+;we have our own functions for getting the CAR and CDR.
+(define (mystream-car the-stream) (car the-stream))
+(define (mystream-cdr the-stream) (force (cdr the-stream)))
+
+;Create our list
+(define multiples-of-five (cons 5 (delay (my-generative-rule 5))))
+
+;Display the fourth element of the list
+(display (mystream-car (mystream-cdr (mystream-cdr (mystream-cdr multiples-of-five)))))
+(newline)
+</programlisting>
+</example>
+
+<para>
+Now, remember we wanted to square all of the numbers.  In order to do this, we need to have a function which can create a new stream from existing streams and generative rules -- kind of like <literal>map</literal> but for streams.  Here is the function:
+</para>
+
+<example>
+<title>A Specialized <literal>map</literal> for Streams</title>
+<programlisting>
+(define (mystream-map function the-stream)
+  (cons 
+    ;;The first value will be the function applied to the CAR
+    (function (car the-stream)) 
+    ;;The remaining values will be stored in a promise
+    (delay (mystream-map function (mystream-cdr the-stream)))))
+
+(define squared-stream (mystream-map (lambda (x) (* x x)) multiples-of-five))
+
+;Display the fourth element of this new list
+(display (mystream-car (mystream-cdr (mystream-cdr (mystream-cdr squared-stream)))))
+(newline)
+</programlisting>
+</example>
+
+<para>
+Now all that's left to do is to iterate through the stream and print out the values less than 500:
+
+<example>
+<title>Iterating Through a Stream</title>
+<programlisting>
+(let loop (
+           (remaining-stream squared-stream))
+  (if (&gt;= (mystream-car remaining-stream) 500)
+      #f
+      (begin
+        (display (mystream-car remaining-stream))
+        (newline)
+        (loop (mystream-cdr remaining-stream)))))
+</programlisting>
+</example>
+
+<para>
+Obviously, for such a trivial program, there were other ways of approaching the subject more directly.  However, even in this example, streams helped us to view the problem from less of an implementation point of view, and more as an abstract idea.  Streams allowed us to focus on the <emphasis>problem</emphasis> rather than the <emphasis>implementation</emphasis>.  Streams ease both the conceptualization and the implementation of algorithms involving generative elements.
+</para>
+
+<para>
+The streams we have discussed so far are useful for learning the concepts behind streams.  However, the implementation suffers numerous pitfalls.  First of all, there are many occasions where streams may need a terminator.  This implementation doesn't provide that ficility.  Also, the style of streams shown here is known as "odd" streams, and while easy to implement the "odd" style can lead to more evaluation than is intended since the car of the list is always evaluated. Standard streams, as defined in SRFI-40, take care of these and other issues (see <ulink url="#references">References</ulink> for more details).  
+</para>
+
+</sect1>
+
+</chapter>
+
+<!--
+References
+<ul>
+<li>Wadler and Taha have a good discussion of "even" and "odd" streams: <a href="http://citeseer.ist.psu.edu/102172.html">How to add laziness to a strict language without even being odd</a>.</li>
+<li>The standard Scheme streams are defined in <a href="http://srfi.schemers.org/srfi-40/srfi-40.html">SRFI-40</a>.</li>
+<li>Chris Okasaki's <a href="http://www.cs.cmu.edu/~rwh/theses/okasaki.pdf">thesis</a> focused on using lazy evaluation techniques to improve amortized running times of purely functional data structures.  It is also available as a <a href="http://www.amazon.com/exec/obidos/ASIN/0521663504/freeeducation-20/">book</a>.</li>
+</ul>
+    
+-->
+
+
+<!-- Infinite Lists -->
+<!-- Functional, Amortized Data Structures -->
+<!-- Intermediate Saves -->
+
+
+<!--
 </sect1>
 
 <sect1>
@@ -146,3 +351,4 @@ For example, let's look at a numerical application.  There is an algorithm for r
 
 
 </chapter>
+-->
