@@ -1,3 +1,5 @@
+<?xml version="1.0" ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN">
 <chapter>
 <title>Lazy Programming</title>
 
@@ -211,6 +213,7 @@ Now, remember we wanted to square all of the numbers.  In order to do this, we n
 
 <para>
 Now all that's left to do is to iterate through the stream and print out the values less than 500:
+</para>
 
 <example>
 <title>Iterating Through a Stream</title>

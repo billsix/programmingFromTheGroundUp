@@ -389,7 +389,8 @@ So, the <emphasis>result</emphasis> of the macro expansion will need to look som
                          (error-handler 
                            (lambda (exception)
                               (k-exit-to-remaining-code 
-                                ;;error-handling code here))))
+                                 ;;error-handling code here
+                                 ))))
                         ;This sets our error handler to be the official "throw" function
                         (set! throw error-handler)
                         ;;Regular code here
@@ -495,8 +496,8 @@ As you can see, the ability to jump around so freely can cause some difficulties
                          (lambda (inner-kont)
                            ;;Exit across the dynamic-wind boundary,
                            ;;Saving the current continuation
-                           (kont inner-kont))))))
-                 (lambda () (display "Leaving frame") (newline))))))
+                           (kont inner-kont)))))
+                   (lambda () (display "Leaving frame") (newline)))))))
   (if (procedure? k-var)
       (k-var 'the-value)
       (begin
@@ -760,7 +761,7 @@ It helps when reading the code to remember that the "failure continuation" is th
 </sect1>
 
 <sect1>
-<title>Continuations: the Swiss Army Flow Control</title>
+<title>Continuations: Everything You Ever Wanted from Flow-Control</title>
 
 <para>
 As you can see, continuations can be used to implement all sorts of advanced flow control statements.  With just a few statements, continuations can be built into exceptions, generators, backtrackers, and other types of advanced flow control.  This article has only scratched the surface of what is available.  With continuations you can also do things such as convert web applications into a more traditional flow control structure and implement user-level threads.  Unfortunately, many languages have not implemented continuations, and thus leave their users without the many flow control features available.  If a language only has continuations, it can implement the other advanced flow control features in a nearly trivial manner.
