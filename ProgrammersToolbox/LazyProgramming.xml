@@ -1,10 +1,148 @@
 <chapter>
 <title>Lazy Programming</title>
 
+<para>
+Lazy programming is a technique which helps programmers make some easy runtime speed savings without usually having to make extensive modifications to the original source code.  It is a useful technique for all programmers, and an essential technique for functional programmers trying to get the most speed out of their code.
+</para>
 
+<sect1>
+<title>What is Lazy Programming?</title>
 
 <para>
+Lazy programming is a technique that allows you to delay the evaluation of code until you need the resulting value.  The code to be executed is stored as a <emphasis>promise</emphasis>.  If you force the promise to produce a value, it will
+run the code.  The promise then saves the result, so that future requests for the value will be returned instantly, and the code does not have to run.
 </para>
+
+<para>
+While the concepts of <emphasis>delay</emphasis>, <emphasis>promises</emphasis>, and <emphasis>forcing</emphasis> all correspond to specific Scheme constructs,
+this is a much more general method of programming that you have probably used
+in some way before.  The goal is to establish lazy programming as a more formal concept, and perhaps introduce new uses that you can use in your own programs.
+</para>
+
+<para>
+The Scheme constructs for lazy programming are very simple.  <literal>delay</literal> takes an expression as an argument, and, rather than evaluating that argument, it produces a promise.  The function <literal>force</literal> takes the promise as a value.  The first time that a promise is forced it executes the code, saves the value, and then returns the value.  All subsequent <literal>force</literal>s will simply return the saved value.  Here are some examples of <literal>delay</literal> and <literal>force</literal> in action:
+</para>
+
+<example>
+<title>Example usage of delay and force</title>
+<programlisting>
+;;The multiplication is saved but not executed
+(define my-promise (delay (* 5 6 7 8 9)))
+
+;;Again, saved but not executed
+(define another-promise (delay (sqrt 9)))
+
+;;Forces the multiplication to execute.  Saves and returns the value
+(display (force my-promise))
+(newline)
+
+;;This time, the multiplication doesn't have to execute.  It just returns
+;;the saved value.
+(display (force my-promise))
+(newline)
+
+;;This produces an error, because the promise must be forced to be used
+(display (+ my-promise (force another-promise)))
+</programlisting>
+</example>
+
+<para>
+As you can see, lazy programming is fairly straightforward.  However, using it to its full potential requires more than just knowing how the constructs work.
+</para>
+
+</sect1>
+
+<sect1>
+<title>The Main Idea</title>
+
+<para>
+You may be wondering why lazy programming is used at all.  Why does it even matter when a value is computed?  Why not just compute it, store it in a variable, and then get rid of the whole <literal>delay</literal>/<literal>force</literal> paradigm altogether?  The reason is that <emphasis>you may not have to wind up using the value at all</emphasis>.  Therefore, by storing the value as a promise, you have not wasted processing time to compute the value.
+</para>
+
+
+
+<sect1>
+<title>Lazy Without Delay</title>
+<para>
+Some lazy concepts are too complicated to be performed with <literal>delay</literal> and <literal>force</literal>.  For example, let's look at how we might optimize appending strings.  Most standard string-append functions operate by allocating space for a new string, and then copying both strings into the new space.  However, this can waste a lot of time if there will be many successive string appends.  Instead, by doing the appending lazily, we can instead record a command history step-by-step, and then only at the end will we have to allocate space.
+</para>
+
+<para>
+Now, to do this for real in Scheme we would have to re-write Scheme's implementation of strings.  So for this example we will define a type called <literal>my-string</literal> which will have a lazy appending function.
+</para>
+
+<example>
+<title>String Datatype with Lazy Append</title>
+<programlisting>
+(define (string-&gt;my-string str)
+  (vector #f str))
+
+(define (my-string-&gt;string my-str)
+  (if (string? (vector-ref my-str 0))
+    (vector-ref my-str 0)
+    (let* (
+           (str-list (vector-ref my-str 1))
+           (total-length (apply + (map (lambda (x) (string-length x)) my-str)))
+           (new-string (make-string total-length)))
+      (let loop (
+                 (cur-idx 0)
+                 (remaining-strs my-str))
+        (if (null? my-str)
+            (begin
+              (vector-set! my-str 0 new-string)
+              new-string)
+            (let* (
+                   (current-string (car remaining-strs))
+                   (current-len (string-length current-string)))
+              (let str-loop (
+                             (from-idx 0)
+                             (to-idx cur-idx))
+                (if (&gt;= from-idx current-len) 
+                   #t
+                   (string-set! new-string to-idx (string-ref current-string from-idx)))
+                (str-loop (+ from-idx 1) (+ to-idx 1)))
+              (loop 
+
+
+
+
+
+
+
+
+ Let's look at a quick example of what this looks like:
+</para>
+
+<example>
+<title>Simple example of lazy programming</title>
+<programlisting>
+(let (
+      (a (delay (* 3 4)))
+      (b (delay (* 5 6))))
+  ;;At this point, no calculations have occurred
+
+  ;;do some other things here
+
+  ;;now use the values, now it will calculate
+  (display (+ (force a) (force b)))
+  (newline)
+
+  ;;now use the values again, this time it will use the saved results
+  ;;rather than recalculating
+  (display (* (force a) (force b)))
+  (newline))
+</programlisting>
+</example>
+
+<para>
+In the preceding example, lazy programming did not offer us any benefits.  Where lazy programming comes into use is when the code to evaluate a given value is logically separated from where the value is used, but because the value is not always used, the actual execution of the code for the value is nearer.
+</para>
+
+<para>
+For example, let's look at a numerical application.  There is an algorithm for recognizing patterns in arbitrary-dimensional space called ANOPA (stands for Analysis of Patterns).  The goal of ANOPA is to be able to map n-dimensional grouping patterns onto one, two, or three dimensions so that they can be readily viewed and identified.
+</para>
+
+<para>
 
 
 </chapter>
