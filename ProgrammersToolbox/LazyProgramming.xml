@@ -239,6 +239,145 @@ The streams we have discussed so far are useful for learning the concepts behind
 
 </sect1>
 
+<sect1>
+<title>Skipping Transitional Variables</title>
+
+<para>
+So far, all of our examples of lazy evaluation have caused the intermediate values to be fully realized before continuing.  Part of this stems from the requirements of the problems we were solving, and part comes from the operation of <literal>delay</literal> and <literal>force</literal> themselves.  For example, consider the following code:
+</para>
+
+<programlisting>
+(define val1 20)
+(define val2 30)
+(define val3 40)
+(define val4 0)
+(define val5 (delay (* val1 val2)))
+(define val6 (delay (* val4 val3)))
+(define val7 (* (force val5) (force val6)))
+</programlisting>
+
+<para>
+In this case, we know that the answer will be zero, simply because we know that anything times zero is zero.  So, while this would seem like a case where lazy evaluation might be appropriate (we are trying to prevent unnecessary computations), in fact using <literal>delay</literal> and <literal>force</literal> doesn't help us out.  
+</para>
+
+<para>
+In cases like this, we need specialized algorithms to delay processing in order to <emphasis>not process intermediate results</emphasis>.  Instead, we would need to implement code which would queue up requests.  Then, when the final answer was requested, it could search the queue for values which can help it optimize the process, and then use those values to skip processing of other values.  In the case of multiplication, the presence of a zero could cause it to skip all processing.
+</para>
+
+<para>
+Here is a specialized <literal>delay</literal>/<literal>force</literal> pair, specialized for multiplication:
+</para>
+
+<example>
+<title>Simple Specialized <literal>delay</literal>/<literal>force</literal> pair</title>
+<programlisting>
+;This will simply use a list to keep track of the values to be multiplied
+(define (multiply-delay x y)
+   (let (
+         ;convert to lists if they aren't already
+         (x-list (if (list? x) x (list x)))
+         (y-list (if (list? y) y (list y))))
+     ;append them together
+     (append x-list y-list)))
+(define (multiply-force mul-list)
+  (let (
+        (has-zero? #f))
+    (for-each 
+      (lambda (x) 
+        (if (eqv? 0 x) 
+            (set! has-zero? #f) 
+            #f))
+      mul-list)
+    (if has-zero?
+        0
+        (apply * mul-list))))
+(define a (multiply-delay 23 54))
+(define b (multiply-delay 0 5))
+(define c (multiply-delay a b))
+(define d (multiply-delay c 55)
+(display (multiply-force d))
+(newline)
+</programlisting>
+</example>
+
+<para>
+However, this implementation has problems of its own.  The individual pieces are no longer lazy, and no longer save themselves.  We have lost all of the benefits of the original <literal>delay</literal> and <literal>force</literal> in order to achieve a single optimization.  Therefore, rather than keeping one long list of all the parameters, we need to keep them compartmentalized so that we can still have the previous benefits.  What we need is a tag which tells whether or not the value has been computed.  If it has been, there is only one element there which does not need computation.  Otherwise, both the multiplier and the multiplicand will be present.  Here is the new code:
+</para>
+
+<example>
+<title>Another Specialized Lazy Construct</title>
+<programlisting>
+(define (multiply-delay x y)
+   (list 'delayed x y))
+
+;Checks promises (and values) to see if they contain any zeroes
+(define (has-zero promise)
+  (if (pair? promise)
+      (if (eq? (car promise) 'forced)
+          ;check forced value
+          (if (eqv? (cdr promise) 0)
+              #t
+              #f)
+          ;check unforced value
+          (if (or (has-zero (cadr promise)) (has-zero (caddr promise)))
+              #t
+              #f))
+      ;Check scalar value
+      (if (eqv? promise 0)
+          #t
+          #f)))
+
+;Attempts zero optimization, then defaults to regular delay/force behavior
+(define (multiply-force promise)
+  (if (eq? (car promise) 'forced)
+      ;if we've already been forced, return the value
+      (cdr promise)
+      ;otherwise, search for a zero
+      (if (has-zero promise)
+          (begin
+             (set-car! promise 'forced)
+             (set-cdr! promise 0)
+             0)
+          (multiply-force-nonzero promise))))
+   
+;This is for promises which are free of zeroes
+(define (multiply-force-nozero promise)
+  (if (pair? promise)
+      (if (eq? (car promise) 'forced)
+          ;if the promise has been forced, just return the value
+          (cdr promise) 
+          ;otherwise, compute the value, and convert this into a "forced" promise
+          (begin
+            (set-car! promise 'forced)
+            (set-cdr! promise
+              (* 
+                 (multiply-force-nonzero (cadr promise)) 
+                 (multiply-force-nonzero (caddr promise))))
+            ;return the forced value
+            (cdr promise)))
+      ;This is just a number, so return it
+      promise))
+</programlisting>
+</example>      
+
+<para>
+This has all of the beneficial behaviors of regular <literal>delay</literal>/<literal>force</literal>.  Because multiply is a fairly fast operation anyway, this whole operation is probably a waste of time anyway, but it makes for a good example.  This can save a whole lot of time for more expensive operations, especially those which may require context switches or heavy processor usage.
+</para>
+<para>
+One popular usage of this technique is in doing string appends.  Rather than having to allocate new space for every time an append is done, you can simply maintain a list of strings which need to be concatenated.  Then, when the final version of the string is needed, you only have to allocate space for the new string once, rather than once for every append that is done.  This saves several <literal>malloc</literal> calls, as well as time copying each string.  
+</para>
+
+</sect1>
+
+<!-- Functional Programming -->
+
+<sect1>
+<title>Lazy Languages</title>
+<para>
+Here we have focused on lazy constructs within an otherwise non-lazy language.  However, some languages, such as Haskell, have laziness as part of the normal evaluation order.  This is termed <emphasis>normal-order evaluation</emphasis> (the typical evaluation mode in Scheme is called <emphasis>applicative-order evaluation</emphasis>).
+</para>
+</sect1>
+
 </chapter>
 
 <!--
@@ -252,106 +391,5 @@ References
 -->
 
 
-<!-- Infinite Lists -->
 <!-- Functional, Amortized Data Structures -->
-<!-- Intermediate Saves -->
 
-
-<!--
-</sect1>
-
-<sect1>
-<title>The Main Idea</title>
-
-<para>
-You may be wondering why lazy programming is used at all.  Why does it even matter when a value is computed?  Why not just compute it, store it in a variable, and then get rid of the whole <literal>delay</literal>/<literal>force</literal> paradigm altogether?  The reason is that <emphasis>you may not have to wind up using the value at all</emphasis>.  Therefore, by storing the value as a promise, you have not wasted processing time to compute the value.
-</para>
-
-
-
-<sect1>
-<title>Lazy Without Delay</title>
-<para>
-Some lazy concepts are too complicated to be performed with <literal>delay</literal> and <literal>force</literal>.  For example, let's look at how we might optimize appending strings.  Most standard string-append functions operate by allocating space for a new string, and then copying both strings into the new space.  However, this can waste a lot of time if there will be many successive string appends.  Instead, by doing the appending lazily, we can instead record a command history step-by-step, and then only at the end will we have to allocate space.
-</para>
-
-<para>
-Now, to do this for real in Scheme we would have to re-write Scheme's implementation of strings.  So for this example we will define a type called <literal>my-string</literal> which will have a lazy appending function.
-</para>
-
-<example>
-<title>String Datatype with Lazy Append</title>
-<programlisting>
-(define (string-&gt;my-string str)
-  (vector #f str))
-
-(define (my-string-&gt;string my-str)
-  (if (string? (vector-ref my-str 0))
-    (vector-ref my-str 0)
-    (let* (
-           (str-list (vector-ref my-str 1))
-           (total-length (apply + (map (lambda (x) (string-length x)) my-str)))
-           (new-string (make-string total-length)))
-      (let loop (
-                 (cur-idx 0)
-                 (remaining-strs my-str))
-        (if (null? my-str)
-            (begin
-              (vector-set! my-str 0 new-string)
-              new-string)
-            (let* (
-                   (current-string (car remaining-strs))
-                   (current-len (string-length current-string)))
-              (let str-loop (
-                             (from-idx 0)
-                             (to-idx cur-idx))
-                (if (&gt;= from-idx current-len) 
-                   #t
-                   (string-set! new-string to-idx (string-ref current-string from-idx)))
-                (str-loop (+ from-idx 1) (+ to-idx 1)))
-              (loop 
-
-
-
-
-
-
-
-
- Let's look at a quick example of what this looks like:
-</para>
-
-<example>
-<title>Simple example of lazy programming</title>
-<programlisting>
-(let (
-      (a (delay (* 3 4)))
-      (b (delay (* 5 6))))
-  ;;At this point, no calculations have occurred
-
-  ;;do some other things here
-
-  ;;now use the values, now it will calculate
-  (display (+ (force a) (force b)))
-  (newline)
-
-  ;;now use the values again, this time it will use the saved results
-  ;;rather than recalculating
-  (display (* (force a) (force b)))
-  (newline))
-</programlisting>
-</example>
-
-<para>
-In the preceding example, lazy programming did not offer us any benefits.  Where lazy programming comes into use is when the code to evaluate a given value is logically separated from where the value is used, but because the value is not always used, the actual execution of the code for the value is nearer.
-</para>
-
-<para>
-For example, let's look at a numerical application.  There is an algorithm for recognizing patterns in arbitrary-dimensional space called ANOPA (stands for Analysis of Patterns).  The goal of ANOPA is to be able to map n-dimensional grouping patterns onto one, two, or three dimensions so that they can be readily viewed and identified.
-</para>
-
-<para>
-
-
-</chapter>
--->
