@@ -340,7 +340,7 @@ However, this implementation has problems of its own.  The individual pieces are
              0)
           (multiply-force-nonzero promise))))
    
-;This is for promises which are free of zeroes
+;This is for promises which are known to be free of zeroes
 (define (multiply-force-nozero promise)
   (if (pair? promise)
       (if (eq? (car promise) 'forced)
@@ -369,27 +369,47 @@ One popular usage of this technique is in doing string appends.  Rather than hav
 
 </sect1>
 
-<!-- Functional Programming -->
+<sect1>
+<title>Lazy Evaluators</title>
+<para>
+Here we have focused on lazy constructs within an otherwise non-lazy language.  However, some languages, such as Haskell, have laziness as part of the normal evaluation process.  This is termed <emphasis>lazy evaluation</emphasis>.  No parameter in lazy evaluation is evaluated until it is needed.  The programs essentially start from the end and work backwards.  It figures out what it needs to return, and continues backwards to determine what is required to do that.  Basically, every function is called with promises to the rest of the values.  When the computation needs a value, it then executes the promise.  Since code is executed only when the value is needed, this is called <emphasis>call-by-need</emphasis>  In normal programming, values are passed instead of promises, which is called <emphasis>call-by-value</emphasis>.
+</para>
+
+<para>
+Call-by-need programming has several advantages.  Streams are implemented automatically.  Unneeded values are never computed.  However, the behavior of lazy programs is often hard to predict.  In call-by-value programs, the evaluation order is very predictable, so any time- or sequence-based events are relatively easy to implement.  This is much more difficult in lazy languages, where special constructs such as <emphasis>monads</emphasis> are needed to describe explicitly-sequenced events.  All of this also makes interfacing with other languages more difficult.
+</para>
+
+<para>
+There are several languages which do lazy programming by default, including Haskell and Clean.  There are lazy versions of a number of other languages as well, including Scheme, ML, and others.
+</para>
+
+</sect1>
 
 <sect1>
-<title>Lazy Languages</title>
+<title>Conclusion</title>
 <para>
-Here we have focused on lazy constructs within an otherwise non-lazy language.  However, some languages, such as Haskell, have laziness as part of the normal evaluation order.  This is termed <emphasis>normal-order evaluation</emphasis> (the typical evaluation mode in Scheme is called <emphasis>applicative-order evaluation</emphasis>).
+The idea of delaying an evaluation until just before the value is needed can be used to either optimize the speed of a program or to restructure a program into a more intelligible form.  While being very valuable, Lazy programming techniques are not widely implemented or even known about.  Including them in your repertoire of techniques will allow you to identify and respond to situations which can be improved by such techniques.
 </para>
 </sect1>
 
-</chapter>
+<!-- RESOURCES
 
-<!--
-References
+<resource-list>
+
 <ul>
+<li><tt>delay</tt> and <tt>force</tt> are <a href="http://www.schemers.org/Documents/Standards/R5RS/HTML/r5rs-Z-H-9.html#%_sec_6.4">described in the R5RS Scheme standard</a>.</li>
 <li>Wadler and Taha have a good discussion of "even" and "odd" streams: <a href="http://citeseer.ist.psu.edu/102172.html">How to add laziness to a strict language without even being odd</a>.</li>
 <li>The standard Scheme streams are defined in <a href="http://srfi.schemers.org/srfi-40/srfi-40.html">SRFI-40</a>.</li>
+<li>Here is <a href="http://okmij.org/ftp/Scheme/virus-flattener.txt">an interesting trick to lazily flatten a nested list</a>.</li>
+<li><You can use lazy techniques for <a href="http://srfi.schemers.org/srfi-13/mail-archive/msg00072.html">appending strings</a> as well.</li>
 <li>Chris Okasaki's <a href="http://www.cs.cmu.edu/~rwh/theses/okasaki.pdf">thesis</a> focused on using lazy evaluation techniques to improve amortized running times of purely functional data structures.  It is also available as a <a href="http://www.amazon.com/exec/obidos/ASIN/0521663504/freeeducation-20/">book</a>.</li>
+<li>If you're interested in how lazy languages are implemented, <a href="http://www.cafepress.com/haskell_books.11651133">this book demonstrates the techniques</a>.</li>
 </ul>
+
+</resource-list>
     
 -->
 
+</chapter>
 
-<!-- Functional, Amortized Data Structures -->
 
