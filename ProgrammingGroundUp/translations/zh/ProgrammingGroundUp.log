@@ -1,0 +1,733 @@
+This is pdfeTeX, Version 3.141592-1.30.5-2.2 (Web2C 7.5.5) (format=pdfjadetex 2006.2.15)  29 APR 2006 19:10
+entering extended mode
+**ProgrammingGroundUp.tex
+(./ProgrammingGroundUp.tex
+JadeTeX 2003/04/27: 3.13
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 1.
+(/usr/share/texmf/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+Elements will be labelled
+Jade begin document sequence at 21
+(./ProgrammingGroundUp.aux)
+\openout1 = `ProgrammingGroundUp.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T2A/cmr/m/n on input line 21.
+LaTeX Font Info:    Try loading font information for T2A+cmr on input line 21.
+ (/usr/share/texmf/tex/latex/cyrillic/t2acmr.fd
+File: t2acmr.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
+)
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 21.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 21.
+
+(/usr/share/texmf/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for LECO/omseco/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for LECX/omsecx/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for LECY/omsecy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for LEGR/omsegr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for LEHA/omseha/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for LEIP/omseip/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for LELA/omsela/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for LETI/omseti/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+
+(/usr/share/texmf/tex/context/base/supp-pdf.tex
+(/usr/share/texmf/tex/context/base/supp-mis.tex
+loading : Context Support Macros / Miscellaneous (2004.10.26)
+\protectiondepth=\count116
+\scratchcounter=\count117
+\scratchtoks=\toks23
+\scratchdimen=\dimen130
+\scratchskip=\skip63
+\scratchmuskip=\muskip11
+\scratchbox=\box62
+\scratchread=\read1
+\scratchwrite=\write4
+\zeropoint=\dimen131
+\onepoint=\dimen132
+\onebasepoint=\dimen133
+\minusone=\count118
+\thousandpoint=\dimen134
+\onerealpoint=\dimen135
+\emptytoks=\toks24
+\nextbox=\box63
+\nextdepth=\dimen136
+\everyline=\toks25
+\!!counta=\count119
+\!!countb=\count120
+\recursecounter=\count121
+)
+loading : Context Support Macros / PDF (2004.03.26)
+\nofMPsegments=\count122
+\nofMParguments=\count123
+\MPscratchCnt=\count124
+\MPscratchDim=\dimen137
+\MPnumerator=\count125
+\everyMPtoPDFconversion=\toks26
+)
+Package hyperref Info: Link coloring ON on input line 21.
+ (/usr/share/texmf/tex/latex/hyperref/nameref.sty
+Package: nameref 2003/12/03 v2.21 Cross-referencing by name of section
+\c@section@level=\count126
+)
+LaTeX Info: Redefining \ref on input line 21.
+LaTeX Info: Redefining \pageref on input line 21.
+ (./ProgrammingGroundUp.out) (./ProgrammingGroundUp.out)
+\openout3 = `ProgrammingGroundUp.out'.
+
+LaTeX Font Info:    Try loading font information for T1+phv on input line 101.
+ (/usr/share/texmf/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <19.326> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 101.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <15.972> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 124.
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <13.2> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 140.
+
+[1.0.24{/home/zhangle/.texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 163.
+LaTeX Font Info:    Try loading font information for TS1+ptm on input line 188.
+
+
+(/usr/share/texmf/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
+<cip.png, id=676, 351.2322pt x 152.9715pt>
+File: cip.png Graphic file (type png)
+ <use cip.png> [2.0.24 <./cip.png (PNG copy)>] [3.0.24] [4.0.24
+
+]
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <17.569> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 439.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 457.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 1117.
+
+ (/usr/share/texmf/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
+[5.0.24] [6.0.24] [7.0.24] [8.0.24]
+LaTeX Font Info:    Font shape `T1/phv/bx/it' in size <15.972> not available
+(Font)              Font shape `T1/phv/b/it' tried instead on input line 3002.
+LaTeX Font Info:    Font shape `T1/phv/b/it' in size <15.972> not available
+(Font)              Font shape `T1/phv/b/sl' tried instead on input line 3002.
+
+! pdfTeX warning (ext4): destination with the same identifier (name{page.1}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.3150 {1}}
+           \Seq% [1.0.24
+
+]
+! pdfTeX warning (ext4): destination with the same identifier (name{page.2}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.3332 ...man/listinfo/pgubook-\/readers.\endPar{}
+                                                  \endNode{}\Node% [2.0.24]
+! pdfTeX warning (ext4): destination with the same identifier (name{page.3}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.3558 ...ansferable to any other system.\endPar{}
+                                                  \endNode{}\Node% [3.0.24]
+! pdfTeX warning (ext4): destination with the same identifier (name{page.4}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.3777 ...in focus on the user's display.\endPar{}
+                                                  \endNode{}\Node% [4.0.24]
+! pdfTeX warning (ext4): destination with the same identifier (name{page.5}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.3944 {1}}
+           Machine Language\endPar{}\endNode{}\Node% [5.0.24]
+! pdfTeX warning (ext4): destination with the same identifier (name{page.6}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.4072 ...DisplayGroup{}\endNode{}\endSeq{}\endSpS
+                                                  {}\endNode{}\Node% [6.0.24]
+<mailbox.png, id=1101, 387.849pt x 212.59425pt>
+File: mailbox.png Graphic file (type png)
+ <use mailbox.png>
+! pdfTeX warning (ext4): destination with the same identifier (name{page.7}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.4359 {1}}
+           \Node% [7.0.24
+
+]
+! pdfTeX warning (ext4): destination with the same identifier (name{page.8}) ha
+s been already used, duplicate ignored
+<to be read again> 
+                   \penalty 
+l.4569 {0}}
+           \Par% [8.0.24 <./mailbox.png (PNG copy)>] [9.0.24] [10.0.24]
+[11.0.24
+! pdfTeX warning (ext4): destination with the same identifier (name{248}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.5242 ...t we will work with by default.\endPar{}
+                                                  \endNode{}\Node%] [12.0.24]
+[13.0.24]
+Overfull \hbox (12.23973pt too wide) in paragraph at lines 5597--5597
+[]     \T1/pcr/m/n/10.8 Customer's address (50 bytes) - start of record + 50 by
+tes[] 
+ []
+
+
+Overfull \hbox (44.63971pt too wide) in paragraph at lines 5598--5598
+[]     \T1/pcr/m/n/10.8 Customer's age (1 word = 4 bytes) - start of record + 1
+00 bytes[] 
+ []
+
+
+Overfull \hbox (83.51968pt too wide) in paragraph at lines 5599--5599
+[]     \T1/pcr/m/n/10.8 Customer's id number (1 word = 4 bytes) - start of reco
+rd + 104 bytes[] 
+ []
+
+
+Overfull \hbox (5.75974pt too wide) in paragraph at lines 5651--5651
+[]     \T1/pcr/m/n/10.8 Customer's address pointer (1 word) - start of record +
+ 4[] 
+ []
+
+[14.0.24] [15.0.24]
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <14.52> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 6055.
+ [16.0.24] [17.0.24] [18.0.24] [19.0.24
+
+] [20.0.24] [21.0.24] [22.0.24] [23.0.24] [24.0.24]
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <9.72> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 8571.
+ [25.0.24] [26.0.24] [27.0.24]
+LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <11> not available
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 9161.
+ [28.0.24] [29.0.24] [30.0.24] [31.0.24]
+Overfull \hbox (31.67972pt too wide) in paragraph at lines 10047--10047
+[] \T1/pcr/m/n/10.8 movl %eax, %ebx           # since this is the first item, %
+eax is[] 
+ []
+
+
+Overfull \hbox (5.75974pt too wide) in paragraph at lines 10051--10051
+[] \T1/pcr/m/n/10.8 cmpl $0, %eax             # check to see if we've hit the e
+nd[] 
+ []
+
+
+Overfull \hbox (12.23973pt too wide) in paragraph at lines 10056--10056
+[] \T1/pcr/m/n/10.8 jle start_loop            # jump to loop beginning if the n
+ew [] 
+ []
+
+[32.0.24] [33.0.24] [34.0.24] [35.0.24] [36.0.24] [37.0.24] [38.0.24] [39.0.24]
+[40.0.24]
+Overfull \hbox (77.03969pt too wide) in paragraph at lines 12632--12632
+[]\T1/pcr/m/n/10.8 FINAL ADDRESS = ADDRESS_OR_OFFSET + %BASE_OR_OFFSET + MULTIP
+LIER * %INDEX[] 
+ []
+
+[41.0.24] [42.0.24] [43.0.24]
+<registerdescription.png, id=2123, 342.078pt x 208.98074pt>
+File: registerdescription.png Graphic file (type png)
+
+<use registerdescription.png>
+LaTeX Font Info:    Font shape `T1/pcr/m/it' in size <10.8> not available
+(Font)              Font shape `T1/pcr/m/sl' tried instead on input line 13420.
+
+ [44.0.24 <./registerdescription.png (PNG copy)>]
+[45.0.24
+! pdfTeX warning (ext4): destination with the same identifier (name{1297}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.13960 {1}}
+            \Seq%] [46.0.24
+! pdfTeX warning (ext4): destination with the same identifier (name{1339}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.14291 ...isplayGroup{}\endNode{}\endSeq{}\endSpS
+                                                  {}\endNode{}\Node%] [47.0.24
+
+] [48.0.24] [49.0.24] [50.0.24] [51.0.24] [52.0.24] [53.0.24] [54.0.24] [55.0.2
+4]
+Overfull \hbox (4.0pt too wide) in paragraph at lines 16551--16698
+[]| [] 
+ []
+
+[56.0.24]
+LaTeX Font Info:    Font shape `T1/phv/m/it' in size <11> not available
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 16754.
+
+ [57.0.24
+! pdfTeX warning (ext4): destination with the same identifier (name{1726}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.16768 {1}}
+            \Seq%] [58.0.24
+! pdfTeX warning (ext4): destination with the same identifier (name{1736}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.16892 ...~~~~~~~~~~~~~~~~~\#push~second~argument
+                                                  ] [59.0.24] [60.0.24]
+[61.0.24] [62.0.24] [63.0.24] [64.0.24]
+Overfull \hbox (5.75974pt too wide) in paragraph at lines 17803--17803
+[] \T1/pcr/m/n/10.8 ret                 #return from the function (this pops th
+e [] 
+ []
+
+[65.0.24] [66.0.24] [67.0.24] [68.0.24] [69.0.24] [70.0.24] [71.0.24] [72.0.24]
+[73.0.24
+
+]
+LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <14.374> not available
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 20315.
+ [74.0.24] [75.0.24] [76.0.24] [77.0.24] [78.0.24] [79.0.24] [80.0.24] [81.0.24
+] [82.0.24] [83.0.24] [84.0.24] [85.0.24] [86.0.24] [87.0.24] [88.0.24] [89.0.2
+4] [90.0.24] [91.0.24] [92.0.24] [93.0.24
+
+] [94.0.24] [95.0.24]
+[96.0.24] [97.0.24] [98.0.24] [99.0.24] [100.0.24] [101.0.24] [102.0.24]
+[103.0.24] [104.0.24] [105.0.24] [106.0.24] [107.0.24] [108.0.24] [109.0.24]
+[110.0.24]
+Underfull \hbox (badness 1052) in paragraph at lines 26157--26157
+[][][]\T1/ptm/m/n/10.8 This as-sumes that you have al-ready built the ob-ject f
+iles []  \T1/pcr/m/n/9.72 read-record.o \T1/ptm/m/n/10.8 and
+ []
+
+[111.0.24] [112.0.24] [113.0.24] [114.0.24] [115.0.24
+
+] [116.0.24] [117.0.24]
+[118.0.24] [119.0.24] [120.0.24] [121.0.24] [122.0.24] [123.0.24]
+Overfull \hbox (232.55959pt too wide) in paragraph at lines 28732--28732
+[]\T1/pcr/m/n/10.8 ld add-year.o write-newline.o error-exit.o read-record.o wri
+te-record.o count-chars.o -o add-year[] 
+ []
+
+[124.0.24] [125.0.24] [126.0.24
+
+] [127.0.24] [128.0.24] [129.0.24] [130.0.24]
+[131.0.24] [132.0.24] [133.0.24
+! pdfTeX warning (ext4): destination with the same identifier (name{3092}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.30962 ...st described using an example:\endPar{}
+                                                  \endNode{}\Node%]
+Overfull \hbox (5.75974pt too wide) in paragraph at lines 30991--30991
+[]\T1/pcr/m/n/10.8 #parameter, and printf uses it to find out how many paramete
+rs[] 
+ []
+
+[134.0.24] [135.0.24] [136.0.24] [137.0.24] [138.0.24] [139.0.24
+! pdfTeX warning (ext4): destination with the same identifier (name{3297}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.32507 {1}}
+            \Seq%] [140.0.24
+! pdfTeX warning (ext4): destination with the same identifier (name{3354}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.32781 ...t an error like the following:\endPar{}
+                                                  \endNode{}\Node%] [141.0.24]
+Overfull \hbox (21.10382pt too wide) in paragraph at lines 33097--33101
+ [][][]\T1/ptm/m/n/12 http://linux4u.jinr.ru/usoft/WWW/www_debian.org/Documenta
+tion/elf/node21.html 
+ []
+
+[142.0.24] [143.0.24] [144.0.24
+
+] [145.0.24] [146.0.24] [147.0.24
+! pdfTeX warning (ext4): destination with the same identifier (name{3514}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.34675 ~movl~\%eax,~(\%esp)
+                            ]
+<memorylayout.png, id=4344, 263.7855pt x 350.0277pt>
+File: memorylayout.png Graphic file (type png)
+ <use memorylayout.png>
+[148.0.24] [149.0.24 <./memorylayout.png (PNG copy)>] [150.0.24] [151.0.24]
+[152.0.24] [153.0.24] [154.0.24] [155.0.24] [156.0.24] [157.0.24] [158.0.24]
+[159.0.24]
+Overfull \hbox (12.23973pt too wide) in paragraph at lines 36130--36130
+[]                                 \T1/pcr/m/n/10.8 #means that we have exhaust
+ed [] 
+ []
+
+
+Overfull \hbox (5.75974pt too wide) in paragraph at lines 36131--36131
+[]                                 \T1/pcr/m/n/10.8 #all addressable memory, an
+d [] 
+ []
+
+[160.0.24] [161.0.24] [162.0.24] [163.0.24] [164.0.24]
+LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <13.068> not available
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 36638.
+
+
+Package hyperref Warning: Token not allowed in a PDFDocEncoded string,
+(hyperref)                removing `subscript' on input line 36640.
+
+[165.0.24] [166.0.24] [167.0.24] [168.0.24] [169.0.24] [170.0.24] [171.0.24]
+[172.0.24] [173.0.24] [174.0.24]
+Overfull \hbox (154.79964pt too wide) in paragraph at lines 38860--38860
+[]\T1/pcr/m/n/10.8 ld alloc.o read-record.o read-records.o write-newline.o coun
+t-chars.o -o read-records[] 
+ []
+
+[175.0.24] [176.0.24] [177.0.24] [178.0.24
+
+] [179.0.24] [180.0.24] [181.0.24]
+Overfull \hbox (5.75974pt too wide) in paragraph at lines 40314--40314
+[]     \T1/pcr/m/n/10.8 |    |    |    |    |    |    |    Individual units (2^
+0)[] 
+ []
+
+[182.0.24] [183.0.24] [184.0.24] [185.0.24] [186.0.24] [187.0.24] [188.0.24]
+[189.0.24] [190.0.24] [191.0.24] [192.0.24] [193.0.24] [194.0.24] [195.0.24]
+[196.0.24] [197.0.24] [198.0.24] [199.0.24]
+<littleendian.png, id=5192, 380.622pt x 271.61475pt>
+File: littleendian.png Graphic file (type png)
+ <use littleendian.png>
+<bigendian.png, id=5193, 380.622pt x 271.0125pt>
+File: bigendian.png Graphic file (type png)
+ <use bigendian.png> [200.0.24 <./littleendian.png (PNG copy)>] [201.0.24 <./bi
+gendian.png (PNG copy)>]
+[202.0.24] [203.0.24] [204.0.24] [205.0.24] [206.0.24] [207.0.24]
+Overfull \hbox (219.5996pt too wide) in paragraph at lines 44273--44273
+[]\T1/pcr/m/n/10.8 ld integer-to-number.o count-chars.o write-newline.o convers
+ion-program.o -o conversion-program[] 
+ []
+
+[208.0.24] [209.0.24] [210.0.24] [211.0.24
+
+] [212.0.24] [213.0.24] [214.0.24]
+[215.0.24] [216.0.24] [217.0.24] [218.0.24] [219.0.24] [220.0.24
+
+] [221.0.24]
+[222.0.24] [223.0.24] [224.0.24] [225.0.24] [226.0.24] [227.0.24
+! pdfTeX warning (ext4): destination with the same identifier (name{4740}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \endgroup \set@typeset@protect 
+l.48367 ...igurations.\endSeq{}\endNode{}\endPar{}
+                                                  \endDisplayGroup{}\endNode...
+] [228.0.24] [229.0.24] [230.0.24
+
+] [231.0.24] [232.0.24] [233.0.24] [234.0.24]
+[235.0.24] [236.0.24]
+
+Package hyperref Warning: Difference (3) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 51227.
+
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 51292.
+
+[237.0.24
+
+] [238.0.24] [239.0.24] [240.0.24] [241.0.24] [242.0.24] [243.0.24]
+[244.0.24] [245.0.24] [246.0.24] [247.0.24] [248.0.24] [249.0.24] [250.0.24]
+[251.0.24] [252.0.24] [253.0.24] [254.0.24
+
+]
+
+Package hyperref Warning: Difference (3) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 52857.
+
+[255.0.24]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 53357.
+
+
+Overfull \hbox (1.59998pt too wide) in alignment at lines 53425--53485
+[] [] [] 
+ []
+
+
+Overfull \hbox (1.59998pt too wide) in alignment at lines 53485--54055
+[] [] [] 
+ []
+
+[256.0.24]
+Overfull \hbox (1.59998pt too wide) in alignment at lines 54168--54228
+[] [] [] 
+ []
+
+
+Overfull \hbox (1.59998pt too wide) in alignment at lines 54228--55156
+[] [] [] 
+ []
+
+
+Overfull \hbox (1.59998pt too wide) in alignment at lines 55156--55417
+[] [] [] 
+ []
+
+[257.0.24] [258.0.24]
+Overfull \hbox (1.59998pt too wide) in alignment at lines 55529--55589
+[] [] [] 
+ []
+
+
+Overfull \hbox (1.59998pt too wide) in alignment at lines 55589--56472
+[] [] [] 
+ []
+
+
+Overfull \hbox (1.59998pt too wide) in alignment at lines 56472--56730
+[] [] [] 
+ []
+
+[259.0.24] [260.0.24]
+Overfull \hbox (1.59998pt too wide) in alignment at lines 56842--56902
+[] [] [] 
+ []
+
+
+Overfull \hbox (1.59998pt too wide) in alignment at lines 56902--57733
+[] [] [] 
+ []
+
+[261.0.24] [262.0.24] [263.0.24]
+Overfull \hbox (1.59998pt too wide) in alignment at lines 57863--57923
+[] [] [] 
+ []
+
+
+Overfull \hbox (1.59998pt too wide) in alignment at lines 57923--58744
+[] [] [] 
+ []
+
+
+Overfull \hbox (1.59998pt too wide) in alignment at lines 58744--58824
+[] [] [] 
+ []
+
+[264.0.24] [265.0.24] [266.0.24] [267.0.24] [268.0.24
+
+]
+LaTeX Font Info:    Font shape `T1/pcr/bx/n' in size <10.8> not available
+(Font)              Font shape `T1/pcr/b/n' tried instead on input line 59679.
+
+Overfull \hbox (2.79996pt too wide) in alignment at lines 59653--59783
+[] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (7.82324pt too wide) in paragraph at lines 60183--60183
+\T1/ptm/m/n/12 terminated 
+ []
+
+
+Overfull \hbox (9.16727pt too wide) in paragraph at lines 60219--60219
+[]|[]\T1/ptm/m/n/12 permission 
+ []
+
+
+Overfull \hbox (7.82324pt too wide) in paragraph at lines 60409--60409
+\T1/ptm/m/n/12 terminated 
+ []
+
+
+Overfull \hbox (7.82324pt too wide) in paragraph at lines 60748--60748
+\T1/ptm/m/n/12 terminated 
+ []
+
+
+Overfull \hbox (9.16727pt too wide) in paragraph at lines 60766--60766
+[]|[]\T1/ptm/m/n/12 permission 
+ []
+
+
+Overfull \hbox (7.82324pt too wide) in paragraph at lines 60861--60861
+\T1/ptm/m/n/12 terminated 
+ []
+
+
+Overfull \hbox (6.27551pt too wide) in paragraph at lines 61356--61356
+[]|[]\T1/ptm/m/n/12 arguments 
+ []
+
+
+Overfull \hbox (2.79996pt too wide) in alignment at lines 59783--61378
+[] [] [] [] [] [] 
+ []
+
+[269.0.24] [270.0.24] [271.0.24] [272.0.24
+
+]
+Overfull \hbox (3.99994pt too wide) in alignment at lines 61658--61660
+[] [] [] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (3.99994pt too wide) in alignment at lines 61660--64454
+[] [] [] [] [] [] [] [] [] 
+ []
+
+[273.0.24] [274.0.24]
+
+Package hyperref Warning: Difference (3) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 64704.
+
+[275.0.24
+
+]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 64913.
+
+[276.0.24] [277.0.24] [278.0.24] [279.0.24] [280.0.24] [281.0.24] [282.0.24]
+[283.0.24] [284.0.24] [285.0.24] [286.0.24
+
+]
+
+Package hyperref Warning: Difference (3) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 66915.
+
+[287.0.24] [288.0.24] [289.0.24] [290.0.24]
+
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 67672.
+
+[291.0.24]
+Overfull \hbox (4.0pt too wide) in paragraph at lines 67859--67900
+[]| [] 
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 68006--68031
+[] [] 
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 68031--68176
+[] [] 
+ []
+
+[292.0.24]
+Overfull \hbox (1.19998pt too wide) in alignment at lines 68193--68218
+[] [] 
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 68218--68363
+[] [] 
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 68380--68405
+[] [] 
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 68405--69109
+[] [] 
+ []
+
+[293.0.24]
+Overfull \hbox (1.19998pt too wide) in alignment at lines 69126--69151
+[] [] 
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 69151--69280
+[] [] 
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 69297--69322
+[] [] 
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 69322--69738
+[] [] 
+ []
+
+[294.0.24]
+Overfull \hbox (1.19998pt too wide) in alignment at lines 69755--69780
+[] [] 
+ []
+
+
+Overfull \hbox (1.19998pt too wide) in alignment at lines 69780--69991
+[] [] 
+ []
+
+[295.0.24] [296.0.24] [297.0.24
+
+] [298.0.24
+
+] [299.0.24] [300.0.24] [301.0.24]
+[302.0.24] [303.0.24] [304.0.24] [305.0.24] [306.0.24] [307.0.24] [308.0.24
+
+]
+[309.0.24] [310.0.24] [311.0.24
+
+] [312.0.24] [313.0.24] [314.0.24] [315.0.24]
+[316.0.24] [317.0.24] [318.0.24] (./ProgrammingGroundUp.aux) ) 
+Here is how much of TeX's memory you used:
+ 16289 strings out of 39280
+ 94822 string characters out of 323683
+ 212431 words of memory out of 1000000
+ 24052 multiletter control sequences out of 10000+50000
+ 67304 words of font info for 76 fonts, out of 500000 for 2000
+ 580 hyphenation exceptions out of 1000
+ 28i,12n,43p,543b,1143s stack positions out of 1500i,500n,1500p,200000b,5000s
+PDF statistics:
+ 7998 PDF objects out of 300000
+ 5457 named destinations out of 131072
+ 1359 words of extra memory for PDF output out of 10000
+{/usr/share/texmf
+/fonts/enc/dvips/psnfss/8r.enc}</usr/share/texmf/fonts/type1/urw/courier/ucrb8a
+.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texmf/f
+onts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf/fonts/type1/urw/courier/uc
+rro8a.pfb></usr/share/texmf/fonts/type1/urw/times/utmri8a.pfb></usr/share/texmf
+/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf/fonts/type1/urw/times/utm
+b8a.pfb></usr/share/texmf/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf/fo
+nts/type1/urw/helvetic/uhvb8a.pfb>
+Output written on ProgrammingGroundUp.pdf (326 pages, 1689715 bytes).

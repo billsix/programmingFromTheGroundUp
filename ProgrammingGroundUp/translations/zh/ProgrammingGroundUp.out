@@ -1,0 +1,166 @@
+\BOOKMARK [0][-]{1.0}{Programming from the Ground Up}{}
+\BOOKMARK [0][-]{2.0}{Table of Contents}{}
+\BOOKMARK [0][-]{3.0}{Chapter 1. Introduction}{}
+\BOOKMARK [1][-]{3.1.1}{Welcome to Programming}{3.0}
+\BOOKMARK [1][-]{3.2.1}{Your Tools}{3.0}
+\BOOKMARK [0][-]{4.0}{Chapter 2. Computer Architecture}{}
+\BOOKMARK [1][-]{4.3.1}{Structure of Computer Memory}{4.0}
+\BOOKMARK [1][-]{4.4.1}{The CPU}{4.0}
+\BOOKMARK [1][-]{4.5.1}{Some Terms}{4.0}
+\BOOKMARK [1][-]{4.6.1}{Interpreting Memory}{4.0}
+\BOOKMARK [1][-]{4.7.1}{Data Accessing Methods}{4.0}
+\BOOKMARK [1][-]{4.8.1}{Review}{4.0}
+\BOOKMARK [2][-]{4.8.1.2}{Know the Concepts}{4.8.1}
+\BOOKMARK [2][-]{4.8.2.2}{Use the Concepts}{4.8.1}
+\BOOKMARK [2][-]{4.8.3.2}{Going Further}{4.8.1}
+\BOOKMARK [0][-]{5.0}{Chapter 3. Your First Programs}{}
+\BOOKMARK [1][-]{5.9.1}{Entering in the Program}{5.0}
+\BOOKMARK [1][-]{5.10.1}{Outline of an Assembly Language Program}{5.0}
+\BOOKMARK [1][-]{5.11.1}{Planning the Program}{5.0}
+\BOOKMARK [1][-]{5.12.1}{Finding a Maximum Value}{5.0}
+\BOOKMARK [1][-]{5.13.1}{Addressing Modes}{5.0}
+\BOOKMARK [1][-]{5.14.1}{Review}{5.0}
+\BOOKMARK [2][-]{5.14.4.2}{Know the Concepts}{5.14.1}
+\BOOKMARK [2][-]{5.14.5.2}{Use the Concepts}{5.14.1}
+\BOOKMARK [2][-]{5.14.6.2}{Going Further}{5.14.1}
+\BOOKMARK [0][-]{6.0}{Chapter 4. All About Functions}{}
+\BOOKMARK [1][-]{6.15.1}{Dealing with Complexity}{6.0}
+\BOOKMARK [1][-]{6.16.1}{How Functions Work}{6.0}
+\BOOKMARK [1][-]{6.17.1}{AssemblyLanguage Functions using the C Calling Convention}{6.0}
+\BOOKMARK [1][-]{6.18.1}{A Function Example}{6.0}
+\BOOKMARK [1][-]{6.19.1}{Recursive Functions}{6.0}
+\BOOKMARK [1][-]{6.20.1}{Review}{6.0}
+\BOOKMARK [2][-]{6.20.7.2}{Know the Concepts}{6.20.1}
+\BOOKMARK [2][-]{6.20.8.2}{Use the Concepts}{6.20.1}
+\BOOKMARK [2][-]{6.20.9.2}{Going Further}{6.20.1}
+\BOOKMARK [0][-]{7.0}{Chapter 5. Dealing with Files}{}
+\BOOKMARK [1][-]{7.21.1}{The UNIX File Concept}{7.0}
+\BOOKMARK [1][-]{7.22.1}{Buffers and .bss}{7.0}
+\BOOKMARK [1][-]{7.23.1}{Standard and Special Files}{7.0}
+\BOOKMARK [1][-]{7.24.1}{Using Files in a Program}{7.0}
+\BOOKMARK [1][-]{7.25.1}{Review}{7.0}
+\BOOKMARK [2][-]{7.25.10.2}{Know the Concepts}{7.25.1}
+\BOOKMARK [2][-]{7.25.11.2}{Use the Concepts}{7.25.1}
+\BOOKMARK [2][-]{7.25.12.2}{Going Further}{7.25.1}
+\BOOKMARK [0][-]{8.0}{Chapter 6. Reading and Writing Simple Records}{}
+\BOOKMARK [1][-]{8.26.1}{Writing Records}{8.0}
+\BOOKMARK [1][-]{8.27.1}{Reading Records}{8.0}
+\BOOKMARK [1][-]{8.28.1}{Modifying the Records}{8.0}
+\BOOKMARK [1][-]{8.29.1}{Review}{8.0}
+\BOOKMARK [2][-]{8.29.13.2}{Know the Concepts}{8.29.1}
+\BOOKMARK [2][-]{8.29.14.2}{Use the Concepts}{8.29.1}
+\BOOKMARK [2][-]{8.29.15.2}{Going Further}{8.29.1}
+\BOOKMARK [0][-]{9.0}{Chapter 7. Developing Robust Programs}{}
+\BOOKMARK [1][-]{9.30.1}{Where Does the Time Go?}{9.0}
+\BOOKMARK [1][-]{9.31.1}{Some Tips for Developing Robust Programs}{9.0}
+\BOOKMARK [2][-]{9.31.16.2}{User Testing}{9.31.1}
+\BOOKMARK [2][-]{9.31.17.2}{Data Testing}{9.31.1}
+\BOOKMARK [2][-]{9.31.18.2}{Module Testing}{9.31.1}
+\BOOKMARK [1][-]{9.32.1}{Handling Errors Effectively}{9.0}
+\BOOKMARK [2][-]{9.32.19.2}{Have an Error Code for Everything}{9.32.1}
+\BOOKMARK [2][-]{9.32.20.2}{Recovery Points}{9.32.1}
+\BOOKMARK [1][-]{9.33.1}{Making Our Program More Robust}{9.0}
+\BOOKMARK [1][-]{9.34.1}{Review}{9.0}
+\BOOKMARK [2][-]{9.34.21.2}{Know the Concepts}{9.34.1}
+\BOOKMARK [2][-]{9.34.22.2}{Use the Concepts}{9.34.1}
+\BOOKMARK [2][-]{9.34.23.2}{Going Further}{9.34.1}
+\BOOKMARK [0][-]{10.0}{Chapter 8. Sharing Functions with Code Libraries}{}
+\BOOKMARK [1][-]{10.35.1}{Using a Dynamic Library}{10.0}
+\BOOKMARK [1][-]{10.36.1}{How Dynamic Libraries Work}{10.0}
+\BOOKMARK [1][-]{10.37.1}{Finding Information about Libraries}{10.0}
+\BOOKMARK [1][-]{10.38.1}{Useful Functions}{10.0}
+\BOOKMARK [1][-]{10.39.1}{Building a Dynamic Library}{10.0}
+\BOOKMARK [1][-]{10.40.1}{Review}{10.0}
+\BOOKMARK [2][-]{10.40.24.2}{Know the Concepts}{10.40.1}
+\BOOKMARK [2][-]{10.40.25.2}{Use the Concepts}{10.40.1}
+\BOOKMARK [2][-]{10.40.26.2}{Going Further}{10.40.1}
+\BOOKMARK [0][-]{11.0}{Chapter 9. Intermediate Memory Topics}{}
+\BOOKMARK [1][-]{11.41.1}{How a Computer Views Memory}{11.0}
+\BOOKMARK [1][-]{11.42.1}{The Memory Layout of a Linux Program}{11.0}
+\BOOKMARK [1][-]{11.43.1}{Every Memory Address is a Lie}{11.0}
+\BOOKMARK [1][-]{11.44.1}{Getting More Memory}{11.0}
+\BOOKMARK [1][-]{11.45.1}{A Simple Memory Manager}{11.0}
+\BOOKMARK [2][-]{11.45.27.2}{Variables and Constants}{11.45.1}
+\BOOKMARK [2][-]{11.45.28.2}{The allocateinit function}{11.45.1}
+\BOOKMARK [2][-]{11.45.29.2}{The allocate function}{11.45.1}
+\BOOKMARK [2][-]{11.45.30.2}{The deallocate function}{11.45.1}
+\BOOKMARK [2][-]{11.45.31.2}{Performance Issues and Other Problems}{11.45.1}
+\BOOKMARK [1][-]{11.46.1}{Using our Allocator}{11.0}
+\BOOKMARK [1][-]{11.47.1}{More Information}{11.0}
+\BOOKMARK [1][-]{11.48.1}{Review}{11.0}
+\BOOKMARK [2][-]{11.48.32.2}{Know the Concepts}{11.48.1}
+\BOOKMARK [2][-]{11.48.33.2}{Use the Concepts}{11.48.1}
+\BOOKMARK [2][-]{11.48.34.2}{Going Further}{11.48.1}
+\BOOKMARK [0][-]{12.0}{Chapter 10. Counting Like a Computer}{}
+\BOOKMARK [1][-]{12.49.1}{Counting}{12.0}
+\BOOKMARK [2][-]{12.49.35.2}{Counting Like a Human}{12.49.1}
+\BOOKMARK [2][-]{12.49.36.2}{Counting Like a Computer}{12.49.1}
+\BOOKMARK [2][-]{12.49.37.2}{Conversions Between Binary and Decimal}{12.49.1}
+\BOOKMARK [1][-]{12.50.1}{Truth, Falsehood, and Binary Numbers}{12.0}
+\BOOKMARK [1][-]{12.51.1}{The Program Status Register}{12.0}
+\BOOKMARK [1][-]{12.52.1}{Other Numbering Systems}{12.0}
+\BOOKMARK [2][-]{12.52.38.2}{Floatingpoint Numbers}{12.52.1}
+\BOOKMARK [2][-]{12.52.39.2}{Negative Numbers}{12.52.1}
+\BOOKMARK [1][-]{12.53.1}{Octal and Hexadecimal Numbers}{12.0}
+\BOOKMARK [1][-]{12.54.1}{Order of Bytes in a Word}{12.0}
+\BOOKMARK [1][-]{12.55.1}{Converting Numbers for Display}{12.0}
+\BOOKMARK [1][-]{12.56.1}{Review}{12.0}
+\BOOKMARK [2][-]{12.56.40.2}{Know the Concepts}{12.56.1}
+\BOOKMARK [2][-]{12.56.41.2}{Use the Concepts}{12.56.1}
+\BOOKMARK [2][-]{12.56.42.2}{Going Further}{12.56.1}
+\BOOKMARK [0][-]{13.0}{Chapter 11. HighLevel Languages}{}
+\BOOKMARK [1][-]{13.57.1}{Compiled and Interpreted Languages}{13.0}
+\BOOKMARK [1][-]{13.58.1}{Your First C Program}{13.0}
+\BOOKMARK [1][-]{13.59.1}{Perl}{13.0}
+\BOOKMARK [1][-]{13.60.1}{Python}{13.0}
+\BOOKMARK [1][-]{13.61.1}{Review}{13.0}
+\BOOKMARK [2][-]{13.61.43.2}{Know the Concepts}{13.61.1}
+\BOOKMARK [2][-]{13.61.44.2}{Use the Concepts}{13.61.1}
+\BOOKMARK [2][-]{13.61.45.2}{Going Further}{13.61.1}
+\BOOKMARK [0][-]{14.0}{Chapter 12. Optimization}{}
+\BOOKMARK [1][-]{14.62.1}{When to Optimize}{14.0}
+\BOOKMARK [1][-]{14.63.1}{Where to Optimize}{14.0}
+\BOOKMARK [1][-]{14.64.1}{Local Optimizations}{14.0}
+\BOOKMARK [1][-]{14.65.1}{Global Optimization}{14.0}
+\BOOKMARK [1][-]{14.66.1}{Review}{14.0}
+\BOOKMARK [2][-]{14.66.46.2}{Know the Concepts}{14.66.1}
+\BOOKMARK [2][-]{14.66.47.2}{Use the Concepts}{14.66.1}
+\BOOKMARK [2][-]{14.66.48.2}{Going Further}{14.66.1}
+\BOOKMARK [0][-]{15.0}{Chapter 13. Moving On from Here}{}
+\BOOKMARK [1][-]{15.67.1}{From the Bottom Up}{15.0}
+\BOOKMARK [1][-]{15.68.1}{From the Top Down}{15.0}
+\BOOKMARK [1][-]{15.69.1}{From the Middle Out}{15.0}
+\BOOKMARK [1][-]{15.70.1}{Specialized Topics}{15.0}
+\BOOKMARK [1][-]{15.71.1}{Further Resources on Assembly Language}{15.0}
+\BOOKMARK [0][-]{16.0}{Appendix A. GUI Programming}{}
+\BOOKMARK [1][-]{16.71.48.1.3}{Introduction to GUI Programming}{16.0}
+\BOOKMARK [2][-]{16.71.48.2.3}{The GNOME Libraries}{16.71.48.1.3}
+\BOOKMARK [3][-]{16.71.48.3.3}{A Simple GNOME Program in Several Languages}{16.71.48.2.3}
+\BOOKMARK [3][-]{16.71.48.4.3}{GUI Builders}{16.71.48.2.3}
+\BOOKMARK [0][-]{17.0}{Appendix B. Common x86 Instructions}{}
+\BOOKMARK [1][-]{17.71.48.5.3}{Reading the Tables}{17.0}
+\BOOKMARK [2][-]{17.71.48.6.3}{Data Transfer Instructions}{17.71.48.5.3}
+\BOOKMARK [3][-]{17.71.48.7.3}{Integer Instructions}{17.71.48.6.3}
+\BOOKMARK [3][-]{17.71.48.8.3}{Logic Instructions}{17.71.48.6.3}
+\BOOKMARK [3][-]{17.71.48.9.3}{Flow Control Instructions}{17.71.48.6.3}
+\BOOKMARK [3][-]{17.71.48.10.3}{Assembler Directives}{17.71.48.6.3}
+\BOOKMARK [3][-]{17.71.48.11.3}{Differences in Other Syntaxes and Terminology}{17.71.48.6.3}
+\BOOKMARK [3][-]{17.71.48.12.3}{Where to Go for More Information}{17.71.48.6.3}
+\BOOKMARK [0][-]{18.0}{Appendix C. Important System Calls}{}
+\BOOKMARK [0][-]{19.0}{Appendix D. Table of ASCII Codes}{}
+\BOOKMARK [0][-]{20.0}{Appendix E. C Idioms in Assembly Language}{}
+\BOOKMARK [1][-]{20.71.48.13.3}{If Statement}{20.0}
+\BOOKMARK [2][-]{20.71.48.14.3}{Function Call}{20.71.48.13.3}
+\BOOKMARK [3][-]{20.71.48.15.3}{Variables and Assignment}{20.71.48.14.3}
+\BOOKMARK [3][-]{20.71.48.16.3}{Loops}{20.71.48.14.3}
+\BOOKMARK [3][-]{20.71.48.17.3}{Structs}{20.71.48.14.3}
+\BOOKMARK [3][-]{20.71.48.18.3}{Pointers}{20.71.48.14.3}
+\BOOKMARK [3][-]{20.71.48.19.3}{Getting GCC to Help}{20.71.48.14.3}
+\BOOKMARK [0][-]{21.0}{Appendix F. Using the GDB Debugger}{}
+\BOOKMARK [1][-]{21.71.48.20.3}{An Example Debugging Session}{21.0}
+\BOOKMARK [2][-]{21.71.48.21.3}{Breakpoints and Other GDB Features}{21.71.48.20.3}
+\BOOKMARK [3][-]{21.71.48.22.3}{GDB QuickReference}{21.71.48.21.3}
+\BOOKMARK [0][-]{22.0}{Appendix G. Document History}{}
+\BOOKMARK [0][-]{23.0}{Appendix H. GNU Free Documentation License}{}
+\BOOKMARK [0][-]{24.0}{Appendix I. Personal Dedication}{}
+\BOOKMARK [0][-]{25.0}{Index}{}

@@ -1,0 +1,5380 @@
+INDEXTERM #AEN33
+INDEXPOINT #AEN36
+TITLE Welcome to Programming
+significance normal
+primary programming
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN58
+TITLE Your Tools
+significance normal
+primary GNU/Linux
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN72
+TITLE Your Tools
+significance normal
+primary GNU/Linux
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN82
+TITLE Your Tools
+significance normal
+primary GNU/Linux
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN85
+TITLE Your Tools
+significance normal
+primary Knoppix
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN88
+TITLE Your Tools
+significance normal
+primary GNU/Linux
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN94
+TITLE Your Tools
+significance normal
+primary GCC
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN97
+TITLE Your Tools
+significance normal
+primary Linux
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN100
+TITLE Your Tools
+significance normal
+primary kernel
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN108
+TITLE Your Tools
+significance normal
+primary kernel
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN112
+TITLE Your Tools
+significance normal
+primary kernel
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN114
+TITLE Your Tools
+significance normal
+primary Linux
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN117
+TITLE Your Tools
+significance normal
+primary machine language
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN130
+TITLE Your Tools
+significance normal
+primary high-level languages
+/INDEXTERM
+INDEXTERM #AEN55
+INDEXPOINT #AEN135
+TITLE Your Tools
+significance normal
+primary Assembly Language
+/INDEXTERM
+INDEXTERM #computerarchitecture
+INDEXPOINT #AEN141
+TITLE Computer Architecture
+significance normal
+primary computer architecture
+/INDEXTERM
+INDEXTERM #computerarchitecture
+INDEXPOINT #AEN143
+TITLE Computer Architecture
+significance normal
+primary Von Neumann architecture
+/INDEXTERM
+INDEXTERM #computerarchitecture
+INDEXPOINT #AEN145
+TITLE Computer Architecture
+significance normal
+primary CPU
+/INDEXTERM
+INDEXTERM #AEN147
+INDEXPOINT #AEN150
+TITLE Structure of Computer Memory
+significance normal
+primary memory
+/INDEXTERM
+INDEXTERM #AEN147
+INDEXPOINT #AEN160
+TITLE Structure of Computer Memory
+significance normal
+primary memory
+/INDEXTERM
+INDEXTERM #AEN147
+INDEXPOINT #AEN178
+TITLE Structure of Computer Memory
+significance normal
+primary Von Neumann architecture
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN183
+TITLE The CPU
+significance normal
+primary CPU
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN187
+TITLE The CPU
+significance normal
+primary fetch-execute cycle
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN192
+TITLE The CPU
+significance normal
+primary program counter
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN196
+TITLE The CPU
+significance normal
+primary instruction decoder
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN200
+TITLE The CPU
+significance normal
+primary data bus
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN204
+TITLE The CPU
+significance normal
+primary general-purpose registers
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN208
+TITLE The CPU
+significance normal
+primary arithmetic and logic unit
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN212
+TITLE The CPU
+significance normal
+primary instruction decoder
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN216
+TITLE The CPU
+significance normal
+primary data bus
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN219
+TITLE The CPU
+significance normal
+primary registers
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN223
+TITLE The CPU
+significance normal
+primary general-purpose registers
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN226
+TITLE The CPU
+significance normal
+primary special-purpose registers
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN230
+TITLE The CPU
+significance normal
+primary arithmetic and logic unit
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN232
+TITLE The CPU
+significance normal
+primary data bus
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN235
+TITLE The CPU
+significance normal
+primary cache hierarchies
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN237
+TITLE The CPU
+significance normal
+primary superscalar processors
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN239
+TITLE The CPU
+significance normal
+primary pipelining
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN241
+TITLE The CPU
+significance normal
+primary branch prediction
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN243
+TITLE The CPU
+significance normal
+primary out-of-order execution
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN245
+TITLE The CPU
+significance normal
+primary microcode translation
+/INDEXTERM
+INDEXTERM #AEN180
+INDEXPOINT #AEN247
+TITLE The CPU
+significance normal
+primary coprocessors
+/INDEXTERM
+INDEXTERM #AEN249
+INDEXPOINT #AEN252
+TITLE Some Terms
+significance normal
+primary computer memory
+/INDEXTERM
+INDEXTERM #AEN249
+INDEXPOINT #AEN255
+TITLE Some Terms
+significance normal
+primary address
+/INDEXTERM
+INDEXTERM #AEN249
+INDEXPOINT #AEN258
+TITLE Some Terms
+significance normal
+primary bytes
+/INDEXTERM
+INDEXTERM #AEN249
+INDEXPOINT #AEN261
+TITLE Some Terms
+significance normal
+primary ASCII
+/INDEXTERM
+INDEXTERM #AEN249
+INDEXPOINT #AEN268
+TITLE Some Terms
+significance normal
+primary ASCII
+/INDEXTERM
+INDEXTERM #AEN249
+INDEXPOINT #AEN273
+TITLE Some Terms
+significance normal
+primary registers
+/INDEXTERM
+INDEXTERM #AEN249
+INDEXPOINT #AEN277
+TITLE Some Terms
+significance normal
+primary word
+/INDEXTERM
+INDEXTERM #AEN249
+INDEXPOINT #AEN286
+TITLE Some Terms
+significance normal
+primary pointers
+/INDEXTERM
+INDEXTERM #AEN249
+INDEXPOINT #AEN289
+TITLE Some Terms
+significance normal
+primary special-purpose register
+/INDEXTERM
+INDEXTERM #AEN249
+INDEXPOINT #AEN291
+TITLE Some Terms
+significance normal
+primary instruction pointer
+/INDEXTERM
+INDEXTERM #interpretingmemory
+INDEXPOINT #AEN302
+TITLE Interpreting Memory
+significance normal
+primary pointers
+/INDEXTERM
+INDEXTERM #dataaccessingmethods
+INDEXPOINT #AEN309
+TITLE Data Accessing Methods
+significance normal
+primary addressing modes
+/INDEXTERM
+INDEXTERM #dataaccessingmethods
+INDEXPOINT #AEN312
+TITLE Data Accessing Methods
+significance normal
+primary immediate mode addressing
+/INDEXTERM
+INDEXTERM #dataaccessingmethods
+INDEXPOINT #AEN316
+TITLE Data Accessing Methods
+significance normal
+primary register addressing mode
+/INDEXTERM
+INDEXTERM #dataaccessingmethods
+INDEXPOINT #AEN320
+TITLE Data Accessing Methods
+significance normal
+primary direct addressing mode
+/INDEXTERM
+INDEXTERM #dataaccessingmethods
+INDEXPOINT #AEN324
+TITLE Data Accessing Methods
+significance normal
+primary indexed addressing mode
+/INDEXTERM
+INDEXTERM #dataaccessingmethods
+INDEXPOINT #AEN327
+TITLE Data Accessing Methods
+significance normal
+primary index register
+/INDEXTERM
+INDEXTERM #dataaccessingmethods
+INDEXPOINT #AEN330
+TITLE Data Accessing Methods
+significance normal
+primary multiplier
+/INDEXTERM
+INDEXTERM #dataaccessingmethods
+INDEXPOINT #AEN334
+TITLE Data Accessing Methods
+significance normal
+primary indirect addressing mode
+/INDEXTERM
+INDEXTERM #dataaccessingmethods
+INDEXPOINT #AEN340
+TITLE Data Accessing Methods
+significance normal
+primary base pointer addressing mode
+/INDEXTERM
+INDEXTERM #dataaccessingmethods
+INDEXPOINT #AEN343
+TITLE Data Accessing Methods
+significance normal
+primary offset
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN407
+TITLE Entering in the Program
+significance normal
+primary source code
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN410
+TITLE Entering in the Program
+significance normal
+primary assemble
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN413
+TITLE Entering in the Program
+significance normal
+primary link
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN418
+TITLE Entering in the Program
+significance normal
+primary assembly language
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN422
+TITLE Entering in the Program
+significance normal
+primary as
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN426
+TITLE Entering in the Program
+significance normal
+primary source file
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN432
+TITLE Entering in the Program
+significance normal
+primary object file
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN435
+TITLE Entering in the Program
+significance normal
+primary linker
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN438
+TITLE Entering in the Program
+significance normal
+primary link
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN442
+TITLE Entering in the Program
+significance normal
+primary ld
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN456
+TITLE Entering in the Program
+significance normal
+primary ./
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN462
+TITLE Entering in the Program
+significance normal
+primary echo
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN464
+TITLE Entering in the Program
+significance normal
+primary $?
+/INDEXTERM
+INDEXTERM #AEN399
+INDEXPOINT #AEN469
+TITLE Entering in the Program
+significance normal
+primary exit status code
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN477
+TITLE Outline of an Assembly Language Program
+significance normal
+primary comments
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN492
+TITLE Outline of an Assembly Language Program
+significance normal
+primary assembler directives
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN495
+TITLE Outline of an Assembly Language Program
+significance normal
+primary pseudo-operations
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN498
+TITLE Outline of an Assembly Language Program
+significance normal
+primary .section
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN501
+TITLE Outline of an Assembly Language Program
+significance normal
+primary data section
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN505
+TITLE Outline of an Assembly Language Program
+significance normal
+primary .text
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN508
+TITLE Outline of an Assembly Language Program
+significance normal
+primary text section
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN513
+TITLE Outline of an Assembly Language Program
+significance normal
+primary _start
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN518
+TITLE Outline of an Assembly Language Program
+significance normal
+primary symbol
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN522
+TITLE Outline of an Assembly Language Program
+significance normal
+primary .globl
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN526
+TITLE Outline of an Assembly Language Program
+significance normal
+primary _start
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN535
+TITLE Outline of an Assembly Language Program
+significance normal
+primary _start
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN538
+TITLE Outline of an Assembly Language Program
+significance normal
+primary labels
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN540
+TITLE Outline of an Assembly Language Program
+significance normal
+primary symbol
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN542
+TITLE Outline of an Assembly Language Program
+significance normal
+primary assembler
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN550
+TITLE Outline of an Assembly Language Program
+significance normal
+primary operands
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN553
+TITLE Outline of an Assembly Language Program
+significance normal
+primary movl
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN561
+TITLE Outline of an Assembly Language Program
+significance normal
+primary addl
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN564
+TITLE Outline of an Assembly Language Program
+significance normal
+primary subl
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN567
+TITLE Outline of an Assembly Language Program
+significance normal
+primary imull
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN570
+TITLE Outline of an Assembly Language Program
+significance normal
+primary idivl
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN577
+TITLE Outline of an Assembly Language Program
+significance normal
+primary general-purpose registers
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN586
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN592
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN598
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %ecx
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN604
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %edx
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN610
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %edi
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN616
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %esi
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN620
+TITLE Outline of an Assembly Language Program
+significance normal
+primary special-purpose registers
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN626
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN632
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN638
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %eip
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN644
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %eflags
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN657
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %eip
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN661
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %eflags
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN666
+TITLE Outline of an Assembly Language Program
+significance normal
+primary movl
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN671
+TITLE Outline of an Assembly Language Program
+significance normal
+primary immediate mode addressing
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN674
+TITLE Outline of an Assembly Language Program
+significance normal
+primary direct addressing mode
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN682
+TITLE Outline of an Assembly Language Program
+significance normal
+primary exit
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN686
+TITLE Outline of an Assembly Language Program
+significance normal
+primary system call
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN688
+TITLE Outline of an Assembly Language Program
+significance normal
+primary system calls
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN691
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN697
+TITLE Outline of an Assembly Language Program
+significance normal
+primary parameters
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN701
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN709
+TITLE Outline of an Assembly Language Program
+significance normal
+primary registers
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN712
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN716
+TITLE Outline of an Assembly Language Program
+significance normal
+primary exit
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN719
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN722
+TITLE Outline of an Assembly Language Program
+significance normal
+primary exit status code
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN729
+TITLE Outline of an Assembly Language Program
+significance normal
+primary int
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN732
+TITLE Outline of an Assembly Language Program
+significance normal
+primary interrupts
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN735
+TITLE Outline of an Assembly Language Program
+significance normal
+primary 0x80
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN741
+TITLE Outline of an Assembly Language Program
+significance normal
+primary hexadecimal
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN751
+TITLE Outline of an Assembly Language Program
+significance normal
+primary interrupts
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN753
+TITLE Outline of an Assembly Language Program
+significance normal
+primary Linux
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN758
+TITLE Outline of an Assembly Language Program
+significance normal
+primary Larry-Boy
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN765
+TITLE Outline of an Assembly Language Program
+significance normal
+primary system calls
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN769
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN773
+TITLE Outline of an Assembly Language Program
+significance normal
+primary status code
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN776
+TITLE Outline of an Assembly Language Program
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN782
+TITLE Outline of an Assembly Language Program
+significance normal
+primary echo
+/INDEXTERM
+INDEXTERM #assemblyoutline
+INDEXPOINT #AEN784
+TITLE Outline of an Assembly Language Program
+significance normal
+primary $?
+/INDEXTERM
+INDEXTERM #AEN786
+INDEXPOINT #AEN836
+TITLE Planning the Program
+significance normal
+primary flow control
+/INDEXTERM
+INDEXTERM #AEN786
+INDEXPOINT #AEN839
+TITLE Planning the Program
+significance normal
+primary conditional jump
+/INDEXTERM
+INDEXTERM #AEN786
+INDEXPOINT #AEN841
+TITLE Planning the Program
+significance normal
+primary unconditional jump
+/INDEXTERM
+INDEXTERM #AEN786
+INDEXPOINT #AEN844
+TITLE Planning the Program
+significance normal
+primary flow control
+/INDEXTERM
+INDEXTERM #AEN786
+INDEXPOINT #AEN846
+TITLE Planning the Program
+significance normal
+primary loops
+/INDEXTERM
+INDEXTERM #AEN786
+INDEXPOINT #AEN850
+TITLE Planning the Program
+significance normal
+primary infinite loop
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN864
+TITLE Finding a Maximum Value
+significance normal
+primary data section
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN869
+TITLE Finding a Maximum Value
+significance normal
+primary labels
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN872
+TITLE Finding a Maximum Value
+significance normal
+primary .long
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN880
+TITLE Finding a Maximum Value
+significance normal
+primary .long
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN886
+TITLE Finding a Maximum Value
+significance normal
+primary .byte
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN893
+TITLE Finding a Maximum Value
+significance normal
+primary .int
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN905
+TITLE Finding a Maximum Value
+significance normal
+primary .long
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN912
+TITLE Finding a Maximum Value
+significance normal
+primary .ascii
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN921
+TITLE Finding a Maximum Value
+significance normal
+primary \0
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN924
+TITLE Finding a Maximum Value
+significance normal
+primary \n
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN926
+TITLE Finding a Maximum Value
+significance normal
+primary newline
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN929
+TITLE Finding a Maximum Value
+significance normal
+primary \t
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN931
+TITLE Finding a Maximum Value
+significance normal
+primary tab
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN940
+TITLE Finding a Maximum Value
+significance normal
+primary .globl
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN944
+TITLE Finding a Maximum Value
+significance normal
+primary _start
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN948
+TITLE Finding a Maximum Value
+significance normal
+primary exit status code
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN953
+TITLE Finding a Maximum Value
+significance normal
+primary variables
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN963
+TITLE Finding a Maximum Value
+significance normal
+primary registers
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN969
+TITLE Finding a Maximum Value
+significance normal
+primary index
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN973
+TITLE Finding a Maximum Value
+significance normal
+primary index
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN981
+TITLE Finding a Maximum Value
+significance normal
+primary movl
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN997
+TITLE Finding a Maximum Value
+significance normal
+primary indexed addressing mode
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1003
+TITLE Finding a Maximum Value
+significance normal
+primary index register
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1015
+TITLE Finding a Maximum Value
+significance normal
+primary multiplier
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1026
+TITLE Finding a Maximum Value
+significance normal
+primary movl
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1035
+TITLE Finding a Maximum Value
+significance normal
+primary movl
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1040
+TITLE Finding a Maximum Value
+significance normal
+primary loop
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1061
+TITLE Finding a Maximum Value
+significance normal
+primary cmpl
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1065
+TITLE Finding a Maximum Value
+significance normal
+primary %eflags
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1068
+TITLE Finding a Maximum Value
+significance normal
+primary status register
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1070
+TITLE Finding a Maximum Value
+significance normal
+primary flow control
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1119
+TITLE Finding a Maximum Value
+significance normal
+primary _start
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1122
+TITLE Finding a Maximum Value
+significance normal
+primary .globl
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1128
+TITLE Finding a Maximum Value
+significance normal
+primary index
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1132
+TITLE Finding a Maximum Value
+significance normal
+primary incl
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1148
+TITLE Finding a Maximum Value
+significance normal
+primary system call
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1151
+TITLE Finding a Maximum Value
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1155
+TITLE Finding a Maximum Value
+significance normal
+primary exit status code
+/INDEXTERM
+INDEXTERM #maximum
+INDEXPOINT #AEN1158
+TITLE Finding a Maximum Value
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1170
+TITLE Addressing Modes
+significance normal
+primary addressing modes
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1173
+TITLE Addressing Modes
+significance normal
+primary memory address
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1186
+TITLE Addressing Modes
+significance normal
+primary direct addressing mode
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1196
+TITLE Addressing Modes
+significance normal
+primary indexed addressing mode
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1202
+TITLE Addressing Modes
+significance normal
+primary multiplier
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1204
+TITLE Addressing Modes
+significance normal
+primary index register
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1215
+TITLE Addressing Modes
+significance normal
+primary indirect addressing mode
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1224
+TITLE Addressing Modes
+significance normal
+primary base pointer addressing mode
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1233
+TITLE Addressing Modes
+significance normal
+primary immediate mode addressing
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1242
+TITLE Addressing Modes
+significance normal
+primary register addressing mode
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1247
+TITLE Addressing Modes
+significance normal
+primary destination operand
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1249
+TITLE Addressing Modes
+significance normal
+primary source operand
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1253
+TITLE Addressing Modes
+significance normal
+primary word
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1255
+TITLE Addressing Modes
+significance normal
+primary bytes
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1258
+TITLE Addressing Modes
+significance normal
+primary movb
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1263
+TITLE Addressing Modes
+significance normal
+primary %ax
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1269
+TITLE Addressing Modes
+significance normal
+primary %al
+/INDEXTERM
+INDEXTERM #movaddrmodes
+INDEXPOINT #AEN1272
+TITLE Addressing Modes
+significance normal
+primary %ah
+/INDEXTERM
+INDEXTERM #AEN1372
+INDEXPOINT #AEN1379
+TITLE Dealing with Complexity
+significance normal
+primary functions
+/INDEXTERM
+INDEXTERM #AEN1372
+INDEXPOINT #AEN1384
+TITLE Dealing with Complexity
+significance normal
+primary parameters
+/INDEXTERM
+INDEXTERM #AEN1372
+INDEXPOINT #AEN1389
+TITLE Dealing with Complexity
+significance normal
+primary primitive functions
+/INDEXTERM
+INDEXTERM #AEN1372
+INDEXPOINT #AEN1392
+TITLE Dealing with Complexity
+significance normal
+primary primitives
+/INDEXTERM
+INDEXTERM #AEN1372
+INDEXPOINT #AEN1394
+TITLE Dealing with Complexity
+significance normal
+primary system calls
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1404
+TITLE How Functions Work
+significance normal
+primary symbol
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1406
+TITLE How Functions Work
+significance normal
+primary labels
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1412
+TITLE How Functions Work
+significance normal
+primary parameters
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1420
+TITLE How Functions Work
+significance normal
+primary local variables
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1426
+TITLE How Functions Work
+significance normal
+primary static variables
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1438
+TITLE How Functions Work
+significance normal
+primary return address
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1441
+TITLE How Functions Work
+significance normal
+primary call
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1444
+TITLE How Functions Work
+significance normal
+primary ret
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1450
+TITLE How Functions Work
+significance normal
+primary return value
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1453
+TITLE How Functions Work
+significance normal
+primary global variables
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1457
+TITLE How Functions Work
+significance normal
+primary calling conventions
+/INDEXTERM
+INDEXTERM #howfunctionswork
+INDEXPOINT #AEN1463
+TITLE How Functions Work
+significance normal
+primary C programming language
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1469
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1472
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1475
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary pushl
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1477
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack memory
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1480
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary popl
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1483
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack register
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1486
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1489
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary pointer
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1502
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1505
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary indirect addressing mode
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1514
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary indirect addressing mode
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1517
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1522
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary base pointer addressing mode
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1526
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1530
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary C language calling convention
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1533
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary functions
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1535
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary parameters
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1538
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary call
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1541
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary return address
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1543
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1545
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary instruction pointer
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1548
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %eip
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1554
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary base pointer register
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1557
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1561
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary special register
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1563
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary function parameters
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1565
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary local variables
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1567
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack pointer
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1570
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1576
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1580
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack frame
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1582
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary parameters
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1584
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary local variables
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1586
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary return address
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1591
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary base pointer addressing mode
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1594
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1598
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary local variables
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1600
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack pointer
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1607
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary immediate mode addressing
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1613
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary base pointer addressing mode
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1616
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1620
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1623
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary base pointer register
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1626
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1630
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+ZONE #callingwritingassemblyfunctions
+TITLE Assembly-Language Functions using the C Calling Convention
+primary static variables
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1632
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+ZONE #callingwritingassemblyfunctions
+TITLE Assembly-Language Functions using the C Calling Convention
+primary global variables
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1639
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1644
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack frame
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1649
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary ret
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1651
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary instruction pointer
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1654
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %eip
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1659
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack pointer
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1662
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1665
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary base pointer
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1668
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1675
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary local variables
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1679
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1682
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary return value
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1684
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack pointer
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1687
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1696
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary functions
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1698
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary registers
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1701
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1705
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1709
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %edi
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1713
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %esi
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1718
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1721
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary stack
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1725
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary calling conventions
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1730
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary calling convention
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1732
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary ABI
+/INDEXTERM
+INDEXTERM #callingwritingassemblyfunctions
+INDEXPOINT #AEN1734
+TITLE Assembly-Language Functions using the C Calling Convention
+significance normal
+primary Application Binary Interface
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1740
+TITLE A Function Example
+significance normal
+primary function call
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1752
+TITLE A Function Example
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1760
+TITLE A Function Example
+significance normal
+primary .type
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1762
+TITLE A Function Example
+significance normal
+primary @functions
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1772
+TITLE A Function Example
+significance normal
+primary call
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1775
+TITLE A Function Example
+significance normal
+primary jmp
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1784
+TITLE A Function Example
+significance normal
+primary local variables
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1786
+TITLE A Function Example
+significance normal
+primary pointer
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1788
+TITLE A Function Example
+significance normal
+primary register
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1796
+TITLE A Function Example
+significance normal
+primary imull
+/INDEXTERM
+INDEXTERM #AEN1737
+INDEXPOINT #AEN1799
+TITLE A Function Example
+significance normal
+primary decl
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1809
+TITLE Recursive Functions
+significance normal
+primary recursive
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1811
+TITLE Recursive Functions
+significance normal
+primary functions
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1814
+TITLE Recursive Functions
+significance normal
+primary base case
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1826
+TITLE Recursive Functions
+significance normal
+primary local variables
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1830
+TITLE Recursive Functions
+significance normal
+primary stack frame
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1840
+TITLE Recursive Functions
+significance normal
+primary parameters
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1843
+TITLE Recursive Functions
+significance normal
+primary parameters
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1847
+TITLE Recursive Functions
+significance normal
+primary pushl
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1850
+TITLE Recursive Functions
+significance normal
+primary call
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1862
+TITLE Recursive Functions
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1866
+TITLE Recursive Functions
+significance normal
+primary return value
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1869
+TITLE Recursive Functions
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1873
+TITLE Recursive Functions
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1886
+TITLE Recursive Functions
+significance normal
+primary call
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1895
+TITLE Recursive Functions
+significance normal
+primary .type
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1906
+TITLE Recursive Functions
+significance normal
+primary stack frame
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1911
+TITLE Recursive Functions
+significance normal
+primary base pointer addressing mode
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1913
+TITLE Recursive Functions
+significance normal
+primary parameter
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1924
+TITLE Recursive Functions
+significance normal
+primary return values
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1933
+TITLE Recursive Functions
+significance normal
+primary decl
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1937
+TITLE Recursive Functions
+significance normal
+primary incl
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1956
+TITLE Recursive Functions
+significance normal
+primary return value
+/INDEXTERM
+INDEXTERM #recursivefunctions
+INDEXPOINT #AEN1967
+TITLE Recursive Functions
+significance normal
+primary call
+/INDEXTERM
+INDEXTERM #filesch
+INDEXPOINT #AEN2027
+TITLE Dealing with Files
+significance normal
+primary files
+/INDEXTERM
+INDEXTERM #filesch
+INDEXPOINT #AEN2030
+TITLE Dealing with Files
+significance normal
+primary persistance
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2036
+TITLE The UNIX File Concept
+significance normal
+primary file descriptors
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2043
+TITLE The UNIX File Concept
+significance normal
+primary open
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2045
+TITLE The UNIX File Concept
+significance normal
+primary permissions
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2048
+TITLE The UNIX File Concept
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2052
+TITLE The UNIX File Concept
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2056
+TITLE The UNIX File Concept
+significance normal
+primary %ecx
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2063
+TITLE The UNIX File Concept
+significance normal
+primary %edx
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2068
+TITLE The UNIX File Concept
+significance normal
+primary file descriptors
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2071
+TITLE The UNIX File Concept
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2077
+TITLE The UNIX File Concept
+significance normal
+primary read
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2086
+TITLE The UNIX File Concept
+significance normal
+primary write
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2093
+TITLE The UNIX File Concept
+significance normal
+primary file descriptors
+/INDEXTERM
+INDEXTERM #AEN2032
+INDEXPOINT #AEN2096
+TITLE The UNIX File Concept
+significance normal
+primary close
+/INDEXTERM
+INDEXTERM #buffersbss
+INDEXPOINT #AEN2104
+TITLE Buffers and .bss
+significance normal
+primary buffers
+/INDEXTERM
+INDEXTERM #buffersbss
+INDEXPOINT #AEN2110
+TITLE Buffers and .bss
+significance normal
+primary buffers
+/INDEXTERM
+INDEXTERM #buffersbss
+INDEXPOINT #AEN2118
+TITLE Buffers and .bss
+significance normal
+primary .byte
+/INDEXTERM
+INDEXTERM #buffersbss
+INDEXPOINT #AEN2122
+TITLE Buffers and .bss
+significance normal
+primary .text
+/INDEXTERM
+INDEXTERM #buffersbss
+INDEXPOINT #AEN2125
+TITLE Buffers and .bss
+significance normal
+primary .data
+/INDEXTERM
+INDEXTERM #buffersbss
+INDEXPOINT #AEN2128
+TITLE Buffers and .bss
+significance normal
+primary .bss
+/INDEXTERM
+INDEXTERM #buffersbss
+INDEXPOINT #AEN2135
+TITLE Buffers and .bss
+significance normal
+primary .lcomm
+/INDEXTERM
+INDEXTERM #buffersbss
+INDEXPOINT #AEN2143
+TITLE Buffers and .bss
+significance normal
+primary direct addressing mode
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2151
+TITLE Standard and Special Files
+significance normal
+primary file descriptors
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2156
+TITLE Standard and Special Files
+significance normal
+primary STDIN
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2161
+TITLE Standard and Special Files
+significance normal
+primary standard input
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2167
+TITLE Standard and Special Files
+significance normal
+primary STDOUT
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2172
+TITLE Standard and Special Files
+significance normal
+primary standard output
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2176
+TITLE Standard and Special Files
+significance normal
+primary STDERR
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2181
+TITLE Standard and Special Files
+significance normal
+primary standard error
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2186
+TITLE Standard and Special Files
+significance normal
+primary files
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2188
+TITLE Standard and Special Files
+significance normal
+primary command-line
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2190
+TITLE Standard and Special Files
+significance normal
+primary file descriptors
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2193
+TITLE Standard and Special Files
+significance normal
+primary files
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2195
+TITLE Standard and Special Files
+significance normal
+primary special files
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2197
+TITLE Standard and Special Files
+significance normal
+primary pipes
+/INDEXTERM
+INDEXTERM #AEN2148
+INDEXPOINT #AEN2199
+TITLE Standard and Special Files
+significance normal
+primary regular files
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2221
+TITLE Using Files in a Program
+significance normal
+primary .equ
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2224
+TITLE Using Files in a Program
+significance normal
+primary 0x80
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2231
+TITLE Using Files in a Program
+significance normal
+primary labels
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2246
+TITLE Using Files in a Program
+significance normal
+primary constants
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2251
+TITLE Using Files in a Program
+significance normal
+primary .equ
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2255
+TITLE Using Files in a Program
+significance normal
+primary buffer
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2267
+TITLE Using Files in a Program
+significance normal
+primary ASCII
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2274
+TITLE Using Files in a Program
+significance normal
+primary function parameters
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2277
+TITLE Using Files in a Program
+significance normal
+primary return address
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2295
+TITLE Using Files in a Program
+significance normal
+primary indexed indirect addressing mode
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2310
+TITLE Using Files in a Program
+significance normal
+primary open
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2316
+TITLE Using Files in a Program
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2322
+TITLE Using Files in a Program
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2325
+TITLE Using Files in a Program
+significance normal
+primary null character
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2330
+TITLE Using Files in a Program
+significance normal
+primary %ecx
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2337
+TITLE Using Files in a Program
+significance normal
+primary %edx
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2343
+TITLE Using Files in a Program
+significance normal
+primary octal
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2346
+TITLE Using Files in a Program
+significance normal
+primary permissions
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2349
+TITLE Using Files in a Program
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2353
+TITLE Using Files in a Program
+significance normal
+primary command-line
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2359
+TITLE Using Files in a Program
+significance normal
+primary argv
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2365
+TITLE Using Files in a Program
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2369
+TITLE Using Files in a Program
+significance normal
+primary %ecx
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2374
+TITLE Using Files in a Program
+significance normal
+primary %edx
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2378
+TITLE Using Files in a Program
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2382
+TITLE Using Files in a Program
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2389
+TITLE Using Files in a Program
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2396
+TITLE Using Files in a Program
+significance normal
+primary read
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2398
+TITLE Using Files in a Program
+significance normal
+primary buffer
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2402
+TITLE Using Files in a Program
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2409
+TITLE Using Files in a Program
+significance normal
+primary write
+/INDEXTERM
+INDEXTERM #AEN2204
+INDEXPOINT #AEN2414
+TITLE Using Files in a Program
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #records
+INDEXPOINT #AEN2471
+TITLE Reading and Writing Simple Records
+significance normal
+primary persistent
+/INDEXTERM
+INDEXTERM #records
+INDEXPOINT #AEN2473
+TITLE Reading and Writing Simple Records
+significance normal
+primary unstructured data
+/INDEXTERM
+INDEXTERM #records
+INDEXPOINT #AEN2477
+TITLE Reading and Writing Simple Records
+significance normal
+primary structured data
+/INDEXTERM
+INDEXTERM #records
+INDEXPOINT #AEN2479
+TITLE Reading and Writing Simple Records
+significance normal
+primary fields
+/INDEXTERM
+INDEXTERM #records
+INDEXPOINT #AEN2481
+TITLE Reading and Writing Simple Records
+significance normal
+primary records
+/INDEXTERM
+INDEXTERM #records
+INDEXPOINT #AEN2483
+TITLE Reading and Writing Simple Records
+significance normal
+primary database
+/INDEXTERM
+INDEXTERM #records
+INDEXPOINT #AEN2489
+TITLE Reading and Writing Simple Records
+significance normal
+primary records
+/INDEXTERM
+INDEXTERM #records
+INDEXPOINT #AEN2502
+TITLE Reading and Writing Simple Records
+significance normal
+primary offsets
+/INDEXTERM
+INDEXTERM #records
+INDEXPOINT #AEN2504
+TITLE Reading and Writing Simple Records
+significance normal
+primary base pointer addressing mode
+/INDEXTERM
+INDEXTERM #records
+INDEXPOINT #AEN2509
+TITLE Reading and Writing Simple Records
+significance normal
+primary constants
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2539
+TITLE Writing Records
+significance normal
+primary .rept
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2541
+TITLE Writing Records
+significance normal
+primary .endr
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2543
+TITLE Writing Records
+significance normal
+primary padding
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2545
+TITLE Writing Records
+significance normal
+primary null
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2550
+TITLE Writing Records
+significance normal
+primary .data
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2556
+TITLE Writing Records
+significance normal
+primary .include
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2558
+TITLE Writing Records
+significance normal
+primary linker
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2561
+TITLE Writing Records
+significance normal
+primary .globl
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2563
+TITLE Writing Records
+significance normal
+primary constants
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2567
+TITLE Writing Records
+significance normal
+primary .rept
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2571
+TITLE Writing Records
+significance normal
+primary .endr
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2574
+TITLE Writing Records
+significance normal
+primary pad
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2577
+TITLE Writing Records
+significance normal
+primary .data
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2579
+TITLE Writing Records
+significance normal
+primary null characters
+/INDEXTERM
+INDEXTERM #AEN2527
+INDEXPOINT #AEN2584
+TITLE Writing Records
+significance normal
+primary linker
+/INDEXTERM
+INDEXTERM #AEN2589
+INDEXPOINT #AEN2593
+TITLE Reading Records
+significance normal
+primary null characters
+/INDEXTERM
+INDEXTERM #AEN2589
+INDEXPOINT #AEN2598
+TITLE Reading Records
+significance normal
+primary strlen
+/INDEXTERM
+INDEXTERM #AEN2589
+INDEXPOINT #AEN2638
+TITLE Reading Records
+significance normal
+primary constants
+/INDEXTERM
+INDEXTERM #AEN2589
+INDEXPOINT #AEN2641
+TITLE Reading Records
+significance normal
+primary .equ
+/INDEXTERM
+INDEXTERM #AEN2589
+INDEXPOINT #AEN2643
+TITLE Reading Records
+significance normal
+primary assembler
+/INDEXTERM
+INDEXTERM #AEN2589
+INDEXPOINT #AEN2645
+TITLE Reading Records
+significance normal
+primary address
+/INDEXTERM
+INDEXTERM #AEN2589
+INDEXPOINT #AEN2647
+TITLE Reading Records
+significance normal
+primary immediate mode addressing
+/INDEXTERM
+INDEXTERM #AEN2589
+INDEXPOINT #AEN2651
+TITLE Reading Records
+significance normal
+primary constants
+/INDEXTERM
+INDEXTERM #AEN2718
+INDEXPOINT #AEN2730
+TITLE Going Further
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #developingrobustprograms
+INDEXPOINT #AEN2743
+TITLE Developing Robust Programs
+significance normal
+primary robust
+/INDEXTERM
+INDEXTERM #developingrobustprograms
+INDEXPOINT #AEN2745
+TITLE Developing Robust Programs
+significance normal
+primary error conditions
+/INDEXTERM
+INDEXTERM #AEN2747
+INDEXPOINT #AEN2763
+TITLE Where Does the Time Go?
+significance normal
+primary robust
+/INDEXTERM
+INDEXTERM #AEN2747
+INDEXPOINT #AEN2767
+TITLE Where Does the Time Go?
+significance normal
+primary status code
+/INDEXTERM
+INDEXTERM #AEN2747
+INDEXPOINT #AEN2770
+TITLE Where Does the Time Go?
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN2747
+INDEXPOINT #AEN2774
+TITLE Where Does the Time Go?
+significance normal
+primary error conditions
+/INDEXTERM
+INDEXTERM #AEN2747
+INDEXPOINT #AEN2776
+TITLE Where Does the Time Go?
+significance normal
+primary robust
+/INDEXTERM
+INDEXTERM #AEN2780
+INDEXPOINT #AEN2783
+TITLE User Testing
+significance normal
+primary testing
+/INDEXTERM
+INDEXTERM #AEN2780
+INDEXPOINT #AEN2787
+TITLE User Testing
+significance normal
+primary testing
+/INDEXTERM
+INDEXTERM #AEN2780
+INDEXPOINT #AEN2789
+TITLE User Testing
+significance normal
+primary robust
+/INDEXTERM
+INDEXTERM #AEN2791
+INDEXPOINT #AEN2795
+TITLE Data Testing
+significance normal
+primary corner cases
+/INDEXTERM
+INDEXTERM #AEN2791
+INDEXPOINT #AEN2798
+TITLE Data Testing
+significance normal
+primary edge cases
+/INDEXTERM
+INDEXTERM #AEN2791
+INDEXPOINT #AEN2821
+TITLE Data Testing
+significance normal
+primary assert
+/INDEXTERM
+INDEXTERM #AEN2825
+INDEXPOINT #AEN2830
+TITLE Module Testing
+significance normal
+primary drivers
+/INDEXTERM
+INDEXTERM #AEN2825
+INDEXPOINT #AEN2834
+TITLE Module Testing
+significance normal
+primary stub
+/INDEXTERM
+INDEXTERM #AEN2841
+INDEXPOINT #AEN2844
+TITLE Have an Error Code for Everything
+significance normal
+primary error code
+/INDEXTERM
+INDEXTERM #AEN2841
+INDEXPOINT #AEN2848
+TITLE Have an Error Code for Everything
+significance normal
+ZONE #handlingerrors
+TITLE Handling Errors Effectively
+primary error messages
+/INDEXTERM
+INDEXTERM #AEN2851
+INDEXPOINT #AEN2855
+TITLE Recovery Points
+significance normal
+primary recovery points
+/INDEXTERM
+INDEXTERM #AEN2851
+INDEXPOINT #AEN2858
+TITLE Recovery Points
+significance normal
+primary error messages
+/INDEXTERM
+INDEXTERM #AEN2851
+INDEXPOINT #AEN2861
+TITLE Recovery Points
+significance normal
+primary recovery points
+/INDEXTERM
+INDEXTERM #AEN2851
+INDEXPOINT #AEN2864
+TITLE Recovery Points
+significance normal
+primary recovery points
+/INDEXTERM
+INDEXTERM #AEN2866
+INDEXPOINT #AEN2879
+TITLE Making Our Program More Robust
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN2866
+INDEXPOINT #AEN2885
+TITLE Making Our Program More Robust
+significance normal
+primary system call
+/INDEXTERM
+INDEXTERM #AEN2866
+INDEXPOINT #AEN2887
+TITLE Making Our Program More Robust
+significance normal
+primary function call
+/INDEXTERM
+INDEXTERM #AEN2866
+INDEXPOINT #AEN2889
+TITLE Making Our Program More Robust
+significance normal
+primary instruction
+/INDEXTERM
+INDEXTERM #AEN2866
+INDEXPOINT #AEN2891
+TITLE Making Our Program More Robust
+significance normal
+primary error checking
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2945
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary functions
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2956
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary skeleton code
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2959
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary shared libraries
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2961
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary dynamic libraries
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2971
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary shared libraries
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2974
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary dynamic libraries
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2977
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary shared objects
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2980
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary dynamic-link libraries
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2983
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary DLLs
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2989
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary position-independent code
+/INDEXTERM
+INDEXTERM #linking
+INDEXPOINT #AEN2991
+TITLE Sharing Functions with Code Libraries
+significance normal
+primary PIC
+/INDEXTERM
+INDEXTERM #AEN2994
+INDEXPOINT #AEN3005
+TITLE Using a Dynamic Library
+significance normal
+primary dynamic libraries
+/INDEXTERM
+INDEXTERM #AEN2994
+INDEXPOINT #AEN3012
+TITLE Using a Dynamic Library
+significance normal
+primary -dynamic-linker
+/INDEXTERM
+INDEXTERM #AEN2994
+INDEXPOINT #AEN3016
+TITLE Using a Dynamic Library
+significance normal
+primary dynamic linker
+/INDEXTERM
+INDEXTERM #AEN2994
+INDEXPOINT #AEN3026
+TITLE Using a Dynamic Library
+significance normal
+primary printf
+/INDEXTERM
+INDEXTERM #AEN2994
+INDEXPOINT #AEN3029
+TITLE Using a Dynamic Library
+significance normal
+primary exit
+/INDEXTERM
+INDEXTERM #AEN2994
+INDEXPOINT #AEN3034
+TITLE Using a Dynamic Library
+significance normal
+primary dynamic linking
+/INDEXTERM
+INDEXTERM #AEN2994
+INDEXPOINT #AEN3036
+TITLE Using a Dynamic Library
+significance normal
+primary dynamic linker
+/INDEXTERM
+INDEXTERM #AEN2994
+INDEXPOINT #AEN3038
+TITLE Using a Dynamic Library
+significance normal
+primary dynamic libraries
+/INDEXTERM
+INDEXTERM #AEN3040
+INDEXPOINT #AEN3044
+TITLE How Dynamic Libraries Work
+significance normal
+primary statically-linked
+/INDEXTERM
+INDEXTERM #AEN3040
+INDEXPOINT #AEN3049
+TITLE How Dynamic Libraries Work
+significance normal
+primary dynamically-linked
+/INDEXTERM
+INDEXTERM #AEN3040
+INDEXPOINT #AEN3056
+TITLE How Dynamic Libraries Work
+significance normal
+primary symbols
+/INDEXTERM
+INDEXTERM #AEN3040
+INDEXPOINT #AEN3061
+TITLE How Dynamic Libraries Work
+significance normal
+primary /lib/ld-linux.so.2
+/INDEXTERM
+INDEXTERM #AEN3040
+INDEXPOINT #AEN3063
+TITLE How Dynamic Libraries Work
+significance normal
+primary dynamic linker
+/INDEXTERM
+INDEXTERM #AEN3040
+INDEXPOINT #AEN3069
+TITLE How Dynamic Libraries Work
+significance normal
+primary /etc/ld.so.conf
+/INDEXTERM
+INDEXTERM #AEN3040
+INDEXPOINT #AEN3072
+TITLE How Dynamic Libraries Work
+significance normal
+primary LD_LIBRARY_PATH
+/INDEXTERM
+INDEXTERM #AEN3040
+INDEXPOINT #AEN3080
+TITLE How Dynamic Libraries Work
+significance normal
+primary ldd
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3097
+TITLE Finding Information about Libraries
+significance normal
+primary calling interface
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3100
+TITLE Finding Information about Libraries
+significance normal
+primary prototype
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3104
+TITLE Finding Information about Libraries
+significance normal
+primary functions
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3106
+TITLE Finding Information about Libraries
+significance normal
+primary C programming language
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3111
+TITLE Finding Information about Libraries
+significance normal
+primary parameters
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3117
+TITLE Finding Information about Libraries
+significance normal
+primary char
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3120
+TITLE Finding Information about Libraries
+significance normal
+primary *
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3127
+TITLE Finding Information about Libraries
+significance normal
+primary printf
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3129
+TITLE Finding Information about Libraries
+significance normal
+primary null character
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3133
+TITLE Finding Information about Libraries
+significance normal
+primary int
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3136
+TITLE Finding Information about Libraries
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3143
+TITLE Finding Information about Libraries
+significance normal
+primary ...
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3162
+TITLE Finding Information about Libraries
+significance normal
+primary printf
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3171
+TITLE Finding Information about Libraries
+significance normal
+primary C programming language
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3173
+TITLE Finding Information about Libraries
+significance normal
+primary prototypes
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3179
+TITLE Finding Information about Libraries
+significance normal
+primary int
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3187
+TITLE Finding Information about Libraries
+significance normal
+primary long
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3195
+TITLE Finding Information about Libraries
+significance normal
+primary long long
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3204
+TITLE Finding Information about Libraries
+significance normal
+primary short
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3212
+TITLE Finding Information about Libraries
+significance normal
+primary char
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3220
+TITLE Finding Information about Libraries
+significance normal
+primary float
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3229
+TITLE Finding Information about Libraries
+significance normal
+primary double
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3237
+TITLE Finding Information about Libraries
+significance normal
+primary unsigned
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3246
+TITLE Finding Information about Libraries
+significance normal
+primary *
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3253
+TITLE Finding Information about Libraries
+significance normal
+primary direct addressing mode
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3258
+TITLE Finding Information about Libraries
+significance normal
+primary immediate mode addressing
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3260
+TITLE Finding Information about Libraries
+significance normal
+primary array
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3265
+TITLE Finding Information about Libraries
+significance normal
+primary struct
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3275
+TITLE Finding Information about Libraries
+significance normal
+primary typedef
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3289
+TITLE Finding Information about Libraries
+significance normal
+primary /usr/lib
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3292
+TITLE Finding Information about Libraries
+significance normal
+primary /lib
+/INDEXTERM
+INDEXTERM #AEN3093
+INDEXPOINT #AEN3295
+TITLE Finding Information about Libraries
+significance normal
+primary objdump
+/INDEXTERM
+INDEXTERM #AEN3298
+INDEXPOINT #AEN3306
+TITLE Useful Functions
+significance normal
+primary strlen
+/INDEXTERM
+INDEXTERM #AEN3298
+INDEXPOINT #AEN3311
+TITLE Useful Functions
+significance normal
+primary strcmp
+/INDEXTERM
+INDEXTERM #AEN3298
+INDEXPOINT #AEN3316
+TITLE Useful Functions
+significance normal
+primary strdup
+/INDEXTERM
+INDEXTERM #AEN3298
+INDEXPOINT #AEN3321
+TITLE Useful Functions
+significance normal
+primary fopen
+/INDEXTERM
+INDEXTERM #AEN3298
+INDEXPOINT #AEN3334
+TITLE Useful Functions
+significance normal
+primary fclose
+/INDEXTERM
+INDEXTERM #AEN3298
+INDEXPOINT #AEN3340
+TITLE Useful Functions
+significance normal
+primary fgets
+/INDEXTERM
+INDEXTERM #AEN3298
+INDEXPOINT #AEN3346
+TITLE Useful Functions
+significance normal
+primary fputs
+/INDEXTERM
+INDEXTERM #AEN3298
+INDEXPOINT #AEN3351
+TITLE Useful Functions
+significance normal
+primary fprintf
+/INDEXTERM
+INDEXTERM #AEN3355
+INDEXPOINT #AEN3359
+TITLE Building a Dynamic Library
+significance normal
+primary dynamic library
+/INDEXTERM
+INDEXTERM #AEN3355
+INDEXPOINT #AEN3365
+TITLE Building a Dynamic Library
+significance normal
+primary dynamic library
+/INDEXTERM
+INDEXTERM #AEN3355
+INDEXPOINT #AEN3374
+TITLE Building a Dynamic Library
+significance normal
+primary /lib
+/INDEXTERM
+INDEXTERM #AEN3355
+INDEXPOINT #AEN3377
+TITLE Building a Dynamic Library
+significance normal
+primary /usr/lib
+/INDEXTERM
+INDEXTERM #AEN3355
+INDEXPOINT #AEN3389
+TITLE Building a Dynamic Library
+significance normal
+primary /etc/ld.so.conf
+/INDEXTERM
+INDEXTERM #AEN3355
+INDEXPOINT #AEN3392
+TITLE Building a Dynamic Library
+significance normal
+primary LD_LIBRARY_PATH
+/INDEXTERM
+INDEXTERM #AEN3355
+INDEXPOINT #AEN3409
+TITLE Building a Dynamic Library
+significance normal
+primary ELF
+/INDEXTERM
+INDEXTERM #AEN3515
+INDEXPOINT #AEN3519
+TITLE The Memory Layout of a Linux Program
+significance normal
+primary .section
+/INDEXTERM
+INDEXTERM #AEN3515
+INDEXPOINT #AEN3523
+TITLE The Memory Layout of a Linux Program
+significance normal
+primary .text
+/INDEXTERM
+INDEXTERM #AEN3515
+INDEXPOINT #AEN3530
+TITLE The Memory Layout of a Linux Program
+significance normal
+primary .data
+/INDEXTERM
+INDEXTERM #AEN3515
+INDEXPOINT #AEN3533
+TITLE The Memory Layout of a Linux Program
+significance normal
+primary .bss
+/INDEXTERM
+INDEXTERM #AEN3515
+INDEXPOINT #AEN3543
+TITLE The Memory Layout of a Linux Program
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #AEN3515
+INDEXPOINT #AEN3555
+TITLE The Memory Layout of a Linux Program
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #AEN3515
+INDEXPOINT #AEN3559
+TITLE The Memory Layout of a Linux Program
+significance normal
+primary system break
+/INDEXTERM
+INDEXTERM #AEN3515
+INDEXPOINT #AEN3562
+TITLE The Memory Layout of a Linux Program
+significance normal
+primary current break
+/INDEXTERM
+INDEXTERM #AEN3571
+INDEXPOINT #AEN3576
+TITLE Every Memory Address is a Lie
+significance normal
+primary virtual memory
+/INDEXTERM
+INDEXTERM #AEN3571
+INDEXPOINT #AEN3580
+TITLE Every Memory Address is a Lie
+significance normal
+primary physical memory
+/INDEXTERM
+INDEXTERM #AEN3571
+INDEXPOINT #AEN3585
+TITLE Every Memory Address is a Lie
+significance normal
+primary virtual address
+/INDEXTERM
+INDEXTERM #AEN3571
+INDEXPOINT #AEN3587
+TITLE Every Memory Address is a Lie
+significance normal
+primary physical address
+/INDEXTERM
+INDEXTERM #AEN3571
+INDEXPOINT #AEN3590
+TITLE Every Memory Address is a Lie
+significance normal
+primary mapping
+/INDEXTERM
+INDEXTERM #AEN3571
+INDEXPOINT #AEN3621
+TITLE Every Memory Address is a Lie
+significance normal
+primary pages
+/INDEXTERM
+INDEXTERM #AEN3571
+INDEXPOINT #AEN3623
+TITLE Every Memory Address is a Lie
+significance normal
+primary swapping
+/INDEXTERM
+INDEXTERM #AEN3571
+INDEXPOINT #AEN3625
+TITLE Every Memory Address is a Lie
+significance normal
+primary memory pages
+/INDEXTERM
+INDEXTERM #AEN3571
+INDEXPOINT #AEN3629
+TITLE Every Memory Address is a Lie
+significance normal
+primary swap death
+/INDEXTERM
+INDEXTERM #AEN3571
+INDEXPOINT #AEN3634
+TITLE Every Memory Address is a Lie
+significance normal
+primary resident set size
+/INDEXTERM
+INDEXTERM #dynamicmemory
+INDEXPOINT #AEN3640
+TITLE Getting More Memory
+significance normal
+primary virtual memory
+/INDEXTERM
+INDEXTERM #dynamicmemory
+INDEXPOINT #AEN3646
+TITLE Getting More Memory
+significance normal
+primary brk
+/INDEXTERM
+INDEXTERM #dynamicmemory
+INDEXPOINT #AEN3658
+TITLE Getting More Memory
+significance normal
+primary memory manager
+/INDEXTERM
+INDEXTERM #dynamicmemory
+INDEXPOINT #AEN3673
+TITLE Getting More Memory
+significance normal
+primary dynamic memory allocation
+/INDEXTERM
+INDEXTERM #dynamicmemory
+INDEXPOINT #AEN3676
+TITLE Getting More Memory
+significance normal
+primary heap
+/INDEXTERM
+INDEXTERM #AEN3689
+INDEXPOINT #AEN3695
+TITLE Variables and Constants
+significance normal
+primary heap
+/INDEXTERM
+INDEXTERM #AEN3689
+INDEXPOINT #AEN3697
+TITLE Variables and Constants
+significance normal
+primary current break
+/INDEXTERM
+INDEXTERM #AEN3707
+INDEXPOINT #AEN3714
+TITLE The allocate_init function
+significance normal
+primary brk
+/INDEXTERM
+INDEXTERM #AEN3804
+INDEXPOINT #AEN3815
+TITLE The deallocate function
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #AEN3804
+INDEXPOINT #AEN3819
+TITLE The deallocate function
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #AEN3823
+INDEXPOINT #AEN3837
+TITLE Performance Issues and Other Problems
+significance normal
+primary kernel mode
+/INDEXTERM
+INDEXTERM #AEN3823
+INDEXPOINT #AEN3840
+TITLE Performance Issues and Other Problems
+significance normal
+primary user mode
+/INDEXTERM
+INDEXTERM #AEN3823
+INDEXPOINT #AEN3843
+TITLE Performance Issues and Other Problems
+significance normal
+primary context switch
+/INDEXTERM
+INDEXTERM #AEN3968
+INDEXPOINT #AEN3971
+TITLE Counting Like a Computer
+significance normal
+primary base two
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN3980
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary binary
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN3982
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary base two
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN3984
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary decimal
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN3986
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary base ten
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN3988
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary digit
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN3995
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary decimal
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN3997
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary binary
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN4004
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary bits
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN4007
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary binary digit
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN4009
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary bytes
+/INDEXTERM
+INDEXTERM #AEN3977
+INDEXPOINT #AEN4012
+TITLE Conversions Between Binary and Decimal
+significance normal
+primary registers
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4017
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary bits
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4019
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary switches
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4026
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+ZONE #truthbinarynumbers
+TITLE Truth, Falsehood, and Binary Numbers
+primary binary operations
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4028
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary logical operations
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4033
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary AND
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4037
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary OR
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4041
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary NOT
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4045
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary XOR
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4052
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary AND
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4056
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary OR
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4059
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary NOT
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4062
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary XOR
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4073
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary XOR
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4075
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary register
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4080
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary true
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4082
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary false
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4088
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary AND
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4092
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary XOR
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4097
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary boolean operators
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4099
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary boolean operators
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4101
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary boolean algebra
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4104
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary binary operators
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4106
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary shift
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4108
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary rotate
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4113
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary shifting
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4116
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary masking
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4118
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary AND
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4124
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary binary number
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4127
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary functions
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4129
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary system call
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4132
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary flags
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4135
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary open
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4141
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary O_WRONLY
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4150
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary O_RDWR
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4159
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary O_CREAT
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4168
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary O_TRUNC
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4177
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary O_APPEND
+/INDEXTERM
+INDEXTERM #truthbinarynumbers
+INDEXPOINT #AEN4184
+TITLE Truth, Falsehood, and Binary Numbers
+significance normal
+primary OR
+/INDEXTERM
+INDEXTERM #AEN4193
+INDEXPOINT #AEN4197
+TITLE The Program Status Register
+significance normal
+primary program status register
+/INDEXTERM
+INDEXTERM #AEN4193
+INDEXPOINT #AEN4199
+TITLE The Program Status Register
+significance normal
+primary carry flag
+/INDEXTERM
+INDEXTERM #AEN4193
+INDEXPOINT #AEN4202
+TITLE The Program Status Register
+significance normal
+primary cmpl
+/INDEXTERM
+INDEXTERM #AEN4193
+INDEXPOINT #AEN4204
+TITLE The Program Status Register
+significance normal
+primary conditional jump
+/INDEXTERM
+INDEXTERM #AEN4193
+INDEXPOINT #AEN4209
+TITLE The Program Status Register
+significance normal
+primary jmp
+/INDEXTERM
+INDEXTERM #AEN4193
+INDEXPOINT #AEN4211
+TITLE The Program Status Register
+significance normal
+primary unconditional jump
+/INDEXTERM
+INDEXTERM #floatingpoint
+INDEXPOINT #AEN4223
+TITLE Floating-point Numbers
+significance normal
+primary precision
+/INDEXTERM
+INDEXTERM #floatingpoint
+INDEXPOINT #AEN4226
+TITLE Floating-point Numbers
+significance normal
+primary exponent
+/INDEXTERM
+INDEXTERM #floatingpoint
+INDEXPOINT #AEN4229
+TITLE Floating-point Numbers
+significance normal
+primary mantissa
+/INDEXTERM
+INDEXTERM #floatingpoint
+INDEXPOINT #AEN4232
+TITLE Floating-point Numbers
+significance normal
+primary floating point
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4239
+TITLE Negative Numbers
+significance normal
+primary negative numbers
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4241
+TITLE Negative Numbers
+significance normal
+primary sign
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4247
+TITLE Negative Numbers
+significance normal
+primary two's complement
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4252
+TITLE Negative Numbers
+significance normal
+primary NOT
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4263
+TITLE Negative Numbers
+significance normal
+primary sign
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4266
+TITLE Negative Numbers
+significance normal
+primary bytes
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4269
+TITLE Negative Numbers
+significance normal
+primary two's complement
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4271
+TITLE Negative Numbers
+significance normal
+primary signed numbers
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4276
+TITLE Negative Numbers
+significance normal
+primary sign extension
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4280
+TITLE Negative Numbers
+significance normal
+primary signed
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4282
+TITLE Negative Numbers
+significance normal
+primary unsigned
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4286
+TITLE Negative Numbers
+significance normal
+primary sarl
+/INDEXTERM
+INDEXTERM #AEN4236
+INDEXPOINT #AEN4289
+TITLE Negative Numbers
+significance normal
+primary shrl
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4294
+TITLE Octal and Hexadecimal Numbers
+significance normal
+primary decimal
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4296
+TITLE Octal and Hexadecimal Numbers
+significance normal
+primary binary
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4298
+TITLE Octal and Hexadecimal Numbers
+significance normal
+primary octal
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4300
+TITLE Octal and Hexadecimal Numbers
+significance normal
+primary hexadecimal
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4303
+TITLE Octal and Hexadecimal Numbers
+significance normal
+ZONE #octalhexadecimal
+TITLE Octal and Hexadecimal Numbers
+primary permissions
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4307
+TITLE Octal and Hexadecimal Numbers
+significance normal
+primary octal
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4315
+TITLE Octal and Hexadecimal Numbers
+significance normal
+primary hexadecimal
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4317
+TITLE Octal and Hexadecimal Numbers
+significance normal
+primary bytes
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4319
+TITLE Octal and Hexadecimal Numbers
+significance normal
+primary word
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4324
+TITLE Octal and Hexadecimal Numbers
+significance normal
+primary hexadecimal
+/INDEXTERM
+INDEXTERM #octalhexadecimal
+INDEXPOINT #AEN4328
+TITLE Octal and Hexadecimal Numbers
+significance normal
+primary int
+/INDEXTERM
+INDEXTERM #AEN4332
+INDEXPOINT #AEN4335
+TITLE Order of Bytes in a Word
+significance normal
+primary bits
+/INDEXTERM
+INDEXTERM #AEN4332
+INDEXPOINT #AEN4337
+TITLE Order of Bytes in a Word
+significance normal
+primary bytes
+/INDEXTERM
+INDEXTERM #AEN4332
+INDEXPOINT #AEN4339
+TITLE Order of Bytes in a Word
+significance normal
+primary registers
+/INDEXTERM
+INDEXTERM #AEN4332
+INDEXPOINT #AEN4341
+TITLE Order of Bytes in a Word
+significance normal
+primary memory
+/INDEXTERM
+INDEXTERM #AEN4332
+INDEXPOINT #AEN4350
+TITLE Order of Bytes in a Word
+significance normal
+primary little-endian
+/INDEXTERM
+INDEXTERM #AEN4332
+INDEXPOINT #AEN4360
+TITLE Order of Bytes in a Word
+significance normal
+primary big-endian
+/INDEXTERM
+INDEXTERM #AEN4332
+INDEXPOINT #AEN4369
+TITLE Order of Bytes in a Word
+significance normal
+primary register
+/INDEXTERM
+INDEXTERM #AEN4479
+INDEXPOINT #AEN4483
+TITLE Compiled and Interpreted Languages
+significance normal
+primary assembly language
+/INDEXTERM
+INDEXTERM #AEN4479
+INDEXPOINT #AEN4485
+TITLE Compiled and Interpreted Languages
+significance normal
+primary compilers
+/INDEXTERM
+INDEXTERM #AEN4479
+INDEXPOINT #AEN4490
+TITLE Compiled and Interpreted Languages
+significance normal
+primary interpreter
+/INDEXTERM
+INDEXTERM #AEN4479
+INDEXPOINT #AEN4502
+TITLE Compiled and Interpreted Languages
+significance normal
+primary flow control
+/INDEXTERM
+INDEXTERM #AEN4512
+INDEXPOINT #AEN4515
+TITLE Your First C Program
+significance normal
+primary C Programming Language
+/INDEXTERM
+INDEXTERM #AEN4512
+INDEXPOINT #AEN4525
+TITLE Your First C Program
+significance normal
+primary stdio.h
+/INDEXTERM
+INDEXTERM #AEN4512
+INDEXPOINT #AEN4528
+TITLE Your First C Program
+significance normal
+primary preprocessor
+/INDEXTERM
+INDEXTERM #AEN4512
+INDEXPOINT #AEN4534
+TITLE Your First C Program
+significance normal
+primary /usr/include
+/INDEXTERM
+INDEXTERM #AEN4512
+INDEXPOINT #AEN4537
+TITLE Your First C Program
+significance normal
+primary /usr/local/include
+/INDEXTERM
+INDEXTERM #AEN4512
+INDEXPOINT #AEN4560
+TITLE Your First C Program
+significance normal
+primary high-level languages
+/INDEXTERM
+INDEXTERM #AEN4567
+INDEXPOINT #AEN4573
+TITLE Perl
+significance normal
+primary Perl
+/INDEXTERM
+INDEXTERM #AEN4582
+INDEXPOINT #AEN4585
+TITLE Python
+significance normal
+primary Python
+/INDEXTERM
+INDEXTERM #optimizationch
+INDEXPOINT #AEN4625
+TITLE Optimization
+significance normal
+primary optimization
+/INDEXTERM
+INDEXTERM #AEN4627
+INDEXPOINT #AEN4641
+TITLE When to Optimize
+significance normal
+primary documentation
+/INDEXTERM
+INDEXTERM #wheretooptimize
+INDEXPOINT #AEN4658
+TITLE Where to Optimize
+significance normal
+primary profiler
+/INDEXTERM
+INDEXTERM #wheretooptimize
+INDEXPOINT #AEN4661
+TITLE Where to Optimize
+significance normal
+primary gprof
+/INDEXTERM
+INDEXTERM #wheretooptimize
+INDEXPOINT #AEN4667
+TITLE Where to Optimize
+significance normal
+primary local optimizations
+/INDEXTERM
+INDEXTERM #wheretooptimize
+INDEXPOINT #AEN4669
+TITLE Where to Optimize
+significance normal
+primary global optimizations
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4684
+TITLE Local Optimizations
+significance normal
+primary caching
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4687
+TITLE Local Optimizations
+significance normal
+primary memoizing
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4694
+TITLE Local Optimizations
+significance normal
+primary locality of reference
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4696
+TITLE Local Optimizations
+significance normal
+primary cache
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4698
+TITLE Local Optimizations
+significance normal
+primary physical memory
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4704
+TITLE Local Optimizations
+significance normal
+primary registers
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4710
+TITLE Local Optimizations
+significance normal
+primary inline functions
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4712
+TITLE Local Optimizations
+significance normal
+primary macros
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4724
+TITLE Local Optimizations
+significance normal
+primary addressing modes
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4726
+TITLE Local Optimizations
+significance normal
+primary immediate mode addressing
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4728
+TITLE Local Optimizations
+significance normal
+primary direct addressing mode
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4730
+TITLE Local Optimizations
+significance normal
+primary base pointer addressing mode
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4732
+TITLE Local Optimizations
+significance normal
+primary indexed indirect addressing mode
+/INDEXTERM
+INDEXTERM #AEN4671
+INDEXPOINT #AEN4738
+TITLE Local Optimizations
+significance normal
+primary aligned memory
+/INDEXTERM
+INDEXTERM #AEN4741
+INDEXPOINT #AEN4744
+TITLE Global Optimization
+significance normal
+primary global optimizations
+/INDEXTERM
+INDEXTERM #AEN4741
+INDEXPOINT #AEN4747
+TITLE Global Optimization
+significance normal
+primary stateless functions
+/INDEXTERM
+INDEXTERM #AEN4741
+INDEXPOINT #AEN4755
+TITLE Global Optimization
+significance normal
+primary parallelization
+/INDEXTERM
+INDEXTERM #AEN4741
+INDEXPOINT #AEN4761
+TITLE Global Optimization
+significance normal
+primary stateless functions
+/INDEXTERM
+INDEXTERM #AEN4980
+INDEXPOINT #AEN4983
+TITLE The GNOME Libraries
+significance normal
+primary GNOME
+/INDEXTERM
+INDEXTERM #AEN4988
+INDEXPOINT #AEN4996
+TITLE A Simple GNOME Program in Several Languages
+significance normal
+primary GUI
+/INDEXTERM
+INDEXTERM #AEN5057
+INDEXPOINT #AEN5060
+TITLE GUI Builders
+significance normal
+primary GUI builder
+/INDEXTERM
+INDEXTERM #AEN5057
+INDEXPOINT #AEN5063
+TITLE GUI Builders
+significance normal
+primary Win32
+/INDEXTERM
+INDEXTERM #AEN5057
+INDEXPOINT #AEN5065
+TITLE GUI Builders
+significance normal
+primary QT Designer
+/INDEXTERM
+INDEXTERM #AEN5070
+INDEXPOINT #AEN5086
+TITLE Reading the Tables
+significance normal
+primary flags
+/INDEXTERM
+INDEXTERM #AEN5070
+INDEXPOINT #AEN5089
+TITLE Reading the Tables
+significance normal
+primary %eflags
+/INDEXTERM
+INDEXTERM #AEN5070
+INDEXPOINT #AEN5097
+TITLE Reading the Tables
+significance normal
+primary overflow flag
+/INDEXTERM
+INDEXTERM #AEN5070
+INDEXPOINT #AEN5103
+TITLE Reading the Tables
+significance normal
+primary sign flag
+/INDEXTERM
+INDEXTERM #AEN5070
+INDEXPOINT #AEN5109
+TITLE Reading the Tables
+significance normal
+primary zero flag
+/INDEXTERM
+INDEXTERM #AEN5070
+INDEXPOINT #AEN5115
+TITLE Reading the Tables
+significance normal
+primary auxiliary carry flag
+/INDEXTERM
+INDEXTERM #AEN5070
+INDEXPOINT #AEN5121
+TITLE Reading the Tables
+significance normal
+primary parity flag
+/INDEXTERM
+INDEXTERM #AEN5070
+INDEXPOINT #AEN5127
+TITLE Reading the Tables
+significance normal
+primary carry flag
+/INDEXTERM
+INDEXTERM #dtins
+INDEXPOINT #AEN5147
+TITLE Data Transfer Instructions
+significance normal
+ZONE #dtins
+TITLE Data Transfer Instructions
+primary movl
+/INDEXTERM
+INDEXTERM #dtins
+INDEXPOINT #AEN5158
+TITLE Data Transfer Instructions
+significance normal
+ZONE #dtins
+TITLE Data Transfer Instructions
+primary movb
+/INDEXTERM
+INDEXTERM #dtins
+INDEXPOINT #AEN5167
+TITLE Data Transfer Instructions
+significance normal
+ZONE #dtins
+TITLE Data Transfer Instructions
+primary leal
+/INDEXTERM
+INDEXTERM #dtins
+INDEXPOINT #AEN5178
+TITLE Data Transfer Instructions
+significance normal
+ZONE #dtins
+TITLE Data Transfer Instructions
+primary popl
+/INDEXTERM
+INDEXTERM #dtins
+INDEXPOINT #AEN5188
+TITLE Data Transfer Instructions
+significance normal
+ZONE #dtins
+TITLE Data Transfer Instructions
+primary %eflags
+/INDEXTERM
+INDEXTERM #dtins
+INDEXPOINT #AEN5192
+TITLE Data Transfer Instructions
+significance normal
+ZONE #dtins
+TITLE Data Transfer Instructions
+primary pushl
+/INDEXTERM
+INDEXTERM #dtins
+INDEXPOINT #AEN5202
+TITLE Data Transfer Instructions
+significance normal
+ZONE #dtins
+TITLE Data Transfer Instructions
+primary %eflags
+/INDEXTERM
+INDEXTERM #dtins
+INDEXPOINT #AEN5206
+TITLE Data Transfer Instructions
+significance normal
+ZONE #dtins
+TITLE Data Transfer Instructions
+primary xchgl
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5229
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary adcl
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5240
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary addl
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5248
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary cdq
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5254
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary %eax
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5257
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary %edx
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5268
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary cmpl
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5276
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary decl
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5285
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary divl
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5293
+TITLE Integer Instructions
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5301
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary idivl
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5310
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary imull
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5318
+TITLE Integer Instructions
+significance normal
+primary %edx
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5322
+TITLE Integer Instructions
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5327
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary incl
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5336
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary mull
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5345
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary negl
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5351
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary two's complement
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5355
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary sbbl
+/INDEXTERM
+INDEXTERM #intins
+INDEXPOINT #AEN5365
+TITLE Integer Instructions
+significance normal
+ZONE #intins
+TITLE Integer Instructions
+primary subl
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5388
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary andl
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5396
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary notl
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5402
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary one's complement
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5406
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary orl
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5414
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary rcll
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5424
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary rcrl
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5433
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary roll
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5443
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary rorl
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5452
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary sall
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5462
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary sarl
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5472
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary shll
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5482
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary shrl
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5492
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary testl
+/INDEXTERM
+INDEXTERM #logicins
+INDEXPOINT #AEN5500
+TITLE Logic Instructions
+significance normal
+ZONE #logicins
+TITLE Logic Instructions
+primary xorl
+/INDEXTERM
+INDEXTERM #flowins
+INDEXPOINT #AEN5523
+TITLE Flow Control Instructions
+significance normal
+ZONE #flowins
+TITLE Flow Control Instructions
+primary call
+/INDEXTERM
+INDEXTERM #flowins
+INDEXPOINT #AEN5534
+TITLE Flow Control Instructions
+significance normal
+ZONE #flowins
+TITLE Flow Control Instructions
+primary int
+/INDEXTERM
+INDEXTERM #flowins
+INDEXPOINT #AEN5542
+TITLE Flow Control Instructions
+significance normal
+ZONE #flowins
+TITLE Flow Control Instructions
+primary Jcc
+/INDEXTERM
+INDEXTERM #flowins
+INDEXPOINT #AEN5588
+TITLE Flow Control Instructions
+significance normal
+ZONE #flowins
+TITLE Flow Control Instructions
+primary %ecx
+/INDEXTERM
+INDEXTERM #flowins
+INDEXPOINT #AEN5592
+TITLE Flow Control Instructions
+significance normal
+ZONE #flowins
+TITLE Flow Control Instructions
+primary jmp
+/INDEXTERM
+INDEXTERM #flowins
+INDEXPOINT #AEN5603
+TITLE Flow Control Instructions
+significance normal
+ZONE #flowins
+TITLE Flow Control Instructions
+primary ret
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5628
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .ascii
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5635
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .byte
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5642
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .endr
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5650
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .equ
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5657
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .globl
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5664
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .include
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5671
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .lcomm
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5679
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .long
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5686
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .rept
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5694
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .section
+/INDEXTERM
+INDEXTERM #dirins
+INDEXPOINT #AEN5704
+TITLE Assembler Directives
+significance normal
+ZONE #dirins
+TITLE Assembler Directives
+primary .type
+/INDEXTERM
+INDEXTERM #AEN5709
+INDEXPOINT #AEN5713
+TITLE Differences in Other Syntaxes and Terminology
+significance normal
+primary AT&T syntax
+/INDEXTERM
+INDEXTERM #AEN5709
+INDEXPOINT #AEN5716
+TITLE Differences in Other Syntaxes and Terminology
+significance normal
+primary Intel syntax
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5762
+TITLE Important System Calls
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5766
+TITLE Important System Calls
+significance normal
+primary %eax
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5768
+TITLE Important System Calls
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5770
+TITLE Important System Calls
+significance normal
+primary %ecx
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5772
+TITLE Important System Calls
+significance normal
+primary %edx
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5794
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary exit
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5803
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary read
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5812
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary write
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5821
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary open
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5830
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary close
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5839
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary chdir
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5848
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary lseek
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5857
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary getpid
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5866
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary mkdir
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5875
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary rmdir
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5884
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary dup
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5893
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary pipe
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5900
+TITLE Important System Calls
+significance normal
+primary %ebx
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5906
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary brk
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5915
+TITLE Important System Calls
+significance normal
+ZONE #syscallap
+TITLE Important System Calls
+primary ioctl
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5923
+TITLE Important System Calls
+significance normal
+primary UNIX manual
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5925
+TITLE Important System Calls
+significance normal
+primary C programming language
+/INDEXTERM
+INDEXTERM #syscallap
+INDEXPOINT #AEN5928
+TITLE Important System Calls
+significance normal
+primary system calls
+/INDEXTERM
+INDEXTERM #ctranslationap
+INDEXPOINT #AEN6113
+TITLE C Idioms in Assembly Language
+significance normal
+primary C programming language
+/INDEXTERM
+INDEXTERM #AEN6115
+INDEXPOINT #AEN6118
+TITLE If Statement
+significance normal
+primary if statement
+/INDEXTERM
+INDEXTERM #AEN6115
+INDEXPOINT #AEN6120
+TITLE If Statement
+significance normal
+primary condition
+/INDEXTERM
+INDEXTERM #AEN6115
+INDEXPOINT #AEN6122
+TITLE If Statement
+significance normal
+primary true branch
+/INDEXTERM
+INDEXTERM #AEN6115
+INDEXPOINT #AEN6124
+TITLE If Statement
+significance normal
+primary false branch
+/INDEXTERM
+INDEXTERM #AEN6115
+INDEXPOINT #AEN6126
+TITLE If Statement
+significance normal
+primary block structured language
+/INDEXTERM
+INDEXTERM #AEN6115
+INDEXPOINT #AEN6133
+TITLE If Statement
+significance normal
+primary case statement
+/INDEXTERM
+INDEXTERM #AEN6135
+INDEXPOINT #AEN6138
+TITLE Function Call
+significance normal
+primary function call
+/INDEXTERM
+INDEXTERM #AEN6135
+INDEXPOINT #AEN6142
+TITLE Function Call
+significance normal
+primary call
+/INDEXTERM
+INDEXTERM #AEN6147
+INDEXPOINT #AEN6150
+TITLE Variables and Assignment
+significance normal
+primary global variables
+/INDEXTERM
+INDEXTERM #AEN6147
+INDEXPOINT #AEN6152
+TITLE Variables and Assignment
+significance normal
+primary static variables
+/INDEXTERM
+INDEXTERM #AEN6147
+INDEXPOINT #AEN6154
+TITLE Variables and Assignment
+significance normal
+primary local variables
+/INDEXTERM
+INDEXTERM #AEN6147
+INDEXPOINT #AEN6159
+TITLE Variables and Assignment
+significance normal
+primary direct addressing mode
+/INDEXTERM
+INDEXTERM #AEN6147
+INDEXPOINT #AEN6161
+TITLE Variables and Assignment
+significance normal
+primary base pointer addressing mode
+/INDEXTERM
+INDEXTERM #AEN6147
+INDEXPOINT #AEN6167
+TITLE Variables and Assignment
+significance normal
+primary physical memory
+/INDEXTERM
+INDEXTERM #AEN6147
+INDEXPOINT #AEN6172
+TITLE Variables and Assignment
+significance normal
+primary volatile
+/INDEXTERM
+INDEXTERM #AEN6174
+INDEXPOINT #AEN6177
+TITLE Loops
+significance normal
+primary loops
+/INDEXTERM
+INDEXTERM #AEN6174
+INDEXPOINT #AEN6179
+TITLE Loops
+significance normal
+primary while loop
+/INDEXTERM
+INDEXTERM #AEN6174
+INDEXPOINT #AEN6187
+TITLE Loops
+significance normal
+primary %ecx
+/INDEXTERM
+INDEXTERM #AEN6174
+INDEXPOINT #AEN6192
+TITLE Loops
+significance normal
+primary loop
+/INDEXTERM
+INDEXTERM #AEN6174
+INDEXPOINT #AEN6205
+TITLE Loops
+significance normal
+primary rep
+/INDEXTERM
+INDEXTERM #AEN6207
+INDEXPOINT #AEN6210
+TITLE Structs
+significance normal
+primary structs
+/INDEXTERM
+INDEXTERM #AEN6207
+INDEXPOINT #AEN6215
+TITLE Structs
+significance normal
+primary .equ
+/INDEXTERM
+INDEXTERM #AEN6207
+INDEXPOINT #AEN6223
+TITLE Structs
+significance normal
+primary base pointer addressing mode
+/INDEXTERM
+INDEXTERM #AEN6228
+INDEXPOINT #AEN6231
+TITLE Pointers
+significance normal
+primary pointers
+/INDEXTERM
+INDEXTERM #AEN6228
+INDEXPOINT #AEN6233
+TITLE Pointers
+significance normal
+primary address
+/INDEXTERM
+INDEXTERM #AEN6228
+INDEXPOINT #AEN6243
+TITLE Pointers
+significance normal
+primary immediate mode addressing
+/INDEXTERM
+INDEXTERM #AEN6228
+INDEXPOINT #AEN6246
+TITLE Pointers
+significance normal
+primary local variables
+/INDEXTERM
+INDEXTERM #AEN6228
+INDEXPOINT #AEN6253
+TITLE Pointers
+significance normal
+primary leal
+/INDEXTERM
+INDEXTERM #AEN6228
+INDEXPOINT #AEN6255
+TITLE Pointers
+significance normal
+primary effective address
+/INDEXTERM
+INDEXTERM #AEN6228
+INDEXPOINT #AEN6259
+TITLE Pointers
+significance normal
+primary indirect addressing mode
+/INDEXTERM
+INDEXTERM #AEN6261
+INDEXPOINT #AEN6264
+TITLE Getting GCC to Help
+significance normal
+primary GCC
+/INDEXTERM
+INDEXTERM #AEN6261
+INDEXPOINT #AEN6272
+TITLE Getting GCC to Help
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #AEN6261
+INDEXPOINT #AEN6279
+TITLE Getting GCC to Help
+significance normal
+primary ret
+/INDEXTERM
+INDEXTERM #AEN6261
+INDEXPOINT #AEN6284
+TITLE Getting GCC to Help
+significance normal
+primary leave
+/INDEXTERM
+INDEXTERM #AEN6295
+INDEXPOINT #AEN6309
+TITLE An Example Debugging Session
+significance normal
+primary GDB
+/INDEXTERM
+INDEXTERM #AEN6295
+INDEXPOINT #AEN6312
+TITLE An Example Debugging Session
+significance normal
+primary run
+/INDEXTERM
+INDEXTERM #AEN6295
+INDEXPOINT #AEN6316
+TITLE An Example Debugging Session
+significance normal
+primary SIGINT
+/INDEXTERM
+INDEXTERM #AEN6295
+INDEXPOINT #AEN6321
+TITLE An Example Debugging Session
+significance normal
+primary stepi
+/INDEXTERM
+INDEXTERM #AEN6295
+INDEXPOINT #AEN6326
+TITLE An Example Debugging Session
+significance normal
+primary loop
+/INDEXTERM
+INDEXTERM #AEN6295
+INDEXPOINT #AEN6335
+TITLE An Example Debugging Session
+significance normal
+primary info register
+/INDEXTERM
+INDEXTERM #AEN6295
+INDEXPOINT #AEN6341
+TITLE An Example Debugging Session
+significance normal
+primary print
+/INDEXTERM
+INDEXTERM #AEN6368
+INDEXPOINT #AEN6372
+TITLE Breakpoints and Other GDB Features
+significance normal
+primary breakpoints
+/INDEXTERM
+INDEXTERM #AEN6368
+INDEXPOINT #AEN6375
+TITLE Breakpoints and Other GDB Features
+significance normal
+primary breakpoints
+/INDEXTERM
+INDEXTERM #AEN6368
+INDEXPOINT #AEN6379
+TITLE Breakpoints and Other GDB Features
+significance normal
+primary break
+/INDEXTERM
+INDEXTERM #AEN6368
+INDEXPOINT #AEN6387
+TITLE Breakpoints and Other GDB Features
+significance normal
+primary %ebp
+/INDEXTERM
+INDEXTERM #AEN6368
+INDEXPOINT #AEN6391
+TITLE Breakpoints and Other GDB Features
+significance normal
+primary %esp
+/INDEXTERM
+INDEXTERM #AEN6368
+INDEXPOINT #AEN6396
+TITLE Breakpoints and Other GDB Features
+significance normal
+primary nexti
+/INDEXTERM
+INDEXTERM #AEN6368
+INDEXPOINT #AEN6399
+TITLE Breakpoints and Other GDB Features
+significance normal
+primary stepi
+/INDEXTERM
+INDEXTERM #AEN6368
+INDEXPOINT #AEN6404
+TITLE Breakpoints and Other GDB Features
+significance normal
+primary interrupts
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6420
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary quit
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6425
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary help
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6432
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary directory
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6446
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary run
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6453
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary set
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6460
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary show
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6472
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary info
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6477
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary break
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6494
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary condition
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6503
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary command
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6514
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary continue
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6519
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary kill
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6524
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary delete
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6533
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary clear
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6550
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary disable
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6559
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary enable
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6575
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary nexti
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6580
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary stepi
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6585
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary finish
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6597
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary info registers
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6602
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary print
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6611
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary x
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6622
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary info display
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6627
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary display
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6648
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary undisplay
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6662
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary where
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6667
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary backtrace
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6672
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary frame
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6677
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary up
+/INDEXTERM
+INDEXTERM #gdbquickref
+INDEXPOINT #AEN6682
+TITLE GDB Quick-Reference
+significance normal
+ZONE #gdbquickref
+TITLE GDB Quick-Reference
+primary down
+/INDEXTERM
