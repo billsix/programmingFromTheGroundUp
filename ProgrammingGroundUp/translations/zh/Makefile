@@ -42,6 +42,7 @@ index: index.xml
 
 semiclean:
 	rm -f ProgrammingGroundUp.log
+	rm -f ProgrammingGroundUp.out
 	rm -f ProgrammingGroundUp.aux
 	rm -f ProgrammingGroundUp.tex
 	rm -f ProgrammingGroundUp.dvi

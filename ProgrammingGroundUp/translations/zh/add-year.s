@@ -12,7 +12,7 @@ output_file_name:
 	.section .bss
 	.lcomm record_buffer, RECORD_SIZE
 	
-	#本地变量的堆栈偏移量
+	#Stack offsets of local variables
 	.equ ST_INPUT_DESCRIPTOR, -4
 	.equ ST_OUTPUT_DESCRIPTOR, -8
 
