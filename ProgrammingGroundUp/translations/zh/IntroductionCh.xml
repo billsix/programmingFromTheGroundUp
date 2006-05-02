@@ -1,5 +1,5 @@
-<chapter>
-<title>介绍</title>
+<chapter lang="zh_cn">
+<title lang="zh_cn">介绍</title>
 <!--
 
 Copyright 2002 Jonathan Bartlett
@@ -13,7 +13,7 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 -->
 
 <sect1>
-<title>Welcome to Programming</title>
+<title>欢迎来到编程世界</title>
 
 <para>
 I love
