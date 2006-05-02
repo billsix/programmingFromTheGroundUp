@@ -28,7 +28,7 @@ index.xml: HTML.index
 
 HTML.index: $(BOOKNOINDEX)
 	collateindex.pl -N >index.xml
-	$(JADE) -t sgml -V html-index -V nochunks -d /usr/share/sgml/docbook/dsssl-stylesheets/html/docbook.dsl xml.dcl ProgrammingGroundUp.xml >/dev/null
+	env SP_ENCODING=UTF-8 $(JADE) -t sgml -V html-index -V nochunks -d /usr/share/sgml/docbook/dsssl-stylesheets/html/docbook.dsl xml.dcl ProgrammingGroundUp.xml >/dev/null
 	rm -f *.htm *.html
 
 index: index.xml
