@@ -9,25 +9,18 @@ JADE = openjade
 
 all: ProgrammingGroundUp.pdf
 
-ProgrammingGroundUp.ps: ProgrammingGroundUp.tex
-	jadetex ProgrammingGroundUp.tex
-	jadetex ProgrammingGroundUp.tex
-	jadetex ProgrammingGroundUp.tex
-	jadetex ProgrammingGroundUp.tex
-	dvips ProgrammingGroundUp.dvi -o ProgrammingGroundUp.ps
+#ProgrammingGroundUp.ps: ProgrammingGroundUp.tex
+#	jadetex ProgrammingGroundUp.tex
+#	jadetex ProgrammingGroundUp.tex
+#	jadetex ProgrammingGroundUp.tex
+#	jadetex ProgrammingGroundUp.tex
+#	dvips ProgrammingGroundUp.dvi -o ProgrammingGroundUp.ps
 
 ProgrammingGroundUp.pdf: ProgrammingGroundUp.tex
-	pdfjadetex ProgrammingGroundUp.tex
-	pdfjadetex ProgrammingGroundUp.tex
-	pdfjadetex ProgrammingGroundUp.tex
-	pdfjadetex ProgrammingGroundUp.tex
-
-draft: ProgrammingGroundUp.tex
-	$(JADE) -t tex -d programming.dsl#printdraft xml.dcl ProgrammingGroundUp.xml
-	pdfjadetex ProgrammingGroundUp.tex
+	./gbkjdtx ProgrammingGroundUp.tex
 
 ProgrammingGroundUp.tex: $(FULLBOOK) index.xml
-	$(JADE) -t tex -d programming.dsl#printdraft xml.dcl ProgrammingGroundUp.xml
+	env SP_ENCODING=UTF-8 $(JADE) -t tex -d programming.dsl#printdraft xml.dcl ProgrammingGroundUp.xml
 
 index.xml: HTML.index 
 	collateindex.pl -o index.xml HTML.index
@@ -48,6 +41,7 @@ semiclean:
 	rm -f ProgrammingGroundUp.dvi
 	rm -f ProgrammingGroundUp.ps
 	rm -f ProgrammingGroundUp.pdf
+	rm -f ProgrammingGroundUp.cjk
 
 clean: semiclean
 	rm -f HTML.index
