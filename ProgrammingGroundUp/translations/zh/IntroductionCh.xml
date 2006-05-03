@@ -15,52 +15,23 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 <sect1>
 <title>欢迎来到编程世界</title>
 
-<para>
-I love
-<indexterm><primary>programming</primary></indexterm>programming.  I
-enjoy the challenge to not only make a working program, but to do so
-with style.  Programming is like poetry.  It conveys a message, not
-only to the computer, but to those who modify and use your program.
-With a program, you build your own world with your own rules.  You
-create your world according to your conception of both the problem and
-the solution.  Masterful programmers create worlds with programs that
-are clear and succinct, much like a poem or essay.
+<para lang="zh_cn">
+我爱
+<indexterm><primary>编程</primary></indexterm>编程。我追求的往往不仅仅是解决问题本身，而且解决的方式要够酷。我很享受这样做带来的挑战。编程就像写诗。它传递着信息，不仅仅给电脑，还给那些修改和使用程序的人们。利用一个程序，你可以用你自己的规则组建你自己的世界，根据你对你的问题和解决方案的理解来创建你的世界。老道的程序员使用简单和紧凑的程序来创建世界，很像是诗和散文。
 </para>
-<para>
-One of the greatest programmers, Donald Knuth, 
-describes programming not as telling a computer how to do something,
-but telling a person how they would instruct a computer to do something.
-The point is that programs are meant to be read by people, not
-just computers.  Your programs will be modified and updated by others
-long after you move on to other projects.  Thus, programming is not
-as much about communicating to a computer as it is communicating to
-those who come after you.  A programmer is a problem-solver, a poet, and an
-instructor all at once.  Your goal is to solve the problem at hand,
-doing so with balance and taste, and teach your solution to
-future programmers.  I hope that this book can teach at least some
-of the poetry and magic that makes computing exciting.
+<para lang="zh_cn">
+世界上最伟大的程序员之一，高德纳(Donald Knuth)说，编程不是告诉计算机怎样去做一件事情，而是告诉一个人他们是如何让计算机去做一件事情。他的观点是，程序是被人来读的，而不仅仅是计算机。当你离开一个项目而去做其它的项目很久以后，你的程序也许还将会被其他人修改和升级。因此，编程不仅仅是和计算机进行交流，而且还要和那些接你班的人进行交流。一个程序员，既是一个问题的解决者，也是一个诗人，还是一个讲师。你的目标是解决眼前的问题，考虑周全而风格独具，并且能让未来的程序员学会你的解决方案。我希望这本书至少可以教给读者一些让计算兴奋的诗和魔法。
 </para> 
 
 <para>
-Most introductory books on programming frustrate me to no end.  At the
-end of them you can still ask "how does the computer really work?" and
-not have a good answer.  They tend to pass over topics that are 
-difficult even though they are important.  I will take you through
-the difficult issues because that is the only way to move on to
-masterful programming.  My goal is to take you from knowing nothing about
-programming to understanding how to think, write, and learn like
-a programmer.  You won't know everything, but you will have a background
-for how everything fits together.  At the end of this book, you should 
-be able to do the following:
+大多数关于编程书籍让我感到非常沮丧。看完这些书，你恐怕仍然会问：“计算机到底是怎样工作的？”，而且得不到一个完美的答案。这些书通常会略过那些有难度的但是很重要的话题。我将会让你了解这些有难度的问题，因为他们才是通向大师级编程的唯一道路。我的目标是让你从对编程一无所知到理解如何像一个程序员那样去思考、编写和学习。你不用记住每件事情的细枝末节，但是你将从头到尾的掌握所有的相关背景。在看完这本书后，你应该能够做到以下的事情：
 </para>
 
 <itemizedlist>
-
-<listitem><para>Understand how a program works and interacts with other programs</para></listitem>
-<listitem><para>Read other people's programs and learn how they work</para></listitem>
-<listitem><para>Learn new programming languages quickly</para></listitem>
-<listitem><para>Learn advanced concepts in computer science quickly</para></listitem>
-
+<listitem><para>理解一个程序是如何工作的，以及如何和其它程序交流</para></listitem>
+<listitem><para>阅读其他人的程序和了解它们如何工作</para></listitem>
+<listitem><para>迅速掌握新的编程语言</para></listitem>
+<listitem><para>迅速掌握计算机科学中的高级概念</para></listitem>
 </itemizedlist>
 
 <para>
