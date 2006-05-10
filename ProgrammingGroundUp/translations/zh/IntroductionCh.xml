@@ -35,23 +35,11 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 </itemizedlist>
 
 <para>
-I will not teach you everything.  Computer science is a massive
-field, especially when you combine the theory with the practice of computer
-programming.  However, I will attempt to get you started on the 
-foundations so you can easily go wherever you want afterwards.
+我不可能教你每一件事情。计算机科学是一门研究领域广泛的学科，尤其是当你把理论和计算机编程实践结合在一起的时候。但是，我会尝试让你打好基础，这样你可以轻松去到以后你想要去的地方。
 </para>
 
 <para>
-There is somewhat of a chicken and egg problem in teaching programming,
-especially assembly language.  There is a lot to learn - it is almost too
-much to learn almost at all at once.  However, each piece depends on all 
-the others, which makes learning it a piece at a time difficult.
-Therefore, you must be patient with yourself and the computer while 
-learning to program.  If you don't understand something the first time,
-reread it.  If you still don't understand it, it is sometimes best to
-take it by faith and come back to it later.  Often after more exposure
-to programming the ideas will make more sense.  Don't get discouraged.
-It's a long climb, but very worthwhile.
+在教编程，特别是教汇编语言编程的时候，存在着一个类似先有鸡还是先有蛋的问题。有很多东西需要学习－多到以至于不可能一下子全学到手，只能一次学一点。但是每一点知识却又要依靠其他所有的知识，这样就使得学习起来非常困难。因此当学习编程的时候，你必须对你和计算机有耐心。如果你第一次不能理解某个问题，那就把这个问题再读一遍。如果你还不能理解他，比较好的办法是记住这个结论，等以后再回来理解它。通常随着你编程经验的不断增加，这些问题就能自然而然的理解了。不要气馁，学习编程是一个漫长的攀登过程，但是却非常值得。
 </para>
 
 <para>
