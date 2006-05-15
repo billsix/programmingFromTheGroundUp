@@ -19,7 +19,7 @@ all: ProgrammingGroundUp.pdf
 ProgrammingGroundUp.pdf: ProgrammingGroundUp.tex
 	./gbkjdtx ProgrammingGroundUp.tex
 
-ProgrammingGroundUp.tex: $(FULLBOOK) index.xml
+ProgrammingGroundUp.tex: $(FULLBOOK) index.xml 
 	env SP_ENCODING=UTF-8 $(JADE) -t tex -d programming.dsl#printdraft xml.dcl ProgrammingGroundUp.xml
 
 index.xml: HTML.index 
@@ -52,7 +52,6 @@ download:
 
 upload:
 	scp -C *.* Makefile johnnyb@eskimo.com:/u/j/johnnyb/Projects/ProgrammingGroundUp/
-#genpo:
-#	for i in ../../*.xml;\
-#		do po4a-gettextize -f docbook -m $$i  -p po/`basename $$i|sed -e 's/xml/po/'`;\
-#	done       
+
+%.xml: po/%.po
+	po4a-translate -f docbook -m ../../$@ -p $< -l $@
