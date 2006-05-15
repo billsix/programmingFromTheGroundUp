@@ -262,7 +262,7 @@ do this in C:
 </para>
 
 <programlisting>
-	for(i=0; i < 100; i++)
+	for(i=0; i &lt; 100; i++)
 	{
 		/* Do process here */
 	}
