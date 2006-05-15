@@ -1,0 +1,1767 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-05-15 16:01+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING"
+
+# type: Content of: <appendix><title>
+#: ../../InstructionsAp.xml:2
+#, no-wrap
+msgid "Common x86 Instructions"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><title>
+#: ../../InstructionsAp.xml:5
+#, no-wrap
+msgid "Reading the Tables"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:8
+msgid "The tables of instructions presented in this appendix include:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:12
+msgid "The instruction code"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:13
+msgid "The operands used"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:14
+msgid "The flags used"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:15
+msgid "A brief description of what the instruction does"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:19
+msgid ""
+"In the operands section, it will list the type of operands it takes.  If it "
+"takes more than one operand, each operand will be separated by a comma.  "
+"Each operand will have a list of codes which tell whether the operand can be "
+"an immediate-mode value (I), a register (R), or a memory address (M).  For "
+"example, the <literal>movl</literal> instruction is listed as "
+"<literal>I/R/M, R/M</literal>.  This means that the first operand can be any "
+"kind of value, while the second operand must be a register or memory "
+"location.  Note, however, that in x86 assembly language you cannot have more "
+"than one operand be a memory location."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:31
+msgid "In the flags<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../InstructionsAp.xml:31
+#, no-wrap
+msgid "flags"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:31
+msgid ""
+"</indexterm> section, it lists the flags in the &eflags-indexed; register "
+"affected by the instruction.  The following flags are mentioned:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><term>
+#: ../../InstructionsAp.xml:39
+#, no-wrap
+msgid "O"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:41
+msgid "Overflow flag<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para><primary>
+#: ../../InstructionsAp.xml:41
+#, no-wrap
+msgid "overflow flag"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:41
+msgid ""
+"</indexterm>.  This is set to true if the destination operand was not large "
+"enough to hold the result of the instruction."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><term>
+#: ../../InstructionsAp.xml:45
+#, no-wrap
+msgid "S"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:47
+msgid "Sign flag<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para><primary>
+#: ../../InstructionsAp.xml:47
+#, no-wrap
+msgid "sign flag"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:47
+msgid "</indexterm>.  This is set to the sign of the last result."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><term>
+#: ../../InstructionsAp.xml:52
+#, no-wrap
+msgid "Z"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:54
+msgid "Zero flag<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para><primary>
+#: ../../InstructionsAp.xml:54
+#, no-wrap
+msgid "zero flag"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:54
+msgid ""
+"</indexterm>.  This flag is set to true if the result of the instruction is "
+"zero."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><term>
+#: ../../InstructionsAp.xml:60
+#, no-wrap
+msgid "A"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:62
+msgid "Auxiliary carry flag<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para><primary>
+#: ../../InstructionsAp.xml:62
+#, no-wrap
+msgid "auxiliary carry flag"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:62
+msgid ""
+"</indexterm>.  This flag is set for carries and borrows between the third "
+"and fourth bit.  It is not often used."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><term>
+#: ../../InstructionsAp.xml:68
+#, no-wrap
+msgid "P"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:70
+msgid "Parity flag<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para><primary>
+#: ../../InstructionsAp.xml:70
+#, no-wrap
+msgid "parity flag"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:70
+msgid ""
+"</indexterm>.  This flag is set to true if the low byte of the last result "
+"had an even number of 1 bits."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:76 ../../InstructionsAp.xml:279 ../../InstructionsAp.xml:285 ../../InstructionsAp.xml:291 ../../InstructionsAp.xml:297
+#, no-wrap
+msgid "C"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:78
+msgid "Carry flag<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para><primary>
+#: ../../InstructionsAp.xml:78
+#, no-wrap
+msgid "carry flag"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><variablelist><varlistentry><listitem><para>
+#: ../../InstructionsAp.xml:78
+msgid ""
+"</indexterm>.  Used in arithmetic to say whether or not the result should be "
+"carried over to an additional byte.  If the carry flag is set, that usually "
+"means that the destination register could not hold the full result.  It is "
+"up to the programmer to decide on what action to take (i.e. - propogate the "
+"result to another byte, signal an error, or ignore it entirely)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:88
+msgid "Other flags exist, but they are much less important."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><title>
+#: ../../InstructionsAp.xml:94 ../../InstructionsAp.xml:101
+#, no-wrap
+msgid "Data Transfer Instructions"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:97
+msgid ""
+"These instructions perform little, if any computation.  Instead they are "
+"mostly used for moving data from one place to another."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><thead><row><entry>
+#: ../../InstructionsAp.xml:108 ../../InstructionsAp.xml:163 ../../InstructionsAp.xml:246 ../../InstructionsAp.xml:332
+#, no-wrap
+msgid "Instruction"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><thead><row><entry>
+#: ../../InstructionsAp.xml:108 ../../InstructionsAp.xml:163 ../../InstructionsAp.xml:246 ../../InstructionsAp.xml:332 ../../InstructionsAp.xml:424
+#, no-wrap
+msgid "Operands"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><thead><row><entry>
+#: ../../InstructionsAp.xml:108 ../../InstructionsAp.xml:163 ../../InstructionsAp.xml:246 ../../InstructionsAp.xml:332
+#, no-wrap
+msgid "Affected Flags"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:111
+#, no-wrap
+msgid "movl<indexterm zone=\"dtins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:111
+#, no-wrap
+msgid "movl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:111 ../../InstructionsAp.xml:115 ../../InstructionsAp.xml:119 ../../InstructionsAp.xml:126 ../../InstructionsAp.xml:131 ../../InstructionsAp.xml:137 ../../InstructionsAp.xml:166 ../../InstructionsAp.xml:170 ../../InstructionsAp.xml:174 ../../InstructionsAp.xml:178 ../../InstructionsAp.xml:182 ../../InstructionsAp.xml:187 ../../InstructionsAp.xml:193 ../../InstructionsAp.xml:197 ../../InstructionsAp.xml:203 ../../InstructionsAp.xml:207 ../../InstructionsAp.xml:211 ../../InstructionsAp.xml:215 ../../InstructionsAp.xml:219 ../../InstructionsAp.xml:249 ../../InstructionsAp.xml:253 ../../InstructionsAp.xml:258 ../../InstructionsAp.xml:262 ../../InstructionsAp.xml:266 ../../InstructionsAp.xml:270 ../../InstructionsAp.xml:275 ../../InstructionsAp.xml:279 ../../InstructionsAp.xml:285 ../../InstructionsAp.xml:291 ../../InstructionsAp.xml:297 ../../InstructionsAp.xml:303 ../../InstructionsAp.xml:307 ../../InstructionsAp.xml:335 ../../InstructionsAp.xml:341 ../../InstructionsAp.xml:346 ../../InstructionsAp.xml:365 ../../InstructionsAp.xml:369 ../../InstructionsAp.xml:427 ../../InstructionsAp.xml:431 ../../InstructionsAp.xml:436 ../../InstructionsAp.xml:440 ../../InstructionsAp.xml:447 ../../InstructionsAp.xml:452 ../../InstructionsAp.xml:456 ../../InstructionsAp.xml:463 ../../InstructionsAp.xml:468 ../../InstructionsAp.xml:473 ../../InstructionsAp.xml:480
+#, no-wrap
+msgid "</indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:111 ../../InstructionsAp.xml:115
+#, no-wrap
+msgid "I/R/M, I/R/M"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:111 ../../InstructionsAp.xml:115 ../../InstructionsAp.xml:119 ../../InstructionsAp.xml:126 ../../InstructionsAp.xml:131 ../../InstructionsAp.xml:137 ../../InstructionsAp.xml:335 ../../InstructionsAp.xml:341 ../../InstructionsAp.xml:346 ../../InstructionsAp.xml:365 ../../InstructionsAp.xml:369
+#, no-wrap
+msgid "O/S/Z/A/C"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:113
+#, no-wrap
+msgid ""
+"This copies a word of data from one location to another.  <literal>movl "
+"%eax, %ebx</literal> copies the contents of &eax; to &ebx;"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:115
+#, no-wrap
+msgid "movb<indexterm zone=\"dtins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:115
+#, no-wrap
+msgid "movb"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:117
+#, no-wrap
+msgid "Same as <literal>movl</literal>, but operates on individual bytes."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:119
+#, no-wrap
+msgid "leal<indexterm zone=\"dtins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:119
+#, no-wrap
+msgid "leal"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:119
+#, no-wrap
+msgid "M, I/R/M"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:121
+#, no-wrap
+msgid ""
+"This takes a memory location given in the standard format, and, instead of\n"
+"loading the contents of the memory location, loads the computed address.\n"
+"For example, <literal>leal 5(%ebp,%ecx,1), %eax</literal> loads the "
+"address\n"
+"computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in &eax;"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:126
+#, no-wrap
+msgid "popl<indexterm zone=\"dtins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:126
+#, no-wrap
+msgid "popl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:126 ../../InstructionsAp.xml:182 ../../InstructionsAp.xml:187 ../../InstructionsAp.xml:193 ../../InstructionsAp.xml:203 ../../InstructionsAp.xml:211 ../../InstructionsAp.xml:253
+#, no-wrap
+msgid "R/M"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:128
+#, no-wrap
+msgid ""
+"Pops the top of the stack into the given location.  This is equivalent to "
+"performing <literal>movl (%esp), R/M</literal> followed by <literal>addl $4, "
+"%esp</literal>.\n"
+"<literal>popfl</literal> is a variant which pops the top of the stack into "
+"the &eflags;<indexterm zone=\"dtins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:129 ../../InstructionsAp.xml:135
+#, no-wrap
+msgid "&percent;eflags"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:129
+#, no-wrap
+msgid "</indexterm> register."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:131
+#, no-wrap
+msgid "pushl<indexterm zone=\"dtins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:131
+#, no-wrap
+msgid "pushl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:131
+#, no-wrap
+msgid "I/R/M"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:133
+#, no-wrap
+msgid ""
+"Pushes the given value onto the stack.\n"
+"This is the equivalent to performing <literal>subl $4, %esp</literal> "
+"followed by <literal>movl I/R/M, (%esp)</literal>.\n"
+"<literal>pushfl</literal> is a variant which pushes the current contents of "
+"the &eflags;<indexterm zone=\"dtins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:135
+#, no-wrap
+msgid "</indexterm> register onto the top of the stack."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:137
+#, no-wrap
+msgid "xchgl<indexterm zone=\"dtins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:137
+#, no-wrap
+msgid "xchgl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:137
+#, no-wrap
+msgid "R/M, R/M"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:139
+#, no-wrap
+msgid "Exchange the values of the given operands."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><title>
+#: ../../InstructionsAp.xml:148 ../../InstructionsAp.xml:156
+#, no-wrap
+msgid "Integer Instructions"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:151
+msgid ""
+"These are basic calculating instructions that operate on signed or unsigned "
+"integers."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:166
+#, no-wrap
+msgid "adcl<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:166
+#, no-wrap
+msgid "adcl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:166 ../../InstructionsAp.xml:170 ../../InstructionsAp.xml:178 ../../InstructionsAp.xml:215 ../../InstructionsAp.xml:219 ../../InstructionsAp.xml:249 ../../InstructionsAp.xml:258 ../../InstructionsAp.xml:303 ../../InstructionsAp.xml:307
+#, no-wrap
+msgid "I/R/M, R/M"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:166 ../../InstructionsAp.xml:170 ../../InstructionsAp.xml:174 ../../InstructionsAp.xml:178 ../../InstructionsAp.xml:197 ../../InstructionsAp.xml:207 ../../InstructionsAp.xml:211 ../../InstructionsAp.xml:215 ../../InstructionsAp.xml:219 ../../InstructionsAp.xml:258 ../../InstructionsAp.xml:303 ../../InstructionsAp.xml:307
+#, no-wrap
+msgid "O/S/Z/A/P/C"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:168
+#, no-wrap
+msgid ""
+"Add with carry.  Adds the carry bit and the first operand to the second, "
+"and, if there is an overflow, sets overflow and carry to true.  This is "
+"usually used for operations larger than a machine word.  The addition on the "
+"least-significant word would take place using <literal>addl</literal>, while "
+"additions to the other words would used the <literal>adcl</literal> "
+"instruction to take the carry from the previous add into account.  For the "
+"usual case, this is not used, and <literal>addl</literal> is used instead."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:170
+#, no-wrap
+msgid "addl<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:170
+#, no-wrap
+msgid "addl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:172
+#, no-wrap
+msgid ""
+"Addition.  Adds the first operand to the second, storing the result in the "
+"second.  If the result is larger than the destination register, the overflow "
+"and carry bits are set to true.  This instruction operates on both signed "
+"and unsigned integers."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:174
+#, no-wrap
+msgid "cdq<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:174
+#, no-wrap
+msgid "cdq"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:176
+#, no-wrap
+msgid "Converts the <indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:176
+#, no-wrap
+msgid "&eax;"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:176
+#, no-wrap
+msgid "</indexterm><indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:176
+#, no-wrap
+msgid "&edx;"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:176
+#, no-wrap
+msgid ""
+"</indexterm>&eax; word into the double-word consisting of &edx;:&eax; with "
+"sign extension.  The <literal>q</literal> signifies that it is a "
+"<emphasis>quad-word</emphasis>.  It's actually a double-word, but it's "
+"called a quad-word because of the terminology used in the 16-bit days.  This "
+"is usually used before issuing an <literal>idivl</literal> instruction."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:178
+#, no-wrap
+msgid "cmpl<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:178
+#, no-wrap
+msgid "cmpl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:180
+#, no-wrap
+msgid ""
+"Compares two integers.  It does this by subtracting the first operand from "
+"the second.  It discards the results, but sets the flags accordingly.  "
+"Usually used before a conditional jump."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:182
+#, no-wrap
+msgid "decl<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:182
+#, no-wrap
+msgid "decl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:182 ../../InstructionsAp.xml:187 ../../InstructionsAp.xml:193 ../../InstructionsAp.xml:203
+#, no-wrap
+msgid "O/S/Z/A/P"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:184
+#, no-wrap
+msgid ""
+"Decrements the register or memory location.  Use <literal>decb</literal>\n"
+"to decrement a byte instead of a word."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:187
+#, no-wrap
+msgid "divl<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:187
+#, no-wrap
+msgid "divl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:189
+#, no-wrap
+msgid ""
+"Performs unsigned division.  Divides the contents of the double-word "
+"contained in the combined &edx;:&eax-indexed; registers by the value in the "
+"register or memory location specified.  The &eax; register contains the "
+"resulting \n"
+"quotient, and the &edx; register contains the resulting remainder.  If the "
+"\n"
+"quotient is too large to fit in &eax;, it triggers a type 0 interrupt."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:193
+#, no-wrap
+msgid "idivl<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:193
+#, no-wrap
+msgid "idivl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:195
+#, no-wrap
+msgid "Performs signed division.  Operates just like <literal>divl</literal> above."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:197
+#, no-wrap
+msgid "imull<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:197
+#, no-wrap
+msgid "imull"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:197 ../../InstructionsAp.xml:207
+#, no-wrap
+msgid "R/M/I, R"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:199
+#, no-wrap
+msgid ""
+"Performs signed multiplication and stores the result in the second "
+"operand.\n"
+"If the second operand is left out, it is assumed to be &eax;, and the full\n"
+"result is stored in the double-word &edx-indexed;:&eax-indexed;."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:203
+#, no-wrap
+msgid "incl<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:203
+#, no-wrap
+msgid "incl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:205
+#, no-wrap
+msgid ""
+"Increments the given register or memory location.  Use "
+"<literal>incb</literal> to increment a byte instead of a word."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:207
+#, no-wrap
+msgid "mull<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:207
+#, no-wrap
+msgid "mull"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:209
+#, no-wrap
+msgid ""
+"Perform unsigned multiplication.  Same rules as apply to "
+"<literal>imull</literal>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:211
+#, no-wrap
+msgid "negl<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:211
+#, no-wrap
+msgid "negl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:213
+#, no-wrap
+msgid "Negates (gives the two's complement<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:213
+#, no-wrap
+msgid "two's complement"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:213
+#, no-wrap
+msgid "</indexterm> inversion of) the given register or memory location."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:215
+#, no-wrap
+msgid "sbbl<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:215
+#, no-wrap
+msgid "sbbl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:217
+#, no-wrap
+msgid ""
+"Subtract with borrowing.  This is used in the same way that "
+"<literal>adc</literal> is, except for subtraction.  Normally only "
+"<literal>subl</literal> is used."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:219
+#, no-wrap
+msgid "subl<indexterm zone=\"intins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:219
+#, no-wrap
+msgid "subl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:221
+#, no-wrap
+msgid ""
+"Subtract the two operands.  This subtracts the first operand from the "
+"second,\n"
+"and stores the result in the second operand.  This instruction can be used "
+"on\n"
+"both signed and unsigned numbers."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><title>
+#: ../../InstructionsAp.xml:232 ../../InstructionsAp.xml:239
+#, no-wrap
+msgid "Logic Instructions"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:235
+msgid "These instructions operate on memory as bits instead of words."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:249
+#, no-wrap
+msgid "andl<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:249
+#, no-wrap
+msgid "andl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:249
+#, no-wrap
+msgid "O/S/Z/P/C"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:251
+#, no-wrap
+msgid ""
+"Performs a logical and of the contents of the two operands, and stores the "
+"result in the second operand.  Sets the overflow and carry flags to false."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:253
+#, no-wrap
+msgid "notl<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:253
+#, no-wrap
+msgid "notl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:255
+#, no-wrap
+msgid ""
+"Performs a logical not on each bit in the operand.  Also known as a \n"
+"one's complement<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:256
+#, no-wrap
+msgid "one's complement"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:256
+#, no-wrap
+msgid "</indexterm>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:258
+#, no-wrap
+msgid "orl<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:258
+#, no-wrap
+msgid "orl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:260
+#, no-wrap
+msgid ""
+"Performs a logical or between the two operands, and stores the result in the "
+"second operand.  Sets the overflow and carry flags to false."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:262
+#, no-wrap
+msgid "rcll<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:262
+#, no-wrap
+msgid "rcll"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:262 ../../InstructionsAp.xml:266 ../../InstructionsAp.xml:270 ../../InstructionsAp.xml:275 ../../InstructionsAp.xml:279 ../../InstructionsAp.xml:285 ../../InstructionsAp.xml:291 ../../InstructionsAp.xml:297
+#, no-wrap
+msgid "I/&cl;, R/M"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:262 ../../InstructionsAp.xml:266 ../../InstructionsAp.xml:270 ../../InstructionsAp.xml:275
+#, no-wrap
+msgid "O/C"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:264
+#, no-wrap
+msgid ""
+"Rotates the given location's bits to the left the number of times in the "
+"first operand, which is either an immediate-mode value or the register "
+"&cl;.  The carry flag is included in the rotation, making it use 33 bits "
+"instead of 32.  Also sets the overflow flag."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:266
+#, no-wrap
+msgid "rcrl<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:266
+#, no-wrap
+msgid "rcrl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:268 ../../InstructionsAp.xml:277
+#, no-wrap
+msgid "Same as above, but rotates right."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:270
+#, no-wrap
+msgid "roll<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:270
+#, no-wrap
+msgid "roll"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:272
+#, no-wrap
+msgid ""
+"Rotate bits to the left.  It sets the overflow and carry flags, but does not "
+"count the carry flag as part of the rotation.  The number of bits to roll "
+"is\n"
+"either specified in immediate mode or is contained in the &cl; register."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:275
+#, no-wrap
+msgid "rorl<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:275
+#, no-wrap
+msgid "rorl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:279
+#, no-wrap
+msgid "sall<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:279
+#, no-wrap
+msgid "sall"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:281
+#, no-wrap
+msgid ""
+"Arithmetic shift left.  The sign bit is shifted out to the carry flag, and a "
+"zero bit is placed in the least significant bit.  Other bits are simply "
+"shifted to the left.  This is the same as the regular shift left.  The "
+"number of bits\n"
+"to shift is either specified in immediate mode or is contained in the &cl;\n"
+"register."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:285
+#, no-wrap
+msgid "sarl<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:285
+#, no-wrap
+msgid "sarl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:287
+#, no-wrap
+msgid ""
+"Arithmetic shift right.  The least significant bit is shifted out to the "
+"carry flag.  The sign bit is shifted in, and kept as the sign bit.  Other "
+"bits are simply shifted to the right.  The number of bits\n"
+"to shift is either specified in immediate mode or is contained in the &cl;\n"
+"register."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:291
+#, no-wrap
+msgid "shll<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:291
+#, no-wrap
+msgid "shll"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:293
+#, no-wrap
+msgid ""
+"Logical shift left.  This shifts all bits to the left (sign bit is not "
+"treated specially).  The leftmost bit is pushed to the carry flag.  The "
+"number of bits\n"
+"to shift is either specified in immediate mode or is contained in the &cl;\n"
+"register."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:297
+#, no-wrap
+msgid "shrl<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:297
+#, no-wrap
+msgid "shrl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:299
+#, no-wrap
+msgid ""
+"Logical shift right.  This shifts all bits in the register to the right "
+"(sign bit is not treated specially).  The rightmost bit is pushed to the "
+"carry flag.  The number of bits\n"
+"to shift is either specified in immediate mode or is contained in the &cl;\n"
+"register."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:303
+#, no-wrap
+msgid "testl<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:303
+#, no-wrap
+msgid "testl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:305
+#, no-wrap
+msgid ""
+"Does a logical and of both operands and discards the results, but sets the "
+"flags accordingly."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:307
+#, no-wrap
+msgid "xorl<indexterm zone=\"logicins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:307
+#, no-wrap
+msgid "xorl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:309
+#, no-wrap
+msgid ""
+"Does an exclusive or on the two operands, and stores the result in the "
+"second operand.  Sets the overflow and carry flags to false."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><title>
+#: ../../InstructionsAp.xml:318 ../../InstructionsAp.xml:325
+#, no-wrap
+msgid "Flow Control Instructions"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:321
+msgid "These instructions may alter the flow of the program."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:335
+#, no-wrap
+msgid "call<indexterm zone=\"flowins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:335
+#, no-wrap
+msgid "call"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:335 ../../InstructionsAp.xml:346 ../../InstructionsAp.xml:365
+#, no-wrap
+msgid "destination address"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:337
+#, no-wrap
+msgid ""
+"This pushes what would be the next value for &eip; onto the stack, and "
+"jumps\n"
+"to the destination address.  Used for function calls.\n"
+"Alternatively, the destination address can be an asterisk followed by a "
+"register for an indirect function call.  For example, <literal>call "
+"*%eax</literal> will call the function at the address in &eax;."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:341
+#, no-wrap
+msgid "int<indexterm zone=\"flowins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:341
+#, no-wrap
+msgid "int"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:341
+#, no-wrap
+msgid "I"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:343
+#, no-wrap
+msgid ""
+"Causes an interrupt of the given number.  This is usually used\n"
+"for system calls and other kernel interfaces."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:346
+#, no-wrap
+msgid "Jcc<indexterm zone=\"flowins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:346
+#, no-wrap
+msgid "Jcc"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><para>
+#: ../../InstructionsAp.xml:349
+msgid ""
+"Conditional branch.  <literal>cc</literal> is the <emphasis>condition "
+"code</emphasis>.  Jumps to the given address if the condition code is true "
+"(set from the previous instruction, probably a comparison).  Otherwise, goes "
+"to the next instruction.  The condition codes are:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:352
+msgid ""
+"<literal>[n]a[e]</literal> - above (unsigned greater than).  An "
+"<literal>n</literal> can be added for \"not\" and an <literal>e</literal> "
+"can be added for \"or equal to\""
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:353
+msgid "<literal>[n]b[e]</literal> - below (unsigned less than)"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:354
+msgid "<literal>[n]e</literal> - equal to"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:355
+msgid "<literal>[n]z</literal> - zero"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:356
+msgid "<literal>[n]g[e]</literal> - greater than (signed comparison)"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:357
+msgid "<literal>[n]l[e]</literal> - less than (signed comparison)"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:358
+msgid "<literal>[n]c</literal> - carry flag set"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:359
+msgid "<literal>[n]o</literal> - overflow flag set"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:360
+msgid "<literal>[p]p</literal> - parity flag set"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:361
+msgid "<literal>[n]s</literal> - sign flag set"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:362
+msgid "<literal>ecxz</literal> - &ecx;<indexterm zone=\"flowins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para><primary>
+#: ../../InstructionsAp.xml:362
+#, no-wrap
+msgid "&percent;ecx"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:362
+msgid "</indexterm> is zero"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:365
+#, no-wrap
+msgid "jmp<indexterm zone=\"flowins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:365
+#, no-wrap
+msgid "jmp"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:367
+#, no-wrap
+msgid ""
+"An unconditional jump.  This simply sets &eip; to the destination address.  "
+"Alternatively, the destination address can be an asterisk followed by a "
+"register for an indirect jump.  For example, <literal>jmp *%eax</literal> "
+"will jump to the address in &eax;."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:369
+#, no-wrap
+msgid "ret<indexterm zone=\"flowins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:369
+#, no-wrap
+msgid "ret"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:371
+#, no-wrap
+msgid ""
+"Pops a value off of the stack and then sets &eip; to that value.  Used\n"
+"to return from function calls."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><title>
+#: ../../InstructionsAp.xml:408 ../../InstructionsAp.xml:417
+#, no-wrap
+msgid "Assembler Directives"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:411
+msgid ""
+"These are instructions to the assembler and linker, instead of instructions "
+"to the processor.  These are used to help the assembler put your code "
+"together properly, and make it easier to use."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><thead><row><entry>
+#: ../../InstructionsAp.xml:424
+#, no-wrap
+msgid "Directive"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:427
+#, no-wrap
+msgid ".ascii<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:427
+#, no-wrap
+msgid ".ascii"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:427
+#, no-wrap
+msgid "QUOTED STRING"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:429
+#, no-wrap
+msgid "Takes the given quoted string and converts it into byte data."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:431
+#, no-wrap
+msgid ".byte<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:431
+#, no-wrap
+msgid ".byte"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:431 ../../InstructionsAp.xml:463
+#, no-wrap
+msgid "VALUES"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:433
+#, no-wrap
+msgid ""
+"Takes a comma-separated list of values and inserts them right there\n"
+"in the program as data."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:436
+#, no-wrap
+msgid ".endr<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:436
+#, no-wrap
+msgid ".endr"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:438
+#, no-wrap
+msgid "Ends a repeating section defined with <literal>.rept</literal>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:440
+#, no-wrap
+msgid ".equ<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:440
+#, no-wrap
+msgid ".equ"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:440
+#, no-wrap
+msgid "LABEL, VALUE"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:442
+#, no-wrap
+msgid ""
+"Sets the given label equivalent to the given value.  The value\n"
+"can be a number, a character, or an constant expression that evaluates\n"
+"to a a number or character.  From that point on, use of the label will\n"
+"be substituted for the given value."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:447
+#, no-wrap
+msgid ".globl<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:447
+#, no-wrap
+msgid ".globl"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:447
+#, no-wrap
+msgid "LABEL"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:449
+#, no-wrap
+msgid ""
+"Sets the given label as global, meaning that it can be used from \n"
+"separately-compiled object files."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:452
+#, no-wrap
+msgid ".include<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:452
+#, no-wrap
+msgid ".include"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:452
+#, no-wrap
+msgid "FILE"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:454
+#, no-wrap
+msgid "Includes the given file just as if it were typed in right there."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:456
+#, no-wrap
+msgid ".lcomm<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:456
+#, no-wrap
+msgid ".lcomm"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:456
+#, no-wrap
+msgid "SYMBOL, SIZE"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:458
+#, no-wrap
+msgid ""
+"This is used in the <literal>.bss</literal> section to specify storage\n"
+"that should be allocated when the program is executed.  Defines the symbol\n"
+"with the address where the storage will be located, and makes sure that\n"
+"it is the given number of bytes long."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:463
+#, no-wrap
+msgid ".long<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:463
+#, no-wrap
+msgid ".long"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:465
+#, no-wrap
+msgid ""
+"Takes a sequence of numbers separated by commas, and inserts those\n"
+"numbers as 4-byte words right where they are in the program."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:468
+#, no-wrap
+msgid ".rept<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:468
+#, no-wrap
+msgid ".rept"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:468
+#, no-wrap
+msgid "COUNT"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:470
+#, no-wrap
+msgid ""
+"Repeats everything between this directive and the <literal>.endr</literal>\n"
+"directives the number of times specified."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:473
+#, no-wrap
+msgid ".section<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:473
+#, no-wrap
+msgid ".section"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:473
+#, no-wrap
+msgid "SECTION NAME"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:475
+#, no-wrap
+msgid ""
+"Switches the section that is being worked on.  Common sections include\n"
+"<literal>.text</literal> (for code), <literal>.data</literal> (for \n"
+"data embedded in the program itself), and <literal>.bss</literal> (for\n"
+"uninitialized global data)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:480
+#, no-wrap
+msgid ".type<indexterm zone=\"dirins\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../InstructionsAp.xml:480
+#, no-wrap
+msgid ".type"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:480
+#, no-wrap
+msgid "SYMBOL, @function"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../InstructionsAp.xml:482
+#, no-wrap
+msgid "Tells the linker that the given symbol is a function."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><title>
+#: ../../InstructionsAp.xml:491
+#, no-wrap
+msgid "Differences in Other Syntaxes and Terminology"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:494
+msgid ""
+"The syntax for assembly language used in this book is known at the "
+"<emphasis>AT&amp;T<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../InstructionsAp.xml:495
+#, no-wrap
+msgid "AT&amp;T syntax"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:495
+msgid ""
+"</indexterm></emphasis> syntax.  It is the one supported by the GNU tool "
+"chain that comes standard with every Linux distribution.  However, the "
+"official syntax for x86 assembly language (known as the <trademark "
+"class=\"registered\">Intel</trademark> syntax<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../InstructionsAp.xml:497
+#, no-wrap
+msgid "Intel syntax"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:497
+msgid ""
+"</indexterm>)  is different.  It is the same assembly language for the same "
+"platform, but it looks different.  Some of the differences include:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:504
+msgid ""
+"In Intel syntax, the operands of instructions are often reversed.  The "
+"destination operand is listed before the source operand."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:505
+msgid ""
+"In Intel syntax, registers are not prefixed with the percent sign "
+"(<literal>%</literal>)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:506
+msgid ""
+"In Intel syntax, a dollar-sign (<literal>$</literal>) is not required to do "
+"immediate-mode addressing.  Instead, non-immediate addressing is "
+"accomplished by surrounding the address with brackets "
+"(<literal>[]</literal>)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:507
+msgid ""
+"In Intel syntax, the instruction name does not include the size of data "
+"being moved.  If that is ambiguous, it is explicitly stated as "
+"<literal>BYTE</literal>, <literal>WORD</literal>, or "
+"<literal>DWORD</literal> immediately after the instruction name."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:508
+msgid ""
+"The way that memory addresses are represented in Intel assembly language is "
+"much different (shown below)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:509
+msgid ""
+"Because the x86 processor line originally started out as a 16-bit processor, "
+"most literature about x86 processors refer to words as 16-bit values, and "
+"call 32-bit values double words.  However, we use the term \"word\" to refer "
+"to the standard register size on a processor, which is 32 bits on an x86 "
+"processor.  The syntax also keeps this naming convention - "
+"<literal>DWORD</literal> stands for \"double word\" in Intel syntax and is "
+"used for standard-sized registers, which we would call simply a \"word\"."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:510
+msgid ""
+"Intel assembly language has the ability to address memory as a "
+"segment/offset pair.  We do not mention this because Linux does not support "
+"segmented memory, and is therefore irrelevant to normal Linux programming."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:514
+msgid ""
+"Other differences exist, but they are small in comparison.  To show some of "
+"the differences, consider the following instruction:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:523
+msgid "In Intel syntax, this would be written as:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:531
+msgid ""
+"The memory reference is a bit easier to read than its AT&amp;T counterpart "
+"because it spells out exactly how the address will be computed.  However, "
+"but the order of operands in Intel syntax can be confusing."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><title>
+#: ../../InstructionsAp.xml:540
+#, no-wrap
+msgid "Where to Go for More Information"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:543
+msgid ""
+"Intel has a set of comprehensive guides to their processors.  These are "
+"available at http://www.intel.com/design/pentium/manuals/ Note that all of "
+"these use the Intel syntax, not the AT&amp;T syntax.  The most important "
+"ones are their <citetitle>IA-32 Intel Architecture Software Developer's "
+"Manual</citetitle> in its three volumes::"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:551
+msgid ""
+"Volume 1: System Programming Guide "
+"(http://developer.intel.com/design/pentium4/manuals/245470.htm)"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:552
+msgid ""
+"Volume 2: Instruction Set Reference "
+"(http://developer.intel.com/design/pentium4/manuals/245471.htm)"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><itemizedlist><listitem><para>
+#: ../../InstructionsAp.xml:553
+msgid ""
+"Volume 3: System Programming Guide "
+"(http://developer.intel.com/design/pentium4/manuals/245472.htm)"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../InstructionsAp.xml:557
+msgid ""
+"In addition, you can find a lot of information in the manual for the GNU "
+"assembler, available online at "
+"http://www.gnu.org/software/binutils/manual/gas-2.9.1/as.html.  Similarly, "
+"the manual for the GNU linker is available online at "
+"http://www.gnu.org/software/binutils/manual/ld-2.9.1/ld.html."
+msgstr ""

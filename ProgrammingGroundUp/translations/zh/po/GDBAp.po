@@ -1,0 +1,1180 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-05-15 16:01+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING"
+
+# type: Content of: <appendix><title>
+#: ../../GDBAp.xml:2
+#, no-wrap
+msgid "Using the GDB Debugger"
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../GDBAp.xml:5
+msgid ""
+"By the time you read this appendix, you will likely have written at least "
+"one program with an error in it.  In assembly language, even minor errors "
+"usually have results such as the whole program crashing with a segmentation "
+"fault error.  In most programming languages, you can simply print out the "
+"values in your variables as you go along, and use that output to find out "
+"where you went wrong.  In assembly language, calling output functions is not "
+"so easy.  Therefore, to aid in determining the source of errors, you must "
+"use a <emphasis>source debugger</emphasis>."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../GDBAp.xml:16
+msgid ""
+"A debugger is a program that helps you find bugs by stepping through the "
+"program one step at a time, letting you examine memory and register contents "
+"along the way.  A <emphasis>source debugger</emphasis> is a debugger that "
+"allows you to tie the debugging operation directly to the source code of a "
+"program.  This means that the debugger allows you to look at the source code "
+"as you typed it in - complete with symbols, labels, and comments."
+msgstr ""
+
+# type: Content of: <appendix><para>
+#: ../../GDBAp.xml:26
+msgid ""
+"The debugger we will be looking at is GDB - the GNU Debugger. This "
+"application is present on almost all GNU/Linux distributions.  It can debug "
+"programs in multiple programming languages, including assembly language."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><title>
+#: ../../GDBAp.xml:32
+#, no-wrap
+msgid "An Example Debugging Session"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:35
+msgid ""
+"The best way to explain how a debugger works is by using it.  The program we "
+"will be using the debugger on is the <literal>maximum</literal> program used "
+"in <xref linkend=\"firstprogs\" />.  Let's say that you entered the program "
+"perfectly, except that you left out the line:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:44
+msgid ""
+"When you run the program, it just goes in an infinite loop - it never "
+"exits.  To determine the cause, you need to run the program under GDB.  "
+"However, to do this, you need to have the assembler include debugging "
+"information in the executable.  All you need to do to enable this is to add "
+"the <literal>--gstabs</literal> option to the <literal>as</literal> "
+"command.  So, you would assemble it like this:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:55
+msgid ""
+"Linking would be the same as normal.  \"stabs\" is the debugging format used "
+"by GDB.  Now, to run the program under the debugger, you would type in "
+"<literal>gdb ./maximum</literal>.  Be sure that the source files are in the "
+"current directory.  The output should look similar to this:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:75
+msgid "Depending on which version of GDB<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../GDBAp.xml:75
+#, no-wrap
+msgid "GDB"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:75
+msgid ""
+"</indexterm> you are running, this output may vary slightly.  At this point, "
+"the program is loaded, but is not running yet.  The debugger is waiting your "
+"command.  To run your program, just type in <literal>run<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:78 ../../GDBAp.xml:317
+#, no-wrap
+msgid "run"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:78
+msgid ""
+"</indexterm></literal>.  This will not return, because the program is "
+"running in an infinite loop.  To stop the program, hit control-c.  The "
+"screen will then say this:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:94
+msgid "This tells you that the program was interrupted by the SIGINT<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../GDBAp.xml:94
+#, no-wrap
+msgid "SIGINT"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:94
+msgid ""
+"</indexterm> signal (from your control-c), and was within the section "
+"labelled <literal>start_loop</literal>, and was executing on line 34 when it "
+"stopped.  It gives you the code that it is about to execute.  Depending on "
+"exactly when you hit control-c, it may have stopped on a different line or a "
+"different instruction than the example."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:102
+msgid ""
+"One of the best ways to find bugs in a program is to follow the flow of the "
+"program to see where it is branching incorrectly.  To follow the flow of "
+"this program, keep on entering <literal>stepi<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:104 ../../GDBAp.xml:271 ../../GDBAp.xml:353
+#, no-wrap
+msgid "stepi"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:104
+msgid ""
+"</indexterm></literal> (for \"step instruction\"), which will cause the "
+"computer to execute one instruction at a time.  If you do this several "
+"times, your output will look something like this:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:130
+msgid ""
+"As you can tell, it has looped.  In general, this is good, since we wrote it "
+"to loop.  However, the problem is that it is <emphasis>never "
+"stopping</emphasis>.  Therefore, to find out what the problem is, let's look "
+"at the point in our code where we should be exitting the loop<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../GDBAp.xml:133
+#, no-wrap
+msgid "loop"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:133
+msgid "</indexterm>:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:142
+msgid ""
+"Basically, it is checking to see if &eax; hits zero.  If so, it should exit "
+"the loop.  There are several things to check here.  First of all, you may "
+"have left this piece out altogether.  It is not uncommon for a programmer to "
+"forget to include a way to exit a loop.  However, this is not the case "
+"here.  Second, you should make sure that <literal>loop_exit</literal> "
+"actually is outside the loop.  If we put the label in the wrong place, "
+"strange things would happen.  However, again, this is not the case."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:154
+msgid ""
+"Neither of those potential problems are the culprit.  So, the next option is "
+"that perhaps &eax; has the wrong value.  There are two ways to check the "
+"contents of register in GDB.  The first one is the command <literal>info "
+"register<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../GDBAp.xml:157
+#, no-wrap
+msgid "info register"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:157
+msgid ""
+"</indexterm></literal>.  This will display the contents of all registers in "
+"hexadecimal.  However, we are only interested in &eax; at this point.  To "
+"just display &eax; we can do <literal>print/$eax</literal> to print it in "
+"hexadecimal, or do <literal>print<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:160 ../../GDBAp.xml:365
+#, no-wrap
+msgid "print"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:160
+msgid ""
+"</indexterm>/d $eax</literal> to print it in decimal.  Notice that in GDB, "
+"registers are prefixed with dollar signs rather than percent signs.  Your "
+"screen should have this on it:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:172
+msgid ""
+"This means that the result of your first inquiry is 3.  Every inquiry you "
+"make will be assigned a number prefixed with a dollar sign.  Now, if you "
+"look back into the code, you will find that 3 is the first number in the "
+"list of numbers to search through.  If you step through the loop a few more "
+"times, you will find that in every loop iteration &eax; has the number 3.  "
+"This is not what should be happening.  &eax; should go to the next value in "
+"the list in every iteration."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:181
+msgid ""
+"Okay, now we know that &eax; is being loaded with the same value over and "
+"over again.  Let's search to see where &eax; is being loaded from.  The line "
+"of code is this:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:191
+msgid ""
+"So, step until this line of code is ready to execute.  Now, this code "
+"depends on two values - <literal>data_items</literal> and &edi;.  "
+"<literal>data_items</literal> is a symbol, and therefore constant.  It's a "
+"good idea to check your source code to make sure the label is in front of "
+"the right data, but in our case it is.  Therefore, we need to look at "
+"&edi;.  So, we need to print it out.  It will look like this:"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:206
+msgid ""
+"This indicates that &edi; is set to zero, which is why it keeps on loading "
+"the first element of the array.  This should cause you to ask yourself two "
+"questions - what is the purpose of &edi;, and how should its value be "
+"changed? To answer the first question, we just need to look in the "
+"comments.  &edi; is holding the current index of "
+"<literal>data_items</literal>.  Since our search is a sequential search "
+"through the list of numbers in <literal>data_items</literal>, it would make "
+"sense that &edi; should be incremented with every loop iteration."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:217
+msgid ""
+"Scanning the code, there is no code which alters &edi; at all.  Therefore, "
+"we should add a line to increment &edi; at the beginning of every loop "
+"iteration.  This happens to be exactly the line we tossed out at the "
+"beginning.  Assembling, linking, and running the program again will show "
+"that it now works correctly."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:225
+msgid ""
+"Hopefully this exercise provided some insight into using GDB to help you "
+"find errors in your programs."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><title>
+#: ../../GDBAp.xml:232
+#, no-wrap
+msgid "Breakpoints and Other GDB Features"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:235
+msgid ""
+"The program we entered in the last section had an infinite loop, and could "
+"be easily stopped using control-c.  Other programs may simply abort or "
+"finish with errors.  In these cases, control-c doesn't help, because by the "
+"time you press control-c, the program is already finished.  To fix this, you "
+"need to set <emphasis>breakpoints<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para><primary>
+#: ../../GDBAp.xml:239 ../../GDBAp.xml:245
+#, no-wrap
+msgid "breakpoints"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:239
+msgid ""
+"</indexterm></emphasis>.  A breakpoint is a place in the source code that "
+"you have marked to indicate to the debugger that it should stop the program "
+"when it hits that point."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:245
+msgid "To set breakpoints<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:245
+msgid ""
+"</indexterm> you have to set them up before you run the program.  Before "
+"issuing the <literal>run</literal> command, you can set up breakpoints using "
+"the <literal>break<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:248 ../../GDBAp.xml:330
+#, no-wrap
+msgid "break"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:248
+msgid ""
+"</indexterm></literal> command.  For example, to break on line 27, issue the "
+"command <literal>break 27</literal>.  Then, when the program crosses line "
+"27, it will stop running, and print out the current line and instruction.  "
+"You can then step through the program from that point and examine registers "
+"and memory.  To look at the lines and line numbers of your program, you can "
+"simply use the command <literal>l</literal>.  This will print out your "
+"program with line numbers a screen at a time."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:258
+msgid ""
+"When dealing with functions, you can also break on the function names.  For "
+"example, in the factorial program in <xref linkend=\"functionschapter\" />, "
+"we could set a breakpoint for the factorial function by typing in "
+"<literal>break factorial</literal>.  This will cause the debugger to break "
+"immediately after the function call and the function setup (it skips the "
+"pushing of &ebp-indexed; and the copying of &esp-indexed;)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:267
+msgid ""
+"When stepping through code, you often don't want to have to step through "
+"every instruction of every function.  Well-tested functions are usually a "
+"waste of time to step through except on rare occasion.  Therefore, if you "
+"use the <literal>nexti<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:270 ../../GDBAp.xml:352
+#, no-wrap
+msgid "nexti"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:270
+msgid "</indexterm></literal> command instead of the <literal>stepi<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:271
+msgid ""
+"</indexterm></literal> command, GDB will wait until completion of the "
+"function before going on.  Otherwise, with <literal>stepi</literal>, GDB "
+"would step you through every instruction within every called function."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><warning><para>
+#: ../../GDBAp.xml:278
+msgid "One problem that GDB has is with handling interrupts<indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><warning><para><primary>
+#: ../../GDBAp.xml:278
+#, no-wrap
+msgid "interrupts"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><warning><para>
+#: ../../GDBAp.xml:278
+msgid ""
+"</indexterm>.  Often times GDB will miss the instruction that immediately "
+"follows an interrupt.  The instruction is actually executed, but GDB doesn't "
+"step through it.  This should not be a problem - just be aware that it may "
+"happen."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><title>
+#: ../../GDBAp.xml:288
+#, no-wrap
+msgid "GDB Quick-Reference"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><para>
+#: ../../GDBAp.xml:291
+msgid ""
+"This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and is "
+"used by permission in this book.  Parameters listed in brackets are "
+"optional."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><title>
+#: ../../GDBAp.xml:296
+#, no-wrap
+msgid "Common GDB Debugging Commands"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><thead><row><entry>
+#: ../../GDBAp.xml:302
+#, no-wrap
+msgid "Miscellaneous"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:305
+#, no-wrap
+msgid "quit<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:305
+#, no-wrap
+msgid "quit"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:305 ../../GDBAp.xml:335 ../../GDBAp.xml:336 ../../GDBAp.xml:352 ../../GDBAp.xml:353 ../../GDBAp.xml:354 ../../GDBAp.xml:364 ../../GDBAp.xml:367 ../../GDBAp.xml:381 ../../GDBAp.xml:382 ../../GDBAp.xml:383 ../../GDBAp.xml:384 ../../GDBAp.xml:385
+#, no-wrap
+msgid "</indexterm>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:305
+#, no-wrap
+msgid "Exit GDB"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:306
+#, no-wrap
+msgid "help<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:306
+#, no-wrap
+msgid "help"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:306
+#, no-wrap
+msgid "</indexterm> [cmd]"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:306
+#, no-wrap
+msgid ""
+"Print description of debugger command <literal>cmd</literal>.  Without "
+"<literal>cmd</literal>, prints a list of topics."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:307
+#, no-wrap
+msgid "directory<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:307
+#, no-wrap
+msgid "directory"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:307
+#, no-wrap
+msgid "</indexterm> [dir1] [dir2] ..."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:307
+#, no-wrap
+msgid ""
+"Add directories <literal>dir1</literal>, <literal>dir2</literal>, etc. to "
+"the list of directories searched for source files."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><thead><row><entry>
+#: ../../GDBAp.xml:314
+#, no-wrap
+msgid "Running the Program"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:317
+#, no-wrap
+msgid "run<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:317
+#, no-wrap
+msgid "</indexterm> [arg1] [arg2] ..."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:317
+#, no-wrap
+msgid ""
+"Run the program with command line arguments <literal>arg1</literal>, "
+"<literal>arg2</literal>, etc."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:318
+#, no-wrap
+msgid "set<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:318
+#, no-wrap
+msgid "set"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:318
+#, no-wrap
+msgid "</indexterm> args arg1 [arg2] ..."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:318
+#, no-wrap
+msgid ""
+"Set the program's command-line arguments to <literal>arg1</literal>, "
+"<literal>arg2</literal>, etc."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:319
+#, no-wrap
+msgid "show<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:319
+#, no-wrap
+msgid "show"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:319
+#, no-wrap
+msgid "</indexterm> args"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:319
+#, no-wrap
+msgid "Print the program's command-line arguments."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><thead><row><entry>
+#: ../../GDBAp.xml:326
+#, no-wrap
+msgid "Using Breakpoints"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:329
+#, no-wrap
+msgid "info<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:329
+#, no-wrap
+msgid "info"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:329
+#, no-wrap
+msgid "</indexterm> breakpoints"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:329
+#, no-wrap
+msgid ""
+"Print a list of all breakpoints and their numbers (breakpoint numbers are "
+"used for other breakpoint commands)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:330
+#, no-wrap
+msgid "break<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:330
+#, no-wrap
+msgid "</indexterm> <emphasis>linenum</emphasis>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:330
+#, no-wrap
+msgid "Set a breakpoint at line number <emphasis>linenum</emphasis>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:331
+#, no-wrap
+msgid "break *<emphasis>addr</emphasis>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:331
+#, no-wrap
+msgid "Set a breakpoint at memory address <emphasis>addr</emphasis>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:332
+#, no-wrap
+msgid "break <emphasis>fn</emphasis>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:332
+#, no-wrap
+msgid "Set a breakpoint at the beginning of function <emphasis>fn</emphasis>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:333
+#, no-wrap
+msgid "condition<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:333
+#, no-wrap
+msgid "condition"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:333
+#, no-wrap
+msgid "</indexterm> <emphasis>bpnum</emphasis> <emphasis>expr</emphasis>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:333
+#, no-wrap
+msgid ""
+"Break at breakpoint <emphasis>bpnum</emphasis> only if expression "
+"<emphasis>expr</emphasis> is non-zero."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:334
+#, no-wrap
+msgid "command<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:334
+#, no-wrap
+msgid "command"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:334
+#, no-wrap
+msgid ""
+"</indexterm> [<emphasis>bpnum</emphasis>] <emphasis>cmd1</emphasis> "
+"[<emphasis>cmd2</emphasis>] ..."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:334
+#, no-wrap
+msgid ""
+"Execute commands <emphasis>cmd1</emphasis>, <emphasis>cmd2</emphasis>, "
+"etc. whenever breakpoint <emphasis>bpnum</emphasis> (or the current "
+"breakpoint) is hit."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:335
+#, no-wrap
+msgid "continue<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:335
+#, no-wrap
+msgid "continue"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:335
+#, no-wrap
+msgid "Continue executing the program."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:336
+#, no-wrap
+msgid "kill<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:336
+#, no-wrap
+msgid "kill"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:336
+#, no-wrap
+msgid "Stop executing the program."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:337
+#, no-wrap
+msgid "delete<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:337
+#, no-wrap
+msgid "delete"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:337 ../../GDBAp.xml:341 ../../GDBAp.xml:342
+#, no-wrap
+msgid "</indexterm> [<emphasis>bpnum1</emphasis>] [<emphasis>bpnum2</emphasis>] ..."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:337
+#, no-wrap
+msgid ""
+"Delete breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, "
+"etc., or all breakpoints if none specified."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:338
+#, no-wrap
+msgid "clear<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:338
+#, no-wrap
+msgid "clear"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:338
+#, no-wrap
+msgid "</indexterm> *<emphasis>addr</emphasis>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:338
+#, no-wrap
+msgid "Clear the breakpoint at memory address <emphasis>addr</emphasis>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:339
+#, no-wrap
+msgid "clear [<emphasis>fn</emphasis>]"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:339
+#, no-wrap
+msgid ""
+"Clear the breakpoint at function <emphasis>fn</emphasis>, or the current "
+"breakpoint."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:340
+#, no-wrap
+msgid "clear <emphasis>linenum</emphasis>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:340
+#, no-wrap
+msgid "Clear the breakpoint at line number <emphasis>linenum</emphasis>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:341
+#, no-wrap
+msgid "disable<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:341
+#, no-wrap
+msgid "disable"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:341
+#, no-wrap
+msgid ""
+"Disable breakpoints <emphasis>bpnum1</emphasis>, "
+"<emphasis>bpnum2</emphasis>, etc., or all breakpoints if none specified."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:342
+#, no-wrap
+msgid "enable<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:342
+#, no-wrap
+msgid "enable"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:342
+#, no-wrap
+msgid ""
+"Enable breakpoints <emphasis>bpnum1</emphasis>, <emphasis>bpnum2</emphasis>, "
+"etc., or all breakpoints if none specified."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><thead><row><entry>
+#: ../../GDBAp.xml:349
+#, no-wrap
+msgid "Stepping through the Program"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:352
+#, no-wrap
+msgid "nexti<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:352
+#, no-wrap
+msgid "\"Step over\" the next instruction (doesn't follow function calls)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:353
+#, no-wrap
+msgid "stepi<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:353
+#, no-wrap
+msgid "\"Step into\" the next instruction (follows function calls)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:354
+#, no-wrap
+msgid "finish<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:354
+#, no-wrap
+msgid "finish"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:354
+#, no-wrap
+msgid "\"Step out\" of the current function."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><thead><row><entry>
+#: ../../GDBAp.xml:361
+#, no-wrap
+msgid "Examining Registers and Memory"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:364
+#, no-wrap
+msgid "info registers<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:364
+#, no-wrap
+msgid "info registers"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:364
+#, no-wrap
+msgid "Print the contents of all registers."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:365
+#, no-wrap
+msgid "print<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:365 ../../GDBAp.xml:368
+#, no-wrap
+msgid "</indexterm>/<emphasis>f</emphasis> $<emphasis>reg</emphasis>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:365
+#, no-wrap
+msgid ""
+"Print the contents of register <emphasis>reg</emphasis> using format "
+"<emphasis>f</emphasis>.  The format can be x (hexadecimal), u (unsigned "
+"decimal), o (octal), a(address), c (character), or f (floating point)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:366
+#, no-wrap
+msgid "x<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:366
+#, no-wrap
+msgid "x"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:366
+#, no-wrap
+msgid "</indexterm>/<emphasis>rsf</emphasis> <emphasis>addr</emphasis>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:366
+#, no-wrap
+msgid ""
+"Print the contents of memory address <emphasis>addr</emphasis> using repeat "
+"count <emphasis>r</emphasis>, size <emphasis>s</emphasis>, and format "
+"<emphasis>f</emphasis>.  Repeat count defaults to 1 if not specified.  Size "
+"can be b (byte), h (halfword), w (word), or g (double word).  Size defaults "
+"to word if not specified.  Format is the same as for print, with the "
+"additions of s (string) and i (instruction)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:367
+#, no-wrap
+msgid "info display<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:367
+#, no-wrap
+msgid "info display"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:367
+#, no-wrap
+msgid ""
+"Shows a numbered list of expressions set up to display automatically at each "
+"break."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:368
+#, no-wrap
+msgid "display<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:368
+#, no-wrap
+msgid "display"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:368
+#, no-wrap
+msgid ""
+"At each break, print the contents of register <emphasis>reg</emphasis> using "
+"format <emphasis>f</emphasis>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:369
+#, no-wrap
+msgid "display/<emphasis>s</emphasis>i addr"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:369
+#, no-wrap
+msgid ""
+"At each break, print the contents of memory address "
+"<emphasis>addr</emphasis> using size <emphasis>s</emphasis> (same options as "
+"for the x command)."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:370
+#, no-wrap
+msgid "display/<emphasis>s</emphasis>s addr"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:370
+#, no-wrap
+msgid ""
+"At each break, print the string of size <emphasis>s</emphasis> that begins "
+"in memory address <emphasis>addr</emphasis>."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:371
+#, no-wrap
+msgid "undisplay<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:371
+#, no-wrap
+msgid "undisplay"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:371
+#, no-wrap
+msgid "</indexterm> <emphasis>displaynum</emphasis>"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:371
+#, no-wrap
+msgid "Remove <emphasis>displaynum</emphasis> from the display list."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><thead><row><entry>
+#: ../../GDBAp.xml:378
+#, no-wrap
+msgid "Examining the Call Stack"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:381
+#, no-wrap
+msgid "where<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:381
+#, no-wrap
+msgid "where"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:381 ../../GDBAp.xml:382
+#, no-wrap
+msgid "Print the call stack."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:382
+#, no-wrap
+msgid "backtrace<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:382
+#, no-wrap
+msgid "backtrace"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:383
+#, no-wrap
+msgid "frame<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:383
+#, no-wrap
+msgid "frame"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:383
+#, no-wrap
+msgid "Print the top of the call stack."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:384
+#, no-wrap
+msgid "up<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:384
+#, no-wrap
+msgid "up"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:384
+#, no-wrap
+msgid "Move the context toward the bottom of the call stack."
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:385
+#, no-wrap
+msgid "down<indexterm zone=\"gdbquickref\">"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry><primary>
+#: ../../GDBAp.xml:385
+#, no-wrap
+msgid "down"
+msgstr ""
+
+# type: Content of: <appendix><simplesect><table><tgroup><tbody><row><entry>
+#: ../../GDBAp.xml:385
+#, no-wrap
+msgid "Move the context toward the top of the call stack."
+msgstr ""

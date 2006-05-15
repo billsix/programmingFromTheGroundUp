@@ -1,0 +1,846 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-05-15 16:01+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING"
+
+# type: Content of: <chapter><title>
+#: ../../OptimizationCh.xml:2
+#, no-wrap
+msgid "Optimization"
+msgstr ""
+
+# type: Content of: <chapter><para>
+#: ../../OptimizationCh.xml:16
+msgid "Optimization<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><para><primary>
+#: ../../OptimizationCh.xml:16
+#, no-wrap
+msgid "optimization"
+msgstr ""
+
+# type: Content of: <chapter><para>
+#: ../../OptimizationCh.xml:16
+msgid ""
+"</indexterm> is the process of making your application run more "
+"effectively.  You can optimize for many things - speed, memory space usage, "
+"disk space usage, etc. This chapter, however, focuses on speed optimization."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../OptimizationCh.xml:23
+#, no-wrap
+msgid "When to Optimize"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:26
+msgid ""
+"It is better to not optimize at all than to optimize too soon.  When you "
+"optimize, your code generally becomes less clear, because it becomes more "
+"complex.  Readers of your code will have more trouble discovering why you "
+"did what you did which will increase the cost of maintenance of your "
+"project.  Even when you know how and why your program runs the way it does, "
+"optimized code is harder to debug and extend.  It slows the development "
+"process down considerably, both because of the time it takes to optimize the "
+"code, and the time it takes to modify your optimized code."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:38
+msgid ""
+"Compounding this problem is that you don't even know beforehand where the "
+"speed issues in your program will be.  Even experienced programmers have "
+"trouble predicting which parts of the program will be the bottlenecks which "
+"need optimization, so you will probably end up wasting your time optimizing "
+"the wrong parts.  <xref linkend=\"wheretooptimize\" /> will discuss how to "
+"find the parts of your program that need optimization."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:48
+msgid "While you develop your program, you need to have the following priorities:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:52
+msgid "Everything is documented"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:53
+msgid "Everything works as documented"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:54
+msgid "The code is written in an modular, easily modifiable form"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:58
+msgid "Documentation<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OptimizationCh.xml:58
+#, no-wrap
+msgid "documentation"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:58
+msgid ""
+"</indexterm> is essential, especially when working in groups.  The proper "
+"functioning of the program is essential.  You'll notice application speed "
+"was not anywhere on that list.  Optimization is not necessary during early "
+"development for the following reasons:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:65
+msgid ""
+"Minor speed problems can be usually solved through hardware, which is often "
+"much cheaper than a programmer's time."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:66
+msgid ""
+"Your application will change dramatically as you revise it, therefore "
+"wasting most of your efforts to optimize it.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para><para>
+#: ../../OptimizationCh.xml:66
+msgid ""
+"Many new projects often have a first code base which is completely rewritten "
+"as developers learn more about the problem they are trying to solve.  Any "
+"optimization done on the first codebase is completely wasted."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:69 ../../OptimizationCh.xml:394
+msgid "</footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:71
+msgid ""
+"Speed problems are usually localized in a few places in your code - finding "
+"these is difficult before you have most of the program finished."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:75
+msgid ""
+"Therefore, the time to optimize is toward the end of development, when you "
+"have determined that your correct code actually has performance problems."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:80
+msgid ""
+"In a web-based e-commerce project I was involved in, I focused entirely on "
+"correctness.  This was much to the dismay of my colleagues, who were worried "
+"about the fact that each page took twelve seconds to process before it ever "
+"started loading (most web pages process in under a second).  However, I was "
+"determined to make it the right way first, and put optimization as a last "
+"priority.  When the code was finally correct after 3 months of work, it took "
+"only three days to find and eliminate the bottlenecks, bringing the average "
+"processing time under a quarter of a second.  By focusing on the correct "
+"order, I was able to finish a project that was both correct and efficient."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../OptimizationCh.xml:96
+#, no-wrap
+msgid "Where to Optimize"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:99
+msgid ""
+"Once you have determined that you have a performance issue you need to "
+"determine where in the code the problems occur.  You can do this by running "
+"a <emphasis>profiler</emphasis><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OptimizationCh.xml:102
+#, no-wrap
+msgid "profiler"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:102
+msgid ""
+"</indexterm>.  A profiler is a program that will let you run your program, "
+"and it will tell you how much time is spent in each function, and how many "
+"times they are run.  <literal>gprof<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OptimizationCh.xml:105
+#, no-wrap
+msgid "gprof"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:105
+msgid ""
+"</indexterm></literal> is the standard GNU/Linux profiling tool, but a "
+"discussion of using profilers is outside the scope of this text.  After "
+"running a profiler, you can determine which functions are called the most or "
+"have the most time spent in them.  These are the ones you should focus your "
+"optimization efforts on."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:113
+msgid ""
+"If a program only spends 1% of its time in a given function, then no matter "
+"how much you speed it up you will only achieve a "
+"<emphasis>maximum</emphasis> of a 1% overall speed improvement.  However, if "
+"a program spends 20% of its time in a given function, then even minor "
+"improvements to that functions speed will be noticeable.  Therefore, "
+"profiling gives you the information you need to make good choices about "
+"where to spend your programming time."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:123
+msgid ""
+"In order to optimize functions, you need to understand in what ways they are "
+"being called and used.  The more you know about how and when a function is "
+"called, the better position you will be in to optimize it appropriately."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:129
+msgid ""
+"There are two main categories of optimization - local "
+"optimizations<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OptimizationCh.xml:129
+#, no-wrap
+msgid "local optimizations"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:129
+msgid "</indexterm> and global optimizations<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../OptimizationCh.xml:130 ../../OptimizationCh.xml:297
+#, no-wrap
+msgid "global optimizations"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:130
+msgid ""
+"</indexterm>.  Local optimizations consist of optimizations that are either "
+"hardware specific - such as the fastest way to perform a given computation - "
+"or program-specific - such as making a specific piece of code perform the "
+"best for the most often-occuring case.  Global optimization consist of "
+"optimizations which are structural.  For example, if you were trying to find "
+"the best way for three people in different cities to meet in St. Louis, a "
+"local optimization would be finding a better road to get there, while a "
+"global optimization would be to decide to teleconference instead of meeting "
+"in person.  Global optimization often involves restructuring code to avoid "
+"performance problems, rather than trying to find the best way through them."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../OptimizationCh.xml:146
+#, no-wrap
+msgid "Local Optimizations"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:149
+msgid ""
+"The following are some well-known methods of optimizing pieces of code.  "
+"When using high level languages, some of these may be done automatically by "
+"your compiler's optimizer."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../OptimizationCh.xml:157
+#, no-wrap
+msgid "Precomputing Calculations"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:159
+msgid ""
+"Sometimes a function has a limitted number of possible inputs and outputs.  "
+"In fact, it may be so few that you can actually precompute all of the "
+"possible answers beforehand, and simply look up the answer when the function "
+"is called.  This takes up some space since you have to store all of the "
+"answers, but for small sets of data this works out really well, especially "
+"if the computation normally takes a long time."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../OptimizationCh.xml:169
+#, no-wrap
+msgid "Remembering Calculation Results"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:171
+msgid ""
+"This is similar to the previous method, but instead of computing results "
+"beforehand, the result of each calculation requested is stored.  This way "
+"when the function starts, if the result has been computed before it will "
+"simply return the previous answer, otherwise it will do the full computation "
+"and store the result for later lookup.  This has the advantage of requiring "
+"less storage space because you aren't precomputing all results.  This is "
+"sometimes termed <emphasis>caching<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:177
+#, no-wrap
+msgid "caching"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:177
+msgid "</indexterm></emphasis> or <emphasis>memoizing<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:177
+#, no-wrap
+msgid "memoizing"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:177
+msgid "</indexterm></emphasis>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../OptimizationCh.xml:182
+#, no-wrap
+msgid "Locality of Reference"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:184
+msgid "<emphasis>Locality of reference<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:184
+#, no-wrap
+msgid "locality of reference"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:184
+msgid ""
+"</indexterm></emphasis> is a term for where in memory the data items you are "
+"accessing are.  With virtual memory, you may access pages of memory which "
+"are stored on disk.  In such a case, the operating system has to load that "
+"memory page from disk, and unload others to disk.  Let's say, for instance, "
+"that the operating system will allow you to have 20k of memory in physical "
+"memory and forces the rest of it to be on disk, and your application uses "
+"60k of memory.  Let's say your program has to do 5 operations on each piece "
+"of data.  If it does one operation on every piece of data, and then goes "
+"through and does the next operation on each piece of data, eventually every "
+"page of data will be loaded and unloaded from the disk 5 times.  Instead, if "
+"you did all 5 operations on a given data item, you only have to load each "
+"page from disk once.  When you bundle as many operations on data that is "
+"physically close to each other in memory, then you are taking advantage of "
+"locality of reference.  In addition, processors usually store some data "
+"on-chip in a cache<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:198
+#, no-wrap
+msgid "cache"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:198
+msgid ""
+"</indexterm>.  If you keep all of your operations within a small area of "
+"physical memory<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:199
+#, no-wrap
+msgid "physical memory"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:199
+msgid ""
+"</indexterm>, your program may bypass even main memory and only use the "
+"chip's ultra-fast cache memory.  This is all done for you - all you have to "
+"do is to try to operate on small sections of memory at a time, rather than "
+"bouncing all over the place."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../OptimizationCh.xml:206
+#, no-wrap
+msgid "Register Usage"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:208
+msgid "Registers<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:208
+#, no-wrap
+msgid "registers"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:208
+msgid ""
+"</indexterm> are the fastest memory locations on the computer.  When you "
+"access memory, the processor has to wait while it is loaded from the memory "
+"bus.  However, registers are located on the processor itself, so access is "
+"extremely fast.  Therefore making wise usage of registers is extremely "
+"important.  If you have few enough data items you are working with, try to "
+"store them all in registers.  In high level languages, you do not always "
+"have this option - the compiler decides what goes in registers and what "
+"doesn't."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../OptimizationCh.xml:220
+#, no-wrap
+msgid "Inline Functions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:222
+msgid ""
+"Functions are great from the point of view of program management - they make "
+"it easy to break up your program into independent, understandable, and "
+"reuseable parts.  However, function calls do involve the overhead of pushing "
+"arguments onto the stack and doing the jumps (remember locality of reference "
+"- your code may be swapped out on disk instead of in memory).  For high "
+"level languages, it's often impossible for compilers to do optimizations "
+"across function-call boundaries.  However, some languages support inline "
+"functions<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:229
+#, no-wrap
+msgid "inline functions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:229
+msgid "</indexterm> or function macros<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:229
+#, no-wrap
+msgid "macros"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:229
+msgid ""
+"</indexterm>.  These functions look, smell, taste, and act like real "
+"functions, except the compiler has the option to simply plug the code in "
+"exactly where it was called.  This makes the program faster, but it also "
+"increases the size of the code.  There are also many functions, like "
+"recursive functions, which cannot be inlined because they call themselves "
+"either directly or indirectly."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../OptimizationCh.xml:240
+#, no-wrap
+msgid "Optimized Instructions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:242
+msgid ""
+"Often times there are multiple assembly language instructions which "
+"accomplish the same purpose.  A skilled assembly language programmer knows "
+"which instructions are the fastest.  However, this can change from processor "
+"to processor.  For more information on this topic, you need to see the "
+"user's manual that is provided for the specific chip you are using.  As an "
+"example, let's look at the process of loading the number 0 into a register.  "
+"On most processors, doing a <literal>movl $0, %eax</literal> is not the "
+"quickest way.  The quickest way is to exclusive-or the register with itself, "
+"<literal>xorl %eax, %eax</literal>.  This is because it only has to access "
+"the register, and doesn't have to transfer any data.  For users of "
+"high-level languages, the compiler handles this kind of optimizations for "
+"you.  For assembly-language programmers, you need to know your processor "
+"well."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../OptimizationCh.xml:259
+#, no-wrap
+msgid "Addressing Modes"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:261
+msgid "Different addressing modes<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:261
+#, no-wrap
+msgid "addressing modes"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:261
+msgid ""
+"</indexterm> work at different speeds.  The fastest are the "
+"immediate<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:262
+#, no-wrap
+msgid "immediate mode addressing"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:262
+msgid "</indexterm> and register addressing modes.  Direct<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:262
+#, no-wrap
+msgid "direct addressing mode"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:262
+msgid ""
+"</indexterm> is the next fastest, indirect is next, and base "
+"pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:263
+#, no-wrap
+msgid "base pointer addressing mode"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:263
+msgid "</indexterm> and indexed indirect<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:263
+#, no-wrap
+msgid "indexed indirect addressing mode"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:263
+msgid ""
+"</indexterm> are the slowest.  Try to use the faster addressing modes, when "
+"possible.  One interesting consequence of this is that when you have a "
+"structured piece of memory that you are accessing using base pointer "
+"addressing, the first element can be accessed the quickest.  Since its "
+"offset is 0, you can access it using indirect addressing instead of base "
+"pointer addressing, which makes it faster."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../OptimizationCh.xml:274
+#, no-wrap
+msgid "Data Alignment"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:276
+msgid "Some processors can access data on word-aligned memory<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:276
+#, no-wrap
+msgid "aligned memory"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:276
+msgid ""
+"</indexterm> boundaries (i.e. - addresses divisible by the word size) faster "
+"than non-aligned data.  So, when setting up structures in memory, it is best "
+"to keep it word-aligned.  Some non-x86 processors, in fact, cannot access "
+"non-aligned data in some modes."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:286
+msgid ""
+"These are just a smattering of examples of the kinds of local optimizations "
+"possible.  However, remember that the maintainability and readability of "
+"code is much more important except under extreme circumstances."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../OptimizationCh.xml:294
+#, no-wrap
+msgid "Global Optimization"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:297
+msgid "Global optimization<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:297
+msgid ""
+"</indexterm> has two goals.  The first one is to put your code in a form "
+"where it is easy to do local optimiztions.  For example, if you have a large "
+"procedure that performs several slow, complex calculations, you might see if "
+"you can break parts of that procedure into their own functions where the "
+"values can be precomputed or memoized."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:306
+msgid "Stateless functions<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:306 ../../OptimizationCh.xml:351
+#, no-wrap
+msgid "stateless functions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:306
+msgid ""
+"</indexterm> (functions that only operate on the parameters that were passed "
+"to them - i.e. no globals or system calls) are the easiest type of functions "
+"to optimize in a computer.  The more stateless parts of your program you "
+"have, the more opportunities you have to optimize.  In the e-commerce "
+"situation I wrote about above, the computer had to find all of the "
+"associated parts for specific inventory items.  This required about 12 "
+"database calls, and in the worst case took about 20 seconds.  However, the "
+"goal of this program was to be interactive, and a long wait would destroy "
+"that goal.  However, I knew that these inventory configurations do not "
+"change.  Therefore, I converted the database calls into their own functions, "
+"which were stateless.  I was then able to memoize the functions.  At the "
+"beginning of each day, the function results were cleared in case anyone had "
+"changed them, and several inventory items were automatically preloaded.  "
+"From then on during the day, the first time someone accessed an inventory "
+"item, it would take the 20 seconds it did beforehand, but afterwards it "
+"would take less than a second, because the database results had been "
+"memoized."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:327
+msgid ""
+"Global optimization usually often involves achieving the following "
+"properties in your functions:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../OptimizationCh.xml:334
+#, no-wrap
+msgid "Parallelization"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:336
+msgid "Parallelization<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../OptimizationCh.xml:336
+#, no-wrap
+msgid "parallelization"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:336
+msgid ""
+"</indexterm> means that your algorithm can effectively be split among "
+"multiple processes.  For example, pregnancy is not very parallelizable "
+"because no matter how many women you have, it still takes nine months.  "
+"However, building a car is parallelizable because you can have one worker "
+"working on the engine while another one is working on the interior.  "
+"Usually, applications have a limit to how parallelizable they are.  The more "
+"parallelizable your application is, the better it can take advantage of "
+"multiprocessor and clustered computer configurations."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../OptimizationCh.xml:349
+#, no-wrap
+msgid "Statelessness"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:351
+msgid "As we've discussed, stateless<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../OptimizationCh.xml:351
+msgid ""
+"</indexterm> functions and programs are those that rely entirely on the data "
+"explicitly passed to them for functioning.  Most processes are not entirely "
+"stateless, but they can be within limits.  In my e-commerce example, the "
+"function wasn't entirely stateless, but it was within the confines of a "
+"single day.  Therefore, I optimized it as if it were a stateless function, "
+"but made allowances for changes at night.  Two great benefits resulting from "
+"statelessness is that most stateless functions are parallelizable and often "
+"benefit from memoization."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../OptimizationCh.xml:365
+msgid ""
+"Global optimization takes quite a bit of practice to know what works and "
+"what doesn't.  Deciding how to tackle optimization problems in code involves "
+"looking at all the issues, and knowing that fixing some issues may cause "
+"others."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../OptimizationCh.xml:373
+#, no-wrap
+msgid "Review"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../OptimizationCh.xml:376
+#, no-wrap
+msgid "Know the Concepts"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:380
+msgid ""
+"At what level of importance is optimization compared to the other priorities "
+"in programming?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:381
+msgid "What is the difference between local and global optimizations?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:382
+msgid "Name some types of local optimizations."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:383
+msgid "How do you determine what parts of your program need optimization?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:384
+msgid ""
+"At what level of importance is optimization compared to the other priorities "
+"in programming? Why do you think I repeated that question?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../OptimizationCh.xml:390
+#, no-wrap
+msgid "Use the Concepts"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:393
+msgid ""
+"Go back through each program in this book and try to make optimizations "
+"according to the procedures outlined in this chapter"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:394
+msgid ""
+"Pick a program from the previous exercise and try to calculate the "
+"performance impact on your code under specific inputs.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para><para>
+#: ../../OptimizationCh.xml:394
+msgid ""
+"Since these programs are usually short enough not to have noticeable "
+"performance problems, looping through the program thousands of times will "
+"exaggerate the time it takes to run enough to make calculations."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../OptimizationCh.xml:399
+#, no-wrap
+msgid "Going Further"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:402
+msgid ""
+"Find an open-source program that you find particularly fast.  Contact one of "
+"the developers and ask about what kinds of optimizations they performed to "
+"improve the speed."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:403
+msgid ""
+"Find an open-source program that you find particularly slow, and try to "
+"imagine the reasons for the slowness.  Then, download the code and try to "
+"profile it using <literal>gprof</literal> or similar tool.  Find where the "
+"code is spending the majority of the time and try to optimize it.  Was the "
+"reason for the slowness different than you imagined?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:404
+msgid ""
+"Has the compiler eliminated the need for local optimizations? Why or why "
+"not?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../OptimizationCh.xml:405
+msgid ""
+"What kind of problems might a compiler run in to if it tried to optimize "
+"code across function call boundaries?"
+msgstr ""

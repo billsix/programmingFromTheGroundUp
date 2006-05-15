@@ -1,0 +1,1997 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-05-15 16:01+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING"
+
+# type: Content of: <chapter><title>
+#: ../../FunctionsCh.xml:2
+#, no-wrap
+msgid "All About Functions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FunctionsCh.xml:16
+#, no-wrap
+msgid "Dealing with Complexity"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:19
+msgid ""
+"In <xref linkend=\"firstprogs\" />, the programs we wrote only consisted of "
+"one section of code.  However, if we wrote real programs like that, it would "
+"be impossible to maintain them.  It would be really difficult to get "
+"multiple people working on the project, as any change in one part might "
+"adversely affect another part that another developer is working on."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:27
+msgid ""
+"To assist programmers in working together in groups, it is necessary to "
+"break programs apart into separate pieces, which communicate with each other "
+"through well-defined interfaces.  This way, each piece can be developed and "
+"tested independently of the others, making it easier for multiple "
+"programmers to work on the project."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:35
+msgid "Programmers use <emphasis>functions<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:35 ../../FunctionsCh.xml:318 ../../FunctionsCh.xml:507 ../../FunctionsCh.xml:729
+#, no-wrap
+msgid "functions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:35
+msgid ""
+"</indexterm></emphasis> to break their programs into pieces which can be "
+"independently developed and tested.  Functions are units of code that do a "
+"defined piece of work on specified types of data.  For example, in a word "
+"processor program, I may have a function called "
+"<literal>handle_typed_character</literal> which is activated whenever a user "
+"types in a key.  The data the function uses would probably be the keypress "
+"itself and the document the user currently has open.  The function would "
+"then modify the document according to the keypress it was told about."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:47
+msgid ""
+"The data items a function is given to process are called its "
+"<emphasis>parameters<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:48 ../../FunctionsCh.xml:103 ../../FunctionsCh.xml:319 ../../FunctionsCh.xml:369 ../../FunctionsCh.xml:799 ../../FunctionsCh.xml:800
+#, no-wrap
+msgid "parameters"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:48
+msgid ""
+"</indexterm></emphasis>.  In the word processing example, the key which was "
+"pressed and the document would be considered parameters to the "
+"<literal>handle_typed_characters</literal> function.  The parameter list and "
+"the processing expectations of a function (what it is expected to do with "
+"the parameters) are called the function's interface.  Much care goes into "
+"designing function interfaces, because if they are called from many places "
+"within a project, it is difficult to change them if necessary."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:59
+msgid ""
+"A typical program is composed of hundreds or thousands of functions, each "
+"with a small, well-defined task to perform.  However, ultimately there are "
+"things that you cannot write functions for which must be provided by the "
+"system.  Those are called <emphasis>primitive functions<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:62
+#, no-wrap
+msgid "primitive functions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:62
+msgid "</indexterm></emphasis> (or just <emphasis>primitives<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:62
+#, no-wrap
+msgid "primitives"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:62
+msgid ""
+"</indexterm></emphasis>) - they are the basics which everything else is "
+"built off of.  For example, imagine a program that draws a graphical user "
+"interface.  There has to be a function to create the menus.  That function "
+"probably calls other functions to write text, to write icons, to paint the "
+"background, calculate where the mouse pointer is, etc.  However, ultimately, "
+"they will reach a set of primitives provided by the operating system to do "
+"basic line or point drawing.  Programming can either be viewed as breaking a "
+"large program down into smaller pieces until you get to the primitive "
+"functions, or incrementally building functions on top of primitives until "
+"you get the large picture in focus.  In assembly language, the primitives "
+"are usually the same thing as the system calls<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:73
+#, no-wrap
+msgid "system calls"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:73
+msgid ""
+"</indexterm>, even though system calls aren't true functions as we will talk "
+"about in this chapter."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FunctionsCh.xml:80
+#, no-wrap
+msgid "How Functions Work"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:83
+msgid "Functions are composed of several different pieces:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FunctionsCh.xml:89
+#, no-wrap
+msgid "function name"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:91
+msgid "A function's name is a symbol<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../FunctionsCh.xml:91
+#, no-wrap
+msgid "symbol"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:91
+msgid ""
+"</indexterm> that represents the address where the function's code starts.  "
+"In assembly language, the symbol is defined by typing the function's name as "
+"a label before the function's code.  This is just like labels<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../FunctionsCh.xml:95
+#, no-wrap
+msgid "labels"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:95
+msgid "</indexterm> you have used for jumping."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:101 ../../FunctionsCh.xml:351
+#, no-wrap
+msgid "function parameters"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:103
+msgid "A function's parameters<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:103
+msgid ""
+"</indexterm> are the data items that are explicitly given to the function "
+"for processing.  For example, in mathematics, there is a sine function.  If "
+"you were to ask a computer to find the sine of 2, sine would be the "
+"function's name, and 2 would be the parameter.  Some functions have many "
+"parameters, others have none.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><para>
+#: ../../FunctionsCh.xml:108
+msgid ""
+"Function parameters can also be used to hold pointers to data that the "
+"function wants to send back to the program."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:110 ../../FunctionsCh.xml:207 ../../FunctionsCh.xml:501
+msgid "</footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:115 ../../FunctionsCh.xml:117 ../../FunctionsCh.xml:351 ../../FunctionsCh.xml:369 ../../FunctionsCh.xml:391 ../../FunctionsCh.xml:489 ../../FunctionsCh.xml:672 ../../FunctionsCh.xml:749
+#, no-wrap
+msgid "local variables"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:117
+msgid "Local variables<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:117
+msgid ""
+"</indexterm> are data storage that a function uses while processing that is "
+"thrown away when it returns.  It's kind of like a scratch pad of paper.  "
+"Functions get a new piece of paper every time they are activated, and they "
+"have to throw it away when they are finished processing.  Local variables of "
+"a function are not accessible to any other function within a program."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:128 ../../FunctionsCh.xml:130 ../../FunctionsCh.xml:441
+#, no-wrap
+msgid "static variables"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:130
+msgid "Static variables<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:130
+msgid ""
+"</indexterm> are data storage that a function uses while processing that is "
+"not thrown away afterwards, but is reused for every time the function's code "
+"is activated.  This data is not accessible to any other part of the "
+"program.  Static variables are generally not used unless absolutely "
+"necessary, as they can cause problems later on."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:140 ../../FunctionsCh.xml:189 ../../FunctionsCh.xml:442
+#, no-wrap
+msgid "global variables"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:142
+msgid ""
+"Global variables are data storage that a function uses for processing which "
+"are managed outside the function.  For example, a simple text editor may put "
+"the entire contents of the file it is working on in a global variable so it "
+"doesn't have to be passed to every function that operates on it.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><para>
+#: ../../FunctionsCh.xml:147
+msgid ""
+"This is generally considered bad practice.  Imagine if a program is written "
+"this way, and in the next version they decided to allow a single instance of "
+"the program edit multiple files.  Each function would then have to be "
+"modified so that the file that was being manipulated would be passed as a "
+"parameter.  If you had simply passed it as a parameter to begin with, most "
+"of your functions could have survived your upgrade unchanged."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:153
+msgid "</footnote> Configuration values are also often stored in global variables."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:159 ../../FunctionsCh.xml:161 ../../FunctionsCh.xml:325 ../../FunctionsCh.xml:369
+#, no-wrap
+msgid "return address"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:161
+msgid "The return address<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:161
+msgid ""
+"</indexterm> is an \"invisible\" parameter in that it isn't directly used "
+"during the function.  The return address is a parameter which tells the "
+"function where to resume executing after the function is completed.  This is "
+"needed because functions can be called to do processing from many different "
+"parts of your program, and the function needs to be able to get back to "
+"wherever it was called from.  In most programming languages, this parameter "
+"is passed automatically when the function is called.  In assembly language, "
+"the <literal>call<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:170 ../../FunctionsCh.xml:321 ../../FunctionsCh.xml:641 ../../FunctionsCh.xml:809 ../../FunctionsCh.xml:852 ../../FunctionsCh.xml:1015
+#, no-wrap
+msgid "call"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:170
+msgid ""
+"</indexterm></literal> instruction handles passing the return address for "
+"you, and <literal>ret<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para><primary>
+#: ../../FunctionsCh.xml:171 ../../FunctionsCh.xml:459
+#, no-wrap
+msgid "ret"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:171
+msgid ""
+"</indexterm></literal> handles using that address to return back to where "
+"you called the function from."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:177 ../../FunctionsCh.xml:179 ../../FunctionsCh.xml:496 ../../FunctionsCh.xml:834 ../../FunctionsCh.xml:990
+#, no-wrap
+msgid "return value"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:179
+msgid "The return value<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FunctionsCh.xml:179
+msgid ""
+"</indexterm> is the main method of transferring data back to the main "
+"program.  Most programming languages only allow a single return value for a "
+"function."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:189 ../../FunctionsCh.xml:619
+msgid "<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:189
+msgid ""
+"</indexterm> These pieces are present in most programming languages.  How "
+"you specify each piece is different in each one, however."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:195
+msgid ""
+"The way that the variables are stored and the parameters and return values "
+"are transferred by the computer varies from language to language as well.  "
+"This variance is known as a language's <emphasis>calling "
+"convention</emphasis><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:198
+#, no-wrap
+msgid ""
+"calling\n"
+"conventions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:199
+msgid ""
+"</indexterm>, because it describes how functions expect to get and receive "
+"data when they are called.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FunctionsCh.xml:200
+msgid ""
+"A <emphasis>convention</emphasis> is a way of doing things that is "
+"standardized, but not forcibly so.  For example, it is a convention for "
+"people to shake hands when they meet.  If I refuse to shake hands with you, "
+"you may think I don't like you.  Following conventions is important because "
+"it makes it easier for others to understand what you are doing, and makes it "
+"easier for programs written by multiple independent authors to work "
+"together."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:211
+msgid ""
+"Assembly language can use any calling convention it wants to.  You can even "
+"make one up yourself.  However, if you want to interoperate with functions "
+"written in other languages, you have to obey their calling conventions.  We "
+"will use the calling convention of the C programming language<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:215
+#, no-wrap
+msgid "C programming language"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:215
+msgid ""
+"</indexterm> for our examples because it is the most widely used, and "
+"because it is the standard for Linux platforms."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FunctionsCh.xml:222
+#, no-wrap
+msgid "Assembly-Language Functions using the C Calling Convention"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:225
+msgid ""
+"You cannot write assembly-language functions without understanding how the "
+"computer's <emphasis>stack<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><para><primary>
+#: ../../FunctionsCh.xml:226 ../../FunctionsCh.xml:235 ../../FunctionsCh.xml:325 ../../FunctionsCh.xml:519
+#, no-wrap
+msgid "stack"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:226
+msgid ""
+"</indexterm></emphasis> works.  Each computer program that runs uses a "
+"region of memory called the stack to enable functions to work properly.  "
+"Think of a stack as a pile of papers on your desk which can be added to "
+"indefinitely.  You generally keep the things that you are working on toward "
+"the top, and you take things off as you are finished working with them."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:235
+msgid "Your computer has a stack, too.  The computer's stack<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:235
+msgid ""
+"</indexterm> lives at the very top addresses of memory.  You can push values "
+"onto the top of the stack through an instruction called "
+"<literal>pushl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:238 ../../FunctionsCh.xml:807
+#, no-wrap
+msgid "pushl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:238
+msgid ""
+"</indexterm></literal>, which pushes either a register or memory value onto "
+"the top of the stack.  Well, we say it's the top, but the \"top\" of the "
+"stack is actually the bottom of the stack's memory.  Although this is "
+"confusing, the reason for it is that when we think of a stack of anything - "
+"dishes, papers, etc. - we think of adding and removing to the top of it.  "
+"However, in memory the stack starts at the top of memory and grows downward "
+"due to architectural considerations.  Therefore, when we refer to the \"top "
+"of the stack\" remember it's at the bottom of the stack's memory<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:246
+#, no-wrap
+msgid "stack memory"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:246
+msgid ""
+"</indexterm>.  You can also pop values off the top using an instruction "
+"called <literal>popl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:248
+#, no-wrap
+msgid "popl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:248
+msgid ""
+"</indexterm></literal>.  This removes the top value from the stack and "
+"places it into a register or memory location of your choosing.."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:253
+msgid ""
+"When we push a value onto the stack, the top of the stack moves to "
+"accomodate the additional value.  We can actually continually push values "
+"onto the stack and it will keep growing further and further down in memory "
+"until we hit our code or data.  So how do we know where the current \"top\" "
+"of the stack is? The stack register<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:258
+#, no-wrap
+msgid "stack register"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:258
+msgid "</indexterm>, &esp-indexed;, always contains a pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:258 ../../FunctionsCh.xml:678
+#, no-wrap
+msgid "pointer"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:258
+msgid "</indexterm> to the current top of the stack, wherever it is."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:262
+msgid ""
+"Every time we push something onto the stack with <literal>pushl</literal>, "
+"&esp; gets subtracted by 4 so that it points to the new top of the stack "
+"(remember, each word is four bytes long, and the stack grows downward).  If "
+"we want to remove something from the stack, we simply use the "
+"<literal>popl</literal> instruction, which adds 4 to &esp; and puts the "
+"previous top value in whatever register you specified.  "
+"<literal>pushl</literal> and <literal>popl</literal> each take one operand - "
+"the register to push onto the stack for <literal>pushl</literal>, or receive "
+"the data that is popped off the stack for <literal>popl</literal>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:275
+msgid ""
+"If we simply want to access the value on the top of the stack without "
+"removing it, we can simply use the &esp-indexed; register in indirect "
+"addressing mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:276 ../../FunctionsCh.xml:296
+#, no-wrap
+msgid "indirect addressing mode"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:276
+msgid ""
+"</indexterm>.  For example, the following code moves whatever is at the top "
+"of the stack into &eax;:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:286
+msgid "If we were to just do this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:294
+msgid ""
+"then &eax; would just hold the pointer to the top of the stack rather than "
+"the value at the top.  Putting &esp; in parenthesis causes the computer to "
+"go to indirect addressing mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:296
+msgid ""
+"</indexterm>, and therefore we get the value pointed to by &esp-indexed;.  "
+"If we want to access the value right below the top of the stack, we can "
+"simply issue this instruction:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:306
+msgid "This instruction uses the base pointer addressing mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:306 ../../FunctionsCh.xml:386 ../../FunctionsCh.xml:433 ../../FunctionsCh.xml:912
+#, no-wrap
+msgid "base pointer addressing mode"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:306
+msgid ""
+"</indexterm> (see <xref linkend=\"dataaccessingmethods\" />)  which simply "
+"adds 4 to &esp-indexed; before looking up the value being pointed to."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:312
+msgid "In the C language calling convention<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:312
+#, no-wrap
+msgid "C language calling convention"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:312
+msgid ""
+"</indexterm>, the stack is the key element for implementing a function's "
+"local variables, parameters, and return address."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:318
+msgid "Before executing a function<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:318
+msgid "</indexterm>, a program pushes all of the parameters<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:319
+msgid ""
+"</indexterm> for the function onto the stack in the reverse order that they "
+"are documented.  Then the program issues a <literal>call<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:321
+msgid ""
+"</indexterm></literal> instruction indicating which function it wishes to "
+"start.  The <literal>call</literal> instruction does two things.  First it "
+"pushes the address of the next instruction, which is the return "
+"address<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:325
+msgid "</indexterm>, onto the stack<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:325
+msgid "</indexterm>.  Then it modifies the instruction pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para><primary>
+#: ../../FunctionsCh.xml:326 ../../FunctionsCh.xml:460
+#, no-wrap
+msgid "instruction pointer"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:326
+msgid ""
+"</indexterm> (&eip-indexed;)  to point to the start of the function.  So, at "
+"the time the function starts, the stack looks like this (the \"top\" of the "
+"stack is at the bottom on this example):"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:342
+msgid ""
+"Each of the parameters of the function have been pushed onto the stack, and "
+"finally the return address is there.  Now the function itself has some work "
+"to do."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:348
+msgid "The first thing it does is save the current base pointer register<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:349 ../../FunctionsCh.xml:435
+#, no-wrap
+msgid "base pointer register"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:349
+msgid ""
+"</indexterm>, &ebp-indexed;, by doing <literal>pushl %ebp</literal>.  The "
+"base pointer is a special register<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:351
+#, no-wrap
+msgid "special register"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:351
+msgid "</indexterm> used for accessing function parameters<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:351
+msgid "</indexterm> and local variables<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:351
+msgid "</indexterm>.  Next, it copies the stack pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:352 ../../FunctionsCh.xml:392 ../../FunctionsCh.xml:470 ../../FunctionsCh.xml:498
+#, no-wrap
+msgid "stack pointer"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:352
+msgid ""
+"</indexterm> to &ebp-indexed; by doing <literal>movl %esp, %ebp</literal>.  "
+"This allows you to be able to access the function parameters as fixed "
+"indexes from the base pointer.  You may think that you can use the stack "
+"pointer for this.  However, during your program you may do other things with "
+"the stack such as pushing arguments to other functions."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:362
+msgid ""
+"Copying the stack pointer into the base pointer at the beginning of a "
+"function allows you to always know where your parameters are (and as we will "
+"see, local variables too), even while you may be pushing things on and off "
+"the stack.  &ebp-indexed; will always be where the stack pointer was at the "
+"beginning of the function, so it is more or less a constant reference to the "
+"<emphasis>stack frame<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:367 ../../FunctionsCh.xml:457 ../../FunctionsCh.xml:758 ../../FunctionsCh.xml:898
+#, no-wrap
+msgid "stack frame"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:367
+msgid ""
+"</indexterm></emphasis> (the stack frame consists of all of the stack "
+"variables used within a function, including parameters<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:369
+msgid "</indexterm>, local variables<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:369
+msgid "</indexterm>, and the return address<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:369
+msgid "</indexterm>)."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:373
+msgid "At this point, the stack looks like this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:386
+msgid ""
+"As you can see, each parameter can be accessed using base pointer addressing "
+"mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:386
+msgid "</indexterm> using the &ebp-indexed; register."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:390
+msgid ""
+"Next, the function reserves space on the stack for any local "
+"variables<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:391
+msgid ""
+"</indexterm> it needs.  This is done by simply moving the stack "
+"pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:392
+msgid ""
+"</indexterm> out of the way.  Let's say that we are going to need two words "
+"of memory to run a function.  We can simply move the stack pointer down two "
+"words to reserve the space.  This is done like this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:403
+msgid "This subtracts 8 from &esp; (remember, a word is four bytes long).<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FunctionsCh.xml:404
+msgid ""
+"Just a reminder - the dollar sign in front of the eight indicates immediate "
+"mode addressing<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para><primary>
+#: ../../FunctionsCh.xml:405
+#, no-wrap
+msgid "immediate mode addressing"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FunctionsCh.xml:405
+msgid ""
+"</indexterm>, meaning that we subtract the number 8 itself from &esp; rather "
+"than the value at address 8."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:407
+msgid ""
+"</footnote> This way, we can use the stack for variable storage without "
+"worring about clobbering them with pushes that we may make for function "
+"calls.  Also, since it is allocated on the stack frame for this function "
+"call, the variable will only be alive during this function.  When we return, "
+"the stack frame will go away, and so will these variables.  That's why they "
+"are called local - they only exist while this function is being called."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:417
+msgid "Now we have two words for local storage.  Our stack now looks like this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:432
+msgid ""
+"So we can now access all of the data we need for this function by using base "
+"pointer addressing<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:433
+msgid ""
+"</indexterm> using different offsets from &ebp-indexed;.  &ebp-indexed; was "
+"made specifically for this purpose, which is why it is called the base "
+"pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:435
+msgid ""
+"</indexterm>.  You can use other registers in base pointer addressing mode, "
+"but the x86 architecture makes using the &ebp-indexed; register a lot "
+"faster."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:441
+msgid "<indexterm zone=\"tmppara1\">"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:441
+msgid "</indexterm> <indexterm zone=\"tmppara1\">"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:442
+msgid ""
+"</indexterm> Global variables and static variables are accessed just like "
+"the memory we have been accessing memory in previous chapters.  The only "
+"difference between the global and static variables is that static variables "
+"are only used by one function, while global variables are used by many "
+"functions. Assembly language treats them exactly the same, although most "
+"other languages distinguish them."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:452
+msgid "When a function is done executing, it does three things:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FunctionsCh.xml:456
+msgid "It stores its return value in &eax-indexed;."
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FunctionsCh.xml:457
+msgid ""
+"It resets the stack to what it was when it was called (it gets rid of the "
+"current stack frame<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FunctionsCh.xml:457
+msgid "</indexterm> and puts the stack frame of the calling code back into effect)."
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FunctionsCh.xml:458
+msgid ""
+"It returns control back to wherever it was called from.  This is done using "
+"the <literal>ret<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FunctionsCh.xml:459
+msgid ""
+"</indexterm></literal> instruction, which pops whatever value is at the top "
+"of the stack, and sets the instruction pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FunctionsCh.xml:460
+msgid "</indexterm>, &eip-indexed;, to that value."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:466
+msgid ""
+"So, before a function returns control to the code that called it, it must "
+"restore the previous stack frame.  Note also that without doing this, "
+"<literal>ret</literal> wouldn't work, because in our current stack frame, "
+"the return address is not at the top of the stack.  Therefore, before we "
+"return, we have to reset the stack pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:470
+msgid "</indexterm> &esp-indexed; and base pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:470
+#, no-wrap
+msgid "base pointer"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:470
+msgid "</indexterm> &ebp-indexed; to what they were when the function began."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:475
+msgid "Therefore to return from the function you have to do the following:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:485
+msgid ""
+"<emphasis>At this point, you should consider all local variables to be "
+"disposed of.</emphasis> The reason is that after you move the stack pointer "
+"back, future stack pushes will likely overwrite everything you put there.  "
+"Therefore, you should never save the address of a local variable<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:489
+msgid ""
+"</indexterm> past the life of the function it was created in, or else it "
+"will be overwritten after the life of its stack frame ends."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:495
+msgid ""
+"Control has now been handed back to the calling code, which can now examine "
+"&eax-indexed; for the return value<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:496
+msgid ""
+"</indexterm>.  The calling code also needs to pop off all of the parameters "
+"it pushed onto the stack in order to get the stack pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:498
+msgid ""
+"</indexterm> back where it was (you can also simply add 4 * number of "
+"parameters to &esp-indexed; using the <literal>addl</literal> instruction, "
+"if you don't need the values of the parameters anymore).<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FunctionsCh.xml:501
+msgid ""
+"This is not always strictly needed unless you are saving registers on the "
+"stack before a function call.  The base pointer keeps the stack frame in a "
+"reasonably consistent state.  However, it is still a good idea, and is "
+"absolutely necessary if you are temporarily saving registers on the stack.."
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><title>
+#: ../../FunctionsCh.xml:505
+#, no-wrap
+msgid "Destruction of Registers"
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><para>
+#: ../../FunctionsCh.xml:507
+msgid "When you call a function<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><para>
+#: ../../FunctionsCh.xml:507
+msgid ""
+"</indexterm>, you should assume that everything currently in your "
+"registers<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><para><primary>
+#: ../../FunctionsCh.xml:508
+#, no-wrap
+msgid "registers"
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><para>
+#: ../../FunctionsCh.xml:508
+msgid ""
+"</indexterm> will be wiped out.  The only register that is guaranteed to be "
+"left with the value it started with are &ebp-indexed; and a few others (the "
+"Linux C calling convention requires functions to preserve the values of "
+"&ebx-indexed;, &edi-indexed;, and &esi-indexed; if they are altered - this "
+"is not strictly held during this book because these programs are "
+"self-contained and not called by outside functions).  &ebx; also has some "
+"other uses in position-independent code, which is not covered in this book.  "
+"&eax-indexed; is guaranteed to be overwritten with the return value, and the "
+"others likely are.  If there are registers you want to save before calling a "
+"function, you need to save them by pushing them on the stack<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><para>
+#: ../../FunctionsCh.xml:519
+msgid ""
+"</indexterm> before pushing the function's parameters.  You can then pop "
+"them back off in reverse order after popping off the parameters.  Even if "
+"you know a function does not overwrite a register you should save it, "
+"because future versions of that function may."
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><para>
+#: ../../FunctionsCh.xml:526
+msgid "Note that in Linux assembly language, functions are"
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><para>
+#: ../../FunctionsCh.xml:531
+msgid "Other languages' calling conventions<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><para><primary>
+#: ../../FunctionsCh.xml:532
+#, no-wrap
+msgid "calling conventions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><warning><para>
+#: ../../FunctionsCh.xml:532
+msgid ""
+"</indexterm> may be different.  For example, other calling conventions may "
+"place the burden on the function to save any registers it uses.  Be sure to "
+"check to make sure the calling conventions of your languages are compatible "
+"before trying to mix languages.  Or in the case of assembly language, be "
+"sure you know how to call the other language's functions."
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><title>
+#: ../../FunctionsCh.xml:542
+#, no-wrap
+msgid "Extended Specification"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para>
+#: ../../FunctionsCh.xml:544
+msgid "Details of the C language calling convention<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para><primary>
+#: ../../FunctionsCh.xml:544
+#, no-wrap
+msgid "calling convention"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para>
+#: ../../FunctionsCh.xml:544
+msgid "</indexterm> (also known as the ABI<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para><primary>
+#: ../../FunctionsCh.xml:545
+#, no-wrap
+msgid "ABI"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para>
+#: ../../FunctionsCh.xml:545
+msgid "</indexterm>, or Application Binary Interface<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para><primary>
+#: ../../FunctionsCh.xml:546
+#, no-wrap
+msgid "Application Binary Interface"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para>
+#: ../../FunctionsCh.xml:546
+msgid ""
+"</indexterm>) is available online.  We have oversimplified and left out "
+"several important pieces to make this simpler for new programmers.  For full "
+"details, you should check out the documents available at "
+"http://www.linuxbase.org/spec/refspecs/ Specifically, you should look for "
+"the <citetitle>System V Application Binary Interface - Intel386 Architecture "
+"Processor Supplement</citetitle>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FunctionsCh.xml:558
+#, no-wrap
+msgid "A Function Example"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:561
+msgid "Let's take a look at how a function call<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:561
+#, no-wrap
+msgid "function call"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:561
+msgid ""
+"</indexterm> works in a real program.  The function we are going to write is "
+"the <literal>power</literal> function.  We will give the power function two "
+"parameters - the number and the power we want to raise it to.  For example, "
+"if we gave it the parameters 2 and 3, it would raise 2 to the power of 3, or "
+"2*2*2, giving 8.  In order to make this program simple, we will only allow "
+"numbers 1 and greater."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:571
+msgid ""
+"The following is the code for the complete program.  As usual, an "
+"explanation follows.  Name the file <literal>power.s</literal>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:580
+msgid ""
+"Type in the program, assemble it, and run it.  Try calling power for "
+"different values, but remember that the result has to be less than 256 when "
+"it is passed back to the operating system.  Also try subtracting the results "
+"of the two computations.  Try adding a third call to the "
+"<literal>power</literal> function, and add its result back in."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:590
+msgid ""
+"The main program code is pretty simple.  You push the arguments onto the "
+"stack, call the function, and then move the stack pointer back.  The result "
+"is stored in &eax;.  Note that between the two calls to "
+"<literal>power</literal>, we save the first value onto the stack.  This is "
+"because the only register that is guaranteed to be saved is &ebp-indexed;.  "
+"Therefore we push the value onto the stack, and pop the value back off after "
+"the second function call is complete."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:601
+msgid ""
+"Let's look at how the function itself is written.  Notice that before the "
+"function, there is documentation as to what the function does, what its "
+"arguments are, and what it gives as a return value.  This is useful for "
+"programmers who use this function.  This is the function's interface.  This "
+"lets the programmer know what values are needed on the stack, and what will "
+"be in &eax; at the end."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:611
+msgid "We then have the following line:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:619 ../../FunctionsCh.xml:878
+#, no-wrap
+msgid ".type"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:619
+msgid "</indexterm> <indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:620
+#, no-wrap
+msgid "@functions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:620
+msgid ""
+"</indexterm> This tells the linker that the symbol <literal>power</literal> "
+"should be treated as a function.  Since this program is only in one file, it "
+"would work just the same with this left out.  However, it is good practice."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:628
+msgid "After that, we define the value of the <literal>power</literal> label:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:636
+msgid ""
+"As mentioned previously, this defines the symbol <literal>power</literal> to "
+"be the address where the instructions following the label begin.  This is "
+"how <literal>call power</literal> works.  It transfers control to this spot "
+"of the program.  The difference between <literal>call<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:641
+msgid "</indexterm></literal> and <literal>jmp<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:641
+#, no-wrap
+msgid "jmp"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:641
+msgid ""
+"</indexterm></literal> is that <literal>call</literal> also pushes the "
+"return address onto the stack so that the function can return, while the "
+"<literal>jmp</literal> does not."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:648
+msgid "Next, we have our instructions to set up our function:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:658
+msgid "At this point, our stack looks like this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:670
+msgid ""
+"Although we could use a register for temporary storage, this program uses a "
+"local variable<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:672
+msgid ""
+"</indexterm> in order to show how to set it up.  Often times there just "
+"aren't enough registers to store everything, so you have to offload them "
+"into local variables.  Other times, your function will need to call another "
+"function and send it a pointer to some of your data.  You can't have a "
+"pointer<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:678
+msgid "</indexterm> to a register<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:679
+#, no-wrap
+msgid "register"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:679
+msgid ""
+"</indexterm>, so you have to store it in a local variable in order to send a "
+"pointer to it."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:685
+msgid ""
+"Basically, what the program does is start with the base number, and store it "
+"both as the multiplier (stored in &ebx;) and the current value (stored in "
+"-4(%ebp)).  It also has the power stored in &ecx; It then continually "
+"multiplies the current value by the multiplier, decreases the power, and "
+"leaves the loop if the power (in &ecx;) gets down to 1."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:694
+msgid ""
+"By now, you should be able to go through the program without help.  The only "
+"things you should need to know is that <literal>imull<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:696
+#, no-wrap
+msgid "imull"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:696
+msgid ""
+"</indexterm></literal> does integer multiplication and stores the result in "
+"the second operand, and <literal>decl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:697 ../../FunctionsCh.xml:947
+#, no-wrap
+msgid "decl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:697
+msgid ""
+"</indexterm></literal> decreases the given register by 1.  For more "
+"information on these and other instructions, see <xref "
+"linkend=\"instructionsappendix\" />"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:703
+msgid ""
+"A good project to try now is to extend the program so it will return the "
+"value of a number if the power is 0 (hint, anything raised to the zero power "
+"is 1).  Keep trying.  If it doesn't work at first, try going through your "
+"program by hand with a scrap of paper, keeping track of where &ebp; and "
+"&esp; are pointing, what is on the stack, and what the values are in each "
+"register."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FunctionsCh.xml:715
+#, no-wrap
+msgid "Recursive Functions"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:718
+msgid ""
+"The next program will stretch your brains even more.  The program will "
+"compute the <emphasis>factorial</emphasis> of a number.  A factorial is the "
+"product of a number and all the numbers between it and one.  For example, "
+"the factorial of 7 is 7*6*5*4*3*2*1, and the factorial of 4 is 4*3*2*1.  "
+"Now, one thing you might notice is that the factorial of a number is the "
+"same as the product of a number and the factorial just below it.  For "
+"example, the factorial of 4 is 4 times the factorial of 3.  The factorial of "
+"3 is 3 times the factorial of 2.  2 is 2 times the factorial of 1.  The "
+"factorial of 1 is 1.  This type of definition is called a "
+"recursive<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:728
+#, no-wrap
+msgid "recursive"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:728
+msgid ""
+"</indexterm> definition.  That means, the definition of the factorial "
+"function<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:729
+msgid ""
+"</indexterm> includes the factorial function itself.  However, since all "
+"functions need to end, a recursive definition must include a <emphasis>base "
+"case<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:731
+#, no-wrap
+msgid "base case"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:731
+msgid ""
+"</indexterm></emphasis>.  The base case is the point where recursion will "
+"stop.  Without a base case, the function would go on forever calling itself "
+"until it eventually ran out of stack space.  In the case of the factorial, "
+"the base case is the number 1.  When we hit the number 1, we don't run the "
+"factorial again, we just say that the factorial of 1 is 1.  So, let's run "
+"through what we want the code to look like for our factorial function:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FunctionsCh.xml:742
+msgid "Examine the number"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FunctionsCh.xml:743
+msgid "Is the number 1?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FunctionsCh.xml:744
+msgid "If so, the answer is one"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FunctionsCh.xml:745
+msgid ""
+"Otherwise, the answer is the number times the factorial of the number minus "
+"one"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:749
+msgid "This would be problematic if we didn't have local variables<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:749
+msgid ""
+"</indexterm>.  In other programs, storing values in global variables worked "
+"fine.  However, global variables only provide one copy of each variable.  In "
+"this program, we will have multiple copies of the function running at the "
+"same time, all of them needing their own copies of the data!<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FunctionsCh.xml:753
+msgid ""
+"By \"running at the same time\" I am talking about the fact that one will "
+"not have finished before a new one is activated.  I am not implying that "
+"their instructions are running at the same time."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:756
+msgid ""
+"</footnote> Since local variables exist on the stack frame, and each "
+"function call gets its own stack frame<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:758
+msgid "</indexterm>, we are okay."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:762
+msgid "Let's look at the code to see how this works:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:770
+msgid "Assemble, link, and run it with these commands:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:781
+msgid ""
+"This should give you the value 24.  24 is the factorial of 4, you can test "
+"it out yourself with a calculator: 4 * 3 * 2 * 1 = 24."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:786
+msgid ""
+"I'm guessing you didn't understand the whole code listing.  Let's go through "
+"it a line at a time to see what is happening."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:797
+msgid ""
+"Okay, this program is intended to compute the factorial of the number 4.  "
+"When programming functions, you are supposed to put the "
+"parameters<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:799
+msgid ""
+"</indexterm> of the function on the top of the stack right before you call "
+"it.  Remember, a function's <emphasis>parameters<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:800
+msgid ""
+"</indexterm></emphasis> are the data that you want the function to work "
+"with.  In this case, the factorial function takes 1 parameter - the number "
+"you want the factorial of."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:807
+msgid "The <literal>pushl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:807
+msgid ""
+"</indexterm></literal> instruction puts the given value at the top of the "
+"stack.  The <literal>call<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:809
+msgid "</indexterm></literal> instruction then makes the function call."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:813
+msgid "Next we have these lines:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:824
+msgid ""
+"This takes place after <literal>factorial</literal> has finished and "
+"computed the factorial of 4 for us.  Now we have to clean up the stack.  The "
+"<literal>addl</literal> instruction moves the stack pointer back to where it "
+"was before we pushed the <literal>$4</literal> onto the stack.  You should "
+"always clean up your stack parameters after a function call returns."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:832
+msgid ""
+"The next instruction moves &eax; to &ebx;.  What's in &eax-indexed;? It is "
+"<literal>factorial</literal>'s return value<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:834
+msgid ""
+"</indexterm>.  In our case, it is the value of the factorial function.  With "
+"4 as our parameter, 24 should be our return value.  Remember, return values "
+"are always stored in &eax-indexed;.  We want to return this value as the "
+"status code to the operating system.  However, Linux requires that the "
+"program's exit status be stored in &ebx-indexed;, not &eax;, so we have to "
+"move it.  Then we do the standard exit system call."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:845
+msgid "The nice thing about function calls is that:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:850
+msgid ""
+"Other programmers don't have to know anything about them except its "
+"arguments to use them."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:851
+msgid "They provide standardized building blocks from which you can form a program."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:852
+msgid ""
+"They can be called multiple times and from multiple locations and they "
+"always know how to get back to where they were since "
+"<literal>call<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:852
+msgid "</indexterm></literal> pushes the return address onto the stack."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:857
+msgid ""
+"These are the main advantages of functions.  Larger programs also use "
+"functions to break down complex pieces of code into smaller, simpler ones.  "
+"In fact, almost all of programming is writing and calling functions."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:864
+msgid ""
+"Let's now take a look at how the <literal>factorial</literal> function "
+"itself is implemented."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:869
+msgid "Before the function starts, we have this directive:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:878
+msgid "The <literal>.type<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:878
+msgid ""
+"</indexterm></literal> directive tells the linker that "
+"<literal>factorial</literal> is a function.  This isn't really needed unless "
+"we were using <literal>factorial</literal> in other programs.  We have "
+"included it for completeness.  The line that says "
+"<literal>factorial:</literal> gives the symbol <literal>factorial</literal> "
+"the storage location of the next instruction.  That's how "
+"<literal>call</literal> knew where to go when we said <literal>call "
+"factorial</literal>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:889
+msgid "The first real instructions of the function are:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:898
+msgid "As shown in the previous program, this creates the stack frame<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:898
+msgid ""
+"</indexterm> for this function.  These two lines will be the way you should "
+"start every function."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:904
+msgid "The next instruction is this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:912
+msgid "This uses base pointer addressing<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:912
+msgid "</indexterm> to move the first parameter<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:912
+#, no-wrap
+msgid "parameter"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:912
+msgid ""
+"</indexterm> of the function into &eax;.  Remember, "
+"<literal>(%ebp)</literal> has the old &ebp;, <literal>4(%ebp)</literal> has "
+"the return address, and <literal>8(%ebp)</literal> is the location of the "
+"first parameter to the function.  If you think back, this will be the value "
+"4 on the first call, since that was what we pushed on the stack before "
+"calling the function the first time (with <literal>pushl $4</literal>).  As "
+"this function calls itself, it will have other values, too."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:924
+msgid ""
+"Next, we check to see if we've hit our base case (a parameter of 1).  If so, "
+"we jump to the instruction at the label <literal>end_factorial</literal>, "
+"where it will be returned.  It's already in &eax; which we mentioned earlier "
+"is where you put return values<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:927
+#, no-wrap
+msgid "return values"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:927
+msgid "</indexterm>.  That is accomplished by these lines:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:937
+msgid ""
+"If it's not our base case, what did we say we would do? We would call the "
+"<literal>factorial</literal> function again with our parameter minus one.  "
+"So, first we decrease &eax; by one:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:947
+msgid "<literal>decl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:947
+msgid ""
+"</indexterm></literal> stands for decrement.  It subtracts 1 from the given "
+"register or memory location (&eax; in our case).  <literal>incl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FunctionsCh.xml:949
+#, no-wrap
+msgid "incl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:949
+msgid ""
+"</indexterm></literal> is the inverse - it adds 1.  After decrementing &eax; "
+"we push it onto the stack since it's going to be the parameter of the next "
+"function call.  And then we call <literal>factorial</literal> again!"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:961
+msgid ""
+"Okay, now we've called <literal>factorial</literal>.  One thing to remember "
+"is that after a function call, we can never know what the registers are "
+"(except <literal>%esp</literal> and <literal>%ebp</literal>).  So even "
+"though we had the value we were called with in <literal>%eax</literal>, it's "
+"not there any more.  Therefore, we need pull it off the stack from the same "
+"place we got it the first time (at <literal>8(%ebp)</literal>).  So, we do "
+"this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:976
+msgid ""
+"Now, we want to multiply that number with the result of the factorial "
+"function.  If you remember our previous discussion, the result of functions "
+"are left in &eax;.  So, we need to multiply &ebx; with &eax;.  This is done "
+"with this instruction:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:988
+msgid ""
+"This also stores the result in &eax;, which is exactly where we want the "
+"return value for the function to be! Since the return value<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:990
+msgid ""
+"</indexterm> is in place we just need to leave the function.  If you "
+"remember, at the start of the function we pushed &ebp;, and moved &esp; into "
+"&ebp; to create the current stack frame.  Now we reverse the operation to "
+"destroy the current stack frame and reactivate the last one:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:1005
+msgid "Now we're already to return, so we issue the following command"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:1013
+msgid ""
+"This pops the top value off of the stack, and then jumps to it.  If you "
+"remember our discussion about <literal>call</literal>, we said that "
+"<literal>call<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:1015
+msgid ""
+"</indexterm></literal> first pushed the address of the next instruction onto "
+"the stack before it jumped to the beginning of the function.  So, here we "
+"pop it back off so we can return there.  The function is done, and we have "
+"our answer!"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FunctionsCh.xml:1022
+msgid ""
+"Like our previous program, you should look over the program again, and make "
+"sure you know what everything does.  Look back through this section and the "
+"previous sections for the explanation of anything you don't understand.  "
+"Then, take a piece of paper, and go through the program step-by-step, "
+"keeping track of what the values of the registers are at each step, and what "
+"values are on the stack.  Doing this should deepen your understanding of "
+"what is going on."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FunctionsCh.xml:1035
+#, no-wrap
+msgid "Review"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../FunctionsCh.xml:1038
+#, no-wrap
+msgid "Know the Concepts"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1041
+msgid "What are primitives?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1042
+msgid "What are calling conventions?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1043
+msgid "What is the stack?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1044
+msgid ""
+"How do <literal>pushl</literal> and <literal>popl</literal> affect the "
+"stack? What special-purpose register do they affect?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1045
+msgid "What are local variables and what are they used for?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1046
+msgid "Why are local variables so necessary in recursive functions?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1047
+msgid "What are &ebp; and &esp; used for?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1048
+msgid "What is a stack frame?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../FunctionsCh.xml:1054
+#, no-wrap
+msgid "Use the Concepts"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1057
+msgid ""
+"Write a function called <literal>square</literal> which receives one "
+"argument and returns the square of that argument."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1058
+msgid "Write a program to test your <literal>square</literal> function."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1059
+msgid ""
+"Convert the maximum program given in <xref linkend=\"maximum\" /> so that it "
+"is a function which takes a pointer to several values and returns their "
+"maximum.  Write a program that calls maximum with 3 different lists, and "
+"returns the result of the last one as the program's exit status code."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1060
+msgid "Explain the problems that would arise without a standard calling convention."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../FunctionsCh.xml:1066
+#, no-wrap
+msgid "Going Further"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1069
+msgid ""
+"Do you think it's better for a system to have a large set of primitives or a "
+"small one, assuming that the larger set can be written in terms of the "
+"smaller one?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1070
+msgid "The factorial function can be written non-recursively.  Do so."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1071
+msgid ""
+"Find an application on the computer you use regularly.  Try to locate a "
+"specific feature, and practice breaking that feature out into functions.  "
+"Define the function interfaces between that feature and the rest of the "
+"program."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1072
+msgid ""
+"Come up with your own calling convention.  Rewrite the programs in this "
+"chapter using it.  An example of a different calling convention would be to "
+"pass parameters in registers rather than the stack, to pass them in a "
+"different order, to return values in other registers or memory locations.  "
+"Whatever you pick, be consistent and apply it throughout the whole program."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1073
+msgid ""
+"Can you build a calling convention without using the stack? What limitations "
+"might it have?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FunctionsCh.xml:1074
+msgid ""
+"What test cases should we use in our example program to check to see if it "
+"is working properly?"
+msgstr ""

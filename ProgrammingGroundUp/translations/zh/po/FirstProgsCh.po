@@ -1,0 +1,2822 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2006-05-15 16:01+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING"
+
+# type: Content of: <chapter><title>
+#: ../../FirstProgsCh.xml:2
+#, no-wrap
+msgid "Your First Programs"
+msgstr ""
+
+# type: Content of: <chapter><para>
+#: ../../FirstProgsCh.xml:16
+msgid ""
+"In this chapter you will learn the process for writing and building Linux "
+"assembly-language programs.  In addition, you will learn the structure of "
+"assembly-language programs, and a few assembly-language commands.  As you go "
+"through this chapter, you may want to refer also to <xref "
+"linkend=\"instructionsappendix\" /> and <xref linkend=\"gdbappendix\" />."
+msgstr ""
+
+# type: Content of: <chapter><para>
+#: ../../FirstProgsCh.xml:25
+msgid ""
+"These programs may overwhelm you at first.  However, go through them with "
+"diligence, read them and their explanations as many times as necessary, and "
+"you will have a solid foundation of knowledge to build on.  Please tinker "
+"around with the programs as much as you can.  Even if your tinkering does "
+"not work, every failure will help you learn."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FirstProgsCh.xml:33
+#, no-wrap
+msgid "Entering in the Program"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:36
+msgid ""
+"Okay, this first program is simple.  In fact, it's not going to do anything "
+"but exit! It's short, but it shows some basics about assembly language and "
+"Linux programming.  You need to enter the program in an editor exactly as "
+"written, with the filename <filename>exit.s</filename>.  The program "
+"follows.  Don't worry about not understanding it.  This section only deals "
+"with typing it in and running it.  In <xref linkend=\"assemblyoutline\" /> "
+"we will describe how it works."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:51
+msgid "What you have typed in is called the <emphasis>source code<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:51
+#, no-wrap
+msgid "source code"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:51
+msgid ""
+"</indexterm></emphasis>.  Source code is the human-readable form of a "
+"program.  In order to transform it into a program that a computer can run, "
+"we need to <emphasis>assemble<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:54
+#, no-wrap
+msgid "assemble"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:54
+msgid "</indexterm></emphasis> and <emphasis>link<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:54 ../../FirstProgsCh.xml:82
+#, no-wrap
+msgid "link"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:54
+msgid "</indexterm></emphasis> it."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:58
+msgid ""
+"The first step is to <emphasis>assemble</emphasis> it.  Assembling is the "
+"process that transforms what you typed into instructions for the machine.  "
+"The machine itself only reads sets of numbers, but humans prefer words.  An "
+"<emphasis>assembly language<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:61
+#, no-wrap
+msgid "assembly language"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:61
+msgid ""
+"</indexterm></emphasis> is a more human-readable form of the instructions a "
+"computer understands.  Assembling transforms the human-readable file into a "
+"machine-readable one.  To assembly the program type in the command"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:70
+msgid "<literal>as</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:70
+#, no-wrap
+msgid "<literal>as</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:70
+msgid ""
+"</indexterm> is the command which runs the assembler, "
+"<filename>exit.s</filename> is the source file<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:71
+#, no-wrap
+msgid "source file"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:71
+msgid ""
+"</indexterm>, and <literal>-o exit.o</literal> tells the assemble to put its "
+"output in the file <filename>exit.o</filename>.  <filename>exit.o</filename> "
+"is an <emphasis>object file<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:74
+#, no-wrap
+msgid "object file"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:74
+msgid ""
+"</indexterm></emphasis>.  An object file is code that is in the machine's "
+"language, but has not been completely put together.  In most large programs, "
+"you will have several source files, and you will convert each one into an "
+"object file.  The <emphasis>linker</emphasis><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:78
+#, no-wrap
+msgid "linker"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:78
+msgid ""
+"</indexterm> is the program that is responsible for putting the object files "
+"together and adding information to it so that the kernel knows how to load "
+"and run it.  In our case, we only have one object file, so the linker is "
+"only adding the information to enable it to run.  To "
+"<emphasis>link<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:82
+msgid "</indexterm></emphasis> the file, enter the command"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:89
+msgid "<literal>ld</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:89
+#, no-wrap
+msgid "ld"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:89
+msgid ""
+"</indexterm> is the command to run the linker, <filename>exit.o</filename> "
+"is the object file we want to link, and <literal>-o exit</literal> instructs "
+"the linker to output the new program into a file called "
+"<filename>exit</filename>.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:93
+msgid ""
+"If you are new to Linux and <trademark "
+"class=\"registered\">UNIX</trademark>, you may not be aware that files don't "
+"have to have extensions.  In fact, while <trademark "
+"class=\"registered\">Windows</trademark> uses the <literal>.exe</literal> "
+"extension to signify an executable program, UNIX executables usually have no "
+"extension."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:96
+msgid ""
+"</footnote> If any of these commands reported errors, you have either "
+"mistyped your program or the command.  After correcting the program, you "
+"have to re-run all the commands.  <emphasis>You must always re-assemble and "
+"re-link programs after you modify the source file for the changes to occur "
+"in the program</emphasis>. You can run <filename>exit</filename> by typing "
+"in the command"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:109
+msgid "The <filename>./</filename><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:109
+#, no-wrap
+msgid "<filename>./</filename>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:109
+msgid ""
+"</indexterm> is used to tell the computer that the program isn't in one of "
+"the normal program directories, but is the current directory "
+"instead<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:111
+msgid ""
+"<filename>.</filename> refers to the current directory in Linux and UNIX "
+"systems."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:112
+msgid ""
+"</footnote>.  You'll notice when you type this command, the only thing that "
+"happens is that you'll go to the next line.  That's because this program "
+"does nothing but exit.  However, immediately after you run the program, if "
+"you type in <indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:118 ../../FirstProgsCh.xml:463
+#, no-wrap
+msgid "echo"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:118
+msgid "</indexterm> <indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:119 ../../FirstProgsCh.xml:463
+#, no-wrap
+msgid "$?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:119 ../../FirstProgsCh.xml:1132 ../../FirstProgsCh.xml:1144 ../../FirstProgsCh.xml:1164 ../../FirstProgsCh.xml:1175 ../../FirstProgsCh.xml:1189 ../../FirstProgsCh.xml:1206
+#, no-wrap
+msgid "</indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:125
+msgid ""
+"It will say <literal>0</literal>.  What is happening is that every program "
+"when it exits gives Linux an <emphasis>exit status code<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:126 ../../FirstProgsCh.xml:395 ../../FirstProgsCh.xml:753 ../../FirstProgsCh.xml:1062
+#, no-wrap
+msgid "exit status code"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:126
+msgid ""
+"</indexterm></emphasis>, which tells it if everything went all right.  If "
+"everything was okay, it returns 0.  UNIX programs return numbers other than "
+"zero to indicate failure or other errors, warnings, or statuses.  The "
+"programmer determines what each number means.  You can view this code by "
+"typing in <literal>echo $?</literal>.  In the following section we will look "
+"at what each part of the code does."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FirstProgsCh.xml:138
+#, no-wrap
+msgid "Outline of an Assembly Language Program"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:141
+msgid ""
+"Take a look at the program we just entered.  At the beginning there are lots "
+"of lines that begin with hashes (<literal>#</literal>).  These are "
+"<emphasis>comments<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:143
+#, no-wrap
+msgid "comments"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:143
+msgid ""
+"</indexterm></emphasis>.  Comments are not translated by the assembler.  "
+"They are used only for the programmer to talk to anyone who looks at the "
+"code in the future.  Most programs you write will be modified by others.  "
+"Get into the habit of writing comments in your code that will help them "
+"understand both why the program exists and how it works.  Always include the "
+"following in your comments:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:154
+msgid "The purpose of the code"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:155
+msgid "An overview of the processing involved"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:157
+msgid "Anything strange your program does and why it does it<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para><para>
+#: ../../FirstProgsCh.xml:158
+msgid ""
+"You'll find that many programs end up doing things strange ways.  Usually "
+"there is a reason for that, but, unfortunately, programmers never document "
+"such things in their comments.  So, future programmers either have to learn "
+"the reason the hard way by modifying the code and watching it break, or just "
+"leaving it alone whether it is still needed or not.  You should "
+"<emphasis>always</emphasis> document any strange behavior your program "
+"performs.  Unfortunately, figuring out what is strange and what is "
+"straightforward comes mostly with experience."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:164 ../../FirstProgsCh.xml:681 ../../FirstProgsCh.xml:881 ../../FirstProgsCh.xml:956 ../../FirstProgsCh.xml:1004
+msgid "</footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:169
+msgid "After the comments, the next line says"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:175
+msgid ""
+"Anything starting with a period isn't directly translated into a machine "
+"instruction.  Instead, it's an instruction to the assembler itself.  These "
+"are called <emphasis>assembler directives<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:177
+#, no-wrap
+msgid "assembler directives"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:177
+msgid "</indexterm></emphasis> or <emphasis>pseudo-operations<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:177
+#, no-wrap
+msgid "pseudo-operations"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:177
+msgid ""
+"</indexterm></emphasis> because they are handled by the assembler and are "
+"not actually run by the computer.  The "
+"<literal>.section</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:178
+#, no-wrap
+msgid "<literal>.section</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:178
+msgid ""
+"</indexterm> command breaks your program up into sections.  This command "
+"starts the data section<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:180 ../../FirstProgsCh.xml:637
+#, no-wrap
+msgid "data section"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:180
+msgid ""
+"</indexterm>, where you list any memory storage you will need for data.  Our "
+"program doesn't use any, so we don't need the section.  It's just here for "
+"completeness.  Almost every program you write in the future will have data."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:187
+msgid "Right after this you have"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:192
+msgid "<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:192
+#, no-wrap
+msgid "<literal>.text</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:192
+msgid "</indexterm> which starts the text section.  The text section<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:194
+#, no-wrap
+msgid "text section"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:194
+msgid "</indexterm> of a program is where the program instructions live."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:199
+msgid "The next instruction is"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:205
+msgid "This instructs the assembler that <literal>_start</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:205 ../../FirstProgsCh.xml:223
+#, no-wrap
+msgid "<literal>_start</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:205
+msgid ""
+"</indexterm> is important to remember.  <literal>_start</literal> is a "
+"<emphasis>symbol<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:206 ../../FirstProgsCh.xml:238
+#, no-wrap
+msgid "symbol"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:206
+msgid ""
+"</indexterm></emphasis>, which means that it is going to be replaced by "
+"something else either during assembly or linking.  Symbols are generally "
+"used to mark locations of programs or data, so you can refer to them by name "
+"instead of by their location number.  Imagine if you had to refer to every "
+"memory location by its address.  First of all, it would be very confusing "
+"because you would have to memorize or look up the numeric memory address of "
+"every piece of code or data.  In addition, every time you had to insert a "
+"piece of data or code you would have to change all the addresses in your "
+"program! Symbols are used so that the assembler and linker can take care of "
+"keeping track of addresses, and you can concentrate on writing your program."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:221
+msgid "<literal>.globl</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:221
+#, no-wrap
+msgid "<literal>.globl</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:221
+msgid ""
+"</indexterm> means that the assembler shouldn't discard this symbol after "
+"assembly, because the linker will need it.  "
+"<literal>_start</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:223
+msgid ""
+"</indexterm> is a special symbol that always needs to be marked with "
+"<literal>.globl</literal> because it marks the location of the start of the "
+"program.  <emphasis>Without marking this location in this way, when the "
+"computer loads your program it won't know where to begin running your "
+"program</emphasis>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:231
+msgid "The next line"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:237
+msgid ""
+"<emphasis>defines</emphasis> the value of the "
+"<literal>_start</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para><primary>
+#: ../../FirstProgsCh.xml:237 ../../FirstProgsCh.xml:745 ../../FirstProgsCh.xml:999
+#, no-wrap
+msgid "_start"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:237
+msgid "</indexterm> label. A <emphasis>label<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:237 ../../FirstProgsCh.xml:648
+#, no-wrap
+msgid "labels"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:237
+msgid "</indexterm></emphasis> is a symbol<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:238
+msgid ""
+"</indexterm> followed by a colon.  Labels define a symbol's value.  When the "
+"assembler<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:240
+#, no-wrap
+msgid "assembler"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:240
+msgid ""
+"</indexterm> is assembling the program, it has to assign each data value and "
+"instruction an address.  Labels tell the assembler to make the symbol's "
+"value be wherever the next instruction or data element will be.  This way, "
+"if the actual physical location of the data or instruction changes, you "
+"don't have to rewrite any references to it - the symbol automatically gets "
+"the new value."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:249
+msgid ""
+"Now we get into actual computer instructions.  The first such instruction is "
+"this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:257
+msgid ""
+"When the program runs, this instruction transfers the number "
+"<literal>1</literal> into the &eax; register.  In assembly language, many "
+"instructions have <emphasis>operands</emphasis><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:259
+#, no-wrap
+msgid "operands"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:259
+msgid "</indexterm>.  <literal>movl</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para><primary>
+#: ../../FirstProgsCh.xml:259 ../../FirstProgsCh.xml:815 ../../FirstProgsCh.xml:876 ../../FirstProgsCh.xml:880
+#, no-wrap
+msgid "movl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:259
+msgid ""
+"</indexterm> has two operands - the <emphasis>source</emphasis> and the "
+"<emphasis>destination</emphasis>.  In this case, the source is the literal "
+"number 1, and the destination is the &eax; register.  Operands can be "
+"numbers, memory location references, or registers.  Different instructions "
+"allow different types of operands.  See <xref "
+"linkend=\"instructionsappendix\" /> for more information on which "
+"instructions take which kinds of operands."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:269
+msgid ""
+"On most instructions which have two operands, the first one is the source "
+"operand and the second one is the destination.  Note that in these cases, "
+"the source operand is not modified at all.  Other instructions of this type "
+"are, for example, <literal>addl</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:273
+#, no-wrap
+msgid "addl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:273
+msgid "</indexterm>, <literal>subl</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:274
+#, no-wrap
+msgid "subl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:274
+msgid "</indexterm>, and <literal>imull</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:275
+#, no-wrap
+msgid "imull"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:275
+msgid ""
+"</indexterm>.  These add/subtract/multiply the source operand from/to/by the "
+"destination operand and and save the result in the destination operand.  "
+"Other instructions may have an operand hardcoded in.  "
+"<literal>idivl</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:279
+#, no-wrap
+msgid "idivl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:279
+msgid ""
+"</indexterm>, for example, requires that the dividend be in &eax;, and &edx; "
+"be zero, and the quotient is then transferred to &eax; and the remainder to "
+"&edx;.  However, the divisor can be any register or memory location."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:287
+msgid "On x86 processors, there are several general-purpose registers<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:287
+#, no-wrap
+msgid "general-purpose registers"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:287 ../../FirstProgsCh.xml:434
+msgid "</indexterm><footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:287
+msgid ""
+"Note that on x86 processors, even the general-purpose registers have some "
+"special purposes, or used to before it went 32-bit.  However, these are "
+"general-purpose registers for most instructions.  Each of them has at least "
+"one instruction where it is used in a special way.  However, for most of "
+"them, those instructions aren't covered in this book."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:287
+msgid "</footnote> (all of which can be used with <literal>movl</literal>):"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:292
+msgid "&eax-indexed;"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:293
+msgid "&ebx-indexed;"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:294
+msgid "&ecx-indexed;"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:295
+msgid "&edx-indexed;"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:296
+msgid "&edi-indexed;"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:297
+msgid "&esi-indexed;"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:301
+msgid ""
+"In addition to these general-purpose registers, there are also several "
+"special-purpose registers<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:302
+#, no-wrap
+msgid "special-purpose registers"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:302
+msgid "</indexterm>, including:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:306
+msgid "&ebp-indexed;"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:307
+msgid "&esp-indexed;"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:308
+msgid "&eip-indexed;"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:309
+msgid "&eflags-indexed;"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:313
+msgid "We'll discuss these later, just be aware that they exist.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:314
+msgid ""
+"You may be wondering, <emphasis>why do all of these registers begin with the "
+"letter <literal>e</literal>?</emphasis> The reason is that early generations "
+"of x86 processors were 16 bits rather than 32 bits.  Therefore, the "
+"registers were only half the length they are now.  In later generations of "
+"x86 processors, the size of the registers doubled. They kept the old names "
+"to refer to the first half of the register, and added an "
+"<literal>e</literal> to refer to the extended versions of the register.  "
+"Usually you will only use the extended versions.  Newer models also offer a "
+"64-bit mode, which doubles the size of these registers yet again and uses an "
+"<literal>r</literal> prefix to indicate the larger registers (i.e.  &rax; is "
+"the 64-bit version of &eax;).  However, these processors are not widely "
+"used, and are not covered in this book."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:328
+msgid ""
+"</footnote> Some of these registers, like &eip-indexed; and &eflags-indexed; "
+"can only be accessed through special instructions.  The others can be "
+"accessed using the same instructions as general-purpose registers, but they "
+"have special meanings, special uses, or are simply faster when used in a "
+"specific way."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:336
+msgid "So, the <literal>movl</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:336
+#, no-wrap
+msgid "<literal>movl</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:336
+msgid ""
+"</indexterm> instruction moves the number <literal>1</literal> into "
+"<literal>%eax</literal>.  The dollar-sign in front of the one indicates that "
+"we want to use immediate mode addressing<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#: ../../FirstProgsCh.xml:339 ../../FirstProgsCh.xml:1189
+#, no-wrap
+msgid "immediate mode addressing"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:339
+msgid ""
+"</indexterm> (refer back to <xref linkend=\"dataaccessingmethods\" />).  "
+"Without the dollar-sign it would do direct addressing<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#: ../../FirstProgsCh.xml:339 ../../FirstProgsCh.xml:1132
+#, no-wrap
+msgid "direct addressing mode"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:339
+msgid ""
+"</indexterm>, loading whatever number is at address <literal>1</literal>.  "
+"We want the actual number <literal>1</literal> loaded in, so we have to use "
+"immediate mode."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:346
+msgid ""
+"The reason we are moving the number 1 into &eax; is because we are preparing "
+"to call the Linux Kernel. The number <literal>1</literal> is the number of "
+"the <literal>exit</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:348
+#, no-wrap
+msgid "<literal>exit</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:348
+msgid "</indexterm> <emphasis>system call</emphasis> <indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:350 ../../FirstProgsCh.xml:1058
+#, no-wrap
+msgid "system call"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:350
+msgid ""
+"</indexterm>.  We will discuss system calls in more depth soon, but "
+"basically they are requests for the operating system's help.  Normal "
+"programs can't do everything.  Many operations such as calling other "
+"programs, dealing with files, and exiting have to be handled by the "
+"operating system through system calls<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para><primary>
+#: ../../FirstProgsCh.xml:355 ../../FirstProgsCh.xml:448
+#, no-wrap
+msgid "system calls"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:355
+msgid ""
+"</indexterm>.  When you make a system call, which we will do shortly, the "
+"system call number has to be loaded into &eax-indexed; (for a complete "
+"listing of system calls and their numbers, see <xref linkend=\"syscallap\" "
+"/>).  Depending on the system call, other registers may have to have values "
+"in them as well.  Note that system calls is not the only use or even the "
+"main use of registers.  It is just the one we are dealing with in this first "
+"program.  Later programs will use registers for regular computation."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:368
+msgid ""
+"The operating system, however, usually needs more information than just "
+"which call to make.  For example, when dealing with files, the operating "
+"system needs to know which file you are dealing with, what data you want to "
+"write, and other details.  The extra details, called "
+"<emphasis>parameters<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:372
+#, no-wrap
+msgid "parameters"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:372
+msgid ""
+"</indexterm></emphasis> are stored in other registers.  In the case of the "
+"<literal>exit</literal> system call, the operating system requires a status "
+"code be loaded in &ebx-indexed;.  This value is then returned to the "
+"system.  This is the value you retrieved when you typed <literal>echo "
+"$?</literal>.  So, we load &ebx; with <literal>0</literal> by typing the "
+"following:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:385
+msgid "Now, loading registers<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:386 ../../FirstProgsCh.xml:781
+#, no-wrap
+msgid "registers"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:386
+msgid ""
+"</indexterm> with these numbers doesn't do anything itself.  Registers are "
+"used for all sorts of things besides system calls.  They are where all "
+"program logic such as addition, subtraction, and comparisons take place.  "
+"Linux simply requires that certain registers be loaded with certain "
+"parameter values before making a system call.  &eax-indexed; is always "
+"required to be loaded with the system call number.  For the other registers, "
+"however, each system call has different requirements.  In the "
+"<literal>exit<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:394
+#, no-wrap
+msgid "exit"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:394
+msgid ""
+"</indexterm></literal> system call, &ebx-indexed; is required to be loaded "
+"with the exit status<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:395
+msgid ""
+"</indexterm>.  We will discuss different system calls as they are needed.  "
+"For a list of common system calls and what is required to be in each "
+"register, see <xref linkend=\"syscallap\" />"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:401
+msgid "The next instruction is the \"magic\" one.  It looks like this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:409
+msgid "The <literal>int<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:409
+#, no-wrap
+msgid "int"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:409
+msgid "</indexterm></literal> stands for <emphasis>interrupt<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:410 ../../FirstProgsCh.xml:427
+#, no-wrap
+msgid "interrupts"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:410
+msgid "</indexterm></emphasis>.  The <literal>0x80<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:411
+#, no-wrap
+msgid "0x80"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:411
+msgid "</indexterm></literal> is the interrupt number to use.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:413
+msgid ""
+"You may be wondering why it's <literal>0x80</literal> instead of just "
+"<literal>80</literal>.  The reason is that the number is written in "
+"hexadecimal<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para><primary>
+#: ../../FirstProgsCh.xml:416
+#, no-wrap
+msgid "hexadecimal"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:416
+msgid ""
+"</indexterm>.  In hexadecimal, a single digit can hold 16 values instead of "
+"the normal 10.  This is done by utilizing the letters <literal>a</literal> "
+"through <literal>f</literal> in addition to the regular digits.  "
+"<literal>a</literal> represents 10, <literal>b</literal> represents 11, and "
+"so on.  0x10 represents the number 16, and so on.  This will be discussed "
+"more in depth later, but just be aware that numbers starting with "
+"<literal>0x</literal> are in hexadecimal.  Tacking on an "
+"<literal>H</literal> at the end is also sometimes used instead, but we won't "
+"do that in this book.  For more information about this, see <xref "
+"linkend=\"countingchapter\" />"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:425
+msgid "</footnote> An <emphasis>interrupt<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:427
+msgid ""
+"</indexterm></emphasis> interrupts the normal program flow, and transfers "
+"control from our program to Linux<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:428
+#, no-wrap
+msgid "Linux"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:428
+msgid "</indexterm> so that it will do a system call.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:429
+msgid ""
+"Actually, the interrupt transfers control to whoever set up an "
+"<emphasis>interrupt handler</emphasis> for the interrupt number.  In the "
+"case of Linux, all of them are set to be handled by the Linux kernel."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:432
+msgid ""
+"</footnote>.  You can think of it as like signaling Batman(or "
+"Larry-Boy<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:434
+#, no-wrap
+msgid "Larry-Boy"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:434
+msgid ""
+"If you don't watch Veggie Tales, you should.  Start with Dave and the Giant "
+"Pickle."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:434
+msgid ""
+"</footnote>, if you prefer).  You need something done, you send the signal, "
+"and then he comes to the rescue.  You don't care how he does his work - it's "
+"more or less magic - and when he's done you're back in control.  In this "
+"case, all we're doing is asking Linux to terminate the program, in which "
+"case we won't be back in control.  If we didn't signal the interrupt, then "
+"no system call would have been performed."
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><title>
+#: ../../FirstProgsCh.xml:445
+#, no-wrap
+msgid "Quick System Call Review"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para>
+#: ../../FirstProgsCh.xml:447
+msgid ""
+"To recap - Operating System features are accessed through system "
+"calls<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para>
+#: ../../FirstProgsCh.xml:448
+msgid ""
+"</indexterm>.  These are invoked by setting up the registers in a special "
+"way and issuing the instruction <literal>int $0x80</literal>.  Linux knows "
+"which system call we want to access by what we stored in the &eax-indexed; "
+"register.  Each system call has other requirements as to what needs to be "
+"stored in the other registers.  System call number 1 is the "
+"<literal>exit</literal> system call, which requires the status "
+"code<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para><primary>
+#: ../../FirstProgsCh.xml:454
+#, no-wrap
+msgid "status code"
+msgstr ""
+
+# type: Content of: <chapter><sect1><note><para>
+#: ../../FirstProgsCh.xml:454
+msgid "</indexterm> to be placed in &ebx-indexed;."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:460
+msgid ""
+"Now that you've assembled, linked, run, and examined the program, you should "
+"make some basic edits.  Do things like change the number that is loaded into "
+"<literal>%ebx</literal>, and watch it come out at the end with <literal>echo "
+"$?<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:463
+msgid "</indexterm><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:463
+msgid ""
+"</indexterm></literal>.  Don't forget to assemble and link it again before "
+"running it.  Add some comments.  Don't worry, the worse thing that would "
+"happen is that the program won't assemble or link, or will freeze your "
+"screen.  That's just part of learning!"
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FirstProgsCh.xml:473
+#, no-wrap
+msgid "Planning the Program"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:476
+msgid ""
+"In our next program we will try to find the maximum of a list of numbers.  "
+"Computers are very detail-oriented, so in order to write the program we will "
+"have to have planned out a number of details.  These details include:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:482
+msgid "Where will the original list of numbers be stored?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:483
+msgid "What procedure will we need to follow to find the maximum number?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:484
+msgid "How much storage do we need to carry out that procedure?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:485
+msgid ""
+"Will all of the storage fit into registers, or do we need to use some memory "
+"as well?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:489
+msgid ""
+"You might not think that something as simple as finding the maximum number "
+"from a list would take much planning.  You can usually tell people to find "
+"the maximum number, and they can do so with little trouble.  However, our "
+"minds are used to putting together complex tasks automatically.  Computers "
+"need to be instructed through the process.  In addition, we can usually hold "
+"any number of things in our mind without much trouble.  We usually don't "
+"even realize we are doing it.  For example, if you scan a list of numbers "
+"for the maximum, you will probably keep in mind both the highest number "
+"you've seen so far, and where you are in the list.  While your mind does "
+"this automatically, with computers you have to explicitly set up storage for "
+"holding the current position on the list and the current maximum number.  "
+"You also have other problems such as how to know when to stop.  When reading "
+"a piece of paper, you can stop when you run out of numbers.  However, the "
+"computer only contains numbers, so it has no idea when it has reached the "
+"last of <emphasis>your</emphasis> numbers."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:507
+msgid ""
+"In computers, you have to plan every step of the way.  So, let's do a little "
+"planning.  First of all, just for reference, let's name the address where "
+"the list of numbers starts as <literal>data_items</literal>.  Let's say that "
+"the last number in the list will be a zero, so we know where to stop.  We "
+"also need a value to hold the current position in the list, a value to hold "
+"the current list element being examined, and the current highest value on "
+"the list.  Let's assign each of these a register:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:516
+msgid "&edi; will hold the current position in the list."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:517
+msgid "&ebx; will hold the current highest value in the list."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:518
+msgid "&eax; will hold the current element being examined."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:522
+msgid ""
+"When we begin the program and look at the first item in the list, since we "
+"haven't seen any other items, that item will automatically be the current "
+"largest element in the list.  Also, we will set the current position in the "
+"list to be zero - the first element.  From then, we will follow the "
+"following steps:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FirstProgsCh.xml:530
+msgid ""
+"Check the current list element (&eax;) to see if it's zero (the terminating "
+"element)."
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FirstProgsCh.xml:531
+msgid "If it is zero, exit."
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FirstProgsCh.xml:532
+msgid "Increase the current position (&edi;)."
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FirstProgsCh.xml:533
+msgid ""
+"Load the next value in the list into the current value register (&eax;).  "
+"What addressing mode might we use here? Why?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FirstProgsCh.xml:534
+msgid "Compare the current value (&eax;) with the current highest value (&ebx;)."
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FirstProgsCh.xml:535
+msgid ""
+"If the current value is greater than the current highest value, replace the "
+"current highest value with the current value."
+msgstr ""
+
+# type: Content of: <chapter><sect1><orderedlist><listitem><para>
+#: ../../FirstProgsCh.xml:536
+msgid "Repeat."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:540
+msgid ""
+"That is the procedure.  Many times in that procedure I made use of the word "
+"\"if\".  These places are where decisions are to be made.  You see, the "
+"computer doesn't follow the exact same sequence of instructions every time.  "
+"Depending on which \"if\"s are correct, the computer may follow a different "
+"set of instructions.  The second time through, it might not have the highest "
+"value.  In that case, it will skip step 6, but come back to step 7.  In "
+"every case except the last one, it will skip step 2.  In more complicated "
+"programs, the skipping around increases dramatically."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:551
+msgid ""
+"These \"if\"s are a class of instructions called <emphasis>flow "
+"control<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:551 ../../FirstProgsCh.xml:575 ../../FirstProgsCh.xml:928
+#, no-wrap
+msgid "flow control"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:551
+msgid ""
+"</indexterm></emphasis> instructions, because they tell the computer which "
+"steps to follow and which paths to take.  In the previous program, we did "
+"not have any flow control instructions, as there was only one possible path "
+"to take - exit.  This program is much more dynamic in that it is directed by "
+"data.  Depending on what data it receives, it will follow different "
+"instruction paths."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:560
+msgid ""
+"In this program, this will be accomplished by two different instructions, "
+"the conditional jump<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:562
+#, no-wrap
+msgid "conditional jump"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:562
+msgid "</indexterm> and the unconditional jump<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:563
+#, no-wrap
+msgid "unconditional jump"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:563
+msgid ""
+"</indexterm>.  The conditional jump changes paths based on the results of a "
+"previous comparison or calculation.  The unconditional jump just goes "
+"directly to a different path no matter what.  The unconditional jump may "
+"seem useless, but it is very necessary since all of the instructions will be "
+"laid out on a line.  If a path needs to converge back to the main path, it "
+"will have to do this by an unconditional jump.  We will see more of both of "
+"these jumps in the next section."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:575
+msgid "Another use of flow control<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:575
+msgid "</indexterm> is in implementing loops<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:575
+#, no-wrap
+msgid "loops"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:575
+msgid ""
+"</indexterm>.  A loop is a piece of program code that is meant to be "
+"repeated.  In our example, the first part of the program (setting the "
+"current position to 0 and loading the current highest value with the current "
+"value) was only done once, so it wasn't a loop.  However, the next part is "
+"repeated over and over again for every number in the list.  It is only left "
+"when we have come to the last element, indicated by a zero.  This is called "
+"a <emphasis>loop</emphasis> because it occurs over and over again.  It is "
+"implemented by doing unconditional jumps to the beginning of the loop at the "
+"end of the loop, which causes it to start over.  However, you have to always "
+"remember to have a conditional jump to exit the loop somewhere, or the loop "
+"will continue forever! This condition is called an <emphasis>infinite "
+"loop<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:586
+#, no-wrap
+msgid "infinite loop"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:586
+msgid ""
+"</indexterm></emphasis>.  If we accidentally left out step 1, 2, or 3, the "
+"loop (and our program)  would never end."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:592
+msgid ""
+"In the next section, we will implement this program that we have planned.  "
+"Program planning sounds complicated - and it is, to some degree.  When you "
+"first start programming, it's often hard to convert our normal thought "
+"process into a procedure that the computer can understand.  We often forget "
+"the number of \"temporary storage locations\" that our minds are using to "
+"process problems.  As you read and write programs, however, this will "
+"eventually become very natural to you.  Just have patience."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FirstProgsCh.xml:604
+#, no-wrap
+msgid "Finding a Maximum Value"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:607
+msgid "Enter the following program as <filename>maximum.s</filename>:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:615
+msgid "Now, assemble and link it with these commands:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:624
+msgid "Now run it, and check its status."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:633
+msgid ""
+"You'll notice it returns the value <literal>222</literal>.  Let's take a "
+"look at the program and what it does.  If you look in the comments, you'll "
+"see that the program finds the maximum of a set of numbers (aren't comments "
+"wonderful!).  You may also notice that in this program we actually have "
+"something in the data section<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:637
+msgid "</indexterm>.  These lines are the data section:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:647
+msgid "Lets look at this.  <literal>data_items</literal> is a label<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:648
+msgid ""
+"</indexterm> that refers to the location that follows it.  Then, there is a "
+"directive that starts with <literal>.long<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#: ../../FirstProgsCh.xml:650 ../../FirstProgsCh.xml:659 ../../FirstProgsCh.xml:686
+#, no-wrap
+msgid ".long"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:650
+msgid ""
+"</indexterm></literal>.  That causes the assembler to reserve memory for the "
+"list of numbers that follow it.  <literal>data_items</literal> refers to the "
+"location of the first one.  Because <literal>data_items</literal> is a "
+"label, any time in our program where we need to refer to this address we can "
+"use the <literal>data_items</literal> symbol, and the assembler will "
+"substitute it with the address where the numbers start during assembly.  For "
+"example, the instruction <literal>movl data_items, %eax</literal> would move "
+"the value 3 into &eax;.  There are several different types of memory "
+"locations other than <literal>.long<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:659
+msgid "</indexterm></literal> that can be reserved.  The main ones are as follows:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:666
+#, no-wrap
+msgid "<literal>.byte<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#: ../../FirstProgsCh.xml:666
+#, no-wrap
+msgid ".byte"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:666 ../../FirstProgsCh.xml:674 ../../FirstProgsCh.xml:686 ../../FirstProgsCh.xml:695
+#, no-wrap
+msgid "</indexterm></literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:668
+msgid ""
+"Bytes take up one storage location for each number.  They are limited to "
+"numbers between 0 and 255."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:674
+#, no-wrap
+msgid "<literal>.int<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#: ../../FirstProgsCh.xml:674
+#, no-wrap
+msgid ".int"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:676
+msgid ""
+"Ints (which differ from the <literal>int</literal> instruction) take up two "
+"storage locations for each number.  These are limitted to numbers between 0 "
+"and 65535.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><para>
+#: ../../FirstProgsCh.xml:678
+msgid ""
+"Note that no numbers in assembly language (or any other computer language "
+"I've seen) have commas embedded in them.  So, always write numbers like "
+"<literal>65535</literal>, and never like <literal>65,535</literal>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:686
+#, no-wrap
+msgid "<literal>.long<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:688
+msgid ""
+"Longs take up four storage locations.  This is the same amount of space the "
+"registers use, which is why they are used in this program.  They can hold "
+"numbers between 0 and 4294967295."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:695
+#, no-wrap
+msgid "<literal>.ascii<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#: ../../FirstProgsCh.xml:695
+#, no-wrap
+msgid ".ascii"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:697
+msgid ""
+"The <literal>.ascii</literal> directive is to enter in characters into "
+"memory.  Characters each take up one storage location (they are converted "
+"into bytes internally).  So, if you gave the directive <literal>.ascii "
+"\"Hello there\\0\"</literal>, the assembler would reserve 12 storage "
+"locations (bytes).  The first byte contains the numeric code for "
+"<literal>H</literal>, the second byte contains the numeric code for "
+"<literal>e</literal>, and so forth.  The last character is represented by "
+"<literal>\\0</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../FirstProgsCh.xml:704
+#, no-wrap
+msgid "\\0"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:704
+msgid ""
+"</indexterm>, and it is the terminating character (it will never display, it "
+"just tells other parts of the program that that's the end of the "
+"characters).  Letters and numbers that start with a backslash represent "
+"characters that are not typeable on the keyboard or easily viewable on the "
+"screen.  For example, <literal>\\n</literal><indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../FirstProgsCh.xml:710
+#, no-wrap
+msgid "\\n"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:710
+msgid "</indexterm> refers to the \"newline\"<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../FirstProgsCh.xml:710
+#, no-wrap
+msgid "newline"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:710
+msgid ""
+"</indexterm> character which causes the computer to start output on the next "
+"line and <literal>\\t</literal> <indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../FirstProgsCh.xml:711
+#, no-wrap
+msgid "\\t"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:711
+msgid "</indexterm> refers to the \"tab\"<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../FirstProgsCh.xml:711
+#, no-wrap
+msgid "tab"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:711
+msgid ""
+"</indexterm> character.  All of the letters in an <literal>.ascii</literal> "
+"directive should be in quotes."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:718
+msgid ""
+"In our example, the assembler reserves 14 <literal>.long</literal>s, one "
+"right after another.  Since each long takes up 4 bytes, that means that the "
+"whole list takes up 56 bytes.  These are the numbers we will be searching "
+"through to find the maximum.  <literal>data_items</literal> is used by the "
+"assembler to refer to the address of the first of these values."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:726
+msgid ""
+"Take note that the last data item in the list is a zero.  I decided to use a "
+"zero to tell my program that it has hit the end of the list.  I could have "
+"done this other ways.  I could have had the size of the list hard-coded into "
+"the program.  Also, I could have put the length of the list as the first "
+"item, or in a separate location.  I also could have made a symbol which "
+"marked the last location of the list items.  No matter how I do it, I must "
+"have some method of determining the end of the list.  The computer knows "
+"nothing - it can only do what it is told.  It's not going to stop processing "
+"unless I give it some sort of signal.  Otherwise it would continue "
+"processing past the end of the list into the data that follows it, and even "
+"to locations where we haven't put any data."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:741
+msgid "Notice that we don't have a <literal>.globl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para><primary>
+#: ../../FirstProgsCh.xml:742 ../../FirstProgsCh.xml:1000
+#, no-wrap
+msgid ".globl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:742
+msgid ""
+"</indexterm></literal> declaration for <literal>data_items</literal>.  This "
+"is because we only refer to these locations within the program.  No other "
+"file or program needs to know where they are located.  This is in contrast "
+"to the <literal>_start<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:745
+msgid ""
+"</indexterm></literal> symbol, which Linux needs to know where it is so that "
+"it knows where to begin the program's execution.  It's not an error to write "
+"<literal>.globl data_items</literal>, it's just not necessary.  Anyway, play "
+"around with this line and add your own numbers.  Even though they are "
+"<literal>.long</literal>, the program will produce strange results if any "
+"number is greater than 255, because that's the largest allowed exit "
+"status<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:753
+msgid ""
+"</indexterm>.  Also notice that if you move the 0 to earlier in the list, "
+"the rest get ignored.  <emphasis>Remember that any time you change the "
+"source file, you have to re-assemble and re-link your program.  Do this now "
+"and see the results</emphasis>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:762
+msgid ""
+"All right, we've played with the data a little bit.  Now let's look at the "
+"code.  In the comments you will notice that we've marked some "
+"<emphasis>variables<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:764
+#, no-wrap
+msgid "variables"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:764
+msgid ""
+"</indexterm></emphasis> that we plan to use.  A variable is a dedicated "
+"storage location used for a specific purpose, usually given a distinct name "
+"by the programmer.  We talked about these in the previous section, but "
+"didn't give them a name.  In this program, we have several variables:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:773
+msgid "a variable for the current maximum number found"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:774
+msgid ""
+"a variable for which number of the list we are currently examining, called "
+"the index"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:775
+msgid "a variable holding the current number being examined"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:779
+msgid ""
+"In this case,we have few enough variables that we can hold them all in "
+"registers.  In larger programs, you have to put them in memory, and then "
+"move them to registers<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:781
+msgid ""
+"</indexterm> when you are ready to use them.  We will discuss how to do that "
+"later.  When people start out programming, they usually underestimate the "
+"number of variables they will need.  People are not used to having to think "
+"through every detail of a process, and therefore leave out needed variables "
+"in their first programming attempts."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:789
+msgid ""
+"In this program, we are using &ebx; as the location of the largest item "
+"we've found.  &edi; is used as the <emphasis>index<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:791 ../../FirstProgsCh.xml:796 ../../FirstProgsCh.xml:1018
+#, no-wrap
+msgid "index"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:791
+msgid ""
+"</indexterm></emphasis> to the current data item we're looking at.  Now, "
+"let's talk about what an index is.  When we read the information from "
+"<literal>data_items</literal>, we will start with the first one (data item "
+"number 0), then go to the second one (data item number 1), then the third "
+"(data item number 2), and so on.  The data item number is the "
+"<emphasis>index<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:796
+msgid ""
+"</indexterm></emphasis> of <literal>data_items</literal>.  You'll notice "
+"that the first instruction we give to the computer is:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:806
+msgid ""
+"Since we are using <literal>%edi</literal> as our index, and we want to "
+"start looking at the first item, we load <literal>%edi</literal> with 0.  "
+"Now, the next instruction is tricky, but crucial to what we're doing.  It "
+"says:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:817
+msgid "Now to understand this line, you need to keep several things in mind:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:821
+msgid ""
+"<literal>data_items</literal> is the location number of the start of our "
+"number list."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:822
+msgid ""
+"Each number is stored across 4 storage locations (because we declared it "
+"using <literal>.long</literal>)"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:823
+msgid "<literal>%edi</literal> is holding 0 at this point"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:827
+msgid ""
+"So, basically what this line does is say, \"start at the beginning of "
+"data_items, and take the first item number (because <literal>%edi</literal> "
+"is 0), and remember that each number takes up four storage locations.\" Then "
+"it stores that number in <literal>%eax</literal>.  This is how you write "
+"indexed addressing mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#: ../../FirstProgsCh.xml:831 ../../FirstProgsCh.xml:1144
+#, no-wrap
+msgid "indexed addressing mode"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:831
+msgid ""
+"</indexterm> instructions in assembly language.  The instruction in a "
+"general form is this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:841
+msgid ""
+"In our case <literal>data_items</literal> was our beginning address, &edi; "
+"was our index register<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../FirstProgsCh.xml:842 ../../FirstProgsCh.xml:1149
+#, no-wrap
+msgid "index register"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:842
+msgid ""
+"</indexterm>, and 4 was our word size.  This topic is discussed further in "
+"<xref linkend=\"movaddrmodes\" />."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:846
+msgid ""
+"If you look at the numbers in <literal>data_items</literal>, you will see "
+"that the number 3 is now in &eax;.  If &edi; was set to 1, the number 67 "
+"would be in &eax;, and if it was set to 2, the number 34 would be in &eax;, "
+"and so forth.  Very strange things would happen if we used a number other "
+"than 4 as the size of our storage locations.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:851
+msgid ""
+"The instruction doesn't really use 4 for the size of the storage locations, "
+"although looking at it that way works for our purposes now.  It's actually "
+"what's called a <emphasis>multiplier<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><primary>
+#: ../../FirstProgsCh.xml:854 ../../FirstProgsCh.xml:1149
+#, no-wrap
+msgid "multiplier"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:854
+msgid ""
+"</indexterm></emphasis>.  basically, the way it works is that you start at "
+"the location specified by <literal>data_items</literal>, then you add "
+"<literal>%edi</literal>*4 storage locations, and retrieve the number there.  "
+"Usually, you use the size of the numbers as your multiplier, but in some "
+"circumstances you'll want to do other things."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:858
+msgid ""
+"</footnote> The way you write this is very awkward, but if you know what "
+"each piece does, it's not too difficult.  For more information about this, "
+"see <xref linkend=\"movaddrmodes\" />"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:865
+msgid "Let's look at the next line:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:873
+msgid ""
+"We have the first item to look at stored in <literal>%eax</literal>.  Since "
+"it is the first item, we know it's the biggest one we've looked at.  We "
+"store it in <literal>%ebx</literal>, since that's where we are keeping the "
+"largest number found.  Also, even though <literal>movl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:876
+msgid ""
+"</indexterm></literal> stands for <emphasis>move</emphasis>, it actually "
+"copies the value, so <literal>%eax</literal> and <literal>%ebx</literal> "
+"both contain the starting value.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:879
+msgid "Also, the <literal>l</literal> in <literal>movl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:880
+msgid ""
+"</indexterm></literal> stands for <emphasis>move long</emphasis> since we "
+"are moving a value that takes up four storage locations."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:885
+msgid "Now we move into a <emphasis>loop<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:885
+#, no-wrap
+msgid "loop"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:885
+msgid ""
+"</indexterm></emphasis>.  A loop is a segment of your program that might run "
+"more than once.  We have marked the starting location of the loop in the "
+"symbol <literal>start_loop</literal>.  The reason we are doing a loop is "
+"because we don't know how many data items we have to process, but the "
+"procedure will be the same no matter how many there are.  We don't want to "
+"have to rewrite our program for every list length possible.  In fact, we "
+"don't even want to have to write out code for a comparison for every list "
+"item.  Therefore, we have a single section of code (a loop) that we execute "
+"over and over again for every element in <literal>data_items</literal>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:898
+msgid ""
+"In the previous section, we outlined what this loop needed to do.  Let's "
+"review:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:903
+msgid ""
+"Check to see if the current value being looked at is zero.  If so, that "
+"means we are at the end of our data and should exit the loop."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:904
+msgid "We have to load the next value of our list."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:905
+msgid "We have to see if the next value is bigger than our current biggest value."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:906
+msgid ""
+"If it is, we have to copy it to the location we are holding the largest "
+"value in."
+msgstr ""
+
+# type: Content of: <chapter><sect1><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:907
+msgid "Now we need to go back to the beginning of the loop."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:911
+msgid ""
+"Okay, so now lets go to the code.  We have the beginning of the loop marked "
+"with <literal>start_loop</literal>.  That is so we know where to go back to "
+"at the end of our loop.  Then we have these instructions:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:922
+msgid "The <literal>cmpl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:922
+#, no-wrap
+msgid "cmpl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:922
+msgid ""
+"</indexterm></literal> instruction compares the two values.  Here, we are "
+"comparing the number 0 to the number stored in &eax; This compare "
+"instruction also affects a register not mentioned here, the &eflags-indexed; "
+"register.  This is also known as the status register<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:925
+#, no-wrap
+msgid "status register"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:925
+msgid ""
+"</indexterm>, and has many uses which we will discuss later.  Just be aware "
+"that the result of the comparison is stored in the status register.  The "
+"next line is a flow control<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:928
+msgid ""
+"</indexterm> instruction which says to <emphasis>jump</emphasis> to the "
+"<literal>loop_exit</literal> location if the values that were just compared "
+"are equal (that's what the <literal>e</literal> of <literal>je</literal> "
+"means).  It uses the status register to hold the value of the last "
+"comparison.  We used <literal>je</literal>, but there are many jump "
+"statements that you can use:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:941
+#, no-wrap
+msgid "<literal>je</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:943
+msgid "Jump if the values were equal"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:948
+#, no-wrap
+msgid "<literal>jg</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:950
+msgid "Jump if the second value was greater than the first value<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para><para>
+#: ../../FirstProgsCh.xml:951
+msgid ""
+"notice that the comparison is to see if the <emphasis>second</emphasis> "
+"value is greater than the first.  I would have thought it the other way "
+"around.  You will find a lot of things like this when learning programming.  "
+"It occurs because different things make sense to different people.  Anyway, "
+"you'll just have to memorize such things and go on."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:962
+#, no-wrap
+msgid "<literal>jge</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:964
+msgid "Jump if the second value was greater than or equal to the first value"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:969
+#, no-wrap
+msgid "<literal>jl</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:971
+msgid "Jump if the second value was less than the first value"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:976
+#, no-wrap
+msgid "<literal>jle</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:978
+msgid "Jump if the second value was less than or equal to the first value"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:983
+#, no-wrap
+msgid "<literal>jmp</literal>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:985
+msgid "Jump no matter what.  This does not need to be preceeded by a comparison."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:993
+msgid ""
+"The complete list is documented in <xref linkend=\"instructionsappendix\" "
+"/>.  In this case, we are jumping if &eax; holds the value of zero.  If so, "
+"we are done and we go to <literal>loop_exit</literal>.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:996
+msgid ""
+"The names of these symbols can be anything you want them to be, as long as "
+"they only contain letters and the underscore "
+"character(<literal>_</literal>).  The only one that is forced is "
+"<literal>_start<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:999
+msgid ""
+"</indexterm></literal>, and possibly others that you declare with "
+"<literal>.globl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:1000
+msgid ""
+"</indexterm></literal>.  However, if it is a symbol you define and only you "
+"use, feel free to call it anything you want that is adequately descriptive "
+"(remember that others will have to modify your code later, and will have to "
+"figure out what your symbols mean)."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1008
+msgid "If the last loaded element was not zero, we go on to the next instructions:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1017
+msgid ""
+"If you remember from our previous discussion, &edi; contains the "
+"index<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1018
+msgid ""
+"</indexterm> to our list of values in <literal>data_items</literal>.  "
+"<literal>incl<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:1020
+#, no-wrap
+msgid "incl"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1020
+msgid ""
+"</indexterm></literal> increments the value of &edi; by one.  Then the "
+"<literal>movl</literal> is just like the one we did beforehand.  However, "
+"since we already incremented &edi;, &eax; is getting the next value from the "
+"list.  Now &eax; has the next value to be tested.  So, let's test it!"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1034
+msgid ""
+"Here we compare our current value, stored in &eax; to our biggest value so "
+"far, stored in &ebx;.  If the current value is less or equal to our biggest "
+"value so far, we don't care about it, so we just jump back to the beginning "
+"of the loop.  Otherwise, we need to record that value as the largest one:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1047
+msgid ""
+"which moves the current value into &ebx;, which we are using to store the "
+"current largest value, and starts the loop over again."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1053
+msgid ""
+"Okay, so the loop executes until it reaches a 0, when it jumps to "
+"<literal>loop_exit</literal>.  This part of the program calls the Linux "
+"kernel to exit.  If you remember from the last program, when you call the "
+"operating system (remember it's like signaling Batman), you store the system "
+"call<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1058
+msgid ""
+"</indexterm> number in &eax-indexed; (1 for the <literal>exit</literal> "
+"call), and store the other values in the other registers.  The exit call "
+"requires that we put our exit status<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1062
+msgid ""
+"</indexterm> in &ebx-indexed; We already have the exit status there since we "
+"are using &ebx; as our largest number, so all we have to do is load &eax; "
+"with the number one and call the kernel to exit. Like this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1074
+msgid ""
+"Okay, that was a lot of work and explanation, especially for such a small "
+"program.  But hey, you're learning a lot! Now, read through the whole "
+"program again, paying special attention to the comments.  Make sure that you "
+"understand what is going on at each line.  If you don't understand a line, "
+"go back through this section and figure out what the line means."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1083
+msgid ""
+"You might also grab a piece of paper, and go through the program "
+"step-by-step, recording every change to every register, so you can see more "
+"clearly what is going on."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FirstProgsCh.xml:1093
+#, no-wrap
+msgid "Addressing Modes"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1096
+msgid ""
+"In <xref linkend=\"dataaccessingmethods\" /> we learned the different types "
+"of addressing modes<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:1097
+#, no-wrap
+msgid "addressing modes"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1097
+msgid ""
+"</indexterm> available for use in assembly language.  This section will deal "
+"with how those addressing modes are represented in assembly language "
+"instructions."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1103
+msgid "The general form of memory address<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:1103
+#, no-wrap
+msgid "memory address"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1103
+msgid "</indexterm> references is this:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1111
+msgid ""
+"All of the fields are optional.  To calculate the address, simply perform "
+"the following calculation:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1120
+msgid ""
+"<literal>ADDRESS_OR_OFFSET</literal> and <literal>MULTIPLIER</literal> must "
+"both be constants, while the other two must be registers.  If any of the "
+"pieces is left out, it is just substituted with zero in the equation."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1126
+msgid ""
+"All of the addressing modes mentioned in <xref "
+"linkend=\"dataaccessingmethods\" /> except immediate-mode can be represented "
+"in this fashion."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:1132
+#, no-wrap
+msgid "direct addressing mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1134
+msgid ""
+"This is done by only using the <literal>ADDRESS_OR_OFFSET</literal> "
+"portion.  Example:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1138
+msgid ""
+"This loads &eax; with the value at memory address "
+"<literal>ADDRESS</literal>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:1144
+#, no-wrap
+msgid "indexed addressing mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1146
+msgid ""
+"This is done by using the <literal>ADDRESS_OR_OFFSET</literal> and the "
+"<literal>%INDEX</literal> portion.  You can use any general-purpose register "
+"as the index register.  You can also have a constant multiplier<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1149
+msgid "</indexterm> of 1, 2, or 4 for the index register<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1149
+msgid ""
+"</indexterm>, to make it easier to index by bytes, double-bytes, and words.  "
+"For example, let's say that we had a string of bytes as "
+"<literal>string_start</literal> and wanted to access the third one (an index "
+"of 2 since we start counting the index at zero), and &ecx; held the value "
+"2.  If you wanted to load it into &eax; you could do the following:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1158
+msgid ""
+"This starts at <literal>string_start</literal>, and adds <literal>1 * "
+"%ecx</literal> to that address, and loads the value into &eax;."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:1164
+#, no-wrap
+msgid "indirect addressing mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#: ../../FirstProgsCh.xml:1164
+#, no-wrap
+msgid "indirect addressing mode"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1166
+msgid ""
+"Indirect addressing mode loads a value from the address indicated by a "
+"register.  For example, if &eax; held an address, we could move the value at "
+"that address to &ebx; by doing the following:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:1175
+#, no-wrap
+msgid "base pointer addressing mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#: ../../FirstProgsCh.xml:1175
+#, no-wrap
+msgid "base pointer addressing mode"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1177
+msgid ""
+"Base-pointer addressing is similar to indirect addressing, except that it "
+"adds a constant value to the address in the register.  For example, if you "
+"have a record where the age value is 4 bytes into the record, and you have "
+"the address of the record in &eax;, you can retrieve the age into &ebx; by "
+"issuing the following instruction:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:1189
+#, no-wrap
+msgid "immediate mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1191
+msgid ""
+"Immediate mode is very simple.  It does not follow the general form we have "
+"been using.  Immediate mode is used to load direct values into registers or "
+"memory locations.  For example, if you wanted to load the number 12 into "
+"&eax;, you would simply do the following:"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1198
+msgid ""
+"Notice that to indicate immediate mode, we used a dollar sign in front of "
+"the number.  If we did not, it would be direct addressing mode, in which "
+"case the value located at memory location 12 would be loaded into &eax; "
+"rather than the number 12 itself."
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term>
+#: ../../FirstProgsCh.xml:1206
+#, no-wrap
+msgid "register addressing mode<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><term><primary>
+#: ../../FirstProgsCh.xml:1206
+#, no-wrap
+msgid "register addressing mode"
+msgstr ""
+
+# type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
+#: ../../FirstProgsCh.xml:1208
+msgid ""
+"Register mode simply moves data in or out of a register.  In all of our "
+"examples, register addressing mode was used for the other operand."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1216
+msgid ""
+"These addressing modes are very important, as every memory access will use "
+"one of these.  Every mode except immediate mode can be used as either the "
+"source or destination operand<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:1218
+#, no-wrap
+msgid "destination operand"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1218
+msgid "</indexterm>.  Immediate mode can only be a source operand<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:1218
+#, no-wrap
+msgid "source operand"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1218
+msgid "</indexterm>."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1222
+msgid ""
+"In addition to these modes, there are also different instructions for "
+"different sizes of values to move.  For example, we have been using "
+"<literal>movl</literal> to move data a word<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:1224
+#, no-wrap
+msgid "word"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1224
+msgid ""
+"</indexterm> at a time.  in many cases, you will only want to move data a "
+"byte<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:1225
+#, no-wrap
+msgid "bytes"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1225
+msgid ""
+"</indexterm> at a time.  This is accomplished by the instruction "
+"<literal>movb<indexterm>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><primary>
+#: ../../FirstProgsCh.xml:1226
+#, no-wrap
+msgid "movb"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1226
+msgid ""
+"</indexterm></literal>.  However, since the registers we have discussed are "
+"word-sized and not byte-sized, you cannot use the full register.  Instead, "
+"you have to use a portion of the register."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1232
+msgid ""
+"Take for instance &eax;.  If you only wanted to work with two bytes at a "
+"time, you could just use &ax-indexed;.  &ax; is the least-significant half "
+"(i.e. - the last part of the number) of the &eax; register, and is useful "
+"when dealing with two-byte quantities.  &ax; is further divided up into "
+"&al-indexed; and &ah-indexed;.  &al; is the least-significant byte of &ax;, "
+"and &ah; is the most significant byte.<footnote>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para><para>
+#: ../../FirstProgsCh.xml:1236
+msgid ""
+"When we talk about the most or least <emphasis>significant</emphasis> byte, "
+"it may be a little confusing.  Let's take the number 5432.  In that number, "
+"54 is the most significant half of that number and 32 is the least "
+"significant half.  You can't quite divide it like that for registers, since "
+"they operate on base 2 rather than base 10 numbers, but that's the basic "
+"idea.  For more information on this topic, see <xref "
+"linkend=\"countingchapter\" />."
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1242
+msgid ""
+"</footnote> Loading a value into &eax; will wipe out whatever was in &al; "
+"and &ah; (and also &ax;, since &ax; is made up of them).  Similarly, loading "
+"a value into either &al; or &ah; will corrupt any value that was formerly in "
+"&eax;.  Basically, it's wise to only use a register for either a byte or a "
+"word, but never both at the same time."
+msgstr ""
+
+# type: Content of: <chapter><sect1><mediaobject><caption><para>
+#: ../../FirstProgsCh.xml:1254
+msgid "<emphasis>Layout of the &eax; register</emphasis>"
+msgstr ""
+
+# type: Content of: <chapter><sect1><para>
+#: ../../FirstProgsCh.xml:1258
+msgid ""
+"For a more comprehensive list of instructions, see <xref "
+"linkend=\"instructionsappendix\" />."
+msgstr ""
+
+# type: Content of: <chapter><sect1><title>
+#: ../../FirstProgsCh.xml:1264
+#, no-wrap
+msgid "Review"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../FirstProgsCh.xml:1267
+#, no-wrap
+msgid "Know the Concepts"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1269
+msgid "What does it mean if a line in the program starts with the '#' character?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1270
+msgid ""
+"What is the difference between an assembly language file and an object code "
+"file?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1271
+msgid "What does the linker do?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1272
+msgid "How do you check the result status code of the last program you ran?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1273
+msgid ""
+"What is the difference between <literal>movl $1, %eax</literal> and "
+"<literal>movl 1, %eax</literal>?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1274
+msgid "Which register holds the system call number?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1275
+msgid "What are indexes used for?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1276
+msgid "Why do indexes usually start at 0?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1277
+msgid ""
+"If I issued the command <literal>movl data_items(,%edi,4), %eax</literal> "
+"and data_items was address 3634 and &edi; held the value 13, what address "
+"would you be using to move into &eax;?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1278
+msgid "List the general-purpose registers."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1279
+msgid ""
+"What is the difference between <literal>movl</literal> and "
+"<literal>movb</literal>?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1280
+msgid "What is flow control?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1281
+msgid "What does a conditional jump do?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1282
+msgid "What things do you have to plan for when writing a program?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1283
+msgid ""
+"Go through every instruction and list what addressing mode is being used for "
+"each operand."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../FirstProgsCh.xml:1289
+#, no-wrap
+msgid "Use the Concepts"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1292
+msgid "Modify the first program to return the value 3."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1293
+msgid "Modify the <literal>maximum</literal> program to find the minimum instead."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1294
+msgid ""
+"Modify the <literal>maximum</literal> program to use the number 255 to end "
+"the list rather than the number 0"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1295
+msgid ""
+"Modify the <literal>maximum</literal> program to use an ending address "
+"rather than the number 0 to know when to stop."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1296
+msgid ""
+"Modify the <literal>maximum</literal> program to use a length count rather "
+"than the number 0 to know when to stop."
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1297
+msgid ""
+"What would the instruction <literal>movl _start, %eax</literal> do? Be "
+"specific, based on your knowledge of both addressing modes and the meaning "
+"of <literal>_start</literal>.  How would this differ from the instruction "
+"<literal>movl $_start, %eax</literal>?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><title>
+#: ../../FirstProgsCh.xml:1303
+#, no-wrap
+msgid "Going Further"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1306
+msgid ""
+"Modify the first program to leave off the <literal>int</literal> instruction "
+"line. Assemble, link, and execute the new program.  What error message do "
+"you get.  Why do you think this might be?"
+msgstr ""
+
+# type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
+#: ../../FirstProgsCh.xml:1307
+msgid ""
+"So far, we have discussed three approaches to finding the end of the list - "
+"using a special number, using the ending address, and using the length "
+"count.  Which approach do you think is best? Why? Which approach would you "
+"use if you knew that the list was sorted? Why?"
+msgstr ""
