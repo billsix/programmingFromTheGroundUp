@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pbubook\n"
 "POT-Creation-Date: 2006-05-15 16:02+0800\n"
-"PO-Revision-Date: 2006-05-15 16:17+0800\n"
+"PO-Revision-Date: 2006-05-15 22:39+0800\n"
 "Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
 "Language-Team: zh_CN <robert.zhangle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -124,7 +124,6 @@ msgstr "在教编程，特别是教汇编语言编程的时候，存在着一个
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:87
-#, fuzzy
 msgid ""
 "At the end of each chapter are three sets of review exercises.  The first "
 "set is more or less regurgitation - they check to see if can you give back "
@@ -139,11 +138,10 @@ msgid ""
 "mean they are unimportant.  Learning the issues involved in programming, "
 "learning how to research answers, and learning how to look ahead are all a "
 "major part of a programmer's work."
-msgstr ""
+msgstr "在每一章的末尾有三套复习练习题。第一套是复习题－用来检查你是否能够掌握本章学习的东西。第二套包含了应用问题－用来检查你是否能够学以致用。最后一套题用来检验你是否能够拓宽你的视野。其中的一些问题要等到看完后面的内容才能够回答，它们的目的是让你有可以思考的东西。其它的问题需要参考其他资料才能找到答案。还有一些问题要求你分析你面临的选择并得出一个最佳的答案。这些问题中的大部分都没有标准答案，但这并不意味着他们是不重要的。学习编程所包含的技能，学会怎样研究并得到答案还有学会怎样规划，这些都是一个程序员工作中的主要部分。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:103
-#, fuzzy
 msgid ""
 "If you have problems that you just can't get past, there is a mailing list "
 "for this book where readers can discuss and get help with what they are "
@@ -151,93 +149,63 @@ msgid ""
 "This mailing list is open for any type of question or discussion along the "
 "lines of this book.  You can subscribe to this list by going to "
 "http://mail.nongnu.org/mailman/listinfo/pgubook-readers."
-msgstr ""
-"If you have problems that you just can't get past, there is a mailing list "
-"for this book where readers can discuss and get help with what they are "
-"reading.  The address is <literal>pgubook-readers@nongnu.org</literal>.  "
-"This mailing list is open for any type of question or discussion along the "
-"lines of this book.  You can subscribe to this list by going to "
-"http://mail.nongnu.org/mailman/listinfo/pgubook-readers."
+msgstr "如果你有理解不了的问题，本书有一个的邮件列表，读者在阅读的时候可以在那里讨论和获得帮助。地址是<literal>pgubook-readers@nongnu.org</literal>。有关本书的任何问题都可以在这个邮件列表里进行讨论。你可以到下面这个地址订阅它http://mail.nongnu.org/mailman/listinfo/pgubook-readers。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:111
-#, fuzzy
 msgid ""
 "If you are thinking of using this book for a class on computer programming "
 "but do not have access to Linux computers for your students, I highly "
 "suggest you try to find help from the K-12 Linux Project.  Their website is "
 "at http://www.k12linux.org/ and they have a helpful and responsive mailing "
 "list available."
-msgstr ""
-"If you are thinking of using this book for a class on computer programming "
-"but do not have access to Linux computers for your students, I highly "
-"suggest you try to find help from the K-12 Linux Project.  Their website is "
-"at http://www.k12linux.org/ and they have a helpful and responsive mailing "
-"list available."
+msgstr "如果你想用本书作为计算机编程的教材，但苦于不能为你的学生找到装有Linux的计算机，我强烈建议你向 K-12 Linux 项目寻求帮助。他们的网站是 http://www.k12linux.org/。他们还有一个很有用的且反应及时的邮件列表。"
 
 # type: Content of: <chapter><sect1><title>
 #: ../../IntroductionCh.xml:120
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "Your Tools"
-msgstr "Your Tools"
+msgstr "你的工具"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:123
-#, fuzzy
 msgid ""
 "This book teaches assembly language for x86 processors and the GNU/Linux "
 "operating system.  Therefore we will be giving all of the examples using the "
 "GNU/Linux<indexterm>"
-msgstr ""
-"This book teaches assembly language for x86 processors and the GNU/Linux "
-"operating system.  Therefore we will be giving all of the examples using the "
-"GNU/Linux<indexterm>"
+msgstr "这本书将教授GNU/Linux操作系统上的x86处理器的汇编语言。所以书中所有的例子都要用GNU/Linux<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../IntroductionCh.xml:125 ../../IntroductionCh.xml:161 ../../IntroductionCh.xml:181 ../../IntroductionCh.xml:191
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "GNU/Linux"
 msgstr "GNU/Linux"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:125
-#, fuzzy
 msgid ""
 "</indexterm> standard GCC tool set.  If you are not familiar with GNU/Linux "
 "and the GCC tool set, they will be described shortly.  If you are new to "
 "Linux, you should check out the guide available at "
 "http://rute.sourceforge.net/<footnote>"
-msgstr ""
-"</indexterm> standard GCC tool set.  If you are not familiar with GNU/Linux "
-"and the GCC tool set, they will be described shortly.  If you are new to "
-"Linux, you should check out the guide available at "
-"http://rute.sourceforge.net/<footnote>"
+msgstr "</indexterm> 标准的GCC工具集来编译。如果你不熟悉GNU/Linux和GCC工具集，我马上将对它们进行介绍。如果你是个Linux新手，你应该看看http://rute.sourceforge.net/<footnote>"
 
 # type: Content of: <chapter><sect1><para><para>
 #: ../../IntroductionCh.xml:129
-#, fuzzy
 msgid ""
 "This is quite a large document.  You certainly don't need to know everything "
 "to get started with this book.  You simply need to know how to navigate from "
 "the command line and how to use an editor like <literal>pico</literal>, "
 "<literal>emacs</literal>, or <literal>vi</literal> (or others)."
-msgstr ""
-"This is quite a large document.  You certainly don't need to know everything "
-"to get started with this book.  You simply need to know how to navigate from "
-"the command line and how to use an editor like <literal>pico</literal>, "
-"<literal>emacs</literal>, or <literal>vi</literal> (or others)."
+msgstr "这是一个很大的文档。为了学习本书你不必知道上面所有的东西。你只要知道怎样使用命令行和怎样使用文本编辑器，比如<literal>pico</literal>, <literal>emacs</literal>, 或者<literal>vi</literal> （或者其他的）。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:134
-#, fuzzy
 msgid ""
 "</footnote> What I intend to show you is more about programming in general "
 "than using a specific tool set on a specific platform, but standardizing on "
 "one makes the task much easier."
-msgstr ""
-"</footnote> What I intend to show you is more about programming in general "
-"than using a specific tool set on a specific platform, but standardizing on "
-"one makes the task much easier."
+msgstr "</footnote>上的指南。本书更多的在于介绍如何编程，而不是在某一个平台上使用一个特殊的工具集，不过专注于一个平台会使这个任务变的简单。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:141
