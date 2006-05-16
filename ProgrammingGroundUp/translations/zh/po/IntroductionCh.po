@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: pbubook\n"
 "POT-Creation-Date: 2006-05-15 16:02+0800\n"
-"PO-Revision-Date: 2006-05-15 22:39+0800\n"
+"PO-Revision-Date: 2006-05-16 23:58+0800\n"
 "Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
 "Language-Team: zh_CN <robert.zhangle@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -149,7 +149,7 @@ msgid ""
 "This mailing list is open for any type of question or discussion along the "
 "lines of this book.  You can subscribe to this list by going to "
 "http://mail.nongnu.org/mailman/listinfo/pgubook-readers."
-msgstr "如果你有理解不了的问题，本书有一个的邮件列表，读者在阅读的时候可以在那里讨论和获得帮助。地址是<literal>pgubook-readers@nongnu.org</literal>。有关本书的任何问题都可以在这个邮件列表里进行讨论。你可以到下面这个地址订阅它http://mail.nongnu.org/mailman/listinfo/pgubook-readers。"
+msgstr "如果你有理解不了的问题，本书有一个的邮件列表，读者在阅读的时候可以在那里讨论和获得帮助。地址是<literal>pgubook-readers@nongnu.org</literal>。有关本书的任何问题都可以在这个邮件列表里进行讨论。你可以到下面这个地址订阅它http://mail.nongnu.org/mailman/listinfo/pgubook-readers 。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:111
@@ -159,7 +159,7 @@ msgid ""
 "suggest you try to find help from the K-12 Linux Project.  Their website is "
 "at http://www.k12linux.org/ and they have a helpful and responsive mailing "
 "list available."
-msgstr "如果你想用本书作为计算机编程的教材，但苦于不能为你的学生找到装有Linux的计算机，我强烈建议你向 K-12 Linux 项目寻求帮助。他们的网站是 http://www.k12linux.org/。他们还有一个很有用的且反应及时的邮件列表。"
+msgstr "如果你想用本书作为计算机编程的教材，但苦于不能为你的学生找到装有Linux的计算机，我强烈建议你向 K-12 Linux 项目寻求帮助。他们的网站是 http://www.k12linux.org/ 。他们还有一个很有用的且反应及时的邮件列表。"
 
 # type: Content of: <chapter><sect1><title>
 #: ../../IntroductionCh.xml:120
@@ -188,7 +188,7 @@ msgid ""
 "and the GCC tool set, they will be described shortly.  If you are new to "
 "Linux, you should check out the guide available at "
 "http://rute.sourceforge.net/<footnote>"
-msgstr "</indexterm> 标准的GCC工具集来编译。如果你不熟悉GNU/Linux和GCC工具集，我马上将对它们进行介绍。如果你是个Linux新手，你应该看看http://rute.sourceforge.net/<footnote>"
+msgstr "</indexterm> 标准的GCC工具集来编译。如果你不熟悉GNU/Linux和GCC工具集，我马上将对它们进行介绍。如果你是个Linux新手，你应该看看http://rute.sourceforge.net/ <footnote>"
 
 # type: Content of: <chapter><sect1><para><para>
 #: ../../IntroductionCh.xml:129
@@ -301,9 +301,8 @@ msgstr ""
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:181
-#, fuzzy
 msgid "If you don't have GNU/Linux<indexterm>"
-msgstr "If you don't have GNU/Linux<indexterm>"
+msgstr "如果你有没有GNU/Linux<indexterm>"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:181
@@ -319,7 +318,7 @@ msgstr ""
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../IntroductionCh.xml:184
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "Knoppix"
 msgstr "Knoppix"
 
@@ -337,9 +336,8 @@ msgstr ""
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:191
-#, fuzzy
 msgid "So what is GNU/Linux? GNU/Linux<indexterm>"
-msgstr "So what is GNU/Linux? GNU/Linux<indexterm>"
+msgstr "那么什么是 GNU/Linux? GNU/Linux<indexterm>"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:191
@@ -375,7 +373,7 @@ msgstr ""
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../IntroductionCh.xml:197
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "GCC"
 msgstr "GCC"
 
@@ -393,13 +391,12 @@ msgstr ""
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:204
-#, fuzzy
 msgid "Linux<indexterm>"
 msgstr "Linux<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../IntroductionCh.xml:204 ../../IntroductionCh.xml:248
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "Linux"
 msgstr "Linux"
 
@@ -415,7 +412,7 @@ msgstr ""
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../IntroductionCh.xml:205 ../../IntroductionCh.xml:231 ../../IntroductionCh.xml:247
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "kernel"
 msgstr "kernel"
 
@@ -457,9 +454,9 @@ msgstr ""
 
 # type: Content of: <chapter><sect1><example><title>
 #: ../../IntroductionCh.xml:224
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "How the computer processes keyboard sigals"
-msgstr "How the computer processes keyboard sigals"
+msgstr "计算机怎样处理键盘信号"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../IntroductionCh.xml:231
@@ -539,13 +536,13 @@ msgstr ""
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../IntroductionCh.xml:261
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "machine language"
-msgstr "machine language"
+msgstr "机器语言"
 
 # type: Content of: <chapter><sect1><variablelist><varlistentry><term>
 #: ../../IntroductionCh.xml:261 ../../IntroductionCh.xml:285
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "</indexterm>"
 msgstr "</indexterm>"
 
@@ -553,7 +550,7 @@ msgstr "</indexterm>"
 #: ../../IntroductionCh.xml:267
 #, fuzzy, no-wrap
 msgid "Machine Language"
-msgstr "Machine Language"
+msgstr "机器语言"
 
 # type: Content of: <chapter><sect1><variablelist><varlistentry><listitem><para>
 #: ../../IntroductionCh.xml:269
