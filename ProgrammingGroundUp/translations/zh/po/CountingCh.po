@@ -2,23 +2,23 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2006-05-15 16:00+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2006-07-30 01:21+0800\n"
+"Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING"
+"Content-Transfer-Encoding: ENCODING\n"
+"X-Generator: Pootle 0.10beta3\n"
 
 # type: Content of: <chapter><sect1><sect2><title>
 #: ../../CountingCh.xml:4 ../../CountingCh.xml:69
 #, no-wrap
 msgid "Counting Like a Computer"
-msgstr ""
+msgstr "像计算机那样数数"
 
 # type: Content of: <chapter><sect1><title>
 #: ../../CountingCh.xml:18

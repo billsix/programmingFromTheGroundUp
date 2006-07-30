@@ -2,34 +2,34 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2006-05-15 16:01+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2006-07-30 17:54+0800\n"
+"Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING"
+"Content-Transfer-Encoding: ENCODING\n"
+"X-Generator: Pootle 0.10beta3\n"
 
 # type: Content of: <chapter><title>
 #: ../../OptimizationCh.xml:2
 #, no-wrap
 msgid "Optimization"
-msgstr ""
+msgstr "优化"
 
 # type: Content of: <chapter><para>
 #: ../../OptimizationCh.xml:16
 msgid "Optimization<indexterm>"
-msgstr ""
+msgstr "优化<indexterm>"
 
 # type: Content of: <chapter><para><primary>
 #: ../../OptimizationCh.xml:16
 #, no-wrap
 msgid "optimization"
-msgstr ""
+msgstr "优化"
 
 # type: Content of: <chapter><para>
 #: ../../OptimizationCh.xml:16

@@ -2,930 +2,930 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2006-05-15 16:00+0800\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2006-07-29 16:29+0800\n"
+"Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
-"Content-Transfer-Encoding: ENCODING"
+"Content-Transfer-Encoding: ENCODING\n"
+"X-Generator: Pootle 0.10beta3\n"
 
 # type: Content of: <appendix><title>
 #: ../../ASCIIAp.xml:13
 #, no-wrap
 msgid "Table of ASCII Codes"
-msgstr ""
+msgstr "ASCII码表"
 
 # type: Content of: <appendix><para>
 #: ../../ASCIIAp.xml:16
 msgid ""
 "To use this table, simply find the character or escape that you want the "
 "code for, and add the number on the left and the top."
-msgstr ""
+msgstr "这个表的用法是，先找到你要找的字符，然后把最左边和最上边的数相加，所得之和就是该字符所对应的数值。"
 
 # type: Content of: <appendix><table><title>
 #: ../../ASCIIAp.xml:21
 #, no-wrap
 msgid "Table of ASCII codes in decimal"
-msgstr ""
+msgstr "十进制的ASCII码表"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:24
 #, no-wrap
 msgid "+0"
-msgstr ""
+msgstr "+0"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:24
 #, no-wrap
 msgid "+1"
-msgstr ""
+msgstr "+1"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:24
 #, no-wrap
 msgid "+2"
-msgstr ""
+msgstr "+2"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:24
 #, no-wrap
 msgid "+3"
-msgstr ""
+msgstr "+3"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:24
 #, no-wrap
 msgid "+4"
-msgstr ""
+msgstr "+4"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:24
 #, no-wrap
 msgid "+5"
-msgstr ""
+msgstr "+5"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:24
 #, no-wrap
 msgid "+6"
-msgstr ""
+msgstr "+6"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:24
 #, no-wrap
 msgid "+7"
-msgstr ""
+msgstr "+7"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:25 ../../ASCIIAp.xml:31
 #, no-wrap
 msgid "0"
-msgstr ""
+msgstr "0"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:25
 #, no-wrap
 msgid "NUL"
-msgstr ""
+msgstr "NUL"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:25
 #, no-wrap
 msgid "SOH"
-msgstr ""
+msgstr "SOH"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:25
 #, no-wrap
 msgid "STX"
-msgstr ""
+msgstr "STX"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:25
 #, no-wrap
 msgid "ETX"
-msgstr ""
+msgstr "ETX"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:25
 #, no-wrap
 msgid "EOT"
-msgstr ""
+msgstr "EOT"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:25
 #, no-wrap
 msgid "ENQ"
-msgstr ""
+msgstr "ENQ"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:25
 #, no-wrap
 msgid "ACK"
-msgstr ""
+msgstr "ACK"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:25
 #, no-wrap
 msgid "BEL"
-msgstr ""
+msgstr "BEL"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:26 ../../ASCIIAp.xml:32
 #, no-wrap
 msgid "8"
-msgstr ""
+msgstr "8"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:26
 #, no-wrap
 msgid "BS"
-msgstr ""
+msgstr "BS"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:26
 #, no-wrap
 msgid "HT"
-msgstr ""
+msgstr "HT"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:26
 #, no-wrap
 msgid "LF"
-msgstr ""
+msgstr "LF"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:26
 #, no-wrap
 msgid "VT"
-msgstr ""
+msgstr "VT"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:26
 #, no-wrap
 msgid "FF"
-msgstr ""
+msgstr "FF"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:26
 #, no-wrap
 msgid "CR"
-msgstr ""
+msgstr "CR"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:26
 #, no-wrap
 msgid "SO"
-msgstr ""
+msgstr "SO"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:26
 #, no-wrap
 msgid "SI"
-msgstr ""
+msgstr "SI"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:27
 #, no-wrap
 msgid "16"
-msgstr ""
+msgstr "16"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:27
 #, no-wrap
 msgid "DLE"
-msgstr ""
+msgstr "DLE"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:27
 #, no-wrap
 msgid "DC1"
-msgstr ""
+msgstr "DC1"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:27
 #, no-wrap
 msgid "DC2"
-msgstr ""
+msgstr "DC2"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:27
 #, no-wrap
 msgid "DC3"
-msgstr ""
+msgstr "DC3"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:27
 #, no-wrap
 msgid "DC4"
-msgstr ""
+msgstr "DC4"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:27
 #, no-wrap
 msgid "NAK"
-msgstr ""
+msgstr "NAK"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:27
 #, no-wrap
 msgid "SYN"
-msgstr ""
+msgstr "SYN"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:27
 #, no-wrap
 msgid "ETB"
-msgstr ""
+msgstr "ETB"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:28
 #, no-wrap
 msgid "24"
-msgstr ""
+msgstr "24"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:28
 #, no-wrap
 msgid "CAN"
-msgstr ""
+msgstr "CAN"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:28
 #, no-wrap
 msgid "EM"
-msgstr ""
+msgstr "EM"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:28
 #, no-wrap
 msgid "SUB"
-msgstr ""
+msgstr "SUB"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:28
 #, no-wrap
 msgid "ESC"
-msgstr ""
+msgstr "ESC"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:28
 #, no-wrap
 msgid "FS"
-msgstr ""
+msgstr "FS"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:28
 #, no-wrap
 msgid "GS"
-msgstr ""
+msgstr "GS"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:28
 #, no-wrap
 msgid "RS"
-msgstr ""
+msgstr "RS"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:28
 #, no-wrap
 msgid "US"
-msgstr ""
+msgstr "US"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:29
 #, no-wrap
 msgid "32"
-msgstr ""
+msgstr "32"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:29
 #, no-wrap
 msgid "!"
-msgstr ""
+msgstr "!"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:29
 #, no-wrap
 msgid "\""
-msgstr ""
+msgstr "\""
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:29
 #, no-wrap
 msgid "#"
-msgstr ""
+msgstr "#"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:29
 #, no-wrap
 msgid "$"
-msgstr ""
+msgstr "$"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:29
 #, no-wrap
 msgid "%"
-msgstr ""
+msgstr "%"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:29
 #, no-wrap
 msgid "&"
-msgstr ""
+msgstr "&"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:29
 #, no-wrap
 msgid "'"
-msgstr ""
+msgstr "'"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:30
 #, no-wrap
 msgid "40"
-msgstr ""
+msgstr "40"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:30
 #, no-wrap
 msgid "("
-msgstr ""
+msgstr "("
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:30
 #, no-wrap
 msgid ")"
-msgstr ""
+msgstr ")"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:30
 #, no-wrap
 msgid "*"
-msgstr ""
+msgstr "*"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:30
 #, no-wrap
 msgid "+"
-msgstr ""
+msgstr "+"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:30
 #, no-wrap
 msgid ","
-msgstr ""
+msgstr ","
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:30
 #, no-wrap
 msgid "-"
-msgstr ""
+msgstr "-"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:30
 #, no-wrap
 msgid "."
-msgstr ""
+msgstr "."
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:30
 #, no-wrap
 msgid "/"
-msgstr ""
+msgstr "/"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:31
 #, no-wrap
 msgid "48"
-msgstr ""
+msgstr "48"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:31
 #, no-wrap
 msgid "1"
-msgstr ""
+msgstr "1"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:31
 #, no-wrap
 msgid "2"
-msgstr ""
+msgstr "2"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:31
 #, no-wrap
 msgid "3"
-msgstr ""
+msgstr "3"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:31
 #, no-wrap
 msgid "4"
-msgstr ""
+msgstr "4"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:31
 #, no-wrap
 msgid "5"
-msgstr ""
+msgstr "5"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:31
 #, no-wrap
 msgid "6"
-msgstr ""
+msgstr "6"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:31
 #, no-wrap
 msgid "7"
-msgstr ""
+msgstr "7"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:32
 #, no-wrap
 msgid "56"
-msgstr ""
+msgstr "56"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:32
 #, no-wrap
 msgid "9"
-msgstr ""
+msgstr "9"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:32
 #, no-wrap
 msgid ":"
-msgstr ""
+msgstr ":"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:32
 #, no-wrap
 msgid ";"
-msgstr ""
+msgstr ";"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:32
 #, no-wrap
 msgid "&lt;"
-msgstr ""
+msgstr "&lt;"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:32
 #, no-wrap
 msgid "="
-msgstr ""
+msgstr "="
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:32
 #, no-wrap
 msgid "&gt;"
-msgstr ""
+msgstr "&gt;"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:32
 #, no-wrap
 msgid "?"
-msgstr ""
+msgstr "?"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:33
 #, no-wrap
 msgid "64"
-msgstr ""
+msgstr "64"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:33
 #, no-wrap
 msgid "@"
-msgstr ""
+msgstr "@"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:33
 #, no-wrap
 msgid "A"
-msgstr ""
+msgstr "A"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:33
 #, no-wrap
 msgid "B"
-msgstr ""
+msgstr "B"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:33
 #, no-wrap
 msgid "C"
-msgstr ""
+msgstr "C"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:33
 #, no-wrap
 msgid "D"
-msgstr ""
+msgstr "D"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:33
 #, no-wrap
 msgid "E"
-msgstr ""
+msgstr "E"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:33
 #, no-wrap
 msgid "F"
-msgstr ""
+msgstr "F"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:33
 #, no-wrap
 msgid "G"
-msgstr ""
+msgstr "G"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:34
 #, no-wrap
 msgid "72"
-msgstr ""
+msgstr "72"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:34
 #, no-wrap
 msgid "H"
-msgstr ""
+msgstr "H"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:34
 #, no-wrap
 msgid "I"
-msgstr ""
+msgstr "I"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:34
 #, no-wrap
 msgid "J"
-msgstr ""
+msgstr "J"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:34
 #, no-wrap
 msgid "K"
-msgstr ""
+msgstr "K"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:34
 #, no-wrap
 msgid "L"
-msgstr ""
+msgstr "L"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:34
 #, no-wrap
 msgid "M"
-msgstr ""
+msgstr "M"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:34
 #, no-wrap
 msgid "N"
-msgstr ""
+msgstr "N"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:34
 #, no-wrap
 msgid "O"
-msgstr ""
+msgstr "O"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:35
 #, no-wrap
 msgid "80"
-msgstr ""
+msgstr "80"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:35
 #, no-wrap
 msgid "P"
-msgstr ""
+msgstr "P"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:35
 #, no-wrap
 msgid "Q"
-msgstr ""
+msgstr "Q"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:35
 #, no-wrap
 msgid "R"
-msgstr ""
+msgstr "R"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:35
 #, no-wrap
 msgid "S"
-msgstr ""
+msgstr "S"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:35
 #, no-wrap
 msgid "T"
-msgstr ""
+msgstr "T"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:35
 #, no-wrap
 msgid "U"
-msgstr ""
+msgstr "U"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:35
 #, no-wrap
 msgid "V"
-msgstr ""
+msgstr "V"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:35
 #, no-wrap
 msgid "W"
-msgstr ""
+msgstr "W"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:36
 #, no-wrap
 msgid "88"
-msgstr ""
+msgstr "88"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:36
 #, no-wrap
 msgid "X"
-msgstr ""
+msgstr "X"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:36
 #, no-wrap
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:36
 #, no-wrap
 msgid "Z"
-msgstr ""
+msgstr "Z"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:36
 #, no-wrap
 msgid "["
-msgstr ""
+msgstr "["
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:36
 #, no-wrap
 msgid "\\"
-msgstr ""
+msgstr "\\"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:36
 #, no-wrap
 msgid "]"
-msgstr ""
+msgstr "]"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:36
 #, no-wrap
 msgid "^"
-msgstr ""
+msgstr "^"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:36
 #, no-wrap
 msgid "_"
-msgstr ""
+msgstr "_"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:37
 #, no-wrap
 msgid "96"
-msgstr ""
+msgstr "96"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:37
 #, no-wrap
 msgid "`"
-msgstr ""
+msgstr "`"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:37
 #, no-wrap
 msgid "a"
-msgstr ""
+msgstr "a"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:37
 #, no-wrap
 msgid "b"
-msgstr ""
+msgstr "b"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:37
 #, no-wrap
 msgid "c"
-msgstr ""
+msgstr "c"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:37
 #, no-wrap
 msgid "d"
-msgstr ""
+msgstr "d"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:37
 #, no-wrap
 msgid "e"
-msgstr ""
+msgstr "e"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:37
 #, no-wrap
 msgid "f"
-msgstr ""
+msgstr "f"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:37
 #, no-wrap
 msgid "g"
-msgstr ""
+msgstr "g"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:38
 #, no-wrap
 msgid "104"
-msgstr ""
+msgstr "104"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:38
 #, no-wrap
 msgid "h"
-msgstr ""
+msgstr "h"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:38
 #, no-wrap
 msgid "i"
-msgstr ""
+msgstr "i"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:38
 #, no-wrap
 msgid "j"
-msgstr ""
+msgstr "j"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:38
 #, no-wrap
 msgid "k"
-msgstr ""
+msgstr "k"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:38
 #, no-wrap
 msgid "l"
-msgstr ""
+msgstr "l"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:38
 #, no-wrap
 msgid "m"
-msgstr ""
+msgstr "m"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:38
 #, no-wrap
 msgid "n"
-msgstr ""
+msgstr "n"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:38
 #, no-wrap
 msgid "o"
-msgstr ""
+msgstr "o"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:39
 #, no-wrap
 msgid "112"
-msgstr ""
+msgstr "112"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:39
 #, no-wrap
 msgid "p"
-msgstr ""
+msgstr "p"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:39
 #, no-wrap
 msgid "q"
-msgstr ""
+msgstr "q"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:39
 #, no-wrap
 msgid "r"
-msgstr ""
+msgstr "r"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:39
 #, no-wrap
 msgid "s"
-msgstr ""
+msgstr "s"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:39
 #, no-wrap
 msgid "t"
-msgstr ""
+msgstr "t"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:39
 #, no-wrap
 msgid "u"
-msgstr ""
+msgstr "u"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:39
 #, no-wrap
 msgid "v"
-msgstr ""
+msgstr "v"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:39
 #, no-wrap
 msgid "w"
-msgstr ""
+msgstr "w"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:40
 #, no-wrap
 msgid "120"
-msgstr ""
+msgstr "120"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:40
 #, no-wrap
 msgid "x"
-msgstr ""
+msgstr "x"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:40
 #, no-wrap
 msgid "y"
-msgstr ""
+msgstr "y"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:40
 #, no-wrap
 msgid "z"
-msgstr ""
+msgstr "z"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:40
 #, no-wrap
 msgid "{"
-msgstr ""
+msgstr "{"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:40
 #, no-wrap
 msgid "|"
-msgstr ""
+msgstr "|"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:40
 #, no-wrap
 msgid "}"
-msgstr ""
+msgstr "}"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:40
 #, no-wrap
 msgid "~"
-msgstr ""
+msgstr "~"
 
 # type: Content of: <appendix><table><tgroup><tbody><row><entry>
 #: ../../ASCIIAp.xml:40
 #, no-wrap
 msgid "DEL"
-msgstr ""
+msgstr "DEL"
 
 # type: Content of: <appendix><para>
 #: ../../ASCIIAp.xml:47
@@ -943,7 +943,7 @@ msgid ""
 "class=\"registered\">Windows</trademark> uses UTF-16, which is a "
 "variable-length encoding which requires at least 2 bytes per character, so "
 "it is not backwards-compatible with ASCII."
-msgstr ""
+msgstr "ASCII正在逐渐被淘汰，取而代之的将是一个国际标准Unicode，它可以让你显示来自于世界上任何一个书写系统的字符。你可以已经留意到，ASCII只支持英文字符。但是Unicode复杂得多，因为它需要一个以上的字节来编码一个字符。Unicode字符有好几种编码方式。最常见的是UTF-8和UTF-32 。UTF-8某种程序上是和ASCII兼容的（英文字符的保存形式是一样的，国际字符需要多个字节来表示）。UTF-32对于每个字符都需要4个字符来表示，而不是1个字符。<trademark class=\"registered\">Windows</trademark>使用UTF-16，这是一个变长的编码方式，每个字符最少需要两个字节来表示，所以它和ASCII不兼容。"
 
 # type: Content of: <appendix><para>
 #: ../../ASCIIAp.xml:62
@@ -953,4 +953,4 @@ msgid ""
 "Every Software Developer Absolutely, Positively Must Know About Unicode and "
 "Character Sets (No Excuses!)\", available online at "
 "http://www.joelonsoftware.com/articles/Unicode.html"
-msgstr ""
+msgstr "Joe Spolsky写过一篇非常好的有关国际化问题、字体、和Unicode的文章，叫作“The Absolute Minimum Every Software Developer Absolutely, Positively Must Know About Unicode and Character Sets (No Excuses!)”，意思是“每个软件开发者必须至少要了解的有关Unicode和字符集的知识（没有任何借口！）”。这篇文章可以下面这个地址在线浏览 http://www.joelonsoftware.com/articles/Unicode.html"
