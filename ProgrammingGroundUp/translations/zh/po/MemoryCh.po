@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2006-05-15 16:01+0800\n"
-"PO-Revision-Date: 2006-07-30 01:29+0800\n"
+"PO-Revision-Date: 2006-08-02 01:30+0800\n"
 "Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -31,39 +31,39 @@ msgstr ""
 # type: Content of: <chapter><para>
 #: ../../MemoryCh.xml:11
 msgid "Modern computer architecture<indexterm>"
-msgstr ""
+msgstr "现代计算机架构<indexterm>"
 
 # type: Content of: <chapter><para><primary>
 #: ../../MemoryCh.xml:11
 #, no-wrap
 msgid "computer architecture"
-msgstr ""
+msgstr "计算机架构"
 
 # type: Content of: <chapter><para>
 #: ../../MemoryCh.xml:11
 msgid ""
 "</indexterm> is based off of an architecture called the Von Neumann "
 "architecture<indexterm>"
-msgstr ""
+msgstr "</indexterm>是基于冯诺依曼架构的<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../MemoryCh.xml:12 ../../MemoryCh.xml:68
 #, no-wrap
 msgid "Von Neumann architecture"
-msgstr ""
+msgstr "冯诺依曼架构"
 
 # type: Content of: <chapter><para>
 #: ../../MemoryCh.xml:12
 msgid ""
 "</indexterm>, named after its creator.  The Von Neumann architecture divides "
 "the computer up into two main parts - the CPU<indexterm>"
-msgstr ""
+msgstr "</indexterm>，该架构以它的创建者的名字而命名。冯诺依曼架构把计算机分成两个主要部分——CPU<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../MemoryCh.xml:14 ../../MemoryCh.xml:84
 #, no-wrap
 msgid "CPU"
-msgstr ""
+msgstr "CPU"
 
 # type: Content of: <chapter><para>
 #: ../../MemoryCh.xml:14
@@ -71,24 +71,24 @@ msgid ""
 "</indexterm> (for Central Processing Unit) and the memory.  This "
 "architecture is used in all modern computers, including personal computers, "
 "supercomputers, mainframes, and even cell phones."
-msgstr ""
+msgstr "</indexterm>（Central Processing Unit）和内存。所有现代计算使用的都是这种架构，包括个人计算机、超级计算机、大型计算机，甚至手机。"
 
 # type: Content of: <chapter><sect1><title>
 #: ../../MemoryCh.xml:19
 #, no-wrap
 msgid "Structure of Computer Memory"
-msgstr ""
+msgstr "计算机内存的结构"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../MemoryCh.xml:22
 msgid "To understand how the computer views memory<indexterm>"
-msgstr ""
+msgstr "如果要理解计算机查看内存<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../MemoryCh.xml:22 ../../MemoryCh.xml:51
 #, no-wrap
 msgid "memory"
-msgstr ""
+msgstr "内存"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../MemoryCh.xml:22
@@ -103,12 +103,12 @@ msgid ""
 "and computer memory is that you can store all different kinds of things in a "
 "PO Box, but you can only store a single number in a computer memory storage "
 "location."
-msgstr ""
+msgstr "</indexterm>的方式，我们可以拿你当地的邮局来做个比喻。他们通常有个房间装满了邮箱。这些邮箱和计算机内存类似，每一个都是有编号的固定大小的存储位置。例如，如果你有256兆大小容量的内存，这就意味着你的计算机大概有256兆个固定大小的存储空间。在邮局的例子里，就是256兆个邮箱。每一个存储空间都有一个编号，每一个存储空间都有同样的长度固定的容量。邮局邮箱和计算机内存之间的不同在于，你可以在一个邮箱里面存放任何东西，但是在内存的一个存储空间里你只能存储一个数字。"
 
 # type: Content of: <chapter><sect1><mediaobject><caption><para>
 #: ../../MemoryCh.xml:39
 msgid "<emphasis>Memory locations are like PO Boxes</emphasis>"
-msgstr ""
+msgstr "<emphasis>内存空间就像邮箱</emphasis>"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../MemoryCh.xml:43
@@ -117,12 +117,12 @@ msgid ""
 "simple to implement.  If the computer were composed of a lot of "
 "differently-sized locations, or if you could store different kinds of data "
 "in them, it would be difficult and expensive to implement."
-msgstr ""
+msgstr "你也许想知道为什么计算机会采取这种组织形式。这是因为这种方式易于实现。如果计算机由很多大小不同的存储空间组成，或者你可以在里面存储各种不同类型的数据，那么实现起来将会很困难且要花费很大代价。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../MemoryCh.xml:51
 msgid "The computer's memory<indexterm>"
-msgstr ""
+msgstr "计算机内存<indexterm>"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../MemoryCh.xml:51
