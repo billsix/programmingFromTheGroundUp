@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="iso-1252" ?>
+<chapter>
+<title>Addressing Modes, Instruction Formats, and Position-independent Code</title>
+
+<para>
+In the previous article, we gave a short outline to assembly language programming and the PowerPC instruction set.  In this article, we are going to explore further the technicalities of PowerPC assembly language programming, focusing on data access methods and the most common PowerPC instruction formats.
+</para>
+
+<sect1>
+<title>Adddressing Modes and Why They are Important</title>
+
+<para>
+Before discussing addressing modes, a review of computer memory concepts is warranted.  The following facts about computer memory and programming are probably already well-known to you, but as modern programming languages attempt to de-emphasize the physical aspects of the computer, they should serve as a good refresher:
+</para>
+
+<itemizedlist>
+<listitem><para>Every location in main memory is numbered with a sequential numeric <emphasis>address</emphasis> by which the memory location is referred.</para></listitem>
+<listitem><para>Every main memory location is one byte long.</para></listitem>
+<listitem><para>Larger data types are made by simply treating multiple bytes as a single unit (using two memory locations together for a 16-bit number, for instance)</para></listitem>
+<listitem><para>Registers are 4-bytes long on 32-bit platforms, and 64-bytes long on 64-bit platforms</para></listitem>
+<listitem><para>Memory can be loaded into registers either 1, 2, 4, or 8 bytes at a time</para></listitem>
+<listitem><para>Non-numeric data is stored as numeric data -- the only differences are what operations are used on it and how the data is used</para></listitem>
+</itemizedlist>
+
+<para>
+It sometimes comes as a surprise to new assembly-language programmers how many different methods there are of accessing memory.  These different methods are called <emphasis>addressing modes</emphasis>.  Different people have different names for address modes, so in other literature the names of these modes may be different.  First we'll discuss the modes themselves, then we'll talk about how they relate to the PowerPC.
+</para>
+
+<para>
+There are actually two addressing modes that don't access memory at all.  In <emphasis>immediate mode</emphasis>, the data to be used is part of the instruction (for example, the <literal>li</literal> instruction stands for "load immediate", because the number to be loaded is <emphasis>part of the instruction itself</emphasis>).  In <emphasis>register mode</emphasis>, rather than accessing the contents of main memory, you access registers.
+</para>
+
+<para>
+The most obvious addressing mode for accessing main memory is called <emphasis>direct addressing mode</emphasis>.  In this mode, the instruction itself contains the address to load the data from.  This mode is often used for accessing global variable access, branching, and subroutine calls.  A similar mode is <emphasis>relative addressing mode</emphasis>, which calculates the address based on the current program counter.  This is often used for short-range branches where the destination is near the current location, so specifying an offset rather than an absolute address makes more sense.  It is similar to direct addressing mode in that, in both types of addressing, the final address is known at either assemble or link time.
+</para>
+
+<para>
+The <emphasis>indexed addressing mode</emphasis> makes most sense when thought of as a way to access array elements for global variables.  It has two parts - a memory address and an <emphasis>index register</emphasis>.  The index register is added to the specified address, and the result is used as the address to use for the memory access.  Some platforms allow programmers to specify a <emphasis>multiplier</emphasis> for the index register.   Therefore, if each array element is 8-bytes long, you can use 8 as a multiplier.  This allows the index register to be used exactly like an array index.  Otherwise, the index register would have to be increased/decreased in increments of the data size.
+</para>
+
+<para>
+The <emphasis>indirect addressing mode</emphasis> uses a register to specify the whole address for the memory access.  This is used for numerous situations, including, but not limitted to:
+</para>
+
+<itemizedlist>
+<!-- FIXME - more? -->
+<listitem><para>Dereferencing pointer variables</para></listitem>
+<listitem><para>Any memory access which is not available by other modes (the address can be calculated by other means and store in the register, which is then used for the access)</para></listitem>
+</itemizedlist>
+
+<para>
+<emphasis>Base-pointer addressing mode</emphasis> acts just like indexed addressing mode (the specified number and the register are added together for the final address), except that the function of the two components are switched.  In base-pointer addressing mode, the register has the base address and the literal number has the offset.  This is very useful for accessing members of a struct.  The register can hold the address of the whole struct, and the numeric portion can be modified depending on the structure member to be accessed.  For instance, let's say that we have a struct that has three fields -- the first is 8-bytes, the second is 4-bytes and the last is 8-bytes.  Then, let's say that the address of the struct itself is in a register we'll call register X.  If we want to access the second member of the structure, we'll need to add 8 to the value in the register.  So, using base-pointer addressing, we would specify register X as the base pointer and 8 as the offset.  To access the third field we would specify register X as the base pointer and 12 as the offset.  To access the first field we can actually use indirect addressing instead of base-pointer addressing since there is no offset (this is why on many platforms the first structure member is the fastest to access -- you can use a simpler addressing mode).
+</para>
+</sect1>
+
+<sect1>
+<title>Instruction Formats and Why They are Important</title>
+
+<para>
+</para>
+
+</sect1>
+
+<sect1>
+<title>Linkers, Instruction Format Limitations, and Position-independent Code</title>
+
+<para>
+</para>
+
+</sect1>
+
+<sect1>
+<title>Putting it Together in Real Code</title>
+
+<para>
+</para>
+
+</sect1>
+
+</chapter>
