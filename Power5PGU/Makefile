@@ -39,13 +39,6 @@ clean: semiclean
 	rm -f HTML.index index.xml
 
 html:
-	java org.apache.xalan.xslt.Process -IN MemoryManagement-DW.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT MemoryManagement-DW.html
-	java org.apache.xalan.xslt.Process -IN LinkedLists-DW.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT LinkedLists-DW.html
-	java org.apache.xalan.xslt.Process -IN FunctionFactories-DW.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT FunctionFactories-DW.html
-	java org.apache.xalan.xslt.Process -IN RecursionProgramProving-DW.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT RecursionProgramProving-DW.html
-	java org.apache.xalan.xslt.Process -IN jb_l-recursion-proving.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT jb_l-recursion-proving.html
-	java org.apache.xalan.xslt.Process -IN MetaProgramming-DW.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT MetaProgramming-DW.html
-	java org.apache.xalan.xslt.Process -IN MetaProgramming2-DW.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT MetaProgramming2-DW.html
-	java org.apache.xalan.xslt.Process -IN MetaProgramming3-DW.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT MetaProgramming3-DW.html
-	java org.apache.xalan.xslt.Process -IN l-advflow.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT l-advflow.html
+	java org.apache.xalan.xslt.Process -IN AssemblyIntro-DW.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT AssemblyIntro-DW.html
+	java org.apache.xalan.xslt.Process -IN AddressingModes-DW.xml -XSL developerworks/xsl/dw-document-html-4.0.xsl -OUT AddressingModes-DW.html
 

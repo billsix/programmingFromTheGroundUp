@@ -12,6 +12,7 @@ s!</title>\s*<para>(.*?)</para>!</title><abstract>$1</abstract><docbody>!si;
 s!</title>!</title>\n\n<author jobtitle="Director of Technology" company="New Media Worx" email="johnnyb@eskimo.com"  >\n<bio>Jonathan Bartlett is the author of the book <a href="http://www.cafeshops.com/bartlettpublish.8640017"><i>Programming from the Ground Up</i></a> which is an introduction to programming using Linux assembly language.  He is the lead developer at New Media Worx, developing web, video, kiosk, and desktop applications for clients.\n</bio>\n<name>Jonathan Bartlett</name>\n</author>\n\n<\!-- FIXME - update date published -->\n<date-published day="01" month="09" year="2004" />!si;
 
 
+s!<variablelist>\s*<title>(.*?)</title>!<heading refname="" type="minor" toc="no">$1</heading>\n<dl>!gsi;
 s!<variablelist>!<dl>!gsi;
 s!</variablelist>!</dl>!gsi;
 s!<varlistentry>!!gsi;

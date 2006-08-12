@@ -82,9 +82,8 @@ You don't need to memorize all of the instruction formats to make use of them.  
 The D-Form instruction is one of the primary memory-access instruction forms.  It looks like this:
 </para>
 
-<example>
-<title>The D-Form Instruction Format</title>
 <variablelist>
+<title>The D-Form Instruction Format</title>
 <varlistentry>
 <term>Bits 0-5</term>
 <listitem><para>Opcode</para></listitem>
@@ -102,7 +101,6 @@ The D-Form instruction is one of the primary memory-access instruction forms.  I
 <listitem><para>Numeric Address, Offset, or Immediate-mode Value</para></listitem>
 </varlistentry>
 </variablelist>
-</example>
 
 <para>
 This form is used to perform loads, stores, and immediate-mode calculations.  It can be used for the following addressing modes:
@@ -215,9 +213,8 @@ If you look carefully, you can see that there is sort of a "base opcode" that is
 The X-Form is used for indexed register indirect addressing, where the values of two registers are added together to determine the address for loading/storing.  The X-Form has the following format:
 </para>
 
-<example>
-<title>The X-Form Instruction Format</title>
 <variablelist>
+<title>The X-Form Instruction Format</title>
 <varlistentry>
 <term>Bits 0-5</term>
 <listitem><para>Opcode</para></listitem>
@@ -243,7 +240,6 @@ The X-Form is used for indexed register indirect addressing, where the values of
 <listitem><para>Unused</para></listitem>
 </varlistentry>
 </variablelist>
-</example>
 
 <para>
 The opcodes are formatted like this:
@@ -536,6 +532,15 @@ _start:
         sc
 </programlisting>
 </example>
+
+</sect1>
+
+<sect1>
+<title>With Update Mode</title>
+
+<para>
+Most load/store instructions can update the main address register with the final effective address that was used in the load/store instruction.  For example, <literal>ldu 5, 4(8)</literal> will load from the address specified in register 8 plus four bytes into register 5, and then store the calculated address <emphasis>back into</emphasis> register 8.  This is called loading and storing <emphasis>with update</emphasis>, and can be used to decrease the number of instructions required to do a number of tasks.  We will see it used more in the next article.
+</para>
 
 </sect1>
 
