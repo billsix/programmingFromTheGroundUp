@@ -1,0 +1,133 @@
+<chapter>
+<title>Branching, Functions, and the PowerPC ABI</title>
+
+<para>
+In the last two articles, we have discussed the outline of how programs on the POWER5 work using the PowerPC instruction set, how the PowerPC instruction set addresses memory, and how to do position-independent code.  This article focuses on the very powerful branch instructions available in the PowerPC instruction set, as well as the details of the PowerPC 64-bit ABI, which can be used to integrate PowerPC assembly language with high-level languages.
+</para>
+
+<sect1>
+<title>Branching Registers</title>
+
+<para>
+Branches in PowerPC make use of three special-purpose registers -- the <emphasis>condition register</emphasis>, the <emphasis>count register</emphasis> and the <emphasis>link register</emphasis>.  
+</para>
+
+<sect2>
+<title>The Condition Register</title>
+
+<para>
+The condition register is broken up conceptually into three <emphasis>fields</emphasis>.  The first field (called <literal>CR0</literal>) is used for the results of computation instructions which use non-immediate operands (with a few exceptions).  The result of the computation is compared with zero, and the appropriate bits are set (negative, zero, or positive).  To indicate to an instruction that you want it to set <literal>CR0</literal>, you simply add a period (<literal>.</literal>) to the end of the instruction.  For example, <literal>add 4, 5, 6</literal> adds register 5 to register 6 and store the result in register 4, without setting any status bits in <literal>CR0</literal>.  However, <literal>add. 4, 5, 6</literal> does the same thing, but sets the bits in <literal>CR0</literal> based on the value stored in register 4.  
+</para>
+
+<para>
+The second field (called <literal>CR1</literal>) is used by floating point instructions using the period after the instruction name.  Floating point is outside the scope of this article.
+</para>
+
+<para>
+The third field (called <literal>CR2</literal>) is set as the result of comparison instructions.  This has fields for less-than, greater-than, and equal-to, and is used for both integer and floating point comparisons.
+</para>
+
+</sect2>
+
+<sect2>
+<title>The Count and Link Registers</title>
+
+<para>
+The count register (called <literal>CTR</literal>) is a special-purpose register designed to hold loop counters.  Special branch instructions can decrement the count register and/or conditionally branch depending on whether <literal>CTR</literal> has reached zero.  
+</para>
+
+<para>
+The link register (called <literal>LR</literal>) is a special-purpose register which holds return addresses from branch instructions.  All branch instructions can be told to set the link register, which, if the branch is taken, sets it to the address of the instruction immediately following the current instruction.  Branch instructions set the link register by appending the letter <literal>l</literal> to the end of the instruction.  For instance, <literal>b</literal> is an unconditional branch instruction, and <literal>bl</literal> is an unconditional branch instruction which sets the link register.
+</para>
+
+<para>
+Both the link and count registers can be used as a branch destination.  <literal>bctr</literal> branches to the address specified in the count register and <literal>blr</literal> branches to the address specified in the link register.
+</para>
+
+<para>
+The link and count registers can also be loaded and copied from general purpose registers. For the link register, <literal>mtlr</literal> moves a given register value <emphasis>to</emphasis> the link register and <literal>mflr</literal> moves a value <emphasis>from</emphasis> the link register to a general-purpose register.  <literal>mtctr</literal> and <literal>mfctr</literal> do the same for the count register.
+</para>
+
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>Unconditional Branching</title>
+
+<para>
+Unconditional branching on PowerPC instruction sets uses the I-Form instruction format.
+</para>
+
+<variablelist>
+<title>I-Form Instruction Format</title>
+<varlistentry>
+<term>Bits 0-5</term>
+<listitem><para>These bits hold the instruction opcode</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bits 6-29</term>
+<listitem><para>These bits hold the relative or absolute address to branch to</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bit 30</term>
+<listitem><para>If this field is set, the instruction is interpretted as an absolute address, otherwise it is interpretted as a relative address</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bit 31</term>
+<listitem><para>If this field is set, the instruction sets the link register with the address of the next instruction.</para></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1>
+<title>Conditional Branching</title>
+
+<variablelist>
+<title>The B-Form Instruction Format</title>
+<varlistentry>
+<term>Bits 0-5</term>
+<listitem><para>Opcode</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bits 6-10</term>
+<listitem><para>Specifies the options used regarding how the bit is tested, whether and how the counter register is involved, and any branch prediction hints</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bits 11-15</term>
+<listitem><para>Specifies the bit in the condition register to test</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bits 16-29</term>
+<listitem><para>Absolute or Relative Address</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bit 30</term>
+<listitem><para>Addressing Mode -- when set to 0 the specified address is considered a relative address; when set to 1 the address is considered an absolute address</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bit 31</term>
+<listitem><para>Link Bit -- when set to 1 the <emphasis>link register</emphasis> is set to the address following the current instruction; when set to 0 the link register is not set</para></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1>
+<title>Function Calls Using the PowerPC ABI</title>
+
+<para>
+</para>
+
+</sect1>
+
+<sect1>
+<title>Putting it all Together</title>
+
+<para>
+</para>
+
+</sect1>
+
+</chapter>
