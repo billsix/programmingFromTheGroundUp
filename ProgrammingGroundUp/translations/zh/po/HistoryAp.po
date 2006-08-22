@@ -42,7 +42,7 @@ msgid ""
 "appendix, finished out the files chapter, finished out the counting chapter, "
 "added a records chapter, created a source file of common linux definitions, "
 "corrected several errors, and lots of other fixes"
-msgstr "2004年1月11日 - 版本 0.7 - 加入了附录《C 语言对应的汇编语言》，加入了附录《常见的 X86 指令》的开头，加入了附录《用 GDB 调试程序》的开头，完成了《处理文件》一章，完成了《读写简单的记录》一章。创建了一个通用 Linux 定义的源文件。更正了一些错误，并做了很多其他的修正。"
+msgstr "2004年1月11日 - 版本 0.7 - 加入了附录《以汇编语言翻译 C 语句》，加入了附录《常见的 X86 指令》的开头，加入了附录《用 GDB 调试程序》的开头，完成了《处理文件》一章，完成了《读写简单的记录》一章。创建了一个通用 Linux 定义的源文件。更正了一些错误，并做了很多其他的修正。"
 
 # type: Content of: <appendix><itemizedlist><listitem><para>
 #: ../../HistoryAp.xml:20

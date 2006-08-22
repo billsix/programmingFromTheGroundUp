@@ -18,7 +18,7 @@ msgstr ""
 #: ../../CTranslationAp.xml:2
 #, no-wrap
 msgid "C Idioms in Assembly Language"
-msgstr "C语句对应的汇编语言"
+msgstr "以汇编语言翻译C语句"
 
 # type: Content of: <appendix><simplesect><para>
 #: ../../CTranslationAp.xml:17 ../../CTranslationAp.xml:130
