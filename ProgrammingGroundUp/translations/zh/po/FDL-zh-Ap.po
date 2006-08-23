@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2006-07-30  0:05+0800\n"
-"PO-Revision-Date: 2006-08-06 23:13+0800\n"
+"PO-Revision-Date: 2006-08-23 09:56+0800\n"
 "Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -134,7 +134,7 @@ msgid ""
 "has been designed to thwart or discourage subsequent modification by readers "
 "is not Transparent.  A copy that is not <quote>Transparent</quote> is called "
 "<quote>Opaque</quote>."
-msgstr "Document 的<quote>Transparent</quote>副本是指计算机可读的副本，以一种公开规格的格式表达，其内容可以直接使用通用文本编辑器或（对于其中由像素构成的图片）使用通用绘画程序或（对于其中的绘图）使用一些被广泛应用的图像编辑器来浏览或者修改，并且适合作为文本格式化程序的 输入，或者适合被自动翻译成一些格式同时这些格式适合作为文本格式化程序的输入。如果一个副本是以一种其他方式的 Transparent 格式发布的，这种格式被设计为可以阻挠读者的后续修改，那么这就不是 Transparent 副本。一个非 <quote>Transparent</quote> 副本称之为 <quote>Opaque</quote> 副本。"
+msgstr "Document 的<quote>Transparent</quote>副本是指计算机可读的副本，以一种公开规格的格式表达，其内容可以直接使用通用文本编辑器或（对于其中由像素构成的图片）使用通用绘画程序或（对于其中的绘图）使用一些被广泛应用的图像编辑器来浏览或者修改，并且适合作为文本格式化程序的 输入，或者适合被自动翻译成一些格式同时这些格式适合作为文本格式化程序的输入。如果一个副本是以一种可以阻挠读者的后续修改的非 Transparent 格式发布的，那么这就不是 Transparent 副本。一个非 <quote>Transparent</quote> 副本称之为 <quote>Opaque</quote> 副本。"
 
 # type: Content of: <appendix><para>
 #: ../../FDLAp.xml:105
@@ -237,7 +237,7 @@ msgid ""
 "It is requested, but not required, that you contact the authors of the "
 "Document well before redistributing any large number of copies, to give them "
 "a chance to provide you with an updated version of the Document."
-msgstr "虽然不是必需，但是希望你可以在大量再次发布 Document 副本之前与作者取得联系，给他们一个机会提供给你 Document 的最新版本。 "
+msgstr "希望你可以在大量再次发布 Document 副本之前与作者取得联系，这虽然不是必需的，但是这样可以给他们一个机会提供给你 Document 的最新版本。 "
 
 # type: Content of: <appendix><para>
 #: ../../FDLAp.xml:196
