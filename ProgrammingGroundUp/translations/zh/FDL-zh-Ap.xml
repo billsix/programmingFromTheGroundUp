@@ -55,7 +55,7 @@ Document
     <para id="fdl-zh-invariant">
       <quote>Invariant Sections（不可变章节）</quote>是指某些 Secondary 
 Sections。在说明 Document 
-是依本许可证发布的告示中，指明了这些 Secondary Sections 
+是依本许可证发布的声明中，指明了这些 Secondary Sections 
 属于 Invariant Sections。
 
     </para>
@@ -63,13 +63,13 @@ Sections。在说明 Document
     <para id="fdl-zh-cover-texts">
       <quote>Cover 
 Texts（封面文字）</quote>是指某些小段文字。在说明 Document 
-是依本许可证发布的告示中，指明了这些文字将以封面文字或封底文字列出。
+是依本许可证发布的声明中，指明了这些文字将以封面文字或封底文字列出。
 
     </para>
 	
     <para id="fdl-zh-transparent">
       Document 
-的<quote>Transparent</quote>副本是指计算机可读的副本，以一种公开规格的格式表达，其内容可以直接使用通用文本编辑器或（对于其中由像素构成的图片）使用通用绘画程序或（对于其中的绘图）使用一些被广泛应用的图像编辑器来浏览或者修改，并且适合作为文本格式化程序的 输入，或者适合被自动翻译成一些格式同时这些格式适合作为文本格式化程序的输入。如果一个副本是以一种其他方式的 Transparent 格式发布的，这种格式被设计为可以阻挠读者的后续修改，那么这就不是 Transparent 副本。一个非 <quote>Transparent</quote> 副本称之为 <quote>Opaque</quote> 副本。
+的<quote>Transparent</quote>副本是指计算机可读的副本，以一种公开规格的格式表达，其内容可以直接使用通用文本编辑器或（对于其中由像素构成的图片）使用通用绘画程序或（对于其中的绘图）使用一些被广泛应用的图像编辑器来浏览或者修改，并且适合作为文本格式化程序的 输入，或者适合被自动翻译成一些格式同时这些格式适合作为文本格式化程序的输入。如果一个副本是以一种可以阻挠读者的后续修改的非 Transparent 格式发布的，那么这就不是 Transparent 副本。一个非 <quote>Transparent</quote> 副本称之为 <quote>Opaque</quote> 副本。
 
     </para>
     
@@ -91,79 +91,53 @@ Page（扉页）</quote>，对于刊印成册的书，是指扉页本身及其�
 </para>
 
     <para>
-      You may copy and distribute the Document in any medium, either commercially 
-or noncommercially, provided that this License, the copyright notices, and 
-the license notice saying this License applies to the Document are 
-reproduced in all copies, and that you add no other conditions whatsoever to 
-those of this License. You may not use technical measures to obstruct or 
-control the reading or further copying of the copies you make or 
-distribute. However, you may accept compensation in exchange for copies. If 
-you distribute a large enough number of copies you must also follow the 
-conditions in section 3.
+      你可以在任何媒介上复制和发布 
+Document，不论是用于商业或非商业目的，只要所有的副本都包括本 License、版权声明和说明本 License 应用于 Document的许可证声明，而且你不再加入任何其他类似的对于本 License 的条件。你不可以采取技术手段以妨碍或控制别人阅读或再复制你制作或发布的副本。不过，你可以发布副本以获取他人给你的一些补偿。如果你发布的副本数量大到一定程度，你必须符合第3节的条件。
 
     </para>
     
     <para>
-      You may also lend copies, under the same conditions stated above, and you 
-may publicly display copies.
+      你可以在满足上面所述条件的前提下出租和公开展示文档副本。
 
     </para>
     
-    <para><literal>3. COPYING IN QUANTITY</literal>
+    <para><literal>3.大量复制</literal>
 </para>
     <para>
-      If you publish printed copies of the Document numbering more than 100, and 
-the Document's license notice requires Cover Texts, you must enclose the 
-copies in covers that carry, clearly and legibly, all these Cover Texts: 
-Front-Cover Texts on the front cover, and Back-Cover Texts on the back 
-cover. Both covers must also clearly and legibly identify you as the 
-publisher of these copies. The front cover must present the full title with 
-all words of the title equally prominent and visible. You may add other 
-material on the covers in addition. Copying with changes limited to the 
-covers, as long as they preserve the title of the Document and satisfy these 
-conditions, can be treated as verbatim copying in other respects.
+      如果你发布的 Document 的印刷副本数量超过100份，并且 
+Document 的许可证声明要求 Cover 
+Texts，你必须用封面封底包住副本，且其上必须清晰可辨的印有所有的 Cover Texts：包括封面上的 Front-Cover Texts 和封底上的 Back-Cover Texts。封面和封底还都必须写明你是该副本的出版者。封面必须印上完整的书名，书名的每个字都必须一样地突出可见。此外你可以在封面添加一些其它素材。仅仅改动了封面封底的复制，只要他们保留了 Document 的标题并且符合这些条件，从其他方面可视其为原样复制。
 
     </para>
     
     <para>
-      If the required texts for either cover are too voluminous to fit legibly, 
-you should put the first ones listed (as many as fit reasonably) on the 
-actual cover, and continue the rest onto adjacent pages.
+      如果封面或封底必要的文字太多，以至于全放上去的话将看不清楚，那么你可以把前面的条目（在保证清楚的前提下尽可能多的）列在封面或封底，剩下的那些放在邻近的页面里。 
 
     </para>
     
     <para>
-      If you publish or distribute Opaque copies of the Document numbering more 
-than 100, you must either include a machine-readable Transparent copy along 
-with each Opaque copy, or state in or with each Opaque copy a 
-publicly-accessible computer-network location containing a complete 
-Transparent copy of the Document, free of added material, which the general 
-network-using public has access to download anonymously at no charge using 
-public-standard network protocols. If you use the latter option, you must 
-take reasonably prudent steps, when you begin distribution of Opaque copies 
-in quantity, to ensure that this Transparent copy will remain thus 
-accessible at the stated location until at least one year after the last 
-time you distribute an Opaque copy (directly or through your agents or 
-retailers) of that edition to the public.
+      如果你出版或分发 Document 的 Opaque 
+副本数量超过100份，那么你必须要么随同每份 Opaque 
+副本附带一份机器可读的 Transparent 副本，要么在每份 
+Opaque 
+副本里或随同该副本指明一个公众可以访问到的计算机网络的地址，使用网络的公众可以用公众标准网络协议从该地址匿名且免费地下载到完全 Transparent 且不包含任何附加材料的 Document 副本。如果你采用后一种办法，你必须适当采取一些慎重的措施，当你开始大量发行 Opaque 副本时，要保证在你（直接或者通过你的代理或零售商）发布最后一份 Opaque 副本后至少一年内，对应版本的 Transparent 副本在指定的地址仍然可以这样访问到。
 
     </para>
     
     <para>
-      It is requested, but not required, that you contact the authors of the 
-Document well before redistributing any large number of copies, to give them 
-a chance to provide you with an updated version of the Document.
+      希望你可以在大量再次发布 Document 
+副本之前与作者取得联系，这虽然不是必需的，但是这样可以给他们一个机会提供给你 Document 的最新版本。 
 
     </para>
     
-    <para><literal>4. MODIFICATIONS</literal>
+    <para><literal>4.修改</literal>
 </para>
     <para>
-      You may copy and distribute a Modified Version of the Document under the 
-conditions of sections 2 and 3 above, provided that you release the Modified 
-Version under precisely this License, with the Modified Version filling the 
-role of the Document, thus licensing distribution and modification of the 
-Modified Version to whoever possesses a copy of it. In addition, you must do 
-these things in the Modified Version:
+      你可以在上文第2和第3节的条件下复制和发布 Document 的 
+Modified Version，只要你严格地依本 License 发布代替了 Document 
+的角色的 Modified Version，这样任何持有该 Modified Version 
+的一份副本的人都可以对其进行发行和修改。此外，在 
+Modified Version 里你必须做如下一些事情： 
 
     </para>
     
@@ -172,11 +146,9 @@ these things in the Modified Version:
 	<formalpara>
 	  <title>A</title>
 	  <para>
-	    Use in the Title 	 Page (and on the covers, if any) a title distinct 	 from 
-that of the Document, and from those of 	 previous versions (which should, 
-if there were any, be 	 listed in the History section of the Document). You 
-may 	 use the same title as a previous version if the original 	 publisher 
-of that version gives permission.
+	    在扉页（和封皮上，如果有的话）使用的书名要不同于 
+Document 
+的书名，且要不同于先前版本的书名（这些书名，如果有的话，应该是列在 Document 的历史章节里的）。如果某个版本原来的发行者允许，你也可以使用和那个版本相同的书名。 
 
 	  </para>
 	</formalpara>
