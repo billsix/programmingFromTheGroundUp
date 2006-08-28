@@ -776,13 +776,13 @@ msgstr "让我们看看这个程序是如何工作的"
 msgid ""
 "The first section of the program is marked <literal>CONSTANTS</literal>.  In "
 "programming, a constant<indexterm>"
-msgstr ""
+msgstr "程序的第一个区段是 <literal>CONSTANTS</literal> 区段。在编程中，一个常量<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../FilesCh.xml:366
 #, no-wrap
 msgid "constants"
-msgstr ""
+msgstr "常量"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:366
@@ -793,19 +793,19 @@ msgid ""
 "declare them before you use them, but putting them all at the beginning "
 "makes them easy to find.  Making them all upper-case makes it obvious in "
 "your program which values are constants and where to find them.<footnote>"
-msgstr ""
+msgstr "</indexterm>是一个在程序汇编或者编译阶段就赋予，并且不会改变的值。我有把我的所有常量一起放到程序开头的习惯。常量只需要在你使用它之前声明就可以了，但是把它们都放在程序开头让它们更加好找。在你的程序中把它们都弄成大写能更好区分哪个值是常量。<footnote>"
 
 # type: Content of: <chapter><sect1><para><para>
 #: ../../FilesCh.xml:371
 msgid "This is fairly standard practice among programmers in all languages."
-msgstr ""
+msgstr "这几乎是各种语言程序员的一个相当标准的惯例。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:372
 msgid ""
 "</footnote> In assembly language, we declare constants with the "
 "<literal>.equ<indexterm>"
-msgstr ""
+msgstr "</footnote>在汇编语言中，我们用以前提到过的 <literal>.equ<indexterm>"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:375
@@ -813,20 +813,20 @@ msgid ""
 "</indexterm></literal> directive as mentioned before.  Here, we simply give "
 "names to all of the standard numbers we've used so far, like system call "
 "numbers, the syscall interrupt number, and file open options."
-msgstr ""
+msgstr "</indexterm></literal> 定义常量。在这里，我们只要简单的给系统调用号、中断号、文件打开模式等我们用到过的标准的数一个名字。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:381
 msgid ""
 "The next section is marked <literal>BUFFERS</literal>.  We only use one "
 "buffer<indexterm>"
-msgstr ""
+msgstr "下一区段被标明为 <literal>BUFFERS</literal>。在这个程序中只用到一个缓冲区<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../FilesCh.xml:381 ../../FilesCh.xml:605
 #, no-wrap
 msgid "buffer"
-msgstr ""
+msgstr "缓冲区"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:381
@@ -837,7 +837,7 @@ msgid ""
 "out the number 500 whenever we need to use the size of the buffer, if it "
 "later changes, we only need to modify this value, rather than having to go "
 "through the entire program and changing all of the values individually."
-msgstr ""
+msgstr "</indexterm>，我们把它叫做 <literal>BUFFER_DATA</literal> 。我们还定义了一个常量，<literal>BUFFER_SIZE</literal>，用来保存缓冲区的大小。如果我们在所有涉及缓冲区大小的地方都用这个常量而不是魔法数 500 ，那如果缓冲区大小改变，我们所有需要改变的地方就是这个常量的值，而不是一个一个的修改整个程序里的散布的魔法数。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:391
@@ -845,7 +845,7 @@ msgid ""
 "Instead of going on to the <literal>_start</literal> section of the program, "
 "go to the end where we define the <literal>convert_to_upper</literal> "
 "function.  This is the part that actually does the conversion."
-msgstr ""
+msgstr "我们先跳过 <literal>_start</literal> 区段，看看最后面我们定义 <literal>convert_to_upper</literal> 的区段。这才是实际上做转换的部分。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:397
@@ -853,7 +853,7 @@ msgid ""
 "This section begins with a list of constants that we will use The reason "
 "these are put here rather than at the top is that they only deal with this "
 "one function.  We have these definitions:"
-msgstr ""
+msgstr "这个区段一开始还是一个常量列表，为什么把它们放到这里而不所程序的一开头是因为只有这个函数用它们。我们有如下定义："
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:409
@@ -868,13 +868,13 @@ msgid ""
 "same lower-case letter gives us how much we need to add to a lower-case "
 "letter to make it upper case.  If that doesn't make sense, look at the "
 "ASCII<indexterm>"
-msgstr ""
+msgstr "前两个定义了我们要寻找的字符区间。记住在电脑中，字母也是用数字来表示的。这样，我们可以对 <literal>LOWERCASE_A</literal> 做比较，加，减，以及其他数可以用做的操作。同样，我们定义了 <literal>UPPER_CONVERSION</literal>，因为字母是用数来表示的，所以我们可以对它们做减法。把一个大写字母减去它对应的小写字母可以得到到底要把一个小写字母加上多少才能把它转换成大写。如果你觉得迷糊，那看看 ASCII<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../FilesCh.xml:417
 #, no-wrap
 msgid "ASCII"
-msgstr ""
+msgstr "ASCII"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:417
@@ -884,20 +884,20 @@ msgid ""
 "is 65 and the character <literal>a</literal> is 97.  The conversion factor "
 "is then -32.  For any lowercase letter if you add -32, you will get its "
 "capital equivalent."
-msgstr ""
+msgstr "</indexterm> 码表吧。（参阅 <xref linkend=\"asciilisting\" />）你将会发现字符 <literal>A</literal> 对应的数字是 65，字符 <literal>a</literal> 是 97，所以转换因子是 -32。也就是说任意小写字母，如果把它加上 -32，你将得到相应的大写字母。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:426
 msgid ""
 "After this, we have some constants labelled <literal>STACK "
 "POSITIONS</literal>.  Remember that function parameters<indexterm>"
-msgstr ""
+msgstr "在这之后，我们有一些标为 <literal>STACKPOSITIONS</literal> 的常量。记住函数参数<indexterm> "
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../FilesCh.xml:427
 #, no-wrap
 msgid "function parameters"
-msgstr ""
+msgstr "函数参数"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:427
@@ -906,13 +906,13 @@ msgid ""
 "constants (prefixed with <literal>ST</literal> for clarity) define where in "
 "the stack we should expect to find each piece of data.  The return "
 "address<indexterm>"
-msgstr ""
+msgstr "</indexterm>必须在函数调用之前压入栈。这些常量（为了清晰，都有一个 <literal>ST</literal> 前缀）定义了我们在栈中哪里能找到哪块数据。返回地址<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../FilesCh.xml:430
 #, no-wrap
 msgid "return address"
-msgstr ""
+msgstr "返回地址"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:430
@@ -921,7 +921,7 @@ msgid ""
 "position 8 + &esp;, and the address of the buffer is at position 12 + "
 "&esp;.  Using symbols for these numbers instead of the numbers themselves "
 "makes it easier to see what data is being used and moved."
-msgstr ""
+msgstr "</indexterm>在位置 4 + &esp;，缓冲区的长度在位置 8 + &esp;，缓冲区的首地址在位置 12 + &esp;。用符号来代替这些数是为了让用了或移动了什么数据更加清楚。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:437
@@ -929,7 +929,7 @@ msgid ""
 "Next comes the label <literal>convert_to_upper</literal>.  This is the entry "
 "point of the function.  The first two lines are our standard function lines "
 "to save the stack pointer.  The next two lines"
-msgstr ""
+msgstr "然后是标签 <literal>convert_to_upper</literal>。这是函数的入口点。最前面的两行是我们保存栈指针的标准函数行。之后的两行"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:447
@@ -939,7 +939,7 @@ msgid ""
 "byte of the buffer by loading from the location &eax; + &edi;, incrementing "
 "&edi;, and repeating until &edi; is equal to the buffer length stored in "
 "&ebx;.  The lines"
-msgstr ""
+msgstr "把函数参数移到合适的寄存器待用。然后，我们把 &edi; 清零。我们要做的是从 &eax; + &edi;载入缓冲区的一个字节，然后把 &edi; 加一，重复操作直到 &edi; 等于存在 &ebx; 的缓冲区长度。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:458
@@ -950,25 +950,25 @@ msgid ""
 "always specify that your function should not take a buffer of zero size, but "
 "it's even better to have the function check and have a reliable exit plan if "
 "it happens."
-msgstr ""
+msgstr "这些行只是一个安全检查，以免别人给我们一个零长度的缓冲区。如果他们这么给了，我们只是做一些清理，然后离开。避免潜在的用户和编程错误是一个程序员很重要的任务。你可以指出你的函数不应该用一个零长度的缓冲区，但是最好是自己在函数中做检查并且如果发生了有一个可靠的退出计划。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:467
 msgid ""
 "Now we start our loop.  First, it moves a byte into &cl;.  The code for this "
 "is"
-msgstr ""
+msgstr "现在我们开始循环。首先，我们将一个字节的数据移入 &cl;。用的代码是"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:474
 msgid "It is using an indexed indirect addressing mode<indexterm>"
-msgstr ""
+msgstr "这是用的索引寻址模式<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../FilesCh.xml:474
 #, no-wrap
 msgid "indexed indirect addressing mode"
-msgstr ""
+msgstr "索引寻址模式"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:474
@@ -983,7 +983,7 @@ msgid ""
 "<wordasword>z</wordasword>, it can't be a lower-case letter.  So, in each of "
 "these cases, it simply moves on.  If it is in the proper range, it then adds "
 "the uppercase conversion, and stores it back into the buffer."
-msgstr ""
+msgstr "</indexterm>。它的意思是从 &eax; 开始，向前移动 &edi; 个字节。然后把那里的值放到 &cl;。然后我们检查这个值是否在小写的 <wordasword>a</wordasword> 到小写的 <wordasword>z</wordasword> 这个范围里。为了检查范围，我们简单的检查这个字母是否比 <wordasword>a</wordasword> 小。如果是，则它不可能是一个小写字母。相似的，如果它大于 <wordasword>z</wordasword>，它也不可能是一个小写字母。所以，在以上这些可能中，我们简单的继续循环。如果它是在合适的范围内，那我们把它加上我们的大写转换因子，并且把它存回缓冲区。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:488
@@ -997,51 +997,51 @@ msgid ""
 "the changes are already in the buffer.  The label "
 "<literal>end_convert_loop</literal> is not needed, but it's there so it's "
 "easy to see where the parts of the program are."
-msgstr ""
+msgstr "无论怎么处理，我们递增 %cl;，开始处理下一个字符。然后我们检查看看我们是否在缓冲区末尾了。如果不是，我们跳回到循环的开头（就是<literal>convert_loop</literal> 标签处）；如果是，我们继续到函数的结尾。因为我们直接修改缓冲区，所以我们不需要给调用者返回任何东西——改变已经在缓冲区里放好了。标签 <literal>end_convert_loop</literal> 不是必需的，把它放在那里只是让我们更容易的知道这个程序的结构。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:498
 msgid ""
 "Now we know how the conversion process works.  Now we need to figure out how "
 "to get the data in and out of the files."
-msgstr ""
+msgstr "现在我们清楚了转换过程是怎么工作的。现在我们需要搞清楚怎么从文件中读入或写出数据。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:503
 msgid ""
 "Before reading and writing the files we must open them. The UNIX "
 "<literal>open<indexterm>"
-msgstr ""
+msgstr "在我们读写文件之前我们必须先打开它们。UNIX 的 <literal>open<indexterm>"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:504
 msgid ""
 "</indexterm></literal> system call is what handles this.  It takes the "
 "following parameters:"
-msgstr ""
+msgstr "</indexterm></literal> 系统调用就是用来做这个事情的，它需要如下的参数："
 
 # type: Content of: <chapter><sect1><itemizedlist><listitem><para>
 #: ../../FilesCh.xml:511
 msgid "&eax-indexed; contains the system call number as usual - 5 in this case."
-msgstr ""
+msgstr "&eax-indexed; 和往常一样放着系统调用号—— 在这里是 5。"
 
 # type: Content of: <chapter><sect1><itemizedlist><listitem><para>
 #: ../../FilesCh.xml:514
 msgid ""
 "&ebx-indexed; contains a pointer to a string that is the name of the file to "
 "open.  The string must be terminated with the null character<indexterm>"
-msgstr ""
+msgstr "&ebx-indexed; 里放着一个指向要打开的文件名字符串的指针，这个字符串必须以 NULL 字符<indexterm>"
 
 # type: Content of: <chapter><sect1><itemizedlist><listitem><para><primary>
 #: ../../FilesCh.xml:515
 #, no-wrap
 msgid "null character"
-msgstr ""
+msgstr "NULL 字符"
 
 # type: Content of: <chapter><sect1><itemizedlist><listitem><para>
 #: ../../FilesCh.xml:515
 msgid "</indexterm>."
-msgstr ""
+msgstr "</indexterm>结束。"
 
 # type: Content of: <chapter><sect1><itemizedlist><listitem><para>
 #: ../../FilesCh.xml:518
@@ -1053,7 +1053,7 @@ msgid ""
 "into how to create the numbers for the options until <xref "
 "linkend=\"truthbinarynumbers\" />.  For now, just trust the numbers we come "
 "up with."
-msgstr ""
+msgstr "&ecx-indexed; 放着用来打开文件的一些选项。这些选项告诉 Linux 怎么去打开文件。比如以读模式打开、写模式打开、读写模式打开、如果不存在则创建、如果已经存在则删除等。我们直到<xref linkend=\"truthbinarynumbers\" />才讲到怎么为不同的选项创建数。现在，只要相信我给出的数就好了。"
 
 # type: Content of: <chapter><sect1><itemizedlist><listitem><para>
 #: ../../FilesCh.xml:527
@@ -1062,7 +1062,7 @@ msgid ""
 "is used in case the file has to be created first, so Linux knows what "
 "permissions to create the file with.  These are expressed in octal, just "
 "like regular UNIX permissions.<footnote>"
-msgstr ""
+msgstr "&edx-indexed; 放着我们用来打开文件的权限设置。这是用在万一文件需要先创建的时候，那样 Linux 才知道用什么权限设置来创建这个文件。权限设置需要用八进制数来表示，就如通常的 UNIX 权限设置一样。<footnote>"
 
 # type: Content of: <chapter><sect1><itemizedlist><listitem><para><para>
 #: ../../FilesCh.xml:531
@@ -1070,37 +1070,37 @@ msgid ""
 "If you aren't familiar with UNIX permissions, just put "
 "<literal>$0666</literal> here.  Don't forget the leading zero, as it means "
 "that the number is an octal<indexterm>"
-msgstr ""
+msgstr "如果你对 UNIX 权限设置不熟悉，在这用 <literal>$0666</literal> 就好了。别忘了最前面那个零，因为它表明这个数是八进制<indexterm>"
 
 # type: Content of: <chapter><sect1><itemizedlist><listitem><para><para><primary>
 #: ../../FilesCh.xml:533
 #, no-wrap
 msgid "octal"
-msgstr ""
+msgstr "八进制"
 
 # type: Content of: <chapter><sect1><itemizedlist><listitem><para><para>
 #: ../../FilesCh.xml:533
 msgid "</indexterm> number."
-msgstr ""
+msgstr "</indexterm>的数。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:539
 msgid "<indexterm>"
-msgstr ""
+msgstr "<indexterm>"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:539
 msgid ""
 "</indexterm> After making the system call, the file descriptor of the "
 "newly-opened file is stored in &eax-indexed;."
-msgstr ""
+msgstr "</indexterm>系统调用完成后，新打开文件的文件描述符放在 &eax-indexed;。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:545
 msgid ""
 "So, what files are we opening? In this example, we will be opening the files "
 "specified on the command-line<indexterm>"
-msgstr ""
+msgstr "那么，我们要打开些什么文件呢？在这个例子中。我们要打开命令行<indexterm>"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:547
@@ -1112,20 +1112,20 @@ msgid ""
 "the name of the program is stored at <literal>4(%esp)</literal>, and the "
 "arguments are stored from <literal>8(%esp)</literal> on.  In the C "
 "Programming language, this is referred to as the <literal>argv<indexterm>"
-msgstr ""
+msgstr "</indexterm>指定的文件。还好，Linux 已经把命令行参数放在一个容易存取的地方了，并且已经是以 NULL 字符结束的。当一个 Linux 程序开始运行的时候，所有的命令行参数的指针都被压入了栈中。参数的个数被存储在 <literal>(%esp)</literal>，程序的名字被存储在 <literal>4(%esp)</literal>，然后参数从 <literal>8(%esp)</literal> 开始存储。在 C 语言中，这个被当作数组 <literal>argv<indexterm>"
 
 # type: Content of: <chapter><sect1><para><primary>
 #: ../../FilesCh.xml:556
 #, no-wrap
 msgid "argv"
-msgstr ""
+msgstr "argv"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:556
 msgid ""
 "</indexterm></literal> array, so we will refer to it that way in our "
 "program."
-msgstr ""
+msgstr "</indexterm></literal> 来引用，所以我们也将在我们的程序中用这个方式来引用它。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:561
@@ -1133,7 +1133,7 @@ msgid ""
 "The first thing our program does is save the current stack position in &ebp; "
 "and then reserve some space on the stack to store the file descriptors.  "
 "After this, it starts opening files."
-msgstr ""
+msgstr "我们的程序做的第一件事情是把当前栈的位置存入 &ebp; ，并且在栈上预留一些空间来存放文件描述符。之后，它开始打开文件。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:567
@@ -1145,7 +1145,7 @@ msgid ""
 "&edx-indexed;, and the system call number into &eax-indexed; After the "
 "system call, the file is open and the file descriptor is stored in "
 "&eax-indexed;.<footnote>"
-msgstr ""
+msgstr "程序打开的第一个文件是输入文件，也就是第一个命令行参数指定的文件。我们先设定好系统调用，我们把文件名放到 &ebx-indexed;，代表只读模式的数放到 &edx-indexed; 并且把系统调用号放入 &eax-indexed;。系统调用完成之后，文件被打开了，并且文件描述符放到了 &eax-indexed;。<footnote>"
 
 # type: Content of: <chapter><sect1><para><para>
 #: ../../FilesCh.xml:573
@@ -1156,14 +1156,14 @@ msgid ""
 "hold an error code instead of a return value.  Error codes are negative, so "
 "they can be detected by comparing &eax-indexed; to zero and jumping if it is "
 "less than zero."
-msgstr ""
+msgstr "注意这里我们没有做任何的错误检查。这样做只是为了让程序保持简单。在通常的程序中，每一个系统调用都应该检查看看是成功了还是失败了。如果失败了，&eax; 会放着一个错误代码，而不所正常的返回值。错误代码是负的，所以我们只要把 &eax-indexed; 和 0 做比较，如果它小于 0 则跳转。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:579
 msgid ""
 "</footnote> The file descriptor is then transferred to its appropriate place "
 "on the stack."
-msgstr ""
+msgstr "</footnote>文件描述符被传送到栈上合适的地方。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:585
@@ -1171,7 +1171,7 @@ msgid ""
 "The same is then done for the output file, except that it is created with a "
 "write-only, create-if-doesn't-exist, truncate-if-does-exist mode.  Its file "
 "descriptor is stored as well."
-msgstr ""
+msgstr "我们也对输出文件做了同样的事情，除了它是以只写、如果不存在则创建、如果存在则覆盖的模式打开。它的文件描述符也同样被存储好。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:591
@@ -1183,21 +1183,21 @@ msgid ""
 "are just operating on straight sequences of characters.  We could read it in "
 "with as little or as large of chunks as we want, and it still would work "
 "properly."
-msgstr ""
+msgstr "现在我们到了最主要的部分——读／写循环。简单的说，我们从输入文件中读入一块大小固定的数据，在它之上调用我们的转换函数，然后把转换后的数据写入输出文件。尽管我们读的是固定大小的块，但是这个程序中块的大小并不重要——我们只是在一段字符串上操作。我们可以按照我们的喜好读入任意大小的块，它仍然会工作的很好。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:601
 msgid ""
 "The first part of the loop is to read the data.  This uses the "
 "<literal>read<indexterm>"
-msgstr ""
+msgstr "循环的第一部分用 <literal>read<indexterm>"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:602
 msgid ""
 "</indexterm></literal> system call.  This call just takes a file descriptor "
 "to read from, a buffer to write into, and the size of the buffer<indexterm>"
-msgstr ""
+msgstr "</indexterm></literal> 系统调用读入数据，这个系统调用需要一个要读取的文件描述符，一个缓冲区以及缓冲区的大小<indexterm>"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:605
@@ -1205,14 +1205,14 @@ msgid ""
 "</indexterm> (i.e. - the maximum number of bytes that could be written).  "
 "The system call returns the number of bytes actually read, or end-of-file "
 "(the number 0)."
-msgstr ""
+msgstr "</indexterm>（即能够写入的最大的字节数）作为参数。这个系统调用要么返回读入了多少字节，要么返回文件结束符（数字 0）。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:612
 msgid ""
 "After reading a block, we check &eax-indexed; for an end-of-file marker.  If "
 "found, it exits the loop.  Otherwise we keep on going."
-msgstr ""
+msgstr "读完一个块后，我们检查 &eax-indexed;，如果找到一个文件结束符则退出循环，否则继续。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:617
@@ -1222,7 +1222,7 @@ msgid ""
 "the previous system call.  After this function executes, the buffer should "
 "be capitalized and ready to write out.  The registers are then restored with "
 "what they had before."
-msgstr ""
+msgstr "数据读入后，我们用刚读入的缓冲区和上一个系统调用中读入的字符数调用 <literal>convert_to_upper</literal> 函数。这个函数执行完后，缓冲区里就应该是等待输出的大写字母数据了。然后用以前的值重置寄存器。"
 
 # type: Content of: <chapter><sect1><para>
 #: ../../FilesCh.xml:625
