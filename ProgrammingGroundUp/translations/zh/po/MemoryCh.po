@@ -1039,7 +1039,7 @@ msgstr "复习"
 #: ../../MemoryCh.xml:432
 #, no-wrap
 msgid "Know the Concepts"
-msgstr "了解概念"
+msgstr "理解概念"
 
 # type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
 #: ../../MemoryCh.xml:435

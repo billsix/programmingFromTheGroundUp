@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2006-05-15 16:01+0800\n"
-"PO-Revision-Date: 2006-07-30 01:22+0800\n"
+"PO-Revision-Date: 2006-09-04 01:01+0800\n"
 "Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgid ""
 "</indexterm>.  After all, when we reboot our computers, the only thing that "
 "remains from previous sessions are the things that have been put on disk.  "
 "Data which is stored in files is called <emphasis>persistent<indexterm>"
-msgstr "</indexterm>。毕竟，当我们重起电脑的时候，唯一从上一此交互中保留下来的东西就是那些放到磁盘上了的。放到文件中的数据叫做<emphasis>持久化<indexterm>"
+msgstr "</indexterm>。毕竟，当我们重起电脑的时候，从上一次会话保留下来的仅有的东西就是那些放到磁盘上了的。放到文件中的数据叫做<emphasis>持久化<indexterm>"
 
 # type: Content of: <chapter><para><primary>
 #: ../../FilesCh.xml:19
@@ -1254,7 +1254,7 @@ msgstr "这个程序结束了！"
 #: ../../FilesCh.xml:648
 #, no-wrap
 msgid "Review"
-msgstr "回顾"
+msgstr "复习"
 
 # type: Content of: <chapter><sect1><sect2><title>
 #: ../../FilesCh.xml:651
@@ -1293,7 +1293,7 @@ msgstr "于读写文件相关的系统调用有哪些？"
 #: ../../FilesCh.xml:664
 #, no-wrap
 msgid "Use the Concepts"
-msgstr "使用概念"
+msgstr "运用概念"
 
 # type: Content of: <chapter><sect1><sect2><itemizedlist><listitem><para>
 #: ../../FilesCh.xml:667
