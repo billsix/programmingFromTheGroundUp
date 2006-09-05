@@ -4,14 +4,14 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: pgubook\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2006-05-15 16:01+0800\n"
 "PO-Revision-Date: 2006-07-30 17:52+0800\n"
 "Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
-"Language-Team: zh_CN <robert.zhangle@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
 "X-Generator: Pootle 0.10beta3\n"
 
 # type: Content of: <chapter><title>

@@ -4,14 +4,14 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: pgubook\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2006-07-30  0:05+0800\n"
-"PO-Revision-Date: 2006-08-23 09:56+0800\n"
+"PO-Revision-Date: 2006-09-06 01:18+0800\n"
 "Last-Translator: Zhang Le <robert.zhangle@gmail.com>\n"
-"Language-Team: zh_CN <robert.zhangle@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING\n"
 "X-Generator: Pootle 0.10beta3\n"
 
 # type: Content of: <appendix><title>
@@ -284,50 +284,50 @@ msgid ""
 "responsible for authorship of the modifications in the \t Modified Version, "
 "\t together with at least five of the principal authors of \t the Document "
 "(all of \t its principal authors, if it has less than five)."
-msgstr ""
+msgstr "在扉页上像列出作者一样列出负责修改Modified Version的一个或多个个人或实体，以及文档的至少五个主要作者（如果主要作者少于五个，就全部写上）。"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
 #: ../../FDLAp.xml:241
 #, no-wrap
 msgid "C"
-msgstr ""
+msgstr "C"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
 #: ../../FDLAp.xml:243
 msgid ""
 "State on the Title \t Page the name of the publisher of the Modified "
 "Version, as the \t publisher."
-msgstr ""
+msgstr "在扉页上列出Modified Version的发行者的名字，如同（Document的）发行者那样。 "
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
 #: ../../FDLAp.xml:252
 #, no-wrap
 msgid "D"
-msgstr ""
+msgstr "D"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
 #: ../../FDLAp.xml:254
 msgid "Preserve all the copyright notices of the Document."
-msgstr ""
+msgstr "保留Document的所有版权声明不变。 "
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
 #: ../../FDLAp.xml:261
 #, no-wrap
 msgid "E"
-msgstr ""
+msgstr "E"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
 #: ../../FDLAp.xml:263
 msgid ""
 "Add an appropriate copyright notice for your modifications \t adjacent to "
 "the other copyright notices."
-msgstr ""
+msgstr "在其它版权声明附近为你所做的修正添加适当的版权声明。"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
 #: ../../FDLAp.xml:271
 #, no-wrap
 msgid "F"
-msgstr ""
+msgstr "F"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
 #: ../../FDLAp.xml:273
@@ -335,37 +335,37 @@ msgid ""
 "Include, immediately after the copyright notices, a \t license notice giving "
 "the public permission to use the \t Modified Version under \t the terms of "
 "this License, in the form shown in the \t Addendum below."
-msgstr ""
+msgstr "在版权声明后面，紧跟着加上允许公众在本协议下使用Modified Version的许可声明，其形式如下面附录所示。 "
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
 #: ../../FDLAp.xml:284
 #, no-wrap
 msgid "G"
-msgstr ""
+msgstr "G"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
 #: ../../FDLAp.xml:286
 msgid ""
 "Preserve in that license notice the full lists of Invariant Sections and \t "
 "required Cover \t Texts given in the Document's license notice."
-msgstr ""
+msgstr "在那个许可声明里保留Document的许可声明里所给出的所有Invariant Section和所需要的Cover Text的完整列表。"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
 #: ../../FDLAp.xml:295
 #, no-wrap
 msgid "H"
-msgstr ""
+msgstr "H"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
 #: ../../FDLAp.xml:297
 msgid "Include an unaltered copy of this License."
-msgstr ""
+msgstr "包含本License的未经改动的副本。"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
 #: ../../FDLAp.xml:304
 #, no-wrap
 msgid "I"
-msgstr ""
+msgstr "I"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
 #: ../../FDLAp.xml:306
@@ -377,13 +377,13 @@ msgid ""
 "create one \t stating the title, year, authors, and publisher of the \t "
 "Document as given on its Title Page, then add an item \t describing the "
 "Modified Version as stated in the previous \t sentence."
-msgstr ""
+msgstr "保留题为<quote>历史</quote>的章节，不要改动其标题，并且给它添加一条至少包括Modified Version的书名、年份、新作者和发行者的条目，这些信息要和扉页上列出的一致。如果Document没有题为<quote>历史</quote>的章节，你就建立该章节，创建一条包括Document的书名、年份、作者和发行者的条目，要与扉页里给出的信息一致，然后类似的再添一条描述Modified Version的条目。"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><title>
 #: ../../FDLAp.xml:322
 #, no-wrap
 msgid "J"
-msgstr ""
+msgstr "J"
 
 # type: Content of: <appendix><itemizedlist><listitem><formalpara><para>
 #: ../../FDLAp.xml:324
