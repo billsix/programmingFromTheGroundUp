@@ -199,7 +199,7 @@ To build the application, run the commands:
 </para>
 
 <programlisting>
-as write-records.s -o write-record.o
+as write-records.s -o write-records.o
 as write-record.s -o write-record.o
 ld write-record.o write-records.o -o write-records
 </programlisting>
