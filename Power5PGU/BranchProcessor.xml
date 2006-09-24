@@ -2,7 +2,7 @@
 <title>Programming with the PowerPC Branch Processor</title>
 
 <para>
-In the last two articles, we have discussed the outline of how programs on the POWER5 work using the PowerPC instruction set, how the PowerPC instruction set addresses memory, and how to do position-independent code.  This article focuses on the very powerful branch instructions available in the PowerPC instruction set.
+In the last two articles, we have discussed the outline of how programs on the POWER5 work using the 64-bit PowerPC instruction set, how the PowerPC instruction set addresses memory, and how to do position-independent code.  This article focuses on the very powerful branch instructions available in the PowerPC instruction set.
 </para>
 
 <sect1>
@@ -132,7 +132,7 @@ As mentioned earlier, adding the letter <literal>l</literal> onto a branch instr
 </para>
 
 <para>
-Here is an example program which illustrates unconditional branches, and then exits:
+Here is an example program which illustrates unconditional branches, and then exits (enter as <literal>branch_example.s</literal>):
 </para>
 
 <example>
@@ -172,6 +172,16 @@ t4:
         sc
 </programlisting>
 </example>
+
+<para>
+Assemble, link, and run it like this:
+</para>
+
+<programlisting>
+as -a64 branch_example.s -o branch_example.o
+ld -melf64ppc branch_example.o -o branch_example
+./branch_example
+</programlisting>
 
 <para>
 Notice that the targets for both <literal>b</literal> and <literal>ba</literal> are specified the same way in assembly language, despite the fact that they are coded differently in the instruction.  The assembler and linker take care of converting the target address into a relative or absolute address for you.
@@ -335,11 +345,9 @@ Because the condition register has multiple fields, different compares can use d
 You can move around condition register fields using <literal>mcrf</literal>.  To copy <literal>cr4</literal> to <literal>cr1</literal> you would write <literal>mcrf cr1, cr4</literal>.
 </para>
 
-<!--
 <para>
-Finally, you can also move the entire condition register to and from general-purpose registers.
+The branch instructions can also give hints to the branch processor for branch prediction.  On most conditional branch instructions, appending a <literal>+</literal> to the instruction will signal to the branch processor that this branch will probably be taken.  Appending a <literal>-</literal> to the instruction will signal that this branch will probably not be taken.  However, this is usually not necessary, as the branch processor in the POWER5 CPU is usually able to do branch prediction quite well.
 </para>
--->
 
 </sect2>
 
@@ -368,8 +376,7 @@ mtctr 31
 #Loop start address
 loop_start:
 
-#loop body goes here
-
+###loop body goes here###
 
 #Decrement and test
 bdnz loop_start
@@ -394,7 +401,7 @@ mtctr 31
 #Loop start address
 loop_start:
 
-#loop body goes here
+###loop body goes here###
 
 #Check for early exit condition (reg 24 == reg 28)
 cmpd 24, 28
@@ -419,7 +426,7 @@ Now we will put this information to practical use.
 </para>
 
 <para>
-The first program will be a rewrite of the <emphasis>maximum value</emphasis> program we entered in the first article, and rewrite it according to what we have learned.  The first versiono used four registers -- the current maximum value, the address of the current value, the current value, and the stop address.  What we will do is use an indexed addressing mode, and rather than going forward, we will count from the end to the beginning in order to save an extra compare instruction (because when it hits zero, it can make an implicit change to the status register).  Here is the new version:
+The first program will be a rewrite of the <emphasis>maximum value</emphasis> program we entered in the first article, and rewrite it according to what we have learned.  The first versiono used four registers -- the current maximum value, the address of the current value, the current value, and the stop address.  What we will do is use an indexed addressing mode, and rather than going forward, we will count from the end to the beginning in order to save an extra compare instruction (because when it hits zero, it can make an implicit change to the status register).  Here is the new version (enter as <literal>max_enhanced.s</literal>):
 </para>
 
 <example>
@@ -437,7 +444,7 @@ value_list_end:
 .equ value_list_size, value_list_end - value_list
 
 ###ENTRY POINT DECLARATION###
-.section "opd", "aw"
+.section .opd, "aw"
 .global _start
 .align 3
 _start:
@@ -445,7 +452,9 @@ _start:
 
 
 ###CODE###
-._start:
+._start:	
+	.equ DATA_SIZE, 8
+
 	#REGISTER USAGE
 	#Register 3 -- current maximum
 	#Register 4 -- list address
@@ -456,21 +465,21 @@ _start:
 	#Load the address of the list
 	ld 4, value_list@got(2)
 	#Register 7 has data size
-	li 7, -8
+	li 7, -DATA_SIZE
 	#Load the size of the list
 	li 5, value_list_size
 	#Set the "current maximum" to 0
 	li 3, 0
 	
 loop:
-	#Go to next value, set status register (in cr0)
+	#Go to next value; set status register (in cr0)
 	add. 5, 5, 7
 
 	#Load value
 	ldx 6, 4, 5
 
 	#Compare current value to current maximum (use cr2)
-	cmpd cr2, 6, 3
+	cmpld cr2, 6, 3
 
 	#If the current one is greater, set it (sets the link register)
 	btl 4*cr2+gt, set_new_maximum 
@@ -489,7 +498,17 @@ set_new_maximum:
 </example>
 
 <para>
-The loop in this program is approximately 15% faster than the loop in the previous article because we've shaved off several instructions from the main loop by using the status register with the decrement and using different condition register fields for the comparison (so we can hold the result of our decrement for later).
+Assembly, link, and execute as before:
+</para>
+
+<programlisting>
+as -a64 max_enhanced.s -o max_enhanced.o
+ld -melf64ppc max_enhanced.o -o max_enhanced
+./max_enhanced
+</programlisting>
+
+<para>
+The loop in this program is approximately 15% faster than the loop in the first article because we've shaved off several instructions from the main loop by using the status register to detect the end of the list when we decrement register 5 and using different condition register fields for the comparison (so we can hold the result of our decrement for later).
 </para>
 
 <para>
@@ -528,7 +547,7 @@ The parameters we should pass are the pointer to the array as the first paramete
 </para>
 
 <para>
-So here is our program, reformulated as a function:
+So here is our program, reformulated as a function (enter as <literal>max_function.s</literal>):
 </para>
 
 <example>
@@ -536,14 +555,20 @@ So here is our program, reformulated as a function:
 <programlisting>
 ###ENTRY POINT DECLARATION###
 #Functions require entry point declarations as well
-.section "opd", "aw"
+.section .opd, "aw"
 .global find_maximum_value
 .align 3
 find_maximum_value:
 	.quad .find_maximum_value, .TOC.@tocbase, 0
 
 ###CODE###
+.text
+.align 3
+
+#size of array members
 .equ DATA_SIZE, 8
+
+#function begin
 .find_maximum_value:
 	#REGISTER USAGE
 	#Register 3 -- list address
@@ -553,24 +578,24 @@ find_maximum_value:
 	#Register 7 -- current maximum
 	#Register 8 -- size of data
 
-	#Register 3 and 4 are already loaded
+	#Register 3 and 4 are already loaded -- passed in from calling function
 	li 8, -DATA_SIZE
 	
-	#Extend the number of elements to the size (shifting to multiply by 8)
+	#Extend the number of elements to the size of the array
+	#(shifting to multiply by 8)
 	sldi 5, 4, 3
 
 	#Set current maximum to 0
 	li, 7, 0
-	
 loop:
-	#Go to next value, set status register (in cr0)
+	#Go to next value; set status register (in cr0)
 	add. 5, 5, 8
 
 	#Load Value
 	ldx 6, 3, 5
 
 	#Compare current value to current maximum (use cr7)
-	cmpd cr7, 6, 7
+	cmpld cr7, 6, 7
 
 	#if the current one is greater, set it
 	bt 4*cr7+gt, set_new_maximum
@@ -593,12 +618,57 @@ set_new_maximum:
 </example>
 
 <para>
-The only requirement is that the function returns using <literal>blr</literal>, provided that the following conditions are met:
+The C language data type we are working with is <literal>unsigned long long</literal>.  This is quite cumbersome to write, so it would be better to typedef this as something like <literal>uint64</literal>.  Then, the prototype for the function would be <literal>uint64 find_maximum_value(uint64[] value_list, uint64 num_values);</literal>.
 </para>
-<itemizedlist>
-<listitem><para>
-<!--
-http://www.busybox.net/cgi-bin/viewcvs.cgi/trunk/docs/crt.txt?rev=15718
--->
+
+<para>
+Here is a short driver program to test our new function (enter as <literal>use_max.c</literal>:
+</para>
+
+<example>
+<title>Simple C Program Using the Maximum Value Function</title>
+<programlisting>
+#include &lt;stdio.h&gt;
+
+typedef unsigned long long uint64;
+
+uint64 find_maximum_value(uint64[], uint64);
+
+int main() {
+    uint64 my_values[] = {2364, 666, 7983, 456923, 555, 34};
+    uint64 max = find_maximum_value(my_values, 6);
+    printf("The maximum value is: %llu\n", max);
+    return 0;
+}
+</programlisting>
+</example>
+
+<para>
+To compile and run this program, simply do:
+</para>
+
+<programlisting>
+gcc -m64 use_max.c max_function.s -o maximum
+./maximum
+</programlisting>
+
+<para>
+Notice since we are actually doing formatted printing now instead of returning the value to the shell, we can make use of the entire 64-bit size of the array elements.  
+</para>
+
+</sect1>
+
+<sect1>
+<title>Conclusion</title>
+
+<para>
+Knowing the ins and outs of the branch processor helps to write more efficient PowerPC code.  Using the various condition register fields enables the programmer to save and combine conditions in interesting ways.  Using the count register helps code efficient loops.  
+</para>
+
+<para>
+In the next article, we'll cover the PowerPC ABI for function calls, and learn all about how the stack functions on PowerPC platforms.
+</para>
+
+</sect1>
 
 </chapter>
