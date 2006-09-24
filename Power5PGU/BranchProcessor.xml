@@ -15,9 +15,6 @@ Branches in PowerPC make use of three special-purpose registers -- the <emphasis
 <sect2>
 <title>The Condition Register</title>
 
-<!-- FIXME - information on fields is WRONG -->
-<!-- FIXME - move non-comparison conditions to advanced -->
-
 <para>
 The condition register is broken up conceptually into seven
 <emphasis>fields</emphasis>.  A field is a segment of four bits used
@@ -52,30 +49,32 @@ uses are listed but not described):
 
 <table>
 <title>Condition Register Field Bits</title>
-<thead>
-<row>
-	<entry>Bit</entry><entry>Mnemonic</entry><entry>Fixed-Point Comparison</entry><entry>Fixed-Point Computation</entry><entry>Floating-Point Comparison</entry><entry>Floating-Point Computation</entry>
-</row>
-</thead>
-<tbody>
-<row>
-	<entry>0</entry><entry>lt</entry><entry>Less Than</entry><entry>Negative</entry><entry>Less Than</entry><entry>Exception Summary</entry>
-</row>
-<row>
-	<entry>1</entry><entry>gt</entry><entry>Greater Than</entry><entry>Positive</entry><entry>Greater Than</entry><entry>Enabled Exception Summary</entry>
-</row>
-<row>
-	<entry>2</entry><entry>eq</entry><entry>Equal</entry><entry>Zero</entry><entry>Equal</entry><entry>Invalid Operation Exception Summary</entry>
-</row>
-<row>
-	<entry>3</entry><entry>so</entry><entry>Summary Overflow</entry><entry>Summary Overflow</entry><entry>Unordered</entry><entry>Overflow Exception</entry>
-</row>
-</tbody>
+<tr>
+	<th>Bit</th><th>Mnemonic</th><th>Fixed-Point Comparison</th><th>Fixed-Point Computation</th><th>Floating-Point Comparison</th><th>Floating-Point Computation</th>
+</tr>
+<tr>
+	<td>0</td><td>lt</td><td>Less Than</td><td>Negative</td><td>Less Than</td><td>Exception Summary</td>
+</tr>
+<tr>
+	<td>1</td><td>gt</td><td>Greater Than</td><td>Positive</td><td>Greater Than</td><td>Enabled Exception Summary</td>
+</tr>
+<tr>
+	<td>2</td><td>eq</td><td>Equal</td><td>Zero</td><td>Equal</td><td>Invalid Operation Exception Summary</td>
+</tr>
+<tr>
+	<td>3</td><td>so</td><td>Summary Overflow</td><td>Summary Overflow</td><td>Unordered</td><td>Overflow Exception</td>
+</tr>
 </table>
 
 <para>
 Later we will discuss how to access these fields both implicitly and directly.
 </para>
+
+<para>
+The condition register can be loaded to or from a general purpose register using <literal>mtcr</literal>, <literal>mtcrf</literal>, and <literal>mfcr</literal>.  <literal>mtcr</literal> moves a specified general-purpose register to the condition register.  <literal>mfcr</literal> moves the condition register to a general-purpose register.  <literal>mtcrf</literal> loads the condition register from a general-purpose register, but only the fields specified by a 8-bit mask, which is the first operand.
+</para>
+
+</sect2>
 
 <sect2>
 <title>The Count and Link Registers</title>
@@ -333,19 +332,37 @@ Because the condition register has multiple fields, different compares can use d
 </para>
 
 <para>
-You can move around condition register fields using <literal>mcrf</literal>.  To copy <literal>cr4</literal> to <literal>cr1</litieral> you would write <literal>mcrf cr1, cr4</literal>.
+You can move around condition register fields using <literal>mcrf</literal>.  To copy <literal>cr4</literal> to <literal>cr1</literal> you would write <literal>mcrf cr1, cr4</literal>.
 </para>
 
+<!--
 <para>
 Finally, you can also move the entire condition register to and from general-purpose registers.
+</para>
+-->
+
+</sect2>
 
 </sect1>
 
 <sect1>
 <title>Using the Count Register</title>
 
+<para>
+The count register is a special-purpose register used for a loop counter.  The <literal>BO</literal> operand of the conditional branch (controlling the mode) can be set, in addition to testing bits, to decrement and test a the count register.  There are two things you can do with the count register -- decrement and branch if it is zero, or decrement and branch if it is not zero.  These can either be used on their own or in conjunction with additional conditions. 
+</para>
+
+<para>
+In the extended mnemonics, these are specified by adding <literal>dz</literal> or <literal>dnz</literal> immediately after the <literal>b</literal>.  Any additional condition or instruction modifier is added after that.
+</para>
+
 </sect1>
 
+<sect1>
+<title>Putting it Together</title>
+<para>
+</para>
+</sect1>
 
 <!--
 http://www.busybox.net/cgi-bin/viewcvs.cgi/trunk/docs/crt.txt?rev=15718
