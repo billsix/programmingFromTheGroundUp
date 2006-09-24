@@ -1,0 +1,354 @@
+<chapter>
+<title>Programming with the PowerPC Branch Processor</title>
+
+<para>
+In the last two articles, we have discussed the outline of how programs on the POWER5 work using the PowerPC instruction set, how the PowerPC instruction set addresses memory, and how to do position-independent code.  This article focuses on the very powerful branch instructions available in the PowerPC instruction set.
+</para>
+
+<sect1>
+<title>Branching Registers</title>
+
+<para>
+Branches in PowerPC make use of three special-purpose registers -- the <emphasis>condition register</emphasis>, the <emphasis>count register</emphasis> and the <emphasis>link register</emphasis>.  
+</para>
+
+<sect2>
+<title>The Condition Register</title>
+
+<!-- FIXME - information on fields is WRONG -->
+<!-- FIXME - move non-comparison conditions to advanced -->
+
+<para>
+The condition register is broken up conceptually into seven
+<emphasis>fields</emphasis>.  A field is a segment of four bits used
+to store status information about the results of an instruction.  Two
+of the fields are somewhat special-purpose, which we will discuss shortly, and the remaining fields are available for general use.  The fields are named <literal>cr0</literal> through <literal>cr7</literal>.
+</para>
+
+<para>
+The first field, <literal>cr0</literal> is used for the results of
+fixed-point computation instructions which use non-immediate operands
+(with a few exceptions).  The result of the computation is compared
+with zero, and the appropriate bits are set (negative, zero, or
+positive).  To indicate to an instruction that you want it to set
+<literal>cr0</literal>, you simply add a period (<literal>.</literal>)
+to the end of the instruction.  For example, <literal>add 4, 5,
+6</literal> adds register 5 to register 6 and store the result in
+register 4, without setting any status bits in <literal>cr0</literal>.
+However, <literal>add. 4, 5, 6</literal> does the same thing, but sets
+the bits in <literal>cr0</literal> based on the value stored in
+register 4.  This is also the default field for use on compare instructions.
+</para>
+
+<para>
+The second field (called <literal>cr1</literal>) is used by floating point instructions using the period after the instruction name.  Floating point is outside the scope of this article.
+</para>
+
+<para>
+Each field has four bits.  The usage of those bits vary with the
+instruction being used.  Here are their possible uses (floating-point
+uses are listed but not described):
+</para>
+
+<table>
+<title>Condition Register Field Bits</title>
+<thead>
+<row>
+	<entry>Bit</entry><entry>Mnemonic</entry><entry>Fixed-Point Comparison</entry><entry>Fixed-Point Computation</entry><entry>Floating-Point Comparison</entry><entry>Floating-Point Computation</entry>
+</row>
+</thead>
+<tbody>
+<row>
+	<entry>0</entry><entry>lt</entry><entry>Less Than</entry><entry>Negative</entry><entry>Less Than</entry><entry>Exception Summary</entry>
+</row>
+<row>
+	<entry>1</entry><entry>gt</entry><entry>Greater Than</entry><entry>Positive</entry><entry>Greater Than</entry><entry>Enabled Exception Summary</entry>
+</row>
+<row>
+	<entry>2</entry><entry>eq</entry><entry>Equal</entry><entry>Zero</entry><entry>Equal</entry><entry>Invalid Operation Exception Summary</entry>
+</row>
+<row>
+	<entry>3</entry><entry>so</entry><entry>Summary Overflow</entry><entry>Summary Overflow</entry><entry>Unordered</entry><entry>Overflow Exception</entry>
+</row>
+</tbody>
+</table>
+
+<para>
+Later we will discuss how to access these fields both implicitly and directly.
+</para>
+
+<sect2>
+<title>The Count and Link Registers</title>
+
+<para>
+The link register (called <literal>LR</literal>) is a special-purpose register which holds return addresses from branch instructions.  All branch instructions can be told to set the link register, which, if the branch is taken, sets it to the address of the instruction immediately following the current instruction.  Branch instructions set the link register by appending the letter <literal>l</literal> to the end of the instruction.  For instance, <literal>b</literal> is an unconditional branch instruction, and <literal>bl</literal> is an unconditional branch instruction which sets the link register.
+</para>
+
+<para>
+The count register (called <literal>CTR</literal>) is a special-purpose register designed to hold loop counters.  Special branch instructions can decrement the count register and/or conditionally branch depending on whether <literal>CTR</literal> has reached zero.  These instructions are outside of the scope of this article.
+</para>
+
+<para>
+Both the link and count registers can be used as a branch destination.  <literal>bctr</literal> branches to the address specified in the count register and <literal>blr</literal> branches to the address specified in the link register.
+</para>
+
+<para>
+The link and count registers can also be loaded and copied from general purpose registers. For the link register, <literal>mtlr</literal> moves a given register value <emphasis>to</emphasis> the link register and <literal>mflr</literal> moves a value <emphasis>from</emphasis> the link register to a general-purpose register.  <literal>mtctr</literal> and <literal>mfctr</literal> do the same for the count register.
+</para>
+
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>Unconditional Branching</title>
+
+<para>
+Unconditional branching on PowerPC instruction sets uses the I-Form instruction format:
+</para>
+
+<!-- FIXME - convert to table? -->
+<variablelist>
+<title>I-Form Instruction Format</title>
+<varlistentry>
+<term>Bits 0-5</term>
+<listitem><para>Opcode</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bits 6-29</term>
+<listitem><para>Absolute or Relative Branch Address</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bit 30</term>
+<listitem><para>Absolute Address Bit -- If this field is set, the instruction is interpretted as an absolute address, otherwise it is interpretted as a relative address</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bit 31</term>
+<listitem><para>Link Bit -- If this field is set, the instruction sets the link register with the address of the next instruction.</para></listitem>
+</varlistentry>
+</variablelist>
+
+<para>
+As mentioned earlier, adding the letter <literal>l</literal> onto a branch instruction causes the link bit to be set, so that the "return address" (the instruction after the branch) is stored in the link register.  If you affix the letter <literal>a</literal> at the end (it comes after the <literal>l</literal> if that is used), then the address specified is an absolute address (this is not often used in user-level code, because it limits the branch too much).
+</para>
+
+<para>
+Here is an example program which illustrates unconditional branches, and then exits:
+</para>
+
+<example>
+<title>Unconditional Branching Examples</title>
+<programlisting>
+### ENTRY POINT DECLARATION ###
+.section .opd, "aw"
+.align 3
+.globl _start
+_start:
+        .quad ._start, .TOC.@tocbase, 0
+
+### PROGRAM CODE ###
+.text
+#branch to target t2
+._start:
+        b t2
+
+t1:
+#branch to target t3, setting the link register
+        bl t3
+#This is the instruction that it returns to
+        b t4
+
+t2:
+#branch to target t1 as an absolute address
+        ba t1
+
+t3:
+#branch to the address specified in the link register
+#(i.e. the return address)
+        blr
+
+t4:
+        li 0, 1
+        li 3, 0
+        sc
+</programlisting>
+</example>
+
+<para>
+Notice that the targets for both <literal>b</literal> and <literal>ba</literal> are specified the same way in assembly language, despite the fact that they are coded differently in the instruction.  The assembler and linker take care of converting the target address into a relative or absolute address for you.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Conditional Branching</title>
+
+<sect2>
+<title>Comparing Registers</title>
+
+<para>
+The <literal>cmp</literal> instruction is used to compare registers with other registers or immediate operands, and set the appropriate status bits in the condition register.  By default fixed-point compare instructions use <literal>cr0</literal> to store the result, but the field can also be specified as an optional first operand.  Compare instructions are written like the following:
+</para>
+
+<example>
+<title>Examples of Compare Instructions</title>
+<programlisting>
+#Compare register 3 and register 4 as doublewords (64 bits)
+cmpd 3, 4
+
+#Compare register 5 and register 10 as unsigned doublewords (64 bits)
+cmpld 5, 10
+
+#Compare register 6 with the number 12 as words (32 bits)
+cmpwi 6, 12
+
+#Compare register 30 and register 31 as doublewords (64 bits)
+#and store the result in cr4
+cmpd cr4, 30, 31
+</programlisting>
+</example>
+
+<para>
+As you can see, the <literal>d</literal> specifies the operands as doublewords while the <literal>w</literal> specifies the operands as words.  The <literal>i</literal> indicates that the last operand is an immediate value instead of a register, and the <literal>l</literal> tells the processor to do unsigned (also called <emphasis>logical</emphasis> comparisons instead of signed comparisons.
+</para>
+
+<para>
+Each of these instructions set the appropriate bits in the condition register (as outlined earlier in the article), which can then be used by a conditional branch instruction.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Basics of Conditional Branching</title>
+
+<para>
+Conditional branches are a lot more flexible than unconditional branches, but it comes at a cost of branchable distance.  Conditional branches use the B-Form instruction format:
+</para>
+
+<variablelist>
+<title>The B-Form Instruction Format</title>
+<varlistentry>
+<term>Bits 0-5</term>
+<listitem><para>Opcode</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bits 6-10</term>
+<listitem><para>Specifies the options used regarding how the bit is tested, whether and how the counter register is involved, and any branch prediction hints (called the <literal>BO</literal> field)</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bits 11-15</term>
+<listitem><para>Specifies the bit in the condition register to test (called the <literal>BI</literal> field)</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bits 16-29</term>
+<listitem><para>Absolute or Relative Address</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bit 30</term>
+<listitem><para>Addressing Mode -- when set to 0 the specified address is considered a relative address; when set to 1 the address is considered an absolute address</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>Bit 31</term>
+<listitem><para>Link Bit -- when set to 1 the <emphasis>link register</emphasis> is set to the address following the current instruction; when set to 0 the link register is not set</para></listitem>
+</varlistentry>
+</variablelist>
+
+<para>
+As you an see, a full 10 bits are used to specify the branch condition, which limits the address size to only 14 bits, which is only a 16K range.  This is usable for small jumps within a function, but not much else.  To conditionally call a function outside of this 16K range, the code would need to do a conditional branch to an instruction containing an unconditional branch to the right location.
+</para>
+
+<para>
+The basic forms of the conditional branch look like this:
+</para>
+
+<programlisting>
+bc BO, BI, address
+bcl BO, BI, address
+bca BO, BI, address
+bcla BO, BI, address
+</programlisting>
+
+<para>
+In this basic form, <literal>BO</literal> and <literal>BI</literal> are numbers.  Thankfully, we don't have to memorize all the numbers.  The extended mnemonics of the PowerPC come to the rescue again, and we can avoid having to memorize all of the field numbers.  Like unconditional branches, the <literal>l</literal> sets the link register and the <literal>a</literal> uses absolute addressing instead of relative addressing.
+</para>
+
+<para>
+For a simple compare and branch if equal, the basic form (not using the extended mnemonics) looks like this:
+</para>
+
+<example>
+<title>Basic form of the conditional branch</title>
+<programlisting>
+#compare register 4 and 5
+cmpd 4, 5
+#branch if they are equal
+bc 12, 2 address
+</programlisting>
+</example>
+
+<para>
+<literal>bc</literal> stands for "branch conditionally".  The <literal>12</literal> means to branch if the given condition register field is set, with no branch prediction hint, and <literal>10</literal> is the bit of the condition register to test (it is the equal bit).  Now, very few people, especially beginners, are going to be able to remember all of the branch codes and condition register bit numbers.  Therefore, the extended mnemonics can help out in the majority of cases. 
+</para>
+
+<para>
+There are several different ways to specify the extended mnemonics.  The way we will concentrate on combines the instruction name and the <literal>BO</literal> field (mode) of the instruction.  The simplest ones are <literal>bt</literal> and <literal>bf</literal>.  <literal>bt</literal> branches if the given bit of the condition register is true, and <literal>bf</literal> branches if the given bit of the condition register is false.  In addition, the condition register bit can be specified with mnemonics as well.  If you specify <literal>cr3+eq</literal> this will test bit 2 of <literal>cr3</literal>.  The available mnemonics for each bit of the bit fields were given above in the description of the condition register.  If you only specify the bit without the condition register, it will assume <literal>cr0</literal>.
+</para>
+
+<para>
+Here are some examples:
+</para>
+
+<example>
+<title>Simple Conditional Branches</title>
+<programlisting>
+#Branch if the equal bit of cr0 is set
+bt eq, where_i_want_to_go
+
+#Branch if the equal bit of cr1 is not set
+bf cr1+eq, where_i_want_to_go
+
+#Branch if the negative bit (mnemonic is "lt") of cr5 is set
+bt cr5+lt, where_i_want_to_go
+</programlisting>
+</example>
+
+<para>
+Another set of extended mnemonics combines the instruction, the <literal>BO</literal> operand, and the condition bit (but not the field).  These use what are more-or-less "traditional" mnemonics for various kinds of common conditional branches.  For example, <literal>bne my_destination</literal> is equivalent to <literal>bf eq, my_destination</literal>.  To use a different condition register field with this set of mnemonics, simply specify the field as the operand before the target address, such as <literal>bne cr4, my_destination</literal>.  Some of these mnemonics are as follows: blt (less than), ble (less than or equal), beq (equal), bge (greater than or equal), bgt (greater than), bnl (not less than), bne (not equal), bng (not greater than), bso (summary overflow), bns (not summary overflow), bun (unordered - floating point specific), bnu (not unordered - floating-point specific).
+</para>
+
+<para>
+All of the mnemonics and extended mnemonics can have <literal>l</literal> and/or <literal>a</literal> affixed to them to enable the link register or absolute addressing, respectively.
+</para>
+
+<para>
+Using the extended mnemonics allows a much more readable and writable style.  For the more advanced conditional branches, the extended mnemonics are more than helpful, they are essential.
+</para>
+</sect2>
+
+<sect2>
+<title>Additional Condition Register Features</title>
+
+<para>
+Because the condition register has multiple fields, different compares can use different fields, and then logical operations can be used to combine the conditions together.  All of the logical operations have the following form: <literal>cr&lt;opname&gt; target_bit, operand_bit_1, operand_bit_2</literal>.  For example, to do a logical <literal>and</literal> on the <literal>eq</literal> bit of <literal>cr2</literal> and the <literal>lt</literal> bit of <literal>cr7</literal>, and have it stored in the <literal>eq</literal> bit of <literal>cr0</literal>, you would write:  <literal>crand cr0+eq, cr2+eq, cr7+lt</literal>.
+</para>
+
+<para>
+You can move around condition register fields using <literal>mcrf</literal>.  To copy <literal>cr4</literal> to <literal>cr1</litieral> you would write <literal>mcrf cr1, cr4</literal>.
+</para>
+
+<para>
+Finally, you can also move the entire condition register to and from general-purpose registers.
+
+</sect1>
+
+<sect1>
+<title>Using the Count Register</title>
+
+</sect1>
+
+
+<!--
+http://www.busybox.net/cgi-bin/viewcvs.cgi/trunk/docs/crt.txt?rev=15718
+-->
+
+</chapter>

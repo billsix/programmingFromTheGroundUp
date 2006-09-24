@@ -1,6 +1,12 @@
 <chapter>
 <title>Advanced Branch Processing</title>
 
+<!-- Probable sequence
+     - count register
+     - branch prediction
+     - condition fields and bits
+     - multiple comparisons
+-->
 
 <para>
 In addition to branching conditionally based on the condition status register, the <literal>BO</literal> field discussed above can also indicate to the branch processor to do various tricks with the count register.  The counter register is used for looping.  The <literal>BO</literal> field is so powerful that within the same branch statement, you can do most combinations of the following:

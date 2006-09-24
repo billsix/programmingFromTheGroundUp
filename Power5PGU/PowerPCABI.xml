@@ -1,0 +1,446 @@
+
+<sect1>
+<title>Function Calls Using the PowerPC 64-bit ABI</title>
+
+<para>
+So far the programs we have created do not interact with any other programming language or environment, or indeed any other code.  The PowerPC 64-bit ELF ABI defines the calling conventions used for calling functions written by third parties either in assembly language or in other languages on ELF platforms (this covers most UNIX-based systems).  The ABI defines how parameters are passed, what registers are reserved for special use, what happens to registers during function calls, and how return addresses are handled.
+</para>
+
+<sect2>
+<title>Register Usage</title>
+
+<para>
+Since the PowerPC defines 32 registers, the ELF ABI has separated them out into three groups -- <emphasis>dedicated</emphasis>, <emphasis>volatile</emphasis>, and <emphasis>non-volatile</emphasis> registers.
+</para>
+
+<para>
+The dedicated registers have a specific, continuing function within the ABI.  These are:
+</para>
+
+<variablelist>
+
+<varlistentry>
+<term>Register 1</term>
+<listitem><para>Stack Pointer</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Register 2</term>
+<listitem><para>Table of Contents (TOC) Pointer</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>
+We talked about register 2 and the TOC in the last article.  It is used primarily to load global variable addresses in position-independent code. Register 1, however, is new.  Register 1 is the <emphasis>stack pointer</emphasis>.  The <emphasis>stack</emphasis> is an area of memory used by functions to hold data that is needed through the life of the function.  The area of the stack used by a specific function invocation is called a <emphasis>stack frame</emphasis>.  If a function is called recursively, each currently-active invocation will have its own stack frame.
+</para>
+
+<para>
+<emphasis>Volatile</emphasis> registers are registers that a function is free to change without saving a copy of the previous contents.  These are also known as <emphasis>caller-save</emphasis> registers, because if a function that uses these registers wishes to call another function, it must save any of these registers that it wants to preserve.  In the ABI, registers 3 through 10 are volatile, and also contain the function's parameters.  Register 3 holds the first parameter, register 4 the second, and so on.  Register 11 is a volatile register which holds an environment pointer for certain languages (not C or C++).  Register 12 is used for exception handling.  Register 0 is also volatile, but is rarely used.  <!-- FIXME - special exception handling or glink code? -->
+</para>
+
+<para>
+Register 13-31 are considered <emphasis>non-volatile</emphasis>.  These are also called <emphasis>callee-save</emphasis> registers, becuase if a function wishes to use these registers, it must first save the current contents, and then restore them before return.
+</para>
+
+<para>
+The separation of volatile and non-volatile registers allows the handling of registers to be optimized based on how they are used.  Volatile registers are often used as a "scratch space" with minimal overhead, especially as a place to save intermediate results of calculations.  Non-volatile registers have a little more overhead for use, but are used for the more permament members of functions.  Non-volatile registers are used starting from the end.  That is, if only two non-volatile registers are used, it should be registers 30 and 31.  If five are used, it should be 27 through 31.  
+</para>
+
+</sect2>
+
+<sect2>
+<title>Simple Functions</title>
+<para>
+Now let's look at some a simple program containing functions.  Here is a simple C language program:
+<para>
+
+<example>
+<title>Simple C Language Program</title>
+<programlisting>
+int main() {
+     return addone(square(5));
+}
+
+long square(long val) {
+     return val * val;
+}
+
+long addone(long val) {
+     return val + 1;
+}
+</programlisting>
+</example>
+
+<para>
+Here is the code for the same program in assembly language:
+</para>
+
+<example>
+<title>Simple Program Translated to Assembly Language</title>
+<programlisting>
+
+### FUNCTION DESCRIPTORS ###
+.section .opd, "aw"
+.align 3
+
+#Every function and the entry point has a descriptor
+
+.globl _start
+_start:
+	.quad ._start, .TOC.@tocbase, 0
+
+.globl square
+square:
+	.quad ._square, .TOC.@tocbase, 0
+
+.globl addone
+addone:
+	.quad ._addone, .TOC.@tocbase, 0
+
+
+### CODE ###
+.text
+._start:
+	#First parameter, 5, is in register 3
+	li 3, 5
+	#Call the function
+	bl square
+	#Extra space for the linker
+	nop
+	#Return value is in register 3
+
+	#Register 3 already has the value we want
+	#Call the function
+	bl addone
+	#Extra space for the linker
+	nop
+	#Return value is in register 3
+
+	#Register 3 already has the value we want
+	#Exit system call
+	li 0, 1
+	sc
+
+._square:
+	#Multiply (32-bit) register 3 by register 3 into register 3
+	mullw 3, 3, 3
+
+	#Return (using link register)
+	blr
+
+._addone:
+	#Add one to register 3
+	addi 3, 3, 1
+
+	#Return (using link register)
+	blr
+</programlisting>
+</example>
+
+<para>
+As you can see, since we only made use of the volatile registers and never called other functions, we never had to even set up a stack frame.  In addition, because we never made use of the link register, at the end of the function it still had the return address so we could return with a simple <literal>blr</literal>.  The functions' return values are stored in register 3.  Finally, each procedure was described in the <literal>.opd</literal> section just like the <literal>_start</literal> entry point is described.
+</para>
+
+<para>
+There are three interesting things to note about the way that the functions are called as well.  First of all, the <literal>bl</literal> instruction was used in order to put the return address in the link register.  Second of all, the target address of the branch was <emphasis>not</emphasis> the function itself, but rather the functions procedure declaration!  The linker will resolve this to actually point to the code.  However, in some cases, the linker will actually branch to some auto-generated code if it needs to do anything fancy like change out the TOC pointer in register 2.  Finally, each function call is immediately followed by a <literal>nop</literal> (no operation) instruction.  This is again for the linker, so that it can insert an instruction here to do any necessary clean-up code with the TOC pointer.
+</para>
+
+<para>
+Now that we know what the code does, let's try combining C and assembly language code in one program.
+</para>
+
+<para>
+Start by removing the <literal>._start</literal> code from the assembly language listing, as well as the <literal>_start</literal> function descriptor in the <literal>.opd</literal> section.  Call this file <literal>math.s</literal>.  In the C language program, remove the <literal>square</literal> and <literal>addone</literal> functions and put it in a file called <literal>mathdriver.c</literal>.  Now compile them all together using the following command:
+</para>
+
+<programlisting>
+gcc math.s mathdriver.c -o mathdriver
+./mathdriver
+echo $?
+</programlisting>
+
+<para>
+The program should give you <literal>25</literal>.
+</para>
+
+</sect2>
+
+
+<sect2>
+<title>Calling C Functions from Assembly Language</title>
+<para>
+Calling C functions from assembly language is just as easy.  Here is the assembly code for opening a file specified on the command line and writing "Hello World!" into it:
+</para>
+
+<example>
+<title>Using C Functions from Assembly Language</title>
+<programlisting>
+.section .data
+.align 3
+hello_world_str:
+	.ascii "Hello World!\n\0"
+.align 3
+write_mode_str:
+	.ascii "w\0"
+
+.section .opd, "aw"
+.align 3
+.globl _start
+_start:
+	.quad ._start, .TOC.@tocbase, 0
+
+.section .text
+._start:
+	#Register 4 has char **argv
+	#Grab argument #1
+	ld 3, 8(4)
+	#Grab argument #2
+	ld 4, write_mode_str@got(2)
+	#Call the C function fopen
+	bl fopen
+	nop
+
+	#Register 3 has the file pointer
+	#Move it into register 31 to be saved after function calls
+	#(note -- we don't need to save register 31 ourselves because
+	#this is the top-level function).
+	rm 31, 3
+
+	#Argument #1 is already loaded in register 3
+	#Move the pointer to the string into register 4 (argument #2)
+	ld 4, hello_world_str@got(2)
+	bl fprintf
+	nop
+
+	#Now we need to run fclose.  The first parameter is the file pointer,
+	#which is saved in register 31
+	rm 3, 31
+	bl fclose
+	nop
+
+	#Run the exit system call
+	li 0, 1
+	li 3, 0
+	sc
+</programlisting>
+</example>
+	
+<para>
+You can either assemble your program using <literal>gcc</literal> like this:
+</para>
+
+<programlisting>
+gcc -m64 hello.s -o hello -nostartfiles
+</programlisting>
+
+<para>
+Or you can do it manually using the assembler, like this:
+</para>
+
+<programlisting>
+as -a64 hello.s -o hello.o
+ld -melf64ppc -dynamic-linker /lib64/ld64.so.1 -L/usr/lib64 -lc hello.o -o hello
+</programlisting>
+
+<para>
+This assembles using the 64-bit ABI into an object file.  That object file is then linked using the 64-bit ABI using the dynamic linker at <literal>/lib64/ld64.so.1</literal>.  It is linked to the C library using <literal>-lc</literal>.
+</para>
+
+<para>
+The code itself does not quite follow the ABI, as we will see shortly, but it works well enough for a demonstration.  Function arguments are put into registers 3 through 10.  The function itself is called using the <literal>bl</literal> instruction, which sets the link register to the return address after branching.  The target for the instruction, when specified in assembly language, actually isn't the branch target code itself, but the address of the procedure descriptor in the <literal>.opd</literal> section.  The linker will take care of making sure that when the file is linked the instruction branches to the correct address.  Immediately following the branch instruction should be a <literal>nop</literal> instruction, which essentially leaves space for the linker to add in a clean-up instruction after the function call if it is necessary.
+</para>
+	
+</sect2>
+
+<sect2>
+<title>Setting Up Stack Frames</title>
+
+<para>
+Since PowerPC uses registers as the primary mechanism for passing arguments, the way that it sets up stack frames (also known as activation records) is a little different.  In general, stack frames are used to hold values that are valid for the current function.  This includes things like parameters and local variables that a function uses for processing, but also record-keeping oriented data such as the return address of the caller and the location of the previous stack frame.  It is called a stack because each frame is allocated new at each function call, and stacked upon the rest of the stack frames.  This allows functions to be called recursively -- each activation of the function receives its own frame, and therefore has its own copy of local variables.
+</para>
+
+<para>
+The structure of the PowerPC stack frame is a little different, because a function allocates stack space for use by both itself and the functions it calls.  Register 2 always holds the current stack pointer.  The stack actually grows downward, from high memory locations to lower ones.
+</para>
+
+<para>
+The stack is layed out like this in memory:
+</para>
+
+<variablelist>
+
+<varlistentry>
+
+<varlistentry>
+<term>Floating Point Save Area</term>
+<listitem><para>This is a variable-sized location which can hold old values for non-volatile floating point registers.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>General Register Save Area</term>
+<listitem><para>This is a variable-sized location which can hold old values for non-volatile general-purpose registers.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>VRSAVE Save Word</term>
+<listitem><para>This is a 32-bit location used for vector processing.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Alignment Padding</term>
+<listitem><para>????</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Vector Register Save Area</term>
+<listitem><para>This is a quadword aligned, variable-lenghth area, used for vector processing.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Local Variables</term>
+<listitem><para>This is a variable-length area which can be used for storing local variables.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Parameter Save Area</term>
+<listitem><para>This is a variable-length area which is used to store parameters for <emphasis>functions that the current function will call</emphasis>.  This means that the size should be based on the largest parameter list for any function call, but it must also be a minimum of eight doublewords (64 bytes).  It is located 48 bytes above the current stack pointer (remember, the stack grows downward), and the first entry is accessed as <literal>40(2)</literal></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>TOC save area</term>
+<listitem><para>This can be used to save the TOC, if needed</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Link Editor Doubleword</term>
+<listitem><para>This 64-bit space is reserved by the linker its own use.  It can be accessed with <literal>32(2)</literal>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Compiler Doubleword</term>
+<listitem><para>This 64-bit space is reserved by the compiler for its own use.  It can be accessed with <literal>24(2)</literal></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>LR Save Area</term>
+<listitem><para>This is where to save the return address (sent in the link register) of the current function call.  It can be accessed with <literal>16(2)</literal>.</para></listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term>CR Save Area</term>
+<listitem><para>This is where the old value of the condition register can be stored if the function uses a non-volatile field of this register (we will talk about register fields in a later article -- for now this can be considered unused).  It can be accessed with <literal>8(2)</literal>.</para></listitem>
+</varlistentry>
+
+<term>Back Chain Pointer</term>
+<listitem><para>The stack pointer points to this value in memory.  It contains the address of the previous stack frame.  It can be accessed with <literal>0(2)</literal>.</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>
+For functions which do not call other functions, setting up a stack frame is often not necessary.  However, every function which does call other functions requires a stack frame to do so in order to hold the return address, parameters for functions, and other information needed in the function.  A fairly standard <emphasis>function prologue</emphasis> and <emphasis>function epilogue</emphasis> has been established for setting up and tearing down stack frames in functions.
+</para>
+
+<para>
+The typical function prologue does the following:
+</para>
+
+<itemizedlist>
+<listitem><para>Reserves stack space and saves the back chain pointer atomically with <literal>stdu 2, -SIZE_OF_STACK(2)</literal> (<literal>SIZE_OF_STACK</literal> should be rounded up to the nearest 16 bytes)</para></listitem>
+<listitem><para>Saves the link register</para></listitem>
+<listitem><para>Saves the condition register if necessary</para></listitem>
+<listitem><para>Saves any necessary non-volatile registers</para></listitem>
+</itemizedlist>
+
+<para>
+The code for doing that looks like this:
+</para>
+
+<example>
+<title>Function Prologue</title>
+<programlisting>
+### Allocate Stack Frame and Store Back Chain Pointer ###
+stdu 2, -SIZE_OF_STACK(2)
+
+### Save LR and CR ###
+#register 0 is often used for loading and unloading parameters 
+#in prologues and epilogues
+mflr 0
+std 0, 16(2)
+mfcr 0
+std 0 8(2)
+
+### Save Non-Volatile Registeres ###
+#We will save registers 25-31 in this example
+
+
+
+
+
+</sect2>
+
+<sect2>
+<title>How a Process Starts</title>
+
+<para>
+When the loader first loads a program into memory, it loads the following registers:
+</para>
+
+<variablelist>
+
+<varlistentry>
+<term>Register 1</term>
+<listitem><para>Stack pointer</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Register 2</term>
+<listitem><para>TOC Pointer</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Register 3</term>
+<listitem><para>The command-line argument count (<literal>int argc</literal> in C)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Register 4</term>
+<listitem><para>A pointer to the array of argument pointers in the stack (<literal>char **argv</literal> in C)</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Register 5</term>
+<listitem><para>A pointer to the array of environment variables in the stack</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Register 6</term>
+<listitem><para>A pointer to operating-system-specific information</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Register 7</term>
+<listitem><para>If not zero, it is a pointer to a function to call before exitting</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para>
+<!-- FIXME - write more about this here -->
+</para>
+
+</sect2>
+
+<sect2>
+<title>Calling Other Functions</title>
+
+</sect2>
+
+
+<para>
+The first thing to think about in the ABI is the use of registers.  As mentioned in the previous article, 
+
+</sect1>
+
