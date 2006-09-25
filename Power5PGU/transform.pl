@@ -58,7 +58,7 @@ sub make_figure
 EOF
 }
 s!<example>\s*<title>(.*?)</title>\s*<programlisting>(.*?)</programlisting>\s*</example>!make_code_section($1, $2)!gsie;
-s!<programlisting>(.*?)</programlisting>!<code type="section">$1</code>!gsie;
+s!<programlisting>(.*?)</programlisting>!<code type="section">$1</code>!gsi;
 s!<mediaobject>\s*<imageobject>\s*<imagedata\s*fileref=["'](.*?)['"].*?>\s*</imageobject>\s*<caption>\s*<para>\s*(.*?)\s*</para>\s*</caption>\s*</mediaobject>!make_figure($2, $1)!gsie;
 s!<(/)?para>!<${1}p>!gsi;
 s!<literal>!<code type="inline">!gsi;

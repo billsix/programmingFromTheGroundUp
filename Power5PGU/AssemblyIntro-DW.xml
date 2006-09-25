@@ -216,26 +216,26 @@ _start:
 Before discussing the program itself, let's build it and run it.  The first step in building this program is to <i>assemble</i> it:
 </p>
 
-<programlisting>
+<code type="section">
 as -m64 sum.s -o sum.o
-</programlisting>
+</code>
 
 <p>
 This produces a file called <filename>sum.o</filename> containing the <i>object code</i>, which is the machine-language version of your assembly code, plus additional information for the linker.  The "-m64" switch tells the assembler that you are using the 64-bit ABI as well as 64-bit instructions.  The generated object code is the machine-language form of the code, however, it cannot be run directly as-is.  It needs to be <i>linked</i> it so that it is ready for the operating system to load it and run it.  To link, do the following:
 </p>
 
-<programlisting>
+<code type="section">
 ld -melf64ppc sum.o -o sum
-</programlisting>
+</code>
 
 <p>
 This will produce the executable <i>sum</i>.  To run the program, do:
 </p>
 
-<programlisting>
+<code type="section">
 ./sum
 echo $?
-</programlisting>
+</code>
 
 <p>
 This will print out "3", which is the final result.  Now let's look at how the code actually works.
@@ -430,12 +430,12 @@ end:
 To assemble, link, and run the program, do:
 </p>
 
-<programlisting>
+<code type="section">
 as -a64 max.s -o max.o
 ld -melf64ppc max.o -o max
 ./max
 echo $?
-</programlisting>
+</code>
 
 <p>
 Hopefully now that you have experience with one PowerPC program and know a few instructions, you can follow the code a little bit.  The data section is the same as before, except that we have several values after our <code type="inline">value_list</code> declaration.  Note that this does not change <code type="inline">value_list</code> at all -- it is still a constant referring to the address of the first data item that immediately follows it.  The data after it is using 64-bits (signified by <code type="inline">.quad</code>) per value.  The entry point declaration is the same as previous.

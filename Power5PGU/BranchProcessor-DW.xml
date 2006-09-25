@@ -693,6 +693,11 @@ In the next article, we'll cover the PowerPC ABI for function calls, and learn a
 </related-list>
 
 <resource-list>
+<ul>
+<li>The <a href="http://www-128.ibm.com/developerworks/eserver/library/es-archguide-v2.html">PowerPC Architecture Book part 1</a> is a nice reference of all of the instructions and extended mnemonics available for 32-bit and 64-bit PowerPC programming.</li>
+<li>The <a href="http://www.freestandards.org/spec/ELF/ppc64/PPC-elf64abi-1.9.html">64-bit PowerPC ELF Standard</a> contains the ABI specifications for function call interfaces.</li>
+<li>Mac OS X has <a href="http://developer.apple.com/documentation/DeveloperTools/Conceptual/LowLevelABI/Articles/64bitPowerPC.html">it's own 64-bit function calling conventions</a> as well.</li>
+</ul>
 </resource-list>
 
 </dw-article>

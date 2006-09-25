@@ -20,7 +20,7 @@
 
 <!-- FIXME - update date published -->
 <date-published day="12" month="08" year="2006" /><abstract>
-In the previous article, we gave a short outline to assembly language programming and the PowerPC instruction set.  In this article, we are going to drill down and discuss the specifics of PowerPC assembly language programming, focusing on data access methods and position-independent code.
+In the previous article, we gave a short outline to assembly language programming using the 64-bit PowerPC instruction set on POWER5 and other processors which use the 64-bit instruction set.  In this article, we are going to drill down and discuss the specifics of 64-bit PowerPC assembly language programming on UNIX-like operating systems, focusing on data access methods and position-independent code.
 </abstract><docbody>
 
 <heading refname="" type="major" toc="yes" alttoc="">Adddressing Modes and Why They are Important</heading>
@@ -140,9 +140,9 @@ Let's now look at instructions built from D-Forms and DS-Forms.
 Immediate-mode instructions are specified in assembler like this:
 </p>
 
-<programlisting>
+<code type="section">
 opcode dst, src, value
-</programlisting>
+</code>
 
 <p>
 Here <code type="inline">dst</code> is the destination register, <code type="inline">src</code> is a source register (used in computation) and <code type="inline">value</code> is the immediate-mode value used.  Immediate-mode instructions never use the DS-Form.  Here are some immediate-mode instructions:
@@ -168,9 +168,9 @@ li 7, 55
 <p>
 In the non-immediate-mode uses of the D-Form, the second register is added to the value to give the final address of the memory to load from or store to.  These instructions have the general form:
 </p>
-<programlisting>
+<code type="section">
 opcode dst, d(a)
-</programlisting>
+</code>
 
 <p>
 In this form, the address to load/store is specified as <code type="inline">d(a)</code> where <code type="inline">d</code> is the numeric address/offset and <code type="inline">a</code> is the number of the register to use for the address/offset.  They are added together to give the final effective address for the load/store.  Here are some example D-Form/DS-Form load/store instructions.
@@ -236,9 +236,9 @@ The X-Form is used for indexed register indirect addressing, where the values of
 The opcodes are formatted like this:
 </p>
 
-<programlisting>
+<code type="section">
 opcode dst, rega, regb
-</programlisting>
+</code>
 
 <p>
 Here <code type="inline">opcode</code> is the opcode for the instruction, <code type="inline">dst</code> is the destination (or source) register for the data transfer, and <code type="inline">rega</code> and <code type="inline">regb</code> are the two registers used for address calculation.
@@ -363,11 +363,11 @@ While this is much more compact and readable (not to mention relocatable) than t
 In order to declare a table of contents data item, you have to switch to the <code type="inline">.toc</code> section and make the declaration explicitly.  It looks like this:
 </p>
 
-<programlisting>
+<code type="section">
 .section .toc
 name:
 .tc unused_name[TC], initial_value
-</programlisting>
+</code>
 
 <p>
 This will create a table of contents entry.  <code type="inline">name</code> is the symbol used to refer to it within the code.  <code type="inline">initial_value</code> is the 64-bit value that is initially assigned.  <code type="inline">unused_name</code> is a historical relic, but not presently used for any purpose in ELF systems.  You can leave it out (it is included above just to help with reading legacy code), but the <code type="inline">[TC]</code> is required.
