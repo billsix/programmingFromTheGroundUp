@@ -1,3 +1,113 @@
+<chapter>
+<title>Function Calls and the PowerPC 64-bit ABI</title>
+
+<para>
+The <emphasis>ABI</emphasis>, or Application Binary Interface, is the set of conventions that allow programs written in different languages or compiled by different compilers to call each other's functions.  In this article, we will discuss the PowerPC ABI for ELF (UNIX-like) systems and how to write and call functions using it.
+</para>
+
+<sect1>
+<title>The Simplified ABI</title>
+
+<para>
+In the previous article, we discussed the "simplified" ABI.  This allows the writing of functions which meet certain criteria with a minimum of fuss.  These are criteria that a function must meet to use the simplified ABI:
+</para>
+
+<itemizedlist>
+<listitem><para>It must not call any other function.</para></listitem>
+<listitem><para>It may only modify registers 3 through 12.</para></listitem>
+<listitem><para>It may only modify condition register fields <literal>cr0</literal>, <literal>cr1</literal>, <literal>cr5</literal>, <literal>cr6</literal>, and <literal>cr7</literal>.</para></listitem>
+<listitem><para>It must not alter the link register, unless it restores it before calling <literal>blr</literal> to return.</para></listitem>
+</itemizedlist>
+
+<para>
+There are a few additional restrictions if your code works with the vector processor as well, but that is beyond the scope of this article.  
+</para>
+
+<para>
+Interestingly, you need not declare in any way when you are using the simplified ABI, because it is a fully-compatible subset of the normal ABI for functions which do not need <emphasis>stack frames</emphasis> (which we will discuss shortly). 
+</para>
+
+<para>
+When a function is called using the PowerPC ABI semantics, it passes the parameters to the function in registers.  Register 3 has the first fixed-point parameter, register 4 has the second, and so on through register 10.  Likewise, floating-point values are passed through the floating-point registers 1 through 13.  When the function is completed, the value is returned through register 3, and the function exits using the <literal>blr</literal> instruction.
+</para>
+
+<para>
+In order to demonstrate the simplified PowerPC ABI, we will write a function that takes one parameter, squares it, and returns it.  Here is the function in assembly language (enter as <literal>my_square.s</literal>):
+</para>
+
+<example>
+<title>Function to Square a Number Using the Simplified ABI</title>
+<programlisting>
+###FUNCTION ENTRY POINT DECLARATION###
+.section .opd, "aw"
+.align 3
+
+.global my_square
+my_square:   #this is the name of the function as seen 
+	.quad .my_square, .TOC.@tocbase, 0
+
+###FUNCTION CODE HERE###
+.text 
+.my_square:  #This is the label for the code itself (referenced in the "opd")
+	#Parameter 1 -- number to be squared -- in register 3
+
+	#Multiply it by itself, and store it back into register 3
+	mulld 3, 3, 3
+
+	#The return value is now in register 3, so we just need to leave
+	blr
+</programlisting>
+</example>
+
+<para>
+Notice that previously we were using the <literal>.opd</literal> section for declaring the program's entry point, but here we are also using it to declare a function.  These are called <emphasis>official procedure descriptors</emphasis> and they contain the information the linker needs to put code from multiple sources together.  The most important field is the first one, which is the address of the start of the code for the procedure.  The other fields will be discussed later in the article.   Notice that the only global definition is for the official procedure description.  
+</para>
+
+<para>
+The C language prototype for this function is:
+</para>
+
+<programlisting>
+long long my_square(long long val);
+</programlisting>
+
+<para>
+Here is the C code for using the function (enter as <literal>my_square_tester.c</literal>:
+</para>
+
+<example>
+<title>C Code for Calling the my_square Function</title>
+<programlisting>
+#include <stdio.h>
+
+/* make declarations easier to write */
+typedef long long int64; 
+
+int64 my_square(int64);
+
+int main() {
+    int a = 32;
+    printf("The square of %lld is %lld.\n", a, my_square(a));
+    return 0;
+}
+</programlisting>
+</example>
+
+<para>
+The simple way to compile and run this code is to do the following:
+</para>
+
+<programlisting>
+gcc -m64 my_square.s my_square_tester.c -o my_square_tester
+./my_square_tester
+</programlisting>
+
+<para>
+The <literal>-m64</literal> flag tells the compiler to use 64-bit instructions, compile using the 64-bit ABI, and use the 64-bit ABI for linking.  It then takes care of all of the linking issues for you.  
+</para>
+
+
+
 
 <sect1>
 <title>Function Calls Using the PowerPC 64-bit ABI</title>
