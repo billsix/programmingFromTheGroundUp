@@ -255,7 +255,7 @@ A function's prologue usually follows the following sequence:
 </orderedlist>
 
 <para>
-The function's epilogue follows the reverse sequence, restoring what had been saved, and then destroying the stack frame using <literal>stdu 1, 0(1)</literal>.
+The function's epilogue follows the reverse sequence, restoring what had been saved, and then destroying the stack frame using <literal>ld 1, 0(1)</literal>.
 </para>
 
 <para>
@@ -293,10 +293,10 @@ my_square:   #this is the name of the function as seen
         ##EPILOGUE##
         #Restore non-volatile registers (we don't have any)
         #Restore LR (not needed in this function, but here anyway)
-        std 0, 128(1)
+        ld 0, 128(1)
         mtlr 0
         #Restore stack frame atomically
-        stdu 1, 0(1)
+        ld 1, 0(1)
         #Return
    	blr
 </programlisting>
@@ -321,13 +321,51 @@ factorial:
 .text
 .factorial:
         #Prologue
-	stdu 1, -112(1)
+	#Reserve Space
+	#48 (save areas) + 64 (parameter area) + 8 (local variable) = 120 bytes
+	stdu 1, -120(1) 
+	#Save LR
 	mflr 0
-        std 0, 128(1)
+        std 0, 136(1)
 
 	#Function body
-	cmpd 
 
+	#Base Case?
+	cmpdi 3, 0
+	bt eq, return_one
+
+	#Not base case -- recursive call
+	#Save local variable
+	std 3, 112(1)
+
+	#Subtract One
+	subi 3, 3, 1
+
+	#Make the call
+	bl factorial
+	#Linker word
+	nop 
+
+	#Restore local variable
+	ld 4, 112(1)
+	#Multiply by return value
+	mulld 3, 3, 4
+
+factorial_return:
+	#Epilogue
+        #Restore LR
+        ld 0, 136(1)
+        mtlr 0
+        #Restore stack
+        ld 1, 0(1)
+        #Return
+   	blr
+
+return_one:
+        li 3, 1
+        b factorial_return   
+</programlisting>
+</example>
 <para>
 If there are a lot of registers to save and restore, you can optionally use special the special functions <literal>_savegpr0_XX</literal>, <literal>_savegpr1_XX</literal>, <literal>_restgpr0_XX</literal>, <literal>_restgpr1_XX</literal>, <literal>_savefpr_XX</literal>, and <literal>_restfpr_XX</litereal> described on pages 32-39 of the ABI specification version 1.9 (see Resources).  However, these are not described here.
 </para>
