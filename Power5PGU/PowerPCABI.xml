@@ -2,7 +2,7 @@
 <title>Function Calls and the PowerPC 64-bit ABI</title>
 
 <para>
-The <emphasis>ABI</emphasis>, or Application Binary Interface, is the set of conventions that allow programs written in different languages or compiled by different compilers to call each other's functions.  In this article, we will discuss the PowerPC ABI for ELF (UNIX-like) systems and how to write and call functions using it.
+The <emphasis>ABI</emphasis>, or Application Binary Interface, is the set of conventions that allow programs written in different languages or compiled by different compilers to call each other's functions.  In this article, we will discuss the PowerPC ABI for 64-bit ELF (UNIX-like) systems and how to write and call functions using it.  There is also a 32-bit ABI which is not covered in this article.
 </para>
 
 <sect1>
@@ -103,16 +103,249 @@ gcc -m64 my_square.s my_square_tester.c -o my_square_tester
 </programlisting>
 
 <para>
-The <literal>-m64</literal> flag tells the compiler to use 64-bit instructions, compile using the 64-bit ABI, and use the 64-bit ABI for linking.  It then takes care of all of the linking issues for you.  
+The <literal>-m64</literal> flag tells the compiler to use 64-bit instructions, compile using the 64-bit ABI, and use the 64-bit ABI for linking.  It then takes care of all of the linking issues for you (and there are several -- you can see the full list by appending <literal>-v</literal> to the command-line).  
 </para>
 
+<para>
+As you can see, writing simple functions using the PowerPC ABI si very straightforward.  The issues come in when the functions aren't so simple.
+</para>
 
-
+</sect1>
 
 <sect1>
-<title>Function Calls Using the PowerPC 64-bit ABI</title>
+<title>The Stack</title>
 
 <para>
+Now we will get into the more complicated parts of the ABI.
+</para>
+
+<sect2>
+<title>The Need for a Stack</title>
+
+<para>
+Say we have a recursive function.  For simplicity, let's look at the recursive implementation of the factorial function:
+</para>
+
+<example>
+<title>Factorial Function</title>
+<programlisting>
+int64 factorial(int64 num) {
+      //BASE CASE    
+      if (num == 0) {
+      	 return 1;
+      //RECURSIVE CASE
+      } else {
+	  return num * factorial(num - 1);
+      }
+}
+</programlisting>
+</example>
+
+<para>
+This may be easy enough to understand conceptually, but let's examine it concretely.  What is going on here?  What happens, for instance, if we try to find the value of the factorial of 4?  Let's follow the sequence:
+</para>
+
+<para>
+First, the function will be called, and <literal>num</literal> will be set equal to 4.  Then, because <literal>num</literal> is greater than 0, <literal>factorial</literal> will be called again, this time with 3.  Now, in the new call to <literal>factorial</literal>, <literal>num</literal> is set to 3.  However, this is a <emphasis>different variable than the previous one of the same name</emphasis>.  Even though it is within the same scope, <literal>num</literal> is different this time.  This is because each time a function is called, it has an <emphasis>activation record</emphasis> (also called a <emphasis>stack frame</emphasis>) associated with it.  The activation record contains all of the call-specific data for the function, including parameters and local variables.  This is how recursive functions keep from trashing the values of the variables in other, active function calls.  Each call gets its own activation record, so each time it is called the variables get their own storage space.  <emphasis>Only when the function call is completely finished</emphasis> is the space for the activation record released for reuse.  We will talk about how the activation record is stored shortly.
+</para>
+
+<para>
+So, with 3 as the value of <literal>num</literal>, we go through the function again, then with 2, then with 1, then with 0.  However, with 0 the function has reached its <emphasis>base case</emphasis>.  The base case is the point where it ceases to call itself, and instead returns.  So, with 0 as <literal>num</literal>, it returns 1 as the result.  The previous function call picks up where it left off (callling <literal>factorial(0)</literal>) and multiplies the result, 1, with the value in <literal>num</literal>, also 1.  This is returned, and the next one waiting is reactivated.  This multiplies the result with its value of <literal>num</literal>, which is 2.  The number 2 is then returned.  In the next function, the result is multiplied by the current value of <literal>num</literal>, which is 3, resulting in 6.  This number is returned to our original function, in which <literal>num</literal> is 4.  This is multiplied with the previous result to get 24.
+</para>
+
+<para>
+As you can see, when each a function calls another function, its own values and state are suspended while the next function invocation occurs.  If that function again calls other functions, its state is likewise suspended.  When a function returns, the function that called it is revived and it continues from there.  So, as we progress, the "live" function calls look like this:
+</para>
+
+<orderedlist>
+<listitem><para><literal>factorial(4)</literal> [active]</para></listitem>
+<listitem><para><literal>factorial(4)</literal> [suspended], <literal>factorial(3)</literal> [active]</para></listitem>
+<listitem><para><literal>factorial(4)</literal> [suspended], <literal>factorial(3)</literal> [suspended], <literal>factorial(2)</literal> [active]</para></listitem>
+<listitem><para><literal>factorial(4)</literal> [suspended], <literal>factorial(3)</literal> [suspended], <literal>factorial(2)</literal> [suspended], <literal>factorial(1)</literal> [active]</para></listitem>
+<listitem><para><literal>factorial(4)</literal> [suspended], <literal>factorial(3)</literal> [suspended], <literal>factorial(2)</literal> [suspended], <literal>factorial(1)</literal> [suspended], <literal>factorial(0)</literal> [active]</para></listitem>
+<listitem><para><literal>factorial(4)</literal> [suspended], <literal>factorial(3)</literal> [suspended], <literal>factorial(2)</literal> [suspended], <literal>factorial(1)</literal> [active]</para></listitem>
+<listitem><para><literal>factorial(4)</literal> [suspended], <literal>factorial(3)</literal> [suspended], <literal>factorial(2)</literal> [active]</para></listitem>
+<listitem><para><literal>factorial(4)</literal> [suspended], <literal>factorial(3)</literal> [active]</para></listitem>
+<listitem><para><literal>factorial(4)</literal> [active]</para></listitem>
+</orderedlist>
+
+<para>
+As you can see, the suspended function activation records "stack up", and then on the return side, the last function gets taken off of the stack.  
+</para>
+
+</sect2>
+
+<sect2>
+<title>The Stack Layout</title>
+
+<para>
+To implement this, a range of memory is allocated for each program called the <emphasis>program stack</emphasis>.  All programs start off with a pointer to this stack in register 1.  In the PowerPC ABI, register 1 <emphasis>always points to the top of the stack</emphasis>.  This makes it easy for functions to know where their activation record is -- they are simply defined in terms of the stack pointer.  If a function is executing, then the stack pointer is pointing to the whole stack, which is also the top of that function's activation record.  Because activation records are implemented on a stack, they are often referred to as <emphasis>stack frames</emphasis>, but both terms are equivalent.
+</para>
+
+<para>
+Now, when the "top of the stack" is referred to, that is a conceptual designation.  Physically, in memory, the stack grows downward (from large-numbered memory addresses to small-numbered ones).  So, register 1 will have a pointer to the top of the stack, and references to stack positions which are positive will actuallly be <emphasis>below</emphasis> the top of the stack conceptually, and negative numbers conceptually above.  So, <literal>0(1)</literal> refers to the top of the stack, <literal>4(1)</literal> refers to four bytes down from the top (conceptually), <literal>24(1)</literal> is even lower conceptually, and <literal>100(1)</literal> is lower still.
+</para>
+
+<para>
+Now that we understand how the stack looks conceptually and physically, let's look at what exactly the individual stack frames hold.  Let's think about the kind of things a stack might need to hold:
+</para>
+
+<itemizedlist>
+<listitem><para>Function parameters</para></listitem>
+<listitem><para>Local variables</para></listitem>
+<listitem><para>Saved versions of volatile memory</para></listitem>
+<listitem><para>The return address</para></listitem>
+</itemizedlist>
+
+<para>
+So any function-invocation-specific information might be in a stack frame.  However, the PowerPC ABI actually puts the storage space for the function parameters in the <emphasis>calling function's stack space</emphasis>.  Now, as we saw earlier, function calls actually pass their parameters through registers.  However, space must still be reserved for parameters in order to save their values (the functions may want to use the registers for something else) or for overflow (if there are more parameters than registers available for use, then they need to go in the stack space).  So, when a function sets up its stack space, it has to reserve space for the largest number of parameters it will use in a function call.
+</para>
+
+<para>
+So, here is the layout of the stack, from a physical memory standpoint (stack offsets, where given, refer to the <emphasis>beginnning</emphasis> of this location in memory):
+</para>
+
+<table>
+<title>Stack Frame Layout</title>
+<tr><th>Contains</th><th>Size</th><th>Beginning Stack Offset</th></tr>
+<tr><td>Floating point non-volatile register save area</td><td>Varies</td><td>Varies</td></tr>
+<tr><td>General non-volatile register save area</td><td>Varies</td><td>Varies</td></tr>
+<tr><td>VRSAVE</td><td>4 bytes</td><td>Varies</td></tr>
+<tr><td>Alignment padding</td><td>4 or 12 bytes</td><td>Varies</td></tr>
+<tr><td>Vector non-volatile register save area</td>Varies</td><td>Varies (must be quadword-aligned)</td></tr>
+<tr><td>Local variable storage</td><td>Varies</td><td>Varies</td></tr>
+<tr><td>Parameters for function calls</td><td>Varies (minimum 64 bytes)</td><td><literal>48(1)</literal></td></tr>
+<tr><td>TOC save area</td><td>8</td><td><literal>40(1)</literal></td></tr>
+<tr><td>Link editor area</td><td>8</td><td><literal>32(1)</literal></td></tr>
+<tr><td>Compiler area</td><td>8</td><td><literal>24(1)</literal></td></tr>
+<tr><td>Link Register save area</td><td>8</td><literal>16(1)</literal></td></tr>
+<tr><td>Condition Register save area</td><td>8</td><literal>8(1)</literal></td></tr>
+<tr><td>Pointer to top of previous stack frame</td><td>8</td><td><literal>0(1)</literal></td></tr>
+</table>
+
+<para>
+We will not be concerned with the floating point, VRSAVE, Vector, or alignment space.  Those topics are outside the scope of this article, and deal with floating point and vector processing.  The TOC, compiler area, and linker area, are all reserved for system use.  All stack values must be doubleword (4-byte) aligned, and the whole frame should be quadword aligned.  All parameters must be quadword-aligned.  The link register save area is used by functions that are called by the one that set up the stack frame.
+</para>
+
+<para>
+In order that a function can know where its parameters are, parameters are stored from the bottom of memory to the top.  So the first parameter is in <literal>48(1)</literal>, while the second parameter is in <literal>56(1)</literal>.  This way, the function being called can know the exact offset of each parameter, no matter how big the parameter list area is.  Remember, the parameter list area is defined for <emphasis>all</emphasis> of the calls made by a function, and therefore will likely be bigger than necessary on any individual function call.  
+</para>
+
+<para>
+However, when a function establishes its own stack frame, the offsets to the parameter list now have to be adjusted to account for the function's own stack frame.  So, let's say that function <literal>func1</literal> calls function <literal>func2</literal> with three parameters, and function 2 has a 112-byte stack frame.  If <literal>func2</literal> wants to access the memory for its first parameter, it would refer to it as <literal>160(1)</literal>, because it has to go past its own stack frame (112 bytes) and reach the first parameter in the last frame (48 bytes).  Thankfully, functions rarely have to access their parameter save area because most parameters are passed by register, not in the parameter save area.  However, space must be allocated for them <emphasis>even if there is nothing stored there</emphasis>.  Functions must assume that for the first eight parameters, they are <emphasis>only</emphasis> passed by register, but they will still have a save area available if they need to be stored by the program.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Writing a Function that Uses the Stack</title>
+
+<para>
+Functions create the stack during the beginning of the function, called the function <emphasis>prologue</emphasis>, and tear it down at the end of a function, called its <emphasis>epilogue</emphasis>.  
+</para>
+
+<para>
+A function's prologue usually follows the following sequence:
+</para>
+
+<orderedlist>
+<listitem><para>Reserve stack space and save the old stack pointer, using <literal>stdu 1, -SIZE_OF_STACK(1)</literal>.  This will save the old stack pointer and move it atomically.</para></listitem>
+<listitem><para>If this function will call another function, or use the link register in any way, it will be saved by the instruction <literal>mflr 0</literal> followed by a store into the link register save area of the function that called this one, using the instruction <literal>std 0, SIZE_OF_STACK+16(1)</literal>.</para></listitem>
+<listitem><para>Save all non-volatile registers which will be used during this function (including the condition register, if any of its non-volatile fields will be used).</para></listitem>
+</orderedlist>
+
+<para>
+The function's epilogue follows the reverse sequence, restoring what had been saved, and then destroying the stack frame using <literal>stdu 1, 0(1)</literal>.
+</para>
+
+<para>
+Now let's return to the function that we originally implemented without a stack, and as an example, look and see what it would look like with a stack (enter as <literal>my_square.s</literal>):
+</para>
+
+<example>
+<title>Function to Square a Number Using a Stack</title>
+<programlisting>
+###FUNCTION ENTRY POINT DECLARATION###
+.section .opd, "aw"
+.align 3
+
+.global my_square
+my_square:   #this is the name of the function as seen
+        .quad .my_square, .TOC.@tocbase, 0
+
+###FUNCTION CODE HERE###
+.text
+.my_square:  #This is the label for the code itself (Referenced in the "opd")
+        ##PROLOGUE##
+        #Set up stack frame & back pointer (112 bytes -- minimum stack)
+        stdu 1, -112(1)
+        #Save LR (optional)
+        mflr 0
+        std 0, 128(1)
+        #Save non-volatile registers (we don't have any)
+
+        ##FUNCTION BODY##
+	#Parameter 1 -- number to be squared -- in register 3
+        mulld 3, 3, 3
+
+	#The return value is now in register 3, so we just need to leave
+
+        ##EPILOGUE##
+        #Restore non-volatile registers (we don't have any)
+        #Restore LR (not needed in this function, but here anyway)
+        std 0, 128(1)
+        mtlr 0
+        #Restore stack frame atomically
+        stdu 1, 0(1)
+        #Return
+   	blr
+</programlisting>
+</example>
+
+<para>
+That's the exact same code as before, just wrapped with prologue and epilogue code.  But, as mentioned, this code is simple enough that it doesn't need prologue and epilogue code, but is perfectly fine using the simplified ABI.  However, for any function that calls other functions, that function must set up a stack frame.  So, for a simple function that uses a stack frame, let's look at how the factorial function would work in assembly language (enter as <literal>factorial.s</literal>):
+</para>
+
+<example>
+<title>The Factorial Function in Assembly Language</title>
+<programlisting>
+###ENTRY POINT###
+.section .opd, "aw"
+.align 3
+
+.global factorial
+factorial:
+         .quad .factorial, .TOC.@tocbase, 0
+
+###CODE###
+.text
+.factorial:
+        #Prologue
+	stdu 1, -112(1)
+	mflr 0
+        std 0, 128(1)
+
+	#Function body
+	cmpd 
+
+<para>
+If there are a lot of registers to save and restore, you can optionally use special the special functions <literal>_savegpr0_XX</literal>, <literal>_savegpr1_XX</literal>, <literal>_restgpr0_XX</literal>, <literal>_restgpr1_XX</literal>, <literal>_savefpr_XX</literal>, and <literal>_restfpr_XX</litereal> described on pages 32-39 of the ABI specification version 1.9 (see Resources).  However, these are not described here.
+</para>
+
+<para>
+
+
+
+
+<!--
+NOTE - while a function is running, the 288 bytes below the stack pointer is available as volatile storage which is not preserved across function calls.  Interrupt handlers must take care to reserve this region.
+-->
+
+
+
+
+
+
 So far the programs we have created do not interact with any other programming language or environment, or indeed any other code.  The PowerPC 64-bit ELF ABI defines the calling conventions used for calling functions written by third parties either in assembly language or in other languages on ELF platforms (this covers most UNIX-based systems).  The ABI defines how parameters are passed, what registers are reserved for special use, what happens to registers during function calls, and how return addresses are handled.
 </para>
 
