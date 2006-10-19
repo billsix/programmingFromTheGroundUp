@@ -30,6 +30,8 @@ s!<sect1>\s*<title>(.*?)</title>!<heading refname="" type="major" toc="yes" altt
 s!</sect1>!!gsi;
 s!<sect2>\s*<title>(.*?)</title>!<heading refname="" type="minor" toc="no" alttoc="">${1}</heading>!gsi;
 s!</sect2>!!gsi;
+s!<sect3>\s*<title>(.*?)</title>!<heading refname="" type="minor" toc="no" alttoc="">${1}</heading>!gsi;
+s!</sect3>!!gsi;
 s!<(/)?itemizedlist>!<${1}ul>!gsi;
 s!<(/)?orderedlist>!<${1}ol>!gsi;
 $lnum = 0;
