@@ -285,8 +285,7 @@ doubleword-aligned.
 Now let's look at what each part of the stack frame does.
 </p>
 
-<sect3>
-<title>Non-Volatile Register Save Areas</title>
+<heading refname="" type="minor" toc="no" alttoc="">Non-Volatile Register Save Areas</heading>
 
 <p>
 The first part of the stack
@@ -315,20 +314,14 @@ Now you can see why our earlier rules for the simplified ABI required that only 
 limitation.  Functions are free to use the 288 bytes which are physically below the stack pointer for functions which do not call other functions.  Therefore, functions using the simplified ABI actually can save, use, and restore non-volatile registers by using negative offsets from the stack pointer.  
 </p>
 
-</sect3>
-
-<sect3>
-<title>Locale Variable Storage</title>
+<heading refname="" type="minor" toc="no" alttoc="">Locale Variable Storage</heading>
 <p>
 The local variable storage area is a general-purpose area for saving function-specific data.  Often times this is not needed because of the large
 number of registers available for use in the PowerPC architecture.  However, this space is often used for local arrays.  This area can be any size
 needed by the function.
 </p>
 
-</sect3>
-
-<sect3>
-<title>Parameters For Function Calls</title>
+<heading refname="" type="minor" toc="no" alttoc="">Parameters For Function Calls</heading>
 
 <p>
 Function parameters are handled a little differently than other local
@@ -352,10 +345,7 @@ In order that a function can know where its parameters are, parameters are store
 Now, since the save area for the parameters passed to a function are actually in the calling function's stack frame, when a function establishes its own stack frame, the offsets to the parameter list now have to be adjusted to account for the function's own stack frame size.  So, let's say that function <code type="inline">func1</code> calls function <code type="inline">func2</code> with three parameters, and <code type="inline">func2</code> has a 112-byte stack frame.  If <code type="inline">func2</code> wants to access the memory for its first parameter, it would refer to it as <code type="inline">160(1)</code>, because it has to go past its own stack frame (112 bytes) and reach the first parameter in the last frame (48 bytes).  Thankfully, functions rarely have to access their parameter save area because most parameters are passed by register, not in the parameter save area.  However, space must be allocated for them <i>even if there is nothing stored there</i>.  Functions must assume that for the first eight parameters, they are <i>only</i> passed by register, but they will still have a save area available if they need to be stored by the program.  This space must also be a minimum of 64 bytes large.
 </p>
 
-</sect3>
-
-<sect3>
-<title>TOC, Link Editor, and Compiler Areas</title>
+<heading refname="" type="minor" toc="no" alttoc="">TOC, Link Editor, and Compiler Areas</heading>
 
 <p>
 The TOC save
@@ -363,32 +353,21 @@ area, compiler area, and linker area, are all reserved for system use, and are
 not modified by programmers, but the programmer must reserve space for them.
 </p>
 
-</sect3>
-
-<sect3>
-<title>Link Register Save Area</title>
+<heading refname="" type="minor" toc="no" alttoc="">Link Register Save Area</heading>
 
 <p>
 The link register save area is different from the other parts of the ABI.  When a function begins, it actually saves the link register in the
 calling function's stack frame, not its own, and then only if it needs to save it.  Most functions that call other functions will need it, though.
 </p>
 
-</sect3>
-
-<sect3>
-<title>Condition Register Save Area</title>
+<heading refname="" type="minor" toc="no" alttoc="">Condition Register Save Area</heading>
 <p>
 The condition register save area is needed if any of the non-volatile fields of the condition register is modified.  The non-volatile fields are <code type="inline">cr2</code>, <code type="inline">cr3</code>, and <code type="inline">cr4</code>.  The condition register should be saved in its area of the stack before any of these fields are modified, and then restored before returning.  
 </p>
-</sect3>
-
-<sect3>
-<title>Pointer to the Previous Stack Frame</title>
+<heading refname="" type="minor" toc="no" alttoc="">Pointer to the Previous Stack Frame</heading>
 <p>
 The final item in the stack frame is a pointer to the previous stack frame, often called the <i>back pointer</i>.
 </p>
-</sect3>
-
 
 
 <heading refname="" type="minor" toc="no" alttoc="">Writing a Function that Uses the Stack</heading>
