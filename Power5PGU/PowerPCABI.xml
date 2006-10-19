@@ -278,7 +278,7 @@ my_square:   #this is the name of the function as seen
 .text
 .my_square:  #This is the label for the code itself (Referenced in the "opd")
         ##PROLOGUE##
-        #Set up stack frame & back pointer (112 bytes -- minimum stack)
+        #Set up stack frame &amp; back pointer (112 bytes -- minimum stack)
         stdu 1, -112(1)
         #Save LR (optional)
         mflr 0
