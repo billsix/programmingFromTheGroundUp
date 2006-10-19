@@ -314,7 +314,7 @@ Now you can see why our earlier rules for the simplified ABI required that only 
 limitation.  Functions are free to use the 288 bytes which are physically below the stack pointer for functions which do not call other functions.  Therefore, functions using the simplified ABI actually can save, use, and restore non-volatile registers by using negative offsets from the stack pointer.  
 </p>
 
-<heading refname="" type="minor" toc="no" alttoc="">Locale Variable Storage</heading>
+<heading refname="" type="minor" toc="no" alttoc="">Local Variable Storage</heading>
 <p>
 The local variable storage area is a general-purpose area for saving function-specific data.  Often times this is not needed because of the large
 number of registers available for use in the PowerPC architecture.  However, this space is often used for local arrays.  This area can be any size

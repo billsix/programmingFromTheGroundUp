@@ -310,7 +310,7 @@ limitation.  Functions are free to use the 288 bytes which are physically below 
 </sect3>
 
 <sect3>
-<title>Locale Variable Storage</title>
+<title>Local Variable Storage</title>
 <para>
 The local variable storage area is a general-purpose area for saving function-specific data.  Often times this is not needed because of the large
 number of registers available for use in the PowerPC architecture.  However, this space is often used for local arrays.  This area can be any size
