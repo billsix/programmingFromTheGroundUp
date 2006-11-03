@@ -1,10 +1,65 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <chapter>
-<title>Introduction to SPE Programming on the Cell Broadband Engine</title>
+<title>Introduction to Playstation 3 / CBE Programming</title>
+<para>
+In the previous parts of the series, we covered programming using the PowerPC 64-bit instruction set.  This instruction set is used on numerous processors, including the POWER4, POWER5, and the Cell Broadband Engine -- the chip used in the new Playstation 3.  However, the PowerPC is only one element of the Cell Broadband Engine.  The Cell actually consists of 9 elements -- a single dual-core Power Processing Element (PPE), and eight Synergistic Processing Elements (SPE), which are essentially general-purpose vector processing elements.   Like the PPE, the SPE can be programmed in a number of programming languages, including C and assembly language.  However, even more so than with the PPE, SPEs give the programmer a lot more control to squeeze every ounce of processing power out of it.  Therefore, while not strictly necessary, learning to program the SPE in assembly language will train your mind to program more efficiently for this processor in any language.  This article assumes that the reader has a solid understanding of PowerPC assembly language, as most concepts will be introduced in relation to their PowerPC counterparts.  This first article will not cover the optimization aspects, but rather lay the groundwork for future articles.
+</para>
+
+<sect1>
+<title>What is an SPE?</title>
+<para>
+The Synergistic Processing Element (SPE), is a general-purpose vector processor with some unusual characteristics which help it to operate at high speeds with low memory consumption.  For starters, it does not have the interrupt facilities available on the PowerPC.  This means that it is incapable of performing operating-system tasks or time-sharing.  Those features have been sacrificed for the ability to go at high speeds with low power consumptions.  Even more importantly, they do not have any virtual memory features, and in fact can only reference a small 256K local store, which must hold both the program and data.  Memory is transferred between the local store and main memory using DMA.  Other differences between the the PPE and the SPE are listed below:
+</para>
+<table>
+<title>Some Differences Between PPEs and SPEs</title> 
+<tr><th></th><th>PPE</th><th>SPE</th></tr>
+<tr><th># General-Purpose Registers</th><td>32 fixed-point and 32 floating-point</td><td>128 general-purpose (capable of either floating or fixed)</td></tr>
+<tr><th>Register Size</th><td>64 bits</td><td>128 bits</td></tr>
+<tr><th>Maximum Memory Size</th><td>Practically Unlimited</td><td>256K</td></tr>
+<tr><th>Virtual Memory?</th><td>Yes</td><td>No</td></tr>
+<tr><th>Interrupt Facilities?</th><td>Yes</td><td>No</td></tr>
+<tr><th>Capable of Direct File I/O?</th><td>Yes</td><td>No</td></tr>
+</table>
+<para>
+As you can see, the differences between the PPE and the SPE means that they will be used and programmed much differently.  The PPE is used for most general-purpose operating system tasks, timesharing, and maintaining system resources.  The SPEs are used for specialized numeric processing of small batches of data, which are shuffled in and out of local store from main memory using DMA operations.
+</para>
+<para>
+More information about the architecture of the Cell Broadband Engine is available in the resources section.
+</para>
+
+</sect1>
+
+<sect1>
+<title>A Simple Example Program</title>
 
 <para>
-The Cell Broadband Engine is a single chip consisting of nine processing elements - a single PowerPC-based controller (called the PPE) and eight slave vector processors (called SPEs).  This article introduces the basics of assembly language programming on the SPEs and communication with the PPE.  This article assumes prior knowledge of PowerPC assembly language programming.  It will also only discuss the more traditional aspects of the instruction set.  The vector-based aspects will be covered in later articles.
+To begin with, we will enter in a simple program for converting lower-case letters to upper-case, and then go through it line-by-line and see how it works.
 </para>
+
+<para>
+Enter the following as <filename>toupper.s</filename>:
+</para>
+
+<example>
+<title>First SPE Program</title>
+<programlisting>
+
+</programlisting>
+</example>
+
+<para>
+To assemble and link the program, do the following:
+</para>
+
+<programlisting>
+</programlisting>
+
+<para>
+Now, the Cell does not run SPE programs directly.  It actually requires that the main code be written for the PPE to manage resources.  However, a special utility called <literal>runspe</literal> allows us to run SPE programs standalone.  To run this program, do the following:
+</para>
+
+<programlisting>
+</programlisting>
 
 <sect1>
 <title>Basic SPE Layout</title>
