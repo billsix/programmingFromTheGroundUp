@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<chapter>
+<title>Introduction to SPE Programming on the Cell Broadband Engine</title>
+
+<para>
+The Cell Broadband Engine is a single chip consisting of nine processing elements - a single PowerPC-based controller (called the PPE) and eight slave vector processors (called SPEs).  This article introduces the basics of assembly language programming on the SPEs and communication with the PPE.  This article assumes prior knowledge of PowerPC assembly language programming.  It will also only discuss the more traditional aspects of the instruction set.  The vector-based aspects will be covered in later articles.
+</para>
+
+<sect1>
+<title>Basic SPE Layout</title>
+<para>
+The SPE consists of 128 general-purpose registers, each 128 bits long.  
+ - what they can be used for
+ - dedicated, non-volatile, and volatile registers
+ - 
