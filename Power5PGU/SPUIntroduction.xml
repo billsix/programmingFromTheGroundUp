@@ -33,11 +33,35 @@ More information about the architecture of the Cell Broadband Engine is availabl
 <title>A Simple Example Program</title>
 
 <para>
-To begin with, we will enter in a simple program for converting lower-case letters to upper-case, and then go through it line-by-line and see how it works.
+To begin with, we will enter in a simple program for calculating the factorial of a 32-bit number using a recursive algorithm.  Unfortunately, it will only return the result as the exit code, so the result must be less than 256.
 </para>
 
 <para>
-Enter the following as <filename>toupper.s</filename>:
+For reference, here is the C code which would perform the same function:
+</para>
+
+<example>
+<title>C Version of Factorial Program</title>
+<programlisting>
+int number = 4;
+int main() {
+	return factorial(4);
+}
+int factorial(int num) {
+	if(num == 0) {
+		return 1;
+	} else {
+		return num * factorial(num - 1);
+	}
+}
+</programlisting>
+</example>
+
+<sect2>
+<title>Entering and Running the Program</title>
+
+<para>
+Enter the following as <filename>factorial.s</filename>:
 </para>
 
 <example>
@@ -52,14 +76,145 @@ To assemble and link the program, do the following:
 </para>
 
 <programlisting>
+###DATA SECTION###
+.data
+#Alignment is _critical_ in SPU applications.
+#This aligns to a 16-byte (128-bit) boundary
+.align 4
+#This is the number
+number:
+        .long 4
+
+
+###CODE SECTION###
+.text
+
+##MAIN ENTRY POINT
+.global main
+.type main,@function
+main:
+        ##NOTE -- some special tricks are in use here to reduce
+        #         the size of this function, because we are
+        #         concentrating on the factorial function
+        #Load number as the first parameter (relative addressing)
+        lqr $3, number
+        #Branch to factorial
+        br factorial
+
+##FACTORIAL FUNCTION
+#Define frame size
+#  need 16 bytes for the back pointer
+#  need 16 bytes for the link register
+#  need 16 bytes for a local variable
+.equ FRAME_SIZE, 48
+#Offset in the stack frame of the link register
+.equ LR_OFFSET, 16
+#Offset in the stack frame of the local "num" variable
+.equ LCL_NUM_VALUE, 32
+
+factorial:
+        #Before we set up our stack frame,
+        #store link register in caller's frame
+        stqd $lr, LR_OFFSET($sp)
+        #Store back pointer before reserving the stack space
+        stqd $sp, -FRAME_SIZE($sp)
+        #Move stack pointer to reserve stack space
+        ai $sp, $sp, -FRAME_SIZE
+
+        #Save arg 1 in local variable space
+        stqd $3, LCL_NUM_VALUE($sp)
+        #Compare to 0, and store comparison in reg 4
+        ceqi $4, $3, 0
+        #Do we jump? (note that the "zero" we are comparing
+        #to is the result of the above comparison)
+        brnz $4, case_zero
+
+case_not_zero:
+        #remove 1, and use it as the function argument
+        ai $3, $3, -1
+        #call factorial function (return value in reg 3)
+        brsl $lr, factorial
+        #Load in the value of the current number
+        lqd $5, LCL_NUM_VALUE($sp)
+        #multiply the last factorial answer with the current number
+        #store the answer in register 3 (the return value register)
+        mpy $3, $3, $5
+
+        #Restore previous stack frame
+        ai $sp, $sp, FRAME_SIZE
+        #Restore link register
+        lqd $lr, LR_OFFSET($sp)
+        #Return
+        bi $lr
+
+case_zero:
+        #Put 1 in reg 3 for the return value
+        il $3, 1
+        #Restore previous stack frame
+        ai $sp, $sp, FRAME_SIZE
+        #Return
+        bi $lr
 </programlisting>
 
 <para>
-Now, the Cell does not run SPE programs directly.  It actually requires that the main code be written for the PPE to manage resources.  However, a special utility called <literal>runspe</literal> allows us to run SPE programs standalone.  To run this program, do the following:
+To build the program, we will just use the C compiler:
 </para>
 
 <programlisting>
+spu-gcc -o factorial factorial.s
 </programlisting>
+
+<para>
+Now, the Cell does not run SPE programs directly.  It actually requires that the main code be written for the PPE to manage resources.  However, Linux will, if given an SPE-only program, create a skeleton PPE process to manage the SPE program for you.  So you can just run the program as normal:
+</para>
+
+<programlisting>
+./factorial
+echo $?
+</programlisting>
+
+<para>
+Don't be taken back by the size of the code -- it's mostly comments and declarations.  The factorial function itself only has 16 instructions.
+</para>
+
+</sect2>
+
+<sect2>
+<title>Analyzing the Program</title>
+
+<para>
+Now let's take a look at what each instruction does, and how programming on the SPE differs from programming on the PPE which we have done in previous articles.
+</para>
+
+<para>
+The program starts off with a typical data declaration which holds the value we want to compute the factorial of in a space labelled <literal>number</literal>.  However, note that before we define <literal>number</literal>, we align it using <literal>.align 4</literal>.  This aligns the next memory location to a 16-byte (2^4) boundary.  This is critical, as the SPU can only load exactly 16 bytes at a time, aligned to exactly a 16-byte boundary.  If it is given an address that is not at a 16-byte boundary, it simply zeroes out the last four bits of the address before loading to do the alignment.  Therefore, if our value is not properly aligned, it will be loaded somewhere in the register that we probably don't expect.  By aligning it to a 16-byte boundary, we know that it will load into the first four bytes of the register.
+</para>
+
+<para>
+In the code section, notice that unlike for the PPE, we do not need function descriptors.  We simply declare each function name as being global and tell the assembler that it is a function.  The SPE does not need function descriptors because it is statically linked.  Therefore, global references are done simply as relative offsets rather than going through a table of contents or a global offset table.  
+</para>
+
+<para>
+The first real instruction we hit is <literal>lqr $3, number</literal>.  This stands for "load quadword relative".  The "quadword" part is a bit redundant, as only quadword loads and stores are allowed on the SPU.  This loads the value in the address <literal>number</literal> into register 3.  Notice that unlike the PPE, in SPE assembly language registers are always prefixed with a dollar sign.  This makes it much easier to spot registers in the code.  Since all registers on the SPU are 16-bytes long, this will load a full 16-byte quadword into the register, even though we are only really concerned with the first 4 bytes of it.
+</para>
+
+<para>
+The value is loaded into register 3, which happens to also be the register which, like in the PPU ABI, is used to pass the first parameter of a function.  In fact, the register layout of the SPU ABI is very similar conceptually to the PPU ABI.  Here is how the registers are used:
+</para>
+
+<table>
+<title>Register Usage in the SPU ABI</title>
+<tr><th>Register Range</th><th>Type</th><th>Purpose</th></tr>
+<tr><td>0</td><td>Dedicated</td><td>Link Register</td></tr>
+<tr><td>1</td><td>Dedicated</td><td>Stack Pointer</td></tr>
+<tr><td>2</td><td>Volatile</td><td>Environment Pointer (for languages that need one)</td></tr>
+<tr><td>3-79</td><td>Volatile</td><td>Function arguments, return values, and general usage.</td></tr>
+<tr><td>80-127</td><td>Non-volatile</td><td>Used for local variables.  Must be preserved across function calls.</td></tr>
+</table>
+
+<para>
+A few things to notice.  First, the SPU has a lot more registers.  Second, the SPU doesn't use a special-purpose register for the link register.  Instead, it just uses register 0 and provides a generic indirect branch utility that can use any register  (we'll get to that later).  Volatile and non-volatile registers are used just like in the PPU ABI.  Volatile registers don't need to be saved, but should also be assumed to be overwritten on any function call.  Non-volatile registers have to be saved on the stack before use, and restored before the function returns.  We will discuss the stack shortly.
+</para>
 
 <sect1>
 <title>Basic SPE Layout</title>
