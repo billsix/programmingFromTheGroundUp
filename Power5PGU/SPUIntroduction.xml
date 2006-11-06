@@ -67,15 +67,6 @@ Enter the following as <filename>factorial.s</filename>:
 <example>
 <title>First SPE Program</title>
 <programlisting>
-
-</programlisting>
-</example>
-
-<para>
-To assemble and link the program, do the following:
-</para>
-
-<programlisting>
 ###DATA SECTION###
 .data
 #Alignment is _critical_ in SPU applications.
@@ -102,10 +93,10 @@ main:
         br factorial
 
 ##FACTORIAL FUNCTION
-#Define frame size
-#  need 16 bytes for the back pointer
-#  need 16 bytes for the link register
-#  need 16 bytes for a local variable
+#Define frame size as 48 bytes
+#  - 16 bytes for the back pointer
+#  - 16 bytes for the link register
+#  - 16 bytes for a local variable
 .equ FRAME_SIZE, 48
 #Offset in the stack frame of the link register
 .equ LR_OFFSET, 16
@@ -113,6 +104,7 @@ main:
 .equ LCL_NUM_VALUE, 32
 
 factorial:
+        ##PROLOGUE##
         #Before we set up our stack frame,
         #store link register in caller's frame
         stqd $lr, LR_OFFSET($sp)
@@ -120,6 +112,7 @@ factorial:
         stqd $sp, -FRAME_SIZE($sp)
         #Move stack pointer to reserve stack space
         ai $sp, $sp, -FRAME_SIZE
+        ##END PROLOGUE##
 
         #Save arg 1 in local variable space
         stqd $3, LCL_NUM_VALUE($sp)
@@ -155,6 +148,7 @@ case_zero:
         #Return
         bi $lr
 </programlisting>
+</example>
 
 <para>
 To build the program, we will just use the C compiler:
@@ -216,6 +210,46 @@ The value is loaded into register 3, which happens to also be the register which
 A few things to notice.  First, the SPU has a lot more registers.  Second, the SPU doesn't use a special-purpose register for the link register.  Instead, it just uses register 0 and provides a generic indirect branch utility that can use any register  (we'll get to that later).  Volatile and non-volatile registers are used just like in the PPU ABI.  Volatile registers don't need to be saved, but should also be assumed to be overwritten on any function call.  Non-volatile registers have to be saved on the stack before use, and restored before the function returns.  We will discuss the stack shortly.
 </para>
 
+<para>
+Therefore, since we want the factorial of the number 4, it goes into register 3, the register used for the first parameter.  We then branch to the function use <literal>br factorial</literal>.  This isn't the instruction normally used for function calls, but it keeps us from having to set up a stack frame for <literal>main</literal>.  <literal>br</literal> stands for <emphasis>branch relative</emphasis>, and it is an unconditional branch to an address relative to the address of the current instruction.  
+</para>
+
+<para>
+For the <literal>factorial</literal> function itself, the program sets up several definitions.  First of all, it defines the size of its stack frame in the symbol <literal>FRAME_SIZE</literal>.  Because SPEs are statically linked and have many more memory constraints than PPEs, the SPE stack frame is both simpler and typically smaller.  The layout of the stack frame looks like this:
+</para>
+
+<table>
+<tr><th>Contains</th><th>Size</th><th>Beginning Stack Offset</th></tr>
+<tr><td>Register Save Area</td><td>Varies (multiple of 16 bytes)</td><td>Varies</td></tr>
+<tr><td>Local Variable Space</td><td>Varies (multiple of 16 bytes)</td><td>Varies</td></tr>
+<tr><td>Parameter List</td><td>Varies (multiple of 16 bytes)</td><td>32($sp)</td></tr>
+<tr><td>Link Register Save Area</td><td>16 bytes</td><td>16($sp)</td></tr>
+<tr><td>Back Chain Pointer</td><td>16 bytes</td><td>0($sp)</td></tr>
+</table>
+
+<para>
+The stack areas work just as they did on the PPE.  The back chain pointer points to the back chain pointer of the previous stack frame.  The link register save area holds the link register contents of the function being called, rather than for the current function.  The parameter list is for parameters that this function sends to other function calls, not for its own parameters.  However, unlike the PPE, no space is reserved for parameters passed through registers.  This is purely an overflow area for functions requiring more than 77 registers to hold their parameters.  The local variable space is used as a general storage area for the function, and the register save area is used to save the values of non-volatile registers that the function uses.
+</para>
+
+<para>
+So, in our function, we are using the back chain pointer, the link register save area, and one local variable.  That gives us a frame size of 16 * 3 = 48 bytes.  <literal>LR_OFFSET</literal> is the offset from the top of the stack to the link register save area.  <literal>LCL_NUM_VALUE</literal> is the offset from the top of the stack to our local variable <literal>num</literal>.
+</para>
+
+<para>
+In the prologue, the first thing we do is to save the link register.  Since we have not yet defined our own stack frame, the offset is from the calling function's stack frame.  Remember, the link register is stored in the calling function's stack frame, not the function's own stack frame.  Therefore, it makes most sense to save it before reserving the stack space.  This is done using a D-Form store: <literal>stqd $lr, LR_OFFSET($sp)</literal>.  Now, this looks like we are using special registers, but in fact <literal>$lr</literal> and <literal>$sp</literal> are just aliases for <literal>$0</literal> and <literal>$1</literal>, respectively.  <literal>stqd</literal> stands for "store quadword d-form".  The SPU has the same basic addressing options as the PPU: d-form for register+constant addressing, x-form for register+register addressing, relative addressing, absolute addressing, and immediate mode.  For more information on these addressing modes, see the PPU article on the subject.(FIXME -- ref!)  So, this stores the link register (which is usually set in the function-call instruction) into the appropriate place in the stack.  Next, the current stack frame pointer is stored as the back pointer for the next stack frame, even though we haven't established the stack frame yet (this is done through negative offsets).  The SPU does not have an atomic store/update instruction like the PPU, so in order to make sure that the back pointers are always consistent, storing the back pointer must be done <emphasis>before</emphasis> the stack pointer is moved.  Finally, the stack pointer is moved to reserve all the needed stack space using the instruction <literal>ai $sp, $sp, -FRAME_SIZE</literal>.  <literal>ai</literal> stands for "add immediate", and it adds an immediate-mode value to a register and stores it back into a register.  Just like the PPU, SPU computation instructions have a destination register that can be specified.
+</para>
+
+<para>
+One more note needs to be made about the "add immediate" instruction.  Remember that the SPU registers are 128 bits wide, but our value is only 32 bits long.  The reason for this is that the SPU is geared towards SIMD (single instruction multiple data) execution.  The register is treated logically as multiple values, which are operated on all-at-once.  The "add immediate" instruction actually treats the register as four separate 32-bit values, each of which are added independently and then they are all stored back into the destination register.  What this means is that, for example, a carry from one part of the add instruction will not affect the rest of the computations.  It treats them all as separate computations.  The preferred value is a 32 bit word, but others are supported, including bytes, halfwords, and doublewords.  If the size of the operand is not specified in the instruction, that means either that the size doesn't matter (as in logical instructions, for instance) or that it is using a 32-bit value size.  Bytes are indicated by including the letter <literal>b</literal> in the instruction, halfwords have an <literal>h</literal>, and doublewords have a <literal>d</literal>, though doublewords are usually only used in floating-point instructions.
+</para>
+
+</sect2>
+
+</sect1>
+</chapter>
+
+
+<!--
 <sect1>
 <title>Basic SPE Layout</title>
 <para>
@@ -223,3 +257,10 @@ The SPE consists of 128 general-purpose registers, each 128 bits long.
  - what they can be used for
  - dedicated, non-volatile, and volatile registers
  - 
+
+-->
+
+
+
+
+
