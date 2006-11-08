@@ -2,7 +2,7 @@
 <chapter>
 <title>Introduction to Playstation 3 / CBE Programming</title>
 <para>
-In the previous parts of the series, we covered programming using the PowerPC 64-bit instruction set.  This instruction set is used on numerous processors, including the POWER4, POWER5, and the Cell Broadband Engine -- the chip used in the new Playstation 3.  However, the PowerPC is only one element of the Cell Broadband Engine.  The Cell actually consists of 9 elements -- a single dual-core Power Processing Element (PPE), and eight Synergistic Processing Elements (SPE), which are essentially general-purpose vector processing elements.   Like the PPE, the SPE can be programmed in a number of programming languages, including C and assembly language.  However, even more so than with the PPE, SPEs give the programmer a lot more control to squeeze every ounce of processing power out of it.  Therefore, while not strictly necessary, learning to program the SPE in assembly language will train your mind to program more efficiently for this processor in any language.  This article assumes that the reader has a solid understanding of PowerPC assembly language, as most concepts will be introduced in relation to their PowerPC counterparts.  This first article will not cover the optimization aspects, but rather lay the groundwork for future articles.
+In the previous parts of the series, we covered programming using the PowerPC 64-bit instruction set.  This instruction set is used on numerous processors, including the POWER4, POWER5, and the Cell Broadband Engine -- the chip used in the new Playstation 3.  However, the PowerPC is only one element of the Cell Broadband Engine.  The Cell actually consists of 9 elements -- a single dual-core Power Processing Element (PPE), and eight Synergistic Processing Elements (SPE), which are essentially general-purpose vector processing elements.  Vector processing elements can operate on multiple values simultaneously.   Like the PPE, the SPE can be programmed in a number of programming languages, including C and assembly language.  However, even more so than with the PPE, SPEs give the programmer a lot more control to squeeze every ounce of processing power out of it.  Therefore, while not strictly necessary, learning to program the SPE in assembly language will train your mind to program more efficiently for this processor in any language, and especially in C.  This article assumes that the reader has an understanding of PowerPC assembly language, as many concepts will be introduced in relation to their PowerPC counterparts.  This first article will not cover much of the vector aspects of the SPU, but rather it starts with the scalar (one value at a time)  aspects to make your first dive into SPU programming more familiar.
 </para>
 
 <sect1>
@@ -21,7 +21,7 @@ The Synergistic Processing Element (SPE), is a general-purpose vector processor 
 <tr><th>Capable of Direct File I/O?</th><td>Yes</td><td>No</td></tr>
 </table>
 <para>
-As you can see, the differences between the PPE and the SPE means that they will be used and programmed much differently.  The PPE is used for most general-purpose operating system tasks, timesharing, and maintaining system resources.  The SPEs are used for specialized numeric processing of small batches of data, which are shuffled in and out of local store from main memory using DMA operations.
+As you can see, the differences between the PPE and the SPE means that they will be used and programmed much differently.  The PPE is used for most general-purpose operating system tasks, timesharing, and maintaining system resources.  The SPEs are used for specialized numeric processing of small batches of data, which are shuffled in and out of local store from main memory using DMA operations.  Also note that the term SPE and PPE refer to the elements in their entirety - the processor, cache (if it has one), memory store, and buses.  When referring just to the processor itself, the term SPU and PPU are used instead.  
 </para>
 <para>
 More information about the architecture of the Cell Broadband Engine is available in the resources section.
@@ -131,7 +131,7 @@ case_not_zero:
         lqd $5, LCL_NUM_VALUE($sp)
         #multiply the last factorial answer with the current number
         #store the answer in register 3 (the return value register)
-        mpy $3, $3, $5
+        mpyu $3, $3, $5
 
         #Restore previous stack frame
         ai $sp, $sp, FRAME_SIZE
@@ -240,10 +240,105 @@ In the prologue, the first thing we do is to save the link register.  Since we h
 </para>
 
 <para>
-One more note needs to be made about the "add immediate" instruction.  Remember that the SPU registers are 128 bits wide, but our value is only 32 bits long.  The reason for this is that the SPU is geared towards SIMD (single instruction multiple data) execution.  The register is treated logically as multiple values, which are operated on all-at-once.  The "add immediate" instruction actually treats the register as four separate 32-bit values, each of which are added independently and then they are all stored back into the destination register.  What this means is that, for example, a carry from one part of the add instruction will not affect the rest of the computations.  It treats them all as separate computations.  The preferred value is a 32 bit word, but others are supported, including bytes, halfwords, and doublewords.  If the size of the operand is not specified in the instruction, that means either that the size doesn't matter (as in logical instructions, for instance) or that it is using a 32-bit value size.  Bytes are indicated by including the letter <literal>b</literal> in the instruction, halfwords have an <literal>h</literal>, and doublewords have a <literal>d</literal>, though doublewords are usually only used in floating-point instructions.
+One more note needs to be made about the "add immediate" instruction.  Remember that the SPU registers are 128 bits wide, but our value is only 32 bits long.  The reason for this is that the SPU is geared towards SIMD (single instruction multiple data) execution.  The register is treated logically as multiple values, which are operated on all-at-once.  The "add immediate" instruction actually treats the register as four separate 32-bit values, each of which are added independently and then they are all stored back into the destination register.  What this means is that, for example, a carry from one part of the add instruction will not affect the rest of the computations.  It treats them all as separate computations.  The preferred value is a 32 bit word, but others are supported, including bytes, halfwords, and doublewords.  If the size of the operand is not specified in the instruction, that means either that the size doesn't matter (as in logical instructions, for instance) or that it is using a 32-bit value size.  Bytes are indicated by including the letter <literal>b</literal> in the instruction, halfwords have an <literal>h</literal>, and doublewords have a <literal>d</literal>, though doublewords are usually only used in floating-point instructions.  Usually, however, a <literal>d</literal> in an instruction refers to the d-form of addressing, not a doubleword.
 </para>
 
+<para>
+Next, we will copy the first parameter to a local variable with <literal>stqd $3, LCL_NUM_VALUE($sp)</literal>.  We need to do this because our parameter will get clobbered on the recursive call, and we need access to it afterwards.
+</para>
+
+<para>
+Next, we will do an immediate-mode compare of register 3 with the number 0 and store the result in register 4 with <literal>ceqi $4, $3, 0</literal>.  Note that with the PPU, there is a special-purpose register to hold condition results.  However, with the SPU, the results are stored in a general-purpose register -- register 4 in this case.  Remember, this is a vector processor.  So we are not actually comparing register 3 with the number 0.  Instead, we are comparing each word of register 3 with the number 0.  So we actually have four answers, even though we only care about one of them (because we only have one value loaded in).  The way that the result is stored is that if the condition for the word is true, then all of the bits on the destination word will be set.  If the condition for the word is false, then all of the bits on the destination word will be unset.  So for this instruction there will be four results.
+</para>
+
+<para>
+The next instruction is <literal>brnz $4, case_zero</literal>.  <literal>brnz</literal> stands for "branch relative if not zero".  Remember, this is checking the result register for zero or not-zero.  The result register will be non-zero (i.e., true, all bits set to one) if the check for zero is true.  The previous two instructions could have been conflated into one instruction (<literal>brz $3, case_zero</literal>) since we were testing for zero, but they were separated out into two instructions so that you can better see how compares and branches work in general.
+</para>
+
+<para>
+So what happens if some of the comparisons have a result of true and others false?  Since we are dealing with four 32-bit values rather than one 128-bit value, we could have different results for the different values.  So if the results are different do we branch or do we not?  It turns out that several SPU instructions deal with only one of the register's values.  In these cases, the value that is used is the one in the register's <emphasis>preferred slot</emphasis>.  For 32-bit values the preferred slot is the first word of the register; for 16-bit values the preferred slot is the second halfword of the register; and for 8-bit values the preferred slot is the fourth byte of the register.  Basically, the first word is the preferred word, and then the other alignments are on the least-significant byte or halfword of that word.  When doing conditional branching, passing values to functions, returning a value from a function, and several other scenarios, the value in the preferred slot is the one that matters.  In our case, we are to assume that the value passed in the function is in the register's preferred slot.  And, if you look at the alignment of <literal>number</literal> in the <literal>.data</literal> section, you can see that this will be loaded into the preferred slot.
+</para>
+
+<para>
+Now let's assume that the number we are working with in register 3 is not zero.  This means that we need to do a recursive step.  The recursive C code is <literal>return num * factorial(num - 1)</literal>.  The innermost computation requires us decrementing <literal>num</literal> and passing it as a parameter to the next invocation of <literal>factorial</literal>.  <literal>num</literal> is already in register 3, so we just need to decrement it.  So we will do an immediate-mode add like this: <literal>ai $3, $3, -1</literal>.  Now we just need to invoke the next <literal>factorial</literal>.  To call a function according to the SPU ABI, all you need to do is put the parameters into registers, and then call <literal>brsl $lr, function_name</literal>.  In our case, the first and only parameter is already loaded into register 3.  So, we issue a <literal>brsl $lr, factorial</literal>.  <literal>brsl</literal> stands for "branch relative set link".  This means that the destination address will be a relative address, the return address will be stored in the preferred slot of the specified register, and control will go to the destination address, which in this case is back to the beginning of the <literal>factorial</literal> function.
+</para>
+<para>
+When control comes back to this point, the factorial result should be in register 3.  Now we want to multiply this result by the current value under consideration.  Therefore, we have to load it back in because it was clobbered in the function call.  <literal>lqd</literal> stands for "load quadword d-form".  The first operand is the destination register and the second is the d-form address to load.  So <literal>lqd $5, LCL_NUM_VALUE($sp)</literal> will pull read the value that we saved on the stack earlier into register 5.
+</para>
+<para>
+Now we need to multiply register 3 and register 5.  This is done with the <literal>mpyu</literal> instruction (multiply unsigned).  <literal>mpyu$3, $3, $5</literal> multiplies register 3 with register 5 and stores the result in the first register listed, register 3.  Now, the integer multiply instructions on the SPU are somewhat problematic, especially signed multiplication (using the <literal>mpy</literal> instruction).  The problem is that the result of a multiply instruction can be twice as long as its operands.  The result of multiplying two 32-bit values is actually a 64-bit value!  If it did this, then the destination register would have to be twice as large as the source register.  In order to combat the problem, multiplication instructions only use the least-significant 16 bits of every thirty-two bit value so that the result will fit in the full 32-bit register.  So, while the multiply treats the source registers as 32 bits wide, it only uses 16 bits of them.  So, your value may be truncated if it is longer than 32 bits.  And, if it is a signed multiply, the sign could even change on truncation!  Therefore, to execute multiply instructions successfully, the source values need to be 16 bits wide, but stored in a 32-bit register (it doesn't matter for the multiplication if it is sign-extended to the rest of the 32 bits or not).  This limits greatly the possible range of our factorial function.  Note that floating-point multiplication doesn't have these issues.
+</para>
+<para>
+So now we have the result, and it is in register 3, which is where it needs to be for the return value.  All that is left to do is to restore the previous stack frame and return.  So we simply need to move the stack pointer by adding the stack frame size to the stack pointer using <literal>ai $sp, $sp, FRAME_SIZE</literal>.  We then restore the link register using <literal>lqd $lr, LR_OFFSET($sp)</literal>.  Finally, we branch to the address specified in the link register.
+</para>
+<para>
+The base case (what to do if the function's parameter is zero) is much easier.  The result of factorial(0) is 1, so we simply load in the number one into register 3 using <literal>il $3, 1</literal>.  Then we restore the stack frame and return.  However, since the base case doesn't call any other functions, we don't need to load the link register from the stack frame - the value is still there.
+</para>
+<para>
+And that's how the function works!
+</para>
 </sect2>
+</sect1>
+
+<sect1>
+<title>Non-aligned Loads and Stores</title>
+
+<para>
+Because the SPU is focused on vector, not scalar processing, it only is able to load and store 16 bytes at a time from local store locations which are aligned on 16 byte boundaries.  Therefore, you cannot load a word from memory location 12.  In order to get that word, you would need to load a quadword from memory location 0, and then shift the bits into the preferred slot.  To load a full 128 bits (16 bytes) into a register from a non-aligned location, you would actually have to load it into two registers, shift them, and then mask and combine them.  In order to store non-aligned values, it is even more difficult.  The original quadword must be loaded, the appropriate value inserted into the right location in the quadword, and then the result stored back.  Because of these issues, it is usually advisable to store all data aligned to 16 bytes.  
+</para>
+
+<sect2>
+<title>Loading and Storing from Specific Non-aligned Addresses</title>
+
+</sect2>
+
+<sect2>
+<title>Loading and Storing from Arbitrary Addresses</title>
+
+<programlisting>
+#Load address $2 into register $3
+#Loads from nearest quadword boundary
+lqd $3, 0($2)
+#Rotate value into preferred slot
+rotqby $3, $3, $2
+
+cwd $2, 0($5)
+lqd $6, 0($5)
+shufb $2, $3, $6, $2
+stqb $2, 0($5)
+
+
+</programlisting>
+
+</sect2>
+
+</sect1>
+
+<sect1>
+<title>Communication with the PPU</title>
+
+<sect2>
+<title>Invoking SPU Code from the PPU</title>
+
+</sect2>
+
+<sect2>
+<title>Copying Data with DMA</title>
+
+</sect2>
+
+<sect2>
+<title>Mailbox Delivery</title>
+
+</sect2>
+
+<sect2>
+<title>Sharing Data with EARs
+
+</sect1>
+
+<sect1>
+<title>Conclusion</title>
 
 </sect1>
 </chapter>
@@ -257,6 +352,11 @@ The SPE consists of 128 general-purpose registers, each 128 bits long.
  - what they can be used for
  - dedicated, non-volatile, and volatile registers
  - 
+
+
+The instruction sequence for a scalar load on the SPE is:lqd     $5, 0($2)rotqby  $2, $5, $2where $2 starts with the EA of the word you want to load into the preferred slot and ends with the scalar in the preferred slot.The code sequence for a non-quadword aligned scalar store is:cwd    $2, 0($5)lqd    $6, 0($5)shufb  $2, $3, $6, $2stqb   $2, 0($5)where :$3 = scalar to store, located in preferred slot of the register$5 = EA of the target scalar in memory$6 = quadword containing the scalar in memoryOf course the compiler generates these sequences and schedules them for you so as a C/C++ programmer you are unaware of all this stuff.Message was edited by: neuron (corrected last line of code: stqb $2, 0($5))
+
+http://www-128.ibm.com/developerworks/power/library/pa-celltips1/
 
 -->
 
