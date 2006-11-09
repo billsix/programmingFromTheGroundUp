@@ -284,33 +284,54 @@ And that's how the function works!
 <title>Non-aligned Loads and Stores</title>
 
 <para>
-Because the SPU is focused on vector, not scalar processing, it only is able to load and store 16 bytes at a time from local store locations which are aligned on 16 byte boundaries.  Therefore, you cannot load a word from memory location 12.  In order to get that word, you would need to load a quadword from memory location 0, and then shift the bits into the preferred slot.  To load a full 128 bits (16 bytes) into a register from a non-aligned location, you would actually have to load it into two registers, shift them, and then mask and combine them.  In order to store non-aligned values, it is even more difficult.  The original quadword must be loaded, the appropriate value inserted into the right location in the quadword, and then the result stored back.  Because of these issues, it is usually advisable to store all data aligned to 16 bytes.  
+Because the SPU is focused on vector, not scalar processing, it only is able to load and store 16 bytes at a time (the size of a register) from local store locations which are aligned on 16 byte boundaries.  Therefore, you cannot just load a word from memory location 12.  In order to get that word, you would need to load a quadword from memory location 0, and then shift the bits into the preferred slot.  To load a full 128 bits (16 bytes) into a register from a non-aligned location, you would actually have to load it into two registers, shift them, and then mask and combine them.  In order to store non-aligned values, it is even more difficult.  The original quadword must be loaded, the appropriate value inserted into the right location in the quadword, and then the result stored back.  Because of these issues, it is usually advisable to store all data aligned to 16 bytes.  
 </para>
 
-<sect2>
-<title>Loading and Storing from Specific Non-aligned Addresses</title>
+<para>
+The loading and storing technique, while it will allow us to use data that is not aligned to 16-byte boundaries, will require that the data be <emphasis>naturally aligned</emphasis>.  That means that words will be 4-byte aligned, halfwords will be 2-byte aligned, and bytes don't have to be aligned at all.  It's possible to do completely unaligned data loads and stores, but they require lots of extra instructions, so we're not going to cover it here.  
+</para>
 
-</sect2>
+<para>
+Doing an unaligned load requires two or three instructions, depending on the size of the data.  The reason for this is that if you are loading a single value, you probably want it in the preferred slot of the register.  The first instruction does the load, the second instruction rotates the value so that the requested address is at the beginning of the register, and then, if the data is smaller than a word, a shift is needed to move it away from the beginning into the preferred slot.  Here is the code for a byte load, which takes an address in the preferred slot of register 3 and uses it to load a byte into the preferred slot of register 4:
+</para>
 
-<sect2>
-<title>Loading and Storing from Arbitrary Addresses</title>
-
+<example>
+<title>Load from Non-Aligned Memory</title>
 <programlisting>
-#Load address $2 into register $3
+###Load address $3 into register $4###
+
 #Loads from nearest quadword boundary
-lqd $3, 0($2)
-#Rotate value into preferred slot
-rotqby $3, $3, $2
+lqd $2, 0($3)
+#Rotate value to the beginning of the register
+rotqby $4, $4, $3
+#Rotate value to the preferred slot (-3 for bytes, -2 for halfwords, and nothing for words or doublewords)
+rotqbyi $4, $4, -3
+</programlisting>
+</example>
 
-cwd $2, 0($5)
-lqd $6, 0($5)
-shufb $2, $3, $6, $2
-stqb $2, 0($5)
+<para>
+Remember, the <literal>lqd</literal> instruction only loads from 16-byte boundaries.  It will therefore ignore the 4 least significant bits during the load, and just load an aligned quadword from memory.  Therefore, for arbitrary addresses, we have no idea where in the loaded quadword the value we wanted is. The <literal>rotqby</literal> instruction, "rotate (left) quadword by bytes", uses the address you loaded from to indicate how far to rotate the register.  It only treats the least 4 significant bits of the address register to rotate. This will always be the number of bytes it needs to shift left to move the address specified to the beginning of the register.  Finally, for bytes, the preferred slot is <emphasis>not</emphasis> at the beginning of the register, but three bytes to the right.  So the instruction <literal>rotqbyi</literal> we will do a shift using an immediate-mode value to shift by.  Word- and doubleword-sized transfers do not need this last instruction, because their preferred slot is at the beginning of the register anyway.  At the end of this, register 4 has the final value, with the byte shifted into the preferred slot.  
+</para>
 
+<para>
+Storing is more difficult.  Here is the code to store a byte in the preferred slot of register $4 into the address specified by register $3:
+</para>
 
+<example>
+<title>Store to Non-Aligned Address</title>
+###Store $4 into address $3
+
+#Load the data into a temporary register
+lqd $5, 0($3)
+#Generate the controls for a byte insertion
+cbd $6, 0($3)
+#Shuffle the data in
+shufb $7, $4, $5, $6
+#Store it back
+stqb $7, 0($3)
 </programlisting>
 
-</sect2>
+To illustrate the technique, we're going to write a function that takes the address of an ASCII character, loads it, converts it to uppercase, and stores it back.  
 
 </sect1>
 
