@@ -296,12 +296,12 @@ Doing an unaligned load requires two or three instructions, depending on the siz
 </para>
 
 <example>
-<title>Load from Non-Aligned Memory</title>
+<title>Load from Non-Aligned Memory</title>	
 <programlisting>
 ###Load address $3 into register $4###
 
 #Loads from nearest quadword boundary
-lqd $2, 0($3)
+lqd $4, 0($3)
 #Rotate value to the beginning of the register
 rotqby $4, $4, $3
 #Rotate value to the preferred slot (-3 for bytes, -2 for halfwords, and nothing for words or doublewords)
@@ -328,10 +328,90 @@ cbd $6, 0($3)
 #Shuffle the data in
 shufb $7, $4, $5, $6
 #Store it back
-stqb $7, 0($3)
+stqd $7, 0($3)
 </programlisting>
+</example>
 
-To illustrate the technique, we're going to write a function that takes the address of an ASCII character, loads it, converts it to uppercase, and stores it back.  
+<para>
+To understand this cryptic-looking sequence, we need to again keep in mind that the SPU only does loads and stores a quadword at a time, on quadword aligned addresses.  Therefore, if we want to store only one byte, if we tried to do it directly on an unaligned address, it would both go into the wrong location and clobber the remaining addresses in the quadword.  To avoid this, we need to first load the quadword from memory, insert the value into the appropriate byte in the quadword, and then store it back.  The hard part is inserting it into the proper location based only on the address.  Thankfully, there are two instructions to help out, <literal>cbd</literal> ("generate control for byte insertion") and <literal>shufb</literal> ("shuffle bytes").  The <literal>cbd</literal> instruction takes an address, and generates a control word that can be used by <literal>shufb</literal> to insert a byte at the proper location in the quadword for that address.  <literal>cbd $6, 0($3)</literal> uses the address in register 3 to generate the control quadword, and then stores it in register 6.  The instruction <literal>shufb $7, $4, $5, $6</literal> uses the control quadword in register 6 to generate a new value into register 7 which consists of the original quadword that was in memory (now in register 5) and a byte from register 4 in the preferred slot, and stores the result in register 7.  Once the byte is shuffled in, the value is stored back into memory.
+</para>
+
+<para>
+To illustrate the technique, we're going to write a function that takes the address of an ASCII character, loads it, converts it to uppercase, and stores it back.  Here is the code (save it as toupper.s):
+</para>
+
+<example>
+<title>Converting to Uppercase</title>
+<programlisting>
+.data
+
+string_start:
+.ascii "We will convert the following letter, "
+letter_to_convert:
+.ascii "q"
+remaining:
+.ascii ", to uppercase\0"
+
+.text
+.global main
+.type main, @function
+
+main:
+	.equ MAIN_FRAME_SIZE, 32
+	.equ LR_OFFSET, 16
+	#PROLOGUE
+	stdq $lr, LR_OFFSET($sp)
+	stqd $sp, -MAIN_FRAME_SIZE($sp)
+	ai $sp, $sp, -MAIN_FRAME_SIZE
+
+	#MAIN FUNCTION
+	il $3, letter_to_convert
+	brsl convert_to_upper
+	il $3, string_start
+	brsl printf
+
+	#EPILOGUE
+	ai $sp, $sp, MAIN_FRAME_SIZE
+	lqd $lr LR_OFFSET($sp)
+	bi $lr
+
+
+convert_to_upper:
+	#Register usage
+	# $3 -- parameter 1 -- address of byte to be converted
+	# $4 -- byte value to be converted
+	# $5 -- $4 greater than 'a' - 1?
+	# $6 -- $4 greater than 'z'?
+	# $7 -- $4 less than or equal to 'z'?
+	# $8 -- $4 between 'a' and 'z' (inclusive)?
+	# $9 through $12 -- temporary storage for final store
+
+	#address of letter stored in unaligned address in $3
+	#UNALIGNED LOAD
+	lqd $4, 0($3)
+	rotqby $4, $4, $3
+	rotqbyi $4, $4, -3
+	#IS IN RANGE 'a'-'z'?
+	cgtbi $5, $4, 'a' - 1
+	cgtbi $6, $4, 'z'
+	nand $7, $6
+	and $8, $5, $7
+	brz $8 is_lowercase
+is_not_lowercase:
+	b store_back
+is_lowercase:
+	ai $4, 'A' - 'a'
+store_back:
+	#UNALIGNED STORE
+	lqd $9, 0($3)
+	cbd $10, 0($3)
+	shufb, $11, $4, $9, $10
+	stqd $11
+
+	#no stack frame, no return value, just return
+	bi $lr
+</programlisting>
+</example>
 
 </sect1>
 
