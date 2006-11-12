@@ -496,15 +496,24 @@ The code in the <literal>convert_to_upper</literal> function will be used in all
 <sect1>
 <title>Communication with the PPE</title>
 
+<sect2>
+<title>Channels and the MFC</title>
+
 <para>
-Now we are going to write code in which we explicitly use the PPE to manage our SPE functions.  The PPE code will be written in C for the sake of brevity and clarity.
+SPEs have a memory that is separate from the processor's main memory, called the <emphasis>local store</emphasis>. The SPE cannot read main memory directly, but instead must import and export data between the local store and main memory using DMA commands to a unit called the <emphasis>memory flow controller</emphasis>, or MFC.  The local store address space is limitted to 32 bits, but it is usually much smaller (in the Playstation 3, for instance, it is only 18 bits).  The reason for this is so that memory accesses by SPE code can be deterministic.  Main memory can get swapped out, moved around, cached, uncached, or memory mapped.  Therefore, the amount of time required for any particular memory access is completely unknown.  By separating out the SPE memory into a local store, the SPE can have a wholly deterministic access time for any memory it accesses, and leave the MFC to move data in and out of main memory as needed.  Addresses within an SPEs local store are called <emphasis>local store addresses</emphasis>, while addresses within the main memory are called <emphasis>effective addresses</emphasis>.  This will be important as we learn how to use the memory flow controller's DMA facilities.
 </para>
 
+<para>
+SPEs communicate with the outside world by using <emphasis>channels</emphasis>.  A channel is a 32-bit area which can be written to or read from (but not both -- they are unidirectional) using special instructions.  A channel can also have a depth, or <emphasis>channel count</emphasis>.  The channel count is amount of data waiting to be read (for read channels), or the amount of data which can be written (for write channels).  Channels are used for all SPE input and output.  They are used for issuing DMA commands to the memory flow controller, handling SPE events, and reading and writing messages to and from the PPE.  The next program we are going to do will utilize the MFC and the channel interface to do character conversions on data specified by the PPE.  
+</para>
+
+</sect2>
+
 <sect2>
-<title>Invoking SPE Code from the PPU</title>
+<title>Creating and Running SPE Tasks</title>
 
 <para>
-The first program we are going to do will simply invoke the SPU to do a single-character conversion and return.  So far, our <literal>main</literal> function has not been using any parameters.  However, it actually receives three 64-bit parameters - the SPE task identifier in register 3, a pointer to application parameters in register 4, and a pointer to runtime environment information in register 5.  The contents of the application and environment pointers are actually user-defined, and can even be scalar values instead of pointers.  However, if they are pointers, they point to memory <emphasis>in the main storage of the application</emphasis>, not to the SPE's local store.  Therefore, they cannot be accessed directly, but must be moved in via DMA.
+So far, our <literal>main</literal> function has not been using any parameters.  However, it actually receives three 64-bit parameters - the SPE task identifier in register 3, a pointer to application parameters in register 4, and a pointer to runtime environment information in register 5.  The contents of the application and environment pointers are actually user-defined, and can even be scalar values instead of pointers.  However, if they are pointers, they point to memory <emphasis>in the main storage of the application</emphasis>, not to the SPE's local store.  Therefore, they cannot be accessed directly, but must be moved in via DMA.
 </para>
 
 <para>
@@ -537,8 +546,17 @@ SPE tasks are created with the function <literal>speid_t spe_create_thread(spe_g
 </varlistentry>
 </variablelist>
 
+</sect2>
+
+<sect2>
+<title>An PPE/SPE Program Using DMA</title>
+
 <para>
-What our SPE program will do is take a pointer to a struct as the first parameter, with the struct holding the size and the pointer to the string.  Then, it will copy that string into local memory, perform the <literal>convert_to_upper</literal> function on each byte, and then copy it back to system memory and exit.  Here is the code (enter as <literal>convert_dma_main.s</literal>):
+As an example of DMA communication, we will write a program where the PPE takes a string, and invokes an SPE program which copies over the string, converts it to uppercase, and copies it back into main storage.  All of the data transfers will use the MFC's DMA facilities, controlled through SPE channels. 
+</para>
+
+<para>
+The main SPE program receives an effective address pointer to a struct containing the size and pointer of a string in main memory.  It will then copy it into its buffer, perform the conversion, and copy it back.  Here is the SPE code (enter as <literal>convert_dma_main.s</literal>):
 </para>
 
 <example>
@@ -560,9 +578,6 @@ conversion_data:
 
 .text
 
-#Declare function from other file
-.global convert_to_upper
-
 #MFC Constants
 .equ MFC_GET_CMD, 0x40
 .equ MFC_PUT_CMD, 0x20
@@ -570,14 +585,16 @@ conversion_data:
 .equ LR_OFFSET, 16
 
 ##UTILITY FUNCTION TO PERFORM DMA OPS##
+#Parameters -- Local Store Address, 64-bit Effective Address, Transfer Size, DMA Tag, DMA Command
 .type perform_dma, @function
 perform_dma:
+	shlqbyi $9, $4, 4  #Get the low-order 32-bits of the address
 	wrch $MFC_LSA, $3
 	wrch $MFC_EAH, $4
-	wrch $MFC_EAL, $5
-	wrch $MFC_Size, $6
-	wrch $MFC_TagID, $7
-	wrch $MFC_Cmd, $8
+	wrch $MFC_EAL, $9
+	wrch $MFC_Size, $5
+	wrch $MFC_TagID, $6
+	wrch $MFC_Cmd, $7
 	bi $lr
 
 .type wait_for_dma_completion, @function
@@ -593,7 +610,6 @@ wait_for_dma_completion:
 	rdch $3, $MFC_RdTagStat
 	#Return
 	bi $lr
-	
 
 .global main
 .type main, @function
@@ -604,6 +620,8 @@ main:
 	stqd $lr, LR_OFFSET($sp)
 	stqd $sp, -MAIN_FRAME_SIZE($sp)
 	ai $sp, $sp, -MAIN_FRAME_SIZE
+
+	#Save Registers
 	#Save register $127 (will be used for current index)
 	stqd $127, MAIN_REG_SAVE_OFFSET($sp)
 	#Save register $126 (will be used for base pointer)
@@ -613,11 +631,10 @@ main:
 
 	##COPY IN CONVERSION INFORMATION##
 	ila $3, conversion_info         #Local Store Address
-	#register 4 already has address #EAH
-	shlqbyi $5, $4, 4               #EAL
-	il $6, CONVERSION_STRUCT_SIZE   #Transfer size
-	il $7, 0                        #DMA Tag
-	il $8, MFC_GET_CMD              #DMA Command
+	#register 4 already has address #64-bit Effective Address
+	il $5, CONVERSION_STRUCT_SIZE   #Transfer size
+	il $6, 0                        #DMA Tag
+	il $7, MFC_GET_CMD              #DMA Command
 	brsl $lr, perform_dma
 
 	#Wait for DMA to complete
@@ -627,11 +644,10 @@ main:
 	##COPY STRING IN TO BUFFER##
 	#Load buffer data pointer 
 	ila $3, conversion_buffer #Local Store
-	lqr $4, conversion_data   #EAH
-	shlqbyi $5, $4, 4         #EAL
-	lqr $6, conversion_length #SIZE
-	il $7, 0                  #DMA Tag
-	il $8, MFC_GET_CMD        #DMA Command
+	lqr $4, conversion_data   #64-bit Effective Address
+	lqr $5, conversion_length #SIZE
+	il $6, 0                  #DMA Tag
+	il $7, MFC_GET_CMD        #DMA Command
 	brsl $lr, perform_dma
 
 	#Wait for DMA to complete
@@ -662,12 +678,11 @@ loop:
 
 loop_end:
         #Copy data back
-        ila $3, conversion_buffer
-        lqr $4, conversion_data
-        shlqbyi $5, $4, 4
-        lqr $6, conversion_length
-        il $7, 0
-        il $8, MFC_PUT_CMD
+        ila $3, conversion_buffer   #Local Store Address
+        lqr $4, conversion_data     #64-bit effective address
+        lqr $5, conversion_length   #Size
+        il $6, 0                    #DMA Tag
+        il $7, MFC_PUT_CMD          #DMA Command
 	brsl $lr, perform_dma
 
         #Wait for DMA to complete
@@ -706,14 +721,12 @@ Here is the PPU code to make use of the SPU code (enter as <literal>ppu_dma_main
 #include &lt;stdio.h&gt;
 #include &lt;libspe.h&gt;
 #include &lt;errno.h&gt;
-typedef long long int64;
-typedef unsigned long long uint64;
 
 /* embedspu actually defines this in the generated object file, we only need an extern reference here */
 extern spe_program_handle_t convert_to_upper_handle;
 
-/* This is the parameter structure that our code expects */
-/* Note the alignment on all of the data that will be passed to the SPU */
+/* This is the parameter structure that our SPE code expects */
+/* Note the alignment on all of the data that will be passed to the SPE is 16-bytes */
 typedef struct {
 	int length __attribute__((aligned(16)));
 	char *data __attribute__((aligned(16)));
@@ -757,7 +770,137 @@ ppu-gcc -m64 spe_convert_csf.o ppu_dma_main.c -lspe -o dma_convert
 </programlisting>
 
 <para>
-That's quite a bit to swallow, but my goal is to make you competent in all of the basic aspects of SPU programming before we hit the vector processing in the next article.  So if you can hang in there, you'll be on your way to expert SPU programming in no time.
+That's quite a bit to swallow, but my goal is to make you competent in all of the basic aspects of SPU programming before we hit the vector processing in the next article.  So if you can hang in there, you'll be on your way to expert SPU programming in no time.  So let's go through what the code is doing.  Let's start with the PPU code, since it's a little easier.
+</para>
+
+<para>
+The first interesting part of the PPU code is the inclusion of the <literal>libspe.h</literal> header file, which contains all of the function declarations for running programs on the SPE.  It then references a handle called <literal>convert_to_upper_handle</literal>.  This is only an <literal>extern</literal> reference, not the declaration itself.  This is because <literal>convert_to_upper_handle</literal> was specified in the <literal>ppu-embedspu</literal> command.  It is the handle to the embedded program.
+</para>
+
+<para>
+Next, we define the structure that will be used as the parameter to our SPE program.  We need the length of the string and the pointer to the string itself.  Notice that these are all quadword aligned, so that we can copy it into our main program and use the values with a minimum of fuss.
+</para>
+
+<para>
+In the main program, we declare our variables.  Note that all of the declared variables which will be copied using DMA are aligned on quadword boundaries.  That's because DMA transfers, with a few exceptions for small transfers, <emphasis>must be quadword aligned in both the source and destination addresses</emphasis>.  Next, the SPE task is created with <literal>spe_create_thread</literal>, passing in our parameter structure.  Now, we can just wait for the SPE task to complete using <literal>spe_wait</literal>, and then print out the final value.
+</para>
+
+<para>
+As you may have guessed, most of the interesting parts of the program are taking place on the SPE, including all of the DMA transfers.  DMA transfers are almost always done by the SPEs rather than by the PPE because they can handle much more data and many more active operations than the PPE.  The first thing the program does is reserve space for the application's parameter data.  This is also aligned to quadword boundaries (<literal>.align 4</literal> in assembly language works the same as <literal>__attribute__((aligned(16)))</literal> in C because 2^4 = 16).  <literal>.octa</literal> reserves quadword values (the mnemonic is a holdover from 16-bit days).  We then define a constant <literal>CONVERSION_STRUCT_SIZE</literal> for the size of the whole structure.
+</para>
+
+<para>
+After this, we go to the <literal>.bss</literal> section, which is like the <literal>.data</literal> section, except that the executable itself does not contain the values, it just notes how much space should be reserved for them.  This section is for uninitialized data.  <literal>.lcomm conversion_buffer, 16384</literal> reserves 16K of space, with the starting address defined in the symbol <literal>conversion_buffer</literal>.  It is defined for holding 16K because that is the maximum size of an MFC DMA transfer.  Therefore, if any string is longer than that, the PPE will have to invoke the program multiple times (a better program would simply break up the request into chunks).
+</para>
+
+<para>
+The first thing that we define in our main program code are functions to handle DMA operations.  The first function is <literal>perform_dma</literal>, which, not surprisingly, performs DMA commands.  The Cell BE Handbook defines the sequence of channel operations needed to perform a DMA transfer on pages 450-456.  The first thing the function is doing is converting the 64-bit effective address in register 4 into two 32-bit components - a high- and a low-order component (remember, the channels are only 32-bits wide).  Because channels are written using a register's preferred word-sized slot, the 64-bit address already has the high-order bits in the preferred slot.  Therefore, we just shift the contents to the left by four bytes into a new register to get the low-order bits in the preferred slot.  We then write the local store address, the high-order bits of the effective address, the low-order bits of the effective address, the size of the transfer, the "tag" of the DMA command, and then the command itself to their appropriate channels using the <literla>wrch</literal> instruction.  When the command is written, the DMA request is enqueued into the MFC provided it has available slots - ours certainly does as we are not doing any concurrent DMA requests.  The "tag" is a number which can be assigned to one or many DMA commands.  All DMA commands issued with the same tag are considered a single group, and status updates and sequencing operations apply to the group as a whole.  In this application, we will only have one DMA command active at a time, so all of our operations will use 0 as the DMA tag.  The DMA command should be either <literal>MFC_GET_CMD</literal> or <literal>MFC_PUT_CMD</literal>.  There are others, but we aren't concerned with them here.  MFC commands are all done from the perspective of the SPE, whether or not it is actually the SPE issuing the command.  So <literal>MFC_GET_CMD</literal> moves data from main memory to the local store, and <literal>MFC_PUT_CMD</literal> goes the other way. 
+</para>
+
+<para>
+Because DMA commands are asynchronous, it is useful to be able to wait for one to complete.  The function <literal>wait_for_dma_completion</literal> does precisely that.  It takes a tag as its only parameter, converts it to a tag mask, requests a DMA status, and then reads the status.  So how does this wait for the DMA operation to complete?  When writing to the <literal>$MFC_WrTagUpdate</literal> channel with a value of 2, it causes the <literal>$MFC_RdTagStat</literal> to not have a value until the operation is completed.  Thus, when we try to read the channel using <literal>rdch</literal>, it will block until the status is available, at which point the transfer will be complete.
+</para>
+
+<para>
+The <literal>main</literal> function has the main meat of the program.  It starts by setting up a stack frame.  It then saves 3 non-volatile registers that will be used for the main control of the program.  Next, we perform a DMA transfer to copy in our parameter structure.  Remember, the first parameter to the function is the 64-bit address that we passed in from the PPE.  We then use a DMA command to fetch the full structure, and wait for the DMA to complete.  After the transfer, we use the data in that structure to copy the string itself into our buffer in the local store using another DMA transfer, and wait for it to complete.  Note that we used the <literal>ila</literal> instruction ("immediate load address") to load the address of the buffer.  The <literal>ila</literal> instruction maxes out as 18 bits, which works for the Playstation 3.  However, if a Cell processor has a larger local store size, you would load it instead with the following two instructions:
+</para>
+<programlisting>
+ilhu $3, conversion_buffer@h #load high-order 16 bits of conversion_buffer
+iohu $3, conversion_buffer@l #"or" it with the low-order 16 bits of conversion_buffer
+</programlisting>
+<para>
+Then the target effective address, the length of the string, the DMA tag, and a <literal>MFC_GET_CMD</literal> DMA command are all passed to <literal>perform_dma</literal>.  The program then waits for the operation to complete.
+</para>
+
+<para>
+At this point, all of the data is loaded in, we just need to convert it.  We then use register 127 as our loop counter and register 126 as our base pointer, and perform <literal>convert_to_upper</literal> on each value until we get to the end of the buffer.
+</para>
+
+<para>
+At <literal>loop_end</literal>, all of the data is converted, and we need only to copy it back.  We use the same DMA parameters as for the last transfer, but this time it is an <literal>MFC_PUT_CMD</literal> command.  Once the DMA is completed, our function is done.  We load register 3 with the return value, and perform the function epilogue to restore the stack frame and return.
+</para>
+
+</sect2>
+</sect1>
+
+<sect1>
+<title>SPE/PPE Communication Using Mailboxes</title>
+
+<para>
+One other method of SPE/PPE communication which we will briefly discuss is <emphasis>mailboxes</emphasis>.  The mailbox is a simple way to communicate data between the SPE and the PPE.  For the SPE, it is simply a set of channels (a read channel and a write channel) to write 32-bit values to the PPE.  It is similar for the PPE, except that the PPE uses MMIO.
+</para>
+
+<para>
+To demonstrate the concept, we will write a very simple SPE server which waits for an integer number in the mailbox, and then writes back the square of that number.  Here is the code (enter as <literal>square_server.s</literal>:
+</para>
+
+<example>
+<title>SPU Squaring Server</title>
+<programlisting>
+.text
+.global main
+.type main, @function
+main:
+	#Read the value from the inbox (stalls if no value until one is available)
+	rdch $3, $SPU_RdInMbox 
+	#Square the value
+	mpy $3, $3, $3
+	#Write the value back
+	wrch $SPU_WrOutMbox, $3
+	#Go back and do it again
+	br main
+</programlisting>
+</example>
+
+<para>
+That's all!  This will just sit around and wait for requests and process them.  It simply quits when the parent program quits.  And, if there is no value available in the inbox, the <literal>rdch</literal> instruction simply stalls until there is one.
+</para>
+
+<para>
+The PPE side isn't much harder (enter as <literal>square_client.c</literal>):
+</para>
+
+<example>
+<title>PPE Squaring Client</title>
+<programlisting>
+#include &lt;libspe.h&gt;
+#include &lt;stdio.h&gt;
+
+extern spe_program_handle_t square_server_handle;
+
+int main() {
+	int status = 0;
+
+	/* Create SPE thread */
+	speid_t spe_id = spe_create_thread(0, &square_server_handle, NULL, NULL, -1, 0);	
+	if(spe_id == 0) {
+		fprintf(stderr, "Unable to create SPE thread!\n");
+		return 1;
+	}
+
+	/* Request a square */
+	spe_write_in_mbox(spe_id, 4);
+	/* Wait for result to be available */
+	while(!spe_stat_out_mbox(spe_id)) {} 
+	/* Read and display result */
+	printf("The square of 4 is %d\n", spe_read_out_mbox(spe_id));
+
+	/* Do it again */
+	spe_write_in_mbox(spe_id, 10);
+	while(!spe_stat_out_mbox(spe_id)) {} 
+	printf("The square of 10 is %d\n", spe_read_out_mbox(spe_id));
+
+	return 0;
+}
+</programlisting>
+</example>
+
+<para>
+Now, the mailboxes, even for the PPE, are named according to the perspective of the SPE.  So you write to the inbox and read from the outbox if you are the PPE.  Unlike the SPE, the PPE does not stall and wait for a value when it reads or writes.  Instead, the program must use <literal>spe_stat_out_mbox</literal> to wait for a value, and <literal>spe_stat_in_mbox</literal> to see if there are slots left for writing to the mailbox.  We don't use the latter as we only have one value in play at a time.
+</para>
+
+<para>
+The real power of mailboxes comes when a program combines the mailbox and the DMA approach.  For example, an SPE task can be created which listens for buffer addresses on its mailbox, and then uses that address to pull in all of the data to be processed via DMA.
 </para>
 
 </sect1>
@@ -765,21 +908,15 @@ That's quite a bit to swallow, but my goal is to make you competent in all of th
 <sect1>
 <title>Conclusion</title>
 
+<para>
+In this article, we tried to cover the main concepts of assembly language programming on the Playstation 3's Cell Processor under Linux.  We covered the basic architecture, the syntax of the SPU assembly language, and the primary modes of communication between the SPE and the PPE.  In the next article, we will look at how to pump every ounce of performance out of the Cell SPEs that we can.  In later articles, we will then apply this knowledge to SPE programming in C, to make our lives just a little bit easier.
+</para>
+
 </sect1>
 </chapter>
 
 
 <!--
-<sect1>
-<title>Basic SPE Layout</title>
-<para>
-The SPE consists of 128 general-purpose registers, each 128 bits long.  
- - what they can be used for
- - dedicated, non-volatile, and volatile registers
- - 
-
-
-The instruction sequence for a scalar load on the SPE is:lqd     $5, 0($2)rotqby  $2, $5, $2where $2 starts with the EA of the word you want to load into the preferred slot and ends with the scalar in the preferred slot.The code sequence for a non-quadword aligned scalar store is:cwd    $2, 0($5)lqd    $6, 0($5)shufb  $2, $3, $6, $2stqb   $2, 0($5)where :$3 = scalar to store, located in preferred slot of the register$5 = EA of the target scalar in memory$6 = quadword containing the scalar in memoryOf course the compiler generates these sequences and schedules them for you so as a C/C++ programmer you are unaware of all this stuff.Message was edited by: neuron (corrected last line of code: stqb $2, 0($5))
 
 http://www-128.ibm.com/developerworks/power/library/pa-celltips1/
 
