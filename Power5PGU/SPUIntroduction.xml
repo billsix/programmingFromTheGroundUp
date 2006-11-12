@@ -316,7 +316,7 @@ So now we have the result, and it is in register 3, which is where it needs to b
 The base case (what to do if the function's parameter is zero) is much easier.  The result of factorial(0) is 1, so we simply load in the number one into register 3 using <literal>il $3, 1</literal>.  Then we restore the stack frame and return.  However, since the base case doesn't call any other functions, we don't need to load the link register from the stack frame - the value is still there.
 </para>
 <para>
-And that's how the function works!
+And that's how the function works!  Just note that writing deeply-recursive functions on the SPE is problematic because there is no stack overflow protection on the SPE, and the local store is small to begin with. 
 </para>
 </sect2>
 </sect1>
@@ -360,6 +360,7 @@ Storing is more difficult.  Here is the code to store a byte in the preferred sl
 
 <example>
 <title>Store to Non-Aligned Address</title>
+<programlisting>
 ###Store $4 into address $3
 
 #Load the data into a temporary register
@@ -378,11 +379,11 @@ To understand this cryptic-looking sequence, we need to again keep in mind that 
 </para>
 
 <para>
-To illustrate the technique, we're going to write a function that takes the address of an ASCII character, loads it, converts it to uppercase, and stores it back.  Here is the code (save it as toupper.s):
+To illustrate the technique, we're going to write a function that takes the address of an ASCII character, loads it, converts it to uppercase, and stores it back.  We are going to put the function <literal>convert_to_upper</literal> in a separate file than the <literal>main</literal> function so that we can reuse it in the remaining programs as well. Here is the code for the <literal>main</literal> function (save it as <literal>convert_main.s</literal>):
 </para>
 
 <example>
-<title>Converting to Uppercase</title>
+<title>Uppercase Conversion Program Start</title>
 <programlisting>
 .data
 
@@ -415,8 +416,18 @@ main:
 	ai $sp, $sp, MAIN_FRAME_SIZE
 	lqd $lr, LR_OFFSET($sp)
 	bi $lr
+</programlisting>
+</example>
 
+<para>
+Now enter the function that actually does the uppercase conversion (enter as <literal>convert_to_upper.s</literal>):
+</para>
 
+<example>
+<title>Function to Convert to Uppercase</title>
+<programlisting>
+.global convert_to_upper
+.type convert_to_upper, @function
 convert_to_upper:
 	#Register usage
 	# $3 -- parameter 1 -- address of byte to be converted
@@ -440,22 +451,33 @@ convert_to_upper:
 	and $8, $5, $7
 	#Mask out irrelevant bits
 	andi $8, $8, 255
-	brz $8, store_back
+	#Skip uppercase conversion and store if $4 is not lowercase (based on $8)
+	brz $8, end_convert
 
 is_lowercase:
+	#Perform Conversion
 	ai $4, $4, 'A' - 'a'
 
-store_back:
-	#UNALIGNED STORE
+	#Unaligned Store
 	lqd $9, 0($3)
 	cbd $10, 0($3)
 	shufb $11, $4, $9, $10
 	stqd $11, 0($3)
 
+end_convert:
 	#no stack frame, no return value, just return
 	bi $lr
 </programlisting>
 </example>
+
+<para>
+To compile and run, perform the following commands:
+</para>
+
+<programlisting>
+spu-gcc convert_main.s convert_to_upper.s -o convert
+./convert
+</programlisting>
 
 <para>
 The <literal>main</literal> function doesn't function too different than from before, so we won't discuss it here.
@@ -481,20 +503,262 @@ Now we are going to write code in which we explicitly use the PPE to manage our 
 <sect2>
 <title>Invoking SPE Code from the PPU</title>
 
-</sect2>
+<para>
+The first program we are going to do will simply invoke the SPU to do a single-character conversion and return.  So far, our <literal>main</literal> function has not been using any parameters.  However, it actually receives three 64-bit parameters - the SPE task identifier in register 3, a pointer to application parameters in register 4, and a pointer to runtime environment information in register 5.  The contents of the application and environment pointers are actually user-defined, and can even be scalar values instead of pointers.  However, if they are pointers, they point to memory <emphasis>in the main storage of the application</emphasis>, not to the SPE's local store.  Therefore, they cannot be accessed directly, but must be moved in via DMA.
+</para>
 
-<sect2>
-<title>Copying Data with DMA</title>
+<para>
+SPE tasks are created with the function <literal>speid_t spe_create_thread(spe_gid_t spe_gid, spe_program_handle_t *spe_program_handle, void *argp, void *envp, unsigned long mask, int flags)</literal>.  The parameters work as follows:
+</para>
 
-</sect2>
+<variablelist>
+<varlistentry>
+<term>spe_gid</term>
+<listitem><para>This is the SPE thread group to assign this task to.  It can simply be set to zero.</para></listitem>
+<varlistentry>
+<term>spe_program_handle</term>
+<listitem><para>This is a pointer to a structure which holds the data about the SPE program itself.  This data is normally defined either automatically by embedding an SPU application within a PPU executable (this will be shown later), by using <literal>dlopen()</literal>/<literal>dlsym()</literal> on a library containing an SPU application, or by using <literal>spe_open_image()</literal> to directly load an SPU application.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>argp</term>
+<listitem><para>This is a pointer to application-specific data for program initialization. Set to null if it is not going to be used.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>envp</term>
+<listitem><para>This is a pointer to environment data for the program.  Set to null if it is not going to be used.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>mask</term>
+<listitem><para>This is the processor affinity mask.  Set it to -1 to assign  the process to any available SPE.  Otherwise, it contains a bitmask for each available processor.  1 means that the processor should be used, 0 means that it should not.  Most applications set this to -1.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term>flags</term>
+<listitem><para>This is a set of bit flags which modify how the SPE is set up.  These are all outside the scope of this article.</para></listitem>
+</varlistentry>
+</variablelist>
 
-<sect2>
-<title>Mailbox Delivery</title>
+<para>
+What our SPE program will do is take a pointer to a struct as the first parameter, with the struct holding the size and the pointer to the string.  Then, it will copy that string into local memory, perform the <literal>convert_to_upper</literal> function on each byte, and then copy it back to system memory and exit.  Here is the code (enter as <literal>convert_dma_main.s</literal>):
+</para>
 
-</sect2>
+<example>
+<title>SPU Code to Perform Uppercase Conversion for PPU Program</title>
+<programlisting>
+.data
 
-<sect2>
-<title>Sharing Data with EARs
+.align 4
+conversion_info:
+conversion_length:
+	.octa 0
+conversion_data:
+	.octa 0
+.equ CONVERSION_STRUCT_SIZE, 32
+
+.section .bss #Uninitialized Data Section
+.align 4
+.lcomm conversion_buffer, 16384
+
+.text
+
+#Declare function from other file
+.global convert_to_upper
+
+#MFC Constants
+.equ MFC_GET_CMD, 0x40
+.equ MFC_PUT_CMD, 0x20
+
+.equ LR_OFFSET, 16
+
+##UTILITY FUNCTION TO PERFORM DMA OPS##
+.type perform_dma, @function
+perform_dma:
+	wrch $MFC_LSA, $3
+	wrch $MFC_EAH, $4
+	wrch $MFC_EAL, $5
+	wrch $MFC_Size, $6
+	wrch $MFC_TagID, $7
+	wrch $MFC_Cmd, $8
+	bi $lr
+
+.type wait_for_dma_completion, @function
+wait_for_dma_completion:
+	#We receive a tag in register 3 - convert to a tag mask
+	il $4, 1
+	shl $4, $4, $3
+	wrch $MFC_WrTagMask, $4
+	#Tell the DMA that we only want it to inform us on DMA completion
+	il $5, 2
+	wrch $MFC_WrTagUpdate, $5
+	#Wait for DMA Completion, and store the result in the return value
+	rdch $3, $MFC_RdTagStat
+	#Return
+	bi $lr
+	
+
+.global main
+.type main, @function
+.equ MAIN_FRAME_SIZE, 80
+.equ MAIN_REG_SAVE_OFFSET, 32
+main:
+	#Prologue
+	stqd $lr, LR_OFFSET($sp)
+	stqd $sp, -MAIN_FRAME_SIZE($sp)
+	ai $sp, $sp, -MAIN_FRAME_SIZE
+	#Save register $127 (will be used for current index)
+	stqd $127, MAIN_REG_SAVE_OFFSET($sp)
+	#Save register $126 (will be used for base pointer)
+	stqd $126, MAIN_REG_SAVE_OFFSET+16($sp)
+	#Save register $125 (will be used for final size)
+	stqd $125, MAIN_REG_SAVE_OFFSET+24($sp)
+
+	##COPY IN CONVERSION INFORMATION##
+	ila $3, conversion_info         #Local Store Address
+	#register 4 already has address #EAH
+	shlqbyi $5, $4, 4               #EAL
+	il $6, CONVERSION_STRUCT_SIZE   #Transfer size
+	il $7, 0                        #DMA Tag
+	il $8, MFC_GET_CMD              #DMA Command
+	brsl $lr, perform_dma
+
+	#Wait for DMA to complete
+	il $3, 0
+	brsl $lr, wait_for_dma_completion
+
+	##COPY STRING IN TO BUFFER##
+	#Load buffer data pointer 
+	ila $3, conversion_buffer #Local Store
+	lqr $4, conversion_data   #EAH
+	shlqbyi $5, $4, 4         #EAL
+	lqr $6, conversion_length #SIZE
+	il $7, 0                  #DMA Tag
+	il $8, MFC_GET_CMD        #DMA Command
+	brsl $lr, perform_dma
+
+	#Wait for DMA to complete
+	il $3, 0
+	brsl $lr, wait_for_dma_completion
+
+	#LOOP THROUGH BUFFER
+	#Load bufer size
+	lqr $125, conversion_length
+	#Load buffer pointer
+	ila $126, conversion_buffer
+	#Load buffer index
+	il $127, 0
+loop:
+	ceq $7, $125, $127
+	brnz $7, loop_end
+	
+	#Compute address for function parameter
+	a $3, $127, $126
+	#Next index
+	ai $127, $127, 1
+
+	#Run function
+	brsl $lr, convert_to_upper
+
+	#Repeat loop
+	br loop
+
+loop_end:
+        #Copy data back
+        ila $3, conversion_buffer
+        lqr $4, conversion_data
+        shlqbyi $5, $4, 4
+        lqr $6, conversion_length
+        il $7, 0
+        il $8, MFC_PUT_CMD
+	brsl $lr, perform_dma
+
+        #Wait for DMA to complete
+	il $3, 0
+	brsl $lr, wait_for_dma_completion
+
+	#Return Value
+	il $3, 0
+
+        #Epilogue
+        ai $sp, $sp, MAIN_FRAME_SIZE
+        lqd $lr, LR_OFFSET($sp)
+        bi $lr
+</programlisting>
+</example>
+
+<para>
+Now, not only do we need to compile it, we need to prepare it for embedding in a PPU application.  Assuming you still have the <literal>convert_to_upper.s</literal> from your last program in the current directory, here are the commands to compile and embed:
+</para>
+
+<programlisting>
+spu-gcc convert_dma_main.s convert_to_upper.s -o spe_convert
+ppu-embedspu convert_to_upper_handle spe_convert spe_convert_csf.o
+</programlisting>
+
+<para>
+This produces what is called a <emphasis>CESOF Linkable</emphasis>, which allows an object file for the SPU to be embedded in a PPU application and loaded as needed.
+
+<para>
+Here is the PPU code to make use of the SPU code (enter as <literal>ppu_dma_main.c</literal>):
+</para>
+
+<example>
+<title>PPU Code to Utilize SPU Application</title>
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;libspe.h&gt;
+#include &lt;errno.h&gt;
+typedef long long int64;
+typedef unsigned long long uint64;
+
+/* embedspu actually defines this in the generated object file, we only need an extern reference here */
+extern spe_program_handle_t convert_to_upper_handle;
+
+/* This is the parameter structure that our code expects */
+/* Note the alignment on all of the data that will be passed to the SPU */
+typedef struct {
+	int length __attribute__((aligned(16)));
+	char *data __attribute__((aligned(16)));
+} conversion_structure;
+
+int main() {
+	int status = 0;
+	/* Not only is this aligned to a quadword, it is also padded to a quadword. */
+	char str[] __attribute__((aligned(16))) = "This is the string we want to convert to uppercase.            ";
+	conversion_structure conversion_info __attribute((aligned(16)));
+
+	/* Set the data elements in the parameter structure */
+	conversion_info.length = strlen(str) + 1; /* add one for null byte */
+	conversion_info.data = str;
+
+	/* Create the thread and check for errors */
+	speid_t spe_id = spe_create_thread(0, &convert_to_upper_handle, &conversion_info, NULL, -1, 0);
+	if(spe_id == 0) {
+		fprintf(stderr, "Unable to create SPE thread: errno=%d\n", errno);
+		return 1;
+	}
+
+	/* Wait for SPE thread completion */
+	spe_wait(spe_id, &status, 0);
+	
+	/* Print out result */
+	printf("The converted string is: %s\n", conversion_info.data);
+
+	return 0;
+}
+</programlisting>
+</example>
+
+<para>
+To build and execute the program, enter the following commands:
+</para>
+
+<programlisting>
+ppu-gcc -m64 spe_convert_csf.o ppu_dma_main.c -lspe -o dma_convert
+./dma_convert
+</programlisting>
+
+<para>
+That's quite a bit to swallow, but my goal is to make you competent in all of the basic aspects of SPU programming before we hit the vector processing in the next article.  So if you can hang in there, you'll be on your way to expert SPU programming in no time.
+</para>
 
 </sect1>
 
