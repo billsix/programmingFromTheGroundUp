@@ -524,6 +524,7 @@ SPE tasks are created with the function <literal>speid_t spe_create_thread(spe_g
 <varlistentry>
 <term>spe_gid</term>
 <listitem><para>This is the SPE thread group to assign this task to.  It can simply be set to zero.</para></listitem>
+</varlistentry>
 <varlistentry>
 <term>spe_program_handle</term>
 <listitem><para>This is a pointer to a structure which holds the data about the SPE program itself.  This data is normally defined either automatically by embedding an SPU application within a PPU executable (this will be shown later), by using <literal>dlopen()</literal>/<literal>dlsym()</literal> on a library containing an SPU application, or by using <literal>spe_open_image()</literal> to directly load an SPU application.</para></listitem>
@@ -710,6 +711,7 @@ ppu-embedspu convert_to_upper_handle spe_convert spe_convert_csf.o
 
 <para>
 This produces what is called a <emphasis>CESOF Linkable</emphasis>, which allows an object file for the SPU to be embedded in a PPU application and loaded as needed.
+</para>
 
 <para>
 Here is the PPU code to make use of the SPU code (enter as <literal>ppu_dma_main.c</literal>):
@@ -743,14 +745,14 @@ int main() {
 	conversion_info.data = str;
 
 	/* Create the thread and check for errors */
-	speid_t spe_id = spe_create_thread(0, &convert_to_upper_handle, &conversion_info, NULL, -1, 0);
+	speid_t spe_id = spe_create_thread(0, &amp;convert_to_upper_handle, &amp;conversion_info, NULL, -1, 0);
 	if(spe_id == 0) {
 		fprintf(stderr, "Unable to create SPE thread: errno=%d\n", errno);
 		return 1;
 	}
 
 	/* Wait for SPE thread completion */
-	spe_wait(spe_id, &status, 0);
+	spe_wait(spe_id, &amp;status, 0);
 	
 	/* Print out result */
 	printf("The converted string is: %s\n", conversion_info.data);
@@ -794,7 +796,7 @@ After this, we go to the <literal>.bss</literal> section, which is like the <lit
 </para>
 
 <para>
-The first thing that we define in our main program code are functions to handle DMA operations.  The first function is <literal>perform_dma</literal>, which, not surprisingly, performs DMA commands.  The Cell BE Handbook defines the sequence of channel operations needed to perform a DMA transfer on pages 450-456.  The first thing the function is doing is converting the 64-bit effective address in register 4 into two 32-bit components - a high- and a low-order component (remember, the channels are only 32-bits wide).  Because channels are written using a register's preferred word-sized slot, the 64-bit address already has the high-order bits in the preferred slot.  Therefore, we just shift the contents to the left by four bytes into a new register to get the low-order bits in the preferred slot.  We then write the local store address, the high-order bits of the effective address, the low-order bits of the effective address, the size of the transfer, the "tag" of the DMA command, and then the command itself to their appropriate channels using the <literla>wrch</literal> instruction.  When the command is written, the DMA request is enqueued into the MFC provided it has available slots - ours certainly does as we are not doing any concurrent DMA requests.  The "tag" is a number which can be assigned to one or many DMA commands.  All DMA commands issued with the same tag are considered a single group, and status updates and sequencing operations apply to the group as a whole.  In this application, we will only have one DMA command active at a time, so all of our operations will use 0 as the DMA tag.  The DMA command should be either <literal>MFC_GET_CMD</literal> or <literal>MFC_PUT_CMD</literal>.  There are others, but we aren't concerned with them here.  MFC commands are all done from the perspective of the SPE, whether or not it is actually the SPE issuing the command.  So <literal>MFC_GET_CMD</literal> moves data from main memory to the local store, and <literal>MFC_PUT_CMD</literal> goes the other way. 
+The first thing that we define in our main program code are functions to handle DMA operations.  The first function is <literal>perform_dma</literal>, which, not surprisingly, performs DMA commands.  The Cell BE Handbook defines the sequence of channel operations needed to perform a DMA transfer on pages 450-456.  The first thing the function is doing is converting the 64-bit effective address in register 4 into two 32-bit components - a high- and a low-order component (remember, the channels are only 32-bits wide).  Because channels are written using a register's preferred word-sized slot, the 64-bit address already has the high-order bits in the preferred slot.  Therefore, we just shift the contents to the left by four bytes into a new register to get the low-order bits in the preferred slot.  We then write the local store address, the high-order bits of the effective address, the low-order bits of the effective address, the size of the transfer, the "tag" of the DMA command, and then the command itself to their appropriate channels using the <literal>wrch</literal> instruction.  When the command is written, the DMA request is enqueued into the MFC provided it has available slots - ours certainly does as we are not doing any concurrent DMA requests.  The "tag" is a number which can be assigned to one or many DMA commands.  All DMA commands issued with the same tag are considered a single group, and status updates and sequencing operations apply to the group as a whole.  In this application, we will only have one DMA command active at a time, so all of our operations will use 0 as the DMA tag.  The DMA command should be either <literal>MFC_GET_CMD</literal> or <literal>MFC_PUT_CMD</literal>.  There are others, but we aren't concerned with them here.  MFC commands are all done from the perspective of the SPE, whether or not it is actually the SPE issuing the command.  So <literal>MFC_GET_CMD</literal> moves data from main memory to the local store, and <literal>MFC_PUT_CMD</literal> goes the other way. 
 </para>
 
 <para>
@@ -872,7 +874,7 @@ int main() {
 	int status = 0;
 
 	/* Create SPE thread */
-	speid_t spe_id = spe_create_thread(0, &square_server_handle, NULL, NULL, -1, 0);	
+	speid_t spe_id = spe_create_thread(0, &amp;square_server_handle, NULL, NULL, -1, 0);	
 	if(spe_id == 0) {
 		fprintf(stderr, "Unable to create SPE thread!\n");
 		return 1;
