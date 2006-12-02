@@ -456,7 +456,7 @@ convert_to_upper:
 
 is_lowercase:
 	#Perform Conversion
-	ai $4, $4, 'A' - 'a'
+	absdb $4, $4, 'a' - 'A'
 
 	#Unaligned Store
 	lqd $9, 0($3)
@@ -484,7 +484,7 @@ The <literal>main</literal> function doesn't function too different than from be
 </para>
 
 <para>
-The <literal>convert_to_upper</literal> function takes the address of an arbitrary character, converts it to upper-case, and then stores it back and returns nothing.  The first thing it does is an unaligned load as described previously into register 4.   It then checks to see if the byte is in the range <literal>a</literal> through <literal>z</literal>.  It does that by comparing if it is greater than <literal>'a' - 1</literal>, and then seeing if it is greater than <literal>'z'</literal>.  We did not do a "less than" comparison, <emphasis>because they aren't available on the SPU!</emphasis>  SPUs only have comparisons for "greater than" and "equal to".  Therefore, if we want to do a "less than or equal to" comparison, we must do a "greater than" comparison and then do a "not" on it, which is performed using the <literal>nand</literal> instruction with both source arguments being the same register.  Note that we could have combined the last two instructions with an <literal>xor</literal>, but the code would have been much less clear.  We then combine the comparisons using the <literal>and</literal> instruction.  Finally, because the branch instructions only operate on halfword or word values, we have to mask out the non-relevant portions of the register.  Finally, if the bits in the preferred slot of register 8 are not set to true, we skip to the of the function.  If they are true, we perform the conversion.  The SPU does not have the ability to add bytes, only words.  But a word-sized add still works with what we are doing, because it is both a scalar operation (so we don't have to worry about carries affecting other bytes), and because we already know the possible range (so we know it won't cause a carry anyway).  Finally, we perform an unaligned store.  Since we did not call any functions or use any local storage, we did not need a stack frame, so we can now just exit through the link register.
+The <literal>convert_to_upper</literal> function takes the address of an arbitrary character, converts it to upper-case, and then stores it back and returns nothing.  The first thing it does is an unaligned load as described previously into register 4.   It then checks to see if the byte is in the range <literal>a</literal> through <literal>z</literal>.  It does that by comparing if it is greater than <literal>'a' - 1</literal>, and then seeing if it is greater than <literal>'z'</literal>.  We did not do a "less than" comparison, <emphasis>because they aren't available on the SPU!</emphasis>  SPUs only have comparisons for "greater than" and "equal to".  Therefore, if we want to do a "less than or equal to" comparison, we must do a "greater than" comparison and then do a "not" on it, which is performed using the <literal>nand</literal> instruction with both source arguments being the same register.  Note that we could have combined the last two instructions with an <literal>xor</literal>, but the code would have been much less clear.  We then combine the comparisons using the <literal>and</literal> instruction.  Finally, because the branch instructions only operate on halfword or word values, we have to mask out the non-relevant portions of the register.  Finally, if the bits in the preferred slot of register 8 are not set to true, we skip to the end of the function.  If they are true, we perform the conversion.  The only byte-oriented arithmetic function on the SPU is <literal>absdb</literal>, "absolute difference of bytes," which gives the absolute value of the difference between two operands.  We use that, combined with the difference between the lowercase and uppercase values, to perform the conversion.  Finally, we perform an unaligned store.  Since we did not call any functions or use any local storage, we did not need a stack frame, so we can now just exit through the link register.
 </para>
 
 <para>
@@ -784,7 +784,7 @@ Next, we define the structure that will be used as the parameter to our SPE prog
 </para>
 
 <para>
-In the main program, we declare our variables.  Note that all of the declared variables which will be copied using DMA are aligned on quadword boundaries.  That's because DMA transfers, with a few exceptions for small transfers, <emphasis>must be quadword aligned in both the source and destination addresses</emphasis>.  Next, the SPE task is created with <literal>spe_create_thread</literal>, passing in our parameter structure.  Now, we can just wait for the SPE task to complete using <literal>spe_wait</literal>, and then print out the final value.
+In the main program, we declare our variables.  Note that all of the declared variables which will be copied using DMA are aligned on quadword boundaries.  That's because DMA transfers, with a few exceptions for small transfers, <emphasis>must be quadword aligned in both the source and destination addresses</emphasis> (the program will get even beter performance if both source and destination are 128-byte aligned).  Next, the SPE task is created with <literal>spe_create_thread</literal>, passing in our parameter structure.  Now, we can just wait for the SPE task to complete using <literal>spe_wait</literal>, and then print out the final value.
 </para>
 
 <para>
@@ -917,10 +917,58 @@ In this article, we tried to cover the main concepts of assembly language progra
 </sect1>
 </chapter>
 
+<!--
+
+<resource-list>
+<ul>
+<li>The details of every SPU instruction is available in the <a href="">SPU Instruction Set Architecture Reference Guide</a>.  However, most of the time you are better off looking at the short summaries in the <a href="">SPU assembly language</a> guide.  In fact, to get a good overview of what the SPU can do, I suggest a read through the assembly language guide.  It is both short and packed with information.  If the instruction doesn't make sense, then look up the full definition in the  instruction set architecture referece.</li>
+<li>For ABI details, see the <a href="">SPU ABI documentation</a> as well as the <a href="">Linux extensions to the ABI</a>.</li>
+<li>An additional method of interprocess communication using special references called EAR references is this <a href="">guide to CESOF linkables</a>.  This also introduces a very useful function called <literal>copy_from_ls</literal>, which can make life easier for DMA operations that don't conform to the rules for single DMA transfers.</li>
+<li>Here is <a href="">a good tutorial on DMA transfers on the Cell processor using C</a>.</li>
+<li>Here is <a href="">a more extensive tutorial on using mailboxes</a> (also in C).</li> 
+<li>The <a href="">documentation of the SPE management library</a> describes in detail task creation and communication with SPEs from the PPE.</li>
+<li>The Definitive Source of Information about the Cell Processor itself is the <a href="">Cell BE Handbook</a>.  Some important sectinos:
+<ul>
+<li>The details of issuing DMA commands from the SPE are on pages 521-530 and 450-461.</li>
+</ul>
+</li>
+</ul>
 
 <!--
 
 http://www-128.ibm.com/developerworks/power/library/pa-celltips1/
+
+-->
+
+<!-- 
+
+Things we might include:
+
+FROM BE HANDBOOK:
+
+Regardless of the initiator (SPU, PPE, or other device), DMA transfers move up to 16 KB of data 
+between an LS of and main storage. An MFC supports naturally aligned DMA transfer sizes of 1, 
+2, 4, 8, and 16 bytes and multiples of 16 bytes. 
+
+(Note that if they get bus errors it is probably an alignment issue)
+
+Minimize small transfers. Transfers of less than one cache line consume bus bandwidth 
+equivalent to a full cache-line transfer. 
+* Align source and destination addresses of large transfers (128 bytes of larger) to a cache-line 
+boundary. 
+* Have SPEs Initiate DMA transfers. Let the SPEs pull their data instead of PPE pushing the 
+data to the SPE. This is beneficial for four reasons: 
+a. There are 8 times more SPEs than PPEs. 
+b. An MFC SPU Command Queue is twice as deep (16 entries) as the PPE's MFC Proxy 
+Command Queue (eight entries). 
+c. Consumer-managed transfers are easier to synchronize. 
+d. The number of cycles required to initiate a DMA transfer from the SPE is smaller than the 
+number to initiate from the PPE. 
+* Avoid PPE pre-accesses to large data sets, so that most SPE-initiated DMA transfers come 
+from main storage rather than the PPE's L2 cache. DMA transfers from main storage have 
+high bandwidth with moderate latency, whereas transfers from the L2 have moderate band- 
+width with low latency. 
+* Minimize the use of synchronizing and data-ordering commands. 
 
 -->
 
