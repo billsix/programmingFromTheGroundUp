@@ -2,7 +2,7 @@
 <title>An Introduction to Linux on the PS3</title>
 
 <para>
-The Playstation 3 is the easiest and cheapest way for programmers to get their hands on the new IBM Cell processor and take it for a drive.  This article discusses what the fuss is all about, how to install Linux on the PS3, and how to get started developing on the PS3.
+The Playstation 3 is the easiest and cheapest way for programmers to get their hands on the new IBM Cell processor and take it for a drive.  This article discusses what the fuss is all about, how to install Linux on the PS3, and how to get started developing for the Cell processor on the PS3.
 </para>
 
 <sect1>
@@ -57,11 +57,12 @@ While the Cell processor has been out for a while in specialized hardware, the P
 <sect1>
 <title>It Runs Linux?  How do I get it on there?</title>
 <para>
-It is unusual that consoles allow foreign operating systems to be installed on them.  Since consoles are usually sold at a loss, they are usually locked down to prevent 
+It is unusual that consoles allow foreign operating systems to be installed on them.  Since consoles are usually sold at a loss, they are usually locked down to prevent games that run on them without paying royalties to the console developer.  Sony decided to open up the PS3 console a little bit, and allow third-party operating systems to be installed, with the caveat that they do not get accelerated graphics.
+</para>
 
-... talk more about it running linux ..
-
-... talk a little about YDL ...
+<para>
+Because of this, Linux is now able to be installed on the PS3.  There are a few hoops to jump through, but it definitely works.  Not only that, but there is a distribution, Yellow Dog Linux 5, which was built specifically with the PS3 in mind, and which provides support for using it on the PS3.  Yellow Dog Linux (also known as YDL) has been an exclusively PowerPC-based distribution since its inception.  Because the Cell processor has a PowerPC processing element at its core, YDL has chosen to work with Sony to make sure that the PS3 runs on its latest release.
+</para>
 
 <para>
 The instructions in the following sections are only for the installing the initial release of YDL 5.  Future product updates may render these instructions obsolete.
@@ -220,25 +221,21 @@ Now we're all set to go!  YDL 5 is installed, configured, and ready to go!
 <title>OK, I've Got Linux Installed.  Now What?</title>
 
 <para>
-Now that you have Linux and the Cell SDK fully installed, the rest of the series will be about programming using it.  However, for a teaser, we will do a short "hello world" program in C.
+Now that you have Linux and the Cell SDK fully installed, the rest of the series will be about programming using it.  However, for a teaser, we will do a short "hello world" program in C which utilizes both the PPE and an SPE.
 </para>
 
 <para>
-Now, without the SPEs, the Cell is programmed essentially like any other PowerPC-based system.  However, since the SPEs are so radically different from the PPE, and since the SPEs use a different assembly language syntax, in order to take advantage of the SPEs the programmer has to do a little additional work to get code to run on the SPE.
-</para>
-
-<para>
-The PPE is the resource manager and controller for the SPEs.  Therefore, the SPE code is most often embedded into the main executable.  The code for the PPE takes care of creating the SPE process and moving the program code to the SPE using <literal>spe_create_thread</literal>.  This requires several tools and naming conventions to get it to work right, but overall it is a manageable process.
+Before, looking at how this works, let's take a look at some of the common tools used to build Cell programs:
 </para>
 
 <variablelist>
 <varlistentry>
 <term>gcc</term>
-<listitem><para>Our trust compiler, built for generating PPC Linux binaries for the PPE.  Use the <literal>-m64</literal> switch to generate 64-bit executables.</para></listitem>
+<listitem><para>Our trusty compiler, built for generating PPC Linux binaries for the PPE.  Use the <literal>-m64</literal> switch to generate 64-bit executables.</para></listitem>
 </varlistentry>
 <varlistentry>
 <term>spu-gcc</term>
-<listitem><para>This is our trust compiler, but this one generates code for the SPEs.</para></listitem>
+<listitem><para>This is our trusty compiler, but this one generates code for the SPEs.</para></listitem>
 </varlistentry>
 <varlistentry>
 <term>embedspu</term>
@@ -246,6 +243,147 @@ The PPE is the resource manager and controller for the SPEs.  Therefore, the SPE
 </varlistentry>
 </variablelist>
 
+<para>
+Without the SPEs, the Cell is programmed essentially like any other PowerPC-based system.  In fact, you can pretend that they don't exist and your code will work just fine.  Doing this, however, will leave much of your computing power untouched.  In order to take advantage of the SPEs, you will have to put in just a little more effort.
+</para>
+
+<para>
+The PPE is the resource manager for the system.  It handles operating system tasks, regulates access to memory, and controls the SPEs.  The code for the PPE takes care of initializing the program, setting up one or more SPEs with tasks, and performing input and output.  Of course, the PPE can also perform processing tasks as well, but generally the point is to offload all that is reasonable to the SPEs.
+</para>
+
+<para>
+So let's look at how a simple program is constructed to perform processing tasks on the SPE.   The will be very simple -- it will calculate the distance travelled given a speed in miles-per-hour and a time in hours.  Here is the code for the PPE (enter as <literal>ppe_distance.c</literal>):
+</para>
+
+<example>
+<title>Equation Solver PPE Code</title>
+<programlisting>
+#include &lt;stdio.h&gt;
+#include &lt;libspe.h&gt;
+
+//This global is for the SPE program code itself.  It will be created by
+//the embedspu program.
+extern spe_program_handle_t calculate_distance_handle;
+
+//This struct is used for input/output with the SPE task
+typedef struct {
+	float speed;     //input parameter
+	float num_hours; //input parameter
+	float distance;  //output parameter
+	float padding;   //pad the struct a multiple of 16 bytes
+} program_data;
+
+int main() {
+	program_data pd __attribute__((aligned(16)));  //aligned for transfer
+
+	//GATHER DATA TO SEND TO SPE
+	printf("Enter the speed at which your car is travelling in miles/hr: ");
+	scanf("%f", &pd.speed);
+	printf("Enter the number of hours you have been driving at that speed: ");
+	scanf("%f", &pd.num_hours);
+
+	//USE THE SPE TO PROCESS THE DATA
+	//Create SPE Task
+	speid_t spe_id = spe_create_thread(0, &amp;calculate_distance_handle, &amp;pd, NULL, -1, 0);
+	//Check For Errors
+	if(spe_id == 0) {
+		fprintf(stderr, "Error creating SPE thread!\n");
+		return 1;
+	}
+	//Wait For Completion
+	spe_wait(spe_id, NULL, 0);
+
+	//FORMAT THE RESULTS FOR DISPLAY
+	printf("The distance travelled is %f miles.\n", pd.distance);
+	return 0;
+}
+</programlisting>
+</example>
+
+<para>
+As we said before, the main job of the PPE in the cell processor is to handle the input and output tasks.  The only really interesting part is <literal>spe_create_thread</literal>.  The first parameter is a thread group id (zero indicates that we don't care), the second parameter is the handle to the SPE code, the third parameter is the pointer to the data we want to transfer, the fourth parameter is an optional environment pointer, the fifth parameter is a mask of which SPEs we are willing to run the program on (-1 indicates any available SPE), and the final parameter is a list of options we want to employ (we don't want any).  The function returns the SPE task ID number, which we then use as a parameter to <literal>spe_wait</literal>.  <literal>spe_wait</literal> returns when the SPE task terminates.
+</para>
+
+<para>
+Here is the code for the SPE (enter as <literal>spe_distance.c</literal>):
+</para>
+
+<example>
+<title>SPE Calculation Example</title>
+<programlisting>
+//Pull in DMA commands
+#include &lt;spu_mfcio.h&gt;
+typedef struct {
+	float speed;     //input parameter
+	float num_hours; //input parameter
+	float distance;  //output parameter
+	float padding;   //pad the struct a multiple of 16 bytes
+} program_data;
+
+int main(unsigned long long spe_id, unsigned long long program_data_ea, unsigned long long env) {
+	program_data pd __attribute__((aligned(16)));
+	int tag_id = 0;
+
+	//READ DATA IN
+	//Initiate copy
+	mfc_get(&amp;pd, program_data_ea, sizeof(pd), tag_id, 0, 0);
+	//Wait for completion
+	mfc_write_tag_mask(1&lt;&lt;tag_id);
+	mfc_read_tag_status_any();
+
+	//PROCESS DATA
+	pd.distance = pd.speed * pd.num_hours;
+
+	//WRITE RESULTS OUT
+	//Initiate copy  
+	mfc_put(&amp;pd, program_data_ea, sizeof(program_data), tag_id, 0, 0);
+	//Wait for completion
+	mfc_write_tag_mask(1&lt;&lt;tag_id);
+	mfc_read_tag_status_any();
+	return 0;
+}               
+</programlisting>
+</example>
+
+<para>
+We will study SPU programs more in-depth in future articles, but here's a quick rundown of what is happening.  The pointer passed as the third parameter to <literal>spe_create_thread</literal> comes in to this program as <literal>program_data_ea</literal>.  EA stands for <emphasis>effective address</emphasis>, which is a main memory address as viewed from the main PPE program.  Since the SPE does not have direct access to main memory, you cannot directly dereference this as a pointer.  Instead, you must initiate a transfer request to copy data into your local store.  Once it is in your local store, you can access the data through the <emphasis>local store address</emphasis>, sometimes abbreviated as LSA.
+</para>
+
+<para>
+<literal>mfc_get</literal> initiates the transfer into the local store.  Notice that in both the PPE and the SPE the struct was aligned to 16 bytes and padded to 16 bytes.  We will deal with this more later, but for the most part DMA transfers <emphasis>must</emphasis> be aligned to a 16-byte boundary and be sized as a multiple of 16 bytes.  The <literal>tag_id</literal> allows for us to retrieve the status of the DMA operation.  After the transfer, the next two functions cause the program to wait until the transfer is completed.  
+</para>
+
+<para>
+The main processing is trivially simple.  After the data is processed, <literal>mfc_put</literal> initiates a transfer back into main memory, and the next two functions cause us to wait for DMA completion.  When all of that is done, the program exits.
+</para>
+
+<para>
+Now we have to compile and run the program.  That is actually pretty simple:
+</para>
+
+<programlisting>
+#Compile the SPE program
+spu-gcc spe_distance.c -o spe_distance
+#Embed the SPE program into an ELF object file, and expose it
+#through the global variable: calculate_distance_handle
+embedspu calculate_distance_handle spe_distance spe_distance_csf.o
+#Compile the PPE program together with the SPE program
+gcc ppe_distance.c spe_distance_csf.o -lspe -o distance
+#Run the program
+./distance
+</programlisting>
+
+<para>
+And there you have it!  A fully-working Cell program.
+</para>
+
 </sect1>
 
+<sect1>
+<title>Conclusion</title>
+<para>
+The Cell processor is a fantastic new architecture which allows a gigantic jump of processing throughput on modest hardware without excessive heat build-up.  So far, the Cell has been available only in specialized systems, but with the recent Playstation 3 release, the Cell is readily and affordably available.  While you can't program the PS3 directly, its support for third-party operating systems allows you to install Linux on your PS3.  Installing Linux on the PS3 takes a little bit of effort, but in the end you get a low-cost, fully-working Cell processor.  In future articles, we will go in-depth into programming the Cell and extracting every ounce of speed that we can from the SPEs.
+</para>
+
+</sect1>
 </chapter>
