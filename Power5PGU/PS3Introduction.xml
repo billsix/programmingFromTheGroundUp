@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <chapter>
 <title>An Introduction to Linux on the PS3</title>
 
@@ -9,11 +10,11 @@ The Playstation 3 is the easiest and cheapest way for programmers to get their h
 <title>What's the Fuss about the Playstation 3?</title>
 
 <para>
-The Playstation 3 is unusual for a gaming console for two reasons.  First of all, it is incredibly more open than any previous console.  While most consoles do everything possible to prevent unauthorized games from being playable on their system, the PS3 goes in the other direction, even providing direct support for installing and booting foreign operating systems.  Of course, many of the game-related features such as video acceleration are locked out for the third-party applications, but we will be focusing on more general-purpose and scientific applications anyway.
+The Playstation 3 is unusual for a gaming console for two reasons.  First of all, it is incredibly more open than any previous console.  While most consoles do everything possible to prevent unauthorized games from being playable on their system, the PS3 goes in the other direction, even providing direct support for installing and booting foreign operating systems.  Of course, many of the game-related features such as video acceleration are locked out for the third-party operating systems, but this series will be focusing on more general-purpose and scientific applications anyway.
 </para>
 
 <para>
-The real centerpiece for the Playstation 3, however, is its processor - the Cell Broadband Engine (often called the Cell BE or just the Cell).  The Cell is a radical departure from traditional processor designs.  The Cell is a chip consisting of <emphasis>nine processing elements</emphasis>.  The main processing element is fairly standard general-purpose processor.  It is a dual-core PowerPC-based element, called the <emphasis>Power Processing Element</emphasis>, or PPE for short.  The other eight processing elements, however, are a different story.
+The real centerpiece for the Playstation 3, however, is its processor - the Cell Broadband Engine (often called the Cell BE or just the Cell).  The Cell is a radical departure from traditional processor designs.  The Cell is a chip consisting of <emphasis>nine processing elements</emphasis> (note the PS3 has one of them disabled, and one of them reserved for system use, leaving you seven processing units at your disposal).  The main processing element is fairly standard general-purpose processor.  It is a dual-core PowerPC-based element, called the <emphasis>Power Processing Element</emphasis>, or PPE for short.  The other eight processing elements, however, are a different story.
 </para>
 
 <para>
@@ -24,13 +25,13 @@ The other processing elements within the Cell are known as <emphasis>Synergistic
 <listitem><para>A private memory area within the SPU called the <emphasis>local store</emphasis> (the size of this area on the PS3 is 256K)</para></listitem>
 <listitem><para>A set of communication channels for dealing with the outside world</para></listitem>
 <listitem><para>A set of 128 registers, each 128 bits wide (each register is normally treated as holding four 32-bit values simultaneously)</para></listitem>
-<listitem><para>A <emphasis>Memory Flow Controller</emphasis> (MFC) which manages DMA transfers between SPU local stores and main memory.</para></listitem>
+<listitem><para>A <emphasis>Memory Flow Controller</emphasis> (MFC) which manages DMA transfers between the SPU's local store and main memory.</para></listitem>
 </itemizedlist>
 <para>
 The SPEs, however, lack most of the general-purpose features that one normally expects in a processor.  They are fundamentally incapable of performing normal operating system tasks.  They have no virtual memory support, don't have direct access to the computer's RAM, and have extremely limited interrupt support.  These processors are wholly concentrated on processing data as quickly as possible. 
 </para>
 <para>
-Therefore, the PPU acts as the resource manager, and the SPUs act as the data crunchers.  Programs on the PPU divvy up tasks to the SPUs to accomplish, and then they feed data back and forth to each other.
+Therefore, the PPE acts as the resource manager, and the SPEs act as the data crunchers.  Programs on the PPE divvy up tasks to the SPEs to accomplish, and then they feed data back and forth to each other.
 </para>
 <para>
 Connecting together the SPEs, the PPE, and the main memory controller is a bus called the <emphasis>Element Interconnect Bus</emphasis>.  This is the main passageway through which data travels.  
@@ -50,22 +51,22 @@ Basically, it has all of the speed advantages of a cache.  However, since it is 
 So, by going in new ways with processor designs, the Cell processor is able to achieve an order of magnitude or more better performance without enormous power requirements or heat dissipation.
 </para>
 <para>
-While the Cell processor has been out for a while in specialized hardware, the Playstation 3 is the first time it has been available in an affordable, readily available system.  And, with Linux, anyone can program it.
+While the Cell processor has been out for a while in specialized hardware, the Playstation 3 is the first Cell-based device that has been affordable and readily available.  And, with Linux, anyone who wants to can program it.
 </para>
 </sect1>
 
 <sect1>
 <title>It Runs Linux?  How do I get it on there?</title>
 <para>
-It is unusual that consoles allow foreign operating systems to be installed on them.  Since consoles are usually sold at a loss, they are usually locked down to prevent games that run on them without paying royalties to the console developer.  Sony decided to open up the PS3 console a little bit, and allow third-party operating systems to be installed, with the caveat that they do not get accelerated graphics.
+It is unusual for gaming consoles to foreign operating systems to be installed on them.  Since consoles are usually sold at a loss, they are usually locked down to prevent games from running on them without the publisher paying royalties to the console developer.  Sony decided to open up the PS3 console a little bit, and allow third-party operating systems to be installed, with the caveat that they do not get accelerated graphics.
 </para>
 
 <para>
-Because of this, Linux is now able to be installed on the PS3.  There are a few hoops to jump through, but it definitely works.  Not only that, but there is a distribution, Yellow Dog Linux 5, which was built specifically with the PS3 in mind, and which provides support for using it on the PS3.  Yellow Dog Linux (also known as YDL) has been an exclusively PowerPC-based distribution since its inception.  Because the Cell processor has a PowerPC processing element at its core, YDL has chosen to work with Sony to make sure that the PS3 runs on its latest release.
+Because of this, Linux is now able to be installed on the PS3.  There are a few hoops to jump through, but it definitely works.  Not only that, but there is a distribution, Yellow Dog Linux 5, which was built specifically with the PS3 in mind, and which the company developing it provides support for users using it on the PS3.  Yellow Dog Linux (also known as YDL) has been an exclusively PowerPC-based distribution since its inception.  Because the Cell processor has a PowerPC processing element at its core, YDL has chosen to work with Sony to make sure that the PS3 runs on its latest release.
 </para>
 
 <para>
-The instructions in the following sections are only for the installing the initial release of YDL 5.  Future product updates may render these instructions obsolete.
+The instructions in the following sections are for the installing the initial release of YDL 5 onto the PS3.
 </para>
 
 <sect2>
@@ -83,7 +84,7 @@ In order to install Linux, you need several pieces of additional hardware:
 </itemizedlist>
 
 <para>
-On the display, there are a few gotchas to watch for.  First of all, the 20GB PS3 only comes with an analog composite RCA plug for attaching to TV-like output devices.  You can convert it to VGA through a special cable (see resources for more information).  Unfortunately, this operates only at 640x480.  If you want better resolutions, you'll have to use the HDMI port.  However, that can lead to additional problems.  HDMI can be easily converted to DVI through a cable.  So this should be able to be fed to a DVI-compatible monitor, right?  Well, no.  There is a content-protection protocol called HDCP.  When outputting data over the HDMI port, the PS3 will not output any data to non-HDCP-compliant devices.  Therefore, unless your monitor is HDCP-compliant, you cannot use it to get digital output from the PS3, and you're stuck with 640x480.
+On the display, there are a few gotchas to watch for.  First of all, the 20GB PS3 only comes with an analog composite RCA plug for attaching to TV-like output devices.  You can convert it to VGA through a special cable (see resources for more information).  Unfortunately, this operates only at 576x384.  If you want better resolutions, you'll have to use the HDMI port.  However, that can lead to additional problems.  HDMI can be easily converted to DVI through a cable.  So this should be able to be fed to a DVI-compatible monitor, right?  Well, no.  There is a content-protection protocol called HDCP.  When outputting data over the HDMI port, the PS3 will not output any data to non-HDCP-compliant devices.  Therefore, unless your monitor is HDCP-compliant, you cannot use it to get digital output from the PS3, and you're stuck with 576x384.
 </para>
 
 <para>
@@ -103,10 +104,12 @@ To prepare the Playstation 3, perform the following steps:
 <listitem><para>Once the PS3 restarts, it's ready to have Linux installed on it.</para></listitem>
 </orderedlist>
 
+</sect2>
+
 <sect2>
 <title>Preparing to Install</title>
 <para>
-Now we're ready to prepare the Linux side of things.  Here are the steps you need to do on your own computer (not the PS3):
+Now we're ready to prepare the Linux side of things.  Here are the steps you need to do on your own computer (not the PS3) to prepare for the installation:
 </para>
 
 <orderedlist>
@@ -139,12 +142,12 @@ Perform the following steps on the PS3 to install Linux onto it:
 <listitem><para>Insert the YDL 5 DVD.</para></listitem>
 <listitem><para>Plug in your USB keyboard and mouse.</para></listitem>
 <listitem><para>Now restart the system.  You can either do this by holding down the <literal>PS</literal> button on the controller and then choosing <literal>Turn off the system</literal>, or by simply holding the power button down for five seconds.  Then turn the system back on.</para></listitem> 
-<listitem><para>When it boots back up, it will look like it is booting Linux.  That's because the bootloader is actually a really stripped down Linux kernel, called <literal>kboot</literal>.</para></listitem>
+<listitem><para>When it boots back up, it will look like it is booting Linux.  That's because the bootloader is actually a really stripped down Linux kernel called <literal>kboot</literal>.</para></listitem>
 <listitem><para>When it gets to the <literal>kboot:</literal> prompt, type <literal>install</literal> if your output is going through the HDMI port, or <literal>installtext</literal> if you are going analog.  The remaining instructions assume you used the <literal>installtext</literal> option, but there is little difference.</para></listitem>
-<listitem><para>After media verification, it may give a Traceback in the blue area of the screen.  Just ignore this and proceed through the installation screens.</para></listitem>
+<listitem><para>After media verification it may give a Traceback error in the blue area of the screen.  Just ignore this and proceed through the installation screens.</para></listitem>
 <listitem><para>When it asks about partitioning, don't be concerned about it erasing the PS3 game operating system.  The PS3's Other OS mode only allows the guest operating system to see its own portion of the drive.  Even low-level utilities cannot see the other parts of the drive.  So go ahead and let YDL erase all of the data on your drive, and then let it remove all of the partitions and create a default layout.</para></listitem>
 <listitem><para>When it gets to the package installation, it takes approximately one hour to install the packages.  However, it does not install the whole DVD.</para></listitem>
-<listitem><para>When it reboots, if you are using analog output, you need to type in <literal>ydl480i</literal> at the <literal>kboot:</literal> boot prompt.  Otherwise, it will likely change the output to a resolution that the analog output isn't capable of.</para></listitem>
+<listitem><para>When it reboots, if you are using analog output, you need to type in <literal>ydl480i</literal> at the <literal>kboot:</literal> boot prompt.  Otherwise it will likely change the output to a resolution that the analog output isn't capable of.</para></listitem>
 <listitem><para>When it boots, it will bring up a setup tool.  There is nothing you really need to do here.  If you don't do anything, it will time out and finish the bootup process.</para></listitem>
 </orderedlist>
 
@@ -182,11 +185,11 @@ Xautoconfig
 </programlisting>
 
 <para>
-Now you can start the X Window System by running <literal>startx</literal>, though on an analog device your screen is pretty tiny.  Here's a quick hint to help you get around on such a tiny device: holding down alt+left mount button will allow you to drag screens around on your desktop, even if you can't see the title bar.
+Now you can start the X Window System by running <literal>startx</literal>, though on an analog device your screen is pretty tiny.  Here's a quick hint to help you get around on such a tiny device: holding down alt+left mouse button will allow you to drag screens around on your desktop, even if you can't see the title bar.
 </para>
 
 <para>
-If you want your system to have a graphical login at system boot, you need to edit the <literal>/etc/inittab</literal> file.  Change the line <literal>id:3:initdefault:</literal> so that it says <literal>id:5:initdefault:</literal> and save the file.  Now when you reboot the system, you will have a nice graphical login.  The desktop YDL ships with, E17, is a very slick desktop, and very responsive, especially considering how little memory the PS3 ships with.  Remember after you reboot to mount the DVD as shown above for the remaining steps.  Note that Nautilus actually mounts it in a different location, so if you use Nautilus to mount your DVD, it will be mounted on <literal>/media/CDROM</literal> rather than <literal>/mnt</literal>.
+If you want your system to have a graphical login at system boot, you need to edit the <literal>/etc/inittab</literal> file.  Change the line <literal>id:3:initdefault:</literal> so that it says <literal>id:5:initdefault:</literal> and save the file.  Now when you reboot the system, you will have a nice graphical login.  Remember after you reboot to mount the DVD as shown above for the remaining steps.  Note that Nautilus actually mounts it in a different location, so if you use Nautilus to mount your DVD, it will be mounted on <literal>/media/CDROM</literal> rather than <literal>/mnt</literal>.
 </para>
 
 <para>
@@ -212,8 +215,13 @@ rpm -i elfspe-* libspe-*
 </programlisting>
 
 <para>
-Now we're all set to go!  YDL 5 is installed, configured, and ready to go!
+Now we're all set to go.  YDL 5 is installed, configured, and ready to go!
 </para>
+
+<para>
+Some may be wondering how to get back into the game operating system, for the off chance that you might want to play a game or two on your PS3.  To do this, run <literal>boot-game-os</literal> from either the <literal>kboot:</literal> prompt or from the command line.  If for some reason Linux is causing errors and won't load, you can load the game operating system by powering off the PS3, and then holding down the power button for five seconds (until you hear a beep) when powering it back on.  Either of these methods will load the game operating system, but <emphasis>it will also set the default system to be the game operating system as well</emphasis>.  So, to boot back into Linux, you'll have to go back into the settings and set it to boot the Other OS by default.  
+</para>
+</sect2>
 
 </sect1>
 
@@ -221,7 +229,7 @@ Now we're all set to go!  YDL 5 is installed, configured, and ready to go!
 <title>OK, I've Got Linux Installed.  Now What?</title>
 
 <para>
-Now that you have Linux and the Cell SDK fully installed, the rest of the series will be about programming using it.  However, for a teaser, we will do a short "hello world" program in C which utilizes both the PPE and an SPE.
+Now that you have Linux and the Cell SDK fully installed, the rest of the series will be about programming using it.  However, for a teaser, we will do a short introductory program in C which utilizes both the PPE and an SPE.
 </para>
 
 <para>
@@ -244,7 +252,7 @@ Before, looking at how this works, let's take a look at some of the common tools
 </variablelist>
 
 <para>
-Without the SPEs, the Cell is programmed essentially like any other PowerPC-based system.  In fact, you can pretend that they don't exist and your code will work just fine.  Doing this, however, will leave much of your computing power untouched.  In order to take advantage of the SPEs, you will have to put in just a little more effort.
+Without the SPEs, the Cell is programmed essentially like any other PowerPC-based system.  In fact, you can pretend that they don't exist and your code will work just fine.  Doing this, however, will leave much of your computing power untapped.  In order to take advantage of the SPEs, you will have to put in just a little more effort.
 </para>
 
 <para>
@@ -252,7 +260,7 @@ The PPE is the resource manager for the system.  It handles operating system tas
 </para>
 
 <para>
-So let's look at how a simple program is constructed to perform processing tasks on the SPE.   The will be very simple -- it will calculate the distance travelled given a speed in miles-per-hour and a time in hours.  Here is the code for the PPE (enter as <literal>ppe_distance.c</literal>):
+So let's look at how a simple program is constructed to perform processing tasks on the SPE.   The program will be very simple - it will calculate the distance travelled given a speed in miles-per-hour and a time in hours.  Here is the code for the PPE (enter as <literal>ppe_distance.c</literal>):
 </para>
 
 <example>
@@ -278,9 +286,9 @@ int main() {
 
 	//GATHER DATA TO SEND TO SPE
 	printf("Enter the speed at which your car is travelling in miles/hr: ");
-	scanf("%f", &pd.speed);
+	scanf("%f", &amp;pd.speed);
 	printf("Enter the number of hours you have been driving at that speed: ");
-	scanf("%f", &pd.num_hours);
+	scanf("%f", &amp;pd.num_hours);
 
 	//USE THE SPE TO PROCESS THE DATA
 	//Create SPE Task
@@ -301,7 +309,7 @@ int main() {
 </example>
 
 <para>
-As we said before, the main job of the PPE in the cell processor is to handle the input and output tasks.  The only really interesting part is <literal>spe_create_thread</literal>.  The first parameter is a thread group id (zero indicates that we don't care), the second parameter is the handle to the SPE code, the third parameter is the pointer to the data we want to transfer, the fourth parameter is an optional environment pointer, the fifth parameter is a mask of which SPEs we are willing to run the program on (-1 indicates any available SPE), and the final parameter is a list of options we want to employ (we don't want any).  The function returns the SPE task ID number, which we then use as a parameter to <literal>spe_wait</literal>.  <literal>spe_wait</literal> returns when the SPE task terminates.
+As we said before, the main job of the PPE in the cell processor is to handle the input and output tasks.  The only really interesting part is <literal>spe_create_thread</literal>.  The first parameter is a thread group ID (zero indicates that it should create a new group for the thread), the second parameter is the handle to the SPE program, the third parameter is the pointer to the data we want to transfer, the fourth parameter is an optional environment pointer, the fifth parameter is a mask of which SPEs we are willing to run the program on (-1 indicates any available SPE), and the final parameter is a list of options we want to employ (we don't want any).  The function returns the SPE task ID number, which we then use as a parameter to <literal>spe_wait</literal>.  <literal>spe_wait</literal> returns when the SPE task terminates.
 </para>
 
 <para>
@@ -313,6 +321,8 @@ Here is the code for the SPE (enter as <literal>spe_distance.c</literal>):
 <programlisting>
 //Pull in DMA commands
 #include &lt;spu_mfcio.h&gt;
+
+//Struct for communication with the PPE
 typedef struct {
 	float speed;     //input parameter
 	float num_hours; //input parameter
@@ -350,11 +360,11 @@ We will study SPU programs more in-depth in future articles, but here's a quick 
 </para>
 
 <para>
-<literal>mfc_get</literal> initiates the transfer into the local store.  Notice that in both the PPE and the SPE the struct was aligned to 16 bytes and padded to 16 bytes.  We will deal with this more later, but for the most part DMA transfers <emphasis>must</emphasis> be aligned to a 16-byte boundary and be sized as a multiple of 16 bytes.  The <literal>tag_id</literal> allows for us to retrieve the status of the DMA operation.  After the transfer, the next two functions cause the program to wait until the transfer is completed.  
+<literal>mfc_get</literal> initiates the transfer into the local store.  Notice that in both the PPE and the SPE the struct was aligned to 16 bytes and padded to 16 bytes.  We will deal with this more in a later article, but for the most part DMA transfers <emphasis>must</emphasis> be aligned to a 16-byte boundary and be sized as a multiple of 16 bytes.  The <literal>tag_id</literal> allows for us to retrieve the status of the DMA operation.  After the transfer, the next two functions cause the program to wait until the transfer is completed.  
 </para>
 
 <para>
-The main processing is trivially simple.  After the data is processed, <literal>mfc_put</literal> initiates a transfer back into main memory, and the next two functions cause us to wait for DMA completion.  When all of that is done, the program exits.
+The main processing is trivially simple - just multiplying the speed and the time.  After the data is processed, <literal>mfc_put</literal> initiates a transfer back into main memory, and the next two functions cause us to wait for DMA completion.  When all of that is done, the program exits.
 </para>
 
 <para>
@@ -386,4 +396,22 @@ The Cell processor is a fantastic new architecture which allows a gigantic jump 
 </para>
 
 </sect1>
+
+<!--
+RESOURCES
+
+<ul>
+<li>To purchase Yellow Dog Linux 5, go to <a href="http://www.terrasoftsolutions.com/">Terra Soft Solution's website</a>.  Starting the week of December 25th, it should be available on public mirrors as well.</li>
+<li>Get the <a href="http://www.terrasoftsolutions.com/support/install/ps3/otheros.bld">bootloader</a> from YDL's website.  Be sure to name the file <tt>otheros.bld</tt>.</li>
+<li>Get the <a href="http://www.playstation.com/ps3-openplatform/terms.html">Other OS Installer</a> from Sony's website.  Be sure to name the file <tt>otheros.self</tt>.</li>
+<li>For those of you wanting to connect your PS3 to a monitor from the analog output, <a href="http://www.monoprice.com/products/search.asp?keyword=2509">this cable</a> purports to do just that at a low price (I have not tested this cable myself, so I can't speak to its quality).</li>
+<li>There is also a short <a href="http://www.terrasoftsolutions.com/support/installation/ydl5.0_ps3_guide.pdf">YDL installation manual</a> available.</li>
+<li>The YDL website has a page about <a href="http://www.terrasoftsolutions.com/support/solutions/ydl_5.0/video-config.shtml">video support on the PS3</a>.</li>
+<li>Fedora Core 5 can also go on the PS3, although there is no official support.  In order to install Fedora, you'll need the <a href="http://download.fedoraproject.org/pub/fedora/linux/core/5/ppc/iso/FC-5-ppc-DVD.iso">Fedora Core 5 PPC Install DVD</a>, the <a href="http://dl.qj.net/PS3-Linux-Addon-Disc-PlayStation-3/pg/12/fid/11308/catid/514">FC5 PS3 AddOn DVD</a>, and the <a href="http://ps3.qj.net/PS3-Linux-The-void-has-been-filled-Full-install-instructions-for-Fedora-Core-5-/pg/49/aid/73144">installation instructions</a>.  Also note that the Cell SDK that comes with the AddOn DVD has the <tt>gcc</tt> for the PPE named <tt>ppu-gcc</tt> and the <tt>embedspu</tt> utility is <tt>ppu-embedspu</tt>.</li>
+<li>Gamasutra has another <a href="http://gamasutra.com/features/20060721/chow_05.shtml">introduction to programming the PS3 on Linux</a>.  However, it uses a function, <tt>copy_from_ls</tt>, which is not available in the SDK, but only in the code samples from IBM which they ship with their Cell simulator.</li>
+<li>If you are too cheap to buy a PS3, you can still practice programming the Cell using IBM's <a href="http://www-128.ibm.com/developerworks/power/library/pa-cellstartsdk/">Cell BE system simulator</a>.</li>
+<li>Visit the IBM <a href="http://www-128.ibm.com/developerworks/power/cell/docs_articles.html">Cell BE resource center</a>.</li>
+<li>IBM has also collected in one place a <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/products/Cell_Broadband_Engine">full set of Cell BE documentation</a>.</li> 
+</ul>
+-->
 </chapter>
