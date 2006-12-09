@@ -33,7 +33,7 @@ Before discussing addressing modes, a review of computer memory concepts is warr
 <li>Every location in main memory is numbered with a sequential numeric <i>address</i> by which the memory location is referred.</li>
 <li>Every main memory location is one byte long.</li>
 <li>Larger data types are made by simply treating multiple bytes as a single unit (using two memory locations together for a 16-bit number, for instance)</li>
-<li>Registers are 4-bytes long on 32-bit platforms, and 64-bytes long on 64-bit platforms</li>
+<li>Registers are 4-bytes long on 32-bit platforms, and 8-bytes long on 64-bit platforms</li>
 <li>Memory can be loaded into registers either 1, 2, 4, or 8 bytes at a time</li>
 <li>Non-numeric data is stored as numeric data -- the only differences are what operations are used on it and how the data is used</li>
 </ul>

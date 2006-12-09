@@ -143,11 +143,11 @@ Perform the following steps on the PS3 to install Linux onto it:
 <listitem><para>Plug in your USB keyboard and mouse.</para></listitem>
 <listitem><para>Now restart the system.  You can either do this by holding down the <literal>PS</literal> button on the controller and then choosing <literal>Turn off the system</literal>, or by simply holding the power button down for five seconds.  Then turn the system back on.</para></listitem> 
 <listitem><para>When it boots back up, it will look like it is booting Linux.  That's because the bootloader is actually a really stripped down Linux kernel called <literal>kboot</literal>.</para></listitem>
-<listitem><para>When it gets to the <literal>kboot:</literal> prompt, type <literal>install</literal> if your output is going through the HDMI port, or <literal>installtext</literal> if you are going analog.  The remaining instructions assume you used the <literal>installtext</literal> option, but there is little difference.</para></listitem>
+<listitem><para>When it gets to the <literal>kboot:</literal> prompt, type <literal>install</literal> if your output is going through the HDMI port or using component video, or <literal>installtext</literal> if you are using the composite connector.  The remaining instructions assume you used the <literal>installtext</literal> option, but there is little difference.</para></listitem>
 <listitem><para>After media verification it may give a Traceback error in the blue area of the screen.  Just ignore this and proceed through the installation screens.</para></listitem>
 <listitem><para>When it asks about partitioning, don't be concerned about it erasing the PS3 game operating system.  The PS3's Other OS mode only allows the guest operating system to see its own portion of the drive.  Even low-level utilities cannot see the other parts of the drive.  So go ahead and let YDL erase all of the data on your drive, and then let it remove all of the partitions and create a default layout.</para></listitem>
 <listitem><para>When it gets to the package installation, it takes approximately one hour to install the packages.  However, it does not install the whole DVD.</para></listitem>
-<listitem><para>When it reboots, if you are using analog output, you need to type in <literal>ydl480i</literal> at the <literal>kboot:</literal> boot prompt.  Otherwise it will likely change the output to a resolution that the analog output isn't capable of.</para></listitem>
+<listitem><para>When it reboots, if you are using composite output, you need to type in <literal>ydl480i</literal> at the <literal>kboot:</literal> boot prompt.  Otherwise it will likely change the output to a resolution that the composite output isn't capable of.</para></listitem>
 <listitem><para>When it boots, it will bring up a setup tool.  There is nothing you really need to do here.  If you don't do anything, it will time out and finish the bootup process.</para></listitem>
 </orderedlist>
 
@@ -160,7 +160,7 @@ And there you have it!  YDL 5 is now on your PS3!
 <sect2>
 <title>Post-Install Setup</title>
 <para>
-Unfortunately, the installation program doesn't take care of all of the details, especially for analog displays.  There are still several steps to do if we want to do things like automatically boot at the proper resolution, configure the X Window System on an analog device, and install the Cell SDK.  For all of these, go ahead and make sure your YDL 5 DVD is in the drive, and mount it like this:
+Unfortunately, the installation program doesn't take care of all of the details, especially for composite connections.  There are still several steps to do if we want to do things like automatically boot at the proper resolution, configure the X Window System on a composite connection, and install the Cell SDK.  For all of these, go ahead and make sure your YDL 5 DVD is in the drive, and mount it like this:
 </para>
 
 <programlisting>
@@ -172,11 +172,11 @@ All of the instructions will assume the install DVD is mounted in this way, and 
 </para>
 
 <para>
-To get an analog system to boot into its proper resolution at startup, edit the file <literal>/etc/kboot.conf</literal> and change the line which reads <literal>default=ydl</literal> to <literal>default=ydl480i</literal> and save the file.
+To get a system which outputs to composite to boot into its proper resolution at startup, edit the file <literal>/etc/kboot.conf</literal> and change the line which reads <literal>default=ydl</literal> to <literal>default=ydl480i</literal> and save the file.
 </para>
 
 <para>
-If you want to configure the X Window System for your analog device, you need to install and run the <literal>Xautoconfig</literal> package like this:
+If you want to configure the X Window System for composite output, you need to install and run the <literal>Xautoconfig</literal> package like this:
 </para>
 
 <programlisting>
@@ -185,7 +185,7 @@ Xautoconfig
 </programlisting>
 
 <para>
-Now you can start the X Window System by running <literal>startx</literal>, though on an analog device your screen is pretty tiny.  Here's a quick hint to help you get around on such a tiny device: holding down alt+left mouse button will allow you to drag screens around on your desktop, even if you can't see the title bar.
+Now you can start the X Window System by running <literal>startx</literal>, though on devices using the composite connection your screen is pretty tiny.  Here's a quick hint to help you get around on such a tiny device: holding down alt+left mouse button will allow you to drag screens around on your desktop, even if you can't see the title bar.
 </para>
 
 <para>
@@ -404,7 +404,7 @@ RESOURCES
 <li>To purchase Yellow Dog Linux 5, go to <a href="http://www.terrasoftsolutions.com/">Terra Soft Solution's website</a>.  Starting the week of December 25th, it should be available on public mirrors as well.</li>
 <li>Get the <a href="http://www.terrasoftsolutions.com/support/install/ps3/otheros.bld">bootloader</a> from YDL's website.  Be sure to name the file <tt>otheros.bld</tt>.</li>
 <li>Get the <a href="http://www.playstation.com/ps3-openplatform/terms.html">Other OS Installer</a> from Sony's website.  Be sure to name the file <tt>otheros.self</tt>.</li>
-<li>For those of you wanting to connect your PS3 to a monitor from the analog output, <a href="http://www.monoprice.com/products/search.asp?keyword=2509">this cable</a> purports to do just that at a low price (I have not tested this cable myself, so I can't speak to its quality).</li>
+<li>For those of you wanting to connect your PS3 to a monitor from the composite output, <a href="http://www.monoprice.com/products/search.asp?keyword=2509">this cable</a> purports to do just that at a low price (I have not tested this cable myself, so I can't speak to its quality).</li>
 <li>There is also a short <a href="http://www.terrasoftsolutions.com/support/installation/ydl5.0_ps3_guide.pdf">YDL installation manual</a> available.</li>
 <li>The YDL website has a page about <a href="http://www.terrasoftsolutions.com/support/solutions/ydl_5.0/video-config.shtml">video support on the PS3</a>.</li>
 <li>Fedora Core 5 can also go on the PS3, although there is no official support.  In order to install Fedora, you'll need the <a href="http://download.fedoraproject.org/pub/fedora/linux/core/5/ppc/iso/FC-5-ppc-DVD.iso">Fedora Core 5 PPC Install DVD</a>, the <a href="http://dl.qj.net/PS3-Linux-Addon-Disc-PlayStation-3/pg/12/fid/11308/catid/514">FC5 PS3 AddOn DVD</a>, and the <a href="http://ps3.qj.net/PS3-Linux-The-void-has-been-filled-Full-install-instructions-for-Fedora-Core-5-/pg/49/aid/73144">installation instructions</a>.  Also note that the Cell SDK that comes with the AddOn DVD has the <tt>gcc</tt> for the PPE named <tt>ppu-gcc</tt> and the <tt>embedspu</tt> utility is <tt>ppu-embedspu</tt>.</li>

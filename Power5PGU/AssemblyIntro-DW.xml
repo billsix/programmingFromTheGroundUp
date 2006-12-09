@@ -217,7 +217,7 @@ Before discussing the program itself, let's build it and run it.  The first step
 </p>
 
 <code type="section">
-as -m64 sum.s -o sum.o
+as -a64 sum.s -o sum.o
 </code>
 
 <p>
