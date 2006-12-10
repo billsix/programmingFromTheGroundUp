@@ -12,14 +12,14 @@
 
 <title>An Introduction to Linux on the PS3</title>
 
-<author jobtitle="Director of Technology" company="New Medio Worx" email="johnnyb.com"  >
+<author jobtitle="Director of Technology" company="New Medio" email="johnnyb.com"  >
 <bio>Jonathan Bartlett is the author of the book <a href="http://www.cafeshops.com/bartlettpublish.8640017"><i>Programming from the Ground Up</i></a> which is an introduction to programming using Linux assembly language.  He is the lead developer at New Medio, developing web, video, kiosk, and desktop applications for clients.
 </bio>
 <name>Jonathan Bartlett</name>
 </author>
 
 <!-- FIXME - update date published -->
-<date-published day="01" month="09" year="2004" /><abstract>
+<date-published day="02" month="12" year="2006" /><abstract>
 The Playstation 3 is the easiest and cheapest way for programmers to get their hands on the new IBM Cell processor and take it for a drive.  This article discusses what the fuss is all about, how to install Linux on the PS3, and how to get started developing for the Cell processor on the PS3.
 </abstract><docbody>
 
@@ -76,8 +76,8 @@ While the Cell processor has been out for a while in specialized hardware, the P
 It is unusual for gaming consoles to foreign operating systems to be installed on them.  Since consoles are usually sold at a loss, they are usually locked down to prevent games from running on them without the publisher paying royalties to the console developer.  Sony decided to open up the PS3 console a little bit, and allow third-party operating systems to be installed, with the caveat that they do not get accelerated graphics.
 </p>
 
-<p>
-Because of this, Linux is now able to be installed on the PS3.  There are a few hoops to jump through, but it definitely works.  Not only that, but there is a distribution, Yellow Dog Linux 5, which was built specifically with the PS3 in mind, and which the company developing it provides support for users using it on the PS3.  Yellow Dog Linux (also known as YDL) has been an exclusively PowerPC-based distribution since its inception.  Because the Cell processor has a PowerPC processing element at its core, YDL has chosen to work with Sony to make sure that the PS3 runs on its latest release.
+<p><!-- This paragraph changed -->
+Because of this, Linux is now able to be installed on the PS3.  There are a few hoops to jump through, but it definitely works.  Not only that, but there is a distribution, Yellow Dog Linux 5, which was built specifically with the PS3 in mind, and which Terra Soft Solutions (the company that developed it) provides support for users using it on the PS3.  Yellow Dog Linux (also known as YDL) has been an exclusively PowerPC-based distribution since its inception, so it was not surprising that Sony contracted them to develop the next version of YDL specifically for the Playstation 3.
 </p>
 
 <p>
