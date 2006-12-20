@@ -9,11 +9,11 @@ In the last article we covered the basics of SPU programming.  This article will
 <title>Programming a Buffer at a Time</title>
 
 <para>
-In the last article, we ended with a function called <literal>convert_to_upper</literal> which operated one byte at a time to convert a string to uppercase.  The functions in these programs will operate on whole buffers at a time.  This makes it work easier with our anticipated workloads on the SPU - having a whole buffer moved in and out of the local store to operate on.
+In the last article, we ended with a function called <literal>convert_to_upper</literal> which operated one byte at a time to convert a string to uppercase.  The functions in these programs will operate on whole buffers at a time.  The SPU is built to deal with data in batches, so moving to a buffer-at-a-time model will make future enhancements easier.  The first version will simply wrap a loop around the code developed in the previous article.
 </para>
 
 <para>
-Here is the naive version of a buffer-at-a-time function (enter as <literal>convert_buffer.s</literal>):
+Here is the naive version of a buffer-at-a-time function for converting to uppercase (enter as <literal>convert_buffer.s</literal>):
 </para>
 
 <example>
@@ -168,41 +168,22 @@ main:
 </programlisting>
 </example>
 
-<example>
-<title>Helper Functions for DMA</title>
+<para>
+You will also need the <literal>dma_utils.s</literal> and the <literal>ppu_dma_main.c</literal> files from the previous article.
+</para>
+
+<para>
+To build and run, perform these steps:
+</para>
+
 <programlisting>
-.text
-
-##UTILITY FUNCTION TO PERFORM DMA OPS##
-#Parameters -- Local Store Address, 64-bit Effective Address, Transfer Size, DMA Tag, DMA Command
-.global perform_dma
-.type perform_dma, @function
-perform_dma:
-	shlqbyi $9, $4, 4  #Get the low-order 32-bits of the address
-	wrch $MFC_LSA, $3
-	wrch $MFC_EAH, $4
-	wrch $MFC_EAL, $9
-	wrch $MFC_Size, $5
-	wrch $MFC_TagID, $6
-	wrch $MFC_Cmd, $7
-	bi $lr
-
-.global wait_for_dma_completion
-.type wait_for_dma_completion, @function
-wait_for_dma_completion:
-	#We receive a tag in register 3 - convert to a tag mask
-	il $4, 1
-	shl $4, $4, $3
-	wrch $MFC_WrTagMask, $4
-	#Tell the DMA that we only want it to inform us on DMA completion
-	il $5, 2
-	wrch $MFC_WrTagUpdate, $5
-	#Wait for DMA Completion, and store the result in the return value
-	rdch $3, $MFC_RdTagStat
-	#Return
-	bi $lr
+spu-gcc convert_buffer.s convert_driver.s dma_utils.s -o spe_convert
+embedspu -m64 convert_to_upper_handle spe_convert spe_convert_csf.o
+gcc -m64 spe_convert_csf.o ppu_dma_main.c -lspe -o dma_convert
+./dma_convert
 </programlisting>
-</example>
+
+
 
 <example>
 <title>Buffer Conversion -- Vectorized and Branches Removed</title>
@@ -513,8 +494,8 @@ conversion_data:
 .text
 
 #MFC Constants
-.equ MFC_GET_CMD, 0x41
-.equ MFC_PUT_CMD, 0x21
+.equ MFC_GETB_CMD, 0x41
+.equ MFC_PUTB_CMD, 0x21
 
 .equ LR_OFFSET, 16
 
@@ -532,6 +513,7 @@ conversion_data:
 
 	.equ TMP_1, 8
 	.equ TMP_SZ_NEXT_XFER, 9
+	.equ TMP_SZ_NEXT_XFER_64, 10
 
 	.equ DATA_REMAINING, 127
 	.equ CURRENT_PTR, 126
@@ -575,6 +557,7 @@ conversion_loop:
 
 	#Move Pointer and size
 	sf $DATA_REMAINING, $DATA_REMAINING, $TMP_SZ_NEXT_XFER
+	#MISMATCH!!! 64-bit and 32-bit
 	a $CURRENT_PTR, $CURRENT_PTR, $TMP_SZ_NEXT_XFER
 
 	#Start Copy Buffer 1
@@ -595,6 +578,7 @@ conversion_loop:
 
 	#Move pointer and size
 	sf $DATA_REMAINING, $DATA_REMAINING, $TMP_SZ_NEXT_XFER
+	#MISMATCH!!! 64-bit and 32-bit
 	a $CURRENT_PTR, $CURRENT_PTR, $TMP_SZ_NEXT_XFER
 
 	#Start Copy Buffer 2
@@ -611,7 +595,7 @@ conversion_loop:
 
 	#Perform Conversion on buffer 1
 	ila $PARAM_1, conversion_buffer_1
-	lqr $PARAM_2, $BUF1_SIZE
+	lr $PARAM_2, $BUF1_SIZE
 	brsl $lr, convert_buffer_to_upper
 
 	#Start Copy Data Back on Buffer 1
@@ -633,6 +617,7 @@ conversion_loop:
 
 	#Move Pointer and size
 	sf $DATA_REMAINING, $DATA_REMAINING, $TMP_SZ_NEXT_XFER
+	#MISMATCH!!!
 	a $CURRENT_PTR, $CURRENT_PTR, $TMP_SZ_NEXT_XFER
 
 	#Start Copy Buffer 1
@@ -650,7 +635,7 @@ conversion_loop:
 
 	#Perform Conversion on Buffer 2
 	ila $PARAM_1, conversion_buffer_2
-	lqr $PARAM_2, $BUF2_SIZE
+	lr $PARAM_2, $BUF2_SIZE
 	brsl $lr, convert_buffer_to_upper
 
 	#Start Copy Data Back on Buffer 2
@@ -672,6 +657,7 @@ conversion_loop:
 
 	#Move Pointer and size
 	sf $DATA_REMAINING, $DATA_REMAINING, $TMP_SZ_NEXT_XFER
+	##MISMATCH!!!
 	a $CURRENT_PTR, $CURRENT_PTR, $TMP_SZ_NEXT_XFER
 
 	#Start Copy Buffer 2
