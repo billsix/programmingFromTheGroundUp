@@ -5,11 +5,15 @@
 In the last article we covered the basics of SPU programming.  This article will help you learn to write optimal code for it, and have your programs running like greased lightning.  This tutorial covers SIMD vector programming, branch-free programming, loop unrolling, instruction scheduling, and multibuffering techniques.
 </para>
 
+<para>
+This article dives into the depths of instruction-cycle-counting, bit manipulation, and other nuances that assembly language has typically been notorious for.  By the end of it you may be convinced never to program in assembly language.  However, the point of it all is not to be an assembly language programmer (though you might be into that sort of thing!) but rather to understand what the processor and the compiler are needing to do to optimize your code for the SPU.  Knowing how the SPU's assembly language works will enable you to exploits this knowledge to write C code which takes advantage of the features of the processor.  In subsequent articles we will switch to C and show how to use this knowledge in real-world examples.
+</para>
+
 <sect1>
-<title>Programming a Buffer at a Time</title>
+<title>Our Starting Program</title>
 
 <para>
-In the last article, we ended with a function called <literal>convert_to_upper</literal> which operated one byte at a time to convert a string to uppercase.  The functions in these programs will operate on whole buffers at a time.  The SPU is built to deal with data in batches, so moving to a buffer-at-a-time model will make future enhancements easier.  The first version will simply wrap a loop around the code developed in the previous article.
+In the last article, we ended with a function called <literal>convert_to_upper</literal> which operated one byte at a time to convert a string to uppercase.  The functions in these programs will operate on whole buffers at a time.  The SPU is built to deal with data in batches, so moving to a buffer-at-a-time model will make future enhancements easier.  The first version will simply wrap a loop around the code developed in the previous article. Because it is based on code and concepts developed in the previous articles, we will not do a step-by-step explanation of the code.
 </para>
 
 <para>
@@ -45,15 +49,17 @@ loop_start:
 	rotqby $7, $6, $3
 	rotqbyi $7, $7, -3
 
-	#IS IN RANGE 'a'-'z'
+	#IS IN RANGE 'a'-'z'?
 	cgtbi $8, $7, 'a' - 1
 	cgtbi $9, $7, 'z'
 	xor $10, $8, $9
 	andi $10, $10, 255
 
+	#If no, exit
 	brz $10, finish_loop
 
 is_lowercase:
+	#If yes, perform conversion
 	il $14, 'a' - 'A'
 	absdb $7, $7, $14
 
@@ -66,20 +72,21 @@ finish_loop:
 	#Increment pointer
 	ai $3, $3, 1
 
-	#Exit if needed
+	#Are we at the end?  If so skip the loop iteration 
 	cgt $13, $3, $5
 	brnz $13, end_function
 
-	#end loop
+	#perform next loop iteration
 	br loop_start
 
 end_function:
+	#Return
 	bi $lr
 </programlisting>
 </example>
 
 <para>
-The function which drives this is now a little bit simpler (enter as <literal>convert_driver.s</literal>):
+The function which drives this is now a little bit simpler since it only has to load the data, run the function, and copy it back.  Here is the code (enter as <literal>convert_driver.s</literal>):
 </para>
 
 <example>
@@ -87,6 +94,7 @@ The function which drives this is now a little bit simpler (enter as <literal>co
 <programlisting>
 .data
 
+#This is the struct we will copy from the main PPE process
 .align 4
 conversion_info:
 conversion_length:
@@ -96,6 +104,8 @@ conversion_data:
 .equ CONVERSION_STRUCT_SIZE, 32
 
 .section .bss #Uninitialized Data Section
+
+#This is the buffer we will store the string in
 .align 4
 .lcomm conversion_buffer, 16384
 
@@ -141,12 +151,12 @@ main:
 	il $3, 0
 	brsl $lr, wait_for_dma_completion
 
-	#Perform Conversion
+	##PERFORM CONVERSION##
 	ila $3, conversion_buffer
 	lqr $4, conversion_length
 	brsl $lr, convert_buffer_to_upper
 
-	#Copy data back
+	##COPY DATA BACK##
 	ila $3, conversion_buffer   #Local Store Address
 	lqr $4, conversion_data     #64-bit effective address
 	lqr $5, conversion_length   #Size
@@ -158,6 +168,7 @@ main:
 	il $3, 0
 	brsl $lr, wait_for_dma_completion
 
+	##EXIT PROGRAM##
 	#Return Value
 	il $3, 0
 
@@ -183,85 +194,338 @@ gcc -m64 spe_convert_csf.o ppu_dma_main.c -lspe -o dma_convert
 ./dma_convert
 </programlisting>
 
+<para>
+Now, as far as performance goes, the current code is terrible.  So we will work on it a step at a time to improve the performance. 
+</para>
 
+</sect1>
+
+<sect1>
+<title>Vectorizing the Code</title>
+
+<para>
+The most obvious optimization to make on a vector process is to vectorize the code.  On the SPUs, most instructions can operate on registers as if they contained multiple, independent values.  Each 128-bit register can be treated as 16 independent bytes, 8 half-words, 4 words, 2 doublewords, or as a single unit.  The instruction set is primarily geared around dividing it into four 32-bit words, but there is enough support to handle any of these situations.
+</para>
+
+<para>
+If we vectorize this code, since we are treating the values as bytes, that means that each instruction will operate on 16 values at once!  However, the problem is that vector processing assumes that each and every instruction will be applied to all elements of the vector.  However, in our main loop, we have a conditional branch.  This means that vector elements which match the criteria go through a different set of instructions than those that do not.  Therefore, at least the way the code presently stands, it cannot be vectorized.
+</para>
+
+<para>
+What we need to do first is <emphasis>eliminate the branch</emphasis> so that the code uses the exact same instructions whether it matches our condition or not (as will be shown later, eliminating branches helps in other ways as well).  So how is this done?  The key is that the SPU has several conditional instructions, such as <literal>selb</literal>, <literal>shufb</literal> and the bit operations, which allow conditional statements to occur without branching.  What the program will end up doing is <emphasis>calculating both answers</emphasis>, and then using the conditional instructions to to select which answer we want.
+</para>
+
+<para>
+Here is the conversion code as it currently stands:
+</para>
+
+<programlisting>
+	#IS IN RANGE 'a'-'z'
+	cgtbi $8, $7, 'a' - 1
+	cgtbi $9, $7, 'z'
+	xor $10, $8, $9
+	andi $10, $10, 255
+
+	brz $10, finish_loop
+
+is_lowercase:
+	#lowercase condition
+	il $14, 'a' - 'A'
+	absdb $7, $7, $14
+
+finish_loop:
+	#non-lowercase condition
+	#all code winds up here
+</programlisting>
+
+<para>
+In our case, the two answers we are computing are:
+</para>
+
+<itemizedlist>
+<listitem><para>Uppercase-converted letter (if lowercase)</para></listitem>
+<listitem><para>Original input letter (if not lowercase)</para></listitem>
+</itemizedlist>
+
+<para>
+Our code starts with the original value in <literal>$7</literal>.  The first thing we need to do is to move the code which calculates the converted value <emphasis>before the condition</emphasis>, and then store it in a different register (<literal>$15</literal> in this case).  So the code will look like this:
+</para>
+
+<programlisting>
+	#$7 has our original value
+	il $14, 'a' - 'A'
+	absdb $15, $7, $14
+	#$7 has the original, and $15 has the converted value
+	#Choose between the value in $7 and $14 and put it in $7
+
+	##...rest of loop...
+</programlisting>
+
+<para>
+So now we need to figure out which value we want to use.  The first thing we need to do is to use our original instructions to check the condition:
+</para>
+
+<programlisting>
+	cgtbi $8, $7, 'a' - 1
+	cgtbi $9, $7, 'z'
+	xor $10, $8, $9
+</programlisting>
+
+<para>
+The previous <literal>andi</literal> is no longer needed because it was used to mask out unwanted values within the branch.  Since we aren't branching we don't care!  So now, <literal>$10</literal> has all ones in the preferred slot if it is in range, and all zeroes if it is out of range.    Now all we need is to choose <literal>$7</literal> or <literal>$15</literal> based on the value in <literal>$10</literal>.  The instruction <literal>selb</literal> (select bits) is perfect for this.  <literal>selb</literal> has four operands:
+</para>
+
+<itemizedlist>
+<listitem><para>destination register</para></listitem>
+<listitem><para>source value 1</para></listitem>
+<listitem><para>source value 2</para></listitem>
+<listitem><para>selector</para></listitem>
+</itemizedlist>
+
+<para>
+<literal>selb</literal> operates by taking going through the selector bit-by-bit.  For each bit position, if the bit is 0, the same bit position in the destination register uses the bit from source value 1.  If the bit is 1, it uses the bit from source value 2.  If you imagine each register as an array of bits, <literal>selb</literal> has the following meaning:
+</para>
+
+<programlisting>
+//imaginary representation of selb for those more familiar with C than assembly language:
+for(i = 0; i < 128; i++) {
+	destination[i] = selector[i] == 0 ? source_1[i] : source_2[i]
+}
+</programlisting>
+
+<para>
+Now hopefully you are seeing why the condition statements set all of the corresponding bits in the destination register to 1 if the condition is true - it makes it easier to use that value for <literal>selb</literal>.  In our case, we can simply add the following line of code:
+</para>
+
+<programlisting>
+	selb $7, $7, $15, $10
+</programlisting>
+
+<para>
+Now, all of our values, whether they are lowercase or not, will be processed through the following code sequence:
+</para>
 
 <example>
-<title>Buffer Conversion -- Vectorized and Branches Removed</title>
+<title>Branch-free conversion code</title>
 <programlisting>
-.data 
-.equ CONVERSION, 'a' - 'A'
-.align 4
-conversion_bytes:
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-		
-.text
+	#Original value starts in $7
 
+	#Perform conversion and store in $15
+	il $14, 'a' - 'A'
+	absdb $15, $7, $14
+	
+	#Is it lowercase ('a'-'z')?
+	cgtbi $8, $7, 'a'-1
+	cgtbi $9, $7, 'z'
+	xor $10, $8, $9
+	#$10 has all 1s for lowercase and all 0s for non-lowercase
+
+	#Select value into $7 based on condition
+	selb $7, $7, $15, $10
+
+	#$7 now has the correct value
+</programlisting>
+</example>
+
+<para>
+In our case, the choice was between the original value and a processed value, but the code would have been similar if the choice was between two processed values.  In that case, we would have just had two sets of processing instructions, with each set using a different register for its result, and the <literal>selb</literal> instruction choosing between them.  Likewise, if there were more than two possible directions for the code to go, multiple <literal>selb</literal>s could be used to choose between them.  However, at that point, you probably need to look and see if the cost of calculating all of the different possibilities for every input is worth the benefit of eliminating branches.
+</para>
+
+<para>
+Remember that the point of removing the branch was so that we can vectorize the code.  The problem was that in order to vectorize the code, the code must follow the same set of instructions for each member of the vector.  Now that we have eliminated the branches this is possible.
+</para>
+
+<para>
+In fact, the core conversion code <emphasis>is actually almost already vectorized</emphasis>.  All of the instructions operate on the whole register anyway.  The problem before was threefold:
+</para>
+
+<itemizedlist>
+<listitem><para>The branch was causing either the whole register to be converted or not converted.</para></listitem>
+<listitem><para>The register holding the conversion factor was geared to a single byte usage rather than a whole register (<literal>il</literal> loads the given value into each <emphasis>word</emphasis> but we need it in each <emphasis>byte</emphasis>).</para></listitem>
+<listitem><para>The load/store instructions and the loop counter were geared for processing a single byte at a time.</para></listitem>
+</itemizedlist>
+
+<para>
+We've eliminated the branch.  Now we need to load our conversion factor appropriately.  The easiest way to do this is to put the conversion factor in the <literal>.data</literal> section manually and load it directly in.  We should also move it outside of the loop since its value is invariant.  So, in the <literal>.data</literal> section, we should add:
+</para>
+
+<programlisting>
+.equ CONVERSION_FACTOR, 'a' - 'A'
+conversion_bytes:
+	.fill 16, 1, CONVERSION_FACTOR
+</programlisting>
+
+<para>
+And in the function before the loop, we need to add:
+</para>
+
+<programlisting>
+	lqr $14, conversion_bytes
+</programlisting>
+
+<para>
+With these additions, all values in register 7 will be processed appropriately.  Here is the code again, with a possible starting value to demonstrate what is happening:
+</para>
+	
+<example>
+<title>Following a set of values through the conversion</title>
+<programlisting>
+	#$7 starts with 'Hello There!    '
+	#In hex, that's   0x48656c6c6f2054686572652120202020
+	#$14 is the conversion factor in each byte
+	#In hex, that's   0x20202020202020202020202020202020
+
+	absdb $15, $7, $14
+	#  -> $15 now has 0x28454c4c4f0034484552450100000000
+	cgtbi $8, $7, 'a'-1
+	#  -> $8 now has  0xffffffffff00ffffffffff0000000000
+	cgtbi $9, $7, 'z'
+	#  -> $9 now has  0xff0000000000ff000000000000000000
+	xor $10, $8, $9
+	#  -> $10 now has 0x00ffffffff0000ffffffff0000000000
+	selb $7, $7, $15, $10
+	#  -> $7 now has  0x48454c4c4f2054484552452120202020
+	#     which is hex for 'HELLO THERE!    '
+</programlisting>
+</example>
+
+<para>
+So now, all we need to do is change the loop so that it will utilize this.  It needs to load a full quadword (16 bytes) at once, and store it back at once, and increment the pointer by 16 instead of 1.  This, interestingly, will require <emphasis>fewer</emphasis> instructions because we are no longer having to mess with the preferred slot.  So, here is the complete function with the new loop skeleton:
+</para>
+
+<example>
+<title>Loop skeleton for vectorized code</title>
+<programlisting>
+##Store Conversion Factor##
+.data
+.equ CONVERSION_FACTOR, 'a' - 'A'
+conversion_bytes:
+	.fill 16, 1, CONVERSION_FACTOR
+
+.text
 .global convert_buffer_to_upper
 .type convert_buffer_to_upper, @function
 convert_buffer_to_upper:
-	##REGISTER USAGE:
-	#   3) buffer address / current address
-	#   4) buffer size 
-	#   5) end_address
-	#   6) current quadword
-	#   8, 9, & 10) Determine if bytes are in range
-	#   11) Conversion bytes
-	#   12) Conversion bytes (masked)
-	#   13) true if we need to branch, false otherwise
-
 	#Calculate end address
 	a $5, $4, $3
 
-	#Load conversion bytes
-	lqr $11, conversion_bytes
-	
+	lqr $14, conversion_bytes
+
 loop_start:
-	#ALIGNED LOAD
-	lqd $6, 0($3)
+	#Aligned Load
+	lqd $7, 0($3)
 
-	#IS IN RANGE 'a'-'z'
-	cgtbi $8, $6, 'a' - 1
-	cgtbi $9, $6, 'z'
+	##CONVERSION##
+	absdb $15, $7, $14
+	cgtbi $8, $7, 'a'-1
+	cgtbi $9, $7, 'z'
 	xor $10, $8, $9
+	selb $7, $7, $15, $10
+	##END CONVERSION##
 
-	#Create conversion quadword
-	and $12, $10, $11
+	#Aligned Store
+	stqd $7, 0($3)
 
-	#Convert data
-	absdb $6, $6, $12 
-
-	#Aligned Store 
-	stqd $6, 0($3)
-
-	#Increment pointer
+	#Increment Pointer
 	ai $3, $3, 16
 
-	#Exit if needed
+	#Exit if needed ($5 has the ending address)
 	cgt $13, $3, $5
-	brnz $13, end_function
-
-	#end loop
-	br loop_start
+	brz $13, loop_start
 
 end_function:
 	bi $lr
 </programlisting>
 </example>
+
+<para>
+As you can see, the code is much simpler - it has fewer branches and fewer instructions.  However, this new code now assumes that the starting address is 16-byte aligned, and also that it has enough padding on the end that the next data element in memory is also 16-byte aligned.  Otherwise, we might end up converting something besides letters!  As you can see, for vector processing, <emphasis>alignment and padding are both critically important</emphasis>.  If you wind up having to waste a few bytes, it is trivial compared to the amount of time and code needed to special-case the beginning and end of unaligned data.  By keeping keeping the data aligned and padded to 16-byte boundaries, vector operations can be performed effortlessly.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Unrolling Loops and Scheduling Instructions</title>
+
+<para>
+Loop unrolling has been an optimization technique since the dawn of computer programming.  We will cover it here for two purposes:
+</para>
+
+<itemizedlist>
+<listitem><para>Demonstrate how to unroll loops in assembly language and still keep track of which register holds what.</para></listitem>
+<listitem><para>Use the unrolled loops to help understand and optimize instruction scheduling.</para></listitem>
+</itemizedlist>
+
+<para>
+Probably by this point you have already been having trouble keeping up with which register holds what value.  After all, the register names are essentially arbitrary numbers, which are nearly impossible to make sense of.  However, because the registers are only numbers, we can use <literal>.equ</literal> to give our registers descriptive names.  For example, we can rewrite our conversion program as follows (note that registers have been renumbered):
+</para>
+
+<example>
+<title>Uppercase conversion with named registers</title>
+<programlisting>
+.data
+.equ CONVERSION_FACTOR, 'a' - 'A'
+conversion_bytes:
+	.fill 16, 1, CONVERSION_FACTOR
+
+.text
+.global convert_buffer_to_upper
+.type convert_buffer_to_upper, @function
+	##REGISTER DEFINITIONS##
+	#Loop/function control registers
+	.equ BUFFER_REG, 3             #Buffer address / current address
+	.equ BUFFER_SZ_REG, 4          #Buffer size
+	.equ BUFFER_END_REG, 5         #End address
+	.equ CONVERSION_BYTES_REG, 6   #Conversion data
+	.equ IS_FINISHED_REG, 7        #Finished conversion?
+
+	#Conversion-oriented registers
+	.equ CURRENT_VAL_REG, 8  #Current quadword
+	.equ BOOL_TMP1_REG, 9    #used for computing IN_RANGE_REG
+	.equ BOOL_TMP2_REG, 10   #used for computing IN_RANGE_REG
+	.equ IN_RANGE_REG, 11    #Value in range?
+	.equ PROCESSED_VALS_REG, 12   #Conversion bytes, properly masked
+
+	#Other information
+	.equ NUMREGS, 5          #Number of per-iteration registers
+	.equ REGBYTES, 16        #Number of bytes in a register
+convert_buffer_to_upper:
+	#Calculate end address
+	a $BUFFER_END_REG, $BUFFER_SZ_REG, $BUFFER_REG
+
+	lqr $CONVERSION_BYTES_REG, conversion_bytes
+
+loop_start:
+	#Aligned Load
+	lqd $CURRENT_VAL_REG, 0($BUFFER_REG)
+
+	##CONVERSION##
+	absdb $PROCESSED_VALS_REG, $CURRENT_VAL_REG, $CONVERSION_BYTES_REG
+	cgtbi $BOOL_TMP1_REG, $CURRENT_VAL_REG, 'a'-1
+	cgtbi $BOOL_TMP2_REG, $CURRENT_VAL_REG, 'z'
+	xor $IN_RANGE_REG, $BOOL_TMP1_REG, $BOOL_TMP2_REG
+	selb $CURRENT_VAL_REG, $CURRENT_VAL_REG, $PROCESSED_VALS_REG, $IN_RANGE_REG
+	##END CONVERSION##
+
+	#Aligned Store
+	stqd $CURRENT_VAL_REG, 0($BUFFER_REG)
+
+	#Increment Pointer
+	ai $BUFFER_REG, $BUFFER_REG, REGBYTES
+
+	#Exit if needed
+	cgt $IS_FINISHED_REG, $BUFFER_REG, $BUFFER_END_REG
+	brz $IS_FINISHED_REG, loop_start
+
+end_function:
+	bi $lr
+</programlisting>
+</example>
+
+<para>
+It's a lot more verbose, but it also makes it easier to browse through the code.  It also makes it much easier to do instruction scheduling for unrolled loops.  We'll get to that in a minute.  For the present, let's look at how we might unroll this loop four times, using different registers for each iteration (using different registers will help when we optimize instruction scheduling).
+
+NOTE -- I'm HERE
 
 <example>
 <title>Buffer Conversion -- Loop Unrolled</title>
