@@ -523,13 +523,38 @@ end_function:
 </example>
 
 <para>
-It's a lot more verbose, but it also makes it easier to browse through the code.  It also makes it much easier to do instruction scheduling for unrolled loops.  We'll get to that in a minute.  For the present, let's look at how we might unroll this loop four times, using different registers for each iteration (using different registers will help when we optimize instruction scheduling).
+It's a lot more verbose, but it also makes it easier to browse through the code.  It also makes it much easier to do instruction scheduling for unrolled loops.  We'll get to that in a minute.  For the present, let's look at how we might unroll this loop four times, using different registers for each iteration (using different registers will help when we optimize instruction scheduling).  We'll discuss why and how we did things after the program:
+</para>
 
-NOTE -- I'm HERE
 
 <example>
 <title>Buffer Conversion -- Loop Unrolled</title>
 <programlisting>
+loop_start:
+	#Aligned Load
+	lqd $CURRENT_VAL_REG, 0($BUFFER_REG)
+
+	##CONVERSION##
+	absdb $PROCESSED_VALS_REG, $CURRENT_VAL_REG, $CONVERSION_BYTES_REG
+	cgtbi $BOOL_TMP1_REG, $CURRENT_VAL_REG, 'a'-1
+	cgtbi $BOOL_TMP2_REG, $CURRENT_VAL_REG, 'z'
+	xor $IN_RANGE_REG, $BOOL_TMP1_REG, $BOOL_TMP2_REG
+	selb $CURRENT_VAL_REG, $CURRENT_VAL_REG, $PROCESSED_VALS_REG, $IN_RANGE_REG
+	##END CONVERSION##
+
+	#Aligned Store
+	stqd $CURRENT_VAL_REG, 0($BUFFER_REG)
+
+	#Increment Pointer
+	ai $BUFFER_REG, $BUFFER_REG, REGBYTES
+
+	#Exit if needed
+	cgt $IS_FINISHED_REG, $BUFFER_REG, $BUFFER_END_REG
+	brz $IS_FINISHED_REG, loop_start
+
+
+
+
 .data 
 .equ CONVERSION, 'a' - 'A'
 .align 4
@@ -948,3 +973,6 @@ main_end:
 	bi $lr
 </programlisting>
 </example>
+
+</sect1>
+</chapter>
