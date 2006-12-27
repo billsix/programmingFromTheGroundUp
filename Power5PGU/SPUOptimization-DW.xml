@@ -2,10 +2,10 @@
 
 <dw-article local-site="worldwide" ratings-form="auto" related-contents="auto" toc="auto" skill-level="3">
 <id cma-id="" domino-uid="" content-id="" original="yes"/>
-<keywords content="FIXME -- ADD KEYWORDS" />
+<keywords content="SPU,assembly language,optimization,branch elimination,loop unrolling,instruction scheduling,branch hinting,vectorization,vector processing,SIMD" />
 
 <!-- FIXME - update meta -->
-<meta-last-updated day="16" month="10" year="2004" initials="jlb"/>
+<meta-last-updated day="26" month="12" year="2006" initials="jlb"/>
 
 <content-area-primary name="linux" />
 
@@ -219,7 +219,7 @@ These same steps can be used to build all of the examples in this article.
 <heading refname="" type="major" toc="yes" alttoc="">Vectorizing the Code</heading>
 
 <p>
-The most obvious optimization to make on a vector process is to vectorize the code.  On the SPUs, most instructions can operate on registers as if they contained multiple, independent values.  Each 128-bit register can be treated as 16 independent bytes, 8 half-words, 4 words, 2 doublewords, or as a single unit.  The instruction set is primarily geared around dividing it into four 32-bit words, but there is enough support to handle any of these situations.
+The most obvious optimization to make on a vector process is to vectorize the code.  This is known as (single instruction, multiple data), or data parallelism.  On the SPUs, most instructions can operate on registers as if they contained multiple, independent values (thus the single instruction acting on multiple data items).  Each 128-bit register can be treated as 16 independent bytes, 8 half-words, 4 words, 2 doublewords, or as a single unit.  The instruction set is primarily geared around dividing it into four 32-bit words, but there is enough support to handle any of these situations.
 </p>
 
 <p>
@@ -623,7 +623,7 @@ Most of the work of performance tuning on the SPU deals with avoiding register s
 <tr><td>Element-based rotates and shifts</td><td>4</td><td>Even</td><td></td></tr>
 <tr><td>Immediate-mode loads</td><td>2</td><td>Even</td><td></td></tr>
 <tr><td>Simple integer and logical operations (including <code type="inline">selb</code>)</td><td>2</td><td>Even</td><td></td></tr>
-<tr><td>Load and Store Operations</td><td>6</td><td>Odd</td><td></td></tr>
+<tr><td>Load and Store Operations</td><td>6</td><td>Odd</td><td>Unlike other architectures, SPU loads and stores are deterministic because there is no cache.  By reducing the memory so that it is all on-chip in the local store, the SPU can have much faster, much more reliable load and store times than other types of processors.</td></tr>
 <tr><td>Branch hints</td><td>6</td><td>Odd</td><td>Special rules for branch hints will be discussed in a subsequent section.</td></tr>
 <tr><td>Channel Operations</td><td>6</td><td>Odd</td><td></td></tr>
 <tr><td>Special-purpose register manipulation</td><td>6</td><td>Odd</td><td></td></tr>
@@ -934,237 +934,26 @@ This code has been branch-eliminated, vectorized, loop-unrolled, instruction sch
 In the next articles we will start looking at coding the SPU in C.  They will cover SPU extensions to C as well as higher-level optimization techniques.
 </p>
 
-
-
 <!-- page 687-688 BE Handbook & 768-772 & 64-66, 505, 551 -->
-
-
-<!-- 18 clock cycles per QWORD, 0 dual-issues, ~1.125 cycles per conversion -->
-
-
-<!-- 30 cycles (7.5 cycles / QWORD), 64 bytes processed, 1 dual-issue (~0.47 clock cycles per conversion) -->
-<!-- needs .align 2 -->
-<!-- branch hints -->
-<!-- optimize function call and return -->
-<!--
-<code type="section">
-<heading refname="" type="code" toc="no">Listing 13. Multibuffering the Main Function</heading>
-.data
-
-.align 4
-conversion_info:
-conversion_length:
-	.octa 0
-conversion_data:
-	.octa 0
-.equ CONVERSION_STRUCT_SIZE, 32
-
-.section .bss #Uninitialized Data Section
-.align 4
-.lcomm conversion_buffer_1, 16384
-.lcomm conversion_buffer_2, 16384
-
-.equ CONVERSION_TRANSFER_SIZE, 128
-.text
-
-#MFC Constants
-.equ MFC_GETB_CMD, 0x41
-.equ MFC_PUTB_CMD, 0x21
-
-.equ LR_OFFSET, 16
-
-.global main
-.type main, @function
-.equ MAIN_FRAME_SIZE, 64
-.equ REGSAVE_OFFSET, 32
-
-#Name our registers
-	.equ PARAM_1, 3
-	.equ PARAM_2, 4
-	.equ PARAM_3, 5
-	.equ PARAM_4, 6
-	.equ PARAM_5, 7
-
-	.equ TMP_1, 8
-	.equ TMP_SZ_NEXT_XFER, 9
-	.equ TMP_SZ_NEXT_XFER_64, 10
-
-	.equ DATA_REMAINING, 127
-	.equ CURRENT_PTR, 126
-	.equ BUF1_EA, 125
-	.equ BUF1_SIZE, 124	
-	.equ BUF2_EA, 123
-	.equ BUF2_SIZE, 122
-	.equ TRANSFER_SIZE, 121
-main:
-	#Prologue
-	stqd $lr, LR_OFFSET($sp)
-	stqd $sp, -MAIN_FRAME_SIZE($sp)
-	ai $sp, $sp, -MAIN_FRAME_SIZE
-
-	il $TRANSFER_SIZE, CONVERSION_TRANSFER_SIZE
-
-	##COPY IN CONVERSION INFORMATION##
-	ila $PARAM_1, conversion_info         #Local Store Address
-	#register 4 already has address #64-bit Effective Address
-	il $PARAM_3, CONVERSION_STRUCT_SIZE   #Transfer size
-	il $PARAM_4, 0                        #DMA Tag
-	il $PARAM_5, MFC_GETB_CMD              #DMA Command
-	brsl $lr, perform_dma
-
-conversion_loop:
-	
-	#Wait for DMA to complete
-	il $PARAM_1, 0
-	brsl $lr, wait_for_dma_completion
-
-	lqr $DATA_REMAINING, conversion_length
-	lqr $CURRENT_PTR, conversion_data
-
-	#Is there a full transfer left?
-	cgt $TMP_1, $TRANSFER_SIZE, $DATA_REMAINING
-	selb $TMP_SZ_NEXT_XFER, $TRANSFER_SIZE, $DATA_REMAINING, $TMP_1
-	
-	#Save Buffer 1 Info
-	lr $BUF1_EA, $CURRENT_PTR
-	lr $BUF1_SIZE, $TMP_SZ_NEXT_XFER
-
-	#Move Pointer and size
-	sf $DATA_REMAINING, $DATA_REMAINING, $TMP_SZ_NEXT_XFER
-	#MISMATCH!!! 64-bit and 32-bit
-	a $CURRENT_PTR, $CURRENT_PTR, $TMP_SZ_NEXT_XFER
-
-	#Start Copy Buffer 1
-	ila $PARAM_1, conversion_buffer_1 #Local Store
-	lr $PARAM_2, $BUF1_EA             #64-bit Effective Address
-	lr $PARAM_3, $BUF1_SIZE           #SIZE
-	il $PARAM_4, 0                    #DMA Tag
-	il $PARAM_5, MFC_GETB_CMD          #DMA Command
-	brsl $lr, perform_dma
-
-	#Is there a full transfer left?
-	cgt $TMP_1, $TRANSFER_SIZE, $DATA_REMAINING
-	selb $TMP_SZ_NEXT_XFER, $TRANSFER_SIZE, $DATA_REMAINING, $TMP_1
-
-	#Save Buffer 2 Info
-	lr $BUF2_EA, $CURRENT_PTR
-	lr $BUF2_SIZE, $TMP_SZ_NEXT_XFER
-
-	#Move pointer and size
-	sf $DATA_REMAINING, $DATA_REMAINING, $TMP_SZ_NEXT_XFER
-	#MISMATCH!!! 64-bit and 32-bit
-	a $CURRENT_PTR, $CURRENT_PTR, $TMP_SZ_NEXT_XFER
-
-	#Start Copy Buffer 2
-	ila $PARAM_1, conversion_buffer_2 #Local Store
-	lr $PARAM_2, $BUF2_EA             #64-bit Effective Address
-	lr $PARAM_3, $BUF2_SIZE           #SIZE
-	il $PARAM_4, 1                    #DMA Tag
-	il $PARAM_5, MFC_GETB_CMD          #DMA Command
-	brsl $lr, perform_dma
-	
-	#Wait for First DMA to complete
-	il $PARAM_1, 0
-	brsl $lr, wait_for_dma_completion
-
-	#Perform Conversion on buffer 1
-	ila $PARAM_1, conversion_buffer_1
-	lr $PARAM_2, $BUF1_SIZE
-	brsl $lr, convert_buffer_to_upper
-
-	#Start Copy Data Back on Buffer 1
-	ila $PARAM_1, conversion_buffer_1   #Local Store Address
-	lr $PARAM_2, $BUF1_EA     #64-bit effective address
-	lr $PARAM_3, $BUF1_SIZE   #Size
-	il $PARAM_4, 0                    #DMA Tag
-	il $PARAM_5, MFC_PUTB_CMD          #DMA Command
-	brsl $lr, perform_dma
-
-	#Queue Up Next Copy on Buffer 1
-	#Is there a full transfer left?
-	cgt $TMP_1, $TRANSFER_SIZE, $DATA_REMAINING
-	selb $TMP_SZ_NEXT_XFER, $TRANSFER_SIZE, $DATA_REMAINING, $TMP_1
-	
-	#Save Buffer 1 Info
-	lr $BUF1_EA, $CURRENT_PTR
-	lr $BUF1_SIZE, $TMP_SZ_NEXT_XFER
-
-	#Move Pointer and size
-	sf $DATA_REMAINING, $DATA_REMAINING, $TMP_SZ_NEXT_XFER
-	#MISMATCH!!!
-	a $CURRENT_PTR, $CURRENT_PTR, $TMP_SZ_NEXT_XFER
-
-	#Start Copy Buffer 1
-	ila $PARAM_1, conversion_buffer_1 #Local Store
-	lr $PARAM_2, $BUF1_EA             #64-bit Effective Address
-	lr $PARAM_3, $BUF1_SIZE           #SIZE
-	il $PARAM_4, 0                    #DMA Tag
-	il $PARAM_5, MFC_GETB_CMD          #DMA Command
-	brsl $lr, perform_dma
-
-
-	#Wait for Data on Buffer 2
-	il $PARAM_1, 1
-	brsl $lr, wait_for_dma_completion
-
-	#Perform Conversion on Buffer 2
-	ila $PARAM_1, conversion_buffer_2
-	lr $PARAM_2, $BUF2_SIZE
-	brsl $lr, convert_buffer_to_upper
-
-	#Start Copy Data Back on Buffer 2
-	ila $PARAM_1, conversion_buffer_2
-	lr $PARAM_2, BUF2_EA
-	lr $PARAM_3, BUF2_SIZE
-	il $PARAM_4, 1
-	il $PARAM_5, MFC_PUTB_CMD
-	brsl $lr, perform_dma
-
-	#Queue Up Next Copy on Buffer 2
-	#Is there a full transfer left?
-	cgt $TMP_1, $TRANSFER_SIZE, $DATA_REMAINING
-	selb $TMP_SZ_NEXT_XFER, $TRANSFER_SIZE, $DATA_REMAINING, $TMP_1
-	
-	#Save Buffer 2 Info
-	lr $BUF2_EA, $CURRENT_PTR
-	lr $BUF2_SIZE, $TMP_SZ_NEXT_XFER
-
-	#Move Pointer and size
-	sf $DATA_REMAINING, $DATA_REMAINING, $TMP_SZ_NEXT_XFER
-	##MISMATCH!!!
-	a $CURRENT_PTR, $CURRENT_PTR, $TMP_SZ_NEXT_XFER
-
-	#Start Copy Buffer 2
-	ila $PARAM_1, conversion_buffer_2 #Local Store
-	lr $PARAM_2, $BUF2_EA             #64-bit Effective Address
-	lr $PARAM_3, $BUF2_SIZE           #SIZE
-	il $PARAM_4, 0                    #DMA Tag
-	il $PARAM_5, MFC_GETB_CMD          #DMA Command
-	brsl $lr, perform_dma
-	
-	#Branch if there is data remaining
-	# (FIXME - should skip some steps if $DATA_REMAINING is 0)
-	# (FIXME - should do branch hints to help out the loop)
-	brnz  $DATA_REMAINING, conversion_loop
-
-main_end:
-
-	#Return Value
-	il $3, 0
-
-	#Epilogue
-	ai $sp, $sp, MAIN_FRAME_SIZE
-	lqd $lr, LR_OFFSET($sp)
-	bi $lr
-</code>
-
--->
 
 </docbody>
 <related-list>
 </related-list>
 
 <resource-list>
+<ul>
+<li>Always keep your <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/EFA2B196893B550787257060006FC9FB">assembly language overview</a> handy, as well as the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/76CA6C7304210F3987257060006F2C44">instruction set architecture reference</a> for more detailed information.</li>
+<li>ArsTechnica has an <a href="http://arstechnica.com/articles/paedia/cpu/simd.ars">overview of SIMD architectures</a> (before the Cell BE processor) as well as an <a href="http://arstechnica.com/articles/paedia/cpu/cell-1.ars">introduction to the Cell BE's SIMD architecture</a>.</li>
+<li>The <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/9F820A5FFA3ECE8C8725716A0062585F">Cell Broadband Engine Programming Handbook</a> has a lot of interesting low-level details on the SPUs.  Some interesting sections are:
+<ul>
+<li>Pages 75-76 and 687-688 discusses pipeline and latency issues.</li>
+<li>Pages 768-772 describe why you need to use no-ops to take advantage of dual-issue rules, what the instruction pipeline looks like, and how instruction prefetch works.  Page 772 describes the <literal>hbrp</literal> instruction which can be used to help out the prefetch schedule.</li>
+<li>Pages 689-697 cover branch elimination and hinting.</li>
+</ul>
+</li>
+<li>If you want to get really nuts with branch optimization, you should <a href="http://researchweb.watson.ibm.com/journal/sj/451/eichenberger.html">read the additional considerations the IBM compiler team use for branch optimization</a>.</li>
+<li>Additional optimization considerations and suggestions are available in <a href="http://www.power.org/resources/devcorner/cellcorner/cellworkshop0606/Day1_11_CourseCode_L3T2H1-58_CellProgrammingTipsTechniques.pdf">this slide presentation</a>.</li>
+</ul>
 </resource-list>
 
 </dw-article>

@@ -206,7 +206,7 @@ These same steps can be used to build all of the examples in this article.
 <title>Vectorizing the Code</title>
 
 <para>
-The most obvious optimization to make on a vector process is to vectorize the code.  On the SPUs, most instructions can operate on registers as if they contained multiple, independent values.  Each 128-bit register can be treated as 16 independent bytes, 8 half-words, 4 words, 2 doublewords, or as a single unit.  The instruction set is primarily geared around dividing it into four 32-bit words, but there is enough support to handle any of these situations.
+The most obvious optimization to make on a vector process is to vectorize the code.  This is known as SIMD (single instruction, multiple data), or data parallelism.  On the SPUs, most instructions can operate on registers as if they contained multiple, independent values (thus the single instruction acting on multiple data items).  Each 128-bit register can be treated as 16 independent bytes, 8 half-words, 4 words, 2 doublewords, or as a single unit.  The instruction set is primarily geared around dividing it into four 32-bit words, but there is enough support to handle any of these situations.
 </para>
 
 <para>
@@ -623,7 +623,7 @@ Most of the work of performance tuning on the SPU deals with avoiding register s
 <tr><td>Element-based rotates and shifts</td><td>4</td><td>Even</td><td></td></tr>
 <tr><td>Immediate-mode loads</td><td>2</td><td>Even</td><td></td></tr>
 <tr><td>Simple integer and logical operations (including <literal>selb</literal>)</td><td>2</td><td>Even</td><td></td></tr>
-<tr><td>Load and Store Operations</td><td>6</td><td>Odd</td><td></td></tr>
+<tr><td>Load and Store Operations</td><td>6</td><td>Odd</td><td>Unlike other architectures, SPU loads and stores are deterministic because there is no cache.  By reducing the memory so that it is all on-chip in the local store, the SPU can have much faster, much more reliable load and store times than other types of processors.</td></tr>
 <tr><td>Branch hints</td><td>6</td><td>Odd</td><td>Special rules for branch hints will be discussed in a subsequent section.</td></tr>
 <tr><td>Channel Operations</td><td>6</td><td>Odd</td><td></td></tr>
 <tr><td>Special-purpose register manipulation</td><td>6</td><td>Odd</td><td></td></tr>
@@ -948,6 +948,22 @@ In the next articles we will start looking at coding the SPU in C.  They will co
 </para>
 </sect1>
 
+<!--
+<ul>
+<li>Always keep your <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/EFA2B196893B550787257060006FC9FB">assembly language overview</a> handy, as well as the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/76CA6C7304210F3987257060006F2C44">instruction set architecture reference</a> for more detailed information.</li>
+<li>ArsTechnica has an <a href="http://arstechnica.com/articles/paedia/cpu/simd.ars">overview of SIMD architectures</a> (before the Cell BE processor) as well as an <a href="http://arstechnica.com/articles/paedia/cpu/cell-1.ars">introduction to the Cell BE's SIMD architecture</a>.</li>
+<li>The <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/9F820A5FFA3ECE8C8725716A0062585F">Cell Broadband Engine Programming Handbook</a> has a lot of interesting low-level details on the SPUs.  Some interesting sections are:
+<ul>
+<li>Pages 75-76 and 687-688 discusses pipeline and latency issues.</li>
+<li>Pages 768-772 describe why you need to use no-ops to take advantage of dual-issue rules, what the instruction pipeline looks like, and how instruction prefetch works.  Page 772 describes the <literal>hbrp</literal> instruction which can be used to help out the prefetch schedule.</li>
+<li>Pages 689-697 cover branch elimination and hinting.</li>
+</ul>
+</li>    
+<li>If you want to get really nuts with branch optimization, you should <a href="http://researchweb.watson.ibm.com/journal/sj/451/eichenberger.html">read the additional considerations the IBM compiler team use for branch optimization</a>.</li>
+<li>Additional optimization considerations and suggestions are available in <a href="http://www.power.org/resources/devcorner/cellcorner/cellworkshop0606/Day1_11_CourseCode_L3T2H1-58_CellProgrammingTipsTechniques.pdf">this slide presentation</a>.</li>
+
+</ul>      
+-->
 
 <!-- page 687-688 BE Handbook & 768-772 & 64-66, 505, 551 -->
 
