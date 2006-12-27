@@ -2,22 +2,22 @@
 <title>Programming the SPU for Performance</title>
 
 <para>
-In the last article we covered the basics of SPU programming.  This article will help you learn to write optimal code for it, and have your programs running like greased lightning.  This tutorial covers SIMD vector programming, branch-free programming, loop unrolling, instruction scheduling, and multibuffering techniques.
+Previous articles have covered the basics of the PS3, the Cell Broadband Engine Architecture, and SPU programming.  This article will help you learn to write optimal code for the SPU, and have your programs running like greased lightning.  This tutorial covers SIMD vector programming, branch-elimination, loop unrolling, instruction scheduling, and branch hinting techniques.
 </para>
 
 <para>
-This article dives into the depths of instruction-cycle-counting, bit manipulation, and other nuances that assembly language has typically been notorious for.  By the end of it you may be convinced never to program in assembly language.  However, the point of it all is not to be an assembly language programmer (though you might be into that sort of thing!) but rather to understand what the processor and the compiler are needing to do to optimize your code for the SPU.  Knowing how the SPU's assembly language works will enable you to exploits this knowledge to write C code which takes advantage of the features of the processor.  In subsequent articles we will switch to C and show how to use this knowledge in real-world examples.
+This article dives into the depths of instruction-cycle-counting, bit manipulation, and other nuances that assembly language has typically been notorious for.  By the end of it you may be convinced never to program in assembly language ever again.  However, the point of it all is not to program in assembly language at all times but rather to understand what the  compiler needs to do to optimize your code, and be able to supplement that with custom assembly language when required.  Knowing how the SPU's assembly language works will also aid you in exploiting the processor in higher-level languages.  Subsequent articles will use C and show how to use this optimization knowledge in real-world examples.  The SPU has many C language extensions; knowing SPU assembly language will help you make sense of them, and knowing SPU optimization will help you use them well.
 </para>
 
 <sect1>
 <title>Our Starting Program</title>
 
 <para>
-In the last article, we ended with a function called <literal>convert_to_upper</literal> which operated one byte at a time to convert a string to uppercase.  The functions in these programs will operate on whole buffers at a time.  The SPU is built to deal with data in batches, so moving to a buffer-at-a-time model will make future enhancements easier.  The first version will simply wrap a loop around the code developed in the previous article. Because it is based on code and concepts developed in the previous articles, we will not do a step-by-step explanation of the code.
+In the last article, we ended with a function called <literal>convert_to_upper</literal> which operated one byte at a time to convert a string to uppercase.  The functions in the programs in this article will operate on whole buffers at a time.  The SPU is built to deal with data in batches, so moving to a buffer-at-a-time model will make the enhancements easier.  The first version will simply wrap a loop around the code developed in the previous article. Because it is based on code and concepts developed in the previous articles, we will not do a step-by-step explanation of the code.
 </para>
 
 <para>
-Here is the naive version of a buffer-at-a-time function for converting to uppercase (enter as <literal>convert_buffer.s</literal>):
+Here is the unoptimized version of a buffer-at-a-time function for converting to uppercase (enter as <literal>convert_buffer.s</literal>):
 </para>
 
 <example>
@@ -72,12 +72,9 @@ finish_loop:
 	#Increment pointer
 	ai $3, $3, 1
 
-	#Are we at the end?  If so skip the loop iteration 
+	#Are we at the end?  If not then loop. 
 	cgt $13, $3, $5
-	brnz $13, end_function
-
-	#perform next loop iteration
-	br loop_start
+	brz $13, loop_start
 
 end_function:
 	#Return
@@ -86,7 +83,11 @@ end_function:
 </example>
 
 <para>
-The function which drives this is now a little bit simpler since it only has to load the data, run the function, and copy it back.  Here is the code (enter as <literal>convert_driver.s</literal>):
+As far as performance goes, the current code is terrible.  The subsequent seections will improve on it a step at a time. 
+</para>
+
+<para>
+The function which drives the conversion function is now a little bit simpler since it only has to load the data, run the function, and copy it back.  Here is the code (enter as <literal>convert_driver.s</literal>):
 </para>
 
 <example>
@@ -195,8 +196,9 @@ gcc -m64 spe_convert_csf.o ppu_dma_main.c -lspe -o dma_convert
 </programlisting>
 
 <para>
-Now, as far as performance goes, the current code is terrible.  So we will work on it a step at a time to improve the performance. 
+These same steps can be used to build all of the examples in this article.
 </para>
+
 
 </sect1>
 
@@ -212,7 +214,7 @@ If we vectorize this code, since we are treating the values as bytes, that means
 </para>
 
 <para>
-What we need to do first is <emphasis>eliminate the branch</emphasis> so that the code uses the exact same instructions whether it matches our condition or not (as will be shown later, eliminating branches helps in other ways as well).  So how is this done?  The key is that the SPU has several conditional instructions, such as <literal>selb</literal>, <literal>shufb</literal> and the bit operations, which allow conditional statements to occur without branching.  What the program will end up doing is <emphasis>calculating both answers</emphasis>, and then using the conditional instructions to to select which answer we want.
+What we need to do first is <emphasis>eliminate the branch</emphasis> so that the code uses the exact same instructions whether it matches our condition or not (as will be shown later, eliminating branches helps reduce branching stalls as well).  So how is this done?  The key is that the SPU has several conditional instructions, such as <literal>selb</literal>, <literal>shufb</literal> and the bit operations, which allow conditional operations to occur without branching.  What the program will end up doing is <emphasis>calculating both answers</emphasis>, and then using a conditional instruction to select the desired answer.
 </para>
 
 <para>
@@ -272,15 +274,15 @@ So now we need to figure out which value we want to use.  The first thing we nee
 </programlisting>
 
 <para>
-The previous <literal>andi</literal> is no longer needed because it was used to mask out unwanted values within the branch.  Since we aren't branching we don't care!  So now, <literal>$10</literal> has all ones in the preferred slot if it is in range, and all zeroes if it is out of range.    Now all we need is to choose <literal>$7</literal> or <literal>$15</literal> based on the value in <literal>$10</literal>.  The instruction <literal>selb</literal> (select bits) is perfect for this.  <literal>selb</literal> has four operands:
+Note that the previous <literal>andi</literal> is no longer needed because it was used to mask out unwanted values for the conditional branch (conditional branches are based on true or false value of the <emphasis>word</emphasis> preferred slot value and we only cared about the <emphasis>byte</emphasis> preferred slot value).  Since we aren't branching we don't care!  So now, <literal>$10</literal> has all ones in the preferred slot if it is in range, and all zeroes if it is out of range.    Now all we need is to choose <literal>$7</literal> or <literal>$15</literal> based on the value in <literal>$10</literal>.  The instruction <literal>selb</literal> (select bits) is perfect for this.  <literal>selb</literal> has four operands:
 </para>
 
-<itemizedlist>
+<orderedlist>
 <listitem><para>destination register</para></listitem>
 <listitem><para>source value 1</para></listitem>
 <listitem><para>source value 2</para></listitem>
 <listitem><para>selector</para></listitem>
-</itemizedlist>
+</orderedlist>
 
 <para>
 <literal>selb</literal> operates by taking going through the selector bit-by-bit.  For each bit position, if the bit is 0, the same bit position in the destination register uses the bit from source value 1.  If the bit is 1, it uses the bit from source value 2.  If you imagine each register as an array of bits, <literal>selb</literal> has the following meaning:
@@ -445,7 +447,7 @@ As you can see, the code is much simpler - it has fewer branches and fewer instr
 </sect1>
 
 <sect1>
-<title>Unrolling Loops and Scheduling Instructions</title>
+<title>Unrolling Loops</title>
 
 <para>
 Loop unrolling has been an optimization technique since the dawn of computer programming.  We will cover it here for two purposes:
@@ -484,7 +486,7 @@ conversion_bytes:
 	.equ BOOL_TMP1_REG, 9    #used for computing IN_RANGE_REG
 	.equ BOOL_TMP2_REG, 10   #used for computing IN_RANGE_REG
 	.equ IN_RANGE_REG, 11    #Value in range?
-	.equ PROCESSED_VALS_REG, 12   #Conversion bytes, properly masked
+	.equ PROCESSED_VAL_REG, 12   #Conversion bytes, properly masked
 
 	#Other information
 	.equ NUMREGS, 5          #Number of per-iteration registers
@@ -504,7 +506,7 @@ loop_start:
 	cgtbi $BOOL_TMP1_REG, $CURRENT_VAL_REG, 'a'-1
 	cgtbi $BOOL_TMP2_REG, $CURRENT_VAL_REG, 'z'
 	xor $IN_RANGE_REG, $BOOL_TMP1_REG, $BOOL_TMP2_REG
-	selb $CURRENT_VAL_REG, $CURRENT_VAL_REG, $PROCESSED_VALS_REG, $IN_RANGE_REG
+	selb $CURRENT_VAL_REG, $CURRENT_VAL_REG, $PROCESSED_VAL_REG, $IN_RANGE_REG
 	##END CONVERSION##
 
 	#Aligned Store
@@ -531,145 +533,167 @@ It's a lot more verbose, but it also makes it easier to browse through the code.
 <title>Buffer Conversion -- Loop Unrolled</title>
 <programlisting>
 loop_start:
-	#Aligned Load
-	lqd $CURRENT_VAL_REG, 0($BUFFER_REG)
+	#ITERATION 0
+	lqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
+	absdb $(PROCESSED_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $CONVERSION_BYTES_REG
+	cgtbi $(BOOL_TMP1_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP2_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'z'
+	xor $(IN_RANGE_REG+0*NUMREGS), $(BOOL_TMP1_REG+0*NUMREGS), $(BOOL_TMP2_REG+0*NUMREGS)
+	selb $(CURRENT_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $(PROCESSED_VAL_REG+0*NUMREGS), $(IN_RANGE_REG+0*NUMREGS)
+	stqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
 
-	##CONVERSION##
-	absdb $PROCESSED_VALS_REG, $CURRENT_VAL_REG, $CONVERSION_BYTES_REG
-	cgtbi $BOOL_TMP1_REG, $CURRENT_VAL_REG, 'a'-1
-	cgtbi $BOOL_TMP2_REG, $CURRENT_VAL_REG, 'z'
-	xor $IN_RANGE_REG, $BOOL_TMP1_REG, $BOOL_TMP2_REG
-	selb $CURRENT_VAL_REG, $CURRENT_VAL_REG, $PROCESSED_VALS_REG, $IN_RANGE_REG
-	##END CONVERSION##
+	#ITERATION 1
+	lqd $(CURRENT_VAL_REG+1*NUMREGS), 1*REGBYTES($BUFFER_REG)
+	absdb $(PROCESSED_VAL_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), $CONVERSION_BYTES_REG
+	cgtbi $(BOOL_TMP1_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP2_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), 'z'
+	xor $(IN_RANGE_REG+1*NUMREGS), $(BOOL_TMP1_REG+1*NUMREGS), $(BOOL_TMP2_REG+1*NUMREGS)
+	selb $(CURRENT_VAL_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), $(PROCESSED_VAL_REG+1*NUMREGS), $(IN_RANGE_REG+1*NUMREGS)
+	stqd $(CURRENT_VAL_REG+1*NUMREGS), 1*REGBYTES($BUFFER_REG)
 
-	#Aligned Store
-	stqd $CURRENT_VAL_REG, 0($BUFFER_REG)
+	#ITERATION 2
+	lqd $(CURRENT_VAL_REG+2*NUMREGS), 2*REGBYTES($BUFFER_REG)
+	absdb $(PROCESSED_VAL_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), $CONVERSION_BYTES_REG
+	cgtbi $(BOOL_TMP1_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP2_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), 'z'
+	xor $(IN_RANGE_REG+2*NUMREGS), $(BOOL_TMP1_REG+2*NUMREGS), $(BOOL_TMP2_REG+2*NUMREGS)
+	selb $(CURRENT_VAL_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), $(PROCESSED_VAL_REG+2*NUMREGS), $(IN_RANGE_REG+2*NUMREGS)
+	stqd $(CURRENT_VAL_REG+2*NUMREGS), 2*REGBYTES($BUFFER_REG)
+
+	#ITERATION 3
+	lqd $(CURRENT_VAL_REG+3*NUMREGS), 3*REGBYTES($BUFFER_REG)
+	absdb $(PROCESSED_VAL_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), $CONVERSION_BYTES_REG
+	cgtbi $(BOOL_TMP1_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP2_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), 'z'
+	xor $(IN_RANGE_REG+3*NUMREGS), $(BOOL_TMP1_REG+3*NUMREGS), $(BOOL_TMP2_REG+3*NUMREGS)
+	selb $(CURRENT_VAL_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), $(PROCESSED_VAL_REG+3*NUMREGS), $(IN_RANGE_REG+3*NUMREGS)
+	stqd $(CURRENT_VAL_REG+3*NUMREGS), 3*REGBYTES($BUFFER_REG)
 
 	#Increment Pointer
-	ai $BUFFER_REG, $BUFFER_REG, REGBYTES
+	ai $BUFFER_REG, $BUFFER_REG, 4*REGBYTES
 
 	#Exit if needed
 	cgt $IS_FINISHED_REG, $BUFFER_REG, $BUFFER_END_REG
 	brz $IS_FINISHED_REG, loop_start
-
-
-
-
-.data 
-.equ CONVERSION, 'a' - 'A'
-.align 4
-conversion_bytes:
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-	.byte CONVERSION
-		
-.text
-
-.global convert_buffer_to_upper
-.type convert_buffer_to_upper, @function
-convert_buffer_to_upper:
-	##REGISTER USAGE:
-	###Global Regs
-	.equ BUFFER_REG, 3             #Buffer address / current address
-	.equ BUFFER_SZ_REG, 4          #Buffer size
-	.equ BUFFER_END_REG, 5         #End address
-	.equ CONVERSION_BYTES_REG, 6   #Conversion data
-	.equ NEED_FINISH_REG, 7        #Finished conversion?
-
-	###Per-Iteration Regs
-	.equ CURRENT_VAL_REG, 8  #Current quadword
-	.equ BOOL_TMP1_REG, 9
-	.equ BOOL_TMP2_REG, 10
-	.equ IN_RANGE_REG, 11    #Value in range?
-	.equ CONV_REG, 12        #Conversion bytes, properly masked
-	.equ NUMREGS, 5          #Number of per-iteration registers
-
-	.equ REGBYTES, 16        #Number of bytes in a register
-
-	#Calculate end address
-	a $BUFFER_END_REG, $BUFFER_SZ_REG, $BUFFER_REG
-	#Load conversion bytes
-	lqr $CONVERSION_BYTES_REG, conversion_bytes
-	
-loop_start:
-	####ITERATION 0####
-	lqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
-	cgtbi $(BOOL_TMP1_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'a' - 1
-	cgtbi $(BOOL_TMP2_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'z'
-	xor $(IN_RANGE_REG+0*NUMREGS), $(BOOL_TMP1_REG+0*NUMREGS), $(BOOL_TMP2_REG+0*NUMREGS)
-	and $(CONV_REG+0*NUMREGS), $(IN_RANGE_REG+0*NUMREGS), $CONVERSION_BYTES_REG
-	absdb $(CURRENT_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $(CONV_REG+0*NUMREGS)
-	stqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
-
-	####ITERATION 1####
-	lqd $(CURRENT_VAL_REG+1*NUMREGS), 1*REGBYTES($BUFFER_REG)
-	cgtbi $(BOOL_TMP1_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), 'a' - 1
-	cgtbi $(BOOL_TMP2_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), 'z'
-	xor $(IN_RANGE_REG+1*NUMREGS), $(BOOL_TMP1_REG+1*NUMREGS), $(BOOL_TMP2_REG+1*NUMREGS)
-	and $(CONV_REG+1*NUMREGS), $(IN_RANGE_REG+1*NUMREGS), $CONVERSION_BYTES_REG
-	absdb $(CURRENT_VAL_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), $(CONV_REG+1*NUMREGS)
-	stqd $(CURRENT_VAL_REG+1*NUMREGS), 1*REGBYTES($BUFFER_REG)
-
-	####ITERATION 2####
-	lqd $(CURRENT_VAL_REG+2*NUMREGS), 2*REGBYTES($BUFFER_REG)
-	cgtbi $(BOOL_TMP1_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), 'a' - 1
-	cgtbi $(BOOL_TMP2_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), 'z'
-	xor $(IN_RANGE_REG+2*NUMREGS), $(BOOL_TMP1_REG+2*NUMREGS), $(BOOL_TMP2_REG+2*NUMREGS)
-	and $(CONV_REG+2*NUMREGS), $(IN_RANGE_REG+2*NUMREGS), $CONVERSION_BYTES_REG
-	absdb $(CURRENT_VAL_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), $(CONV_REG+2*NUMREGS)
-	stqd $(CURRENT_VAL_REG+2*NUMREGS), 2*REGBYTES($BUFFER_REG)
-
-	####ITERATION 3####
-	lqd $(CURRENT_VAL_REG+3*NUMREGS), 3*REGBYTES($BUFFER_REG)
-	cgtbi $(BOOL_TMP1_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), 'a' - 1
-	cgtbi $(BOOL_TMP2_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), 'z'
-	xor $(IN_RANGE_REG+3*NUMREGS), $(BOOL_TMP1_REG+3*NUMREGS), $(BOOL_TMP2_REG+3*NUMREGS)
-	and $(CONV_REG+3*NUMREGS), $(IN_RANGE_REG+3*NUMREGS), $CONVERSION_BYTES_REG
-	absdb $(CURRENT_VAL_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), $(CONV_REG+3*NUMREGS)
-	stqd $(CURRENT_VAL_REG+3*NUMREGS), 3*REGBYTES($BUFFER_REG)
-
-	#Increment pointer
-	ai $BUFFER_REG, $BUFFER_REG, 4*REGBYTES
-
-	#Exit if needed
-	cgt $13, $3, $5
-	brnz $13, end_function
-
-	#end loop
-	br loop_start
-
-end_function:
-	bi $lr
 </programlisting>
 </example>
 
-<!-- page 687-688 BE Handbook -->
-<!-- 18 clock cycles per QWORD, 0 dual-issues, ~1.125 cycles per conversion -->
-<example>
-<title>Loop Body -- Annotated Scheduling Info</title>
+<para>
+What this program is doing is <emphasis>calculating the registers being used</emphasis>.  We could have simply numbered the registers, but then writing the code and remembering which register does what would get even more tedious than before.  However, since each iteration uses the same number of registers, we can simply calculate the register number at assembly time.  This way, if we need to add a register to our code later, we don't have to go through and renumber the registers or change from the numbering convention.  We just assign a symbolic name to the register, and increase the value of <literal>NUMREGS</literal>.
+</para>
+
+<para>
+In addition, as will be apparent shortly, if we need to re-order our instructions for faster execution, this way of naming registers will make it much easier to see which iteration of the loop we are dealing with, and help debug the program.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Instruction Scheduling</title>
+<para>
+What is not usually apparent to new assembly language programmers is that <emphasis>the order of instructions affects the speed of the program</emphasis>.  The reason for this is that instructions take more than one cycle to finish, but the processors are set up so that an instruction, depending on the ordering of the instructions, does not have to complete before it begins execution of the next instruction.  This is known as <emphasis>pipelining</emphasis>.  Setting up instructions so that they take full advantage of a processor's pipeline is called <emphasis>instruction scheduling</emphasis>.  A few important terms related to pipelining and instruction scheduling are:
+</para>
+
+<variablelist>
+<varlistentry>
+<term>Latency</term>
+<listitem><para>The number of clock cycles an instruction uses to produce a final value.  This is the same as the size of the pipeline used to process the value.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Stall</term>
+<listitem><para>A clock cycle where the processor does not begin a new instruction.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Dependency stall</term>
+<listitem><para>This is a stall that occurs because one of the operands of the next instruction requires a value from a previous instruction that has not yet completed.</para></listitem>
+</varlistentry>
+</variablelist>
+
+<para>
+Most of the work of performance tuning on the SPU deals with avoiding register stalls.  Therefore, let's take a look at the pipelining of different types of instructions on the SPU (information from the BE Handbook page 688):
+</para>
+
+<table>
+<title>SPU Instruction Latency</title>
+<tr><th>Instruction Type</th><th>Latency</th><th>Pipeline</th><th>Additional Notes</th></tr>
+<tr><td>Integer multiplies, floating-point/integer conversion, interpolate</td><td>7</td><td>Even</td></tr>
+<tr><td>Immediate-mode loads</td><td>2</td><td>Even</td><td></td></tr>
+<tr><td>Simple integer and logical operations</td><td>2</td><td>Even</td><td></td></tr>
+<tr><td>Byte operations</td><td>4</td><td></td></tr>
+<tr><td>Element-based rotates and shifts</td><td>4</td><td></td></tr>
+<tr><td>Single-precision floating-point</td><td>6</td><td>Even</td><td></td></tr>
+<tr><td>Double-precision floating-point operations</td><td>13</td><td>The first six cycles are actually stalls in which no other instruction can be issued.  Dual-issue (discussed later) is not allowed with these instructions either.</td></tr>
+<tr><td>Load and Store Operations</td><td>6</td><td>Odd</td><td></td></tr>
+<tr><td>Branch hints</td><td>6</td><td>Special rules for branch hints will be discussed below.</td></tr>
+<tr><td>Channel Operations</td><td>6</td><td></td></tr>
+<tr><td>Special-purpose register manipulation</td><td>6</td><td></td></tr>
+<tr><td>Branches</td><td>4</td><td>Additional information for branches will be discussed below.</td></tr>
+<tr><td>Shuffle bytes</td><td>4</td><td></td></tr>
+<tr><td>Quadword rotates and shifts</td><td>4</td><td></td></tr>
+<tr><td>Estimate</td><td>4</td><td></td></tr>
+<tr><td>Gather, mask, generate insertion controls</td><td>4</td><td></td></tr>
+<!--
+<tr><td>Branch Hints</td><td>15</td><td>Odd</td><td></td></tr>
+<tr><td>Branch Resolution</td><td>4</td><td>Odd</td>Inline or correctly hinted branches have a zero-cycle delay.  Mispredicted branches have an 18-19 cycle delay.</td></tr>
+-->
+</table>
+
+<para>
+So, let's say that I have the following instructions:
+</para>
+
 <programlisting>
-	####ITERATION 0####
+	a $5, $6, $7   #instruction 1
+	a $8, $5, $9   #instruction 2
+	a $10, $8, $7  #instruction 3
+	a $11, $8, $7  #instruction 4
+</programlisting>
+
+<para>
+In this program, it takes four clock cycles for instruction 1 to finish.  Instruction 2 requires the result of the first instruction (<literal>$5</literal>) to compute, so it has to wait the full four clock cycles.  Instruction 3 requires the result of instruction 2 (<literal>$8</literal>), so it has to wait four clock cycles.  Instruction 4 can be issued in the clock cycle <emphasis>immediately after</emphasis> instruction 3 because it does not require the result of instruction 3 to execute.  You can visualize it like this:
+</para>
+
+<programlisting>
+	a $5, $6, $7   #cycle 1
+	#Stall for $5  #cycle 2
+	#Stall for $5  #cycle 3
+	#Stall for $5  #cycle 4
+	a $8, $5, $9   #cycle 5
+	#Stall for $8  #cycle 6
+	#Stall for $8  #cycle 7
+	#Stall for $8  #cycle 8
+	a $10, $8, $7  #instruction 3
+	a $11, $8, $7  #instruction 4
+</programlisting>
+
+<para>
+As you can see, you will get a drastic increase in performance if you are able to arrange your instructions so that no instruction is waiting on any other instruction.
+</para>
+
+<para>
+The SPU is not only able to process multiple values at once through its pipeline, it can also <emphasis>dual-issue</emphasis> instructions through different pipelines.  The SPU has two pipelines, <emphasis>even</emphasis> (sometimes called <emphasis>pipeline 0</emphasis> or the <emphasis>execute</emphasis> pipeline) and <emphasis>odd</emphasis> (sometimes called <emphasis>pipeline 1</emphasis> or the <emphasis>load</emphasis> pipeline).  In the table above, the different types of instructions were listed along with which pipeline they execute in.  The SPU actually loads two instructions at a time from a doubleword-aligned boundary.  These are called a <emphasis>fetch group</emphasis>.  If the first instruction in this fetch group is an even pipeline instruction and the second one is an odd pipeline instruction, they can both be issued simultaneously.  If these conditions are not all met, then they are issued separately.  In order to help align instructions properly, there are two no-operation instructions that can be used to properly pad the instructions - <literal>nop</literal> (no-operation on the even pipeline) and <literal>lnop</literal> (no-operation on the odd pipeline).
+</para>
+
+<para>
+Let's look at one iteration in our loop, and see how it performs in the SPU pipeline.  No-ops will be added so you can see the pipeline issues better:
+</para> 
+
+<example>
+<title>Loop Iteration with Stall Information</title>
+<programlisting>
+	#ITERATION 0
 	nop
 	lqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
-	#stall (waiting on CURRENT_VAL_REG to load)
+	#stall (waiting on CURRENT_VAL_REG)
 	#stall
 	#stall
 	#stall
 	#stall
-	cgtbi $(BOOL_TMP1_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'a' - 1
+	absdb $(PROCESSED_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $CONVERSION_BYTES_REG
+	lnop
+	cgtbi $(BOOL_TMP1_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'a'-1
 	lnop
 	cgtbi $(BOOL_TMP2_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'z'
 	lnop
@@ -677,90 +701,261 @@ end_function:
 	xor $(IN_RANGE_REG+0*NUMREGS), $(BOOL_TMP1_REG+0*NUMREGS), $(BOOL_TMP2_REG+0*NUMREGS)
 	lnop
 	#stall (waiting on IN_RANGE_REG)
-	and $(CONV_REG+0*NUMREGS), $(IN_RANGE_REG+0*NUMREGS), $CONVERSION_BYTES_REG
-	lnop
-	#stall (waiting on CONV_REG)
-	absdb $(CURRENT_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $(CONV_REG+0*NUMREGS)
+	selb $(CURRENT_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $(PROCESSED_VAL_REG+0*NUMREGS), $(IN_RANGE_REG+0*NUMREGS)
 	lnop
 	#stall (waiting on CURRENT_VAL_REG)
-	#stall
-	#stall
 	nop
 	stqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
 </programlisting>
 </example>
+<para>
+As you can see, this single iteration is wasting 8 cycles just waiting on registers to finish loading.  In addition, it is wasting 7 opportunities for dual-issue.  So even in this vectorized implementation, there is a lot of room for improvement!
+</para>
 
+<para>
+Sometimes instruction scheduling is a hassle.  However, when used in conjunction with loop unrolling, it's not so bad.  Since each iteration is using a different set of registers for computation, all we have to do is interleave computations from each iteration to fill up the time slots.  So our new loop body looks like this:
+</para>
 
-<!-- 30 cycles (7.5 cycles / QWORD), 64 bytes processed, 1 dual-issue (~0.47 clock cycles per conversion) -->
-<!-- needs .align 2 -->
 <example>
-<title>Main Loop Interleaved for Scheduling</title>
+<title>Interleaved Loop Body Minimizes Dependency Stalls</title>
 <programlisting>
-	.align 2
-	nop
 	lqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
-	nop
 	lqd $(CURRENT_VAL_REG+1*NUMREGS), 1*REGBYTES($BUFFER_REG)
-	nop
 	lqd $(CURRENT_VAL_REG+2*NUMREGS), 2*REGBYTES($BUFFER_REG)
-	nop
 	lqd $(CURRENT_VAL_REG+3*NUMREGS), 3*REGBYTES($BUFFER_REG)
-	#stall (waiting on CURRENT_VAL_REG to load)
-	#stall
-	cgtbi $(BOOL_TMP1_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'a' - 1
-	lnop
-	cgtbi $(BOOL_TMP1_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), 'a' - 1
-	lnop
-	cgtbi $(BOOL_TMP1_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), 'a' - 1
-	lnop
-	cgtbi $(BOOL_TMP1_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), 'a' - 1
-	lnop
+	absdb $(PROCESSED_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $CONVERSION_BYTES_REG
+	absdb $(PROCESSED_VAL_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), $CONVERSION_BYTES_REG
+	absdb $(PROCESSED_VAL_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), $CONVERSION_BYTES_REG
+	absdb $(PROCESSED_VAL_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), $CONVERSION_BYTES_REG
+	cgtbi $(BOOL_TMP1_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP1_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP1_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP1_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), 'a'-1
 	cgtbi $(BOOL_TMP2_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'z'
-	lnop
 	cgtbi $(BOOL_TMP2_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), 'z'
-	lnop
 	cgtbi $(BOOL_TMP2_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), 'z'
-	lnop
 	cgtbi $(BOOL_TMP2_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), 'z'
-	lnop
 	xor $(IN_RANGE_REG+0*NUMREGS), $(BOOL_TMP1_REG+0*NUMREGS), $(BOOL_TMP2_REG+0*NUMREGS)
-	lnop
 	xor $(IN_RANGE_REG+1*NUMREGS), $(BOOL_TMP1_REG+1*NUMREGS), $(BOOL_TMP2_REG+1*NUMREGS)
-	lnop
 	xor $(IN_RANGE_REG+2*NUMREGS), $(BOOL_TMP1_REG+2*NUMREGS), $(BOOL_TMP2_REG+2*NUMREGS)
-	lnop
 	xor $(IN_RANGE_REG+3*NUMREGS), $(BOOL_TMP1_REG+3*NUMREGS), $(BOOL_TMP2_REG+3*NUMREGS)
-	lnop
-	and $(CONV_REG+0*NUMREGS), $(IN_RANGE_REG+0*NUMREGS), $CONVERSION_BYTES_REG
-	lnop
-	and $(CONV_REG+1*NUMREGS), $(IN_RANGE_REG+1*NUMREGS), $CONVERSION_BYTES_REG
-	lnop
-	and $(CONV_REG+2*NUMREGS), $(IN_RANGE_REG+2*NUMREGS), $CONVERSION_BYTES_REG
-	lnop
-	and $(CONV_REG+3*NUMREGS), $(IN_RANGE_REG+3*NUMREGS), $CONVERSION_BYTES_REG
-	lnop
-	absdb $(CURRENT_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $(CONV_REG+0*NUMREGS) 
-	lnop
-	absdb $(CURRENT_VAL_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), $(CONV_REG+1*NUMREGS) 
-	lnop
-	absdb $(CURRENT_VAL_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), $(CONV_REG+2*NUMREGS)
-	lnop 
-	absdb $(CURRENT_VAL_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), $(CONV_REG+3*NUMREGS)
-	lnop
-	nop
+	selb $(CURRENT_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $(PROCESSED_VAL_REG+0*NUMREGS), $(IN_RANGE_REG+0*NUMREGS)
+	selb $(CURRENT_VAL_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), $(PROCESSED_VAL_REG+1*NUMREGS), $(IN_RANGE_REG+1*NUMREGS)
+	selb $(CURRENT_VAL_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), $(PROCESSED_VAL_REG+2*NUMREGS), $(IN_RANGE_REG+2*NUMREGS)
+	selb $(CURRENT_VAL_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), $(PROCESSED_VAL_REG+3*NUMREGS), $(IN_RANGE_REG+3*NUMREGS)
 	stqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
-	nop
 	stqd $(CURRENT_VAL_REG+1*NUMREGS), 1*REGBYTES($BUFFER_REG)
-	nop
 	stqd $(CURRENT_VAL_REG+2*NUMREGS), 2*REGBYTES($BUFFER_REG)
-	nop
+	stqd $(CURRENT_VAL_REG+3*NUMREGS), 3*REGBYTES($BUFFER_REG)
+
+	#Increment Pointer
+	ai $BUFFER_REG, $BUFFER_REG, 4*REGBYTES
+
+	#Exit if needed
+	cgt $IS_FINISHED_REG, $BUFFER_REG, $BUFFER_END_REG
+	brz $IS_FINISHED_REG, loop_start
+</programlisting>
+</example>
+
+<para>
+This technique is called <emphasis>software pipelining</emphasis>, and this code only loses 1 cycle to stalls.  However, it still does not make much use of dual-issue.  In fact, there aren't many opportunities to do that at all in this code.
+</para>
+
+<para>
+If we were to unroll the loop four more iterations, we could interleave each set of four so that one set of instructions was doing the loads while the other one was doing the executes, and that would save some clock cycles.  However, for now, we will simply show how to save two clock cycles by adjusting the order of the <literal>selb</literal> and <literal>stqd</literal> instructions.  Here is the new order:
+</para>
+
+<example>
+<title>Rescheduling Instructions</title>
+<programlisting>
+	selb $(CURRENT_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $(PROCESSED_VAL_REG+0*NUMREGS), $(IN_RANGE_REG+0*NUMREGS)
+	selb $(CURRENT_VAL_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), $(PROCESSED_VAL_REG+1*NUMREGS), $(IN_RANGE_REG+1*NUMREGS)
+.align 3   ####Force to the start of a fetch-group
+	#Next two issued concurrently
+	selb $(CURRENT_VAL_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), $(PROCESSED_VAL_REG+2*NUMREGS), $(IN_RANGE_REG+2*NUMREGS)
+	stqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
+	#Next two issued concurrently
+	selb $(CURRENT_VAL_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), $(PROCESSED_VAL_REG+3*NUMREGS), $(IN_RANGE_REG+3*NUMREGS)
+	stqd $(CURRENT_VAL_REG+1*NUMREGS), 1*REGBYTES($BUFFER_REG)
+	stqd $(CURRENT_VAL_REG+2*NUMREGS), 2*REGBYTES($BUFFER_REG)
 	stqd $(CURRENT_VAL_REG+3*NUMREGS), 3*REGBYTES($BUFFER_REG)
 </programlisting>
 </example>
 
+<para>
+Simply by properly aligning a section of the program on what we want to be a fetch-group boundary and moving one instruction (the last <literal>selb</literal>) to a more opportune location, we saved two clock cycles.  Note that without the <literal>.align 3</literal>, if the <literal>selb</literal> instructions were in the odd position while the <literal>stqd</literal> instructions were in the even position, we would not achieve dual-issue, because dual-issue <emphasis>only occurs when the two instructions are appropriately sequenced and aligned</emphasis>.  
+</para>
+
+</sect1>
+
+<sect1>
+<title>Branch Hinting</title>
+<para>
+The SPU has no real <emphasis>hardware</emphasis> support for branch hinting.  However, it makes up for this (and has the possibility of surpassing hardware support) by providing excellent <emphasis>software</emphasis> support for branch hinting. 
+</para>
+
+<para>
+Branch hinting is necessary on the SPU because mispredicted branches come at a high cost.   It takes 18-19 cycles to recover from a mispredicted branch.  In addition, by default, every branch encountered by the SPU is assumed to be not taken (including unconditional branches).  What a branch hint does is specify to the processor that, for a specific branch instruction (also called a <emphasis>hint-trigger address</emphasis>), what address it is likely to branch to (the <emphasis>branch target address</emphasis>).  This allows the processor to prepare for the branch ahead of time (prefetching the instructions, for instance).  Branch hints <emphasis>never affect the logical outcome of a program</emphasis>.  They only affect the number of cycles required to run the program.
+</para>
+
+<para>
+There are three branch-hinting instructions:
+</para>
+
+<variablelist>
+<varlistentry>
+<term><literal>hbr hint_trigger, $register</literal></term>
+<listitem><para>This tells the processor that the branch instruction at the relative address <literal>hint_trigger</literal> is likely to branch to the address specified in register <literal>$register</literal>.</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><literal>hbrr hint_trigger, branch_target</literal></term>
+<listitem><para>This tells the processor that the branch instruction at the relative address <literal>hint_trigger</literal> is likely to branch to the  relative address <literal>branch_target</literal> (both are relative from the current instruction).</para></listitem>
+</varlistentry>
+<varlistentry>
+<term><literal>hbra hint_trigger, branch_target</literal></term>
+<listitem><para>The same as <literal>hbrr</literal>, except that <literal>branch_target</literal> is specified as an absolute address.</para></listitem>
+</varlistentry>
+</variablelist>
+
+<para>
+In order for a branch hint to be most effective (so that the branch does not stall at all), it must be set at least four instruction fetch-groups plus eleven cycles before the branch instruction.  At minimum, the branch hint must be four instruction fetch groups before the branch instruction, or it will have no effect.  It also may not be more than 64 instructions away from the branch it hints for.  For example, if it is four instruction fetch groups plus 3 cycles away from the branch instruction, the branch instruction will enter <emphasis>hint stall</emphasis> for 8 cycles, which, while not optimum, is still much better that the 18 cycles it would stall without the hint.  Only one hint is active at a time, and <literal>sync</literal> instructions clear out any active hint.
+</para>
+
+<para>
+The best place to use a hint in our code is before the loop.  Since the loop will be more likely taken than not taken (at least for larger strings), we could give a symbolic name to our branch instruction, and hint before the loop that the branch is likely to be taken.  The code change would look like this:
+</para>
+
+<example>
+<title>Hinted Branches</title>
+<programlisting>
+	hbrr loop_branch_instruction, loop_start
+loop_start:
+
+	##... conversions go here ... ##
+
+	#Increment Pointer
+	ai $BUFFER_REG, $BUFFER_REG, 4*REGBYTES
+
+	#Exit if needed
+	cgt $IS_FINISHED_REG, $BUFFER_REG, $BUFFER_END_REG
+loop_branch_instruction:
+	brz $IS_FINISHED_REG, loop_start
+</programlisting>
+</example>
+
+<para>
+Because the hint is before the loop body, this code leaves our hint active for every iteration of the loop, but it only has to use one cycle.
+</para>
+
+<para>
+Unfortunately, because the loop branch is so close to the return statement, we cannot predict both the loop branch and the return branch.  However, if we thought that the branch loop was not likely to be taken, and we wanted to hint the return address instead, we change our hint to:
+</para>
+
+<programlisting>
+hbr end_function, $lr
+</programlisting>
+
+<para>
+You can actually do some fairly advanced hinting behavior using register-based hint instructions, just keep in mind the hint restrictions as well as the fact that hint instructions do take up a cycle of your program.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Conclusion</title>
+<para>
+At the end, our optimized function looks like this:
+</para>
+
+<example>
+<title>Fully-optimized Conversion Function</title>
+<programlisting>
+.data
+.equ CONVERSION_FACTOR, 'a' - 'A'
+conversion_bytes:
+	.fill 16, 1, CONVERSION_FACTOR
+
+.text
+.global convert_buffer_to_upper
+.type convert_buffer_to_upper, @function
+	.equ BUFFER_REG, 3            
+	.equ BUFFER_SZ_REG, 4  
+	.equ BUFFER_END_REG, 5  
+	.equ CONVERSION_BYTES_REG, 6   
+	.equ IS_FINISHED_REG, 7        
+
+	.equ CURRENT_VAL_REG, 8  
+	.equ BOOL_TMP1_REG, 9 
+	.equ BOOL_TMP2_REG, 10
+	.equ IN_RANGE_REG, 11 
+	.equ PROCESSED_VAL_REG, 12
+
+	.equ NUMREGS, 5  
+	.equ REGBYTES, 16
+convert_buffer_to_upper:
+	a $BUFFER_END_REG, $BUFFER_SZ_REG, $BUFFER_REG
+	lqr $CONVERSION_BYTES_REG, conversion_bytes
+
+	hbrr loop_branch_instruction, loop_start
+loop_start:
+	lqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
+	lqd $(CURRENT_VAL_REG+1*NUMREGS), 1*REGBYTES($BUFFER_REG)
+	lqd $(CURRENT_VAL_REG+2*NUMREGS), 2*REGBYTES($BUFFER_REG)
+	lqd $(CURRENT_VAL_REG+3*NUMREGS), 3*REGBYTES($BUFFER_REG)
+	absdb $(PROCESSED_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $CONVERSION_BYTES_REG
+	absdb $(PROCESSED_VAL_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), $CONVERSION_BYTES_REG
+	absdb $(PROCESSED_VAL_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), $CONVERSION_BYTES_REG
+	absdb $(PROCESSED_VAL_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), $CONVERSION_BYTES_REG
+	cgtbi $(BOOL_TMP1_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP1_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP1_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP1_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), 'a'-1
+	cgtbi $(BOOL_TMP2_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), 'z'
+	cgtbi $(BOOL_TMP2_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), 'z'
+	cgtbi $(BOOL_TMP2_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), 'z'
+	cgtbi $(BOOL_TMP2_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), 'z'
+	xor $(IN_RANGE_REG+0*NUMREGS), $(BOOL_TMP1_REG+0*NUMREGS), $(BOOL_TMP2_REG+0*NUMREGS)
+	xor $(IN_RANGE_REG+1*NUMREGS), $(BOOL_TMP1_REG+1*NUMREGS), $(BOOL_TMP2_REG+1*NUMREGS)
+	xor $(IN_RANGE_REG+2*NUMREGS), $(BOOL_TMP1_REG+2*NUMREGS), $(BOOL_TMP2_REG+2*NUMREGS)
+	xor $(IN_RANGE_REG+3*NUMREGS), $(BOOL_TMP1_REG+3*NUMREGS), $(BOOL_TMP2_REG+3*NUMREGS)
+	selb $(CURRENT_VAL_REG+0*NUMREGS), $(CURRENT_VAL_REG+0*NUMREGS), $(PROCESSED_VAL_REG+0*NUMREGS), $(IN_RANGE_REG+0*NUMREGS)
+	selb $(CURRENT_VAL_REG+1*NUMREGS), $(CURRENT_VAL_REG+1*NUMREGS), $(PROCESSED_VAL_REG+1*NUMREGS), $(IN_RANGE_REG+1*NUMREGS)
+.align 3
+	selb $(CURRENT_VAL_REG+2*NUMREGS), $(CURRENT_VAL_REG+2*NUMREGS), $(PROCESSED_VAL_REG+2*NUMREGS), $(IN_RANGE_REG+2*NUMREGS)
+	stqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
+	selb $(CURRENT_VAL_REG+3*NUMREGS), $(CURRENT_VAL_REG+3*NUMREGS), $(PROCESSED_VAL_REG+3*NUMREGS), $(IN_RANGE_REG+3*NUMREGS)
+	stqd $(CURRENT_VAL_REG+1*NUMREGS), 1*REGBYTES($BUFFER_REG)
+	stqd $(CURRENT_VAL_REG+2*NUMREGS), 2*REGBYTES($BUFFER_REG)
+	stqd $(CURRENT_VAL_REG+3*NUMREGS), 3*REGBYTES($BUFFER_REG)
+	
+	ai $BUFFER_REG, $BUFFER_REG, REGBYTES
+	cgt $IS_FINISHED_REG, $BUFFER_REG, $BUFFER_END_REG
+loop_branch_instruction:
+	brz $IS_FINISHED_REG, loop_start
+
+end_function:
+	bi $lr
+</programlisting>
+</example>
+
+<para>
+This code has been branch-eliminated, vectorized, loop-unrolled, instruction scheduled, and branch-hinted.  In other words, it's pretty darn fast.  In the next article, we will switch to programming in C, but this information will still be useful for understanding what the compile is trying (or at least should be trying) to do, and to analyze the output of your compiler to understand where hand-coded assembly could give you better performance.
+</para>
+
+</sect1>
+
+
+<!-- page 687-688 BE Handbook & 768-772 & 64-66, 505, 551 -->
+
+
+<!-- 18 clock cycles per QWORD, 0 dual-issues, ~1.125 cycles per conversion -->
+
+
+<!-- 30 cycles (7.5 cycles / QWORD), 64 bytes processed, 1 dual-issue (~0.47 clock cycles per conversion) -->
+<!-- needs .align 2 -->
 <!-- branch hints -->
 <!-- optimize function call and return -->
-
+<!--
 <example>
 <title>Multibuffering the Main Function</title>
 <programlisting>
@@ -958,8 +1153,8 @@ conversion_loop:
 	brsl $lr, perform_dma
 	
 	#Branch if there is data remaining
-	# (FIXME -- should skip some steps if $DATA_REMAINING is 0)
-	# (FIXME -- should do branch hints to help out the loop)
+	# (FIXME - should skip some steps if $DATA_REMAINING is 0)
+	# (FIXME - should do branch hints to help out the loop)
 	brnz  $DATA_REMAINING, conversion_loop
 
 main_end:
@@ -973,6 +1168,6 @@ main_end:
 	bi $lr
 </programlisting>
 </example>
+-->
 
-</sect1>
 </chapter>
