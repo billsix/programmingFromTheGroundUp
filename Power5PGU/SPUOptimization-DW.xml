@@ -49,7 +49,7 @@ convert_buffer_to_upper:
 	#   5) end_address
 	#   6) current quadword
 	#   7) current quadword with byte in first position
-	#   8, 9, & 10) Determine if byte is in range
+	#   8, 9, &amp; 10) Determine if byte is in range
 	#   11) byte insertion control
 	#   12) current quadword with byte properly inserted
 	#   13) true if we need to branch, false otherwise
@@ -303,7 +303,7 @@ Note that the previous <code type="inline">andi</code> is no longer needed becau
 
 <code type="section">
 //imaginary representation of selb for those more familiar with C than assembly language:
-for(i = 0; i < 128; i++) {
+for(i = 0; i &lt; 128; i++) {
 	destination[i] = selector[i] == 0 ? source_1[i] : source_2[i]
 }
 </code>
@@ -934,7 +934,7 @@ This code has been branch-eliminated, vectorized, loop-unrolled, instruction sch
 In the next articles we will start looking at coding the SPU in C.  They will cover SPU extensions to C as well as higher-level optimization techniques.
 </p>
 
-<!-- page 687-688 BE Handbook & 768-772 & 64-66, 505, 551 -->
+<!-- page 687-688 BE Handbook &amp; 768-772 &amp; 64-66, 505, 551 -->
 
 </docbody>
 <related-list>
