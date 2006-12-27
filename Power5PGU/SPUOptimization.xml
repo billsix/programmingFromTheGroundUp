@@ -320,9 +320,9 @@ Now, all of our values, whether they are lowercase or not, will be processed thr
 	cgtbi $8, $7, 'a'-1
 	cgtbi $9, $7, 'z'
 	xor $10, $8, $9
-	#$10 has all 1s for lowercase and all 0s for non-lowercase
+	#$10 has all 1s for lowercase and all 0s for non-lowercase in the preferred slot
 
-	#Select value into $7 based on condition
+	#Select appropriate value into $7 based on condition
 	selb $7, $7, $15, $10
 
 	#$7 now has the correct value
@@ -348,17 +348,18 @@ In fact, the core conversion code <emphasis>is actually almost already vectorize
 </itemizedlist>
 
 <para>
-We've eliminated the branch.  Now we need to load our conversion factor appropriately.  The easiest way to do this is to put the conversion factor in the <literal>.data</literal> section manually and load it directly in.  We should also move it outside of the loop since its value is invariant.  So, in the <literal>.data</literal> section, we should add:
+Now that we've eliminated the branch we need to load our conversion factor into every byte of the conversion register.  The easiest way to do this is to put the conversion factor in the <literal>.data</literal> section manually and load it directly in.  We should also move it outside of the loop since its value is invariant.  So, in the <literal>.data</literal> section, we should add:
 </para>
 
 <programlisting>
 .equ CONVERSION_FACTOR, 'a' - 'A'
+.align 4
 conversion_bytes:
 	.fill 16, 1, CONVERSION_FACTOR
 </programlisting>
 
 <para>
-And in the function before the loop, we need to add:
+And in the code before the loop, we need to add:
 </para>
 
 <programlisting>
@@ -401,6 +402,7 @@ So now, all we need to do is change the loop so that it will utilize this.  It n
 ##Store Conversion Factor##
 .data
 .equ CONVERSION_FACTOR, 'a' - 'A'
+.align 4
 conversion_bytes:
 	.fill 16, 1, CONVERSION_FACTOR
 
@@ -411,6 +413,7 @@ convert_buffer_to_upper:
 	#Calculate end address
 	a $5, $4, $3
 
+	#Load in conversion factors
 	lqr $14, conversion_bytes
 
 loop_start:
@@ -441,25 +444,19 @@ end_function:
 </example>
 
 <para>
-As you can see, the code is much simpler - it has fewer branches and fewer instructions.  However, this new code now assumes that the starting address is 16-byte aligned, and also that it has enough padding on the end that the next data element in memory is also 16-byte aligned.  Otherwise, we might end up converting something besides letters!  As you can see, for vector processing, <emphasis>alignment and padding are both critically important</emphasis>.  If you wind up having to waste a few bytes, it is trivial compared to the amount of time and code needed to special-case the beginning and end of unaligned data.  By keeping keeping the data aligned and padded to 16-byte boundaries, vector operations can be performed effortlessly.
+As you can see, the code is much simpler - it has fewer branches and fewer instructions.  However, this new code now assumes that the starting address is 16-byte aligned, and also that it has enough padding on the end that the next data element in memory is also 16-byte aligned.  Otherwise, we might end up converting something besides letters!  As you can see, for vector processing, <emphasis>alignment and padding are both critically important</emphasis>.  It doesn't really matter if the data itself is large enough to fit in the buffer.  Since it is converting as a vector, it doesn't cost anything to convert a few extra bytes of junk.  If you wind up having to waste a few bytes in your buffer, it is trivial compared to the amount of time and code needed to special-case the beginning and end of unaligned data.  By keeping keeping the data aligned and padded to 16-byte boundaries, vector operations can be performed effortlessly.
 </para>
-
 </sect1>
 
 <sect1>
 <title>Unrolling Loops</title>
 
 <para>
-Loop unrolling has been an optimization technique since the dawn of computer programming.  We will cover it here for two purposes:
+Loop unrolling has been an optimization technique since the dawn of computer programming.  We cover it here not only because it increases efficiency on its own by eliminating branches, but also because it if we do it right it will help later on in instruction scheduling.
 </para>
 
-<itemizedlist>
-<listitem><para>Demonstrate how to unroll loops in assembly language and still keep track of which register holds what.</para></listitem>
-<listitem><para>Use the unrolled loops to help understand and optimize instruction scheduling.</para></listitem>
-</itemizedlist>
-
 <para>
-Probably by this point you have already been having trouble keeping up with which register holds what value.  After all, the register names are essentially arbitrary numbers, which are nearly impossible to make sense of.  However, because the registers are only numbers, we can use <literal>.equ</literal> to give our registers descriptive names.  For example, we can rewrite our conversion program as follows (note that registers have been renumbered):
+Probably by this point you have already been having trouble keeping up with which register holds what value.  After all, the register names are essentially arbitrary numbers, which are nearly impossible to make sense of.  However, because the registers are only numbers, we can use <literal>.equ</literal> to give our registers descriptive names.  For example, we can rewrite our conversion program as follows (note that the registers have been renumbered):
 </para>
 
 <example>
@@ -467,6 +464,7 @@ Probably by this point you have already been having trouble keeping up with whic
 <programlisting>
 .data
 .equ CONVERSION_FACTOR, 'a' - 'A'
+.align 4
 conversion_bytes:
 	.fill 16, 1, CONVERSION_FACTOR
 
@@ -488,7 +486,7 @@ conversion_bytes:
 	.equ IN_RANGE_REG, 11    #Value in range?
 	.equ PROCESSED_VAL_REG, 12   #Conversion bytes, properly masked
 
-	#Other information
+	#Information about registers
 	.equ NUMREGS, 5          #Number of per-iteration registers
 	.equ REGBYTES, 16        #Number of bytes in a register
 convert_buffer_to_upper:
@@ -525,7 +523,7 @@ end_function:
 </example>
 
 <para>
-It's a lot more verbose, but it also makes it easier to browse through the code.  It also makes it much easier to do instruction scheduling for unrolled loops.  We'll get to that in a minute.  For the present, let's look at how we might unroll this loop four times, using different registers for each iteration (using different registers will help when we optimize instruction scheduling).  We'll discuss why and how we did things after the program:
+It's a lot more verbose, but it also makes it easier to browse through the code.  It also makes it much easier to do instruction scheduling for unrolled loops.  We'll get to that in a minute.  For the present, let's look at how we might unroll this loop four times, using different registers for each iteration (using different registers will help when we optimize instruction scheduling).  We'll discuss why and how we rewrote the program in this way shortly:
 </para>
 
 
@@ -579,11 +577,11 @@ loop_start:
 </example>
 
 <para>
-What this program is doing is <emphasis>calculating the registers being used</emphasis>.  We could have simply numbered the registers, but then writing the code and remembering which register does what would get even more tedious than before.  However, since each iteration uses the same number of registers, we can simply calculate the register number at assembly time.  This way, if we need to add a register to our code later, we don't have to go through and renumber the registers or change from the numbering convention.  We just assign a symbolic name to the register, and increase the value of <literal>NUMREGS</literal>.
+What this program is doing is <emphasis>calculating the registers being used</emphasis>.  We could have simply numbered the registers, but then writing the code and remembering which register does what would get even more tedious than before.  However, since each iteration uses the same number of registers, we can simply calculate the register number at assembly time.  For example, let's look at <literal>$(BOOL_TMP1_REG+2*NUMREGS)</literal>.  This means that it is the <literal>BOOL_TMP1_REG</literal> for iteration 2.  The actual register number, since <literal>BOOL_TMP1_REG</literal> is 9 and <literal>NUMREGS</literal> is 5, is 9+2*5, or 19.  This way, if we need to add a register to our code later, the assembler will auto-recalculate the new register numbers and we don't have to alter our register numbering convention.  We would just assign a the register its own symbolic name and increase the value of <literal>NUMREGS</literal>.  
 </para>
 
 <para>
-In addition, as will be apparent shortly, if we need to re-order our instructions for faster execution, this way of naming registers will make it much easier to see which iteration of the loop we are dealing with, and help debug the program.
+In addition, as will be apparent shortly, if we need to re-order our instructions for faster execution, this way of naming registers will make it much easier to see both iteration of the loop the register is dealing with as well as the register's purpose.  It also makes it easier to modify the program when both of these are readily visible from the code itself.
 </para>
 
 </sect1>
@@ -618,26 +616,22 @@ Most of the work of performance tuning on the SPU deals with avoiding register s
 <table>
 <title>SPU Instruction Latency</title>
 <tr><th>Instruction Type</th><th>Latency</th><th>Pipeline</th><th>Additional Notes</th></tr>
+<tr><td>Double-precision floating-point operations</td><td>13</td><td>Even</td><td>The first six cycles are actually stalls in which no other instruction can be issued.  Dual-issue (discussed later) is not allowed with these instructions either.</td></tr>
 <tr><td>Integer multiplies, floating-point/integer conversion, interpolate</td><td>7</td><td>Even</td></tr>
-<tr><td>Immediate-mode loads</td><td>2</td><td>Even</td><td></td></tr>
-<tr><td>Simple integer and logical operations</td><td>2</td><td>Even</td><td></td></tr>
-<tr><td>Byte operations</td><td>4</td><td></td></tr>
-<tr><td>Element-based rotates and shifts</td><td>4</td><td></td></tr>
 <tr><td>Single-precision floating-point</td><td>6</td><td>Even</td><td></td></tr>
-<tr><td>Double-precision floating-point operations</td><td>13</td><td>The first six cycles are actually stalls in which no other instruction can be issued.  Dual-issue (discussed later) is not allowed with these instructions either.</td></tr>
+<tr><td>Byte operations</td><td>4</td><td>Even</td><td></td></tr>
+<tr><td>Element-based rotates and shifts</td><td>4</td><td>Even</td><td></td></tr>
+<tr><td>Immediate-mode loads</td><td>2</td><td>Even</td><td></td></tr>
+<tr><td>Simple integer and logical operations (including <literal>selb</literal>)</td><td>2</td><td>Even</td><td></td></tr>
 <tr><td>Load and Store Operations</td><td>6</td><td>Odd</td><td></td></tr>
-<tr><td>Branch hints</td><td>6</td><td>Special rules for branch hints will be discussed below.</td></tr>
-<tr><td>Channel Operations</td><td>6</td><td></td></tr>
-<tr><td>Special-purpose register manipulation</td><td>6</td><td></td></tr>
-<tr><td>Branches</td><td>4</td><td>Additional information for branches will be discussed below.</td></tr>
-<tr><td>Shuffle bytes</td><td>4</td><td></td></tr>
-<tr><td>Quadword rotates and shifts</td><td>4</td><td></td></tr>
-<tr><td>Estimate</td><td>4</td><td></td></tr>
-<tr><td>Gather, mask, generate insertion controls</td><td>4</td><td></td></tr>
-<!--
-<tr><td>Branch Hints</td><td>15</td><td>Odd</td><td></td></tr>
-<tr><td>Branch Resolution</td><td>4</td><td>Odd</td>Inline or correctly hinted branches have a zero-cycle delay.  Mispredicted branches have an 18-19 cycle delay.</td></tr>
--->
+<tr><td>Branch hints</td><td>6</td><td>Odd</td><td>Special rules for branch hints will be discussed in a subsequent section.</td></tr>
+<tr><td>Channel Operations</td><td>6</td><td>Odd</td><td></td></tr>
+<tr><td>Special-purpose register manipulation</td><td>6</td><td>Odd</td><td></td></tr>
+<tr><td>Branches</td><td>4</td><td>Odd</td><td>Properly hinted branches (discussed in a subsequent section) allow the next instruction to be issued in the very next cycle.</td></tr>
+<tr><td>Shuffle bytes</td><td>4</td><td>Odd</td><td></td></tr>
+<tr><td>Quadword rotates and shifts</td><td>4</td><td>Odd</td><td></td></tr>
+<tr><td>Estimate</td><td>4</td><td>Odd</td><td></td></tr>
+<tr><td>Gather, mask, and generate insertion controls</td><td>4</td><td>Odd</td><td></td></tr>
 </table>
 
 <para>
@@ -652,7 +646,7 @@ So, let's say that I have the following instructions:
 </programlisting>
 
 <para>
-In this program, it takes four clock cycles for instruction 1 to finish.  Instruction 2 requires the result of the first instruction (<literal>$5</literal>) to compute, so it has to wait the full four clock cycles.  Instruction 3 requires the result of instruction 2 (<literal>$8</literal>), so it has to wait four clock cycles.  Instruction 4 can be issued in the clock cycle <emphasis>immediately after</emphasis> instruction 3 because it does not require the result of instruction 3 to execute.  You can visualize it like this:
+In this program, it takes four clock cycles for instruction 1 to finish.  Instruction 2 requires the result of instruction 1 (<literal>$5</literal>) to compute, so it has to wait the full four clock cycles.  Instruction 3 requires the result of instruction 2 (<literal>$8</literal>), so it has to wait four clock cycles.  Instruction 4 can be issued in the clock cycle <emphasis>immediately after</emphasis> instruction 3 because it does not require the result of instruction 3 to execute.  You can visualize it like this:
 </para>
 
 <programlisting>
@@ -673,7 +667,7 @@ As you can see, you will get a drastic increase in performance if you are able t
 </para>
 
 <para>
-The SPU is not only able to process multiple values at once through its pipeline, it can also <emphasis>dual-issue</emphasis> instructions through different pipelines.  The SPU has two pipelines, <emphasis>even</emphasis> (sometimes called <emphasis>pipeline 0</emphasis> or the <emphasis>execute</emphasis> pipeline) and <emphasis>odd</emphasis> (sometimes called <emphasis>pipeline 1</emphasis> or the <emphasis>load</emphasis> pipeline).  In the table above, the different types of instructions were listed along with which pipeline they execute in.  The SPU actually loads two instructions at a time from a doubleword-aligned boundary.  These are called a <emphasis>fetch group</emphasis>.  If the first instruction in this fetch group is an even pipeline instruction and the second one is an odd pipeline instruction, they can both be issued simultaneously.  If these conditions are not all met, then they are issued separately.  In order to help align instructions properly, there are two no-operation instructions that can be used to properly pad the instructions - <literal>nop</literal> (no-operation on the even pipeline) and <literal>lnop</literal> (no-operation on the odd pipeline).
+The SPU is not only able to process multiple values at once through its pipeline, it can also <emphasis>dual-issue</emphasis> instructions through different pipelines.  The SPU has two pipelines, <emphasis>even</emphasis> (sometimes called <emphasis>pipeline 0</emphasis> or the <emphasis>execute</emphasis> pipeline) and <emphasis>odd</emphasis> (sometimes called <emphasis>pipeline 1</emphasis> or the <emphasis>load</emphasis> pipeline).  In the table above, the different types of instructions were listed along with which pipeline they execute in.  The SPU actually loads two instructions at a time from a doubleword-aligned boundary.  This is called a <emphasis>fetch group</emphasis>.  If the first instruction in this fetch group is an even pipeline instruction and the second one is an odd pipeline instruction, they can both be issued simultaneously.  If these conditions are not all met, or if the second instruction needs to wait for dependencies before issuing, then they are issued in separate cycles.  In order to help align instructions properly for enabling dual-issue, there are two no-operation instructions that can be used to properly pad the instructions - <literal>nop</literal> (no-operation on the even pipeline) and <literal>lnop</literal> (no-operation on the odd pipeline).  Also, you can use <literal>.align 3</literal> to force a given instruction to start in a new fetch group (it will be padded with appropriate no-ops in order to align it properly).
 </para>
 
 <para>
@@ -683,6 +677,7 @@ Let's look at one iteration in our loop, and see how it performs in the SPU pipe
 <example>
 <title>Loop Iteration with Stall Information</title>
 <programlisting>
+.align 4 #force new fetch group
 	#ITERATION 0
 	nop
 	lqd $(CURRENT_VAL_REG+0*NUMREGS), 0*REGBYTES($BUFFER_REG)
@@ -710,6 +705,10 @@ Let's look at one iteration in our loop, and see how it performs in the SPU pipe
 </example>
 <para>
 As you can see, this single iteration is wasting 8 cycles just waiting on registers to finish loading.  In addition, it is wasting 7 opportunities for dual-issue.  So even in this vectorized implementation, there is a lot of room for improvement!
+</para>
+
+<para>
+If you were paying attention, you may be wondering why the program did not put <literal>selb</literal> and <literal>stqd</literal> in the same fetch group.  We could have, but it would not have increased the speed of the program.    Since <literal>stqd</literal> has to stall for the value of <literal>CURRENT_VAL_REG</literal> they would have had to be issued separately anyway, and we would not have gained any speed.
 </para>
 
 <para>
@@ -758,11 +757,11 @@ Sometimes instruction scheduling is a hassle.  However, when used in conjunction
 </example>
 
 <para>
-This technique is called <emphasis>software pipelining</emphasis>, and this code only loses 1 cycle to stalls.  However, it still does not make much use of dual-issue.  In fact, there aren't many opportunities to do that at all in this code.
+This technique is called <emphasis>software pipelining</emphasis>, and this code only loses 2 cycles to stalls.  However, it still does not make much use of dual-issue.  In fact, there aren't many opportunities to do that at all in this code.
 </para>
 
 <para>
-If we were to unroll the loop four more iterations, we could interleave each set of four so that one set of instructions was doing the loads while the other one was doing the executes, and that would save some clock cycles.  However, for now, we will simply show how to save two clock cycles by adjusting the order of the <literal>selb</literal> and <literal>stqd</literal> instructions.  Here is the new order:
+If we were to unroll the loop four more iterations, we could interleave each set of four so that one set of instructions was doing the loads while the other one was doing the executes, and that would save some clock cycles through dual-issue.  However, for now, we will simply show how to save two clock cycles by adjusting the order of the <literal>selb</literal> and <literal>stqd</literal> instructions.  Here is the new order:
 </para>
 
 <example>
@@ -791,11 +790,11 @@ Simply by properly aligning a section of the program on what we want to be a fet
 <sect1>
 <title>Branch Hinting</title>
 <para>
-The SPU has no real <emphasis>hardware</emphasis> support for branch hinting.  However, it makes up for this (and has the possibility of surpassing hardware support) by providing excellent <emphasis>software</emphasis> support for branch hinting. 
+The SPU has no real <emphasis>hardware</emphasis> support for branch hinting.  However, it makes up for this (and in some cases has the possibility of surpassing hardware support) by providing excellent <emphasis>software</emphasis> support for branch hinting. 
 </para>
 
 <para>
-Branch hinting is necessary on the SPU because mispredicted branches come at a high cost.   It takes 18-19 cycles to recover from a mispredicted branch.  In addition, by default, every branch encountered by the SPU is assumed to be not taken (including unconditional branches).  What a branch hint does is specify to the processor that, for a specific branch instruction (also called a <emphasis>hint-trigger address</emphasis>), what address it is likely to branch to (the <emphasis>branch target address</emphasis>).  This allows the processor to prepare for the branch ahead of time (prefetching the instructions, for instance).  Branch hints <emphasis>never affect the logical outcome of a program</emphasis>.  They only affect the number of cycles required to run the program.
+Branch hinting is necessary on the SPU because mispredicted branches come at a high cost.   It takes 18-19 cycles to recover from a mispredicted branch.  In addition, by default, every branch encountered by the SPU is assumed to be not taken, including unconditional branches.  What a branch hint does is specify to the processor that, for a specific branch instruction (also called a <emphasis>hint-trigger address</emphasis>), what address it is likely to branch to (called the <emphasis>branch target address</emphasis>).  This allows the processor to prepare for the branch ahead of time (prefetching the instructions, for instance).  Branch hints <emphasis>never affect the logical outcome of a program</emphasis>.  They only affect the number of cycles required to run the program.
 </para>
 
 <para>
@@ -818,7 +817,7 @@ There are three branch-hinting instructions:
 </variablelist>
 
 <para>
-In order for a branch hint to be most effective (so that the branch does not stall at all), it must be set at least four instruction fetch-groups plus eleven cycles before the branch instruction.  At minimum, the branch hint must be four instruction fetch groups before the branch instruction, or it will have no effect.  It also may not be more than 64 instructions away from the branch it hints for.  For example, if it is four instruction fetch groups plus 3 cycles away from the branch instruction, the branch instruction will enter <emphasis>hint stall</emphasis> for 8 cycles, which, while not optimum, is still much better that the 18 cycles it would stall without the hint.  Only one hint is active at a time, and <literal>sync</literal> instructions clear out any active hint.
+In order for a branch hint to be most effective (so that the branch does not stall at all), it must be set at least four instruction fetch-groups plus eleven cycles before the branch instruction.  At minimum, the branch hint must be four instruction fetch groups before the branch instruction, or it will have no effect.  It also may not be more than 255 instructions away (physically) from the branch that it hints for (the instruction itself only has space for 8 bits plus a sign bit for the relative offset of the hint trigger, which then has two zeroes concatenated at the end).  For example, if it is four instruction fetch groups plus 3 cycles away from the branch instruction, the branch instruction will enter <emphasis>hint stall</emphasis> for 8 cycles, which, while not optimum, is still much better than the 18 cycles it would stall without the hint.  Only one hint can be active at a time, and <literal>sync</literal> instructions, among other things, clear out any active hint.
 </para>
 
 <para>
@@ -848,15 +847,16 @@ Because the hint is before the loop body, this code leaves our hint active for e
 </para>
 
 <para>
-Unfortunately, because the loop branch is so close to the return statement, we cannot predict both the loop branch and the return branch.  However, if we thought that the branch loop was not likely to be taken, and we wanted to hint the return address instead, we change our hint to:
+Unfortunately, because the loop branch is so close to the return statement, we cannot predict both the loop branch and the return branch.  However, if we thought that the branch loop was not likely to be taken (in our case, if the string is likely less than 64 characters) then we could hint the return address instead by changing the hint to:
 </para>
 
 <programlisting>
+#This assumes that $lr has the right address right now (true in our case)
 hbr end_function, $lr
 </programlisting>
 
 <para>
-You can actually do some fairly advanced hinting behavior using register-based hint instructions, just keep in mind the hint restrictions as well as the fact that hint instructions do take up a cycle of your program.
+You can actually do some fairly advanced hinting behavior using register-based hint instructions.  Just keep in mind the hint restrictions as well as the fact that hint instructions do take up a cycle of your program.
 </para>
 
 </sect1>
@@ -872,6 +872,7 @@ At the end, our optimized function looks like this:
 <programlisting>
 .data
 .equ CONVERSION_FACTOR, 'a' - 'A'
+.align 4
 conversion_bytes:
 	.fill 16, 1, CONVERSION_FACTOR
 
@@ -939,9 +940,12 @@ end_function:
 </example>
 
 <para>
-This code has been branch-eliminated, vectorized, loop-unrolled, instruction scheduled, and branch-hinted.  In other words, it's pretty darn fast.  In the next article, we will switch to programming in C, but this information will still be useful for understanding what the compile is trying (or at least should be trying) to do, and to analyze the output of your compiler to understand where hand-coded assembly could give you better performance.
+This code has been branch-eliminated, vectorized, loop-unrolled, instruction scheduled, and branch-hinted.  In other words, it's pretty darn fast.  In the next article, we will switch to programming in C, but this information will still be useful for understanding what the compiler is trying (or at least should be trying) to do, and to analyze the output of your compiler to understand where hand-coded assembly could give you better performance.
 </para>
 
+<para>
+In the next articles we will start looking at coding the SPU in C.  They will cover SPU extensions to C as well as higher-level optimization techniques.
+</para>
 </sect1>
 
 
