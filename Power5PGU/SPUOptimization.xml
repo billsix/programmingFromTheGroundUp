@@ -274,7 +274,7 @@ So now we need to figure out which value we want to use.  The first thing we nee
 </programlisting>
 
 <para>
-Note that the previous <literal>andi</literal> is no longer needed because it was used to mask out unwanted values for the conditional branch (conditional branches are based on true or false value of the <emphasis>word</emphasis> preferred slot value and we only cared about the <emphasis>byte</emphasis> preferred slot value).  Since we aren't branching we don't care!  So now, <literal>$10</literal> has all ones in the preferred slot if it is in range, and all zeroes if it is out of range.    Now all we need is to choose <literal>$7</literal> or <literal>$15</literal> based on the value in <literal>$10</literal>.  The instruction <literal>selb</literal> (select bits) is perfect for this.  <literal>selb</literal> has four operands:
+Note that the previous <literal>andi</literal> is no longer needed because it was used to mask out unwanted values for the conditional branch (conditional branches are based on true or false value of the <emphasis>word</emphasis> preferred slot value and we only cared about the <emphasis>byte</emphasis> preferred slot value).  Since we aren't branching we don't care!  So now <literal>$10</literal> has all ones in the preferred slot if it is in range, and all zeroes if it is out of range.    Now all we need is to choose <literal>$7</literal> or <literal>$15</literal> based on the value in <literal>$10</literal>.  The instruction <literal>selb</literal> (select bits) is perfect for this.  <literal>selb</literal> has four operands:
 </para>
 
 <orderedlist>
@@ -393,7 +393,7 @@ With these additions, all values in register 7 will be processed appropriately. 
 </example>
 
 <para>
-So now, all we need to do is change the loop so that it will utilize this.  It needs to load a full quadword (16 bytes) at once, and store it back at once, and increment the pointer by 16 instead of 1.  This, interestingly, will require <emphasis>fewer</emphasis> instructions because we are no longer having to mess with the preferred slot.  So, here is the complete function with the new loop skeleton:
+So now all we need to do is change the loop so that it will utilize this.  It needs to load a full quadword (16 bytes) at once, and store it back at once, and increment the pointer by 16 instead of 1.  This, interestingly, will require <emphasis>fewer</emphasis> instructions because we are no longer having to mess with the preferred slot.  So, here is the complete function with the new loop skeleton:
 </para>
 
 <example>

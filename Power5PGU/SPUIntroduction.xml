@@ -751,7 +751,7 @@ This produces what is called a <emphasis>CESOF Linkable</emphasis>, which allows
 <para>
 Here is the PPU code to make use of the SPU code (enter as <literal>ppu_dma_main.c</literal>):
 </para>
-
+<!-- FIXME - use posix_memalign -->
 <example>
 <title>PPU Code to Utilize SPU Application</title>
 <programlisting>
