@@ -14,47 +14,56 @@ do a large amount of the work for us.  In order to utilize the SPU C/C++ languag
 <title>Vector Basics on the SPU</title>
 
 <para>
-The primary difference between vector processors and non-vector processors is that vector processors have large registers which allow them to process multiple values of the same data type at once.  So, a register is treated simultaneously as a single unit and as multiple units.  To represent this in C/C++, a <literal>vector</literal> keyword has been added to the language, which takes a primitive data type and uses it across a whole register.  For instance, <literal>vector unsigned int myvec;</literal> creates a four integers which are to be loaded, processed, and stored altogether, and the variable <literal>myvec</literal> refers to all four of them simultaneously.  The <literal>signed</literal>/<literal>unsigned</literal> is required for non-floating point types.  Vector constants are created by putting the type of vector in parentheses followed by the contents of the vector in curly braces.  For instance, you can assign values to <literal>myvec</literal> like this:
+The primary difference between vector processors and non-vector processors is that vector processors have large registers which allow them to process multiple values of the same data type at once.  On vector processors a register is treated both as a single unit and as multiple units.  To represent this in C/C++, a <literal>vector</literal> keyword has been added to the language, which takes a primitive data type and uses it across a whole register.  For instance, <literal>vector unsigned int myvec;</literal> creates a four integer vector where the elements are to be loaded, processed, and stored altogether, and the variable <literal>myvec</literal> refers to all four of them simultaneously.  The <literal>signed</literal>/<literal>unsigned</literal> is required for non-floating point declaration.  Vector constants are created by putting the type of vector in parentheses followed by the contents of the vector in curly braces.  For instance, you can assign values to a vector named <literal>myvec</literal> like this:
 </para>
 
 <programlisting>
 vector unsigned int myvec = (vector unsigned int){1, 2, 3, 4};
 </programlisting>
+
+<para>
+In addition to direct assignment, there are four main primitives that are used to go between scalar and vector data: <literal>spu_insert</literal>, <literal>spu_extract</literal>, <literal>spu_promote</literal>, and <literal>spu_splats</literal>.  <literal>spu_insert</literal> is used to put a scalar value into a vector position.  <literal>spu_insert(5, myvec, 0)</literal> returns a copy of the vector with the first element (element 0) of <literal>myvec</literal> to 5.  <literal>spu_extract</literal> pulls out a scalar from a specified vector position.  <literal>spu_extract(myvec, 0)</literal> returns the first element of <literal>myvec</literal>.  <literal>spu_promote</literal> converts a value to a vector, but only defines one element.  The type of vector depends on the type of value promoted.  <literal>spu_promote((unsigned int)5, 1)</literal> creates a vector of <literal>unsigned int</literal>s with 5 in the second element (element 1), and the remaining elements undefined.  <literal>spu_splats</literal> works like <literal>spu_promote</literal>, except that it copies the value to <emphasis>all</emphasis> elements of the vector.  <literal>spu_splats((unsigned int)5)</literal> creates a vector of <literal>unsigned int</literal>s with each element having the value 5.
 </para>
 
 <para>
-Vectors cannot be accessed like arrays, and direct conversion of scalars to vectors is prohibited.  So, for instance, you cannot do <literal>myvec * 3</literal> and expect 3 to be multiplied by each value in <literal>myvec</literal>.  Instead, there are four main primitives that are used to go between scalar and vector data: <literal>spu_insert</literal>, <literal>spu_extract</literal>, <literal>spu_promote</literal>, and <literal>spu_splats</literal>.  <literal>spu_insert</literal> is used to put a scalar value into a vector position.  <literal>spu_insert(5, myvec, 0)</literal> returns a copy of the vector with the first element (element 0) of <literal>myvec</literal> to 5.  <literal>spu_extract</literal> pulls out a scalar from a specified vector position.  <literal>spu_extract(myvec, 0)</literal> returns the first element of <literal>myvec</literal>.  <literal>spu_promote</literal> converts a value to a vector, but only defines one element.  The type of vector depends on the type of value promoted.  <literal>spu_promote((unsigned int)5, 1)</literal> creates a vector of <literal>unsigned int</literal>s with 5 in the second element (element 1), and the remaining elements undefined.  <literal>spu_splats</literal> works like <literal>spu_promote</literal>, except that it copies the value to <emphasis>all</emphasis> elements of the vector.  <literal>spu_splats((unsigned int)5)</literal> creates a vector of <literal>unsigned int</literal>s with each element having the value 5.
+It is tempting to think of vectors as short arrays, but in fact they are very different.  Vectors are treated essentially as scalar values, while arrays are manipulated as references.  For instance, <literal>spu_insert</literal> <emphasis>does not modify the value</emphasis>.  Instead, it returns a new value to be saved.  It is an expression that results in a value, not a modification to the value itself.  For instance, just as <literal>myvar + 1</literal> gives back a new value instead of modifying <literal>myvar</literal>, <literal>spu_insert(1, myvec, 0)</literal> does not modify <literal>myvec</literal>, but instead returns a new vector value that is equivalent with <literal>myvec</literal> but has the first element set to 1.
 </para>
 
 <para>
-Although not a part of the specification, on GCC the normal arithmetic operations work on vectors as they would on the regular types, except that they require that both operands be of the same vector type.  
-</para>
-
-<para>
-Here is a short program using each of these ideas:
+Here is a short program using each of these ideas (enter as <literal>vec_test.c</literal>):
 </para>
 
 <example>
 <title>Program to Introduce SPU C/C++ Language Extensions</title>
 <programlising>
-#include <spu_intrinsics.h>
+#include &lt;spu_intrinsics.h&gt;
+
+void print_vector(char *var, vector unsigned int val) {
+	printf("Vector %s is: {%d, %d, %d, %d}\n", var, spu_extract(val, 0), spu_extract(val, 1), spu_extract(val, 2), spu_extract(val, 3));
+}
 
 int main() {
-	/* Create three vectors */
+	/* Create four vectors */
 	vector unsigned int a = (vector unsigned int){1, 2, 3, 4};
-	vector unsigned int b = (vector unsigned int){5, 6, 7, 8};
+	vector unsigned int b;
 	vector unsigned int c;
+	vector unsigned int d;
+	
+	/* b is identical to a, but the last element is changed to 9 */
+	b = spu_insert(9, a, 3);
 
-	/* Change the last vaclue of b from an 8 to a 9 */
-	b = spu_insert(9, b, 3);
+	/* c has all four values set to 20 */
+	c = spu_splats((unsigned int) 20);
 
-	/* Add all values of a and b into c */
-	c = a + b;
+	/* d has the second value set to to 5, and the others are garbage */
+	/* (in this case they will all be set to 5, but that should not be relied upon) */
+	d = spu_promote(5, 1);
 
-	/* Multiply each value of c by 3 */
-	c = c * spu_splats((unsigned int)3);
-
-	printf("The resulting vector is: {%d, %d, %d, %d}\n", spu_extract(c, 0), spu_extract(c, 1), spu_extract(c, 2), spu_extract(c, 3));
+	/* Show Results */
+	print_vector("a", a);
+	print_vector("b", b);
+	print_vector("c", c);
+	print_vector("d", d);
 
 	return 0;
 }
@@ -62,82 +71,226 @@ int main() {
 </example>
 
 <para>
-The C/C++ language extensions includes intrinsics that give the programmer nearly full access to the SPU's assembly language instructions.  However, the intrinsics have been greatly simplified from the SPU's assembly language, because the intrinsics can reduce many instructions that differ only on the type of operand into one C/C++ intrinsic which selects the proper instruction based on the C/C++ type.  For instance, <literal>spu_add</literal>, when given two <literal>vector unsigned int</literal>s as parameters, will generate the <literal>a</literal> (32-bit add) instruction.  However, if given two <literal>vector float</literal>s as parameters, it will generate the <literal>fa</literal> (float add) instruction.  Note that the intrinsics generally have the same limitations as their corresponding assembly language instructions.  However, in cases where an immediate value is too large for the immediate-mode instruction, the compiler will promote it to a vector and do the corresponding vector/vector operation.  For instance, <literal>spu_add(myvec, 2)</literal> generates an <literal>ai</literal> (add immediate) instruction, while <literal>spu_add(myvec, 2000)</literal> first loads the <literal>2000</literal> into its own vector and then performs the <literal>a</literal> (add) instruction.
+To compile and run the program under elfspe, simply do:
+</para>
+
+<programlisting>
+spu-gcc vec_test.c -o vec_test
+./vec_test
+</programlisting>
+
+</sect1>
+
+<sect1>
+<title>Vector Intrinsics</title>
+
+<para>
+The C/C++ language extensions includes intrinsics that give the programmer full access to the SPU's assembly language instructions.  However, many intrinsics are provided which greatly simplify the SPU's assembly language by coalescing many similar instructions into one intrinsic.  Instructions that differ only on the type of operand (such as <literal>a</literal>, <literal>ai</literal>, <literal>ah</literal>, <literal>ahi</literal>, <literal>fa</literal>, and <literal>dfa</literal> for addition) are represented by a single C/C++ intrinsic which selects the proper instruction based on the type of the operand.  For addition, <literal>spu_add</literal>, when given two <literal>vector unsigned int</literal>s as parameters, will generate the <literal>a</literal> (32-bit add) instruction.  However, if given two <literal>vector float</literal>s as parameters, it will generate the <literal>fa</literal> (float add) instruction.  Note that the intrinsics generally have the same limitations as their corresponding assembly language instructions.  However, in cases where an immediate value is too large for the appropriate immediate-mode instruction, the compiler will promote the immediate value to a vector and do the corresponding vector/vector operation.  For instance, <literal>spu_add(myvec, 2)</literal> generates an <literal>ai</literal> (add immediate) instruction, while <literal>spu_add(myvec, 2000)</literal> first loads the <literal>2000</literal> into its own vector using <literal>il</literal> and then performs the <literal>a</literal> (add) instruction.
+</para>
+
+
+
+<para>
+The order of operands in the intrinsics is essentially the same as those of the assembly language instruction except that the first operand (which holds the destination register in assembly language) is not specified, but instead is supplied by the compiler to temporarily hold the return value.
 </para>
 
 <para>
-All of the instructions that are prefixed with <literal>spu_</literal> will try to find the best instruction match based on the types of operands.  However, if you want a specific instruction, you can get these with the <emphasis>specific instrinsics</emphasis>.  All specific intrinsics take the form <literal>si_assemblyinstructionname</literal> where <literal>assemblyinstructionname</literal> is the name of the assembly language instruction as defined in the SPU Assembly Language Specification.  So, <literal>si_a(a, b)</literal> forces the instruction <literal>a</literal> to be used for addition.  However, both the operands and the return value from the <literal>si_</literal> intrinsics take a type called <literal>qword</literal>, which is essentially an opaque register value.  However, you can cast these values to and from different vector representations.
-</para>
-
-<para>
-Here are some of the more common intrinsics:
+Here are some of the more common SPU intrinsics:
 </para>
 
 <variablelist>
 
+Arithmetic Operations
+Bit Operations
+Shift/Rotate Operations
+Comparison Operations
+Select Operations
+
+
 <varlistentry>
-<term></term>
+<term><literal>spu_add</literal></term>
+<listitem><para>
+Adds the parameters and returns the result.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><literal>spu_sub</literal></term>
 <listitem><para>
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term></term>
+<term><literal>spu_mul</literal></term>
 <listitem><para>
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term></term>
+<term><literal>spu_and</literal>, <literal>spu_or</literal>, <literal>spu_not</literal>, <literal>spu_xor</literal>, <literal>spu_nor</literal>, <literal>spu_nand</literal>, <literal>spu_eqv</literal></term>
 <listitem><para>
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term></term>
+<term><literal>spu_rl</literal></term>
 <listitem><para>
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term></term>
+<term><literal>spu_rlmask</literal></term>
 <listitem><para>
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term></term>
+<term><literal>spu_rlmaskqw</literal></term>
 <listitem><para>
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term></term>
+<term><literal>spu_sl</literal></term>
 <listitem><para>
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term></term>
+<term><literal>spu_cmpgt</literal></term>
 <listitem><para>
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term></term>
+<term><literal>spu_cmpeq</literal></term>
 <listitem><para>
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term></term>
+<term><literal>spu_sel</literal></term>
 <listitem><para>
 </para></listitem>
 </varlistentry>
 
 </variablelist>
 
+<para>
+All of the instructions that are prefixed with <literal>spu_</literal> will try to find the best instruction match based on the types of operands.  However, not all vector types are supported by all instructions - it is based on the availability of assembly language instructions to handle it.  In addition, if you want a specific instruction rather than having the compiler choose one, you can perform almost any non-branching instruction with the <emphasis>specific instrinsics</emphasis>.  All specific intrinsics take the form <literal>si_assemblyinstructionname</literal> where <literal>assemblyinstructionname</literal> is the name of the assembly language instruction as defined in the SPU Assembly Language Specification.  So, <literal>si_a(a, b)</literal> forces the instruction <literal>a</literal> to be used for addition.  All operands to specific intrinsics are cast to a special type called <literal>qword</literal>, which is essentially an opaque register value type.  The return value from specific intrinsics are also <literal>qword</literal>s, which can then be cast into whatever vector type you wish.
+</para>
+
 </sect1>
+
+<sect1>
+<title>Using the Intrinsics</title>
+
+<para>
+Now let's look at how to do our uppercase conversion function using C/C++ rather than assembly language.  The basic steps for converting a single vector is:
+</para>
+
+<orderedlist>
+<listitem><para>Convert all values using the uppercase conversion.</para></listitem>
+<listitem><para>Do a vector comparison of all bytes to see if they are between <literal>'a'</literal> and <literal>'z'</literal>.</para></listitem>
+<listitem><para>Use the comparison to choose between the converted and unconverted values using the select instruction.</para></listitem>
+</orderedlist>
+
+<para>
+In addition, in order to help better schedule instructions, the assembly language version performed several of these conversions simultaneously.  In C/C++, we can call an inline function multiple times, and let the compiler take care of scheduling it appropriately.  This doesn't mean that our knowledge of instruction scheduling is useless, but rather because we know how instruction scheduling works, we are able to give the compiler better raw material to work with.  If we did not know that instruction scheduling improves our code, and that instruction scheduling can be helped by unrolling our loops, then we would not be able to help the compiler optimize our code.
+</para>
+
+<para>
+So here is the C/C++ version of the <literal>convert_buffer_to_upper</literal> function (enter as <literal>convert_buffer_c.c</literal> in the same directory as the files from the last article):
+</para>
+
+<example>
+<title>Uppercase Conversion in C/C++</title>
+<programlisting>
+#include <spu_intrinsics.h>
+
+unsigned char conversion_value = 'a' - 'A';
+
+inline vec_uchar16 convert_vec_to_upper(vec_uchar16 values) {
+	/* Process all characters */
+	vec_uchar16 processed_values = spu_absd(values, spu_splats(conversion_value));
+	/* Check to see which ones need processing (those between 'a' and 'z')*/
+	vec_uchar16 should_be_processed = spu_xor(spu_cmpgt(values, 'a'-1), spu_cmpgt(values, 'z'));
+	/* Use should_be_processed to select between the original and processed values */
+	return spu_sel(values, processed_values, should_be_processed);
+}
+
+void convert_buffer_to_upper(vec_uchar16 *buffer, int buffer_size) {
+	/* Find end of buffer */
+	vec_uchar16 *buffer_end = (vec_uchar16 *)((char *)buffer + buffer_size);
+
+	while(__builtin_expect(buffer < buffer_end, 1)) {
+		*buffer = convert_vec_to_upper(*buffer);
+		buffer++;
+		*buffer = convert_vec_to_upper(*buffer);
+		buffer++;
+		*buffer = convert_vec_to_upper(*buffer);
+		buffer++;
+		*buffer = convert_vec_to_upper(*buffer);
+		buffer++;
+	}
+}
+</programlisting>
+</example>
+
+<para>
+To compile and run, simply do:
+</para>
+
+<programlisting>
+spu-gcc convert_buffer_c.c convert_driver.s dma_utils.s -o spe_convert
+embedspu -m64 convert_to_upper_handle spe_convert spe_convert_csf.o
+gcc -m64 spe_convert_csf.o ppu_dma_main.c -lspe -o dma_convert
+./dma_convert
+</programlisting>
+
+<para>
+As you probably noticed, this program uses slightly different notation for type names than used previously.  The SPU Intrinsics defines simplified vector type names starting with <literal>vec_</literal>.  For integer types, the next character is <literal>u</literal> or <literal>s</literal> for signed/unsigned types.  After that is the name of the basic type being used (<literal>char</literal>, <literal>int</literal>, <literal>float</literal>, etc.).  Finally, at the end is the number of elements of that type which are in the vector. <literal>vec_uchar16</literal>, for instance, is a 16-element vector of <literal>unsigned char</literal>s, and <literal>vec_float4</literal> is a 4-element vector of <literal>float</literal>s.  This notation greatly simplifies the typing involved.
+</para>
+
+<para>
+When computing the <literal>buffer_end</literal> the program did a few casting gymnastics.  Because <literal>size</literal> was in bytes, we had to convert the pointer to a <literal>char *</literal> so that when we added the size, it would move by bytes rather than by quadwords.  Vector pointers, since the value they point to is 16-bytes long, move forward in increments of 16 bytes, while <literal>char</literal> pointers move forward in single-byte increments.  That is why <literal>buffer++</literal> works -- it is incrementing by a single vector length, which is 16 bytes.
+</para>
+
+<para>
+Another interesting feature of the C/C++ version is <literal>__builtin_expect</literal> which helps the compiler do branch hinting.  You cannot do branch hinting directly in C/C++ because you have neither the address of the branch nor the target.  Therefore, instead you provide hints to the compiler, which can then generate appropriate branch hints.  <literal>__builtin_expect(buffer < buffer_end, 1)</literal> generates branching code based off of the first argument, <literal>buffer < buffer_end</literal>, but produces branch hints based off of the second argument, 1. 
+</para>
+
+<para>
+Now, there are two compilers currently available for SPU programming, and, as usual, they excel in different areas.  GCC, for instance, does a fantastic job of interleaving the instructions between invocations of <literal>convert_vec_to_upper</literal> so that instruction latency is minimized.  However, in this particular case, <literal>__builtin_expect</literal> gives us almost no help at all.  IBM's XLC compiler, on the other hand, is the opposite.  It does not interleave the instructions between invocations of <literal>convert_vec_to_upper</literal> at all, but structures the loop so that the branch hint has a maximum effect, and in fact was able to guess the branch hint without it being supplied.  Unsurprisingly, neither compiler does nearly as well as our hand-coded assembly language version from the previous article, but the branch-hinting optimization results in faster code than the instruction scheduling.  Code that was compiled without optimization flags resulted in code that was approximately <emphasis>five times slower</emphasis>.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Composite Intrinsics and MFC Programming</title>
+
+<para>
+
+    
+<para>
+The basic rules for casting vectors on the SPU are these:
+</para>
+
+<itemizedlist>
+<listitem><para>Vectors <emphasis>cannot</emphasis> be cast to scalars, and scalars cannot be cast to vectors.</para></listitem>
+<listitem><para>Vectors <emphasis>can</emphasis> be cast between vectors of other types, and between the special <literal>quad</literal> type, but neither of these perform any data conversion.</para></listitem>
+<listitem><para>Vector and non-vector pointers <emphasis>can</emphasis> be cast between each other.</para></listitem>
+<listitem><para>Declared vectors are always quadword-aligned when allocated.</para></listitem>
+<listitem><para>When casting between vector and non-vector pointers, it is the programmer's responsibility to be sure that the pointer is to a quadword boundary.</para></listitem> 
+</itemizedlist>
+
+
+
+ and direct conversion between scalars and vectors is prohibited.  So, for instance, you cannot do <literal>myvec * 3</literal> and expect 3 to be multiplied by each value in <literal>myvec</literal>. '
+
+
+
+
 
 <sect1>
 <title>Composite Intrinsics and DMA</title>
@@ -150,6 +303,7 @@ Here are some of the more common intrinsics:
 #include <spu_intrinsics.h>
 void convert_buffer_to_upper(vec_uchar16 *buffer, int buffer_size) {
 	int num_vecs = buffer_size / 16;
+	unsigned char conversion_value = 'a' - 'A';
 	vec_uchar16 *buffer_end = buffer + num_vecs;
 	vec_uchar16 *buffer_pos = buffer;
 	vec_uchar16 current_values;
@@ -158,7 +312,7 @@ void convert_buffer_to_upper(vec_uchar16 *buffer, int buffer_size) {
 	
 	while(__builtin_expect(buffer_pos != buffer_end, 1)) {
 		current_values = *buffer_pos;
-		processed_values = spu_absd(current_values, spu_splats((unsigned char)'a' - 'A'));
+		processed_values = spu_absd(current_values, spu_splats(conversion_value));
 		should_be_processed = spu_xor(spu_cmpgt(current_values, 'a'-1), spu_cmpgt(current_values, 'z'));
 		*buffer_pos = spu_sel(current_values, processed_values, should_be_processed);
 		buffer_pos++;
