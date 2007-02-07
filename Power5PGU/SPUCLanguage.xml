@@ -357,7 +357,7 @@ Tags are useful not just for synchronizing data transfers, but also for checking
 <varlistentry>
 <term><literal>MFC_TAG_UPDATE_IMMEDIATE</literal></term>
 <listitem><para>
-This command causes the SPE to immediately return with the status of the DMA channels.  Each channel which was specified in the channel mask will be set to ___ if there are no remaining commands in the queue with that tag, and set to ___ if there are commands remaining in the queue.
+This command causes the SPE to immediately return with the status of the DMA channels.  Each channel which was specified in the channel mask will be set to 1 if there are no remaining commands in the queue with that tag, and set to 0 if there are commands remaining in the queue.
 </para></listitem>
 </varlistentry>
 
@@ -521,10 +521,314 @@ Another thing to be careful of when programming in C is to always make sure that
 One of the biggest problems with the code as it now stands is that it wastes a lot of time just waiting for data.  It would be much better if we could use that time to do some processing work. In order to do that, we need to have two buffers, so that at any given time one buffer is used for transferring and another buffer is used for processing.
 </para>
 
+<para>
+In order to do that, we should first refactor the code slightly.  First of all, we need to keep all of the buffer-specific data together.  Each buffer will need to know the effective address it was filled from and the size.  Therefore, the struct needs to look something like this:
+</para>
+
+<programlisting>
+struct {
+	uint64 effective_address __attribute__((aligned(16)));
+	uint32 size __attribute__((aligned(16)));
+	char data[MAX_TRANSFER_SIZE] __attribute__((aligned(16)));
+} buffer;  
+</programlisting>
+
+<para>
+And a global variable will hold the buffers:
+</para>
+
+<programlisting>
+buffer buffers[2];
+</programlisting>
+
+<para>
+Now, we are going to break up the conversion process into three pieces:
+</para>
+
+<orderedlist>
+<listitem><para>Initiate the data load</para></listitem>
+<listitem><para>Wait for the data to arrive</para></listitem>
+<listitem><para>Process the data and store it back</para></listitem>
+</orderedlist>
+
+<para>
+For double-buffering, the first one of these can be separated from the rest, so that most of the data loading can take place while the process is doing something else.  So the general sequence will be:
+</para>
+
+<orderedlist>
+<listitem><para>Start loading buffers 1 and 2.</para></listitem>
+<listitem><para>Loop while there is still data:
+<orderedlist>
+<listitem><para>Wait for the data in buffer 1.</para></listitem>
+<listitem><para>Process and store it back in system memory.</para></listitem>
+<listitem><para>Initiate the next data load for buffer 1.</para></listitem>
+<listitem><para>Wait for the data in buffer 2.</para></listitem>
+<listitem><para>Process and store it back in system memory.</para></listitem>
+<listitem><para>Initiate the next data load for buffer 2.</para></listitem>
+</orderedlist>
+</para></listitem>
+<listitem><para>Wait for all data transfers to finish.</para></listitem>
+</orderedlist>
+
+<para>
+It may look from the sequence that we would have to wait for the data to finish being stored before we initiated the next load into that buffer.  But in fact, if we use the same DMA tag for the load and the store, and use either a fence or a barrier in the requests, it will force the MFC to process the requests in sequence.
+</para>
+
+<para>
+So here is the code for the double-buffered version of the MFC code:
+</para>
+
+<example>
+<title>Double-buffering MFC Transfers</title>
+<programlisting>
+#include <spu_intrinsics.h>
+#include <spu_mfcio.h>
+
+/* Constants */
+#define MAX_TRANSFER_SIZE 16384
+
+/* Data Structures */
+typedef unsigned long long uint64;
+typedef unsigned int uint32;
+typedef struct {
+	uint32 length __attribute__((aligned(16)));
+	uint64 data __attribute__((aligned(16)));
+} conversion_structure;    
+
+typedef struct {
+	uint32 size __attribute__((aligned(16)));
+	uint64 effective_address __attribute__((aligned(16)));
+	char data[MAX_TRANSFER_SIZE] __attribute__((aligned(16)));
+} buffer;
+                     
+/* Global Variables */                                                           
+buffer buffers[2];
+
+/* Utility Functions */
+inline uint32 MIN(uint32 a, uint32 b) {
+	return a < b ? a : b;
+}
+
+inline void wait_for_completion(uint32 mask) {
+	mfc_write_tag_mask(mask);
+	spu_mfcstat(MFC_TAG_UPDATE_ALL);
+}
+
+inline void load_conversion_info(uint64 cinfo_ea, uint64 *data_ea, uint32 *data_size) {
+	conversion_structure cinfo;
+	mfc_get(&cinfo, cinfo_ea, sizeof(cinfo), 0, 0, 0);
+	wait_for_completion(1<<0);
+	*data_size = cinfo.length;
+	*data_ea = cinfo.data;
+}
+
+/* Processing Functions */
+inline void initiate_transfer(uint32 buf_idx, uint64 *current_ea_pointer, uint32 *remaining_data) {
+	/* Setup buffer information */
+	buffers[buf_idx].size = MIN(*remaining_data, MAX_TRANSFER_SIZE); 
+	buffers[buf_idx].effective_address = *current_ea_pointer;
+	/* Initiate transfer using the buffer index as the DMA tag */
+	mfc_getb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
+	/* Move the data pointers */
+	*remaining_data -= buffers[buf_idx].size;
+	*current_ea_pointer += buffers[buf_idx].size;
+}
+
+inline void process_and_put_back(uint32 buf_idx) {
+	/* Perform conversion */
+	convert_buffer_to_upper(buffers[buf_idx].data, buffers[buf_idx].size);
+	/* Initiate the DMA transfer back using the buffer index as the DMA tag */
+	mfc_putb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
+}
 
 
+int main(uint64 spe_id, uint64 conversion_info_ea) {
+	uint32 remaining_data;
+	uint64 current_ea_pointer;
 
+	load_conversion_info(conversion_info_ea, &current_ea_pointer, &remaining_data);
 
+	/* Start filling buffers to prepare for loop (loop assumes both buffers have data coming in) */
+	initiate_transfer(0, &current_ea_pointer, &remaining_data);
+	initiate_transfer(1, &current_ea_pointer, &remaining_data);
+
+	do {
+		/* Process buffer 0 */
+		wait_for_completion(1<<0);
+		process_and_put_back(0);
+		initiate_transfer(0, &current_ea_pointer, &remaining_data);
+
+		/* Process buffer 1 */
+		wait_for_completion(1<<1);
+		process_and_put_back(1);
+		initiate_transfer(1, &current_ea_pointer, &remaining_data);
+	} while(buffers[0].size != 0);
+
+	wait_for_completion(1<<0|1<<1);
+}
+</programlisting>
+</example>
+
+<para>
+It might seem that we have some potential for having zero-sized transfers.  Indeed, the code as written mandates it.  However, this is much better than the alternative.  The MFC treats the zero-sized transfer as a no-op, but if we were to wrap it in an if statement instead to avoid the extra attempted transfers, we would wind up with a lot of branches, which could really cost the program.
+</para>
+
+<para>
+However, the architecture could be further improved.  There are two issues with the current code:
+</para>
+
+<itemizedlist>
+<listitem><para>The buffers must be processed in a predetermined order, which may or may not be the most efficient order for the MFC to load them.</para></listitem>
+<listitem><para>There are only two buffers available for filling.  This means both that you have less data being transferred while you are processing, and also that you are giving the MFC fewer options about what order to perform the transfers in.</para></listitem>
+</itemizedlist>
+
+<para>
+The solution to both of these problems is <emphasis>multibuffering</emphasis>, which is like double-buffering, but with more than two buffers.  In this case, since the problem is trivially parallelizable, we can actually have as many buffers as the SPU's local store can support.  So for the next program we will rewrite this file for multibuffering.  The program will maintain an array of buffers, and a bit mask which tells which buffers have pending operations on them.  When the program starts up, the program will initiate transfers for each buffer, and set its bit.  Then the program will loop, and on each iteration the program will issue an <literal>spu_mfcstat(MFC_STAT_UPDATE_ANY)</literal> to see which buffers now have data available.  It will process one of them, issue a PUT to copy the buffer back, and then issue a GET for the next segment of data if we haven't reacehd the end.
+</para> 
+
+<para>
+Here is the code for the new version:
+</para>
+
+<example>
+<title>Multibuffering MFC Transfers</title>
+<programlisting>
+#include <spu_intrinsics.h>
+#include <spu_mfcio.h> /* constant declarations for the MFC */
+typedef unsigned long long uint64;
+typedef unsigned int uint32;
+
+/* Constants */
+#define MAX_TRANSFER_SIZE 16384
+#define NUM_BUFFERS 8 /* The MFC supports only 16 queued transfers, and we have up to two active per buffer */
+#define VEC_ZERO (spu_promote((uint32)0, 0))
+
+/* Data Structures */
+typedef struct {
+	uint32 length __attribute__((aligned(16)));
+	uint64 data __attribute__((aligned(16)));
+} conversion_structure;
+
+typedef struct {
+	uint32 size __attribute__((aligned(16)));
+	uint64 effective_address __attribute__((aligned(16)));
+	char data[MAX_TRANSFER_SIZE] __attribute__((aligned(16)));
+} buffer;
+
+buffer buffers[NUM_BUFFERS];
+
+/* Utility functions */
+inline uint32 MIN(uint32 a, uint32 b) {
+	return a < b ? a : b;
+}
+
+inline void process_and_put_back(uint32 buf_idx, uint32 *buffers_with_data) {
+	convert_buffer_to_upper(buffers[buf_idx].data, buffers[buf_idx].size);
+	mfc_putb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
+	*buffers_with_data &= ~(1<<buf_idx); /* Clear out bit for this buffer */
+}
+
+inline void initiate_transfer(uint32 buf_idx, uint32 *buffers_with_data, uint64 *current_ea_pointer, uint32 *remaining_data) {
+	/* Setup buffer */
+	buffers[buf_idx].size = MIN(*remaining_data, MAX_TRANSFER_SIZE);
+	buffers[buf_idx].effective_address = *current_ea_pointer;
+
+	/* Move Data Pointers */
+	*remaining_data -= buffers[buf_idx].size;
+	*current_ea_pointer += buffers[buf_idx].size;
+
+	/* Initiate transfer (does nothing if there is no data) */
+	mfc_getb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
+
+	/* Set the "Buffer Waiting for Data" bit only if there is data to read */
+	*buffers_with_data |= (buffers[buf_idx].size == 0 ? 0 : (1<<buf_idx));
+}         
+
+inline void wait_for_completion(uint32 mask) {
+	mfc_write_tag_mask(mask);
+	spu_mfcstat(MFC_TAG_UPDATE_ALL);
+}
+
+inline void load_conversion_info(uint64 conversion_info_ea, uint64 *current_ea_pointer, uint32 *remaining_data) {
+	conversion_structure conversion_info;
+
+	mfc_get(&conversion_info, conversion_info_ea, sizeof(conversion_info), 0, 0, 0);
+	wait_for_completion(1<<0);
+
+	*remaining_data = conversion_info.length;
+	*current_ea_pointer = conversion_info.data;	
+}
+
+/* Returns the index of the first buffer with data available*/
+inline uint32 get_next_buffer(uint32 buffers_with_data) {
+	uint32 buffers_completed; /* This will contain a mask of buffers whose transfers have completed */
+
+	/* These are the buffers to look for */
+	mfc_write_tag_mask(buffers_with_data);
+
+	/* Wait for one buffer to come available */
+	buffers_completed = spu_mfcstat(MFC_TAG_UPDATE_ANY);
+
+	/* Use "count leading zeros" to determine the index from the mask */
+	return 31 - spu_extract(spu_cntlz(spu_promote((uint32)buffers_completed, 0)), 0);
+}
+
+int main(uint64 spe_id, uint64 conversion_info_ea) {
+	uint32 remaining_data;
+	uint64 current_ea_pointer;
+	uint32 buffers_with_data = 0; /* This is the bit mask for each buffer waiting on data */
+	uint32 all_buffers = 0; /* This is used to wait on all remaining transfers at the end */
+	uint32 current_buffer_idx;
+
+	load_conversion_info(conversion_info_ea, &current_ea_pointer, &remaining_data);
+
+	/* Get all buffers loading (because NUM_BUFFERS is a constant, the compiler will unroll the loop all the way) */
+	for(current_buffer_idx = 0; current_buffer_idx < NUM_BUFFERS; current_buffer_idx++) {
+		initiate_transfer(current_buffer_idx, &buffers_with_data, &current_ea_pointer, &remaining_data);
+		all_buffers |= 1<<current_buffer_idx;
+	}
+
+	/* Continue while there are still buffers pending */
+	while(buffers_with_data != 0) {
+		current_buffer_idx = get_next_buffer(buffers_with_data);
+		process_and_put_back(current_buffer_idx, &buffers_with_data);
+		initiate_transfer(current_buffer_idx, &buffers_with_data, &current_ea_pointer, &remaining_data);
+	}
+
+	/* Wait for all PUTs to complete */
+	wait_for_completion(all_buffers);
+}
+</programlisting>
+</example>
+
+<para>
+One thing to notice in the code is that the main loop and the function call to <literal>convert_buffer_to_upper</literal> are the only mandatory branches.  The others are either inline functions (which can, obviously, be inlined by the compiler) or are easily branch-elimitated by the compiler.  Pretty much any branch that can be reduced to the ternary operatory <literal>? :</literal> using code without side-effects can be branch-eliminated by the compiler.  
+</para>
+
+<para>
+Notice also that to get the next buffer available, we used the SPU intrinsic <literal>spu_cntlz</literal>.  As mentioned earlier, in order to use this, we need to convert the data we want to process into a vector, even though we only care about one value.  <literal>spu_promote</literal> gives us a vector to process, and then when its done, <literal>spu_extract</literal> pulls out the value we want to use.
+</para>
+
+<para>
+Now, for the small example PPE code we've been using so far, this only uses one buffer, so we can't exercise it very well.  But, timed on larger data sets, this uses only 85% of the wall-clock time as just double-buffering, and just 40% of the wall-clock time as single-buffering.
+</para>
+
+</sect1>
+
+<sect1>
+<title>Conclusion</title>
+<para>
+As you can see, the intrinsics available from C allow programmers to make the best mix of C and assembly language knowledge.  Programs can freely switch among high- and low-level code, but all within the semantic framework of the C language.  Using a higher-level language allows the programmer to focus on higher-level optimizations, such as double buffering and multibuffering, which can dramatically increase application performance.
+</para>
+
+<para>
+In the next article, we will apply all of this knowledge into a real-world numerical application.
+</para>
+
+</sect1>
+
+<sect1>
+<title>STUFF I WASN'T ABLE TO USE</title>
 
 
 <para>
@@ -541,10 +845,13 @@ The basic rules for casting vectors on the SPU are these:
 
 
 
+<para>
  and direct conversion between scalars and vectors is prohibited.  So, for instance, you cannot do <literal>myvec * 3</literal> and expect 3 to be multiplied by each value in <literal>myvec</literal>. 
+</para>
 
-<!-- NOTE -- somewhere I should remind the reader of the DMA alignment requirements -->
-
+<para>
+NOTE -- somewhere I should remind the reader of the DMA alignment requirements 
+</para>
 
 
 
@@ -576,8 +883,4 @@ void convert_buffer_to_upper(vec_uchar16 *buffer, int buffer_size) {
 }
 </sect1>
 
-<sect1>
-<title>Multibuffering</title>
-
-</sect1>
-
+</chapter>
