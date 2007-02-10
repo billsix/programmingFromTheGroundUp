@@ -614,7 +614,7 @@ Most of the work of performance tuning on the SPU deals with avoiding register s
 </para>
 
 <table>
-<title>SPU Instruction Latency</title>
+<caption>SPU Instruction Latency</caption>
 <tr><th>Instruction Type</th><th>Latency</th><th>Pipeline</th><th>Additional Notes</th></tr>
 <tr><td>Double-precision floating-point operations</td><td>13</td><td>Even</td><td>The first six cycles are actually stalls in which no other instruction can be issued.  Dual-issue (discussed later) is not allowed with these instructions either.</td></tr>
 <tr><td>Integer multiplies, floating-point/integer conversion, interpolate</td><td>7</td><td>Even</td></tr>

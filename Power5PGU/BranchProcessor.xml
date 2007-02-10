@@ -48,7 +48,7 @@ uses are listed but not described):
 </para>
 
 <table>
-<title>Condition Register Field Bits</title>
+<caption>Condition Register Field Bits</caption>
 <tr>
 	<th>Bit</th><th>Mnemonic</th><th>Fixed-Point Comparison</th><th>Fixed-Point Computation</th><th>Floating-Point Comparison</th><th>Floating-Point Computation</th>
 </tr>

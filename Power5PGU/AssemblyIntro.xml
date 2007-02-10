@@ -251,7 +251,7 @@ ld -melf64ppc sum.o -o sum
 </programlisting>
 
 <para>
-This will produce the executable <i>sum</i>.  To run the program, do:
+This will produce the executable <literal>sum</literal>.  To run the program, do:
 </para>
 
 <programlisting>

@@ -248,7 +248,7 @@ Now that we understand how the stack looks conceptually and physically, let's lo
 </para>
 
 <table>
-<title>Stack Frame Layout</title>
+<caption>Stack Frame Layout</caption>
 <tr><th>Contains</th><th>Size</th><th>Beginning Stack Offset</th></tr>
 <tr><td>Floating point non-volatile register save area</td><td>Varies</td><td>Varies</td></tr>
 <tr><td>General non-volatile register save area</td><td>Varies</td><td>Varies</td></tr>

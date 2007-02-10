@@ -2,7 +2,7 @@
 <title>Programming the SPU in C</title>
 
 <para>
-In this
+In this article, we will apply our knowledge of the SPU to programming the Cell in C/C++.  We will learn how to use the vectorization extensions, how to direct the compiler to do branch prediction, and several DMA buffer-handling techniques. 
 </para>
 
 <para>
@@ -14,7 +14,7 @@ do a large amount of the work for us.  In order to utilize the SPU C/C++ languag
 <title>Vector Basics on the SPU</title>
 
 <para>
-The primary difference between vector processors and non-vector processors is that vector processors have large registers which allow them to process multiple values of the same data type at once.  On vector processors a register is treated both as a single unit and as multiple units.  To represent this in C/C++, a <literal>vector</literal> keyword has been added to the language, which takes a primitive data type and uses it across a whole register.  For instance, <literal>vector unsigned int myvec;</literal> creates a four integer vector where the elements are to be loaded, processed, and stored altogether, and the variable <literal>myvec</literal> refers to all four of them simultaneously.  The <literal>signed</literal>/<literal>unsigned</literal> is required for non-floating point declaration.  Vector constants are created by putting the type of vector in parentheses followed by the contents of the vector in curly braces.  For instance, you can assign values to a vector named <literal>myvec</literal> like this:
+The primary difference between vector processors and non-vector processors is that vector processors have large registers which allow them to store multiple values (called <emphasis>elements</emphasis>) of the same data type and process them with the same operation at once.  On vector processors a register is treated both as a single unit and as multiple units.  To represent this concept in C/C++, a <literal>vector</literal> keyword has been added to the language, which takes a primitive data type and uses it across a whole register.  For instance, <literal>vector unsigned int myvec;</literal> creates a four integer vector where the elements are to be loaded, processed, and stored altogether, and the variable <literal>myvec</literal> refers to all four of them simultaneously.  The <literal>signed</literal>/<literal>unsigned</literal> is required for non-floating point declarations.  Vector constants are created by putting the type of vector in parentheses followed by the contents of the vector in curly braces.  For instance, you can assign values to a vector named <literal>myvec</literal> like this:
 </para>
 
 <programlisting>
@@ -22,20 +22,20 @@ vector unsigned int myvec = (vector unsigned int){1, 2, 3, 4};
 </programlisting>
 
 <para>
-In addition to direct assignment, there are four main primitives that are used to go between scalar and vector data: <literal>spu_insert</literal>, <literal>spu_extract</literal>, <literal>spu_promote</literal>, and <literal>spu_splats</literal>.  <literal>spu_insert</literal> is used to put a scalar value into a vector position.  <literal>spu_insert(5, myvec, 0)</literal> returns a copy of the vector with the first element (element 0) of <literal>myvec</literal> to 5.  <literal>spu_extract</literal> pulls out a scalar from a specified vector position.  <literal>spu_extract(myvec, 0)</literal> returns the first element of <literal>myvec</literal>.  <literal>spu_promote</literal> converts a value to a vector, but only defines one element.  The type of vector depends on the type of value promoted.  <literal>spu_promote((unsigned int)5, 1)</literal> creates a vector of <literal>unsigned int</literal>s with 5 in the second element (element 1), and the remaining elements undefined.  <literal>spu_splats</literal> works like <literal>spu_promote</literal>, except that it copies the value to <emphasis>all</emphasis> elements of the vector.  <literal>spu_splats((unsigned int)5)</literal> creates a vector of <literal>unsigned int</literal>s with each element having the value 5.
+In addition to direct assignment, there are four main primitives that are used to go between scalar and vector data: <literal>spu_insert</literal>, <literal>spu_extract</literal>, <literal>spu_promote</literal>, and <literal>spu_splats</literal>.  <literal>spu_insert</literal> is used to put a scalar value into a specific element of a vector.  <literal>spu_insert(5, myvec, 0)</literal> returns a copy of the vector <literal>myvec</literal> with the first element (element 0) of the new vector set to 5.  <literal>spu_extract</literal> pulls out a specific element from a vector and returns it as a scalar.  <literal>spu_extract(myvec, 0)</literal> returns the first element of <literal>myvec</literal> as a scalar.  <literal>spu_promote</literal> converts a value to a vector, but only defines one element.  The type of vector depends on the type of value promoted.  <literal>spu_promote((unsigned int)5, 1)</literal> creates a vector of <literal>unsigned int</literal>s with 5 in the second element (element 1), and the remaining elements undefined.  <literal>spu_splats</literal> works like <literal>spu_promote</literal>, except that it copies the value to <emphasis>all</emphasis> elements of the vector.  <literal>spu_splats((unsigned int)5)</literal> creates a vector of <literal>unsigned int</literal>s with each element having the value 5.
 </para>
 
 <para>
-It is tempting to think of vectors as short arrays, but in fact they are very different.  Vectors are treated essentially as scalar values, while arrays are manipulated as references.  For instance, <literal>spu_insert</literal> <emphasis>does not modify the value</emphasis>.  Instead, it returns a new value to be saved.  It is an expression that results in a value, not a modification to the value itself.  For instance, just as <literal>myvar + 1</literal> gives back a new value instead of modifying <literal>myvar</literal>, <literal>spu_insert(1, myvec, 0)</literal> does not modify <literal>myvec</literal>, but instead returns a new vector value that is equivalent with <literal>myvec</literal> but has the first element set to 1.
+It is tempting to think of vectors as short arrays, but in fact they act differently in several respects.  Vectors are treated essentially as scalar values, while arrays are manipulated as references.  For instance, <literal>spu_insert</literal> <emphasis>does not modify the contents of the vector</emphasis>.  Instead, it returns a brand new copy of the vector with the inserted element.  It is an expression that results in a value, not a modification to the value itself.  For instance, just as <literal>myvar + 1</literal> gives back a new value instead of modifying <literal>myvar</literal>, <literal>spu_insert(1, myvec, 0)</literal> does not modify <literal>myvec</literal>, but instead returns a new vector value that is equivalent with <literal>myvec</literal> but has the first element set to 1.
 </para>
 
 <para>
-Here is a short program using each of these ideas (enter as <literal>vec_test.c</literal>):
+Here is a short program using these ideas (enter as <literal>vec_test.c</literal>):
 </para>
 
 <example>
 <title>Program to Introduce SPU C/C++ Language Extensions</title>
-<programlising>
+<programlisting>
 #include &lt;spu_intrinsics.h&gt;
 
 void print_vector(char *var, vector unsigned int val) {
@@ -100,12 +100,14 @@ Here are some of the more common SPU intrinsics:
 
 <variablelist>
 
+<para>
+<!-- FIXME - need to be headings -->
 Arithmetic Operations
 Bit Operations
 Shift/Rotate Operations
 Comparison Operations
 Select Operations
-
+</para>
 
 <varlistentry>
 <term><literal>spu_add</literal></term>
@@ -206,7 +208,7 @@ So here is the C/C++ version of the <literal>convert_buffer_to_upper</literal> f
 <example>
 <title>Uppercase Conversion in C/C++</title>
 <programlisting>
-#include <spu_intrinsics.h>
+#include &lt;spu_intrinsics.h&gt;
 
 unsigned char conversion_value = 'a' - 'A';
 
@@ -286,7 +288,7 @@ The composite intrinsics are those that compile to multiple instructions.  The c
 </orderedlist>
 
 <para>
-Often times you will have the effective address as a single 64-bit value.  To separate it out into parts, use <literal>mfc_ea2h</literal> to extract the higher-order bits and <literal>mfc_ea2l</literal> to extract the lower-order bits.  The tag is a number designated by the programmer between 0 and 31 used to identify a transfer or for a group of transfers for status queries and sequencing operations.  The DMA command can take a range of values.  DMA transfers are called PUTs if they transfer from the SPU local store to the system memory, and GETs if they go the other direction.  These DMA command names are prefixed with either <literal>MFC_PUT</literal> or <literal>MFC_GET</literal>, respectively.  Then, MFC commands either operate individually or on a list.  If the DMA command is a list command, the DMA command name has an <literal>L</literal> appended to it (see <a href="#resources">Resources</a> for more information on DMA list commands).  The DMA command can also have certain levels of synchronization applied to it.  For barrier synchronization add a <literal>B</literal>, for fence synchronization add an <literal>F</literal>, and for no synchronization you do not need to add anything.  Finally, all DMA command names have a <literal>_CMD</literal> suffix.  So, the command name for a single transfer from the local store to system memory using fence synchronization would be <literal>MFC_PUTF_CMD</literal>.
+Often times you will have the effective address as a single 64-bit value.  To separate it out into parts, use <literal>mfc_ea2h</literal> to extract the higher-order bits and <literal>mfc_ea2l</literal> to extract the lower-order bits.  The tag is a number designated by the programmer between 0 and 31 used to identify a transfer or for a group of transfers for status queries and sequencing operations.  The DMA command can take a range of values.  DMA transfers are called PUTs if they transfer from the SPU local store to the system memory, and GETs if they go the other direction.  These DMA command names are prefixed with either <literal>MFC_PUT</literal> or <literal>MFC_GET</literal>, respectively.  Then, MFC commands either operate individually or on a list.  If the DMA command is a list command, the DMA command name has an <literal>L</literal> appended to it (see <ulink url="#resources">Resources</ulink> for more information on DMA list commands).  The DMA command can also have certain levels of synchronization applied to it.  For barrier synchronization add a <literal>B</literal>, for fence synchronization add an <literal>F</literal>, and for no synchronization you do not need to add anything.  Finally, all DMA command names have a <literal>_CMD</literal> suffix.  So, the command name for a single transfer from the local store to system memory using fence synchronization would be <literal>MFC_PUTF_CMD</literal>.
 </para>
 
 <para>
@@ -341,7 +343,7 @@ Take a closer look at transfers 4 and 5.  This is a useful idiom to take note of
 </para>
 
 <para>
-<literal>spu_mfcdma64</literal> is quite a handy tool, but it is a little tedious, especially when you have to keep on using <literal>mfc_ea2h</literal> and <literal>mfc_ea2l</literal> to convert your addresses.  Therefore, the specification also provides a number of utility functions to lessen the amount of redundant typing necessary.  The <literal>mfc_</literal> class of functions all take the same parameters as the <literal>spu_mfcdma64</literal> function, except that the effective address is a single 64-bit parameter, and the DMA command is encoded into the function name.  It also takes two extra parameters, the <emphasis>transfer class identifier</emphasis> and the <emphasis>replacement class identifier</emphasis>.  Both of these can be set to zero in non-realtime applications (see <a href="#resources">Resources</a> for references to further information on these two fields).  Therefore, transfer 2 above can be rewritten as:
+<literal>spu_mfcdma64</literal> is quite a handy tool, but it is a little tedious, especially when you have to keep on using <literal>mfc_ea2h</literal> and <literal>mfc_ea2l</literal> to convert your addresses.  Therefore, the specification also provides a number of utility functions to lessen the amount of redundant typing necessary.  The <literal>mfc_</literal> class of functions all take the same parameters as the <literal>spu_mfcdma64</literal> function, except that the effective address is a single 64-bit parameter, and the DMA command is encoded into the function name.  It also takes two extra parameters, the <emphasis>transfer class identifier</emphasis> and the <emphasis>replacement class identifier</emphasis>.  Both of these can be set to zero in non-realtime applications (see <ulink url="#resources">Resources</ulink> for references to further information on these two fields).  Therefore, transfer 2 above can be rewritten as:
 </para>
 
 <programlisting>
@@ -349,7 +351,7 @@ mfc_putf(ls2, ea2, sz2, tag, 0, 0);
 </programlisting>
 
 <para>
-Tags are useful not just for synchronizing data transfers, but also for checking on the status of transfers.  On the SPE, there is a tag mask channel which is used to specify which tags are currently used for status checks, a channel which is used to issue status requests, and another channel to read the channel status back.  Although these are pretty simple operations anyway, the specification gives special methods for performing these operations as well.  <literal>mfc_write_tag_mask</literal> takes a 32-bit integer, and uses it as a channel mask for future status updates.  In the mask, set the bit position of each tag that you want to check the status of to 1.  So, to check the status of channel 2 and 4, you would use <literal>mfc_write_tag_mask(20),</literal>, or, to make it more readable, you can do <literal>mfc_write_tag_mask(1<<2 | 1<<4);</literal>.  To actually perform the status update, you have to pick a status command, and send it using <literal>spu_mfcstat(unsigned int command)</literal>.  The commands are:
+Tags are useful not just for synchronizing data transfers, but also for checking on the status of transfers.  On the SPE, there is a tag mask channel which is used to specify which tags are currently used for status checks, a channel which is used to issue status requests, and another channel to read the channel status back.  Although these are pretty simple operations anyway, the specification gives special methods for performing these operations as well.  <literal>mfc_write_tag_mask</literal> takes a 32-bit integer, and uses it as a channel mask for future status updates.  In the mask, set the bit position of each tag that you want to check the status of to 1.  So, to check the status of channel 2 and 4, you would use <literal>mfc_write_tag_mask(20),</literal>, or, to make it more readable, you can do <literal>mfc_write_tag_mask(1&lt;&lt;2 | 1&lt;&lt;4);</literal>.  To actually perform the status update, you have to pick a status command, and send it using <literal>spu_mfcstat(unsigned int command)</literal>.  The commands are:
 </para>
 
 <variablelist>
@@ -396,8 +398,8 @@ Now we are going to apply this knowledge of the MFC composite intrinsics to our 
 <example>
 <title>Uppercase Conversion MFC Transfer Code</title>
 <programlisting>
-#include <spu_intrinsics.h>
-#include <spu_mfcio.h> /* constant declarations for the MFC */
+#include &lt;spu_intrinsics.h&gt;
+#include &lt;spu_mfcio.h&gt; /* constant declarations for the MFC */
 typedef unsigned long long uint64;
 
 #define CONVERSION_BUFFER_SIZE 16384
@@ -416,10 +418,10 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 	conversion_structure conversion_info; /* Information about the data from the PPE */
 
 	/* We are only using one tag in this program */
-	mfc_write_tag_mask(1<<DMA_TAG);
+	mfc_write_tag_mask(1&lt;&lt;DMA_TAG);
 
 	/* Grab the conversion information */
-	mfc_get(&conversion_info, conversion_info_ea, sizeof(conversion_info), DMA_TAG, 0, 0);
+	mfc_get(&amp;conversion_info, conversion_info_ea, sizeof(conversion_info), DMA_TAG, 0, 0);
 	spu_mfcstat(MFC_TAG_UPDATE_ALL); /* Wait for Completion */
 
 	/* Get the actual data */
@@ -434,6 +436,7 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 	spu_mfcstat(MFC_TAG_UPDATE_ALL); /* Wait for Completion */
 }                                                                               
 </programlisting>
+</example>
 
 <para>
 This implementation in C follows the same basic structure as the original code, except that its more readable to human beings.  Which, incidentally, makes it easier to revise and expand.  For instance, one of the problems with the original code is that it is limited to the size of a DMA transfer.  What if we wanted to remove that limitation?  We could simply wrap the whole thing in a loop, and keep moving data a piece at a time until the whole string has bee processed.  Here's the revised code:
@@ -442,8 +445,8 @@ This implementation in C follows the same basic structure as the original code, 
 <example>
 <title>Looping in the MFC Transfer Code</title>
 <programlisting>
-#include <spu_intrinsics.h>
-#include <spu_mfcio.h> /* constant declarations for the MFC */
+#include &lt;spu_intrinsics.h&gt;
+#include &lt;spu_mfcio.h&gt; /* constant declarations for the MFC */
 typedef unsigned long long uint64;
 typedef unsigned int uint32;
 
@@ -468,10 +471,10 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 	uint32 current_transfer_size; /* How big the current transfer is (may be smaller than MAX_TRANSFER_SIZE) */
 
 	/* We are only using one tag in this program */
-	mfc_write_tag_mask(1<<0);
+	mfc_write_tag_mask(1&lt;&lt;0);
 
 	/* Grab the conversion information */
-	mfc_get(&conversion_info, conversion_info_ea, sizeof(conversion_info), 0, 0, 0);
+	mfc_get(&amp;conversion_info, conversion_info_ea, sizeof(conversion_info), 0, 0, 0);
 	spu_mfcstat(MFC_TAG_UPDATE_ALL); /* Wait for Completion */
 
 	/* Setup the loop */
@@ -581,8 +584,8 @@ So here is the code for the double-buffered version of the MFC code:
 <example>
 <title>Double-buffering MFC Transfers</title>
 <programlisting>
-#include <spu_intrinsics.h>
-#include <spu_mfcio.h>
+#include &lt;spu_intrinsics.h&gt;
+#include &lt;spu_mfcio.h&gt;
 
 /* Constants */
 #define MAX_TRANSFER_SIZE 16384
@@ -616,8 +619,8 @@ inline void wait_for_completion(uint32 mask) {
 
 inline void load_conversion_info(uint64 cinfo_ea, uint64 *data_ea, uint32 *data_size) {
 	conversion_structure cinfo;
-	mfc_get(&cinfo, cinfo_ea, sizeof(cinfo), 0, 0, 0);
-	wait_for_completion(1<<0);
+	mfc_get(&amp;cinfo, cinfo_ea, sizeof(cinfo), 0, 0, 0);
+	wait_for_completion(1&lt;&lt;0);
 	*data_size = cinfo.length;
 	*data_ea = cinfo.data;
 }
@@ -646,25 +649,25 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 	uint32 remaining_data;
 	uint64 current_ea_pointer;
 
-	load_conversion_info(conversion_info_ea, &current_ea_pointer, &remaining_data);
+	load_conversion_info(conversion_info_ea, &amp;current_ea_pointer, &amp;remaining_data);
 
 	/* Start filling buffers to prepare for loop (loop assumes both buffers have data coming in) */
-	initiate_transfer(0, &current_ea_pointer, &remaining_data);
-	initiate_transfer(1, &current_ea_pointer, &remaining_data);
+	initiate_transfer(0, &amp;current_ea_pointer, &amp;remaining_data);
+	initiate_transfer(1, &amp;current_ea_pointer, &amp;remaining_data);
 
 	do {
 		/* Process buffer 0 */
-		wait_for_completion(1<<0);
+		wait_for_completion(1&lt;&lt;0);
 		process_and_put_back(0);
-		initiate_transfer(0, &current_ea_pointer, &remaining_data);
+		initiate_transfer(0, &amp;current_ea_pointer, &amp;remaining_data);
 
 		/* Process buffer 1 */
-		wait_for_completion(1<<1);
+		wait_for_completion(1&lt;&lt;1);
 		process_and_put_back(1);
-		initiate_transfer(1, &current_ea_pointer, &remaining_data);
+		initiate_transfer(1, &amp;current_ea_pointer, &amp;remaining_data);
 	} while(buffers[0].size != 0);
 
-	wait_for_completion(1<<0|1<<1);
+	wait_for_completion(1&lt;&lt;0|1&lt;&lt;1);
 }
 </programlisting>
 </example>
@@ -693,8 +696,8 @@ Here is the code for the new version:
 <example>
 <title>Multibuffering MFC Transfers</title>
 <programlisting>
-#include <spu_intrinsics.h>
-#include <spu_mfcio.h> /* constant declarations for the MFC */
+#include &lt;spu_intrinsics.h&gt;
+#include &lt;spu_mfcio.h&gt; /* constant declarations for the MFC */
 typedef unsigned long long uint64;
 typedef unsigned int uint32;
 
@@ -725,7 +728,7 @@ inline uint32 MIN(uint32 a, uint32 b) {
 inline void process_and_put_back(uint32 buf_idx, uint32 *buffers_with_data) {
 	convert_buffer_to_upper(buffers[buf_idx].data, buffers[buf_idx].size);
 	mfc_putb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
-	*buffers_with_data &= ~(1<<buf_idx); /* Clear out bit for this buffer */
+	*buffers_with_data &= ~(1&lt;&lt;buf_idx); /* Clear out bit for this buffer */
 }
 
 inline void initiate_transfer(uint32 buf_idx, uint32 *buffers_with_data, uint64 *current_ea_pointer, uint32 *remaining_data) {
@@ -741,7 +744,7 @@ inline void initiate_transfer(uint32 buf_idx, uint32 *buffers_with_data, uint64 
 	mfc_getb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
 
 	/* Set the "Buffer Waiting for Data" bit only if there is data to read */
-	*buffers_with_data |= (buffers[buf_idx].size == 0 ? 0 : (1<<buf_idx));
+	*buffers_with_data |= (buffers[buf_idx].size == 0 ? 0 : (1&lt;&lt;buf_idx));
 }         
 
 inline void wait_for_completion(uint32 mask) {
@@ -752,8 +755,8 @@ inline void wait_for_completion(uint32 mask) {
 inline void load_conversion_info(uint64 conversion_info_ea, uint64 *current_ea_pointer, uint32 *remaining_data) {
 	conversion_structure conversion_info;
 
-	mfc_get(&conversion_info, conversion_info_ea, sizeof(conversion_info), 0, 0, 0);
-	wait_for_completion(1<<0);
+	mfc_get(&amp;conversion_info, conversion_info_ea, sizeof(conversion_info), 0, 0, 0);
+	wait_for_completion(1&lt;&lt;0);
 
 	*remaining_data = conversion_info.length;
 	*current_ea_pointer = conversion_info.data;	
@@ -780,19 +783,19 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 	uint32 all_buffers = 0; /* This is used to wait on all remaining transfers at the end */
 	uint32 current_buffer_idx;
 
-	load_conversion_info(conversion_info_ea, &current_ea_pointer, &remaining_data);
+	load_conversion_info(conversion_info_ea, &amp;current_ea_pointer, &amp;remaining_data);
 
 	/* Get all buffers loading (because NUM_BUFFERS is a constant, the compiler will unroll the loop all the way) */
-	for(current_buffer_idx = 0; current_buffer_idx < NUM_BUFFERS; current_buffer_idx++) {
-		initiate_transfer(current_buffer_idx, &buffers_with_data, &current_ea_pointer, &remaining_data);
-		all_buffers |= 1<<current_buffer_idx;
+	for(current_buffer_idx = 0; current_buffer_idx &lt; NUM_BUFFERS; current_buffer_idx++) {
+		initiate_transfer(current_buffer_idx, &amp;buffers_with_data, &amp;current_ea_pointer, &amp;remaining_data);
+		all_buffers |= 1&lt;&lt;current_buffer_idx;
 	}
 
 	/* Continue while there are still buffers pending */
 	while(buffers_with_data != 0) {
 		current_buffer_idx = get_next_buffer(buffers_with_data);
-		process_and_put_back(current_buffer_idx, &buffers_with_data);
-		initiate_transfer(current_buffer_idx, &buffers_with_data, &current_ea_pointer, &remaining_data);
+		process_and_put_back(current_buffer_idx, &amp;buffers_with_data);
+		initiate_transfer(current_buffer_idx, &amp;buffers_with_data, &amp;current_ea_pointer, &amp;remaining_data);
 	}
 
 	/* Wait for all PUTs to complete */
@@ -853,34 +856,6 @@ The basic rules for casting vectors on the SPU are these:
 NOTE -- somewhere I should remind the reader of the DMA alignment requirements 
 </para>
 
-
-
-<sect1>
-<title>Composite Intrinsics and DMA</title>
-
-</sect1>
-
-<sect1>
-<title>Uppercase Conversion in C/C++</title>
-
-#include <spu_intrinsics.h>
-void convert_buffer_to_upper(vec_uchar16 *buffer, int buffer_size) {
-	int num_vecs = buffer_size / 16;
-	unsigned char conversion_value = 'a' - 'A';
-	vec_uchar16 *buffer_end = buffer + num_vecs;
-	vec_uchar16 *buffer_pos = buffer;
-	vec_uchar16 current_values;
-	vec_uchar16 processed_values;
-	vec_uchar16 should_be_processed;
-	
-	while(__builtin_expect(buffer_pos != buffer_end, 1)) {
-		current_values = *buffer_pos;
-		processed_values = spu_absd(current_values, spu_splats(conversion_value));
-		should_be_processed = spu_xor(spu_cmpgt(current_values, 'a'-1), spu_cmpgt(current_values, 'z'));
-		*buffer_pos = spu_sel(current_values, processed_values, should_be_processed);
-		buffer_pos++;
-	}
-}
 </sect1>
 
 </chapter>
