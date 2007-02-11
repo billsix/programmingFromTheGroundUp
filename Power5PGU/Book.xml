@@ -93,6 +93,7 @@ works on the hardware platform, not to be a reference to the subject.  Reference
 &spu-optimization-chapter;
 &spu-c-language-chapter;
 &spu-multibuffering-chapter;
+<!-- Could probably use a chapter on Cell Makefiles -->
 </part>
 &ascii-appendix;
 &ppe-instructions-appendix;

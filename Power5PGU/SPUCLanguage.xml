@@ -135,7 +135,7 @@ Boolean operations operate bit-by-bit, so the type of operands the boolean opera
 </varlistentry>
 
 <varlistentry>
-<term><literal>spu_rlmask(val, count)</literal>, <literal>spu_rlmaska</literal>, <literal>spu_rlmaskqw(val, count)</literal>, <literal>spu_rlmaskqwbyte</literal></term>
+<term><literal>spu_rlmask(val, count)</literal>, <literal>spu_rlmaska</literal>, <literal>spu_rlmaskqw(val, count)</literal>, <literal>spu_rlmaskqwbyte(val, count)</literal></term>
 <listitem><para>
 These are very confusingly-named operations.  They are named "roate left and mask" but they are actually performing <emphasis>right shifts</emphasis> (they are <emphasis>implemented</emphasis> by a combination of left shifts and masks, but the programming interface is for right shifts).  <literal>spu_rlmask</literal> and <literal>spu_rlmaska</literal> shifts each element of <literal>val</literal> to the right by the number of bits in the corresponding element of <literal>count</literal> (or the value of <literal>count</literal> if <literal>count</literal> is a scalar).  <literal>spu_rlmaska</literal> replicates the sign bit as bits are shifted in.  <literal>spu_rlmaskqw</literal> operates on the whole quadword at a time, but only up to 7 bits (it modulus's <literal>count</literal> to put it in range).  <literal>spu_rlmaskqwbyte</literal> works similarly, except that <literal>count</literal> is the number of bytes instead of bits, and <literal>count</literal> is modulus 16 instead of 8.
 </para></listitem>
@@ -553,7 +553,7 @@ Here are some tips to keep in mind when building SPE applications in C:
 <sect1>
 <title>Conclusion</title>
 <para>
-As you can see, the intrinsics available from C allow programmers to make the best mix of C and assembly language knowledge.  The SPU intrinsics allow programs to freely switch among high- and low-level code, but all within the semantic framework of the C language.
+As you can see, the intrinsics available for C allow programmers to make the best mix of C and assembly language knowledge.  The SPU intrinsics allow programs to freely switch among high- and low-level code, but all within the semantic framework of the C language.
 </para>
 
 <para>
