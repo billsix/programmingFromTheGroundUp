@@ -85,101 +85,86 @@ spu-gcc vec_test.c -o vec_test
 <title>Vector Intrinsics</title>
 
 <para>
-The C/C++ language extensions includes intrinsics that give the programmer full access to the SPU's assembly language instructions.  However, many intrinsics are provided which greatly simplify the SPU's assembly language by coalescing many similar instructions into one intrinsic.  Instructions that differ only on the type of operand (such as <literal>a</literal>, <literal>ai</literal>, <literal>ah</literal>, <literal>ahi</literal>, <literal>fa</literal>, and <literal>dfa</literal> for addition) are represented by a single C/C++ intrinsic which selects the proper instruction based on the type of the operand.  For addition, <literal>spu_add</literal>, when given two <literal>vector unsigned int</literal>s as parameters, will generate the <literal>a</literal> (32-bit add) instruction.  However, if given two <literal>vector float</literal>s as parameters, it will generate the <literal>fa</literal> (float add) instruction.  Note that the intrinsics generally have the same limitations as their corresponding assembly language instructions.  However, in cases where an immediate value is too large for the appropriate immediate-mode instruction, the compiler will promote the immediate value to a vector and do the corresponding vector/vector operation.  For instance, <literal>spu_add(myvec, 2)</literal> generates an <literal>ai</literal> (add immediate) instruction, while <literal>spu_add(myvec, 2000)</literal> first loads the <literal>2000</literal> into its own vector using <literal>il</literal> and then performs the <literal>a</literal> (add) instruction.
+The C/C++ language extensions include data types and intrinsics that give the programmer nearly full access to the SPU's assembly language instructions.  However, many intrinsics are provided which greatly simplify the SPU's assembly language by coalescing many similar instructions into one intrinsic.  Instructions that differ only on the type of operand (such as <literal>a</literal>, <literal>ai</literal>, <literal>ah</literal>, <literal>ahi</literal>, <literal>fa</literal>, and <literal>dfa</literal> for addition) are represented by a single C/C++ intrinsic which selects the proper instruction based on the type of the operand.  For addition, <literal>spu_add</literal>, when given two <literal>vector unsigned int</literal>s as parameters, will generate the <literal>a</literal> (32-bit add) instruction.  However, if given two <literal>vector float</literal>s as parameters, it will generate the <literal>fa</literal> (float add) instruction.  Note that the intrinsics generally have the same limitations as their corresponding assembly language instructions.  However, in cases where an immediate value is too large for the appropriate immediate-mode instruction, the compiler will promote the immediate value to a vector and do the corresponding vector/vector operation.  For instance, <literal>spu_add(myvec, 2)</literal> generates an <literal>ai</literal> (add immediate) instruction, while <literal>spu_add(myvec, 2000)</literal> first loads the <literal>2000</literal> into its own vector using <literal>il</literal> and then performs the <literal>a</literal> (add) instruction.
 </para>
 
 
 
 <para>
-The order of operands in the intrinsics is essentially the same as those of the assembly language instruction except that the first operand (which holds the destination register in assembly language) is not specified, but instead is supplied by the compiler to temporarily hold the return value.
+The order of operands in the intrinsics is essentially the same as those of the assembly language instruction except that the first operand (which holds the destination register in assembly language) is not specified, but instead is used as the return value for the function.  The compiler supplies the actual parameter in the code it generates. 
 </para>
 
 <para>
-Here are some of the more common SPU intrinsics:
-</para>
-
-<variablelist>
-
-<para>
-<!-- FIXME - need to be headings -->
-Arithmetic Operations
-Bit Operations
-Shift/Rotate Operations
-Comparison Operations
-Select Operations
+Here are some of the more common SPU intrinsics (types are not given as most of them are polymorphic):
 </para>
 
 <varlistentry>
-<term><literal>spu_add</literal></term>
+<term><literal>spu_add(val1, val2)</literal></term>
 <listitem><para>
-Adds the parameters and returns the result.
+Adds each element of <literal>val1</literal> to the corresponding element of <literal>val2</literal>.  If <literal>val2</literal> is a non-vector value, it adds the value to each element of <literal>val1</literal>.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>spu_sub</literal></term>
+<term><literal>spu_sub(val1, val2)</literal></term>
 <listitem><para>
+Subtract each element of <literal>val2</literal> from the corresponding element of <literal>val1</literal>.  If <literal>val1</literal> is a non-vector value, then <literal>val1</literal> is replicated across a vector, and then <literal>val2</literal> is subtracted from it.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>spu_mul</literal></term>
+<term><literal>spu_mul(val1, val2)</literal></term>
 <listitem><para>
+Because the multiplication instructions operate so differently, the SPU intrinsics does not coalesce them as much it does for other operations.  <literal>spu_mul</literal> handles floating point multiplication (single and double precision).  The result is a vector where each element is the result of multiplying the corresponding elements of <literal>val1</literal> and <literal>val2</literal> together.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>spu_and</literal>, <literal>spu_or</literal>, <literal>spu_not</literal>, <literal>spu_xor</literal>, <literal>spu_nor</literal>, <literal>spu_nand</literal>, <literal>spu_eqv</literal></term>
+<term><literal>spu_and(val1, val2)</literal>, <literal>spu_or(val1, val2)</literal>, <literal>spu_not(val)</literal>, <literal>spu_xor(val1, val2)</literal>, <literal>spu_nor(val1, val2)</literal>, <literal>spu_nand(val1, val2)</literal>, <literal>spu_eqv(val1, val2)</literal></term>
 <listitem><para>
+Boolean operations operate bit-by-bit, so the type of operands the boolean operations receive is not relevant except for determining the type of value they will return.  <literal>spu_eqv</literal> is a bitwise equivalency operation, not a per-element equivalency operation.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>spu_rl</literal></term>
+<term><literal>spu_rl(val, count)</literal>, <literal>spu_sl(val, count)</literal></term>
 <listitem><para>
+<literal>spu_rl</literal> rotates each element of <literal>val</literal> left by the number of bits specified in the corresponding element of <literal>count</literal>.  Bits rotated off the end are rotated back in on the right.  If <literal>count</literal> is a scalar value, then it is used as the count for all elements of <literal>val</literal>.  
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>spu_rlmask</literal></term>
+<term><literal><literal>spu_rlmask(val, count)</literal>, <literal>spu_rlmaska</literal>, <literal>spu_rlmaskqw(val, count)</literal>, <literal>spu_rlmaskqwbyte</literal></term>
 <listitem><para>
+These are very confusingly-named operations.  They are named "roate left and mask" but they are actually performing <emphasis>right shifts</emphasis> (they are <emphasis>implemented</emphasis> by a combination of left shifts and masks, but the programming interface is for right shifts).  <literal>spu_rlmask</literal> and <literal>spu_rlmaska</literal> shifts each element of <literal>val</literal> to the right by the number of bits in the corresponding element of <literal>count</literal> (or the value of <literal>count</literal> if <literal>count</literal> is a scalar).  <literal>spu_rlmaska</literal> replicates the sign bit as bits are shifted in.  <literal>spu_rlmaskqw</literal> operates on the whole quadword at a time, but only up to 7 bits (it modulus's <literal>count</literal> to put it in range).  <literal>spu_rlmaskqwbyte</literal> works similarly, except that <literal>count</literal> is the number of bytes instead of bits, and <literal>count</literal> is modulus 16 instead of 8.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>spu_rlmaskqw</literal></term>
+<term><literal>spu_cmpgt(val1, val2)</literal>, <literal>spu_cmpeq(val1, val2)</literal></term>
 <listitem><para>
+These instructions perform element-by-element comparisons of their two operands.  The results are stored as all ones (for true) and all zeros (for false) in the resulting vector in the corresponding element.  <literal>spu_cmpgt</literal> performs a greater-than comparison while <literal>spu_cmpeq</literal> performs an equality comparison.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>spu_sl</literal></term>
+<term><literal>spu_sel(val1, val2, conditional)</literal></term>
 <listitem><para>
+This corresponds to the <literal>selb</literal> assembly language instruction.  The instruction itself is bit-based, so all types use the same underlying instruction.  However, the intrinsic operation returns a value of the same type as the operands.  As in assembly language, <literal>spu_sel</literal> looks at each bit in <literal>conditional</literal>.  If the bit is zero, the corresponding bit in the result is selected from the corresponding bit in <literal>val1</literal>; otherwise it is selected from the corresponding bit in <literal>val2</literal>.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal>spu_cmpgt</literal></term>
+<term><literal>spu_shuffle(val1, val2, pattern)</literal>
 <listitem><para>
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><literal>spu_cmpeq</literal></term>
-<listitem><para>
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><literal>spu_sel</literal></term>
-<listitem><para>
+This is an interesting instruction which allows you to rearrange the bytes in <literal>val1</literal> and <literal>val2</literal> according to a pattern, specified in <literal>pattern</literal>.   The instruction goes through each byte in <literal>pattern</literal>, and if the byte starts with the bits <literal>0b10</literal>, the corresponding byte in the result is set to <literal>0x00</literal>; if the byte starts with the bits <literal>0b110</literal>, the corresponding byte in the result is set to <literal>0xff</literal>; if the byte starts with the bits <literal>0b111</literal>, the corresponding byte in the result is set to <literal>0x80</literal>; finally (and most importantly), if none of the previous are true, the last five bits of the pattern byte are used to choose which byte from <literal>val1</literal> or <literal>val2</literal> should be taken as the value for the current byte.  The two values are concatenated, and the five-bit value is used as the byte index of the concatenated value.  This is used for inserting elements into vectors as well as performing fast table lookups.
 </para></listitem>
 </varlistentry>
 
 </variablelist>
 
 <para>
-All of the instructions that are prefixed with <literal>spu_</literal> will try to find the best instruction match based on the types of operands.  However, not all vector types are supported by all instructions - it is based on the availability of assembly language instructions to handle it.  In addition, if you want a specific instruction rather than having the compiler choose one, you can perform almost any non-branching instruction with the <emphasis>specific instrinsics</emphasis>.  All specific intrinsics take the form <literal>si_assemblyinstructionname</literal> where <literal>assemblyinstructionname</literal> is the name of the assembly language instruction as defined in the SPU Assembly Language Specification.  So, <literal>si_a(a, b)</literal> forces the instruction <literal>a</literal> to be used for addition.  All operands to specific intrinsics are cast to a special type called <literal>qword</literal>, which is essentially an opaque register value type.  The return value from specific intrinsics are also <literal>qword</literal>s, which can then be cast into whatever vector type you wish.
+All of the instructions that are prefixed with <literal>spu_</literal> will try to find the best instruction match based on the types of operands.  However, not all vector types are supported by all instructions - it is based on the availability of an assembly language instructions to handle it.  In addition, if you want a specific instruction rather than having the compiler choose one, you can perform almost any non-branching instruction with the <emphasis>specific instrinsics</emphasis>.  All specific intrinsics take the form <literal>si_assemblyinstructionname</literal> where <literal>assemblyinstructionname</literal> is the name of the assembly language instruction as defined in the SPU Assembly Language Specification.  So, <literal>si_a(a, b)</literal> forces the instruction <literal>a</literal> to be used for addition.  All operands to specific intrinsics are cast to a special type called <literal>qword</literal>, which is essentially an opaque register value type.  The return value from specific intrinsics are also <literal>qword</literal>s, which can then be cast into whatever vector type you wish.
 </para>
 
 </sect1>
@@ -222,7 +207,7 @@ inline vec_uchar16 convert_vec_to_upper(vec_uchar16 values) {
 }
 
 void convert_buffer_to_upper(vec_uchar16 *buffer, int buffer_size) {
-	/* Find end of buffer */
+	/* Find end of buffer (must be casted first because size is bytes) */
 	vec_uchar16 *buffer_end = (vec_uchar16 *)((char *)buffer + buffer_size);
 
 	while(__builtin_expect(buffer < buffer_end, 1)) {
@@ -259,11 +244,11 @@ When computing the <literal>buffer_end</literal> the program did a few casting g
 </para>
 
 <para>
-Another interesting feature of the C/C++ version is <literal>__builtin_expect</literal> which helps the compiler do branch hinting.  You cannot do branch hinting directly in C/C++ because you have neither the address of the branch nor the target.  Therefore, instead you provide hints to the compiler, which can then generate appropriate branch hints.  <literal>__builtin_expect(buffer < buffer_end, 1)</literal> generates branching code based off of the first argument, <literal>buffer < buffer_end</literal>, but produces branch hints based off of the second argument, 1. 
+Another interesting feature of the C/C++ version is <literal>__builtin_expect</literal> which helps the compiler do branch hinting.  You cannot do branch hinting directly in C/C++ because you have neither the address of the branch nor the target.  Therefore, you instead provide hints to the compiler, which can then generate appropriate branch hints.  <literal>__builtin_expect(buffer < buffer_end, 1)</literal> generates branching code based off of the first argument, <literal>buffer < buffer_end</literal>, but produces branch hints based off of the second argument, 1.  It tells the compiler to generate hints that expect the value of <literal>buffer < buffer_end</literal> to be 1.
 </para>
 
 <para>
-Now, there are two compilers currently available for SPU programming, and, as usual, they excel in different areas.  GCC, for instance, does a fantastic job of interleaving the instructions between invocations of <literal>convert_vec_to_upper</literal> so that instruction latency is minimized.  However, in this particular case, <literal>__builtin_expect</literal> gives us almost no help at all.  IBM's XLC compiler, on the other hand, is the opposite.  It does not interleave the instructions between invocations of <literal>convert_vec_to_upper</literal> at all, but structures the loop so that the branch hint has a maximum effect, and in fact was able to guess the branch hint without it being supplied.  Unsurprisingly, neither compiler does nearly as well as our hand-coded assembly language version from the previous article, but the branch-hinting optimization results in faster code than the instruction scheduling.  Code that was compiled without optimization flags resulted in code that was approximately <emphasis>five times slower</emphasis>.
+Now, there are two compilers currently available for SPU programming, and, as one might expect, they excel in different areas.  GCC, for instance, does a fantastic job of interleaving the instructions between invocations of <literal>convert_vec_to_upper</literal> so that instruction latency is minimized.  However, in this particular program, <literal>__builtin_expect</literal> gives us almost no help at all.  IBM's XLC compiler, on the other hand, is the opposite.  It does not interleave the instructions between invocations of <literal>convert_vec_to_upper</literal> at all, but structures the loop so that the branch hint has a maximum effect, and in fact was able to guess the branch hint without it being supplied.  Unsurprisingly, neither compiler does nearly as well as our hand-coded assembly language version from the previous article, but for this program XLC outperformed GCC.  Code that was compiled without any optimization flags resulted in code that was approximately <emphasis>five times slower</emphasis>, so be sure to always compile with <literal>-O2</literal> or <literal>-O3</literal>.
 </para>
 
 </sect1>

@@ -13,8 +13,15 @@
 <!ENTITY spu-communication-chapter SYSTEM "SPUCommunication.xml">
 <!ENTITY spu-multibuffering-chapter SYSTEM "SPUMultibuffering.xml">
 <!ENTITY spu-optimization-chapter SYSTEM "SPUOptimization.xml">
+<!ENTITY ascii-appendix SYSTEM "AsciiAp.xml">
+<!ENTITY gdb-appendix SYSTEM "GDBAp.xml">
+<!ENTITY syscall-appendix SYSTEM "SyscallAp.xml">
+<!ENTITY spe-instructions-appendix SYSTEM "SPEInstructionsAp.xml">
+<!ENTITY ppe-instructions-appendix SYSTEM "PPEInstructionsAp.xml">
 ]>
 <book>
+<!-- FIXME - need a chapter on memory management - probably at the end of the PPE chaper -->
+<!-- FIXME - need to talk about in-order vs out-of-order processors -->
 <bookinfo>
 <title>How to Program the Playstation 3 (And Other Cell BE Systems) Under Linux</title>
 <author>
@@ -87,6 +94,13 @@ works on the hardware platform, not to be a reference to the subject.  Reference
 &spu-c-language-chapter;
 &spu-multibuffering-chapter;
 </part>
+&ascii-appendix;
+&ppe-instructions-appendix;
+&spe-instructions-appendix;
+<!--
+&syscall-appendix;
+&gdb-appendix;
+-->
 &index;
 
 </book>
