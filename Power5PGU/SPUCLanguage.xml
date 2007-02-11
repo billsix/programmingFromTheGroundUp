@@ -98,6 +98,7 @@ The order of operands in the intrinsics is essentially the same as those of the 
 Here are some of the more common SPU intrinsics (types are not given as most of them are polymorphic):
 </para>
 
+<variablelist>
 <varlistentry>
 <term><literal>spu_add(val1, val2)</literal></term>
 <listitem><para>
@@ -129,12 +130,12 @@ Boolean operations operate bit-by-bit, so the type of operands the boolean opera
 <varlistentry>
 <term><literal>spu_rl(val, count)</literal>, <literal>spu_sl(val, count)</literal></term>
 <listitem><para>
-<literal>spu_rl</literal> rotates each element of <literal>val</literal> left by the number of bits specified in the corresponding element of <literal>count</literal>.  Bits rotated off the end are rotated back in on the right.  If <literal>count</literal> is a scalar value, then it is used as the count for all elements of <literal>val</literal>.  
+<literal>spu_rl</literal> rotates each element of <literal>val</literal> left by the number of bits specified in the corresponding element of <literal>count</literal>.  Bits rotated off the end are rotated back in on the right.  If <literal>count</literal> is a scalar value, then it is used as the count for all elements of <literal>val</literal>.  <literal>spu_sl</literal> operates the same way, but performs a shift instead of a rotate.
 </para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><literal><literal>spu_rlmask(val, count)</literal>, <literal>spu_rlmaska</literal>, <literal>spu_rlmaskqw(val, count)</literal>, <literal>spu_rlmaskqwbyte</literal></term>
+<term><literal>spu_rlmask(val, count)</literal>, <literal>spu_rlmaska</literal>, <literal>spu_rlmaskqw(val, count)</literal>, <literal>spu_rlmaskqwbyte</literal></term>
 <listitem><para>
 These are very confusingly-named operations.  They are named "roate left and mask" but they are actually performing <emphasis>right shifts</emphasis> (they are <emphasis>implemented</emphasis> by a combination of left shifts and masks, but the programming interface is for right shifts).  <literal>spu_rlmask</literal> and <literal>spu_rlmaska</literal> shifts each element of <literal>val</literal> to the right by the number of bits in the corresponding element of <literal>count</literal> (or the value of <literal>count</literal> if <literal>count</literal> is a scalar).  <literal>spu_rlmaska</literal> replicates the sign bit as bits are shifted in.  <literal>spu_rlmaskqw</literal> operates on the whole quadword at a time, but only up to 7 bits (it modulus's <literal>count</literal> to put it in range).  <literal>spu_rlmaskqwbyte</literal> works similarly, except that <literal>count</literal> is the number of bytes instead of bits, and <literal>count</literal> is modulus 16 instead of 8.
 </para></listitem>
@@ -155,7 +156,7 @@ This corresponds to the <literal>selb</literal> assembly language instruction.  
 </varlistentry>
 
 <varlistentry>
-<term><literal>spu_shuffle(val1, val2, pattern)</literal>
+<term><literal>spu_shuffle(val1, val2, pattern)</literal></term>
 <listitem><para>
 This is an interesting instruction which allows you to rearrange the bytes in <literal>val1</literal> and <literal>val2</literal> according to a pattern, specified in <literal>pattern</literal>.   The instruction goes through each byte in <literal>pattern</literal>, and if the byte starts with the bits <literal>0b10</literal>, the corresponding byte in the result is set to <literal>0x00</literal>; if the byte starts with the bits <literal>0b110</literal>, the corresponding byte in the result is set to <literal>0xff</literal>; if the byte starts with the bits <literal>0b111</literal>, the corresponding byte in the result is set to <literal>0x80</literal>; finally (and most importantly), if none of the previous are true, the last five bits of the pattern byte are used to choose which byte from <literal>val1</literal> or <literal>val2</literal> should be taken as the value for the current byte.  The two values are concatenated, and the five-bit value is used as the byte index of the concatenated value.  This is used for inserting elements into vectors as well as performing fast table lookups.
 </para></listitem>
@@ -187,7 +188,7 @@ In addition, in order to help better schedule instructions, the assembly languag
 </para>
 
 <para>
-So here is the C/C++ version of the <literal>convert_buffer_to_upper</literal> function (enter as <literal>convert_buffer_c.c</literal> in the same directory as the files from the last article):
+So here is the C/C++ version of the <literal>convert_buffer_to_upper</literal> function (enter as <literal>convert_buffer_c.c</literal> in the same directory as the files from the previous articles - you will need them to compile the full application):
 </para>
 
 <example>
@@ -273,11 +274,11 @@ The composite intrinsics are those that compile to multiple instructions.  The c
 </orderedlist>
 
 <para>
-Often times you will have the effective address as a single 64-bit value.  To separate it out into parts, use <literal>mfc_ea2h</literal> to extract the higher-order bits and <literal>mfc_ea2l</literal> to extract the lower-order bits.  The tag is a number designated by the programmer between 0 and 31 used to identify a transfer or for a group of transfers for status queries and sequencing operations.  The DMA command can take a range of values.  DMA transfers are called PUTs if they transfer from the SPU local store to the system memory, and GETs if they go the other direction.  These DMA command names are prefixed with either <literal>MFC_PUT</literal> or <literal>MFC_GET</literal>, respectively.  Then, MFC commands either operate individually or on a list.  If the DMA command is a list command, the DMA command name has an <literal>L</literal> appended to it (see <ulink url="#resources">Resources</ulink> for more information on DMA list commands).  The DMA command can also have certain levels of synchronization applied to it.  For barrier synchronization add a <literal>B</literal>, for fence synchronization add an <literal>F</literal>, and for no synchronization you do not need to add anything.  Finally, all DMA command names have a <literal>_CMD</literal> suffix.  So, the command name for a single transfer from the local store to system memory using fence synchronization would be <literal>MFC_PUTF_CMD</literal>.
+Often times you will have the effective address as a single 64-bit value.  To separate it out into parts, use <literal>mfc_ea2h</literal> to extract the higher-order bits and <literal>mfc_ea2l</literal> to extract the lower-order bits.  The tag is a number designated by the programmer between 0 and 31 used to identify a transfer or for a group of transfers for status queries and sequencing operations.  The DMA command can take a range of values (see <ulink url="#resources">Resources</ulink> for information on where to find the ones not listed here).  DMA transfers are called PUTs if they transfer from the SPU local store to the system memory, and GETs if they go the other direction.  These DMA command names are prefixed with either <literal>MFC_PUT</literal> or <literal>MFC_GET</literal>, respectively.  Then, MFC commands either operate individually or on a list.  If the DMA command is a list command, the DMA command name has an <literal>L</literal> appended to it (see <ulink url="#resources">Resources</ulink> for more information on DMA list commands).  The DMA command can also have certain levels of synchronization applied to it.  For barrier synchronization add a <literal>B</literal>, for fence synchronization add an <literal>F</literal>, and for no synchronization you do not need to add anything.  Finally, all DMA command names have a <literal>_CMD</literal> suffix.  So, the command name for a single transfer from the local store to system memory using fence synchronization would be <literal>MFC_PUTF_CMD</literal>.
 </para>
 
 <para>
-By default DMA commands on the SPE's MFC are totally unordered - the MFC may process them in any order that it wishes.  However, tags, fences, and barriers can be used to force ordering constraints on MFC DMA transfers.  A <emphasis>fence</emphasis> established the constraint that a given DMA transfer only execute <emphasis>after</emphasis> all previous commands using the same tag have completed.  A <emphasis>barrier</emphasis> establishes the constraint that a given DMA transfer only execute <emphasis>after</emphasis> all previous commands using the same tag have completed (like a fence), but also that they must execute <emphasis>before</emphasis> all subsequent commands using the same tag.
+By default DMA commands on the SPE's MFC are totally unordered - the MFC may process them in any order that it wishes.  However, tags, fences, and barriers can be used to force ordering constraints on MFC DMA transfers.  A <emphasis>fence</emphasis> establishes the constraint that a given DMA transfer only execute <emphasis>after</emphasis> all previous commands using the same tag have completed.  A <emphasis>barrier</emphasis> establishes the constraint that a given DMA transfer only execute <emphasis>after</emphasis> all previous commands using the same tag have completed (like a fence), but also that they must execute <emphasis>before</emphasis> all subsequent commands using the same tag.
 </para>
 
 <para>
@@ -287,9 +288,11 @@ Here are some examples of <literal>spu_mfcdma64</literal>:
 <example>
 <title>Using <literal>spu_mfcdma64</literal></title>
 <programlisting>
-uint64_t ea1, ea2, ea3, ea4, ea5; /* assume each of these have sensible values */
-uint32_t ls1, ls2, ls3, ls4; /* assume each of these have sensible values */
-uint32_t sz1, sz2, sz3, sz4; /* assume each of these have sensible values */
+typedef unsigned long long uint64;
+typedef unsigned long uint32;
+uint64 ea1, ea2, ea3, ea4, ea5; /* assume each of these have sensible values */
+uint32 ls1, ls2, ls3, ls4; /* assume each of these have sensible values */
+uint32 sz1, sz2, sz3, sz4; /* assume each of these have sensible values */
 int tag = 3; /* Arbitrary value, but needs to be the same for all synchronized transfers */
 
 /* Transfer 1: System Storage -> Local Store, no ordering specified */
@@ -328,7 +331,7 @@ Take a closer look at transfers 4 and 5.  This is a useful idiom to take note of
 </para>
 
 <para>
-<literal>spu_mfcdma64</literal> is quite a handy tool, but it is a little tedious, especially when you have to keep on using <literal>mfc_ea2h</literal> and <literal>mfc_ea2l</literal> to convert your addresses.  Therefore, the specification also provides a number of utility functions to lessen the amount of redundant typing necessary.  The <literal>mfc_</literal> class of functions all take the same parameters as the <literal>spu_mfcdma64</literal> function, except that the effective address is a single 64-bit parameter, and the DMA command is encoded into the function name.  It also takes two extra parameters, the <emphasis>transfer class identifier</emphasis> and the <emphasis>replacement class identifier</emphasis>.  Both of these can be set to zero in non-realtime applications (see <ulink url="#resources">Resources</ulink> for references to further information on these two fields).  Therefore, transfer 2 above can be rewritten as:
+<literal>spu_mfcdma64</literal> is quite a handy tool, but it is a little tedious, especially when you have to keep on using <literal>mfc_ea2h</literal> and <literal>mfc_ea2l</literal> to convert your addresses.  Therefore, the specification also provides a number of utility functions to lessen the amount of redundant typing necessary.  The <literal>mfc_</literal> class of functions all take the same parameters as the <literal>spu_mfcdma64</literal> function, except that the effective address is a single 64-bit parameter, and the DMA command is encoded into the function name.  It also takes two extra parameters, the <emphasis>transfer class identifier</emphasis> and the <emphasis>replacement class identifier</emphasis>.  Both of these can be safely set to zero in non-realtime applications (see <ulink url="#resources">Resources</ulink> for references to further information on these two fields).  Therefore, transfer 2 above can be rewritten as:
 </para>
 
 <programlisting>
@@ -336,7 +339,7 @@ mfc_putf(ls2, ea2, sz2, tag, 0, 0);
 </programlisting>
 
 <para>
-Tags are useful not just for synchronizing data transfers, but also for checking on the status of transfers.  On the SPE, there is a tag mask channel which is used to specify which tags are currently used for status checks, a channel which is used to issue status requests, and another channel to read the channel status back.  Although these are pretty simple operations anyway, the specification gives special methods for performing these operations as well.  <literal>mfc_write_tag_mask</literal> takes a 32-bit integer, and uses it as a channel mask for future status updates.  In the mask, set the bit position of each tag that you want to check the status of to 1.  So, to check the status of channel 2 and 4, you would use <literal>mfc_write_tag_mask(20),</literal>, or, to make it more readable, you can do <literal>mfc_write_tag_mask(1&lt;&lt;2 | 1&lt;&lt;4);</literal>.  To actually perform the status update, you have to pick a status command, and send it using <literal>spu_mfcstat(unsigned int command)</literal>.  The commands are:
+Tags are useful not just for synchronizing data transfers, but also for checking on the status of transfers.  On the SPE, there is a tag mask channel which is used to specify which tags are currently used for status checks, a channel which is used to issue status requests, and another channel to read the channel status back.  Although these are pretty simple operations anyway, the specification gives special methods for performing these operations as well.  <literal>mfc_write_tag_mask</literal> takes a 32-bit integer, and uses it as a channel mask for future status updates.  In the mask, set the bit position of each tag that you want to check the status of to 1.  So, to check the status of channel 2 and 4, you would use <literal>mfc_write_tag_mask(20)</literal>, or, to make it more readable, you can do <literal>mfc_write_tag_mask(1&lt;&lt;2 | 1&lt;&lt;4);</literal>.  To actually perform the status update, you have to pick a status command, and send it using <literal>spu_mfcstat(unsigned int command)</literal>.  The commands are:
 </para>
 
 <variablelist>
@@ -344,7 +347,7 @@ Tags are useful not just for synchronizing data transfers, but also for checking
 <varlistentry>
 <term><literal>MFC_TAG_UPDATE_IMMEDIATE</literal></term>
 <listitem><para>
-This command causes the SPE to immediately return with the status of the DMA channels.  Each channel which was specified in the channel mask will be set to 1 if there are no remaining commands in the queue with that tag, and set to 0 if there are commands remaining in the queue.
+This command causes the SPE to immediately return with the status of the DMA channels.  Each channel which was specified in the channel mask will be set to 1 if there are no remaining commands in the queue with that tag (i.e. all operations that may have been previously active, are completed), and set to 0 if there are commands remaining in the queue.
 </para></listitem>
 </varlistentry>
 
@@ -377,14 +380,14 @@ Using <literal>spu_mfcstat</literal> allows you to both check on the status of D
 <sect1>
 <title>Example MFC Program</title>
 <para>
-Now we are going to apply this knowledge of the MFC composite intrinsics to our uppercase conversion program.  Earlier in the article we rewrote the main conversion function in C, and now we are going to rewrite the main loop in C.  The new code is fairly straightforward (enter as <literal></literal>):
+Now we are going to apply this knowledge of the MFC composite intrinsics to our uppercase conversion program.  Earlier in the article we rewrote the main conversion function in C, and now we are going to rewrite the main loop in C.  The new code is fairly straightforward (enter as <literal>convert_driver_c.c</literal>):
 </para>
 
 <example>
 <title>Uppercase Conversion MFC Transfer Code</title>
 <programlisting>
 #include &lt;spu_intrinsics.h&gt;
-#include &lt;spu_mfcio.h&gt; /* constant declarations for the MFC */
+#include &lt;spu_mfcio.h&gt; 
 typedef unsigned long long uint64;
 
 #define CONVERSION_BUFFER_SIZE 16384
@@ -410,21 +413,33 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 	spu_mfcstat(MFC_TAG_UPDATE_ALL); /* Wait for Completion */
 
 	/* Get the actual data */
-	mfc_getb(conversion_buffer, conversion_info.data, conversion_info.length, DMA_TAG, 0, 0);
+	mfc_get(conversion_buffer, conversion_info.data, conversion_info.length, DMA_TAG, 0, 0);
 	spu_mfcstat(MFC_TAG_UPDATE_ALL);
 
 	/* Perform the conversion */
 	convert_buffer_to_upper(conversion_buffer, conversion_info.length);
                                                                                 
 	/* Put the data back into system storage */
-	mfc_putb(conversion_buffer, conversion_info.data, conversion_info.length, DMA_TAG, 0, 0);
+	mfc_put(conversion_buffer, conversion_info.data, conversion_info.length, DMA_TAG, 0, 0);
 	spu_mfcstat(MFC_TAG_UPDATE_ALL); /* Wait for Completion */
 }                                                                               
 </programlisting>
 </example>
 
 <para>
-This implementation in C follows the same basic structure as the original code, except that its more readable to human beings.  Which, incidentally, makes it easier to revise and expand.  For instance, one of the problems with the original code is that it is limited to the size of a DMA transfer.  What if we wanted to remove that limitation?  We could simply wrap the whole thing in a loop, and keep moving data a piece at a time until the whole string has bee processed.  Here's the revised code:
+To compile and run, simply do:
+</para>
+
+<programlisting>
+spu-gcc convert_buffer_c.c convert_driver_c.c -o spe_convert
+embedspu -m64 convert_to_upper_handle spe_convert spe_convert_csf.o
+gcc -m64 spe_convert_csf.o ppu_dma_main.c -lspe -o dma_convert
+./dma_convert
+</programlisting>
+
+
+<para>
+This implementation in C follows the same basic structure as the original code, except that its more readable to human beings, which, incidentally, makes it easier to revise and expand.  For instance, one of the problems with the original code is that it is limited to the size of a DMA transfer.  What if we wanted to remove that limitation?  We could simply wrap the whole thing in a loop, and keep moving data a piece at a time until the whole string has bee processed.  Here's the revised code to do this:
 </para>
 
 <example>
@@ -493,352 +508,56 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 </example>
 
 <para>
+Compile and run using the same commands as we used in the previous example:
+</para>
+
+<programlisting>
+spu-gcc convert_buffer_c.c convert_driver_c.c -o spe_convert
+embedspu -m64 convert_to_upper_handle spe_convert spe_convert_csf.o
+gcc -m64 spe_convert_csf.o ppu_dma_main.c -lspe -o dma_convert
+./dma_convert
+</programlisting>
+
+<para>
 So now we have just expanded the size of the data we can process to 4 gigabytes, though you could easily go beyond that by making the data size variables 64-bit instead of 32-bit. Notice that we don't explicitly code to ask the MFC to wait for our PUT to complete before we re-issue the GET.  This is because we are using barriers with our transfers, and we are using the same DMA tag for them.  This forces the transfers to be serialized by the MFC itself, so it will always wait until the current conversion is finished being PUT into system storage before GETting more data into the buffer.  Just remember to wait for the completion at the end (notice the <literal>spu_mfcstat</literal> outside the loop) or else your last bit of data may not finish transferring before it is used in the program!
 </para>
 
 <para>
 Another thing to be careful of when programming in C is to always make sure that you give function prototypes.  It is real easy to accidentally mix up 32-bit and 64-bit values.  On the PPE that isn't so bad, as the value is merely truncated or expanded.  But in the SPE, if the prototype is wrong, the preferred slot for 32-bit and 64-bit values are offset in such a way that conversion between the two must be handled explicitly.
 </para>
-
 </sect1>
 
 <sect1>
-<title>Double-buffering and Multibuffering</title>
+<title>Helpful Tips for C Language SPE Programming</title>
 
 <para>
-One of the biggest problems with the code as it now stands is that it wastes a lot of time just waiting for data.  It would be much better if we could use that time to do some processing work. In order to do that, we need to have two buffers, so that at any given time one buffer is used for transferring and another buffer is used for processing.
+Here are some tips to keep in mind when building SPE applications in C:
 </para>
 
-<para>
-In order to do that, we should first refactor the code slightly.  First of all, we need to keep all of the buffer-specific data together.  Each buffer will need to know the effective address it was filled from and the size.  Therefore, the struct needs to look something like this:
-</para>
-
-<programlisting>
-struct {
-	uint64 effective_address __attribute__((aligned(16)));
-	uint32 size __attribute__((aligned(16)));
-	char data[MAX_TRANSFER_SIZE] __attribute__((aligned(16)));
-} buffer;  
-</programlisting>
-
-<para>
-And a global variable will hold the buffers:
-</para>
-
-<programlisting>
-buffer buffers[2];
-</programlisting>
-
-<para>
-Now, we are going to break up the conversion process into three pieces:
-</para>
-
-<orderedlist>
-<listitem><para>Initiate the data load</para></listitem>
-<listitem><para>Wait for the data to arrive</para></listitem>
-<listitem><para>Process the data and store it back</para></listitem>
-</orderedlist>
-
-<para>
-For double-buffering, the first one of these can be separated from the rest, so that most of the data loading can take place while the process is doing something else.  So the general sequence will be:
-</para>
-
-<orderedlist>
-<listitem><para>Start loading buffers 1 and 2.</para></listitem>
-<listitem><para>Loop while there is still data:
-<orderedlist>
-<listitem><para>Wait for the data in buffer 1.</para></listitem>
-<listitem><para>Process and store it back in system memory.</para></listitem>
-<listitem><para>Initiate the next data load for buffer 1.</para></listitem>
-<listitem><para>Wait for the data in buffer 2.</para></listitem>
-<listitem><para>Process and store it back in system memory.</para></listitem>
-<listitem><para>Initiate the next data load for buffer 2.</para></listitem>
-</orderedlist>
-</para></listitem>
-<listitem><para>Wait for all data transfers to finish.</para></listitem>
-</orderedlist>
-
-<para>
-It may look from the sequence that we would have to wait for the data to finish being stored before we initiated the next load into that buffer.  But in fact, if we use the same DMA tag for the load and the store, and use either a fence or a barrier in the requests, it will force the MFC to process the requests in sequence.
-</para>
-
-<para>
-So here is the code for the double-buffered version of the MFC code:
-</para>
-
-<example>
-<title>Double-buffering MFC Transfers</title>
-<programlisting>
-#include &lt;spu_intrinsics.h&gt;
-#include &lt;spu_mfcio.h&gt;
-
-/* Constants */
-#define MAX_TRANSFER_SIZE 16384
-
-/* Data Structures */
-typedef unsigned long long uint64;
-typedef unsigned int uint32;
-typedef struct {
-	uint32 length __attribute__((aligned(16)));
-	uint64 data __attribute__((aligned(16)));
-} conversion_structure;    
-
-typedef struct {
-	uint32 size __attribute__((aligned(16)));
-	uint64 effective_address __attribute__((aligned(16)));
-	char data[MAX_TRANSFER_SIZE] __attribute__((aligned(16)));
-} buffer;
-                     
-/* Global Variables */                                                           
-buffer buffers[2];
-
-/* Utility Functions */
-inline uint32 MIN(uint32 a, uint32 b) {
-	return a < b ? a : b;
-}
-
-inline void wait_for_completion(uint32 mask) {
-	mfc_write_tag_mask(mask);
-	spu_mfcstat(MFC_TAG_UPDATE_ALL);
-}
-
-inline void load_conversion_info(uint64 cinfo_ea, uint64 *data_ea, uint32 *data_size) {
-	conversion_structure cinfo;
-	mfc_get(&amp;cinfo, cinfo_ea, sizeof(cinfo), 0, 0, 0);
-	wait_for_completion(1&lt;&lt;0);
-	*data_size = cinfo.length;
-	*data_ea = cinfo.data;
-}
-
-/* Processing Functions */
-inline void initiate_transfer(uint32 buf_idx, uint64 *current_ea_pointer, uint32 *remaining_data) {
-	/* Setup buffer information */
-	buffers[buf_idx].size = MIN(*remaining_data, MAX_TRANSFER_SIZE); 
-	buffers[buf_idx].effective_address = *current_ea_pointer;
-	/* Initiate transfer using the buffer index as the DMA tag */
-	mfc_getb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
-	/* Move the data pointers */
-	*remaining_data -= buffers[buf_idx].size;
-	*current_ea_pointer += buffers[buf_idx].size;
-}
-
-inline void process_and_put_back(uint32 buf_idx) {
-	/* Perform conversion */
-	convert_buffer_to_upper(buffers[buf_idx].data, buffers[buf_idx].size);
-	/* Initiate the DMA transfer back using the buffer index as the DMA tag */
-	mfc_putb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
-}
-
-
-int main(uint64 spe_id, uint64 conversion_info_ea) {
-	uint32 remaining_data;
-	uint64 current_ea_pointer;
-
-	load_conversion_info(conversion_info_ea, &amp;current_ea_pointer, &amp;remaining_data);
-
-	/* Start filling buffers to prepare for loop (loop assumes both buffers have data coming in) */
-	initiate_transfer(0, &amp;current_ea_pointer, &amp;remaining_data);
-	initiate_transfer(1, &amp;current_ea_pointer, &amp;remaining_data);
-
-	do {
-		/* Process buffer 0 */
-		wait_for_completion(1&lt;&lt;0);
-		process_and_put_back(0);
-		initiate_transfer(0, &amp;current_ea_pointer, &amp;remaining_data);
-
-		/* Process buffer 1 */
-		wait_for_completion(1&lt;&lt;1);
-		process_and_put_back(1);
-		initiate_transfer(1, &amp;current_ea_pointer, &amp;remaining_data);
-	} while(buffers[0].size != 0);
-
-	wait_for_completion(1&lt;&lt;0|1&lt;&lt;1);
-}
-</programlisting>
-</example>
-
-<para>
-It might seem that we have some potential for having zero-sized transfers.  Indeed, the code as written mandates it.  However, this is much better than the alternative.  The MFC treats the zero-sized transfer as a no-op, but if we were to wrap it in an if statement instead to avoid the extra attempted transfers, we would wind up with a lot of branches, which could really cost the program.
-</para>
-
-<para>
-However, the architecture could be further improved.  There are two issues with the current code:
-</para>
 
 <itemizedlist>
-<listitem><para>The buffers must be processed in a predetermined order, which may or may not be the most efficient order for the MFC to load them.</para></listitem>
-<listitem><para>There are only two buffers available for filling.  This means both that you have less data being transferred while you are processing, and also that you are giving the MFC fewer options about what order to perform the transfers in.</para></listitem>
+<listitem><para>Vectors <emphasis>can</emphasis> be cast between vectors of other types, and back-and-forth between the vector types and the special <literal>quad</literal> type, but <emphasis>none of these casts perform any data conversion</emphasis>.  If you need to convert between types, use an appropriate SPU intrinsic.</para></listitem>
+<listitem><para>Vector and non-vector pointers <emphasis>can</emphasis> be cast between each other, but when converting from a scalar pointer to a vector pointer <emphasis>it is the programmer's responsibility to be sure that the pointer is quadword-aligned</emphasis>.</para></listitem>
+<listitem><para>Declared vectors are always quadword-aligned when allocated.</para></listitem>
+<listitem><para>Remember that DMA transfers of 16 bytes or more <emphasis>must be in 16-byte multiples and aligned to 16-byte boundaries</emphasis> on both the SPE and the PPE.  Transfers smaller than that must be a power of two and be naturally aligned.  Optimal transfers are multiples of 128 bytes that are on 128-byte boundaries.</para></listitem>
+<listitem><para>If you are not sure about the alignment of data on the PPE, use <literal>memalign</literal> or <literal>posix_memalign</literal> to allocate an aligned pointer from the heap, and use <literal>memcpy</literal> or an equivalent to move the data to the aligned area.</para></listitem>
+<listitem><para>Always compile with <literal>-Wall</literal> and <emphasis>especially pay attention to missing prototype messages</emphasis>.  Incorrectly implied prototypes (especially between 32- and 64-bit types) can lead to bizarre error conditions.</para></listitem>
+<listitem><para>Always store effective addresses as <literal>unsigned long long</literal>s, on both the PPE and the SPE.  This way they can be treated in a unified fashion on the SPE and on the PPE, whether the PPE code is compiled for 32-bit or 64-bit execution.</para></listitem>
+<listitem><para>Avoid integer multiplies (especially 32-bit multiplies) on the SPE.  It takes five instructions to perform the multiply.  If you must multiply, cast to an <literal>unsigned short</literal> before multiplying.</para></listitem>
+<listitem><para>In scalar code on the SPE, declaring scalar values as vectors and vector pointers (even if you aren't using them as vectors) can speed up code because it doesn't have to do unaligned loads and stores.</para></listitem>
+<listitem><para>Be aware that on the SPE, <literal>float</literal>s and <literal>double</literal>s are implemented differently, and round differently as well.  <literal>float</literal>s in particular deviate from the C99 standard.  These will be covered further in the next article.</para></listitem>
 </itemizedlist>
-
-<para>
-The solution to both of these problems is <emphasis>multibuffering</emphasis>, which is like double-buffering, but with more than two buffers.  In this case, since the problem is trivially parallelizable, we can actually have as many buffers as the SPU's local store can support.  So for the next program we will rewrite this file for multibuffering.  The program will maintain an array of buffers, and a bit mask which tells which buffers have pending operations on them.  When the program starts up, the program will initiate transfers for each buffer, and set its bit.  Then the program will loop, and on each iteration the program will issue an <literal>spu_mfcstat(MFC_STAT_UPDATE_ANY)</literal> to see which buffers now have data available.  It will process one of them, issue a PUT to copy the buffer back, and then issue a GET for the next segment of data if we haven't reacehd the end.
-</para> 
-
-<para>
-Here is the code for the new version:
-</para>
-
-<example>
-<title>Multibuffering MFC Transfers</title>
-<programlisting>
-#include &lt;spu_intrinsics.h&gt;
-#include &lt;spu_mfcio.h&gt; /* constant declarations for the MFC */
-typedef unsigned long long uint64;
-typedef unsigned int uint32;
-
-/* Constants */
-#define MAX_TRANSFER_SIZE 16384
-#define NUM_BUFFERS 8 /* The MFC supports only 16 queued transfers, and we have up to two active per buffer */
-#define VEC_ZERO (spu_promote((uint32)0, 0))
-
-/* Data Structures */
-typedef struct {
-	uint32 length __attribute__((aligned(16)));
-	uint64 data __attribute__((aligned(16)));
-} conversion_structure;
-
-typedef struct {
-	uint32 size __attribute__((aligned(16)));
-	uint64 effective_address __attribute__((aligned(16)));
-	char data[MAX_TRANSFER_SIZE] __attribute__((aligned(16)));
-} buffer;
-
-buffer buffers[NUM_BUFFERS];
-
-/* Utility functions */
-inline uint32 MIN(uint32 a, uint32 b) {
-	return a < b ? a : b;
-}
-
-inline void process_and_put_back(uint32 buf_idx, uint32 *buffers_with_data) {
-	convert_buffer_to_upper(buffers[buf_idx].data, buffers[buf_idx].size);
-	mfc_putb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
-	*buffers_with_data &= ~(1&lt;&lt;buf_idx); /* Clear out bit for this buffer */
-}
-
-inline void initiate_transfer(uint32 buf_idx, uint32 *buffers_with_data, uint64 *current_ea_pointer, uint32 *remaining_data) {
-	/* Setup buffer */
-	buffers[buf_idx].size = MIN(*remaining_data, MAX_TRANSFER_SIZE);
-	buffers[buf_idx].effective_address = *current_ea_pointer;
-
-	/* Move Data Pointers */
-	*remaining_data -= buffers[buf_idx].size;
-	*current_ea_pointer += buffers[buf_idx].size;
-
-	/* Initiate transfer (does nothing if there is no data) */
-	mfc_getb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
-
-	/* Set the "Buffer Waiting for Data" bit only if there is data to read */
-	*buffers_with_data |= (buffers[buf_idx].size == 0 ? 0 : (1&lt;&lt;buf_idx));
-}         
-
-inline void wait_for_completion(uint32 mask) {
-	mfc_write_tag_mask(mask);
-	spu_mfcstat(MFC_TAG_UPDATE_ALL);
-}
-
-inline void load_conversion_info(uint64 conversion_info_ea, uint64 *current_ea_pointer, uint32 *remaining_data) {
-	conversion_structure conversion_info;
-
-	mfc_get(&amp;conversion_info, conversion_info_ea, sizeof(conversion_info), 0, 0, 0);
-	wait_for_completion(1&lt;&lt;0);
-
-	*remaining_data = conversion_info.length;
-	*current_ea_pointer = conversion_info.data;	
-}
-
-/* Returns the index of the first buffer with data available*/
-inline uint32 get_next_buffer(uint32 buffers_with_data) {
-	uint32 buffers_completed; /* This will contain a mask of buffers whose transfers have completed */
-
-	/* These are the buffers to look for */
-	mfc_write_tag_mask(buffers_with_data);
-
-	/* Wait for one buffer to come available */
-	buffers_completed = spu_mfcstat(MFC_TAG_UPDATE_ANY);
-
-	/* Use "count leading zeros" to determine the index from the mask */
-	return 31 - spu_extract(spu_cntlz(spu_promote((uint32)buffers_completed, 0)), 0);
-}
-
-int main(uint64 spe_id, uint64 conversion_info_ea) {
-	uint32 remaining_data;
-	uint64 current_ea_pointer;
-	uint32 buffers_with_data = 0; /* This is the bit mask for each buffer waiting on data */
-	uint32 all_buffers = 0; /* This is used to wait on all remaining transfers at the end */
-	uint32 current_buffer_idx;
-
-	load_conversion_info(conversion_info_ea, &amp;current_ea_pointer, &amp;remaining_data);
-
-	/* Get all buffers loading (because NUM_BUFFERS is a constant, the compiler will unroll the loop all the way) */
-	for(current_buffer_idx = 0; current_buffer_idx &lt; NUM_BUFFERS; current_buffer_idx++) {
-		initiate_transfer(current_buffer_idx, &amp;buffers_with_data, &amp;current_ea_pointer, &amp;remaining_data);
-		all_buffers |= 1&lt;&lt;current_buffer_idx;
-	}
-
-	/* Continue while there are still buffers pending */
-	while(buffers_with_data != 0) {
-		current_buffer_idx = get_next_buffer(buffers_with_data);
-		process_and_put_back(current_buffer_idx, &amp;buffers_with_data);
-		initiate_transfer(current_buffer_idx, &amp;buffers_with_data, &amp;current_ea_pointer, &amp;remaining_data);
-	}
-
-	/* Wait for all PUTs to complete */
-	wait_for_completion(all_buffers);
-}
-</programlisting>
-</example>
-
-<para>
-One thing to notice in the code is that the main loop and the function call to <literal>convert_buffer_to_upper</literal> are the only mandatory branches.  The others are either inline functions (which can, obviously, be inlined by the compiler) or are easily branch-elimitated by the compiler.  Pretty much any branch that can be reduced to the ternary operatory <literal>? :</literal> using code without side-effects can be branch-eliminated by the compiler.  
-</para>
-
-<para>
-Notice also that to get the next buffer available, we used the SPU intrinsic <literal>spu_cntlz</literal>.  As mentioned earlier, in order to use this, we need to convert the data we want to process into a vector, even though we only care about one value.  <literal>spu_promote</literal> gives us a vector to process, and then when its done, <literal>spu_extract</literal> pulls out the value we want to use.
-</para>
-
-<para>
-Now, for the small example PPE code we've been using so far, this only uses one buffer, so we can't exercise it very well.  But, timed on larger data sets, this uses only 85% of the wall-clock time as just double-buffering, and just 40% of the wall-clock time as single-buffering.
-</para>
 
 </sect1>
 
 <sect1>
 <title>Conclusion</title>
 <para>
-As you can see, the intrinsics available from C allow programmers to make the best mix of C and assembly language knowledge.  Programs can freely switch among high- and low-level code, but all within the semantic framework of the C language.  Using a higher-level language allows the programmer to focus on higher-level optimizations, such as double buffering and multibuffering, which can dramatically increase application performance.
+As you can see, the intrinsics available from C allow programmers to make the best mix of C and assembly language knowledge.  The SPU intrinsics allow programs to freely switch among high- and low-level code, but all within the semantic framework of the C language.
 </para>
 
 <para>
-In the next article, we will apply all of this knowledge into a real-world numerical application.
-</para>
-
-</sect1>
-
-<sect1>
-<title>STUFF I WASN'T ABLE TO USE</title>
-
-
-<para>
-The basic rules for casting vectors on the SPU are these:
-</para>
-
-<itemizedlist>
-<listitem><para>Vectors <emphasis>cannot</emphasis> be cast to scalars, and scalars cannot be cast to vectors.</para></listitem>
-<listitem><para>Vectors <emphasis>can</emphasis> be cast between vectors of other types, and between the special <literal>quad</literal> type, but neither of these perform any data conversion.</para></listitem>
-<listitem><para>Vector and non-vector pointers <emphasis>can</emphasis> be cast between each other.</para></listitem>
-<listitem><para>Declared vectors are always quadword-aligned when allocated.</para></listitem>
-<listitem><para>When casting between vector and non-vector pointers, it is the programmer's responsibility to be sure that the pointer is to a quadword boundary.</para></listitem> 
-</itemizedlist>
-
-
-
-<para>
- and direct conversion between scalars and vectors is prohibited.  So, for instance, you cannot do <literal>myvec * 3</literal> and expect 3 to be multiplied by each value in <literal>myvec</literal>. 
-</para>
-
-<para>
-NOTE -- somewhere I should remind the reader of the DMA alignment requirements 
+In the next article, we will apply this knowledge into a real-world numerical application.
 </para>
 
 </sect1>
@@ -848,7 +567,10 @@ NOTE -- somewhere I should remind the reader of the DMA alignment requirements
 Resources 
 
 <ul>
-<li>For more information on DMA list commands, see pages 51-62, 124-125, 129-130, and 157-158 of the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/1AEEE1270EA2776387257060006E61BA">Cell BE Architecture Specification</a> and pages 73, 509-510, and 527-530 of the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/9F820A5FFA3ECE8C8725716A0062585F">Cell BE Programming Handbook</a>.</li>
+<li>The full set of intrinsics is documented in the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/30B3520C93F437AB87257060006FFE5E">PPU & SPU C/C++ Language Extension Specification</a>.</li>
+<li>For a complete list of available DMA commands on the MFC, see chapter 7 of the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/1AEEE1270EA2776387257060006E61BA">Cell BE Architecture Specification (1.01)</a> and pages 508-510 of the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/9F820A5FFA3ECE8C8725716A0062585F">Cell BE Programming Handbook (1.0)</a>.</li>
+<li>For more information on DMA list commands, see pages 51-62, 124-125, 129-130, and 157-158 of the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/1AEEE1270EA2776387257060006E61BA">Cell BE Architecture Specification (1.01)</a> and pages 73, 459-460, 509-510, and 527-530 of the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/9F820A5FFA3ECE8C8725716A0062585F">Cell BE Programming Handbook (1.0)</a>.</li>
+<li>The transfer class ID and replacement class ID fields for MFC operations is described on pages 78 and 114 of the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/1AEEE1270EA2776387257060006E61BA">Cell BE Architecture Specification (1.01)</a> and pages 155-158, 455-456, and 513-515 of the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/9F820A5FFA3ECE8C8725716A0062585F">Cell BE Programming Handbook (1.0)</a>.</li>
 </ul>
 
 -->
