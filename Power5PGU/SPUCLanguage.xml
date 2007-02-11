@@ -843,4 +843,14 @@ NOTE -- somewhere I should remind the reader of the DMA alignment requirements
 
 </sect1>
 
+<!--
+
+Resources 
+
+<ul>
+<li>For more information on DMA list commands, see pages 51-62, 124-125, 129-130, and 157-158 of the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/1AEEE1270EA2776387257060006E61BA">Cell BE Architecture Specification</a> and pages 73, 509-510, and 527-530 of the <a href="http://www-306.ibm.com/chips/techlib/techlib.nsf/techdocs/9F820A5FFA3ECE8C8725716A0062585F">Cell BE Programming Handbook</a>.</li>
+</ul>
+
+-->
+
 </chapter>
