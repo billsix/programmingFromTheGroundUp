@@ -79,7 +79,8 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 	/* New variables to keep track of where we are in the data */
 	uint32 remaining_data; /* How much data is left in the whole string */
 	uint64 current_ea_pointer; /* Where we are in system memory */
-	uint32 current_transfer_size; /* How big the current transfer is (may be smaller than MAX_TRANSFER_SIZE) */
+	uint32 current_transfer_size; /* How big the current transfer is (may
+	                               * be smaller than MAX_TRANSFER_SIZE) */
 
 	/* We are only using one tag in this program */
 	mfc_write_tag_mask(1&lt;&lt;0);
@@ -211,12 +212,14 @@ inline void load_conversion_info(uint64 cinfo_ea, uint64 *data_ea, uint32 *data_
 }
 
 /* Processing Functions */
-inline void initiate_transfer(uint32 buf_idx, uint64 *current_ea_pointer, uint32 *remaining_data) {
+inline void initiate_transfer(uint32 buf_idx, uint64 *current_ea_pointer, 
+uint32 *remaining_data) {
 	/* Setup buffer information */
 	buffers[buf_idx].size = MIN(*remaining_data, MAX_TRANSFER_SIZE); 
 	buffers[buf_idx].effective_address = *current_ea_pointer;
 	/* Initiate transfer using the buffer index as the DMA tag */
-	mfc_getb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
+	mfc_getb(buffers[buf_idx].data, buffers[buf_idx].effective_address, 
+		buffers[buf_idx].size, buf_idx, 0, 0);
 	/* Move the data pointers */
 	*remaining_data -= buffers[buf_idx].size;
 	*current_ea_pointer += buffers[buf_idx].size;
@@ -227,7 +230,8 @@ inline void process_and_put_back(uint32 buf_idx) {
 	/* Perform conversion */
 	convert_buffer_to_upper(buffers[buf_idx].data, buffers[buf_idx].size);
 	/* Initiate the DMA transfer back using the buffer index as the DMA tag */
-	mfc_putb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
+	mfc_putb(buffers[buf_idx].data, buffers[buf_idx].effective_address, 
+		buffers[buf_idx].size, buf_idx, 0, 0);
 }
 
 /* Main Code */
@@ -237,7 +241,8 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 
 	load_conversion_info(conversion_info_ea, &amp;current_ea_pointer, &amp;remaining_data);
 
-	/* Start filling buffers to prepare for loop (loop assumes both buffers have data coming in) */
+	/* Start filling buffers to prepare for loop (loop assumes both buffers have 
+	 * data coming in) */
 	initiate_transfer(0, &amp;current_ea_pointer, &amp;remaining_data);
 	initiate_transfer(1, &amp;current_ea_pointer, &amp;remaining_data);
 
@@ -310,7 +315,17 @@ In C, this can be written as:
 
 <programlisting>
 	/* buffers_completed holds the mask */
-	spu_extract( spu_sub( (int)31, spu_cntlz( spu_promote( (uint32)buffers_completed, 0))),	0);
+	spu_extract(
+		spu_sub(
+			(int32)31, 
+			spu_cntlz( 
+				spu_promote( 
+					(uint32)buffers_completed, 0
+				)
+			)
+		),
+		0
+	);
 </programlisting>
 
 <para>
@@ -370,7 +385,8 @@ typedef int int32;
 
 /* Constants */
 #define MAX_TRANSFER_SIZE 16384
-#define NUM_BUFFERS 8 /* The MFC supports only 16 queued transfers, and we have up to two active per buffer */
+#define NUM_BUFFERS 8 /* The MFC supports only 16 queued transfers, 
+                       * and we have up to two active per buffer */
 
 /* Data Structures */
 typedef struct {
@@ -391,15 +407,20 @@ inline uint32 MIN(uint32 a, uint32 b) {
 	return a < b ? a : b;
 }
 
-/* Processes the buffer, queues a DMA transfer to put the data back, and clears out the "waiting for data" bit in buffers_with_data */
+/* Processes the buffer, queues a DMA transfer to put the data back, and clears out 
+ * the "waiting for data" bit in buffers_with_data */
 inline void process_and_put_back(uint32 buf_idx, uint32 *buffers_with_data) {
 	convert_buffer_to_upper(buffers[buf_idx].data, buffers[buf_idx].size);
-	mfc_putb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
+	mfc_putb(buffers[buf_idx].data, buffers[buf_idx].effective_address, 
+		buffers[buf_idx].size, buf_idx, 0, 0);
 	*buffers_with_data &= ~(1&lt;&lt;buf_idx); /* Clear out bit for this buffer */
 }
 
-/* Queues up a DMA GET transfer, ad, if there is any data to transfer, sets the appropriate bit in buffers_with_data to indicate that we are waiting for data in this buffer */
-inline void initiate_transfer(uint32 buf_idx, uint32 *buffers_with_data, uint64 *current_ea_pointer, uint32 *remaining_data) {
+/* Queues up a DMA GET transfer, ad, if there is any data to transfer, sets 
+ * the appropriate bit in buffers_with_data to indicate that we are waiting 
+ * for data in this buffer */
+inline void initiate_transfer(uint32 buf_idx, uint32 *buffers_with_data, 
+uint64 *current_ea_pointer, uint32 *remaining_data) {
 	/* Setup buffer */
 	buffers[buf_idx].size = MIN(*remaining_data, MAX_TRANSFER_SIZE);
 	buffers[buf_idx].effective_address = *current_ea_pointer;
@@ -409,7 +430,8 @@ inline void initiate_transfer(uint32 buf_idx, uint32 *buffers_with_data, uint64 
 	*current_ea_pointer += buffers[buf_idx].size;
 
 	/* Initiate transfer (does nothing if there is no data) */
-	mfc_getb(buffers[buf_idx].data, buffers[buf_idx].effective_address, buffers[buf_idx].size, buf_idx, 0, 0);
+	mfc_getb(buffers[buf_idx].data, buffers[buf_idx].effective_address, 
+		buffers[buf_idx].size, buf_idx, 0, 0);
 
 	/* Set the "Buffer Waiting for Data" bit only if there is data to read */
 	*buffers_with_data |= (buffers[buf_idx].size == 0 ? 0 : (1&lt;&lt;buf_idx));
@@ -422,7 +444,8 @@ inline void wait_for_completion(uint32 mask) {
 }
 
 /* Loads information about the whole conversion process */
-inline void load_conversion_info(uint64 conversion_info_ea, uint64 *current_ea_pointer, uint32 *remaining_data) {
+inline void load_conversion_info(uint64 conversion_info_ea, uint64 *current_ea_pointer, 
+uint32 *remaining_data) {
 	conversion_structure conversion_info;
 
 	mfc_get(&amp;conversion_info, conversion_info_ea, sizeof(conversion_info), 0, 0, 0);
@@ -434,7 +457,8 @@ inline void load_conversion_info(uint64 conversion_info_ea, uint64 *current_ea_p
 
 /* Returns the index of the first buffer with data available*/
 inline uint32 get_next_buffer(uint32 buffers_with_data) {
-	uint32 buffers_completed; /* This will contain a mask of buffers whose transfers have completed */
+	uint32 buffers_completed; /* This will contain a mask of buffers whose 
+	                           * transfers have completed */
 
 	/* These are the buffers to look for */
 	mfc_write_tag_mask(buffers_with_data);
@@ -442,23 +466,36 @@ inline uint32 get_next_buffer(uint32 buffers_with_data) {
 	/* Wait for at least one buffer to come available */
 	buffers_completed = spu_mfcstat(MFC_TAG_UPDATE_ANY);
 
-	/* Use "count leading zeros" to determine the buffer index from the buffers_completed mask */
-	return spu_extract(spu_sub( (int32)31, spu_cntlz( spu_promote( (uint32)buffers_completed, 0))), 0);
+	/* Use "count leading zeros" to determine the buffer index from 
+	 * the buffers_completed mask */
+	return spu_extract(
+		spu_sub(
+			(int32)31, 
+			spu_cntlz(
+				spu_promote((uint32)buffers_completed, 0)
+			)
+		), 
+		0
+	);
 }
 
-/* Steps listed in this function are numbered according to the previous description in this section */
+/* Steps are numbered according to the description in this section */
 int main(uint64 spe_id, uint64 conversion_info_ea) {
 	uint32 remaining_data;
 	uint64 current_ea_pointer;
-	uint32 buffers_with_data = 0; /* This is the bit mask for each buffer waiting on data, used for spu_mfcstat in the main loop */
-	uint32 all_buffers = 0; /* This is used to wait on all remaining transfers at the end of the program*/
+	uint32 buffers_with_data = 0; /* This is the bit mask for each buffer waiting on data, 
+	                               * used for spu_mfcstat in the main loop */
+	uint32 all_buffers = 0; /* This is used to wait on all remaining transfers at 
+	                         * the end of the program*/
 	uint32 current_buffer_idx;
 
 	load_conversion_info(conversion_info_ea, &amp;current_ea_pointer, &amp;remaining_data);
 
-	/* Step 1: Get all buffers loading (because NUM_BUFFERS is a constant, the compiler should unroll the loop all the way) */
+	/* Step 1: Get all buffers loading (because NUM_BUFFERS is a constant, the compiler 
+	 *         should unroll the loop all the way) */
 	for(current_buffer_idx = 0; current_buffer_idx &lt; NUM_BUFFERS; current_buffer_idx++) {
-		initiate_transfer(current_buffer_idx, &amp;buffers_with_data, &amp;current_ea_pointer, &amp;remaining_data);
+		initiate_transfer(current_buffer_idx, &amp;buffers_with_data, 
+			&amp;current_ea_pointer, &amp;remaining_data);
 		all_buffers |= 1&lt;&lt;current_buffer_idx;
 	}
 
@@ -468,8 +505,10 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 		current_buffer_idx = get_next_buffer(buffers_with_data);
 		/* Steps 4 and 5: Process the buffer and queue up a DMA transfer back to main memory */
 		process_and_put_back(current_buffer_idx, &amp;buffers_with_data);
-		/* Steps 6 and 7: Queue up a buffer reload, and mark the buffer as "filling" (by setting the appropriate bit in remaining_data) */
-		initiate_transfer(current_buffer_idx, &amp;buffers_with_data, &amp;current_ea_pointer, &amp;remaining_data);
+		/* Steps 6 and 7: Queue up a buffer reload, and mark the buffer as "filling" 
+		 *                (by setting the appropriate bit in remaining_data) */ 
+		initiate_transfer(current_buffer_idx, &amp;buffers_with_data, 
+			&amp;current_ea_pointer, &amp;remaining_data);
 	}
 
 	/* Wait for all PUTs to complete */
