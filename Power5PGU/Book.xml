@@ -83,6 +83,7 @@ works on the hardware platform, not to be a reference to the subject.  Reference
 &ppu-addressing-modes-chapter;
 &ppu-branch-processor-chapter;
 &ppu-abi-chapter;
+<!-- need to talk about differences between PPE and other Power Processors, especially PPE-specific instructions, EIB-based instructions, and in-order vs out-of-order processing -->
 <!-- Could probably put a chapter on VMX here -->
 </part>
 <part>
@@ -93,7 +94,10 @@ works on the hardware platform, not to be a reference to the subject.  Reference
 &spu-optimization-chapter;
 &spu-c-language-chapter;
 &spu-multibuffering-chapter;
+<!-- Could use some info/examples on shufb instruction -->
 <!-- Could probably use a chapter on Cell Makefiles -->
+<!-- Talk about plugins somewhere -->
+<!-- libSPE2 intro -->
 </part>
 &ascii-appendix;
 &ppe-instructions-appendix;

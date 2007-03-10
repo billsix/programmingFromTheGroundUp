@@ -13,7 +13,7 @@
 <title>Programming the SPU in C/C++</title>
 <subtitle>Use the Language Extensions to Power-up Your Applications</subtitle>
 
-<author jobtitle="Director of Technology" company="New Medio Worx" email="johnnyb.com"  >
+<author jobtitle="Director of Technology" company="New Medio" email="johnnyb@eskimo.com"  >
 <bio>Jonathan Bartlett is the author of the book <a href="http://www.cafeshops.com/bartlettpublish.8640017"><i>Programming from the Ground Up</i></a> which is an introduction to programming using Linux assembly language.  He is the lead developer at New Medio, developing web, video, kiosk, and desktop applications for clients.
 </bio>
 <name>Jonathan Bartlett</name>
@@ -74,7 +74,7 @@ int main() {
 
 	/* d has the second value set to to 5, and the others are garbage */
 	/* (in this case they will all be set to 5, but that should not be relied upon) */
-	d = spu_promote(5, 1);
+	d = spu_promote((unsigned int)5, 1);
 
 	/* Show Results */
 	print_vector("a", a);
@@ -285,7 +285,7 @@ Here are some examples of <code type="inline">spu_mfcdma64</code>:
 typedef unsigned long long uint64;
 typedef unsigned long uint32;
 uint64 ea1, ea2, ea3, ea4, ea5; /* assume each of these have sensible values */
-uint32 ls1, ls2, ls3, ls4; /* assume each of these have sensible values */
+void *ls1, *ls2, *ls3, *ls4; /* assume each of these have sensible values */
 uint32 sz1, sz2, sz3, sz4; /* assume each of these have sensible values */
 int tag = 3; /* Arbitrary value, but needs to be the same for all synchronized transfers */
 

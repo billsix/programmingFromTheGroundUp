@@ -57,7 +57,7 @@ int main() {
 
 	/* d has the second value set to to 5, and the others are garbage */
 	/* (in this case they will all be set to 5, but that should not be relied upon) */
-	d = spu_promote(5, 1);
+	d = spu_promote((unsigned int)5, 1);
 
 	/* Show Results */
 	print_vector("a", a);
@@ -291,7 +291,7 @@ Here are some examples of <literal>spu_mfcdma64</literal>:
 typedef unsigned long long uint64;
 typedef unsigned long uint32;
 uint64 ea1, ea2, ea3, ea4, ea5; /* assume each of these have sensible values */
-uint32 ls1, ls2, ls3, ls4; /* assume each of these have sensible values */
+void *ls1, *ls2, *ls3, *ls4; /* assume each of these have sensible values */
 uint32 sz1, sz2, sz3, sz4; /* assume each of these have sensible values */
 int tag = 3; /* Arbitrary value, but needs to be the same for all synchronized transfers */
 
