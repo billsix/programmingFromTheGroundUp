@@ -52,7 +52,7 @@ Another question is how to schedule a <literal>PUT</literal> and a <literal>GET<
 </para>
 
 <para>
-Now let's think about how we might apply this algorithm to our current uppercase-conversion code.  For reference, here is our original code in <literal>convert_driver.c</literal>:
+Now let's think about how we might apply this algorithm to our current uppercase-conversion code.  For reference, here is our original code in <literal>convert_driver_c.c</literal>:
 </para>
 
 <example>
@@ -95,7 +95,7 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 
 	while(remaining_data > 0) {
 		/* Determine how much data is left to transfer */
-		if(remaining_data < MAX_TRANSFER_SIZE) 
+		if(remaining_data &lt; MAX_TRANSFER_SIZE) 
 			current_transfer_size = remaining_data;
 		else
 			current_transfer_size = MAX_TRANSFER_SIZE;
@@ -118,6 +118,18 @@ int main(uint64 spe_id, uint64 conversion_info_ea) {
 }                                                                               
 </programlisting>
 </example> 
+
+
+<para>
+This requires the following files from the previous article: <literal>convert_buffer_c.c</literal> and <literal>ppu_dma_main.c</literal>.  Compile and run just like the previous article (these build commands will work for all examples in this article):
+</para>
+
+<programlisting>
+spu-gcc convert_buffer_c.c convert_driver_c.c -o spe_convert
+embedspu -m64 convert_to_upper_handle spe_convert spe_convert_csf.o
+gcc -m64 spe_convert_csf.o ppu_dma_main.c -lspe -o dma_convert
+./dma_convert
+</programlisting>
 
 <para>
 In order to make this program double-buffered, we need to refactor the code slightly.  First of all, we need to keep all of the buffer-specific data together.  Each buffer will need to have tied to it:
@@ -164,7 +176,7 @@ Now, we are going to break up the conversion process into two function calls:
 </orderedlist>
 
 <para>
-We broke it up this way because these are the independent units which have to be rearranged.  Initiating the data load has to be called at the beginning of the program, so it needs to be separated into its own function.  So here is the code for the double-buffered version of the MFC code (again, it's <literal>convert_driver.c</literal>):
+We broke it up this way because these are the independent units which have to be rearranged.  Initiating the data load has to be called at the beginning of the program, so it needs to be separated into its own function.  So here is the code for the double-buffered version of the MFC code (again, it's <literal>convert_driver_c.c</literal>):
 </para>
 
 <example>
@@ -195,7 +207,7 @@ buffer buffers[2];
 
 /* Utility Functions */
 inline uint32 MIN(uint32 a, uint32 b) {
-	return a < b ? a : b;
+	return a &lt; b ? a : b;
 }
 
 inline void wait_for_completion(uint32 mask) {
@@ -371,7 +383,7 @@ In this program, since the problem is trivially parallelizable, we can actually 
 </para> 
 
 <para>
-Here is the code for the new version (again, it's <literal>convert_driver.c</literal>):
+Here is the code for the new version (again, it's <literal>convert_driver_c.c</literal>):
 </para>
 
 <example>
@@ -404,7 +416,7 @@ buffer buffers[NUM_BUFFERS];
 
 /* Utility functions */
 inline uint32 MIN(uint32 a, uint32 b) {
-	return a < b ? a : b;
+	return a &lt; b ? a : b;
 }
 
 /* Processes the buffer, queues a DMA transfer to put the data back, and clears out 
@@ -413,7 +425,7 @@ inline void process_and_put_back(uint32 buf_idx, uint32 *buffers_with_data) {
 	convert_buffer_to_upper(buffers[buf_idx].data, buffers[buf_idx].size);
 	mfc_putb(buffers[buf_idx].data, buffers[buf_idx].effective_address, 
 		buffers[buf_idx].size, buf_idx, 0, 0);
-	*buffers_with_data &= ~(1&lt;&lt;buf_idx); /* Clear out bit for this buffer */
+	*buffers_with_data &amp;= ~(1&lt;&lt;buf_idx); /* Clear out bit for this buffer */
 }
 
 /* Queues up a DMA GET transfer, ad, if there is any data to transfer, sets 
