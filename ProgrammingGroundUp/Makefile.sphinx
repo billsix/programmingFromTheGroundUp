@@ -1,0 +1,29 @@
+all:
+	pandoc -f docbook -t rst IntroductionCh.xml -o intro.rst
+	pandoc -f docbook -t rst MemoryCh.xml -o memory.rst
+	pandoc -f docbook -t rst FirstProgsCh.xml -o firstprog.rst
+	pandoc -f docbook -t rst FunctionsCh.xml -o functions.rst
+	pandoc -f docbook -t rst FilesCh.xml -o files.rst
+	pandoc -f docbook -t rst RobustCh.xml -o robust.rst
+	pandoc -f docbook -t rst MemoryIntCh.xml -o memoryint.rst
+	pandoc -f docbook -t rst LinkingCh.xml -o linking.rst
+	pandoc -f docbook -t rst CountingCh.xml -o counting.rst
+	pandoc -f docbook -t rst OtherLangCh.xml -o otherlang.rst
+	pandoc -f docbook -t rst OptimizationCh.xml -o optimization.rst
+	pandoc -f docbook -t rst GuidelinesCh.xml -o guidelines.rst
+	pandoc -f docbook -t rst WhereNextCh.xml -o wherenext.rst
+	pandoc -f docbook -t rst RecordsCh.xml -o records.rst
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
