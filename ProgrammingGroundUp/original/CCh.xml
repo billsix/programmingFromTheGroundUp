@@ -80,7 +80,7 @@ which prints "Hello world" to the screen and exits.  Type it in, and
 give it the name Hello-World.c
 
 <programlisting>
-&Hello-World-c;
+FIXMEampHello-World-c;
 </programlisting>
 
 As you can see, it's a pretty simple program.  To compile it,
@@ -107,7 +107,7 @@ so they don't get confused.
 </para>
 
 <para>
-<literal>#include &lt;stdio.h&gt;</literal> is the first part of
+<literal>#include FIXMEamplt;stdio.hFIXMEampgt;</literal> is the first part of
 the program.  This is a <emphasis>preprocessor directive</emphasis>.
 C compiling is split into two stages - the preprocessor and the
 main compiler.  This directive tells the preprocessor to look

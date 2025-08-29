@@ -48,21 +48,21 @@ opened (read, write, both read and write, create it if it doesn't exist,
 etc.).  This is handled with the 
 <literal>open<indexterm><primary>open</primary></indexterm></literal> 
 system call, which takes a filename, a number representing the mode, 
-and a permission<indexterm><primary>permissions</primary></indexterm> set as its parameters.  &eax-indexed; will hold the system call number, which is 5.
+and a permission<indexterm><primary>permissions</primary></indexterm> set as its parameters.  FIXMEAMPeax-indexed; will hold the system call number, which is 5.
 The address of the first character of the filename should be stored
-in &ebx-indexed;.  The read/write intentions, represented as 
-a number, should be stored in &ecx-indexed;.  For now, use 0 for files you want to read
+in FIXMEAMPebx-indexed;.  The read/write intentions, represented as 
+a number, should be stored in FIXMEAMPecx-indexed;.  For now, use 0 for files you want to read
 from, and 03101 for files you want to write to 
 (you must include the leading zero).<footnote><para>This will be explained 
 in more detail in <xref linkend="truthbinarynumbers" />.</para></footnote>  
-Finally, the permission set should be stored as a number in &edx-indexed;.  
+Finally, the permission set should be stored as a number in FIXMEAMPedx-indexed;.  
 If you are unfamiliar with UNIX permissions, just use 0666 for the 
 permissions (again, you must include the leading zero).
 </para></listitem>
 
 <listitem><para>
 Linux will then return to you a file descriptor<indexterm><primary>file descriptors</primary></indexterm> in 
-&eax-indexed;.  Remember, this is a number that you use to refer to this file 
+FIXMEAMPeax-indexed;.  Remember, this is a number that you use to refer to this file 
 throughout your program.
 </para></listitem>
 
@@ -70,8 +70,8 @@ throughout your program.
 Next you will operate on the file doing reads and/or writes, each time 
 giving Linux the file descriptor you want to use.  <literal>read<indexterm><primary>read</primary></indexterm></literal>
 is system call 3, and to call it you need to have the file descriptor
-in &ebx;, the address of a buffer for storing the 
-data that is read in &ecx;, and the size of the buffer in &edx;.  
+in FIXMEAMPebx;, the address of a buffer for storing the 
+data that is read in FIXMEAMPecx;, and the size of the buffer in FIXMEAMPedx;.  
 Buffers will be explained in <xref linkend="buffersbss" />.
 <literal>read</literal> will return with either the number of 
 characters read from the file, or an error code.  Error codes can be
@@ -82,7 +82,7 @@ is system call 4, and it requires the same
 parameters as the <literal>read</literal> system call, except that the
 buffer should already be filled with the data to write out.  The 
 <literal>write</literal> system call will give back the number
-of bytes written in &eax; or an error code.
+of bytes written in FIXMEAMPeax; or an error code.
 </para></listitem>
 
 <listitem><para>
@@ -90,7 +90,7 @@ When you are through with your files, you can then tell Linux to close them.
 Afterwards, your file descriptor<indexterm><primary>file descriptors</primary></indexterm> is no longer valid.
 This is done using <literal>close<indexterm><primary>close</primary></indexterm></literal>, system call 6.  The only
 parameter to <literal>close</literal> is the file descriptor, which is
-placed in &ebx;
+placed in FIXMEAMPebx;
 </para></listitem>
 
 </orderedlist>
@@ -167,7 +167,7 @@ commands:
 This directive, <literal>.lcomm<indexterm><primary>.lcomm</primary></indexterm></literal>, will create a symbol, <literal>my_buffer</literal>, that refers to 
 a 500-byte storage location that we can use as a buffer.  We can then do
 the following, assuming we have opened a file for reading and have placed
-the file descriptor in &ebx;:
+the file descriptor in FIXMEAMPebx;:
 </para>
 
 <programlisting>
@@ -185,7 +185,7 @@ reason for this is that without the dollar sign,
 accessed in direct addressing mode<indexterm><primary>direct addressing mode</primary></indexterm>.  The dollar sign switches it to immediate mode addressing,
 which actually loads the number represented by <literal>my_buffer</literal> 
 itself (i.e. - the address of the start of our buffer, which is the address 
-of <literal>my_buffer</literal>) into &ecx;.
+of <literal>my_buffer</literal>) into FIXMEAMPecx;.
 </para>
 
 </sect1>
@@ -328,7 +328,7 @@ explanation of the program will follow.
 </para>
 
 <programlisting>
-&toupper-nomm-simplified-s;
+FIXMEAMPtoupper-nomm-simplified-s;
 </programlisting>
 
 <para>
@@ -427,9 +427,9 @@ After this, we have some constants labelled <literal>STACK POSITIONS</literal>.
 Remember that function parameters<indexterm><primary>function parameters</primary></indexterm> 
 are pushed onto the stack before function calls.  These constants (prefixed with
 <literal>ST</literal> for clarity) define where in the stack we should expect
-to find each piece of data.  The return address<indexterm><primary>return address</primary></indexterm> is at position 4 + &esp;, the length of 
-the buffer is at position 8 + &esp;, and the address of the buffer is at position 
-12 + &esp;.   Using symbols for these numbers instead of the numbers themselves
+to find each piece of data.  The return address<indexterm><primary>return address</primary></indexterm> is at position 4 + FIXMEAMPesp;, the length of 
+the buffer is at position 8 + FIXMEAMPesp;, and the address of the buffer is at position 
+12 + FIXMEAMPesp;.   Using symbols for these numbers instead of the numbers themselves
 makes it easier to see what data is being used and moved.
 </para>
 
@@ -445,10 +445,10 @@ to save the stack pointer.  The next two lines
 </programlisting>
 
 move the function parameters into the appropriate registers for use.
-Then, we load zero into &edi;.  What we are going to do is iterate
+Then, we load zero into FIXMEAMPedi;.  What we are going to do is iterate
 through each byte of the buffer by loading from the location 
-&eax; + &edi;, incrementing &edi;, and repeating until &edi;
-is equal to the buffer length stored in &ebx;.  The lines 
+FIXMEAMPeax; + FIXMEAMPedi;, incrementing FIXMEAMPedi;, and repeating until FIXMEAMPedi;
+is equal to the buffer length stored in FIXMEAMPebx;.  The lines 
 
 <programlisting>
 	cmpl  $0, %ebx
@@ -465,17 +465,17 @@ function check and have a reliable exit plan if it happens.
 
 <para>
 Now we start our loop.  First,
-it moves a byte into &cl;.  The code for this is
+it moves a byte into FIXMEAMPcl;.  The code for this is
 
 <programlisting>
 	movb  (%eax,%edi,1), %cl
 </programlisting>
 
 It is using an indexed indirect addressing mode<indexterm><primary>indexed indirect addressing mode</primary></indexterm>.  
-It says to start at &eax; 
-and go &edi; locations forward, with each
+It says to start at FIXMEAMPeax; 
+and go FIXMEAMPedi; locations forward, with each
 location being 1 byte big.  It takes the value found there, and put it in
-&cl;.  After this it checks to see if that value is in the range
+FIXMEAMPcl;.  After this it checks to see if that value is in the range
 of lower-case <wordasword>a</wordasword> to lower-case <wordasword>z</wordasword>.
 To check the range, it simply checks to see if the letter is smaller than 
 <wordasword>a</wordasword>.  If it is, it can't be a lower-case letter.  Likewise,
@@ -508,14 +508,14 @@ the following parameters:
 
 <itemizedlist>
 <listitem><para>
-&eax-indexed; contains the system call number as usual - 5 in this case.
+FIXMEAMPeax-indexed; contains the system call number as usual - 5 in this case.
 </para></listitem>
 <listitem><para>
-&ebx-indexed; contains a pointer to a string that is the name of the file to open.  
+FIXMEAMPebx-indexed; contains a pointer to a string that is the name of the file to open.  
 The string must be terminated with the null character<indexterm><primary>null character</primary></indexterm>.
 </para></listitem>
 <listitem><para>
-&ecx-indexed; contains the options used for opening the file.
+FIXMEAMPecx-indexed; contains the options used for opening the file.
 These tell Linux how to open the file.  They can indicate things such
 as open for reading, open for writing, open for reading and writing, create
 if it doesn't exist, delete the file if it already exists, etc.  We will
@@ -524,7 +524,7 @@ not go into how to create the numbers for the options until
 up with.
 </para></listitem>
 <listitem><para>
-&edx-indexed; contains the permissions
+FIXMEAMPedx-indexed; contains the permissions
 that are used to open the file.
 This is used in case the file has to be created first, so Linux knows 
 what permissions to create the file with.  These are expressed in octal,
@@ -538,7 +538,7 @@ number.</para></footnote>
 <para>
 <indexterm><primary>permissions</primary></indexterm> 
 After making the system call, the file descriptor of the newly-opened file
-is stored in &eax-indexed;.
+is stored in FIXMEAMPeax-indexed;.
 </para>
 
 <para>
@@ -559,23 +559,23 @@ to it that way in our program.
 
 <para>
 The first thing our program does is save the current stack position
-in &ebp; and then reserve some space on the stack to store the file 
+in FIXMEAMPebp; and then reserve some space on the stack to store the file 
 descriptors.  After this, it starts opening files.
 </para>
 
 <para>
 The first file the program opens is the input file, which is the first 
 command-line argument.  We do this by setting up the system call.
-We put the file name into &ebx-indexed;, the read-only mode number
-into &ecx-indexed;, the default mode of <literal>$0666</literal>
-into &edx-indexed;, and the system call number into &eax-indexed;
+We put the file name into FIXMEAMPebx-indexed;, the read-only mode number
+into FIXMEAMPecx-indexed;, the default mode of <literal>$0666</literal>
+into FIXMEAMPedx-indexed;, and the system call number into FIXMEAMPeax-indexed;
 After the system call, the file is open and the file descriptor
-is stored in  &eax-indexed;.<footnote><para>Notice that we don't do any
+is stored in  FIXMEAMPeax-indexed;.<footnote><para>Notice that we don't do any
 error checking on this.  That is done just to keep the program simple.
 In normal programs, every system call should normally be checked for
-success or failure.  In failure cases, &eax; will hold an error
+success or failure.  In failure cases, FIXMEAMPeax; will hold an error
 code instead of a return value.  Error codes are negative, so they
-can be detected by comparing &eax-indexed; to zero and jumping if it
+can be detected by comparing FIXMEAMPeax-indexed; to zero and jumping if it
 is less than zero.</para></footnote>  The file
 descriptor is then transferred to its appropriate place on the
 stack.
@@ -609,7 +609,7 @@ actually read, or end-of-file (the number 0).
 </para>
 
 <para>
-After reading a block, we check &eax-indexed; for an end-of-file marker.  
+After reading a block, we check FIXMEAMPeax-indexed; for an end-of-file marker.  
 If found, it exits the loop.  Otherwise we keep on going.
 </para>
 
@@ -631,7 +631,7 @@ of the loop.
 <para>
 After the loop exits (remember, it exits if, after a read, it detects the
 end of the file), it simply closes its file descriptors and exits.  The
-close system call just takes the file descriptor to close in &ebx-indexed;.
+close system call just takes the file descriptor to close in FIXMEAMPebx-indexed;.
 </para>
 
 <para>

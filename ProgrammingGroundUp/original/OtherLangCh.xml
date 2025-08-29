@@ -134,7 +134,7 @@ which prints "Hello world" to the screen and exits.  Type it in, and
 give it the name Hello-World.c
 
 <programlisting>
-&Hello-World-c;
+FIXMEAMPHello-World-c;
 </programlisting>
 
 As you can see, it's a pretty simple program.  To compile it,
@@ -161,7 +161,7 @@ so they don't get confused.
 </para>
 
 <para>
-<literal>#include &lt;stdio.h&gt;</literal>
+<literal>#include FIXMEAMPlt;stdio.hFIXMEAMPgt;</literal>
 <indexterm><primary>stdio.h</primary></indexterm>
  is the first part of
 the program.  This is a <emphasis>preprocessor directive</emphasis>.
@@ -226,7 +226,7 @@ calling the function.  As you can see, it's a lot less work.
 
 <para>
 Finally our function returns the number <literal>0</literal>.  In assembly
-language, we stored our return value in &eax;, but in C we just use
+language, we stored our return value in FIXMEAMPeax;, but in C we just use
 the <literal>return</literal> command and it takes care of that for us.
 The return value of the <literal>main</literal> function is what is
 used as the exit code for the program.
@@ -264,7 +264,7 @@ of the program, which should be typed into a file named
 <filename>Hello-World.pl</filename>:
 
 <programlisting>
-&Hello-World-perl;
+FIXMEAMPHello-World-perl;
 </programlisting>
 
 Since Perl is interpreted, you don't need to compile or link it.  Just
@@ -324,7 +324,7 @@ a file named <filename>Hello-World.py</filename>.  The program follows:
 </para>
 
 <programlisting>
-&Hello-World-python;
+FIXMEAMPHello-World-python;
 </programlisting>
 
 <para>

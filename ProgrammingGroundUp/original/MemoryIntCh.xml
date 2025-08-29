@@ -216,8 +216,8 @@ for example, we give it several arguments - <literal>as</literal>,
 <literal>sourcefile.s</literal>, <literal>-o</literal>, and 
 <literal>objectfile.o</literal>.  After these, we have the 
 number of arguments that were used.  When the program begins,
-this is where the stack pointer, &esp-indexed;, is pointing.  
-Further pushes on the stack move &esp; down in memory.  For example,
+this is where the stack pointer, FIXMEAMPesp-indexed;, is pointing.  
+Further pushes on the stack move FIXMEAMPesp; down in memory.  For example,
 the instruction
 
 <programlisting>
@@ -252,7 +252,7 @@ This middle part between the stack and your program's data sections is
 inaccessible memory - you are not allowed to 
 access it until you tell the kernel that you need it.<footnote><para>The
 stack can access it as it grows downward, and you can access the stack
-regions through &esp-indexed;.  However, your program's data section
+regions through FIXMEAMPesp-indexed;.  However, your program's data section
 doesn't grow that way.  The way to grow that will be explained shortly.</para></footnote>
 If you try, you
 will get an error (the error message is usually "segmentation fault").  
@@ -448,13 +448,13 @@ available for your program to use.  The
 way we tell Linux to move the break point is through the 
 <literal>brk<indexterm><primary>brk</primary></indexterm></literal> 
 system call.  The <literal>brk</literal> system call is call number
-45 (which will be in &eax;).  &ebx; should be loaded with the requested breakpoint.  
+45 (which will be in FIXMEAMPeax;).  FIXMEAMPebx; should be loaded with the requested breakpoint.  
 Then you call <literal>int $0x80</literal> to signal Linux to do its work.  
-After mapping in your memory, Linux will return the new break point in &eax;.
+After mapping in your memory, Linux will return the new break point in FIXMEAMPeax;.
 The new break point might actually be larger
 than what you asked for, because Linux rounds up to the nearest page.  If there is
 not enough physical memory or swap to fulfill your request, Linux will return a zero
-in &eax;.  Also, if you call <literal>brk</literal> with a zero in &ebx;, it will
+in FIXMEAMPeax;.  Also, if you call <literal>brk</literal> with a zero in FIXMEAMPebx;, it will
 simply return the last usable memory address.
 </para> 
 
@@ -510,7 +510,7 @@ an in-depth explanation.  It looks long, but it is mostly comments.
 </para>
 
 <programlisting>
-&alloc-s;
+FIXMEAMPalloc-s;
 </programlisting>
 
 <para>
@@ -725,7 +725,7 @@ determine that we need more memory.  Our first instructions check to see if we n
 </programlisting>
 
 <para>
-&eax; holds the current memory region being examined and &ebx;
+FIXMEAMPeax; holds the current memory region being examined and FIXMEAMPebx;
 holds the location past the end of the heap.  Therefore if the next region to be
 examined is past the end of the heap, it means we need more 
 memory to allocate a region of this size.  
@@ -745,9 +745,9 @@ move_break:
 </programlisting>
 
 <para>
-When we reach this point in the code, &ebx; holds where we want the next
+When we reach this point in the code, FIXMEAMPebx; holds where we want the next
 region of memory to be.    
-So, we add our header size and region size to &ebx;, and that's where we want the system break 
+So, we add our header size and region size to FIXMEAMPebx;, and that's where we want the system break 
 to be.  We then push all the registers we want to save on the stack, and call the 
 <literal>brk</literal> system call. After that we check for errors:
 </para>
@@ -759,7 +759,7 @@ to be.  We then push all the registers we want to save on the stack, and call th
 
 <para>
 If there were no errors we pop the registers back off the stack, mark the memory as 
-unavailable, record the size of the memory, and make sure &eax; points to the start of usable
+unavailable, record the size of the memory, and make sure FIXMEAMPeax; points to the start of usable
 memory (which is <emphasis>after</emphasis> the header).
 </para>
 
@@ -784,7 +784,7 @@ Then we store the new program break and return the pointer to the allocated memo
 </programlisting>
 
 <para>
-The <literal>error</literal> code just returns 0 in &eax;, so we won't 
+The <literal>error</literal> code just returns 0 in FIXMEAMPeax;, so we won't 
 discuss it.
 </para>
 
@@ -800,7 +800,7 @@ looked at isn't past the end of the heap?  Well, let's look.
 </programlisting>
 
 <para>
-This first grabs the size of the memory region and puts it in &edx;.
+This first grabs the size of the memory region and puts it in FIXMEAMPedx;.
 Then it looks at the available flag to see if it is set to <literal>UNAVAILABLE</literal>.
 If so, that means that memory region is in use, so we'll have to skip over it.  So, if
 the available flag is set to <literal>UNAVAILABLE</literal>, you go to the code
@@ -811,7 +811,7 @@ labeled <literal>next_location</literal>.  If the available flag is set to
 <para>
 Let's say that the space was available, and so we keep going.  Then we check to
 see if this space is big enough to hold the requested amount of memory.  The size of
-this region is being held in &edx;, so we do this:
+this region is being held in FIXMEAMPedx;, so we do this:
 </para>
 
 <programlisting>
@@ -835,7 +835,7 @@ because the extra space will just be unused.  So, let's jump down to
 </programlisting>
 
 <para>
-It marks the memory as being unavailable.  Then it moves the pointer &eax; past the header,
+It marks the memory as being unavailable.  Then it moves the pointer FIXMEAMPeax; past the header,
 and uses it as the return value for the function.  Remember, the person using this
 function doesn't need to even know about our memory header record.  They just need
 a pointer to usable memory. 
@@ -846,8 +846,8 @@ Okay, so let's say the region wasn't big enough.  What then?  Well, we would the
 be at the code labeled <literal>next_location</literal>.  This section of code
 is used any time that we figure out that
 the current memory region won't work for allocating memory.  All it does is
-advance &eax; to the next possible memory region, and goes back
-to the beginning of the loop.   Remember that &edx; is holding
+advance FIXMEAMPeax; to the next possible memory region, and goes back
+to the beginning of the loop.   Remember that FIXMEAMPedx; is holding
 the size of the current memory region, and <literal>HEADER_SIZE</literal> is the symbol
 for the size of the memory region's header.  So this code will move us to the next
 memory region:
@@ -906,11 +906,11 @@ will find it next time it is called.   So we have:
 </programlisting>
 
 <para>
-In this function, we don't have to save &ebp-indexed; or &esp-indexed;
+In this function, we don't have to save FIXMEAMPebp-indexed; or FIXMEAMPesp-indexed;
 since we're not changing them, nor do we have to restore them at the end.  All we're
 doing is reading the address of the memory region from the stack, backing up to the
 beginning of the header, and marking the region as available.  This function has no
-return value, so we don't care what we leave in &eax;.
+return value, so we don't care what we leave in FIXMEAMPeax;.
 </para>
 
 </sect2>

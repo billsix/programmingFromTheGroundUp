@@ -23,12 +23,12 @@ at http://www.gnu.org/software/libc/manual/
 </para>
 
 <para>
-Remember that &eax-indexed; holds the system call numbers, and that the
-return values and error codes are also stored in &eax;.
-<indexterm><primary>&percent;eax</primary></indexterm>
-<indexterm><primary>&percent;ebx</primary></indexterm>
-<indexterm><primary>&percent;ecx</primary></indexterm>
-<indexterm><primary>&percent;edx</primary></indexterm>
+Remember that FIXMEAMPeax-indexed; holds the system call numbers, and that the
+return values and error codes are also stored in FIXMEAMPeax;.
+<indexterm><primary>FIXMEAMPpercent;eax</primary></indexterm>
+<indexterm><primary>FIXMEAMPpercent;ebx</primary></indexterm>
+<indexterm><primary>FIXMEAMPpercent;ecx</primary></indexterm>
+<indexterm><primary>FIXMEAMPpercent;edx</primary></indexterm>
 </para>
 
 <table>
@@ -37,7 +37,7 @@ return values and error codes are also stored in &eax;.
 <colspec colnum="6" colwidth="3*" />
 <thead>
 <row>
-<entry>&eax;</entry><entry>Name</entry><entry>&ebx;</entry><entry>&ecx;</entry><entry>&edx;</entry><entry>Notes</entry>
+<entry>FIXMEAMPeax;</entry><entry>Name</entry><entry>FIXMEAMPebx;</entry><entry>FIXMEAMPecx;</entry><entry>FIXMEAMPedx;</entry><entry>Notes</entry>
 </row>
 </thead>
 <tbody>
@@ -135,7 +135,7 @@ return values and error codes are also stored in &eax;.
 	<entry>pipe array</entry>
 	<entry></entry>
 	<entry></entry>
-	<entry>Creates two file descriptors, where writing on one produces data to read on the other and vice-versa.  &ebx-indexed; is a pointer to two words of storage to hold the file descriptors.</entry>
+	<entry>Creates two file descriptors, where writing on one produces data to read on the other and vice-versa.  FIXMEAMPebx-indexed; is a pointer to two words of storage to hold the file descriptors.</entry>
 </row>
 <row>
 	<entry>45</entry>

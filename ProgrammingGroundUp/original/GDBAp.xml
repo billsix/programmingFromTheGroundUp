@@ -139,7 +139,7 @@ je    loop_exit
 </programlisting>
 
 <para>
-Basically, it is checking to see if &eax; hits zero.  If so, it should exit
+Basically, it is checking to see if FIXMEAMPeax; hits zero.  If so, it should exit
 the loop.  There are several things to check here.  
 First of all, 
 you may have left this piece out altogether.  It is
@@ -152,11 +152,11 @@ would happen.  However, again, this is not the case.
 
 <para>
 Neither of those potential problems are the culprit.  So, the next
-option is that perhaps &eax; has the wrong value.  There are two ways to
+option is that perhaps FIXMEAMPeax; has the wrong value.  There are two ways to
 check the contents of register in GDB.  The first one is the command
 <literal>info register<indexterm><primary>info register</primary></indexterm></literal>.  This will display the contents of
-all registers in hexadecimal.  However, we are only interested in &eax;
-at this point.  To just display &eax; we can do <literal>print/$eax</literal>
+all registers in hexadecimal.  However, we are only interested in FIXMEAMPeax;
+at this point.  To just display FIXMEAMPeax; we can do <literal>print/$eax</literal>
 to print it in hexadecimal, or do <literal>print<indexterm><primary>print</primary></indexterm>/d $eax</literal> to print
 it in decimal.  Notice that in GDB, registers are prefixed with dollar
 signs rather than percent signs.  Your screen should have this on it:
@@ -173,13 +173,13 @@ This means that the result of your first inquiry is 3.  Every inquiry
 you make will be assigned a number prefixed with a dollar sign.  Now,
 if you look back into the code, you will find that 3 is the first number
 in the list of numbers to search through.  If you step through the loop
-a few more times, you will find that in every loop iteration &eax; has the number 3.  This is not what should be happening.  &eax; should go to the next 
+a few more times, you will find that in every loop iteration FIXMEAMPeax; has the number 3.  This is not what should be happening.  FIXMEAMPeax; should go to the next 
 value in the list in every iteration.
 </para>
 
 <para>
-Okay, now we know that &eax; is being loaded with the same value over
-and over again.  Let's search to see where &eax; is being loaded
+Okay, now we know that FIXMEAMPeax; is being loaded with the same value over
+and over again.  Let's search to see where FIXMEAMPeax; is being loaded
 from.  The line of code is this:
 </para>
 
@@ -189,10 +189,10 @@ from.  The line of code is this:
 
 <para>
 So, step until this line of code is ready to execute.  Now, this code depends
-on two values - <literal>data_items</literal> and &edi;.  
+on two values - <literal>data_items</literal> and FIXMEAMPedi;.  
 <literal>data_items</literal> is a symbol, and therefore constant.  It's a
 good idea to check your source code to make sure the label is in front of the
-right data, but in our case it is.  Therefore, we need to look at &edi;.  So,
+right data, but in our case it is.  Therefore, we need to look at FIXMEAMPedi;.  So,
 we need to print it out.  It will look like this:
 </para>
 
@@ -203,19 +203,19 @@ $2 = 0
 </screen>
 
 <para>
-This indicates that &edi; is set to zero, which is why it keeps on loading the
+This indicates that FIXMEAMPedi; is set to zero, which is why it keeps on loading the
 first element of the array.  This should cause you to ask yourself two 
-questions - what is the purpose of &edi;, and how should its value be changed?
+questions - what is the purpose of FIXMEAMPedi;, and how should its value be changed?
 To answer the first question, we just need to look in the comments.  
-&edi; is holding the current index of <literal>data_items</literal>.  
+FIXMEAMPedi; is holding the current index of <literal>data_items</literal>.  
 Since our search is a sequential search through the list of numbers in 
-<literal>data_items</literal>, it would make sense that &edi; should
+<literal>data_items</literal>, it would make sense that FIXMEAMPedi; should
 be incremented with every loop iteration.
 </para>
 
 <para>
-Scanning the code, there is no code which alters &edi; at all.  Therefore,
-we should add a line to increment &edi; at the beginning of every loop
+Scanning the code, there is no code which alters FIXMEAMPedi; at all.  Therefore,
+we should add a line to increment FIXMEAMPedi; at the beginning of every loop
 iteration.  This happens to be exactly the line we tossed out at the beginning.
 Assembling, linking, and running the program again will show that it now
 works correctly.
@@ -260,7 +260,7 @@ For example, in the factorial program in <xref linkend="functionschapter" />,
 we could set a breakpoint for the factorial function by typing in
 <literal>break factorial</literal>.  This will cause the debugger to 
 break immediately after the function call and the function setup (it
-skips the pushing of &ebp-indexed; and the copying of &esp-indexed;).
+skips the pushing of FIXMEAMPebp-indexed; and the copying of FIXMEAMPesp-indexed;).
 </para>
 
 <para>

@@ -92,36 +92,36 @@ and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
 
 <!ENTITY percent "%">
-<!ENTITY ax "<literal>&percent;ax</literal>">
-<!ENTITY ax-indexed "<literal>&percent;ax</literal><indexterm><primary>&percent;ax</primary></indexterm>">
-<!ENTITY ah "<literal>&percent;ah</literal>">
-<!ENTITY ah-indexed "<literal>&percent;ah</literal><indexterm><primary>&percent;ah</primary></indexterm>">
-<!ENTITY al "<literal>&percent;al</literal>">
-<!ENTITY al-indexed "<literal>&percent;al</literal><indexterm><primary>&percent;al</primary></indexterm>">
-<!ENTITY eax "<literal>&percent;eax</literal>">
-<!ENTITY rax "<literal>&percent;rax</literal>">
-<!ENTITY ebx "<literal>&percent;ebx</literal>">
-<!ENTITY ecx "<literal>&percent;ecx</literal>">
-<!ENTITY edx "<literal>&percent;edx</literal>">
-<!ENTITY edi "<literal>&percent;edi</literal>">
-<!ENTITY esp "<literal>&percent;esp</literal>">
-<!ENTITY ebp "<literal>&percent;ebp</literal>">
-<!ENTITY eip "<literal>&percent;eip</literal>">
-<!ENTITY cl "<literal>&percent;cl</literal>">
-<!ENTITY dl "<literal>&percent;dl</literal>">
-<!ENTITY eflags "<literal>&percent;eflags</literal>">
+<!ENTITY ax "<literal>FIXMEamppercent;ax</literal>">
+<!ENTITY ax-indexed "<literal>FIXMEamppercent;ax</literal><indexterm><primary>FIXMEamppercent;ax</primary></indexterm>">
+<!ENTITY ah "<literal>FIXMEamppercent;ah</literal>">
+<!ENTITY ah-indexed "<literal>FIXMEamppercent;ah</literal><indexterm><primary>FIXMEamppercent;ah</primary></indexterm>">
+<!ENTITY al "<literal>FIXMEamppercent;al</literal>">
+<!ENTITY al-indexed "<literal>FIXMEamppercent;al</literal><indexterm><primary>FIXMEamppercent;al</primary></indexterm>">
+<!ENTITY eax "<literal>FIXMEamppercent;eax</literal>">
+<!ENTITY rax "<literal>FIXMEamppercent;rax</literal>">
+<!ENTITY ebx "<literal>FIXMEamppercent;ebx</literal>">
+<!ENTITY ecx "<literal>FIXMEamppercent;ecx</literal>">
+<!ENTITY edx "<literal>FIXMEamppercent;edx</literal>">
+<!ENTITY edi "<literal>FIXMEamppercent;edi</literal>">
+<!ENTITY esp "<literal>FIXMEamppercent;esp</literal>">
+<!ENTITY ebp "<literal>FIXMEamppercent;ebp</literal>">
+<!ENTITY eip "<literal>FIXMEamppercent;eip</literal>">
+<!ENTITY cl "<literal>FIXMEamppercent;cl</literal>">
+<!ENTITY dl "<literal>FIXMEamppercent;dl</literal>">
+<!ENTITY eflags "<literal>FIXMEamppercent;eflags</literal>">
 
-<!ENTITY eax-indexed "<literal>&percent;eax</literal><indexterm><primary><literal>&percent;eax</literal></primary></indexterm>">
-<!ENTITY ebx-indexed "<literal>&percent;ebx</literal><indexterm><primary><literal>&percent;ebx</literal></primary></indexterm>">
-<!ENTITY ecx-indexed "<literal>&percent;ecx</literal><indexterm><primary><literal>&percent;ecx</literal></primary></indexterm>">
-<!ENTITY edx-indexed "<literal>&percent;edx</literal><indexterm><primary><literal>&percent;edx</literal></primary></indexterm>">
-<!ENTITY edi-indexed "<literal>&percent;edi</literal><indexterm><primary><literal>&percent;edi</literal></primary></indexterm>">
-<!ENTITY esi-indexed "<literal>&percent;esi</literal><indexterm><primary><literal>&percent;esi</literal></primary></indexterm>">
-<!ENTITY esp-indexed "<literal>&percent;esp</literal><indexterm><primary><literal>&percent;esp</literal></primary></indexterm>">
-<!ENTITY ebp-indexed "<literal>&percent;ebp</literal><indexterm><primary><literal>&percent;ebp</literal></primary></indexterm>">
-<!ENTITY eip-indexed "<literal>&percent;eip</literal><indexterm><primary><literal>&percent;eip</literal></primary></indexterm>">
-<!ENTITY cl-indexed "<literal>&percent;cl</literal><indexterm><primary><literal>&percent;cl</literal></primary></indexterm>">
-<!ENTITY eflags-indexed "<literal>&percent;eflags</literal><indexterm><primary><literal>&percent;eflags</literal></primary></indexterm>">
+<!ENTITY eax-indexed "<literal>FIXMEamppercent;eax</literal><indexterm><primary><literal>FIXMEamppercent;eax</literal></primary></indexterm>">
+<!ENTITY ebx-indexed "<literal>FIXMEamppercent;ebx</literal><indexterm><primary><literal>FIXMEamppercent;ebx</literal></primary></indexterm>">
+<!ENTITY ecx-indexed "<literal>FIXMEamppercent;ecx</literal><indexterm><primary><literal>FIXMEamppercent;ecx</literal></primary></indexterm>">
+<!ENTITY edx-indexed "<literal>FIXMEamppercent;edx</literal><indexterm><primary><literal>FIXMEamppercent;edx</literal></primary></indexterm>">
+<!ENTITY edi-indexed "<literal>FIXMEamppercent;edi</literal><indexterm><primary><literal>FIXMEamppercent;edi</literal></primary></indexterm>">
+<!ENTITY esi-indexed "<literal>FIXMEamppercent;esi</literal><indexterm><primary><literal>FIXMEamppercent;esi</literal></primary></indexterm>">
+<!ENTITY esp-indexed "<literal>FIXMEamppercent;esp</literal><indexterm><primary><literal>FIXMEamppercent;esp</literal></primary></indexterm>">
+<!ENTITY ebp-indexed "<literal>FIXMEamppercent;ebp</literal><indexterm><primary><literal>FIXMEamppercent;ebp</literal></primary></indexterm>">
+<!ENTITY eip-indexed "<literal>FIXMEamppercent;eip</literal><indexterm><primary><literal>FIXMEamppercent;eip</literal></primary></indexterm>">
+<!ENTITY cl-indexed "<literal>FIXMEamppercent;cl</literal><indexterm><primary><literal>FIXMEamppercent;cl</literal></primary></indexterm>">
+<!ENTITY eflags-indexed "<literal>FIXMEamppercent;eflags</literal><indexterm><primary><literal>FIXMEamppercent;eflags</literal></primary></indexterm>">
 ]>
 
 <book>
@@ -230,32 +230,32 @@ of the tool you use.
 </para>
 -->
 
-&introduction-chapter;
-&memory-chapter;
-&firstprogs-chapter;
-&functions-chapter;
-&files-chapter;
-&records-chapter;
-&robust-chapter;
-&linking-chapter;
-&memoryint-chapter;
-&counting-chapter;
-&otherlang-chapter;
-&optimization-chapter;
-&wherenext-chapter;
+FIXMEampintroduction-chapter;
+FIXMEampmemory-chapter;
+FIXMEampfirstprogs-chapter;
+FIXMEampfunctions-chapter;
+FIXMEampfiles-chapter;
+FIXMEamprecords-chapter;
+FIXMEamprobust-chapter;
+FIXMEamplinking-chapter;
+FIXMEampmemoryint-chapter;
+FIXMEampcounting-chapter;
+FIXMEampotherlang-chapter;
+FIXMEampoptimization-chapter;
+FIXMEampwherenext-chapter;
 
-&gui-appendix;
-&instructions-appendix;
-&syscall-appendix;
-&ascii-appendix;
-&c-translation-appendix;
-&gdb-appendix;
+FIXMEampgui-appendix;
+FIXMEampinstructions-appendix;
+FIXMEampsyscall-appendix;
+FIXMEampascii-appendix;
+FIXMEampc-translation-appendix;
+FIXMEampgdb-appendix;
 
-&history-appendix;
-&fdl-appendix;
+FIXMEamphistory-appendix;
+FIXMEampfdl-appendix;
 
-&dedication-appendix;
+FIXMEampdedication-appendix;
 
-&index;
+FIXMEampindex;
 
 </book>

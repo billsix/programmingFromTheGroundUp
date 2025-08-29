@@ -68,7 +68,7 @@ Put them in a file named
 </para>
 
 <programlisting>
-&record-def;
+FIXMEAMPrecord-def;
 </programlisting>
 
 <para>
@@ -79,7 +79,7 @@ constants<indexterm><primary>constants</primary></indexterm> in a file called <f
 </para>
 
 <programlisting>
-&linux;
+FIXMEAMPlinux;
 </programlisting>
 
 <para>
@@ -112,7 +112,7 @@ Let's look at our reading function first:
 </para>
 
 <programlisting>
-&read-record;
+FIXMEAMPread-record;
 </programlisting>
 
 <para>
@@ -122,7 +122,7 @@ writing one is similar:
 </para>
 
 <programlisting>
-&write-record;
+FIXMEAMPwrite-record;
 </programlisting>
 
 <para>
@@ -153,7 +153,7 @@ Type the following code into a file called <filename>write-records.s</filename>:
 </para>
 
 <programlisting>
-&write-records;
+FIXMEAMPwrite-records;
 </programlisting>
 
 <!-- FIXME - need to add info on how to use a hexdump to read the values -->
@@ -247,7 +247,7 @@ Here is the code.  Put it in a file called <filename>count-chars.s</filename>:
 </para>
 
 <programlisting>
-&count-chars;
+FIXMEAMPcount-chars;
 </programlisting>
 
 <para>
@@ -278,7 +278,7 @@ a newline to <literal>STDOUT</literal>.  Put the following code into
 </para>
 
 <programlisting>
-&write-newline-s;
+FIXMEAMPwrite-newline-s;
 </programlisting>
 
 <para>
@@ -287,7 +287,7 @@ Now we are ready to write the main program.  Here is the code to
 </para>
 
 <programlisting>
-&read-records;
+FIXMEAMPread-records;
 </programlisting>
 
 <para>
@@ -365,7 +365,7 @@ data, do some processing in a loop, and then clean everything up.</para></footno
 </para>
 
 <programlisting>
-&add-year;
+FIXMEAMPadd-year;
 </programlisting>
 
 <para>
@@ -445,7 +445,7 @@ display the numeric data that we are modifying.
 <itemizedlist>
 <listitem><para>Rewrite the programs in this chapter to use command-line arguments to specify the filesnames.</para></listitem>
 <listitem><para>Research the <literal>lseek</literal> system call.  Rewrite the <literal>add-year</literal> program to open the source file for both reading and writing (use $2 for the read/write mode), and write the modified records back to the same file they were read from.</para></listitem>
-<listitem><para>Research the various error codes that can be returned by the system calls made in these programs.  Pick one to rewrite, and add code that checks &eax-indexed; for error conditions, and, if one is found, writes a message about it to <literal>STDERR</literal> and exit.</para></listitem>
+<listitem><para>Research the various error codes that can be returned by the system calls made in these programs.  Pick one to rewrite, and add code that checks FIXMEAMPeax-indexed; for error conditions, and, if one is found, writes a message about it to <literal>STDERR</literal> and exit.</para></listitem>
 <listitem><para>Write a program that will add a single record to the file by reading the data from the keyboard.  Remember, you will have to make sure that the data has at least one null character at the end, and you need to have a way for the user to indicate they are done typing.  Because we have not gotten into characters to numbers conversion, you will not be able to read the age in from the keyboard, so you'll have to have a default age.</para></listitem>
 <listitem><para>Write a function called <literal>compare-strings</literal> that will compare two strings up to 5 characters.  Then write a program that allows the user to enter 5 characters, and have the program return all records whose first name starts with those 5 characters.</para></listitem>
 </itemizedlist>

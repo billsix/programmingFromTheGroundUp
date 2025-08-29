@@ -1,23 +1,24 @@
 all:
-	pandoc -f docbook -t rst IntroductionCh.xml -o intro.rst
-	pandoc -f docbook -t rst MemoryCh.xml -o memory.rst
-	pandoc -f docbook -t rst FirstProgsCh.xml -o firstprog.rst
-	pandoc -f docbook -t rst FunctionsCh.xml -o functions.rst
-	pandoc -f docbook -t rst FilesCh.xml -o files.rst
-	pandoc -f docbook -t rst RobustCh.xml -o robust.rst
-	pandoc -f docbook -t rst MemoryIntCh.xml -o memoryint.rst
-	pandoc -f docbook -t rst LinkingCh.xml -o linking.rst
-	pandoc -f docbook -t rst CountingCh.xml -o counting.rst
-	pandoc -f docbook -t rst OtherLangCh.xml -o otherlang.rst
-	pandoc -f docbook -t rst OptimizationCh.xml -o optimization.rst
-	pandoc -f docbook -t rst GuidelinesCh.xml -o guidelines.rst
-	pandoc -f docbook -t rst WhereNextCh.xml -o wherenext.rst
-	pandoc -f docbook -t rst RecordsCh.xml -o records.rst
+	pandoc -f docbook -t rst original/IntroductionCh.xml -o docs/source/intro.rst
+	pandoc -f docbook -t rst original/MemoryCh.xml -o docs/source/memory.rst
+	pandoc -f docbook -t rst original/FirstProgsCh.xml -o docs/source/firstprog.rst
+	pandoc -f docbook -t rst original/FunctionsCh.xml -o docs/source/functions.rst
+	pandoc -f docbook -t rst original/FilesCh.xml -o docs/source/files.rst
+	pandoc -f docbook -t rst original/RobustCh.xml -o docs/source/robust.rst
+	pandoc -f docbook -t rst original/MemoryIntCh.xml -o docs/source/memoryint.rst
+	pandoc -f docbook -t rst original/LinkingCh.xml -o docs/source/linking.rst
+	pandoc -f docbook -t rst original/CountingCh.xml -o docs/source/counting.rst
+	pandoc -f docbook -t rst original/OtherLangCh.xml -o docs/source/otherlang.rst
+	pandoc -f docbook -t rst original/OptimizationCh.xml -o docs/source/optmization.rst
+	pandoc -f docbook -t rst original/WhereNextCh.xml -o docs/source/wherenext.rst
+	pandoc -f docbook -t rst original/RecordsCh.xml -o docs/source/records.rst
+	pandoc -f docbook -t rst original/GDBAp.xml -o docs/source/gdpapp.rst
+	pandoc -f docbook -t rst original/ASCIIAp.xml -o docs/source/asciiap.rst
+	pandoc -f docbook -t rst original/CCh.xml -o docs/source/cch.rst
+	pandoc -f docbook -t rst original/CTranslationAp.xml -o docs/source/ctranslationap.rst
+	pandoc -f docbook -t rst original/FDLAp.xml -o docs/source/fdlap.rst
+	pandoc -f docbook -t rst original/GUIAp.xml -o docs/source/guiap.rst
 
-	
-	
-	
-	
 	
 	
 	

@@ -44,7 +44,7 @@ will describe how it works.
 </para>
 
 <programlisting>
-&exit-s;
+FIXMEAMPexit-s;
 </programlisting>
 
 <para>
@@ -255,11 +255,11 @@ movl $1, %eax
 
 <para>
 When the program runs, this instruction transfers 
-the number <literal>1</literal> into the &eax; register.  In assembly language,
+the number <literal>1</literal> into the FIXMEAMPeax; register.  In assembly language,
 many instructions have <emphasis>operands</emphasis><indexterm><primary>operands</primary></indexterm>.  <literal>movl</literal><indexterm><primary>movl</primary></indexterm> has two operands - 
 the <emphasis>source</emphasis> and the <emphasis>destination</emphasis>.  In
 this case, the source is the literal number 1, and the destination is the
-&eax; register.  Operands can be numbers, memory location references, or
+FIXMEAMPeax; register.  Operands can be numbers, memory location references, or
 registers.  Different instructions allow different types of operands.  See
 <xref linkend="instructionsappendix" /> for more information on which 
 instructions take which kinds of operands.
@@ -278,8 +278,8 @@ the source operand from/to/by the destination operand and and save the result
 in the destination operand.  Other instructions may have an operand hardcoded
 in.  <literal>idivl</literal><indexterm><primary>idivl</primary></indexterm>, 
 for example, requires that the dividend be
-in &eax;, and &edx; be zero, and the quotient is then transferred to &eax;
-and the remainder to &edx;.  However, the divisor can be any register or 
+in FIXMEAMPeax;, and FIXMEAMPedx; be zero, and the quotient is then transferred to FIXMEAMPeax;
+and the remainder to FIXMEAMPedx;.  However, the divisor can be any register or 
 memory location.
 </para>
 
@@ -289,12 +289,12 @@ On x86 processors, there are several general-purpose registers<indexterm><primar
 </para>
 
 <itemizedlist>
-<listitem><para>&eax-indexed;</para></listitem>
-<listitem><para>&ebx-indexed;</para></listitem>
-<listitem><para>&ecx-indexed;</para></listitem>
-<listitem><para>&edx-indexed;</para></listitem>
-<listitem><para>&edi-indexed;</para></listitem>
-<listitem><para>&esi-indexed;</para></listitem>
+<listitem><para>FIXMEAMPeax-indexed;</para></listitem>
+<listitem><para>FIXMEAMPebx-indexed;</para></listitem>
+<listitem><para>FIXMEAMPecx-indexed;</para></listitem>
+<listitem><para>FIXMEAMPedx-indexed;</para></listitem>
+<listitem><para>FIXMEAMPedi-indexed;</para></listitem>
+<listitem><para>FIXMEAMPesi-indexed;</para></listitem>
 </itemizedlist>
 
 <para>
@@ -303,10 +303,10 @@ there are also several special-purpose registers<indexterm><primary>special-purp
 </para>
 
 <itemizedlist>
-<listitem><para>&ebp-indexed;</para></listitem>
-<listitem><para>&esp-indexed;</para></listitem>
-<listitem><para>&eip-indexed;</para></listitem>
-<listitem><para>&eflags-indexed;</para></listitem>
+<listitem><para>FIXMEAMPebp-indexed;</para></listitem>
+<listitem><para>FIXMEAMPesp-indexed;</para></listitem>
+<listitem><para>FIXMEAMPeip-indexed;</para></listitem>
+<listitem><para>FIXMEAMPeflags-indexed;</para></listitem>
 </itemizedlist>
 
 <para>
@@ -323,9 +323,9 @@ the old names to refer to the first half of the register, and added an
 Usually you will only use the extended versions.  Newer models also
 offer a 64-bit mode, which doubles the size of these registers yet again
 and uses an <literal>r</literal> prefix to indicate the larger registers (i.e.
-&rax; is the 64-bit version of &eax;).  However, these processors are not 
+FIXMEAMPrax; is the 64-bit version of eax;).  However, these processors are not 
 widely used, and are not covered in this book.
-</para></footnote>  Some of these registers, like &eip-indexed; and &eflags-indexed; can
+</para></footnote>  Some of these registers, like FIXMEAMPeip-indexed; and FIXMEAMPeflags-indexed; can
 only be accessed through special instructions.  The others can be accessed
 using the same instructions as general-purpose registers, but they have 
 special meanings, special uses, or are simply faster when used in a specific
@@ -343,7 +343,7 @@ mode.
 </para>
 
 <para>
-The reason we are moving the number 1 into &eax; is because we are 
+The reason we are moving the number 1 into FIXMEAMPeax; is because we are 
 preparing to call the Linux Kernel. The
 number <literal>1</literal> is the number of the <literal>exit</literal><indexterm><primary><literal>exit</literal></primary></indexterm>
 <emphasis>system call</emphasis>
@@ -354,7 +354,7 @@ everything.  Many operations such as calling other programs, dealing with
 files, and exiting have to be handled
 by the operating system through system calls<indexterm><primary>system calls</primary></indexterm>.
 When you make a system call, which we will do shortly, the system
-call number has to be loaded into &eax-indexed;
+call number has to be loaded into FIXMEAMPeax-indexed;
 (for a complete listing of system calls and their numbers,
 see <xref linkend="syscallap" />).
 Depending on the system call, other registers may have
@@ -371,9 +371,9 @@ needs to know which file you are dealing with, what data you want to write,
 and other
 details.  The extra details, called <emphasis>parameters<indexterm><primary>parameters</primary></indexterm></emphasis>
 are stored in other registers.  In the case of the <literal>exit</literal> system call,
-the operating system requires a status code be loaded in &ebx-indexed;.  This 
+the operating system requires a status code be loaded in FIXMEAMPebx-indexed;.  This 
 value is then returned to the system.  This is the value you retrieved 
-when you typed <literal>echo $?</literal>.  So, we load &ebx; with 
+when you typed <literal>echo $?</literal>.  So, we load FIXMEAMPebx; with 
 <literal>0</literal> by typing the following:
 </para>
 
@@ -388,11 +388,11 @@ numbers doesn't do anything itself.
 Registers are used for all sorts of things besides system calls.  They
 are where all program logic such as addition, subtraction, and comparisons
 take place.  Linux simply requires that certain registers be loaded with
-certain parameter values before making a system call.  &eax-indexed; is 
+certain parameter values before making a system call.  FIXMEAMPeax-indexed; is 
 always required to be loaded with the system call number.  
 For the other registers, however, each system call has different requirements.
 In the <literal>exit<indexterm><primary>exit</primary></indexterm></literal>
-system call, &ebx-indexed; is required to be loaded with the exit status<indexterm><primary>exit status code</primary></indexterm>.
+system call, FIXMEAMPebx-indexed; is required to be loaded with the exit status<indexterm><primary>exit status code</primary></indexterm>.
 We will discuss different system calls as they are needed.  For a list of
 common system calls and what is required to be in each register, see <xref linkend="syscallap" />
 </para>
@@ -448,11 +448,11 @@ To recap - Operating System features are accessed through
 system calls<indexterm><primary>system calls</primary></indexterm>.  These are invoked by setting up the registers
 in a special way and issuing the instruction <literal>int $0x80</literal>.
 Linux knows which system call we want to access by what we stored
-in the &eax-indexed; register.  Each system call has other requirements
+in the FIXMEAMPeax-indexed; register.  Each system call has other requirements
 as to what needs to be stored in the other registers.  System call
 number 1 is the <literal>exit</literal> system call, which requires
 the status code<indexterm><primary>status code</primary></indexterm>
-to be placed in &ebx-indexed;.
+to be placed in FIXMEAMPebx-indexed;.
 </para>
 </note>
 
@@ -513,9 +513,9 @@ a value to hold the current list element being examined, and the current
 highest value on the list.  Let's assign each of these a register:
 </para>
 <itemizedlist>
-<listitem><para>&edi; will hold the current position in the list.</para></listitem>
-<listitem><para>&ebx; will hold the current highest value in the list.</para></listitem>
-<listitem><para>&eax; will hold the current element being examined.</para></listitem>
+<listitem><para>FIXMEAMPedi; will hold the current position in the list.</para></listitem>
+<listitem><para>FIXMEAMPebx; will hold the current highest value in the list.</para></listitem>
+<listitem><para>FIXMEAMPeax; will hold the current element being examined.</para></listitem>
 </itemizedlist>
 
 <para>
@@ -527,11 +527,11 @@ steps:
 </para>
 
 <orderedlist>
-<listitem><para>Check the current list element (&eax;) to see if it's zero (the terminating element).</para></listitem>
+<listitem><para>Check the current list element (FIXMEAMPeax;) to see if it's zero (the terminating element).</para></listitem>
 <listitem><para>If it is zero, exit.</para></listitem>
-<listitem><para>Increase the current position (&edi;).</para></listitem>
-<listitem><para>Load the next value in the list into the current value register (&eax;).  What addressing mode might we use here?  Why?</para></listitem>
-<listitem><para>Compare the current value (&eax;) with the current highest value (&ebx;).</para></listitem>
+<listitem><para>Increase the current position (FIXMEAMPedi;).</para></listitem>
+<listitem><para>Load the next value in the list into the current value register (FIXMEAMPeax;).  What addressing mode might we use here?  Why?</para></listitem>
+<listitem><para>Compare the current value (FIXMEAMPeax;) with the current highest value (FIXMEAMPebx;).</para></listitem>
 <listitem><para>If the current value is greater than the current highest value, replace the current highest value with the current value.</para></listitem>
 <listitem><para>Repeat.</para></listitem>
 </orderedlist>
@@ -608,7 +608,7 @@ Enter the following program as <filename>maximum.s</filename>:
 </para>
 
 <programlisting>
-&maximum-s;
+FIXMEAMPmaximum-s;
 </programlisting>
 
 <para>
@@ -655,7 +655,7 @@ where we need to refer to this address we can use the
 <literal>data_items</literal> symbol, and the assembler will substitute
 it with the address where the numbers start during assembly.  For example,
 the instruction <literal>movl data_items, %eax</literal> would move the
-value 3 into &eax;.
+value 3 into FIXMEAMPeax;.
 There are several different types of memory locations other than <literal>.long<indexterm><primary>.long</primary></indexterm></literal>
 that can be reserved.  The main ones are as follows:
 </para>
@@ -786,8 +786,8 @@ needed variables in their first programming attempts.
 </para>
 
 <para>
-In this program, we are using &ebx; as the location 
-of the largest item we've found.  &edi; is used as the 
+In this program, we are using FIXMEAMPebx; as the location 
+of the largest item we've found.  FIXMEAMPedi; is used as the 
 <emphasis>index<indexterm><primary>index</primary></indexterm></emphasis> to the current data item we're looking at.  
 Now, let's talk about what an index is.  When we read the information 
 from <literal>data_items</literal>,
@@ -838,15 +838,15 @@ movl  BEGINNINGADDRESS(,%INDEXREGISTER,WORDSIZE)
 </programlisting>  
 
 <para>
-In our case <literal>data_items</literal> was our beginning address, &edi; was our
+In our case <literal>data_items</literal> was our beginning address, FIXMEAMPedi; was our
 index register<indexterm><primary>index register</primary></indexterm>, and 4 was our word size.  This topic is discussed further in <xref linkend="movaddrmodes" />.
 </para>
 
 <para>
 If you look at the numbers in <literal>data_items</literal>, you will see that the number
-3 is now in &eax;.  If &edi; was set 
-to 1, the number 67 would be in &eax;, and if it
-was set to 2, the number 34 would be in &eax;, and so
+3 is now in FIXMEAMPeax;.  If FIXMEAMPedi; was set 
+to 1, the number 67 would be in FIXMEAMPeax;, and if it
+was set to 2, the number 34 would be in FIXMEAMPeax;, and so
 forth.  Very strange things would happen if we used a number other than
 4 as the size of our storage locations.<footnote><para>The instruction 
 doesn't really use 4 for the size of the storage locations, although 
@@ -920,9 +920,9 @@ to at the end of our loop.  Then we have these instructions:
 
 <para>
 The <literal>cmpl<indexterm><primary>cmpl</primary></indexterm></literal> instruction compares the two values.  Here,
-we are comparing the number 0 to the number stored in &eax;
+we are comparing the number 0 to the number stored in FIXMEAMPeax;
 This compare instruction also affects a register not mentioned here, the
-&eflags-indexed; register.  This is also known as the status register<indexterm><primary>status register</primary></indexterm>,
+FIXMEAMPeflags-indexed; register.  This is also known as the status register<indexterm><primary>status register</primary></indexterm>,
 and has many uses which we will discuss later.  Just be aware that the
 result of the comparison is stored in the status register.  The next line
 is a flow control<indexterm><primary>flow control</primary></indexterm> instruction which says to 
@@ -991,7 +991,7 @@ comparison.
 
 <para>
 The complete list is documented in <xref linkend="instructionsappendix" />.
-In this case, we are jumping if &eax; holds the value
+In this case, we are jumping if FIXMEAMPeax; holds the value
 of zero.  If so, we are done and we go to 
 <literal>loop_exit</literal>.<footnote><para>The names of these symbols
 can be anything you want them to be, as long as they only contain letters
@@ -1014,14 +1014,14 @@ If the last loaded element was not zero, we go on to the next instructions:
 </programlisting>
 
 <para>
-If you remember from our previous discussion, &edi; contains
+If you remember from our previous discussion, FIXMEAMPedi; contains
 the index<indexterm><primary>index</primary></indexterm> to 
 our list of values in <literal>data_items</literal>.
 <literal>incl<indexterm><primary>incl</primary></indexterm></literal> 
-increments the value of &edi; by
+increments the value of FIXMEAMPedi; by
 one.  Then the <literal>movl</literal> is just like the one we did 
-beforehand.  However, since we already incremented &edi;, &eax; is getting the
-next value from the list.  Now &eax; has the next value to be tested.  
+beforehand.  However, since we already incremented FIXMEAMPedi;, FIXMEAMPeax; is getting the
+next value from the list.  Now FIXMEAMPeax; has the next value to be tested.  
 So, let's test it!
 </para>
 
@@ -1031,8 +1031,8 @@ So, let's test it!
 </programlisting>
 
 <para>
-Here we compare our current value, stored in &eax;
-to our biggest value so far, stored in &ebx;.  If
+Here we compare our current value, stored in FIXMEAMPeax;
+to our biggest value so far, stored in FIXMEAMPebx;.  If
 the current value is less or equal to our biggest value so far, we don't 
 care about it, so we just jump back to the beginning of the loop.  
 Otherwise, we need to record that value as the largest one:
@@ -1044,7 +1044,7 @@ Otherwise, we need to record that value as the largest one:
 </programlisting>
 
 <para>
-which moves the current value into &ebx;, which we are
+which moves the current value into FIXMEAMPebx;, which we are
 using to store the current largest value,  and starts
 the loop over again.  
 </para>
@@ -1056,12 +1056,12 @@ the Linux kernel to exit.  If you remember from the last program,
 when you call the operating system (remember it's like signaling Batman), 
 you store the 
 system call<indexterm><primary>system call</primary></indexterm> 
-number in &eax-indexed; 
+number in FIXMEAMPeax-indexed; 
 (1 for the <literal>exit</literal> call),
 and store the other values in the other registers.  The exit call
-requires that we put our exit status<indexterm><primary>exit status code</primary></indexterm> in &ebx-indexed;
-We already have the exit status there since we are using &ebx;
-as our largest number, so all we have to do is load &eax; with the number one
+requires that we put our exit status<indexterm><primary>exit status code</primary></indexterm> in FIXMEAMPebx-indexed;
+We already have the exit status there since we are using FIXMEAMPebx;
+as our largest number, so all we have to do is load FIXMEAMPeax; with the number one
 and call the kernel to exit. Like this:
 </para>
 
@@ -1135,7 +1135,7 @@ This is done by only using the <literal>ADDRESS_OR_OFFSET</literal> portion.  Ex
 <programlisting>
 movl ADDRESS, %eax
 </programlisting>
-This loads &eax; with the value at memory address <literal>ADDRESS</literal>.
+This loads FIXMEAMPeax; with the value at memory address <literal>ADDRESS</literal>.
 </para></listitem>
 </varlistentry>
 
@@ -1150,12 +1150,12 @@ multiplier<indexterm><primary>multiplier</primary></indexterm> of 1, 2, or 4 for
 index by bytes, double-bytes, and words.  For example, let's say that
 we had a string of bytes as <literal>string_start</literal> and wanted
 to access the third one (an index of 2 since we start counting the
-index at zero), and &ecx; held the value 2.  If you wanted to load it
-into &eax; you could do the following:
+index at zero), and FIXMEAMPecx; held the value 2.  If you wanted to load it
+into FIXMEAMPeax; you could do the following:
 <programlisting>
 movl string_start(,%ecx,1), %eax
 </programlisting>
-This starts at <literal>string_start</literal>, and adds <literal>1 * %ecx</literal> to that address, and loads the value into &eax;.
+This starts at <literal>string_start</literal>, and adds <literal>1 * %ecx</literal> to that address, and loads the value into FIXMEAMPeax;.
 
 </para></listitem>
 </varlistentry>
@@ -1163,8 +1163,8 @@ This starts at <literal>string_start</literal>, and adds <literal>1 * %ecx</lite
 <varlistentry>
 <term>indirect addressing mode<indexterm><primary>indirect addressing mode</primary></indexterm></term>
 <listitem><para>
-Indirect addressing mode loads a value from the address indicated by a register.  For example, if &eax; held an address, we could move the value at that
-address to &ebx; by doing the following:
+Indirect addressing mode loads a value from the address indicated by a register.  For example, if FIXMEAMPeax; held an address, we could move the value at that
+address to FIXMEAMPebx; by doing the following:
 <programlisting>
 movl (%eax), %ebx
 </programlisting>
@@ -1177,7 +1177,7 @@ movl (%eax), %ebx
 Base-pointer addressing is similar to indirect addressing, except that it
 adds a constant value to the address in the register.  For example, if you
 have a record where the age value is 4 bytes into the record, and you have the
-address of the record in &eax;, you can retrieve the age into &ebx; by 
+address of the record in FIXMEAMPeax;, you can retrieve the age into FIXMEAMPebx; by 
 issuing the following instruction:
 <programlisting>
 movl  4(%eax), %ebx
@@ -1191,13 +1191,13 @@ movl  4(%eax), %ebx
 Immediate mode is very simple.  It does not follow the general form we have
 been using.  Immediate mode is used to load direct values into registers
 or memory locations.  For example, if you wanted to load the number 12
-into &eax;, you would simply do the following:
+into FIXMEAMPeax;, you would simply do the following:
 <programlisting>
 movl $12, %eax
 </programlisting>
 Notice that to indicate immediate mode, we used a dollar sign in front of
 the number.  If we did not, it would be direct addressing mode, in which 
-case the value located at memory location 12 would be loaded into &eax;
+case the value located at memory location 12 would be loaded into FIXMEAMPeax;
 rather than the number 12 itself.
 </para></listitem>
 </varlistentry>
@@ -1229,20 +1229,20 @@ Instead, you have to use a portion of the register.
 </para>
 
 <para>
-Take for instance &eax;.  If you only wanted to work with two bytes at a time,
-you could just use &ax-indexed;.  &ax; is the least-significant half (i.e. - the last part of the number) of the &eax; 
-register, and is useful when dealing with two-byte quantities.  &ax; is
-further divided up into &al-indexed; and &ah-indexed;.  &al; is the least-significant byte of
-&ax;, and &ah; is the most significant byte.<footnote><para>When we talk about
+Take for instance eax;.  If you only wanted to work with two bytes at a time,
+you could just use FIXME-AMPaxindexed;.  FIXMEAMPax; is the least-significant half (i.e. - the last part of the number) of the eax; 
+register, and is useful when dealing with two-byte quantities.  FIXMEAMPax; is
+further divided up into FIXMEAMPal-indexed; and FIXME-AMPahindexed;.  FIXMEAMPal; is the least-significant byte of
+FIXMEAMPax;, and FIXMEAMPah; is the most significant byte.<footnote><para>When we talk about
 the most or least <emphasis>significant</emphasis> byte, it may be a little confusing.  
 Let's take the number 5432.  In that number, 54 is the most significant half
 of that number and 32 is the least significant half.  You can't quite divide
 it like that for registers, since they operate on base 2 rather than base 10
 numbers, but that's the basic idea.  For more information on this topic, see
 <xref linkend="countingchapter" />.</para></footnote>  Loading a value into
-&eax; will wipe out whatever was in &al; and &ah; (and also &ax;, since &ax;
-is made up of them).  Similarly, loading a value into either &al; or &ah;
-will corrupt any value that was formerly in &eax;.  Basically, it's wise
+FIXMEAMPeax; will wipe out whatever was in FIXMEAMPal; and FIXMEAMPah; (and also FIXMEAMPax;, since FIXMEAMPax;
+is made up of them).  Similarly, loading a value into either FIXMEAMPal; or FIXMEAMPah;
+will corrupt any value that was formerly in FIXMEAMPeax;.  Basically, it's wise
 to only use a register for either a byte or a word, but never both at the
 same time.
 </para>
@@ -1251,7 +1251,7 @@ same time.
 <imageobject>
 <imagedata fileref="registerdescription.png" format="PNG" />
 </imageobject>
-<caption><para><emphasis>Layout of the &eax; register</emphasis></para></caption>
+<caption><para><emphasis>Layout of the FIXMEAMPeax; register</emphasis></para></caption>
 </mediaobject>
 
 <para>
@@ -1274,7 +1274,7 @@ For a more comprehensive list of instructions, see <xref linkend="instructionsap
 <listitem><para>Which register holds the system call number?</para></listitem>
 <listitem><para>What are indexes used for?</para></listitem>
 <listitem><para>Why do indexes usually start at 0?</para></listitem>
-<listitem><para>If I issued the command <literal>movl data_items(,%edi,4), %eax</literal> and data_items was address 3634 and &edi; held the value 13, what address would you be using to move into &eax;?</para></listitem>
+<listitem><para>If I issued the command <literal>movl data_items(,%edi,4), %eax</literal> and data_items was address 3634 and FIXMEAMPedi; held the value 13, what address would you be using to move into FIXMEAMPeax;?</para></listitem>
 <listitem><para>List the general-purpose registers.</para></listitem>
 <listitem><para>What is the difference between <literal>movl</literal> and <literal>movb</literal>?</para></listitem>
 <listitem><para>What is flow control?</para></listitem>

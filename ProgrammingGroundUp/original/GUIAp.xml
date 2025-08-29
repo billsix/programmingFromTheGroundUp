@@ -84,7 +84,7 @@ the application.  To run this program, type in the following
 as <filename>gnome-example.s</filename>:
 
 <programlisting>
-&gnome-example-s;
+FIXMEampgnome-example-s;
 </programlisting>
 
 To build this application, execute the following commands:
@@ -241,7 +241,7 @@ The following is the same program written in the C language.
 Type it in as <filename>gnome-example-c.c</filename>:
 
 <programlisting>
-&gnome-example-c-c;
+FIXMEampgnome-example-c-c;
 </programlisting>
 
 To compile it, type
@@ -258,7 +258,7 @@ Run it by typing <literal>./gnome-example-c</literal>.
 Finally, we have a version in Python.  Type it in as gnome-example.py:
 
 <programlisting>
-&gnome-example-py;
+FIXMEampgnome-example-py;
 </programlisting>
 
 To run it type <literal>python gnome-example.py</literal>.

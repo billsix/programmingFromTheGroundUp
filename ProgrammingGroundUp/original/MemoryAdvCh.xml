@@ -407,7 +407,7 @@ As usual, I will give you the program first for you to look through.  Afterwards
 an in-depth explanation.
 
 <programlisting>
-&alloc-s;
+FIXMEAMPalloc-s;
 </programlisting>
 
 The first thing to notice is that there is no <literal>_start</literal> symbol.  The reason

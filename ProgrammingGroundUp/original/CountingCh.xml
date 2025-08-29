@@ -1040,7 +1040,7 @@ However, the byte order can cause problems in several instances:
 </para>
 
 <itemizedlist>
-<listitem><para>If you try to read in several bytes at a time using <literal>movl</literal> but deal with them on a byte-by-byte basis using the least significant byte (i.e. - by using &al; and/or shifting of the register), this will be in a different order than they appear in memory.</para></listitem>
+<listitem><para>If you try to read in several bytes at a time using <literal>movl</literal> but deal with them on a byte-by-byte basis using the least significant byte (i.e. - by using FIXMEAMPal; and/or shifting of the register), this will be in a different order than they appear in memory.</para></listitem>
 <listitem><para>If you read or write files written for different architectures, you may have to account for whatever order they write their bytes in.</para></listitem>
 <listitem><para>If you read or write to network sockets, you may have to account for a different byte order in the protocol.</para></listitem>
 </itemizedlist>
@@ -1099,7 +1099,7 @@ The code for the function should be put in a file called
 </para>
 
 <programlisting>
-&integer-to-string;
+FIXMEAMPinteger-to-string;
 </programlisting>
 
 <para>
@@ -1110,7 +1110,7 @@ in a file called <filename>conversion-program.s</filename>.
 </para>
 
 <programlisting>
-&conversion-program;
+FIXMEAMPconversion-program;
 </programlisting>
 
 <para>

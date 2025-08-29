@@ -224,7 +224,7 @@ In C, a while loop looks like this:
 </para>
 
 <programlisting>
-	while(a &lt; b)
+	while(a FIXMEamplt; b)
 	{
 		/* Do stuff here */
 	}
@@ -254,15 +254,15 @@ loop_end:
 
 <para>
 The x86 assembly language has some direct support for looping as well.
-The &ecx-indexed; register can be used as a counter that 
+The FIXMEampecx-indexed; register can be used as a counter that 
 <emphasis>ends</emphasis> with zero.  The <literal>loop<indexterm><primary>loop</primary></indexterm></literal> instruction
-will decrement &ecx; and jump to a specified address unless &ecx; is zero.
+will decrement FIXMEampecx; and jump to a specified address unless FIXMEampecx; is zero.
 For example, if you wanted to execute a statement 100 times, you would
 do this in C:
 </para>
 
 <programlisting>
-	for(i=0; i &lt; 100; i++)
+	for(i=0; i FIXMEamplt; 100; i++)
 	{
 		/* Do process here */
 	}
@@ -416,7 +416,7 @@ Taking the address of this data in C:
 </para>
 
 <programlisting>
-	a = &amp;global_data;
+	a = FIXMEampamp;global_data;
 </programlisting>
 
 <para>
@@ -446,7 +446,7 @@ void foo()
 
 	a = 30;
 
-	b = &amp;a;
+	b = FIXMEampamp;a;
 
 	*b = 44;
 }
@@ -470,7 +470,7 @@ foo:
 	#a = 30
 	movl $30, A_VAR(%ebp)
 
-	#b = &amp;a
+	#b = FIXMEampamp;a
 	movl $A_VAR, B_VAR(%ebp)
 	addl %ebp, B_VAR(%ebp)
 
@@ -494,7 +494,7 @@ So, we could just say:
 </para>
 
 <programlisting>
-	#b = &amp;a
+	#b = FIXMEampamp;a
 	leal A_VAR(%ebp), %eax
 	movl %eax, B_VAR(%ebp)
 </programlisting>
@@ -531,7 +531,7 @@ your source code better.
 
 <para>
 Something else you might notice is that GCC reserves more stack space
-for local variables than we do, and then AND's &esp-indexed;
+for local variables than we do, and then AND's FIXMEampesp-indexed;
 <footnote>
 <para>
 Note that different versions of GCC do this differently.  

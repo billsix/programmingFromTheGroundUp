@@ -29,7 +29,7 @@ than one operand be a memory location.
 
 <para>
 In the flags<indexterm><primary>flags</primary></indexterm> section, it lists the flags 
-in the &eflags-indexed; register affected by the instruction. 
+in the FIXMEAMPeflags-indexed; register affected by the instruction. 
 The following flags are mentioned:
 </para>
 
@@ -110,7 +110,7 @@ These instructions perform little, if any computation.  Instead they are mostly 
 <tbody>
 <row><entry>movl<indexterm zone="dtins"><primary>movl</primary></indexterm></entry><entry>I/R/M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-This copies a word of data from one location to another.  <literal>movl %eax, %ebx</literal> copies the contents of &eax; to &ebx;
+This copies a word of data from one location to another.  <literal>movl %eax, %ebx</literal> copies the contents of FIXMEAMPeax; to FIXMEAMPebx;
 </entry></row>
 <row><entry>movb<indexterm zone="dtins"><primary>movb</primary></indexterm></entry><entry>I/R/M, I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -121,18 +121,18 @@ Same as <literal>movl</literal>, but operates on individual bytes.
 This takes a memory location given in the standard format, and, instead of
 loading the contents of the memory location, loads the computed address.
 For example, <literal>leal 5(%ebp,%ecx,1), %eax</literal> loads the address
-computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in &eax;
+computed by <literal>5 + %ebp + 1*%ecx</literal> and stores that in FIXMEAMPeax;
 </entry></row>
 <row><entry>popl<indexterm zone="dtins"><primary>popl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Pops the top of the stack into the given location.  This is equivalent to performing <literal>movl (%esp), R/M</literal> followed by <literal>addl $4, %esp</literal>.
-<literal>popfl</literal> is a variant which pops the top of the stack into the &eflags;<indexterm zone="dtins"><primary>&percent;eflags</primary></indexterm> register.
+<literal>popfl</literal> is a variant which pops the top of the stack into the FIXMEAMPeflags;<indexterm zone="dtins"><primary>FIXMEAMPpercent;eflags</primary></indexterm> register.
 </entry></row>
 <row><entry>pushl<indexterm zone="dtins"><primary>pushl</primary></indexterm></entry><entry>I/R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Pushes the given value onto the stack.
 This is the equivalent to performing <literal>subl $4, %esp</literal> followed by <literal>movl I/R/M, (%esp)</literal>.
-<literal>pushfl</literal> is a variant which pushes the current contents of the &eflags;<indexterm zone="dtins"><primary>&percent;eflags</primary></indexterm> register onto the top of the stack.
+<literal>pushfl</literal> is a variant which pushes the current contents of the FIXMEAMPeflags;<indexterm zone="dtins"><primary>FIXMEAMPpercent;eflags</primary></indexterm> register onto the top of the stack.
 </entry></row>
 <row><entry>xchgl<indexterm zone="dtins"><primary>xchgl</primary></indexterm></entry><entry>R/M, R/M</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -173,7 +173,7 @@ Addition.  Adds the first operand to the second, storing the result in the secon
 </entry></row>
 <row><entry>cdq<indexterm zone="intins"><primary>cdq</primary></indexterm></entry><entry></entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Converts the <indexterm zone="intins"><primary>&eax;</primary></indexterm><indexterm zone="intins"><primary>&edx;</primary></indexterm>&eax; word into the double-word consisting of &edx;:&eax; with sign extension.  The <literal>q</literal> signifies that it is a <emphasis>quad-word</emphasis>.  It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days.  This is usually used before issuing an <literal>idivl</literal> instruction.
+Converts the <indexterm zone="intins"><primary>FIXMEAMPeax;</primary></indexterm><indexterm zone="intins"><primary>FIXMEAMPedx;</primary></indexterm>FIXMEAMPeax; word into the double-word consisting of FIXMEAMPedx;:FIXMEAMPeax; with sign extension.  The <literal>q</literal> signifies that it is a <emphasis>quad-word</emphasis>.  It's actually a double-word, but it's called a quad-word because of the terminology used in the 16-bit days.  This is usually used before issuing an <literal>idivl</literal> instruction.
 </entry></row>
 <row><entry>cmpl<indexterm zone="intins"><primary>cmpl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -186,9 +186,9 @@ to decrement a byte instead of a word.
 </entry></row>
 <row><entry>divl<indexterm zone="intins"><primary>divl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Performs unsigned division.  Divides the contents of the double-word contained in the combined &edx;:&eax-indexed; registers by the value in the register or memory location specified.  The &eax; register contains the resulting 
-quotient, and the &edx; register contains the resulting remainder.  If the 
-quotient is too large to fit in &eax;, it triggers a type 0 interrupt.
+Performs unsigned division.  Divides the contents of the double-word contained in the combined FIXMEAMPedx;:FIXMEAMPeax-indexed; registers by the value in the register or memory location specified.  The FIXMEAMPeax; register contains the resulting 
+quotient, and the FIXMEAMPedx; register contains the resulting remainder.  If the 
+quotient is too large to fit in FIXMEAMPeax;, it triggers a type 0 interrupt.
 </entry></row>
 <row><entry>idivl<indexterm zone="intins"><primary>idivl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -197,8 +197,8 @@ Performs signed division.  Operates just like <literal>divl</literal> above.
 <row><entry>imull<indexterm zone="intins"><primary>imull</primary></indexterm></entry><entry>R/M/I, R</entry><entry>O/S/Z/A/P/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Performs signed multiplication and stores the result in the second operand.
-If the second operand is left out, it is assumed to be &eax;, and the full
-result is stored in the double-word &edx-indexed;:&eax-indexed;.
+If the second operand is left out, it is assumed to be FIXMEAMPeax;, and the full
+result is stored in the double-word FIXMEAMPedx-indexed;:FIXMEAMPeax-indexed;.
 </entry></row>
 <row><entry>incl<indexterm zone="intins"><primary>incl</primary></indexterm></entry><entry>R/M</entry><entry>O/S/Z/A/P</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -259,45 +259,45 @@ one's complement<indexterm zone="logicins"><primary>one's complement</primary></
 <row><entry namest="instruction" nameend="flags">
 Performs a logical or between the two operands, and stores the result in the second operand.  Sets the overflow and carry flags to false.
 </entry></row>
-<row><entry>rcll<indexterm zone="logicins"><primary>rcll</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
+<row><entry>rcll<indexterm zone="logicins"><primary>rcll</primary></indexterm></entry><entry>I/FIXMEAMPcl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register &cl;.  The carry flag is included in the rotation, making it use 33 bits instead of 32.  Also sets the overflow flag.
+Rotates the given location's bits to the left the number of times in the first operand, which is either an immediate-mode value or the register FIXMEAMPcl;.  The carry flag is included in the rotation, making it use 33 bits instead of 32.  Also sets the overflow flag.
 </entry></row>
-<row><entry>rcrl<indexterm zone="logicins"><primary>rcrl</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
+<row><entry>rcrl<indexterm zone="logicins"><primary>rcrl</primary></indexterm></entry><entry>I/FIXMEAMPcl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Same as above, but rotates right.
 </entry></row>
-<row><entry>roll<indexterm zone="logicins"><primary>roll</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
+<row><entry>roll<indexterm zone="logicins"><primary>roll</primary></indexterm></entry><entry>I/FIXMEAMPcl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Rotate bits to the left.  It sets the overflow and carry flags, but does not count the carry flag as part of the rotation.  The number of bits to roll is
-either specified in immediate mode or is contained in the &cl; register.
+either specified in immediate mode or is contained in the FIXMEAMPcl; register.
 </entry></row>
-<row><entry>rorl<indexterm zone="logicins"><primary>rorl</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>O/C</entry></row>
+<row><entry>rorl<indexterm zone="logicins"><primary>rorl</primary></indexterm></entry><entry>I/FIXMEAMPcl;, R/M</entry><entry>O/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Same as above, but rotates right.
 </entry></row>
-<row><entry>sall<indexterm zone="logicins"><primary>sall</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
+<row><entry>sall<indexterm zone="logicins"><primary>sall</primary></indexterm></entry><entry>I/FIXMEAMPcl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Arithmetic shift left.  The sign bit is shifted out to the carry flag, and a zero bit is placed in the least significant bit.  Other bits are simply shifted to the left.  This is the same as the regular shift left.  The number of bits
-to shift is either specified in immediate mode or is contained in the &cl;
+to shift is either specified in immediate mode or is contained in the FIXMEAMPcl;
 register.
 </entry></row>
-<row><entry>sarl<indexterm zone="logicins"><primary>sarl</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
+<row><entry>sarl<indexterm zone="logicins"><primary>sarl</primary></indexterm></entry><entry>I/FIXMEAMPcl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Arithmetic shift right.  The least significant bit is shifted out to the carry flag.  The sign bit is shifted in, and kept as the sign bit.  Other bits are simply shifted to the right.  The number of bits
-to shift is either specified in immediate mode or is contained in the &cl;
+to shift is either specified in immediate mode or is contained in the FIXMEAMPcl;
 register.
 </entry></row>
-<row><entry>shll<indexterm zone="logicins"><primary>shll</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
+<row><entry>shll<indexterm zone="logicins"><primary>shll</primary></indexterm></entry><entry>I/FIXMEAMPcl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Logical shift left.  This shifts all bits to the left (sign bit is not treated specially).  The leftmost bit is pushed to the carry flag.  The number of bits
-to shift is either specified in immediate mode or is contained in the &cl;
+to shift is either specified in immediate mode or is contained in the FIXMEAMPcl;
 register.
 </entry></row>
-<row><entry>shrl<indexterm zone="logicins"><primary>shrl</primary></indexterm></entry><entry>I/&cl;, R/M</entry><entry>C</entry></row>
+<row><entry>shrl<indexterm zone="logicins"><primary>shrl</primary></indexterm></entry><entry>I/FIXMEAMPcl;, R/M</entry><entry>C</entry></row>
 <row><entry namest="instruction" nameend="flags">
 Logical shift right.  This shifts all bits in the register to the right (sign bit is not treated specially).  The rightmost bit is pushed to the carry flag.  The number of bits
-to shift is either specified in immediate mode or is contained in the &cl;
+to shift is either specified in immediate mode or is contained in the FIXMEAMPcl;
 register.
 </entry></row>
 <row><entry>testl<indexterm zone="logicins"><primary>testl</primary></indexterm></entry><entry>I/R/M, R/M</entry><entry>O/S/Z/A/P/C</entry></row>
@@ -334,9 +334,9 @@ These instructions may alter the flow of the program.
 <tbody>
 <row><entry>call<indexterm zone="flowins"><primary>call</primary></indexterm></entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-This pushes what would be the next value for &eip; onto the stack, and jumps
+This pushes what would be the next value for FIXMEAMPeip; onto the stack, and jumps
 to the destination address.  Used for function calls.
-Alternatively, the destination address can be an asterisk followed by a register for an indirect function call.  For example, <literal>call *%eax</literal> will call the function at the address in &eax;.
+Alternatively, the destination address can be an asterisk followed by a register for an indirect function call.  For example, <literal>call *%eax</literal> will call the function at the address in FIXMEAMPeax;.
 </entry></row>
 <row><entry>int<indexterm zone="flowins"><primary>int</primary></indexterm></entry><entry>I</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
@@ -359,16 +359,16 @@ Conditional branch.  <literal>cc</literal> is the <emphasis>condition code</emph
 <listitem><para><literal>[n]o</literal> - overflow flag set</para></listitem>
 <listitem><para><literal>[p]p</literal> - parity flag set</para></listitem>
 <listitem><para><literal>[n]s</literal> - sign flag set</para></listitem>
-<listitem><para><literal>ecxz</literal> - &ecx;<indexterm zone="flowins"><primary>&percent;ecx</primary></indexterm> is zero</para></listitem>
+<listitem><para><literal>ecxz</literal> - FIXMEAMPecx;<indexterm zone="flowins"><primary>FIXMEAMPpercent;ecx</primary></indexterm> is zero</para></listitem>
 </itemizedlist>
 </entry></row>
 <row><entry>jmp<indexterm zone="flowins"><primary>jmp</primary></indexterm></entry><entry>destination address</entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-An unconditional jump.  This simply sets &eip; to the destination address.  Alternatively, the destination address can be an asterisk followed by a register for an indirect jump.  For example, <literal>jmp *%eax</literal> will jump to the address in &eax;.
+An unconditional jump.  This simply sets FIXMEAMPeip; to the destination address.  Alternatively, the destination address can be an asterisk followed by a register for an indirect jump.  For example, <literal>jmp *%eax</literal> will jump to the address in FIXMEAMPeax;.
 </entry></row>
 <row><entry>ret<indexterm zone="flowins"><primary>ret</primary></indexterm></entry><entry></entry><entry>O/S/Z/A/C</entry></row>
 <row><entry namest="instruction" nameend="flags">
-Pops a value off of the stack and then sets &eip; to that value.  Used
+Pops a value off of the stack and then sets FIXMEAMPeip; to that value.  Used
 to return from function calls.
 </entry></row>
 </tbody>
@@ -492,7 +492,7 @@ Tells the linker that the given symbol is a function.
 
 <para>
 The syntax for assembly language used in this book is known at the
-<emphasis>AT&amp;T<indexterm><primary>AT&amp;T syntax</primary></indexterm></emphasis> syntax.  It is the one supported by the 
+<emphasis>ATFIXMEAMPamp;T<indexterm><primary>ATFIXMEAMPamp;T syntax</primary></indexterm></emphasis> syntax.  It is the one supported by the 
 GNU tool chain that comes standard with every Linux distribution.  However,
 the official syntax for x86 assembly language (known as the <trademark class="registered">Intel</trademark> syntax<indexterm><primary>Intel syntax</primary></indexterm>)
 is different.  It is
@@ -528,7 +528,7 @@ mov  [8 + %ebx + 1 * edi], eax
 </programlisting>
 
 <para>
-The memory reference is a bit easier to read than its AT&amp;T counterpart
+The memory reference is a bit easier to read than its ATFIXMEAMPamp;T counterpart
 because it spells out exactly how the address
 will be computed.  However, but the order of operands in Intel syntax can be 
 confusing.
@@ -542,7 +542,7 @@ confusing.
 <para>
 Intel has a set of comprehensive guides to their processors.  These
 are available at http://www.intel.com/design/pentium/manuals/  Note that
-all of these use the Intel syntax, not the AT&amp;T syntax.  The most important
+all of these use the Intel syntax, not the ATFIXMEAMPamp;T syntax.  The most important
 ones are their <citetitle>IA-32 Intel Architecture Software Developer's Manual</citetitle>
 in its three volumes::
 </para>

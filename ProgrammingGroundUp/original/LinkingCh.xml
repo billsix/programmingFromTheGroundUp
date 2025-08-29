@@ -83,7 +83,7 @@ looks like this:
 
 
 <programlisting>
-&helloworld-nolib-s;
+FIXMEAMPhelloworld-nolib-s;
 </programlisting>
 
 <para>
@@ -92,7 +92,7 @@ That's not too long.  However, take a look at how short
 </para>
 
 <programlisting>
-&helloworld-lib-s;
+FIXMEAMPhelloworld-lib-s;
 </programlisting>
 
 <para>
@@ -290,7 +290,7 @@ of the string.  The way that <literal>printf<indexterm><primary>printf</primary>
 the end of the string was because we ended it with a null character<indexterm><primary>null character</primary></indexterm>
 (<literal>\0</literal>).  Many functions work that way, especially C language
 functions.  The <literal>int<indexterm><primary>int</primary></indexterm></literal> before the function definition tell what
-type of value the function will return in &eax-indexed; when it returns.
+type of value the function will return in FIXMEAMPeax-indexed; when it returns.
 <literal>printf</literal> will return an <literal>int</literal>
 when it's through.  Now, after the <literal>char *string</literal>, we
 have a series of periods, <literal>...<indexterm><primary>...</primary></indexterm></literal>.  This means that it
@@ -305,7 +305,7 @@ from the stack to insert.  This is best described using an example:
 
 
 <programlisting>
-&printf-example-s;
+FIXMEAMPprintf-example-s;
 </programlisting>
 
 <para>
