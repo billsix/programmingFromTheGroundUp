@@ -3,7 +3,7 @@
 CONTAINER_CMD = podman
 CONTAINER_NAME = programminggroundup
 FILES_TO_MOUNT = -v ./ProgrammingGroundUp:/$(CONTAINER_NAME)/pgu:Z 
-
+OUTPUT_DIR_TO_MOUNT = -v ./output/:/output/:Z 
 
 
 .PHONY: all
@@ -18,6 +18,7 @@ shell:  ## Get Shell into a ephermeral container made from the image
 	$(CONTAINER_CMD) run -it --rm \
 		--entrypoint /bin/bash \
 		$(FILES_TO_MOUNT) \
+		$(OUTPUT_DIR_TO_MOUNT) \
 		-v ./entrypoint/shell.sh:/shell.sh:Z \
 		$(CONTAINER_NAME) \
 		shell.sh
@@ -27,7 +28,8 @@ html:  ## Build the book
 	$(CONTAINER_CMD) run -it --rm \
 		-v ./entrypoint/entrypoint.sh:/entrypoint.sh:Z \
 		$(FILES_TO_MOUNT) \
-		$(CONTAINER_NAME) \
+		$(OUTPUT_DIR_TO_MOUNT) \
+		$(CONTAINER_NAME) 
 
 
 .PHONY: help
