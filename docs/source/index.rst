@@ -34,5 +34,6 @@ documentation for details.
    ctranslationap.rst
    fdlap.rst
    guiap.rst
+   instructionsap.rst
    ..
       guidelines.rst
