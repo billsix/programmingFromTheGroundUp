@@ -28,12 +28,12 @@ documentation for details.
    optimization.rst
    wherenext.rst
    records.rst
-   dbpapp.rst
+   gbpapp.rst
    asciiap.rst
    cch.rst
    ctranslationap.rst
    fdlap.rst
    guiap.rst
-   #guidelines.rst
-   #index.rst
+   ..
+      guidelines.rst
 

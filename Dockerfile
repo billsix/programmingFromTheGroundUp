@@ -11,7 +11,7 @@ RUN dnf install -y python3 \
 		   pandoc \
                    python3-furo \
                    python3-sphinx_rtd_theme \
-                   python3-sphinx-latex
+                   python3-sphinx-latex \
                    latexmk \
                    texlive-anyfontsize \
                    texlive-dvipng \

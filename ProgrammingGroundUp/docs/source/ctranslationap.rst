@@ -440,8 +440,8 @@ so that the assembly language output will follow your source code
 better.
 
 Something else you might notice is that GCC reserves more stack space
-for local variables than we do, and then AND's FIXMEampesp-indexed;
- [1]_ This is to increase memory and cache efficiency by double-word
+for local variables than we do, and then AND's FIXMEampesp-indexed; [1]_
+This is to increase memory and cache efficiency by double-word
 aligning variables.
 
 Finally, at the end of functions, we usually do the following

@@ -35,8 +35,7 @@ Compounding this problem is that you don't even know beforehand where
 the speed issues in your program will be. Even experienced programmers
 have trouble predicting which parts of the program will be the
 bottlenecks which need optimization, so you will probably end up wasting
-your time optimizing the wrong parts. `Where to
-Optimize <#wheretooptimize>`__ will discuss how to find the parts of
+your time optimizing the wrong parts. :ref:`wheretooptimize` will discuss how to find the parts of
 your program that need optimization.
 
 While you develop your program, you need to have the following
