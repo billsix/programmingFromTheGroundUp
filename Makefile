@@ -22,6 +22,13 @@ shell:  ## Get Shell into a ephermeral container made from the image
 		$(CONTAINER_NAME) \
 		shell.sh
 
+.PHONY: html
+html:  ## Build the book
+	$(CONTAINER_CMD) run -it --rm \
+		-v ./entrypoint/entrypoint.sh:/entrypoint.sh:Z \
+		$(FILES_TO_MOUNT) \
+		$(CONTAINER_NAME) \
+
 
 .PHONY: help
 help:

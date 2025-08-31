@@ -162,7 +162,7 @@ represented by the number 49. So, to print out "HELLO", you would
 actually give the computer the sequence of numbers 72, 69, 76, 76, 79.
 To print out the number 100, you would give the computer the sequence of
 numbers 49, 48, 48. A list of ASCII characters and their numeric codes
-is found in `??? <#asciilisting>`__.
+is found in :ref:`asciilisting`.
 
 In addition to using numbers to represent ASCII characters, you as the
 programmer get to make the numbers mean anything you want them to, as
@@ -420,7 +420,7 @@ Going Further
    not entirely true anymore. However, for the purposes of keeping this
    simple for beginners, we will use the assumption that one number
    translates directly to one character. For more information, see
-   `??? <#asciilisting>`__.
+   :ref:`asciilisting`.
 
 .. [2]
    Previous incarnations of x86 processors only had two-byte words.
@@ -429,11 +429,11 @@ Going Further
    refer to four-byte entities as double-words. We are using the term
    *word* to mean the normal register size of a computer, which in this
    case is four bytes. More information is available in
-   `??? <#instructionsappendix>`__,
+   :ref:`instructionsappendix`,
 
 .. [3]
    Note that here we are talking about general computer theory. Some
    processors and operating systems actually mark the regions of memory
    that can be executed with a special marker that indicates this.
 
-.. |Memory locations are like PO Boxes| image:: mailbox.png
+.. |Memory locations are like PO Boxes| image:: _static/mailbox.png

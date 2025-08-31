@@ -17,7 +17,7 @@ How a Computer Views Memory
 ---------------------------
 
 Let's review how memory within a computer works. You may also want to
-re-read `??? <#computerarchitecture>`__.
+re-read :ref:`computerarchitecture`.
 
 A computer looks at memory as a long sequence of numbered storage
 locations. A sequence of *millions* of numbered storage locations.
@@ -99,7 +99,7 @@ source code.
 
 The actual instructions (the ``.text.text`` section) are loaded at the
 address 0x08048000 (numbers starting with ``0x`` are in hexadecimal,
-which will be discussed in `??? <#countingchapter>`__). [2]_ The
+which will be discussed in :ref:`countingchapter`). [2]_ The
 ``.data.data`` section is loaded immediately after that, followed by the
 ``.bss.bss`` section.
 
@@ -107,7 +107,7 @@ The last byte that can be addressed on Linux is location 0xbfffffff.
 Linux starts the stack here and grows it downward toward the other
 sections. Between them is a huge gap. The initial layout of the stack is
 as follows: At the bottom of the stack (the bottom of the stack is the
-top address of memory - see `??? <#functionschapter>`__), there is a
+top address of memory - see :ref:`functionschapter`), there is a
 word of memory that is zero. After that comes the null-terminated name
 of the program using ASCII characters. After the program name comes the
 program's environment variables (these are not important to us in this
@@ -742,7 +742,7 @@ allocate a buffer for one of our file reading/writing programs instead
 of assigning it in the ``.bss``.
 
 The program we will demonstrate this on is ``read-records.s`` from
-`??? <#records>`__. This program uses a buffer named ``record_buffer``
+:ref:`records`. This program uses a buffer named ``record_buffer``
 to handle its input/output needs. We will simply change this from being
 a buffer defined in ``.bss`` to being a pointer to a
 dynamically-allocated buffer using our memory manager. You will need to
@@ -968,4 +968,4 @@ Going Further
    doesn't have to always be interrupting your programs to retreive
    pages off the disk.
 
-.. |Memory Layout of a Linux Program at Startup| image:: memorylayout.png
+.. |Memory Layout of a Linux Program at Startup| image:: _static/memorylayout.png

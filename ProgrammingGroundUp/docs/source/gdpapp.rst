@@ -38,7 +38,7 @@ An Example Debugging Session
 
 The best way to explain how a debugger works is by using it. The program
 we will be using the debugger on is the ``maximum`` program used in
-`??? <#firstprogs>`__. Let's say that you entered the program perfectly,
+:ref:`firstprogs`. Let's say that you entered the program perfectly,
 except that you left out the line:
 
 ::
@@ -228,7 +228,7 @@ simply use the command ``l``. This will print out your program with line
 numbers a screen at a time.
 
 When dealing with functions, you can also break on the function names.
-For example, in the factorial program in `??? <#functionschapter>`__, we
+For example, in the factorial program in :ref:`functionschapter`, we
 could set a breakpoint for the factorial function by typing in
 ``break factorial``. This will cause the debugger to break immediately
 after the function call and the function setup (it skips the pushing of

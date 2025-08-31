@@ -61,7 +61,7 @@ In our programs we will deal with files in the following ways:
    will return with either the number of characters read from the file,
    or an error code. Error codes can be distinguished because they are
    always negative numbers (more information on negative numbers can be
-   found in `??? <#countingchapter>`__). ``writewrite`` is system call
+   found in :ref:`countingchapter`). ``writewrite`` is system call
    4, and it requires the same parameters as the ``read`` system call,
    except that the buffer should already be filled with the data to
    write out. The ``write`` system call will give back the number of
@@ -103,7 +103,7 @@ smaller or bigger, depending on your application's needs.
 To create a buffer, you need to either reserve static or dynamic
 storage. Static storage is what we have talked about so far, storage
 locations declared using ``.long`` or ``.byte`` directives. Dynamic
-storage will be discussed in `??? <#dynamicmemory>`__. There are
+storage will be discussed in :ref:`dynamicmemory`. There are
 problems, though, with declaring buffers using ``.byte.byte``. First, it
 is tedious to type. You would have to type 500 numbers after the
 ``.byte`` declaration, and they wouldn't be used for anything but to
@@ -303,7 +303,7 @@ Since letters are represented as numbers, we can subtract them.
 Subtracting an upper-case letter from the same lower-case letter gives
 us how much we need to add to a lower-case letter to make it upper case.
 If that doesn't make sense, look at the ASCII code tables themselves
-(see `??? <#asciilisting>`__). You'll notice that the number for the
+(see :ref:`asciilisting`). You'll notice that the number for the
 character ``A`` is 65 and the character ``a`` is 97. The conversion
 factor is then -32. For any lowercase letter if you add -32, you will
 get its capital equivalent.
@@ -392,7 +392,7 @@ parameters:
    as open for reading, open for writing, open for reading and writing,
    create if it doesn't exist, delete the file if it already exists,
    etc. We will not go into how to create the numbers for the options
-   until `??? <#truthbinarynumbers>`__. For now, just trust the numbers
+   until :ref:`truthbinarynumbers`. For now, just trust the numbers
    we come up with.
 
 -  FIXMEAMPedx-indexed; contains the permissions that are used to open
@@ -511,12 +511,12 @@ Going Further
 
 .. [1]
    This will be explained in more detail in
-   `??? <#truthbinarynumbers>`__.
+   :ref:`truthbinarynumbers`.
 
 .. [2]
    While this sounds complicated, most of the time in programming you
    will not need to deal directly with buffers and file descriptors. In
-   `??? <#linking>`__ you will learn how to use existing code present in
+   :ref:`linking` you will learn how to use existing code present in
    Linux to handle most of the complications of file input/output for
    you.
 

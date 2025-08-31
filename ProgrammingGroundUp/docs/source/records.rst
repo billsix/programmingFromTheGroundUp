@@ -13,7 +13,7 @@
 Reading and Writing Simple Records
 ==================================
 
-As mentioned in `??? <#filesch>`__, many applications deal with data
+As mentioned in :ref:`filesch`, many applications deal with data
 that is *persistent* - meaning that the data lives longer than the
 program by being stored on disk in files. You can shut down the program
 and open it back up, and you are back where you started. Now, there are
@@ -127,7 +127,7 @@ Type the following code into a file called ``write-records.s``:
 This is a fairly simple program. It merely consists of defining the data
 we want to write in the ``.data.data`` section, and then calling the
 right system calls and function calls to accomplish it. For a refresher
-of all of the system calls used, see `??? <#syscallap>`__.
+of all of the system calls used, see :ref:`syscallap`.
 
 You may have noticed the lines:
 
@@ -305,8 +305,8 @@ As you can see, writing fixed-length records is pretty simple. You only
 have to read in blocks of data to a buffer, process them, and write them
 back out. Unfortunately, this program doesn't write the new ages out to
 the screen so you can verify your program's effectiveness. This is
-because we won't get to displaying numbers until `??? <#linking>`__ and
-`??? <#countingchapter>`__. After reading those you may want to come
+because we won't get to displaying numbers until :ref:`linking` and
+:ref:`countingchapter`. After reading those you may want to come
 back and rewrite this program to display the numeric data that we are
 modifying.
 
@@ -383,7 +383,7 @@ Going Further
    high-level interface to structured data which, although it adds some
    overhead and additional complexity, is very useful for complex data
    processing tasks. References for learning how databases work are
-   listed in `??? <#wherenextch>`__.
+   listed in :ref:`wherenextch`.
 
 .. [2]
    If you have used C, this is what the ``strlenstrlen`` function does.

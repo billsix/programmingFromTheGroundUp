@@ -16,7 +16,7 @@ In this chapter you will learn the process for writing and building
 Linux assembly-language programs. In addition, you will learn the
 structure of assembly-language programs, and a few assembly-language
 commands. As you go through this chapter, you may want to refer also to
-`??? <#instructionsappendix>`__ and `??? <#gdbappendix>`__.
+:ref:`instructionsappendix` and :ref:`gdbappendix`.
 
 These programs may overwhelm you at first. However, go through them with
 diligence, read them and their explanations as many times as necessary,
@@ -200,7 +200,7 @@ the FIXMEAMPeax; register. In assembly language, many instructions have
 *destination*. In this case, the source is the literal number 1, and the
 destination is the FIXMEAMPeax; register. Operands can be numbers,
 memory location references, or registers. Different instructions allow
-different types of operands. See `??? <#instructionsappendix>`__ for
+different types of operands. See :ref:`instructionsappendix` for
 more information on which instructions take which kinds of operands.
 
 On most instructions which have two operands, the first one is the
@@ -250,7 +250,7 @@ in a specific way.
 
 So, the ``movl`` instruction moves the number ``1`` into ``%eax``. The
 dollar-sign in front of the one indicates that we want to use immediate
-mode addressing (refer back to `??? <#dataaccessingmethods>`__). Without
+mode addressing (refer back to :ref:`dataaccessingmethods`). Without
 the dollar-sign it would do direct addressing, loading whatever number
 is at address ``1``. We want the actual number ``1`` loaded in, so we
 have to use immediate mode.
@@ -264,7 +264,7 @@ calling other programs, dealing with files, and exiting have to be
 handled by the operating system through system calls. When you make a
 system call, which we will do shortly, the system call number has to be
 loaded into FIXMEAMPeax-indexed; (for a complete listing of system calls
-and their numbers, see `??? <#syscallap>`__). Depending on the system
+and their numbers, see :ref:`syscallap`). Depending on the system
 call, other registers may have to have values in them as well. Note that
 system calls is not the only use or even the main use of registers. It
 is just the one we are dealing with in this first program. Later
@@ -295,7 +295,7 @@ different requirements. In the ``exitexit`` system call,
 FIXMEAMPebx-indexed; is required to be loaded with the exit status. We
 will discuss different system calls as they are needed. For a list of
 common system calls and what is required to be in each register, see
-`??? <#syscallap>`__
+:ref:`syscallap`
 
 The next instruction is the "magic" one. It looks like this:
 
@@ -723,7 +723,7 @@ many jump statements that you can use:
    Jump no matter what. This does not need to be preceeded by a
    comparison.
 
-The complete list is documented in `??? <#instructionsappendix>`__. In
+The complete list is documented in :ref:`instructionsappendix`. In
 this case, we are jumping if FIXMEAMPeax; holds the value of zero. If
 so, we are done and we go to ``loop_exit``. [13]_
 
@@ -793,7 +793,7 @@ more clearly what is going on.
 Addressing Modes
 ----------------
 
-In `??? <#dataaccessingmethods>`__ we learned the different types of
+In :ref:`dataaccessingmethods` we learned the different types of
 addressing modes available for use in assembly language. This section
 will deal with how those addressing modes are represented in assembly
 language instructions.
@@ -815,7 +815,7 @@ the following calculation:
 the other two must be registers. If any of the pieces is left out, it is
 just substituted with zero in the equation.
 
-All of the addressing modes mentioned in `??? <#dataaccessingmethods>`__
+All of the addressing modes mentioned in :ref:`dataaccessingmethods`
 except immediate-mode can be represented in this fashion.
 
 direct addressing mode
@@ -918,7 +918,7 @@ both at the same time.
 |Layout of the FIXMEAMPeax; register|
 
 For a more comprehensive list of instructions, see
-`??? <#instructionsappendix>`__.
+:ref:`instructionsappendix`.
 
 Review
 ------
@@ -1046,7 +1046,7 @@ Going Further
    in depth later, but just be aware that numbers starting with ``0x``
    are in hexadecimal. Tacking on an ``H`` at the end is also sometimes
    used instead, but we won't do that in this book. For more information
-   about this, see `??? <#countingchapter>`__
+   about this, see :ref:`countingchapter`
 
 .. [7]
    Actually, the interrupt transfers control to whoever set up an
@@ -1100,6 +1100,6 @@ Going Further
    significant half. You can't quite divide it like that for registers,
    since they operate on base 2 rather than base 10 numbers, but that's
    the basic idea. For more information on this topic, see
-   `??? <#countingchapter>`__.
+   :ref:`countingchapter`.
 
-.. |Layout of the FIXMEAMPeax; register| image:: registerdescription.png
+.. |Layout of the FIXMEAMPeax; register| image:: _static/registerdescription.png

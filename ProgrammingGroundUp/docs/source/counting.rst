@@ -390,7 +390,7 @@ is often replaced by
 
        xorl  %eax, %eax
 
-We'll discuss speed more in `??? <#optimizationch>`__, but I want you to
+We'll discuss speed more in :ref:`optimizationch`, but I want you to
 see how programmers often do tricky things, especially with these binary
 operators, to make things fast. Now let's look at how we can use these
 operators to manipulate true/false values. Earlier we discussed how
@@ -646,7 +646,7 @@ Luckily, 32 bits is usually big enough to hold the numbers we use
 regularly.
 
 Additional program status register flags are examined in
-`??? <#instructionsappendix>`__.
+:ref:`instructionsappendix`.
 
 Other Numbering Systems
 -----------------------
@@ -758,7 +758,7 @@ bits will yield ``11111101``.
 
 The x86 processor has different forms of several instructions depending
 on whether they expect the quantities they operate on to be signed or
-unsigned. These are listed in `??? <#instructionsappendix>`__. For
+unsigned. These are listed in :ref:`instructionsappendix`. For
 example, the x86 processor has both a sign-preserving shift-right,
 ``sarlsarl``, and a shift-right which does not preserve the sign bit,
 ``shrlshrl``.
@@ -1029,5 +1029,5 @@ Going Further
    significant because it represents the hundreds place, 9 is the next
    most significant, and 4 is the least significant.
 
-.. |Register-to-memory transfers on little-endian systems| image:: littleendian.png
-.. |Register-to-memory transfers on big-endian systems| image:: bigendian.png
+.. |Register-to-memory transfers on little-endian systems| image:: _static/littleendian.png
+.. |Register-to-memory transfers on big-endian systems| image:: _static/bigendian.png

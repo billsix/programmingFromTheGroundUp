@@ -30,7 +30,7 @@ this, including:
 
 All three of these are usually used to some degree in any given project.
 The first option will be explored further in
-`??? <#highlevellanguages>`__. The second option is useful but it
+:ref:`highlevellanguages`. The second option is useful but it
 suffers from some drawbacks, including:
 
 -  Code that is copied often has to be majorly modified to fit the
@@ -148,7 +148,7 @@ In our first programs, all of the code was contained within the source
 file. Such programs are called *statically-linked executables*, because
 they contained all of the necessary functionality for the program that
 wasn't handled by the kernel. In the programs we wrote in
-`??? <#records>`__, we used both our main program file and files
+:ref:`records`, we used both our main program file and files
 containing routines used by multiple programs. In these cases, we
 combined all of the code together using the linker at link-time, so it
 was still statically-linked. However, in the ``helloworld-lib`` program,
@@ -316,7 +316,7 @@ the main ones:
 ``floatfloat``
    A ``float`` is a floating-point number (4 bytes on an x86 processor).
    Floating-point numbers will be explained in more depth in
-   `??? <#floatingpoint>`__.
+   :ref:`floatingpoint`.
 
 ``doubledouble``
    A ``double`` is a floating-point number that is larger than a float
@@ -326,7 +326,7 @@ the main ones:
    ``unsigned`` is a modifier used for any of the above types which
    keeps them from being used as signed quantities. The difference
    between signed and unsigned numbers will be discussed in
-   `??? <#countingchapter>`__.
+   :ref:`countingchapter`.
 
 ``**``
    An asterisk (``*``) is used to denote that the data isn't an actual
@@ -429,7 +429,7 @@ Building a Dynamic Library
 --------------------------
 
 Let's say that we wanted to take all of our shared code from
-`??? <#records>`__ and build it into a dynamic library to use in our
+:ref:`records` and build it into a dynamic library to use in our
 programs. The first thing we would do is assemble them like normal:
 
 ::
@@ -556,7 +556,7 @@ Use the Concepts
    status code be 0.
 
 -  Use the ``factorial`` function you developed in
-   `??? <#recursivefunctions>`__ to make a shared library. Then re-write
+   :ref:`recursivefunctions` to make a shared library. Then re-write
    the main program so that it links with the library dynamically.
 
 -  Rewrite the program above so that it also links with the 'c' library.

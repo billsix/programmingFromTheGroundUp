@@ -264,7 +264,7 @@ Making Our Program More Robust
 ------------------------------
 
 This section will go through making the ``add-year.s`` program from
-`??? <#records>`__ a little more robust.
+:ref:`records` a little more robust.
 
 Since this is a pretty simple program, we will limit ourselves to a
 single recovery point that covers the whole program. The only thing we

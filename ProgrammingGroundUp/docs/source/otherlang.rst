@@ -207,7 +207,7 @@ In addition, it can also run on Macintosh hardware running a number of
 operating systems.
 
 Additional information on the C programming language can be found in
-`??? <#ctranslationap>`__.
+:ref:`ctranslationap`.
 
 Perl
 ----

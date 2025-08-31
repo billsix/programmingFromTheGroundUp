@@ -16,7 +16,7 @@ All About Functions
 Dealing with Complexity
 -----------------------
 
-In `??? <#firstprogs>`__, the programs we wrote only consisted of one
+In :ref:`firstprogs`, the programs we wrote only consisted of one
 section of code. However, if we wrote real programs like that, it would
 be impossible to maintain them. It would be really difficult to get
 multiple people working on the project, as any change in one part might
@@ -215,7 +215,7 @@ instruction:
    movl 4(%esp), %eax
 
 This instruction uses the base pointer addressing mode (see
-`??? <#dataaccessingmethods>`__) which simply adds 4 to
+:ref:`dataaccessingmethods`) which simply adds 4 to
 FIXMEAMPesp-indexed; before looking up the value being pointed to.
 
 In the C language calling convention, the stack is the key element for
@@ -503,7 +503,7 @@ By now, you should be able to go through the program without help. The
 only things you should need to know is that ``imullimull`` does integer
 multiplication and stores the result in the second operand, and
 ``decldecl`` decreases the given register by 1. For more information on
-these and other instructions, see `??? <#instructionsappendix>`__
+these and other instructions, see :ref:`instructionsappendix`
 
 A good project to try now is to extend the program so it will return the
 value of a number if the power is 0 (hint, anything raised to the zero
@@ -791,7 +791,7 @@ Use the Concepts
 
 -  Write a program to test your ``square`` function.
 
--  Convert the maximum program given in `??? <#maximum>`__ so that it is
+-  Convert the maximum program given in :ref:`maximum` so that it is
    a function which takes a pointer to several values and returns their
    maximum. Write a program that calls maximum with 3 different lists,
    and returns the result of the last one as the program's exit status
