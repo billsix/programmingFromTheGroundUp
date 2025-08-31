@@ -18,5 +18,9 @@ RUN dnf install -y python3 \
                    texlive-dvisvgm \
                    texlive-standalone 
 
+RUN dnf install -y glibc.i686 \
+                   libgcc.i686 \
+                   glibc-devel.i686
+
 ENTRYPOINT ["/entrypoint.sh"]
 
