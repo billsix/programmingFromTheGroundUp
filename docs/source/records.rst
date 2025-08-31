@@ -125,7 +125,7 @@ Type the following code into a file called ``write-records.s``:
    FIXMEAMPwrite-records;
 
 This is a fairly simple program. It merely consists of defining the data
-we want to write in the ``.data.data`` section, and then calling the
+we want to write in the ``.data`` section, and then calling the
 right system calls and function calls to accomplish it. For a refresher
 of all of the system calls used, see :ref:`syscallap`.
 
@@ -139,14 +139,14 @@ You may have noticed the lines:
 These statements cause the given files to basically be pasted right
 there in the code. You don't need to do this with functions, because the
 linker can take care of combining functions exported with
-``.globl.globl``. However, constants defined in another file do need to
+``.globl``. However, constants defined in another file do need to
 be imported in this way.
 
 Also, you may have noticed the use of a new assembler directive,
-``.rept.rept``. This directive repeats the contents of the file between
-the ``.rept`` and the ``.endr.endr`` directives the number of times
+``.rept``. This directive repeats the contents of the file between
+the ``.rept`` and the ``.endr`` directives the number of times
 specified after ``.rept``. This is usually used the way we used it - to
-pad values in the ``.data.data`` section. In our case, we are adding
+pad values in the ``.data`` section. In our case, we are adding
 null characters to the end of each field until they are their defined
 lengths.
 
@@ -251,7 +251,7 @@ one construct that might be new is the line that says:
 It looks like we are combining and add instruction with a push
 instruction, but we are not. You see, both ``RECORD_FIRSTNAME`` and
 ``record_buffer`` are constants. The first is a direct constant, created
-through the use of a ``.equ.equ`` directive, while the latter is defined
+through the use of a ``.equ`` directive, while the latter is defined
 automatically by the assembler through its use as a label (it's value
 being the address that the data that follows it will start at). Since
 they are both constants that the assembler knows, it is able to add them
@@ -386,7 +386,7 @@ Going Further
    listed in :ref:`wherenextch`.
 
 .. [2]
-   If you have used C, this is what the ``strlenstrlen`` function does.
+   If you have used C, this is what the ``strlen`` function does.
 
 .. [3]
    You will find that after learning the mechanics of programming, most

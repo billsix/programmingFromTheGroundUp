@@ -22,15 +22,30 @@ shell:  ## Get Shell into a ephermeral container made from the image
 		$(OUTPUT_DIR_TO_MOUNT) \
 		-v ./entrypoint/shell.sh:/shell.sh:Z \
 		$(CONTAINER_NAME) \
-		shell.sh
+		/shell.sh
 
 .PHONY: html
-html:  ## Build the book
+html:  ## Build the book in HTML form
 	$(CONTAINER_CMD) run -it --rm \
-		-v ./entrypoint/entrypoint.sh:/entrypoint.sh:Z \
+		--entrypoint /bin/bash \
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
-		$(CONTAINER_NAME)
+		-v ./entrypoint/html.sh:/html.sh:Z \
+		$(CONTAINER_NAME) \
+		/html.sh
+
+
+.PHONY: pdf
+pdf:  ## Build the book in PDF form
+	$(CONTAINER_CMD) run -it --rm \
+		--entrypoint /bin/bash \
+		$(FILES_TO_MOUNT) \
+		$(OUTPUT_DIR_TO_MOUNT) \
+		-v ./entrypoint/pdf.sh:/pdf.sh:Z \
+		$(CONTAINER_NAME) \
+		/pdf.sh
+
+
 
 
 .PHONY: help

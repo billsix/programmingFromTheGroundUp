@@ -16,11 +16,12 @@ RUN dnf install -y python3 \
                    texlive-anyfontsize \
                    texlive-dvipng \
                    texlive-dvisvgm \
-                   texlive-standalone 
+                   texlive-standalone
 
 RUN dnf install -y glibc.i686 \
                    libgcc.i686 \
                    glibc-devel.i686
 
-ENTRYPOINT ["/entrypoint.sh"]
+RUN dnf install -y man man-db man-pages --setopt='tsflags='
 
+ENTRYPOINT ["/entrypoint.sh"]

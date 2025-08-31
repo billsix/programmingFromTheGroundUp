@@ -53,7 +53,7 @@ In our programs we will deal with files in the following ways:
    refer to this file throughout your program.
 
 3. Next you will operate on the file doing reads and/or writes, each
-   time giving Linux the file descriptor you want to use. ``readread``
+   time giving Linux the file descriptor you want to use. ``read``
    is system call 3, and to call it you need to have the file descriptor
    in FIXMEAMPebx;, the address of a buffer for storing the data that is
    read in FIXMEAMPecx;, and the size of the buffer in FIXMEAMPedx;.
@@ -61,7 +61,7 @@ In our programs we will deal with files in the following ways:
    will return with either the number of characters read from the file,
    or an error code. Error codes can be distinguished because they are
    always negative numbers (more information on negative numbers can be
-   found in :ref:`countingchapter`). ``writewrite`` is system call
+   found in :ref:`countingchapter`). ``write`` is system call
    4, and it requires the same parameters as the ``read`` system call,
    except that the buffer should already be filled with the data to
    write out. The ``write`` system call will give back the number of
@@ -69,7 +69,7 @@ In our programs we will deal with files in the following ways:
 
 4. When you are through with your files, you can then tell Linux to
    close them. Afterwards, your file descriptor is no longer valid. This
-   is done using ``closeclose``, system call 6. The only parameter to
+   is done using ``close``, system call 6. The only parameter to
    ``close`` is the file descriptor, which is placed in FIXMEAMPebx;
 
 .. _buffersbss:
@@ -104,7 +104,7 @@ To create a buffer, you need to either reserve static or dynamic
 storage. Static storage is what we have talked about so far, storage
 locations declared using ``.long`` or ``.byte`` directives. Dynamic
 storage will be discussed in :ref:`dynamicmemory`. There are
-problems, though, with declaring buffers using ``.byte.byte``. First, it
+problems, though, with declaring buffers using ``.byte``. First, it
 is tedious to type. You would have to type 500 numbers after the
 ``.byte`` declaration, and they wouldn't be used for anything but to
 take up space. Second, it uses up space in the executable. In the
@@ -112,8 +112,8 @@ examples we've used so far, it doesn't use up too much, but that can
 change in larger programs. If you want 500 bytes you have to type in 500
 numbers and it wastes 500 bytes in the executable. There is a solution
 to both of these. So far, we have discussed two program sections, the
-``.text.text`` and the ``.data.data`` sections. There is another section
-called the ``.bss.bss``. This section is like the data section, except
+``.text`` and the ``.data`` sections. There is another section
+called the ``.bss``. This section is like the data section, except
 that it doesn't take up space in the executable. This section can
 reserve storage, but it can't initialize it. In the ``.data`` section,
 you could reserve storage and set it to an initial value. In the
@@ -217,7 +217,7 @@ working program. [4]_
 You may have been thinking that you will never remember all of these
 numbers being thrown at you - the system call numbers, the interrupt
 number, etc. In this program we will also introduce a new directive,
-``.equ`` which should help out. ``.equ.equ`` allows you to assign names
+``.equ`` which should help out. ``.equ`` allows you to assign names
 to numbers. For example, if you did ``.equ LINUX_SYSCALL, 0x800x80``,
 any time after that you wrote ``LINUX_SYSCALL``, the assembler would
 substitue ``0x80`` for that. So now, you can write
@@ -268,7 +268,7 @@ necessary to declare them before you use them, but putting them all at
 the beginning makes them easy to find. Making them all upper-case makes
 it obvious in your program which values are constants and where to find
 them. [5]_ In assembly language, we declare constants with the
-``.equ.equ`` directive as mentioned before. Here, we simply give names
+``.equ`` directive as mentioned before. Here, we simply give names
 to all of the standard numbers we've used so far, like system call
 numbers, the syscall interrupt number, and file open options.
 
@@ -439,7 +439,7 @@ could read it in with as little or as large of chunks as we want, and it
 still would work properly.
 
 The first part of the loop is to read the data. This uses the
-``readread`` system call. This call just takes a file descriptor to read
+``read`` system call. This call just takes a file descriptor to read
 from, a buffer to write into, and the size of the buffer (i.e. - the
 maximum number of bytes that could be written). The system call returns
 the number of bytes actually read, or end-of-file (the number 0).
@@ -453,7 +453,7 @@ previous system call. After this function executes, the buffer should be
 capitalized and ready to write out. The registers are then restored with
 what they had before.
 
-Finally, we issue a ``writewrite`` system call, which is exactly like
+Finally, we issue a ``write`` system call, which is exactly like
 the ``read`` system call, except that it moves the data from the buffer
 out to the file. Now we just go back to the beginning of the loop.
 

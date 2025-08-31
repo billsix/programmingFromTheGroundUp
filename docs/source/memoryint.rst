@@ -92,16 +92,16 @@ Pointer
 The Memory Layout of a Linux Program
 ------------------------------------
 
-When you program is loaded into memory, each ``.section.section`` is
+When you program is loaded into memory, each ``.section`` is
 loaded into its own region of memory. All of the code and data declared
 in each section is brought together, even if they were separated in your
 source code.
 
-The actual instructions (the ``.text.text`` section) are loaded at the
+The actual instructions (the ``.text`` section) are loaded at the
 address 0x08048000 (numbers starting with ``0x`` are in hexadecimal,
 which will be discussed in :ref:`countingchapter`). [2]_ The
-``.data.data`` section is loaded immediately after that, followed by the
-``.bss.bss`` section.
+``.data`` section is loaded immediately after that, followed by the
+``.bss`` section.
 
 The last byte that can be addressed on Linux is location 0xbfffffff.
 Linux starts the stack here and grows it downward toward the other
@@ -311,7 +311,7 @@ If you need more memory, you can just tell Linux where you want the new
 break point to be, and Linux will map all the memory you need between
 the current and new break point, and then move the break point to the
 spot you specify. That memory is now available for your program to use.
-The way we tell Linux to move the break point is through the ``brkbrk``
+The way we tell Linux to move the break point is through the ``brk``
 system call. The ``brk`` system call is call number 45 (which will be in
 FIXMEAMPeax;). FIXMEAMPebx; should be loaded with the requested
 breakpoint. Then you call ``int $0x80`` to signal Linux to do its work.
@@ -440,7 +440,7 @@ The ``allocate_init`` function
 Okay, this is a simple function. All it does is set up the
 ``heap_begin`` and ``current_break`` variables we discussed earlier. So,
 if you remember the discussion earlier, the current break can be found
-using the ``brkbrk`` system call. So, the function starts like this:
+using the ``brk`` system call. So, the function starts like this:
 
 ::
 

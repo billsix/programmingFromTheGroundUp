@@ -77,7 +77,7 @@ Function Call
 
 A function call in assembly language simply requires pushing the
 arguments to the function onto the stack in *reverse* order, and issuing
-a ``callcall`` instruction. After calling, the arguments are then popped
+a ``call`` instruction. After calling, the arguments are then popped
 back off of the stack. For example, consider the C code:
 
 ::
@@ -167,7 +167,7 @@ processing. If there aren't many variables in use, the value may simply
 stay in the register until it is needed again. Otherwise, when that
 register is needed for something else, the value, if it's changed, is
 copied back to its corresponding memory location. In C, you can use the
-keyword ``volatilevolatile`` to make sure all modifications and
+keyword ``volatile`` to make sure all modifications and
 references to the variable are done to the memory location itself,
 rather than a register copy of it, in case other processes, threads, or
 hardware may be modifying the value while your function is running.
@@ -213,7 +213,7 @@ This can be rendered in assembly language like this:
 
 The x86 assembly language has some direct support for looping as well.
 The FIXMEampecx-indexed; register can be used as a counter that *ends*
-with zero. The ``looploop`` instruction will decrement FIXMEampecx; and
+with zero. The ``loop`` instruction will decrement FIXMEampecx; and
 jump to a specified address unless FIXMEampecx; is zero. For example, if
 you wanted to execute a statement 100 times, you would do this in C:
 
@@ -247,7 +247,7 @@ another ending number, you should use the loop form which does not
 include the ``loop`` instruction.
 
 For really tight loops of character string operations, there is also the
-``reprep`` instruction, but we will leave learning about that as an
+``rep`` instruction, but we will leave learning about that as an
 exercise to the reader.
 
 Structs
@@ -266,7 +266,7 @@ can say:
 
 This doesn't do anything by itself, except give you ways of
 intelligently using 84 bytes of data. You can do basically the same
-thing using ``.equ.equ`` directives in assembly language. Like this:
+thing using ``.equ`` directives in assembly language. Like this:
 
 ::
 
@@ -445,7 +445,7 @@ This is to increase memory and cache efficiency by double-word
 aligning variables.
 
 Finally, at the end of functions, we usually do the following
-instructions to clean up the stack before issuing a ``retret``
+instructions to clean up the stack before issuing a ``ret``
 instruction:
 
 ::
@@ -454,7 +454,7 @@ instruction:
        popl %ebp
 
 However, GCC output will usually just include the instruction
-``leaveleave``. This instruction is simply the combination of the above
+``leave``. This instruction is simply the combination of the above
 two instructions. We do not use ``leave`` in this text because we want
 to be clear about exactly what is happening at the processor level.
 

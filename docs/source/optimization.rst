@@ -86,7 +86,7 @@ Once you have determined that you have a performance issue you need to
 determine where in the code the problems occur. You can do this by
 running a *profiler*. A profiler is a program that will let you run your
 program, and it will tell you how much time is spent in each function,
-and how many times they are run. ``gprofgprof`` is the standard
+and how many times they are run. ``gprof`` is the standard
 GNU/Linux profiling tool, but a discussion of using profilers is outside
 the scope of this text. After running a profiler, you can determine
 which functions are called the most or have the most time spent in them.

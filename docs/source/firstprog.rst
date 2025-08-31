@@ -37,7 +37,7 @@ Program <#assemblyoutline>`__ we will describe how it works.
 
 
 .. literalinclude:: ../../src/exit.s
-   :language: python
+   :language: gas
    :linenos:
    :lineno-match:
    :caption: src/exit.s
@@ -56,7 +56,7 @@ machine-readable one. To assembly the program type in the command
 
 ::
 
-   as exit.s -o exit.o
+   as --32 exit.s -o exit.o
 
 ``as`` is the command which runs the assembler, ``exit.s`` is the source
 file, and ``-o exit.o`` tells the assemble to put its output in the file
@@ -71,7 +71,7 @@ information to enable it to run. To *link* the file, enter the command
 
 ::
 
-   ld exit.o -o exit
+   ld -m elf_i386 exit.o -o exit
 
 ``ld`` is the command to run the linker, ``exit.o`` is the object file
 we want to link, and ``-o exit`` instructs the linker to output the new
@@ -295,7 +295,7 @@ comparisons take place. Linux simply requires that certain registers be
 loaded with certain parameter values before making a system call.
 FIXMEAMPeax-indexed; is always required to be loaded with the system
 call number. For the other registers, however, each system call has
-different requirements. In the ``exitexit`` system call,
+different requirements. In the ``exit`` system call,
 FIXMEAMPebx-indexed; is required to be loaded with the exit status. We
 will discuss different system calls as they are needed. For a list of
 common system calls and what is required to be in each register, see
@@ -307,7 +307,7 @@ The next instruction is the "magic" one. It looks like this:
 
        int $0x80
 
-The ``intint`` stands for *interrupt*. The ``0x800x80`` is the interrupt
+The ``int`` stands for *interrupt*. The ``0x80`` is the interrupt
 number to use. [6]_ An *interrupt* interrupts the normal program flow,
 and transfers control from our program to Linux so that it will do a
 system call. [7]_. You can think of it as like signaling Batman(or
@@ -332,7 +332,7 @@ the interrupt, then no system call would have been performed.
 Now that you've assembled, linked, run, and examined the program, you
 should make some basic edits. Do things like change the number that is
 loaded into ``%ebx``, and watch it come out at the end with
-``echo $?echo$?``. Don't forget to assemble and link it again before
+``echo$?``. Don't forget to assemble and link it again before
 running it. Add some comments. Don't worry, the worse thing that would
 happen is that the program won't assemble or link, or will freeze your
 screen. That's just part of learning!
@@ -497,7 +497,7 @@ something in the data section. These lines are the data section:
 
 Lets look at this. ``data_items`` is a label that refers to the location
 that follows it. Then, there is a directive that starts with
-``.long.long``. That causes the assembler to reserve memory for the list
+``.long``. That causes the assembler to reserve memory for the list
 of numbers that follow it. ``data_items`` refers to the location of the
 first one. Because ``data_items`` is a label, any time in our program
 where we need to refer to this address we can use the ``data_items``
@@ -505,23 +505,23 @@ symbol, and the assembler will substitute it with the address where the
 numbers start during assembly. For example, the instruction
 ``movl data_items, %eax`` would move the value 3 into FIXMEAMPeax;.
 There are several different types of memory locations other than
-``.long.long`` that can be reserved. The main ones are as follows:
+``.long`` that can be reserved. The main ones are as follows:
 
-``.byte.byte``
+``.byte``
    Bytes take up one storage location for each number. They are limited
    to numbers between 0 and 255.
 
-``.int.int``
+``.int``
    Ints (which differ from the ``int`` instruction) take up two storage
    locations for each number. These are limitted to numbers between 0
    and 65535. [9]_
 
-``.long.long``
+``.long``
    Longs take up four storage locations. This is the same amount of
    space the registers use, which is why they are used in this program.
    They can hold numbers between 0 and 4294967295.
 
-``.ascii.ascii``
+``.ascii``
    The ``.ascii`` directive is to enter in characters into memory.
    Characters each take up one storage location (they are converted into
    bytes internally). So, if you gave the directive
@@ -557,10 +557,10 @@ Otherwise it would continue processing past the end of the list into the
 data that follows it, and even to locations where we haven't put any
 data.
 
-Notice that we don't have a ``.globl.globl`` declaration for
+Notice that we don't have a ``.globl`` declaration for
 ``data_items``. This is because we only refer to these locations within
 the program. No other file or program needs to know where they are
-located. This is in contrast to the ``_start_start`` symbol, which Linux
+located. This is in contrast to the ``_start`` symbol, which Linux
 needs to know where it is so that it knows where to begin the program's
 execution. It's not an error to write ``.globl data_items``, it's just
 not necessary. Anyway, play around with this line and add your own
@@ -658,7 +658,7 @@ Let's look at the next line:
 We have the first item to look at stored in ``%eax``. Since it is the
 first item, we know it's the biggest one we've looked at. We store it in
 ``%ebx``, since that's where we are keeping the largest number found.
-Also, even though ``movlmovl`` stands for *move*, it actually copies the
+Also, even though ``movl`` stands for *move*, it actually copies the
 value, so ``%eax`` and ``%ebx`` both contain the starting value. [11]_
 
 Now we move into a *loop*. A loop is a segment of your program that
@@ -740,7 +740,7 @@ instructions:
        movl data_items(,%edi,4), %eax
 
 If you remember from our previous discussion, FIXMEAMPedi; contains the
-index to our list of values in ``data_items``. ``inclincl`` increments
+index to our list of values in ``data_items``. ``incl`` increments
 the value of FIXMEAMPedi; by one. Then the ``movl`` is just like the one
 we did beforehand. However, since we already incremented FIXMEAMPedi;,
 FIXMEAMPeax; is getting the next value from the list. Now FIXMEAMPeax;
@@ -901,7 +901,7 @@ In addition to these modes, there are also different instructions for
 different sizes of values to move. For example, we have been using
 ``movl`` to move data a word at a time. in many cases, you will only
 want to move data a byte at a time. This is accomplished by the
-instruction ``movbmovb``. However, since the registers we have discussed
+instruction ``movb``. However, since the registers we have discussed
 are word-sized and not byte-sized, you cannot use the full register.
 Instead, you have to use a portion of the register.
 
@@ -1077,7 +1077,7 @@ Going Further
    things.
 
 .. [11]
-   Also, the ``l`` in ``movlmovl`` stands for *move long* since we are
+   Also, the ``l`` in ``movl`` stands for *move long* since we are
    moving a value that takes up four storage locations.
 
 .. [12]
@@ -1091,7 +1091,7 @@ Going Further
    The names of these symbols can be anything you want them to be, as
    long as they only contain letters and the underscore
    character(``_``). The only one that is forced is ``_start_start``,
-   and possibly others that you declare with ``.globl.globl``. However,
+   and possibly others that you declare with ``.globl``. However,
    if it is a symbol you define and only you use, feel free to call it
    anything you want that is adequately descriptive (remember that
    others will have to modify your code later, and will have to figure

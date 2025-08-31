@@ -124,8 +124,8 @@ library names are longer than a single letter), the GNU/Linux linker
 prepends the string ``lib`` to the beginning of the library name and
 appends ``.so`` to the end of it to form the library's filename. This
 library contains many functions to automate all types of tasks. The two
-we are using are ``printfprintf``, which prints strings, and
-``exitexit``, which exits the program.
+we are using are ``printf``, which prints strings, and
+``exit``, which exits the program.
 
 Notice that the symbols ``printf`` and ``exit`` are simply referred to
 by name within the program. In previous chapters, the linker would
@@ -226,7 +226,7 @@ This definition means that there is a function ``printf``. The things
 inside the parenthesis are the function's parameters or arguments. The
 first parameter here is ``char *string``. This means there is a
 parameter named ``string`` (the name isn't important, except to use for
-talking about it), which has a type ``char *``. ``charchar`` means that
+talking about it), which has a type ``char *``. ``char`` means that
 it wants a single-byte character. The ``**`` after it means that it
 doesn't actually want a character as an argument, but instead it wants
 the address of a character or sequence of characters. If you look back
@@ -240,9 +240,9 @@ looked like this:
 
 So, we pushed the address of the ``hello`` string, rather than the
 actual characters. You might notice that we didn't push the length of
-the string. The way that ``printfprintf`` found the end of the string
+the string. The way that ``printf`` found the end of the string
 was because we ended it with a null character (``\0``). Many functions
-work that way, especially C language functions. The ``intint`` before
+work that way, especially C language functions. The ``int`` before
 the function definition tell what type of value the function will return
 in FIXMEAMPeax-indexed; when it returns. ``printf`` will return an
 ``int`` when it's through. Now, after the ``char *string``, we have a
@@ -276,7 +276,7 @@ Then run the program with ``./printf-example``, and it should say this:
 Now, if you look at the code, you'll see that we actually push the
 format string last, even though it's the first parameter listed. You
 always push a functions parameters in reverse order. [2]_ You may be
-wondering how the ``printfprintf`` function knows how many parameters
+wondering how the ``printf`` function knows how many parameters
 there are. Well, it searches through your string, and counts how many
 ``%d``\ s and ``%s``\ s it finds, and then grabs that number of
 parameters from the stack. If the parameter matches a ``%d``, it treats
@@ -294,35 +294,35 @@ library functions. To use them effectively, however, you need to know
 several more of the possible data types for reading functions. Here are
 the main ones:
 
-``intint``
+``int``
    An ``int`` is an integer number (4 bytes on x86 processor).
 
-``longlong``
+``long``
    A ``long`` is also an integer number (4 bytes on an x86 processor).
 
-``long longlong long``
+``long long``
    A ``long long`` is an integer number that's larger than a ``long`` (8
    bytes on an x86 processor).
 
-``shortshort``
+``short``
    A short is an integer number that's shorter than an ``int`` (2 bytes
    on an x86 processor).
 
-``charchar``
+``char``
    A ``char`` is a single-byte integer number. This is mostly used for
    storing character data, since ASCII strings usually are represented
    with one byte per character.
 
-``floatfloat``
+``float``
    A ``float`` is a floating-point number (4 bytes on an x86 processor).
    Floating-point numbers will be explained in more depth in
    :ref:`floatingpoint`.
 
-``doubledouble``
+``double``
    A ``double`` is a floating-point number that is larger than a float
    (8 bytes on an x86 processor).
 
-``unsignedunsigned``
+``unsigned``
    ``unsigned`` is a modifier used for any of the above types which
    keeps them from being used as signed quantities. The difference
    between signed and unsigned numbers will be discussed in
@@ -341,7 +341,7 @@ the main ones:
    to pass a sequence of consecutive locations, starting with the one
    pointed to by the given value. This is called an array.
 
-``structstruct``
+``struct``
    A ``struct`` is a set of data items that have been put together under
    a name. For example you could declare:
 
@@ -360,7 +360,7 @@ the main ones:
    This is because passing structs to functions is fairly complicated,
    since they can take up so many storage locations.
 
-``typedeftypedef``
+``typedef``
    A ``typedef`` basically allows you to rename a type. For example, I
    can do ``typedef int myowntype;`` in a C program, and any time I
    typed ``myowntype``, it would be just as if I typed ``int``. This can
@@ -380,7 +380,7 @@ That's how to read function documentation. Now, let's get back to the
 question of how to find out about libraries. Most of your system
 libraries are in ``/usr/lib/usr/lib`` or ``/lib/lib``. If you want to
 just see what symbols they define, just run
-``objdumpobjdump -R FILENAME`` where ``FILENAME`` is the full path to
+``objdump -R FILENAME`` where ``FILENAME`` is the full path to
 the library. The output of that isn't too helpful, though, for finding
 an interface that you might need. Usually, you have to know what library
 you want at the beginning, and then just read the documentation. Most
@@ -395,30 +395,30 @@ Useful Functions
 Several useful functions you will want to be aware of from the ``c``
 library include:
 
--  ``size_t strlenstrlen (const char *s)`` calculates the size of
+-  ``size_t strlen (const char *s)`` calculates the size of
    null-terminated strings.
 
--  ``int strcmpstrcmp (const char *s1, const char *s2)`` compares two
+-  ``int strcmp (const char *s1, const char *s2)`` compares two
    strings alphabetically.
 
--  ``char * strdupstrdup (const char *s)`` takes the pointer to a
+-  ``char * strdup (const char *s)`` takes the pointer to a
    string, and creates a new copy in a new location, and returns the new
    location.
 
--  ``FILE * fopenfopen (const char *filename, const char *opentype)``
+-  ``FILE * fopen (const char *filename, const char *opentype)``
    opens a managed, buffered file (allows easier reading and writing
    than using file descriptors directly). [3]_ [4]_
 
--  ``int fclosefclose (FILE *stream)`` closes a file opened with
+-  ``int fclose (FILE *stream)`` closes a file opened with
    ``fopen``.
 
--  ``char * fgetsfgets (char *s, int count, FILE *stream)`` fetches a
+-  ``char * fgets (char *s, int count, FILE *stream)`` fetches a
    line of characters into string ``s``.
 
--  ``int fputsfputs (const char *s, FILE *stream)`` writes a string to
+-  ``int fputs (const char *s, FILE *stream)`` writes a string to
    the given open file.
 
--  ``int fprintffprintf (FILE *stream, const char *template, ...)`` is
+-  ``int fprintf (FILE *stream, const char *template, ...)`` is
    just like ``printf``, but it uses an open file rather than defaulting
    to using standard output.
 
@@ -470,8 +470,8 @@ try it, we will get an error like the following:
 
 ::
 
-   ./write-records: error while loading shared libraries: 
-   librecord.so: cannot open shared object file: No such 
+   ./write-records: error while loading shared libraries:
+   librecord.so: cannot open shared object file: No such
    file or directory
 
 This is because, by default, the dynamic linker only searches ``/lib``,

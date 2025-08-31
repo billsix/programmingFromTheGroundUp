@@ -100,7 +100,7 @@ instruction than the example.
 
 One of the best ways to find bugs in a program is to follow the flow of
 the program to see where it is branching incorrectly. To follow the flow
-of this program, keep on entering ``stepistepi`` (for "step
+of this program, keep on entering ``stepi`` (for "step
 instruction"), which will cause the computer to execute one instruction
 at a time. If you do this several times, your output will look something
 like this:
@@ -145,10 +145,10 @@ strange things would happen. However, again, this is not the case.
 Neither of those potential problems are the culprit. So, the next option
 is that perhaps FIXMEAMPeax; has the wrong value. There are two ways to
 check the contents of register in GDB. The first one is the command
-``info registerinfo register``. This will display the contents of all
+``info register``. This will display the contents of all
 registers in hexadecimal. However, we are only interested in
 FIXMEAMPeax; at this point. To just display FIXMEAMPeax; we can do
-``print/$eax`` to print it in hexadecimal, or do ``printprint/d $eax``
+``print/$eax`` to print it in hexadecimal, or do ``print/d $eax``
 to print it in decimal. Notice that in GDB, registers are prefixed with
 dollar signs rather than percent signs. Your screen should have this on
 it:
@@ -219,7 +219,7 @@ should stop the program when it hits that point.
 
 To set breakpoints you have to set them up before you run the program.
 Before issuing the ``run`` command, you can set up breakpoints using the
-``breakbreak`` command. For example, to break on line 27, issue the
+``break`` command. For example, to break on line 27, issue the
 command ``break 27``. Then, when the program crosses line 27, it will
 stop running, and print out the current line and instruction. You can
 then step through the program from that point and examine registers and
@@ -237,7 +237,7 @@ FIXMEAMPebp-indexed; and the copying of FIXMEAMPesp-indexed;).
 When stepping through code, you often don't want to have to step through
 every instruction of every function. Well-tested functions are usually a
 waste of time to step through except on rare occasion. Therefore, if you
-use the ``nextinexti`` command instead of the ``stepistepi`` command,
+use the ``nexti`` command instead of the ``stepi`` command,
 GDB will wait until completion of the function before going on.
 Otherwise, with ``stepi``, GDB would step you through every instruction
 within every called function.

@@ -116,9 +116,9 @@ return address
    processing from many different parts of your program, and the
    function needs to be able to get back to wherever it was called from.
    In most programming languages, this parameter is passed automatically
-   when the function is called. In assembly language, the ``callcall``
+   when the function is called. In assembly language, the ``call``
    instruction handles passing the return address for you, and
-   ``retret`` handles using that address to return back to where you
+   ``ret`` handles using that address to return back to where you
    called the function from.
 
 return value
@@ -157,7 +157,7 @@ them.
 
 Your computer has a stack, too. The computer's stack lives at the very
 top addresses of memory. You can push values onto the top of the stack
-through an instruction called ``pushlpushl``, which pushes either a
+through an instruction called ``pushl``, which pushes either a
 register or memory value onto the top of the stack. Well, we say it's
 the top, but the "top" of the stack is actually the bottom of the
 stack's memory. Although this is confusing, the reason for it is that
@@ -166,7 +166,7 @@ of adding and removing to the top of it. However, in memory the stack
 starts at the top of memory and grows downward due to architectural
 considerations. Therefore, when we refer to the "top of the stack"
 remember it's at the bottom of the stack's memory. You can also pop
-values off the top using an instruction called ``poplpopl``. This
+values off the top using an instruction called ``popl``. This
 removes the top value from the stack and places it into a register or
 memory location of your choosing..
 
@@ -224,7 +224,7 @@ address.
 
 Before executing a function, a program pushes all of the parameters for
 the function onto the stack in the reverse order that they are
-documented. Then the program issues a ``callcall`` instruction
+documented. Then the program issues a ``call`` instruction
 indicating which function it wishes to start. The ``call`` instruction
 does two things. First it pushes the address of the next instruction,
 which is the return address, onto the stack. Then it modifies the
@@ -332,7 +332,7 @@ When a function is done executing, it does three things:
    back into effect).
 
 3. It returns control back to wherever it was called from. This is done
-   using the ``retret`` instruction, which pops whatever value is at the
+   using the ``ret`` instruction, which pops whatever value is at the
    top of the stack, and sets the instruction pointer,
    FIXMEAMPeip-indexed;, to that value.
 
@@ -462,7 +462,7 @@ After that, we define the value of the ``power`` label:
 As mentioned previously, this defines the symbol ``power`` to be the
 address where the instructions following the label begin. This is how
 ``call power`` works. It transfers control to this spot of the program.
-The difference between ``callcall`` and ``jmpjmp`` is that ``call`` also
+The difference between ``call`` and ``jmpjmp`` is that ``call`` also
 pushes the return address onto the stack so that the function can
 return, while the ``jmp`` does not.
 
@@ -587,8 +587,8 @@ a function's *parameters* are the data that you want the function to
 work with. In this case, the factorial function takes 1 parameter - the
 number you want the factorial of.
 
-The ``pushlpushl`` instruction puts the given value at the top of the
-stack. The ``callcall`` instruction then makes the function call.
+The ``pushl`` instruction puts the given value at the top of the
+stack. The ``call`` instruction then makes the function call.
 
 Next we have these lines:
 
@@ -624,7 +624,7 @@ The nice thing about function calls is that:
 
 -  They can be called multiple times and from multiple locations and
    they always know how to get back to where they were since
-   ``callcall`` pushes the return address onto the stack.
+   ``call`` pushes the return address onto the stack.
 
 These are the main advantages of functions. Larger programs also use
 functions to break down complex pieces of code into smaller, simpler
@@ -745,7 +745,7 @@ Now we're already to return, so we issue the following command
        ret
 
 This pops the top value off of the stack, and then jumps to it. If you
-remember our discussion about ``call``, we said that ``callcall`` first
+remember our discussion about ``call``, we said that ``call`` first
 pushed the address of the next instruction onto the stack before it
 jumped to the beginning of the function. So, here we pop it back off so
 we can return there. The function is done, and we have our answer!

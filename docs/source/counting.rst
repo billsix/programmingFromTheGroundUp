@@ -830,7 +830,7 @@ do
 
 ::
 
-       intint   $0x80
+       int   $0x80
 
 We are calling interrupt number 128 (8 groups of 16), or interrupt
 number ``0b00000000000000000000000010000000``.
