@@ -235,9 +235,12 @@ for jumps, because some of them are just there for clarity. Try to trace
 through the program and see what happens in various cases. An in-depth
 explanation of the program will follow.
 
-::
+.. literalinclude:: ../../src/toupper-nomm-simplified.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/toupper-nomm-simplified.s
 
-   FIXMEAMPtoupper-nomm-simplified-s;
 
 Type in this program as ``toupper.s``, and then enter in the following
 commands:
@@ -292,7 +295,7 @@ this one function. We have these definitions:
 
        .equ  LOWERCASE_A, 'a'
        .equ  LOWERCASE_Z, 'z'
-       .equ  UPPER_CONVERSION, 'A' - 'a' 
+       .equ  UPPER_CONVERSION, 'A' - 'a'
 
 The first two simply define the letters that are the boundaries of what
 we are searching for. Remember that in the computer, letters are

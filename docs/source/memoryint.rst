@@ -359,9 +359,13 @@ it shows the principles quite well. As usual, I will give you the
 program first for you to look through. Afterwards will follow an
 in-depth explanation. It looks long, but it is mostly comments.
 
-::
 
-   FIXMEAMPalloc-s;
+.. literalinclude:: ../../src/alloc.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/alloc.s
+
 
 The first thing to notice is that there is no ``_start`` symbol. The
 reason is that this is just a set of functions. A memory manager by

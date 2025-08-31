@@ -271,9 +271,11 @@ single recovery point that covers the whole program. The only thing we
 will do to recover is to print the error and exit. The code to do that
 is pretty simple:
 
-::
-
-   FIXMEAMPerror-exit-s;
+.. literalinclude:: ../../src/error-exit.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/error-exit.s
 
 Enter it in a file called ``error-exit.s``. To call it, you just need to
 push the address of an error message, and then an error code onto the

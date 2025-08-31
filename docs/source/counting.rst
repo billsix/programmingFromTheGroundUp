@@ -74,11 +74,11 @@ ten columns tall. In base two, it is very simple:
 
    Table of binary addition
 
-   + |  0  |  1  
+   + |  0  |  1
    --+-----+-----
-   0 |  0  |  0  
+   0 |  0  |  0
    --+-----+-----
-   1 |  1  | 10  
+   1 |  1  | 10
 
    Table of binary multiplication
 
@@ -142,7 +142,7 @@ and then we add all of the pieces together, like this:
 ::
 
    1*128 + 0*64 + 0*32 + 1*16 + 0*8 + 1*4 + 0*2 + 1*1 =
-   128 + 16 + 4 + 1 = 
+   128 + 16 + 4 + 1 =
    149
 
 So 10010101 in binary is 149 in decimal. Let's look at 1100101. It can
@@ -159,8 +159,8 @@ more number, 11101011001001. You can convert it to decimal by doing
 
 ::
 
-   1*8192 + 1*4096 + 1*2048 + 0*1024 + 1*512 + 0*256 
-          + 1*128 + 1*64 + 0*32 + 0*16 + 1*8 + 0*4 
+   1*8192 + 1*4096 + 1*2048 + 0*1024 + 1*512 + 0*256
+          + 1*128 + 1*64 + 0*32 + 0*16 + 1*8 + 0*4
           + 0*2 + 1*1 =
 
    8192 + 4096 + 2048 + 512 + 128 + 64 + 8 + 1 =
@@ -222,8 +222,8 @@ convert binary 11111111 into decimal:
 
    11111111 =
 
-   (1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4) + (1 * 2^3) 
-             + (1 * 2^2) + (1 * 2^1) + (1 * 2^0) = 
+   (1 * 2^7) + (1 * 2^6) + (1 * 2^5) + (1 * 2^4) + (1 * 2^3)
+             + (1 * 2^2) + (1 * 2^1) + (1 * 2^0) =
 
    128 + 64 + 32 + 16 + 8 + 4 + 2 + 1 =
 
@@ -332,7 +332,7 @@ at what an OR looks like:
 
 ::
 
-   10100010101010010101101100101010 OR 
+   10100010101010010101101100101010 OR
    10001000010101010101010101111010
    --------------------------------
    10101010111111010101111101111010
@@ -351,7 +351,7 @@ OR, except if *both* digits are 1, it returns 0.
 
 ::
 
-   10100010101010010101101100101010 XOR 
+   10100010101010010101101100101010 XOR
    10001000010101010101010101111010
    --------------------------------
    00101010111111000000111001010000
@@ -362,7 +362,7 @@ always get 0, like this:
 
 ::
 
-   10100010101010010101101100101010 XOR 
+   10100010101010010101101100101010 XOR
    10100010101010010101101100101010
    --------------------------------
    00000000000000000000000000000000
@@ -540,7 +540,7 @@ the results. The code would look like this:
 
 ::
 
-       #NOTE - assume that the register %ebx holds 
+       #NOTE - assume that the register %ebx holds
        #       my Dad's preferences
 
        movl  %ebx, %eax #This copies the information into %eax so
@@ -550,12 +550,12 @@ the results. The code would look like this:
                         #for Shift Right Long.  This first number
                         #is the number of positions to shift,
                         #and the second is the register to shift
-       
+
        #This does the masking
-       andl  $0b00000000000000000000000000000001, %eax 
+       andl  $0b00000000000000000000000000000001, %eax
 
        #Check to see if the result is 1 or 0
-       cmpl  $0b00000000000000000000000000000001, %eax 
+       cmpl  $0b00000000000000000000000000000001, %eax
 
        je    yes_he_likes_dressy_clothes
 
@@ -929,18 +929,24 @@ pushed them on.
 The code for the function should be put in a file called
 ``integer-to-string.s`` and should be entered as follows:
 
-::
 
-   FIXMEAMPinteger-to-string;
+.. literalinclude:: ../../src/integer-to-string.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/integer-to-string.s
 
 To show this used in a full program, use the following code, along with
 the ``count_chars`` and ``write_newline`` functions written about in
 previous chapters. The code should be in a file called
 ``conversion-program.s``.
 
-::
 
-   FIXMEAMPconversion-program;
+.. literalinclude:: ../../src/conversion-program.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/conversion-program.s
 
 To build the program, issue the following commands:
 

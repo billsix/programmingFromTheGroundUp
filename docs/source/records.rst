@@ -214,9 +214,11 @@ To write this, we need one more simple function - a function to write
 out a newline to ``STDOUT``. Put the following code into
 ``write-newline.s``:
 
-::
-
-   FIXMEAMPwrite-newline-s;
+.. literalinclude:: ../../src/write-newline.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/write-newline.s
 
 Now we are ready to write the main program. Here is the code to
 ``read-records.s``:

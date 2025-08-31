@@ -61,9 +61,11 @@ application. When that button is clicked it will ask you if you are
 sure, and if you click yes it will close the application. To run this
 program, type in the following as ``gnome-example.s``:
 
-::
-
-   FIXMEampgnome-example-s;
+.. literalinclude:: ../../src/gnome-example.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/gnome-example.s
 
 To build this application, execute the following commands:
 

@@ -418,9 +418,13 @@ program simple, we will only allow numbers 1 and greater.
 The following is the code for the complete program. As usual, an
 explanation follows. Name the file ``power.s``.
 
-::
 
-   FIXMEAMPpower-s;
+.. literalinclude:: ../../src/power.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/power.s
+
 
 Type in the program, assemble it, and run it. Try calling power for
 different values, but remember that the result has to be less than 256
@@ -555,9 +559,12 @@ its own stack frame, we are okay.
 
 Let's look at the code to see how this works:
 
-::
+.. literalinclude:: ../../src/factorial.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/factorial.s
 
-   FIXMEAMPfactorial-s;
 
 Assemble, link, and run it with these commands:
 

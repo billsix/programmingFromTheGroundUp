@@ -81,16 +81,22 @@ The program we will examine here is simple - it writes the characters
 ``hello world`` to the screen and exits. The regular program,
 ``helloworld-nolib.s``, looks like this:
 
-::
+.. literalinclude:: ../../src/helloworld-nolib.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/hellowworld-nolib.s
 
-   FIXMEAMPhelloworld-nolib-s;
 
 That's not too long. However, take a look at how short
 ``helloworld-lib`` is which uses a library:
 
-::
+.. literalinclude:: ../../src/helloworld-lib.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/helloworld-lib.s
 
-   FIXMEAMPhelloworld-lib-s;
 
 It's even shorter!
 
@@ -254,9 +260,11 @@ the characters ``%s``, it will look for another string from the stack to
 insert, and everywhere it sees ``%d`` it will look for a number from the
 stack to insert. This is best described using an example:
 
-::
-
-   FIXMEAMPprintf-example-s;
+.. literalinclude:: ../../src/printf-example.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/printf-example.s
 
 Type it in with the filename ``printf-example.s``, and then do the
 following commands:
