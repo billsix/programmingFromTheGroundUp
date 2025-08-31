@@ -28,7 +28,7 @@ documentation for details.
    optimization.rst
    wherenext.rst
    records.rst
-   gbpapp.rst
+   gdpapp.rst
    asciiap.rst
    cch.rst
    ctranslationap.rst
@@ -36,4 +36,3 @@ documentation for details.
    guiap.rst
    ..
       guidelines.rst
-
