@@ -1,9 +1,9 @@
 .DEFAULT_GOAL := help
 
 CONTAINER_CMD = podman
-CONTAINER_NAME = programminggroundup
-FILES_TO_MOUNT = -v ./ProgrammingGroundUp:/$(CONTAINER_NAME)/pgu:Z 
-OUTPUT_DIR_TO_MOUNT = -v ./output/:/output/:Z 
+CONTAINER_NAME = programmingfromthegroundup
+FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z
+OUTPUT_DIR_TO_MOUNT = -v ./output/:/output/:Z
 
 
 .PHONY: all
@@ -29,7 +29,7 @@ html:  ## Build the book
 		-v ./entrypoint/entrypoint.sh:/entrypoint.sh:Z \
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
-		$(CONTAINER_NAME) 
+		$(CONTAINER_NAME)
 
 
 .PHONY: help

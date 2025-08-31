@@ -1,2 +1,2 @@
-cd /programminggroundup
+cd /pgu/
 exec bash
