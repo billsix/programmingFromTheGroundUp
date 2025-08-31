@@ -2,7 +2,8 @@
 
 CONTAINER_CMD = podman
 CONTAINER_NAME = programmingfromthegroundup
-FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z
+FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
+                 -v ./src:/pgu/src:Z
 OUTPUT_DIR_TO_MOUNT = -v ./output/:/output/:Z
 
 
