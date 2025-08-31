@@ -19,3 +19,4 @@ all:
 	pandoc -f docbook -t rst original/FDLAp.xml -o docs/source/fdlap.rst
 	pandoc -f docbook -t rst original/GUIAp.xml -o docs/source/guiap.rst
 	pandoc -f docbook -t rst original/InstructionsAp.xml -o docs/source/instructionsap.rst
+	pandoc -f docbook -t rst original/SyscallAp.xml -o docs/source/syscallap.rst
