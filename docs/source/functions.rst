@@ -238,7 +238,7 @@ function. So, at the time the function starts, the stack looks like this
    ...
    Parameter 2
    Parameter 1
-   Return Address FIXMEAMPlt;--- (%esp)
+   Return Address <--- (%esp)
 
 Each of the parameters of the function have been pushed onto the stack,
 and finally the return address is there. Now the function itself has
@@ -267,12 +267,12 @@ At this point, the stack looks like this:
 
 ::
 
-   Parameter #N   FIXMEAMPlt;--- N*4+4(%ebp)
+   Parameter #N   <--- N*4+4(%ebp)
    ...
-   Parameter 2    FIXMEAMPlt;--- 12(%ebp)
-   Parameter 1    FIXMEAMPlt;--- 8(%ebp)
-   Return Address FIXMEAMPlt;--- 4(%ebp)
-   Old %ebp       FIXMEAMPlt;--- (%esp) and (%ebp)
+   Parameter 2    <--- 12(%ebp)
+   Parameter 1    <--- 8(%ebp)
+   Return Address <--- 4(%ebp)
+   Old %ebp       <--- (%esp) and (%ebp)
 
 As you can see, each parameter can be accessed using base pointer
 addressing mode using the FIXMEAMPebp-indexed; register.
@@ -300,14 +300,14 @@ Now we have two words for local storage. Our stack now looks like this:
 
 ::
 
-   Parameter #N     FIXMEAMPlt;--- N*4+4(%ebp)
+   Parameter #N     <--- N*4+4(%ebp)
    ...
-   Parameter 2      FIXMEAMPlt;--- 12(%ebp)
-   Parameter 1      FIXMEAMPlt;--- 8(%ebp)
-   Return Address   FIXMEAMPlt;--- 4(%ebp)
-   Old %ebp         FIXMEAMPlt;--- (%ebp)
-   Local Variable 1 FIXMEAMPlt;--- -4(%ebp)
-   Local Variable 2 FIXMEAMPlt;--- -8(%ebp) and (%esp)
+   Parameter 2      <--- 12(%ebp)
+   Parameter 1      <--- 8(%ebp)
+   Return Address   <--- 4(%ebp)
+   Old %ebp         <--- (%ebp)
+   Local Variable 1 <--- -4(%ebp)
+   Local Variable 2 <--- -8(%ebp) and (%esp)
 
 So we can now access all of the data we need for this function by using
 base pointer addressing using different offsets from
@@ -478,11 +478,11 @@ At this point, our stack looks like this:
 
 ::
 
-   Base Number    FIXMEAMPlt;--- 12(%ebp)
-   Power          FIXMEAMPlt;--- 8(%ebp)
-   Return Address FIXMEAMPlt;--- 4(%ebp)
-   Old %ebp       FIXMEAMPlt;--- (%ebp)
-   Current result FIXMEAMPlt;--- -4(%ebp) and (%esp)
+   Base Number    <--- 12(%ebp)
+   Power          <--- 8(%ebp)
+   Return Address <--- 4(%ebp)
+   Old %ebp       <--- (%ebp)
+   Current result <--- -4(%ebp) and (%esp)
 
 Although we could use a register for temporary storage, this program
 uses a local variable in order to show how to set it up. Often times

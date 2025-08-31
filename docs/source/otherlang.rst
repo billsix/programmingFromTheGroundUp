@@ -144,7 +144,7 @@ Comments in C are started with ``/*`` and ended with ``*/``. Comments
 can span multiple lines, but many people prefer to start and end
 comments on the same line so they don't get confused.
 
-``#include FIXMEAMPlt;stdio.hFIXMEAMPgt;`` is the first part of the
+``#include <stdio.h>`` is the first part of the
 program. This is a *preprocessor directive*. C compiling is split into
 two stages - the preprocessor and the main compiler. This directive
 tells the preprocessor to look for the file ``stdio.h`` and paste it
