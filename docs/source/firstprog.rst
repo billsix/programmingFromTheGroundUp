@@ -35,9 +35,13 @@ follows. Don't worry about not understanding it. This section only deals
 with typing it in and running it. In `Outline of an Assembly Language
 Program <#assemblyoutline>`__ we will describe how it works.
 
-::
 
-   FIXMEAMPexit-s;
+.. literalinclude:: ../../src/exit.s
+   :language: python
+   :linenos:
+   :lineno-match:
+   :caption: src/exit.s
+
 
 What you have typed in is called the *source code*. Source code is the
 human-readable form of a program. In order to transform it into a
