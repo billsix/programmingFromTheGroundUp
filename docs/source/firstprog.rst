@@ -243,10 +243,10 @@ special-purpose registers, including:
 
 -  %eip;
 
--  FIXMEAMPeflags-indexed;
+-  %eflags;
 
 We'll discuss these later, just be aware that they exist. [5]_ Some of
-these registers, like %eip; and FIXMEAMPeflags-indexed;
+these registers, like %eip; and %eflags;
 can only be accessed through special instructions. The others can be
 accessed using the same instructions as general-purpose registers, but
 they have special meanings, special uses, or are simply faster when used
@@ -466,9 +466,11 @@ Finding a Maximum Value
 
 Enter the following program as ``maximum.s``:
 
-::
-
-   FIXMEAMPmaximum-s;
+.. literalinclude:: ../../src/maximum.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/maximum.s
 
 Now, assemble and link it with these commands:
 
@@ -699,7 +701,7 @@ the end of our loop. Then we have these instructions:
 The ``cmplcmpl`` instruction compares the two values. Here, we are
 comparing the number 0 to the number stored in %eax; This compare
 instruction also affects a register not mentioned here, the
-FIXMEAMPeflags-indexed; register. This is also known as the status
+%eflags; register. This is also known as the status
 register, and has many uses which we will discuss later. Just be aware
 that the result of the comparison is stored in the status register. The
 next line is a flow control instruction which says to *jump* to the
@@ -906,11 +908,11 @@ are word-sized and not byte-sized, you cannot use the full register.
 Instead, you have to use a portion of the register.
 
 Take for instance eax;. If you only wanted to work with two bytes at a
-time, you could just use FIXME-AMPaxindexed;. %ax; is the
+time, you could just use %ax;. %ax; is the
 least-significant half (i.e. - the last part of the number) of the eax;
 register, and is useful when dealing with two-byte quantities.
 %ax; is further divided up into %al; and
-FIXME-AMPahindexed;. %al; is the least-significant byte of
+%ah;. %al; is the least-significant byte of
 %ax;, and %ah; is the most significant byte. [14]_ Loading
 a value into %eax; will wipe out whatever was in %al; and
 %ah; (and also %ax;, since %ax; is made up of
@@ -1036,7 +1038,7 @@ Going Further
    extended versions of the register. Usually you will only use the
    extended versions. Newer models also offer a 64-bit mode, which
    doubles the size of these registers yet again and uses an ``r``
-   prefix to indicate the larger registers (i.e. FIXMEAMPrax; is the
+   prefix to indicate the larger registers (i.e. %rax; is the
    64-bit version of eax;). However, these processors are not widely
    used, and are not covered in this book.
 

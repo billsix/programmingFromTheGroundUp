@@ -26,7 +26,7 @@ code for, and add the number on the left and the top.
    32      !   "   #   $           %   FIXMEamp    '
    40  (   )   \*  +   ,           -   .           /
    48  0   1   2   3   4           5   6           7
-   56  8   9   :   ;   FIXMEamplt; =   FIXMEampgt; ?
+   56  8   9   :   ;   < =   > ?
    64  @   A   B   C   D           E   F           G
    72  H   I   J   K   L           M   N           O
    80  P   Q   R   S   T           U   V           W

@@ -155,9 +155,12 @@ gnome_dialog_run_and_close
 The following is the same program written in the C language. Type it in
 as ``gnome-example-c.c``:
 
-::
+.. literalinclude:: ../../src/gnome-example-c.c
+   :language: c
+   :linenos:
+   :lineno-match:
+   :caption: src/gnome-example-c.c
 
-   FIXMEampgnome-example-c-c;
 
 To compile it, type
 
@@ -170,9 +173,12 @@ Run it by typing ``./gnome-example-c``.
 
 Finally, we have a version in Python. Type it in as gnome-example.py:
 
-::
+.. literalinclude:: ../../src/gnome-example.py
+   :language: python
+   :linenos:
+   :lineno-match:
+   :caption: src/gnome-example.py
 
-   FIXMEampgnome-example-py;
 
 To run it type ``python gnome-example.py``.
 

@@ -186,7 +186,7 @@ In C, a while loop looks like this:
 
 ::
 
-       while(a FIXMEamplt; b)
+       while(a < b)
        {
            /* Do stuff here */
        }
@@ -219,7 +219,7 @@ you wanted to execute a statement 100 times, you would do this in C:
 
 ::
 
-       for(i=0; i FIXMEamplt; 100; i++)
+       for(i=0; i < 100; i++)
        {
            /* Do process here */
        }

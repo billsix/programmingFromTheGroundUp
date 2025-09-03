@@ -35,7 +35,7 @@ value, while the second operand must be a register or memory location.
 Note, however, that in x86 assembly language you cannot have more than
 one operand be a memory location.
 
-In the flags section, it lists the flags in the FIXMEAMPeflags-indexed;
+In the flags section, it lists the flags in the %eflags;
 register affected by the instruction. The following flags are mentioned:
 
 O
@@ -113,7 +113,7 @@ mostly used for moving data from one place to another.
    | followed by ``addl $4, %esp``.     |              |                |
    | ``popfl`` is a variant which pops  |              |                |
    | the top of the stack into the      |              |                |
-   | FIXMEAMPeflags; register.          |              |                |
+   | %eflags; register.          |              |                |
    +------------------------------------+--------------+----------------+
    | pushl                              | I/R/M        | O/S/Z/A/C      |
    +------------------------------------+--------------+----------------+
@@ -124,7 +124,7 @@ mostly used for moving data from one place to another.
    | ``movl I/R/M, (%esp)``. ``pushfl`` |              |                |
    | is a variant which pushes the      |              |                |
    | current contents of the            |              |                |
-   | FIXMEAMPeflags; register onto the  |              |                |
+   | %eflags; register onto the  |              |                |
    | top of the stack.                  |              |                |
    +------------------------------------+--------------+----------------+
    | xchgl                              | R/M, R/M     | O/S/Z/A/C      |
