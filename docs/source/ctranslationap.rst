@@ -345,7 +345,7 @@ Taking the address of this data in C:
 
 ::
 
-       a = FIXMEampamp;global_data;
+       a = &global_data;
 
 Taking the address of this data in assembly language:
 
@@ -369,7 +369,7 @@ you take the address of a local variable in C:
 
        a = 30;
 
-       b = FIXMEampamp;a;
+       b = &a;
 
        *b = 44;
    }
@@ -391,7 +391,7 @@ The same code in assembly language:
        #a = 30
        movl $30, A_VAR(%ebp)
 
-       #b = FIXMEampamp;a
+       #b = &a
        movl $A_VAR, B_VAR(%ebp)
        addl %ebp, B_VAR(%ebp)
 
@@ -413,7 +413,7 @@ you want. So, we could just say:
 
 ::
 
-       #b = FIXMEampamp;a
+       #b = &a
        leal A_VAR(%ebp), %eax
        movl %eax, B_VAR(%ebp)
 
