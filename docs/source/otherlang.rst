@@ -121,9 +121,13 @@ Your First C Program
 Here is your first C program, which prints "Hello world" to the screen
 and exits. Type it in, and give it the name Hello-World.c
 
-::
+.. literalinclude:: ../../src/Hello-World.c
+   :language: c
+   :linenos:
+   :lineno-match:
+   :caption: src/Hello-World.c
 
-   FIXMEAMPHello-World-c;
+
 
 As you can see, it's a pretty simple program. To compile it, run the
 command
@@ -218,9 +222,11 @@ most often on Linux and UNIX-based ones. Anyway, here is the Perl
 version of the program, which should be typed into a file named
 ``Hello-World.pl``:
 
-::
-
-   FIXMEAMPHello-World-perl;
+.. literalinclude:: ../../src/Hello-World.pl
+   :language: perl
+   :linenos:
+   :lineno-match:
+   :caption: src/Hello-World.pl
 
 Since Perl is interpreted, you don't need to compile or link it. Just
 run in with the following command:
@@ -267,9 +273,12 @@ one. However, Python is really a very different language than Perl, even
 if it doesn't seem so from this trivial example. Type the program into a
 file named ``Hello-World.py``. The program follows:
 
-::
+.. literalinclude:: ../../src/Hello-World.py
+   :language: python
+   :linenos:
+   :lineno-match:
+   :caption: src/Hello-World.py
 
-   FIXMEAMPHello-World-python;
 
 You should be able to tell what the different lines of the program do.
 

@@ -59,18 +59,26 @@ beginning of the record in order to access them using base pointer
 addressing. The following constants describe the offsets to the above
 structure. Put them in a file named ``record-def.s``:
 
-::
 
-   FIXMEAMPrecord-def;
+.. literalinclude:: ../../src/record-def.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/record-def.s
+
 
 In addition, there are several constants that we have been defining over
 and over in our programs, and it is useful to put them in a file, so
 that we don't have to keep entering them. Put the following constants in
 a file called ``linux.s``:
 
-::
 
-   FIXMEAMPlinux;
+.. literalinclude:: ../../src/linux.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/linux.s
+
 
 We will write three programs in this chapter using the structure defined
 in ``record-def.s``. The first program will build a file containing
@@ -92,17 +100,25 @@ basically need:
 
 Let's look at our reading function first:
 
-::
+.. literalinclude:: ../../src/read-record.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/read-record.s
 
-   FIXMEAMPread-record;
+
 
 It's a pretty simple function. It just reads data the size of our
 structure into an appropriately sized buffer from the given file
 descriptor. The writing one is similar:
 
-::
 
-   FIXMEAMPwrite-record;
+.. literalinclude:: ../../src/write-record.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/write-record.s
+
 
 Now that we have our basic definitions down, we are ready to write our
 programs.
@@ -120,9 +136,12 @@ This program will simply write some hardcoded records to disk. It will:
 
 Type the following code into a file called ``write-records.s``:
 
-::
+.. literalinclude:: ../../src/write-records.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/write-records.s
 
-   FIXMEAMPwrite-records;
 
 This is a fairly simple program. It merely consists of defining the data
 we want to write in the ``.data`` section, and then calling the
@@ -185,9 +204,12 @@ contain at least one null character each.
 
 Here is the code. Put it in a file called ``count-chars.s``:
 
-::
+.. literalinclude:: ../../src/count-chars.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/count-chars.s
 
-   FIXMEAMPcount-chars;
 
 As you can see, it's a fairly straightforward function. It simply loops
 through the bytes, counting as it goes, until it hits a null character.
@@ -223,9 +245,12 @@ out a newline to ``STDOUT``. Put the following code into
 Now we are ready to write the main program. Here is the code to
 ``read-records.s``:
 
-::
+.. literalinclude:: ../../src/read-records.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/read-records.s
 
-   FIXMEAMPread-records;
 
 To build this program, we need to assemble all of the parts and link
 them together:
@@ -282,9 +307,12 @@ In this section, we will write a program that:
 Like most programs we've encountered recently, this program is pretty
 straightforward. [3]_
 
-::
+.. literalinclude:: ../../src/add-year.s
+   :language: gas
+   :linenos:
+   :lineno-match:
+   :caption: src/add-year.s
 
-   FIXMEAMPadd-year;
 
 You can type it in as ``add-year.s``. To build it, type the
 following [4]_:
