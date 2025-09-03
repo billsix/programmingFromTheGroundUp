@@ -174,24 +174,24 @@ When we push a value onto the stack, the top of the stack moves to
 accomodate the additional value. We can actually continually push values
 onto the stack and it will keep growing further and further down in
 memory until we hit our code or data. So how do we know where the
-current "top" of the stack is? The stack register, FIXMEAMPesp-indexed;,
+current "top" of the stack is? The stack register, %esp;,
 always contains a pointer to the current top of the stack, wherever it
 is.
 
-Every time we push something onto the stack with ``pushl``, FIXMEAMPesp;
+Every time we push something onto the stack with ``pushl``, %esp;
 gets subtracted by 4 so that it points to the new top of the stack
 (remember, each word is four bytes long, and the stack grows downward).
 If we want to remove something from the stack, we simply use the
-``popl`` instruction, which adds 4 to FIXMEAMPesp; and puts the previous
+``popl`` instruction, which adds 4 to %esp; and puts the previous
 top value in whatever register you specified. ``pushl`` and ``popl``
 each take one operand - the register to push onto the stack for
 ``pushl``, or receive the data that is popped off the stack for
 ``popl``.
 
 If we simply want to access the value on the top of the stack without
-removing it, we can simply use the FIXMEAMPesp-indexed; register in
+removing it, we can simply use the %esp; register in
 indirect addressing mode. For example, the following code moves whatever
-is at the top of the stack into FIXMEAMPeax;:
+is at the top of the stack into %eax;:
 
 ::
 
@@ -203,10 +203,10 @@ If we were to just do this:
 
    movl %esp, %eax
 
-then FIXMEAMPeax; would just hold the pointer to the top of the stack
-rather than the value at the top. Putting FIXMEAMPesp; in parenthesis
+then %eax; would just hold the pointer to the top of the stack
+rather than the value at the top. Putting %esp; in parenthesis
 causes the computer to go to indirect addressing mode, and therefore we
-get the value pointed to by FIXMEAMPesp-indexed;. If we want to access
+get the value pointed to by %esp;. If we want to access
 the value right below the top of the stack, we can simply issue this
 instruction:
 
@@ -216,7 +216,7 @@ instruction:
 
 This instruction uses the base pointer addressing mode (see
 :ref:`dataaccessingmethods`) which simply adds 4 to
-FIXMEAMPesp-indexed; before looking up the value being pointed to.
+%esp; before looking up the value being pointed to.
 
 In the C language calling convention, the stack is the key element for
 implementing a function's local variables, parameters, and return
@@ -228,7 +228,7 @@ documented. Then the program issues a ``call`` instruction
 indicating which function it wishes to start. The ``call`` instruction
 does two things. First it pushes the address of the next instruction,
 which is the return address, onto the stack. Then it modifies the
-instruction pointer (FIXMEAMPeip-indexed;) to point to the start of the
+instruction pointer (%eip;) to point to the start of the
 function. So, at the time the function starts, the stack looks like this
 (the "top" of the stack is at the bottom on this example):
 
@@ -245,9 +245,9 @@ and finally the return address is there. Now the function itself has
 some work to do.
 
 The first thing it does is save the current base pointer register,
-FIXMEAMPebp-indexed;, by doing ``pushl %ebp``. The base pointer is a
+%ebp;, by doing ``pushl %ebp``. The base pointer is a
 special register used for accessing function parameters and local
-variables. Next, it copies the stack pointer to FIXMEAMPebp-indexed; by
+variables. Next, it copies the stack pointer to %ebp; by
 doing ``movl %esp, %ebp``. This allows you to be able to access the
 function parameters as fixed indexes from the base pointer. You may
 think that you can use the stack pointer for this. However, during your
@@ -257,7 +257,7 @@ to other functions.
 Copying the stack pointer into the base pointer at the beginning of a
 function allows you to always know where your parameters are (and as we
 will see, local variables too), even while you may be pushing things on
-and off the stack. FIXMEAMPebp-indexed; will always be where the stack
+and off the stack. %ebp; will always be where the stack
 pointer was at the beginning of the function, so it is more or less a
 constant reference to the *stack frame* (the stack frame consists of all
 of the stack variables used within a function, including parameters,
@@ -275,7 +275,7 @@ At this point, the stack looks like this:
    Old %ebp       <--- (%esp) and (%ebp)
 
 As you can see, each parameter can be accessed using base pointer
-addressing mode using the FIXMEAMPebp-indexed; register.
+addressing mode using the %ebp; register.
 
 Next, the function reserves space on the stack for any local variables
 it needs. This is done by simply moving the stack pointer out of the
@@ -287,7 +287,7 @@ the space. This is done like this:
 
    subl $8, %esp
 
-This subtracts 8 from FIXMEAMPesp; (remember, a word is four bytes
+This subtracts 8 from %esp; (remember, a word is four bytes
 long). [4]_ This way, we can use the stack for variable storage without
 worring about clobbering them with pushes that we may make for function
 calls. Also, since it is allocated on the stack frame for this function
@@ -311,10 +311,10 @@ Now we have two words for local storage. Our stack now looks like this:
 
 So we can now access all of the data we need for this function by using
 base pointer addressing using different offsets from
-FIXMEAMPebp-indexed;. FIXMEAMPebp-indexed; was made specifically for
+%ebp;. %ebp; was made specifically for
 this purpose, which is why it is called the base pointer. You can use
 other registers in base pointer addressing mode, but the x86
-architecture makes using the FIXMEAMPebp-indexed; register a lot faster.
+architecture makes using the %ebp; register a lot faster.
 
 Global variables and static variables are accessed just like the memory
 we have been accessing memory in previous chapters. The only difference
@@ -325,7 +325,7 @@ other languages distinguish them.
 
 When a function is done executing, it does three things:
 
-1. It stores its return value in FIXMEAMPeax-indexed;.
+1. It stores its return value in %eax;.
 
 2. It resets the stack to what it was when it was called (it gets rid of
    the current stack frame and puts the stack frame of the calling code
@@ -334,14 +334,14 @@ When a function is done executing, it does three things:
 3. It returns control back to wherever it was called from. This is done
    using the ``ret`` instruction, which pops whatever value is at the
    top of the stack, and sets the instruction pointer,
-   FIXMEAMPeip-indexed;, to that value.
+   %eip;, to that value.
 
 So, before a function returns control to the code that called it, it
 must restore the previous stack frame. Note also that without doing
 this, ``ret`` wouldn't work, because in our current stack frame, the
 return address is not at the top of the stack. Therefore, before we
-return, we have to reset the stack pointer FIXMEAMPesp-indexed; and base
-pointer FIXMEAMPebp-indexed; to what they were when the function began.
+return, we have to reset the stack pointer %esp; and base
+pointer %ebp; to what they were when the function began.
 
 Therefore to return from the function you have to do the following:
 
@@ -359,10 +359,10 @@ the function it was created in, or else it will be overwritten after the
 life of its stack frame ends.
 
 Control has now been handed back to the calling code, which can now
-examine FIXMEAMPeax-indexed; for the return value. The calling code also
+examine %eax; for the return value. The calling code also
 needs to pop off all of the parameters it pushed onto the stack in order
 to get the stack pointer back where it was (you can also simply add 4 \*
-number of parameters to FIXMEAMPesp-indexed; using the ``addl``
+number of parameters to %esp; using the ``addl``
 instruction, if you don't need the values of the parameters
 anymore). [5]_
 
@@ -371,13 +371,13 @@ anymore). [5]_
    When you call a function, you should assume that everything currently
    in your registers will be wiped out. The only register that is
    guaranteed to be left with the value it started with are
-   FIXMEAMPebp-indexed; and a few others (the Linux C calling convention
-   requires functions to preserve the values of FIXMEAMPebx-indexed;,
-   FIXMEAMPedi-indexed;, and FIXMEAMPesi-indexed; if they are altered -
+   %ebp; and a few others (the Linux C calling convention
+   requires functions to preserve the values of %ebx;,
+   %edi;, and %esi; if they are altered -
    this is not strictly held during this book because these programs are
-   self-contained and not called by outside functions). FIXMEAMPebx;
+   self-contained and not called by outside functions). %ebx;
    also has some other uses in position-independent code, which is not
-   covered in this book. FIXMEAMPeax-indexed; is guaranteed to be
+   covered in this book. %eax; is guaranteed to be
    overwritten with the return value, and the others likely are. If
    there are registers you want to save before calling a function, you
    need to save them by pushing them on the stack before pushing the
@@ -434,9 +434,9 @@ results of the two computations. Try adding a third call to the
 
 The main program code is pretty simple. You push the arguments onto the
 stack, call the function, and then move the stack pointer back. The
-result is stored in FIXMEAMPeax;. Note that between the two calls to
+result is stored in %eax;. Note that between the two calls to
 ``power``, we save the first value onto the stack. This is because the
-only register that is guaranteed to be saved is FIXMEAMPebp-indexed;.
+only register that is guaranteed to be saved is %ebp;.
 Therefore we push the value onto the stack, and pop the value back off
 after the second function call is complete.
 
@@ -445,7 +445,7 @@ function, there is documentation as to what the function does, what its
 arguments are, and what it gives as a return value. This is useful for
 programmers who use this function. This is the function's interface.
 This lets the programmer know what values are needed on the stack, and
-what will be in FIXMEAMPeax; at the end.
+what will be in %eax; at the end.
 
 We then have the following line:
 
@@ -497,10 +497,10 @@ can't have a pointer to a register, so you have to store it in a local
 variable in order to send a pointer to it.
 
 Basically, what the program does is start with the base number, and
-store it both as the multiplier (stored in FIXMEAMPebx;) and the current
-value (stored in -4(%ebp)). It also has the power stored in FIXMEAMPecx;
+store it both as the multiplier (stored in %ebx;) and the current
+value (stored in -4(%ebp)). It also has the power stored in %ecx;
 It then continually multiplies the current value by the multiplier,
-decreases the power, and leaves the loop if the power (in FIXMEAMPecx;)
+decreases the power, and leaves the loop if the power (in %ecx;)
 gets down to 1.
 
 By now, you should be able to go through the program without help. The
@@ -513,7 +513,7 @@ A good project to try now is to extend the program so it will return the
 value of a number if the power is 0 (hint, anything raised to the zero
 power is 1). Keep trying. If it doesn't work at first, try going through
 your program by hand with a scrap of paper, keeping track of where
-FIXMEAMPebp; and FIXMEAMPesp; are pointing, what is on the stack, and
+%ebp; and %esp; are pointing, what is on the stack, and
 what the values are in each register.
 
 .. _recursivefunctions:
@@ -612,13 +612,13 @@ instruction moves the stack pointer back to where it was before we
 pushed the ``$4`` onto the stack. You should always clean up your stack
 parameters after a function call returns.
 
-The next instruction moves FIXMEAMPeax; to FIXMEAMPebx;. What's in
-FIXMEAMPeax-indexed;? It is ``factorial``'s return value. In our case,
+The next instruction moves %eax; to %ebx;. What's in
+%eax;? It is ``factorial``'s return value. In our case,
 it is the value of the factorial function. With 4 as our parameter, 24
 should be our return value. Remember, return values are always stored in
-FIXMEAMPeax-indexed;. We want to return this value as the status code to
+%eax;. We want to return this value as the status code to
 the operating system. However, Linux requires that the program's exit
-status be stored in FIXMEAMPebx-indexed;, not FIXMEAMPeax;, so we have
+status be stored in %ebx;, not %eax;, so we have
 to move it. Then we do the standard exit system call.
 
 The nice thing about function calls is that:
@@ -673,8 +673,8 @@ The next instruction is this:
        movl  8(%ebp), %eax
 
 This uses base pointer addressing to move the first parameter of the
-function into FIXMEAMPeax;. Remember, ``(%ebp)`` has the old
-FIXMEAMPebp;, ``4(%ebp)`` has the return address, and ``8(%ebp)`` is the
+function into %eax;. Remember, ``(%ebp)`` has the old
+%ebp;, ``4(%ebp)`` has the return address, and ``8(%ebp)`` is the
 location of the first parameter to the function. If you think back, this
 will be the value 4 on the first call, since that was what we pushed on
 the stack before calling the function the first time (with
@@ -683,7 +683,7 @@ too.
 
 Next, we check to see if we've hit our base case (a parameter of 1). If
 so, we jump to the instruction at the label ``end_factorial``, where it
-will be returned. It's already in FIXMEAMPeax; which we mentioned
+will be returned. It's already in %eax; which we mentioned
 earlier is where you put return values. That is accomplished by these
 lines:
 
@@ -694,15 +694,15 @@ lines:
 
 If it's not our base case, what did we say we would do? We would call
 the ``factorial`` function again with our parameter minus one. So, first
-we decrease FIXMEAMPeax; by one:
+we decrease %eax; by one:
 
 ::
 
        decl %eax
 
 ``decldecl`` stands for decrement. It subtracts 1 from the given
-register or memory location (FIXMEAMPeax; in our case). ``inclincl`` is
-the inverse - it adds 1. After decrementing FIXMEAMPeax; we push it onto
+register or memory location (%eax; in our case). ``inclincl`` is
+the inverse - it adds 1. After decrementing %eax; we push it onto
 the stack since it's going to be the parameter of the next function
 call. And then we call ``factorial`` again!
 
@@ -724,18 +724,18 @@ off the stack from the same place we got it the first time (at
 
 Now, we want to multiply that number with the result of the factorial
 function. If you remember our previous discussion, the result of
-functions are left in FIXMEAMPeax;. So, we need to multiply FIXMEAMPebx;
-with FIXMEAMPeax;. This is done with this instruction:
+functions are left in %eax;. So, we need to multiply %ebx;
+with %eax;. This is done with this instruction:
 
 ::
 
        imull %ebx, %eax
 
-This also stores the result in FIXMEAMPeax;, which is exactly where we
+This also stores the result in %eax;, which is exactly where we
 want the return value for the function to be! Since the return value is
 in place we just need to leave the function. If you remember, at the
-start of the function we pushed FIXMEAMPebp;, and moved FIXMEAMPesp;
-into FIXMEAMPebp; to create the current stack frame. Now we reverse the
+start of the function we pushed %ebp;, and moved %esp;
+into %ebp; to create the current stack frame. Now we reverse the
 operation to destroy the current stack frame and reactivate the last
 one:
 
@@ -784,7 +784,7 @@ Know the Concepts
 
 -  Why are local variables so necessary in recursive functions?
 
--  What are FIXMEAMPebp; and FIXMEAMPesp; used for?
+-  What are %ebp; and %esp; used for?
 
 -  What is a stack frame?
 
@@ -859,7 +859,7 @@ Going Further
 .. [4]
    Just a reminder - the dollar sign in front of the eight indicates
    immediate mode addressing, meaning that we subtract the number 8
-   itself from FIXMEAMPesp; rather than the value at address 8.
+   itself from %esp; rather than the value at address 8.
 
 .. [5]
    This is not always strictly needed unless you are saving registers on

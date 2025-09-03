@@ -199,10 +199,10 @@ is this:
    movl $1, %eax
 
 When the program runs, this instruction transfers the number ``1`` into
-the FIXMEAMPeax; register. In assembly language, many instructions have
+the %eax; register. In assembly language, many instructions have
 *operands*. ``movl`` has two operands - the *source* and the
 *destination*. In this case, the source is the literal number 1, and the
-destination is the FIXMEAMPeax; register. Operands can be numbers,
+destination is the %eax; register. Operands can be numbers,
 memory location references, or registers. Different instructions allow
 different types of operands. See :ref:`instructionsappendix` for
 more information on which instructions take which kinds of operands.
@@ -214,39 +214,39 @@ this type are, for example, ``addl``, ``subl``, and ``imull``. These
 add/subtract/multiply the source operand from/to/by the destination
 operand and and save the result in the destination operand. Other
 instructions may have an operand hardcoded in. ``idivl``, for example,
-requires that the dividend be in FIXMEAMPeax;, and FIXMEAMPedx; be zero,
-and the quotient is then transferred to FIXMEAMPeax; and the remainder
-to FIXMEAMPedx;. However, the divisor can be any register or memory
+requires that the dividend be in %eax;, and %edx; be zero,
+and the quotient is then transferred to %eax; and the remainder
+to %edx;. However, the divisor can be any register or memory
 location.
 
 On x86 processors, there are several general-purpose registers [4]_ (all
 of which can be used with ``movl``):
 
--  FIXMEAMPeax-indexed;
+-  %eax;
 
--  FIXMEAMPebx-indexed;
+-  %ebx;
 
--  FIXMEAMPecx-indexed;
+-  %ecx;
 
--  FIXMEAMPedx-indexed;
+-  %edx;
 
--  FIXMEAMPedi-indexed;
+-  %edi;
 
--  FIXMEAMPesi-indexed;
+-  %esi;
 
 In addition to these general-purpose registers, there are also several
 special-purpose registers, including:
 
--  FIXMEAMPebp-indexed;
+-  %ebp;
 
--  FIXMEAMPesp-indexed;
+-  %esp;
 
--  FIXMEAMPeip-indexed;
+-  %eip;
 
 -  FIXMEAMPeflags-indexed;
 
 We'll discuss these later, just be aware that they exist. [5]_ Some of
-these registers, like FIXMEAMPeip-indexed; and FIXMEAMPeflags-indexed;
+these registers, like %eip; and FIXMEAMPeflags-indexed;
 can only be accessed through special instructions. The others can be
 accessed using the same instructions as general-purpose registers, but
 they have special meanings, special uses, or are simply faster when used
@@ -259,7 +259,7 @@ the dollar-sign it would do direct addressing, loading whatever number
 is at address ``1``. We want the actual number ``1`` loaded in, so we
 have to use immediate mode.
 
-The reason we are moving the number 1 into FIXMEAMPeax; is because we
+The reason we are moving the number 1 into %eax; is because we
 are preparing to call the Linux Kernel. The number ``1`` is the number
 of the ``exit`` *system call* . We will discuss system calls in more
 depth soon, but basically they are requests for the operating system's
@@ -267,7 +267,7 @@ help. Normal programs can't do everything. Many operations such as
 calling other programs, dealing with files, and exiting have to be
 handled by the operating system through system calls. When you make a
 system call, which we will do shortly, the system call number has to be
-loaded into FIXMEAMPeax-indexed; (for a complete listing of system calls
+loaded into %eax; (for a complete listing of system calls
 and their numbers, see :ref:`syscallap`). Depending on the system
 call, other registers may have to have values in them as well. Note that
 system calls is not the only use or even the main use of registers. It
@@ -280,9 +280,9 @@ system needs to know which file you are dealing with, what data you want
 to write, and other details. The extra details, called *parameters* are
 stored in other registers. In the case of the ``exit`` system call, the
 operating system requires a status code be loaded in
-FIXMEAMPebx-indexed;. This value is then returned to the system. This is
+%ebx;. This value is then returned to the system. This is
 the value you retrieved when you typed ``echo $?``. So, we load
-FIXMEAMPebx; with ``0`` by typing the following:
+%ebx; with ``0`` by typing the following:
 
 ::
 
@@ -293,10 +293,10 @@ Registers are used for all sorts of things besides system calls. They
 are where all program logic such as addition, subtraction, and
 comparisons take place. Linux simply requires that certain registers be
 loaded with certain parameter values before making a system call.
-FIXMEAMPeax-indexed; is always required to be loaded with the system
+%eax; is always required to be loaded with the system
 call number. For the other registers, however, each system call has
 different requirements. In the ``exit`` system call,
-FIXMEAMPebx-indexed; is required to be loaded with the exit status. We
+%ebx; is required to be loaded with the exit status. We
 will discuss different system calls as they are needed. For a list of
 common system calls and what is required to be in each register, see
 :ref:`syscallap`
@@ -323,11 +323,11 @@ the interrupt, then no system call would have been performed.
    To recap - Operating System features are accessed through system
    calls. These are invoked by setting up the registers in a special way
    and issuing the instruction ``int $0x80``. Linux knows which system
-   call we want to access by what we stored in the FIXMEAMPeax-indexed;
+   call we want to access by what we stored in the %eax;
    register. Each system call has other requirements as to what needs to
    be stored in the other registers. System call number 1 is the
    ``exit`` system call, which requires the status code to be placed in
-   FIXMEAMPebx-indexed;.
+   %ebx;.
 
 Now that you've assembled, linked, run, and examined the program, you
 should make some basic edits. Do things like change the number that is
@@ -379,11 +379,11 @@ stop. We also need a value to hold the current position in the list, a
 value to hold the current list element being examined, and the current
 highest value on the list. Let's assign each of these a register:
 
--  FIXMEAMPedi; will hold the current position in the list.
+-  %edi; will hold the current position in the list.
 
--  FIXMEAMPebx; will hold the current highest value in the list.
+-  %ebx; will hold the current highest value in the list.
 
--  FIXMEAMPeax; will hold the current element being examined.
+-  %eax; will hold the current element being examined.
 
 When we begin the program and look at the first item in the list, since
 we haven't seen any other items, that item will automatically be the
@@ -391,18 +391,18 @@ current largest element in the list. Also, we will set the current
 position in the list to be zero - the first element. From then, we will
 follow the following steps:
 
-1. Check the current list element (FIXMEAMPeax;) to see if it's zero
+1. Check the current list element (%eax;) to see if it's zero
    (the terminating element).
 
 2. If it is zero, exit.
 
-3. Increase the current position (FIXMEAMPedi;).
+3. Increase the current position (%edi;).
 
 4. Load the next value in the list into the current value register
-   (FIXMEAMPeax;). What addressing mode might we use here? Why?
+   (%eax;). What addressing mode might we use here? Why?
 
-5. Compare the current value (FIXMEAMPeax;) with the current highest
-   value (FIXMEAMPebx;).
+5. Compare the current value (%eax;) with the current highest
+   value (%ebx;).
 
 6. If the current value is greater than the current highest value,
    replace the current highest value with the current value.
@@ -503,7 +503,7 @@ first one. Because ``data_items`` is a label, any time in our program
 where we need to refer to this address we can use the ``data_items``
 symbol, and the assembler will substitute it with the address where the
 numbers start during assembly. For example, the instruction
-``movl data_items, %eax`` would move the value 3 into FIXMEAMPeax;.
+``movl data_items, %eax`` would move the value 3 into %eax;.
 There are several different types of memory locations other than
 ``.long`` that can be reserved. The main ones are as follows:
 
@@ -593,8 +593,8 @@ underestimate the number of variables they will need. People are not
 used to having to think through every detail of a process, and therefore
 leave out needed variables in their first programming attempts.
 
-In this program, we are using FIXMEAMPebx; as the location of the
-largest item we've found. FIXMEAMPedi; is used as the *index* to the
+In this program, we are using %ebx; as the location of the
+largest item we've found. %edi; is used as the *index* to the
 current data item we're looking at. Now, let's talk about what an index
 is. When we read the information from ``data_items``, we will start with
 the first one (data item number 0), then go to the second one (data item
@@ -636,14 +636,14 @@ form is this:
 
    movl  BEGINNINGADDRESS(,%INDEXREGISTER,WORDSIZE)
 
-In our case ``data_items`` was our beginning address, FIXMEAMPedi; was
+In our case ``data_items`` was our beginning address, %edi; was
 our index register, and 4 was our word size. This topic is discussed
 further in `Addressing Modes <#movaddrmodes>`__.
 
 If you look at the numbers in ``data_items``, you will see that the
-number 3 is now in FIXMEAMPeax;. If FIXMEAMPedi; was set to 1, the
-number 67 would be in FIXMEAMPeax;, and if it was set to 2, the number
-34 would be in FIXMEAMPeax;, and so forth. Very strange things would
+number 3 is now in %eax;. If %edi; was set to 1, the
+number 67 would be in %eax;, and if it was set to 2, the number
+34 would be in %eax;, and so forth. Very strange things would
 happen if we used a number other than 4 as the size of our storage
 locations. [10]_ The way you write this is very awkward, but if you know
 what each piece does, it's not too difficult. For more information about
@@ -697,7 +697,7 @@ the end of our loop. Then we have these instructions:
        je loop_exit
 
 The ``cmplcmpl`` instruction compares the two values. Here, we are
-comparing the number 0 to the number stored in FIXMEAMPeax; This compare
+comparing the number 0 to the number stored in %eax; This compare
 instruction also affects a register not mentioned here, the
 FIXMEAMPeflags-indexed; register. This is also known as the status
 register, and has many uses which we will discuss later. Just be aware
@@ -728,7 +728,7 @@ many jump statements that you can use:
    comparison.
 
 The complete list is documented in :ref:`instructionsappendix`. In
-this case, we are jumping if FIXMEAMPeax; holds the value of zero. If
+this case, we are jumping if %eax; holds the value of zero. If
 so, we are done and we go to ``loop_exit``. [13]_
 
 If the last loaded element was not zero, we go on to the next
@@ -739,11 +739,11 @@ instructions:
        incl %edi
        movl data_items(,%edi,4), %eax
 
-If you remember from our previous discussion, FIXMEAMPedi; contains the
+If you remember from our previous discussion, %edi; contains the
 index to our list of values in ``data_items``. ``incl`` increments
-the value of FIXMEAMPedi; by one. Then the ``movl`` is just like the one
-we did beforehand. However, since we already incremented FIXMEAMPedi;,
-FIXMEAMPeax; is getting the next value from the list. Now FIXMEAMPeax;
+the value of %edi; by one. Then the ``movl`` is just like the one
+we did beforehand. However, since we already incremented %edi;,
+%eax; is getting the next value from the list. Now %eax;
 has the next value to be tested. So, let's test it!
 
 ::
@@ -751,8 +751,8 @@ has the next value to be tested. So, let's test it!
        cmpl %ebx, %eax
        jle start_loop
 
-Here we compare our current value, stored in FIXMEAMPeax; to our biggest
-value so far, stored in FIXMEAMPebx;. If the current value is less or
+Here we compare our current value, stored in %eax; to our biggest
+value so far, stored in %ebx;. If the current value is less or
 equal to our biggest value so far, we don't care about it, so we just
 jump back to the beginning of the loop. Otherwise, we need to record
 that value as the largest one:
@@ -762,18 +762,18 @@ that value as the largest one:
        movl %eax, %ebx
        jmp start_loop
 
-which moves the current value into FIXMEAMPebx;, which we are using to
+which moves the current value into %ebx;, which we are using to
 store the current largest value, and starts the loop over again.
 
 Okay, so the loop executes until it reaches a 0, when it jumps to
 ``loop_exit``. This part of the program calls the Linux kernel to exit.
 If you remember from the last program, when you call the operating
 system (remember it's like signaling Batman), you store the system call
-number in FIXMEAMPeax-indexed; (1 for the ``exit`` call), and store the
+number in %eax; (1 for the ``exit`` call), and store the
 other values in the other registers. The exit call requires that we put
-our exit status in FIXMEAMPebx-indexed; We already have the exit status
-there since we are using FIXMEAMPebx; as our largest number, so all we
-have to do is load FIXMEAMPeax; with the number one and call the kernel
+our exit status in %ebx; We already have the exit status
+there since we are using %ebx; as our largest number, so all we
+have to do is load %eax; with the number one and call the kernel
 to exit. Like this:
 
 ::
@@ -830,7 +830,7 @@ direct addressing mode
 
       movl ADDRESS, %eax
 
-   This loads FIXMEAMPeax; with the value at memory address ``ADDRESS``.
+   This loads %eax; with the value at memory address ``ADDRESS``.
 
 indexed addressing mode
    This is done by using the ``ADDRESS_OR_OFFSET`` and the ``%INDEX``
@@ -840,20 +840,20 @@ indexed addressing mode
    double-bytes, and words. For example, let's say that we had a string
    of bytes as ``string_start`` and wanted to access the third one (an
    index of 2 since we start counting the index at zero), and
-   FIXMEAMPecx; held the value 2. If you wanted to load it into
-   FIXMEAMPeax; you could do the following:
+   %ecx; held the value 2. If you wanted to load it into
+   %eax; you could do the following:
 
    ::
 
       movl string_start(,%ecx,1), %eax
 
    This starts at ``string_start``, and adds ``1 * %ecx`` to that
-   address, and loads the value into FIXMEAMPeax;.
+   address, and loads the value into %eax;.
 
 indirect addressing mode
    Indirect addressing mode loads a value from the address indicated by
-   a register. For example, if FIXMEAMPeax; held an address, we could
-   move the value at that address to FIXMEAMPebx; by doing the
+   a register. For example, if %eax; held an address, we could
+   move the value at that address to %ebx; by doing the
    following:
 
    ::
@@ -864,8 +864,8 @@ base pointer addressing mode
    Base-pointer addressing is similar to indirect addressing, except
    that it adds a constant value to the address in the register. For
    example, if you have a record where the age value is 4 bytes into the
-   record, and you have the address of the record in FIXMEAMPeax;, you
-   can retrieve the age into FIXMEAMPebx; by issuing the following
+   record, and you have the address of the record in %eax;, you
+   can retrieve the age into %ebx; by issuing the following
    instruction:
 
    ::
@@ -876,7 +876,7 @@ immediate mode
    Immediate mode is very simple. It does not follow the general form we
    have been using. Immediate mode is used to load direct values into
    registers or memory locations. For example, if you wanted to load the
-   number 12 into FIXMEAMPeax;, you would simply do the following:
+   number 12 into %eax;, you would simply do the following:
 
    ::
 
@@ -885,7 +885,7 @@ immediate mode
    Notice that to indicate immediate mode, we used a dollar sign in
    front of the number. If we did not, it would be direct addressing
    mode, in which case the value located at memory location 12 would be
-   loaded into FIXMEAMPeax; rather than the number 12 itself.
+   loaded into %eax; rather than the number 12 itself.
 
 register addressing mode
    Register mode simply moves data in or out of a register. In all of
@@ -906,20 +906,20 @@ are word-sized and not byte-sized, you cannot use the full register.
 Instead, you have to use a portion of the register.
 
 Take for instance eax;. If you only wanted to work with two bytes at a
-time, you could just use FIXME-AMPaxindexed;. FIXMEAMPax; is the
+time, you could just use FIXME-AMPaxindexed;. %ax; is the
 least-significant half (i.e. - the last part of the number) of the eax;
 register, and is useful when dealing with two-byte quantities.
-FIXMEAMPax; is further divided up into FIXMEAMPal-indexed; and
-FIXME-AMPahindexed;. FIXMEAMPal; is the least-significant byte of
-FIXMEAMPax;, and FIXMEAMPah; is the most significant byte. [14]_ Loading
-a value into FIXMEAMPeax; will wipe out whatever was in FIXMEAMPal; and
-FIXMEAMPah; (and also FIXMEAMPax;, since FIXMEAMPax; is made up of
-them). Similarly, loading a value into either FIXMEAMPal; or FIXMEAMPah;
-will corrupt any value that was formerly in FIXMEAMPeax;. Basically,
+%ax; is further divided up into %al; and
+FIXME-AMPahindexed;. %al; is the least-significant byte of
+%ax;, and %ah; is the most significant byte. [14]_ Loading
+a value into %eax; will wipe out whatever was in %al; and
+%ah; (and also %ax;, since %ax; is made up of
+them). Similarly, loading a value into either %al; or %ah;
+will corrupt any value that was formerly in %eax;. Basically,
 it's wise to only use a register for either a byte or a word, but never
 both at the same time.
 
-|Layout of the FIXMEAMPeax; register|
+|Layout of the %eax; register|
 
 For a more comprehensive list of instructions, see
 :ref:`instructionsappendix`.
@@ -950,8 +950,8 @@ Know the Concepts
 -  Why do indexes usually start at 0?
 
 -  If I issued the command ``movl data_items(,%edi,4), %eax`` and
-   data_items was address 3634 and FIXMEAMPedi; held the value 13, what
-   address would you be using to move into FIXMEAMPeax;?
+   data_items was address 3634 and %edi; held the value 13, what
+   address would you be using to move into %eax;?
 
 -  List the general-purpose registers.
 
@@ -1106,4 +1106,4 @@ Going Further
    the basic idea. For more information on this topic, see
    :ref:`countingchapter`.
 
-.. |Layout of the FIXMEAMPeax; register| image:: _static/registerdescription.png
+.. |Layout of the %eax; register| image:: _static/registerdescription.png

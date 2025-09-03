@@ -85,8 +85,8 @@ mostly used for moving data from one place to another.
    | This copies a word of data from    |              |                |
    | one location to another.           |              |                |
    | ``movl %eax, %ebx`` copies the     |              |                |
-   | contents of FIXMEAMPeax; to        |              |                |
-   | FIXMEAMPebx;                       |              |                |
+   | contents of %eax; to        |              |                |
+   | %ebx;                       |              |                |
    +------------------------------------+--------------+----------------+
    | movb                               | I/R/M, I/R/M | O/S/Z/A/C      |
    +------------------------------------+--------------+----------------+
@@ -103,7 +103,7 @@ mostly used for moving data from one place to another.
    | ``leal 5(%ebp,%ecx,1), %eax``      |              |                |
    | loads the address computed by      |              |                |
    | ``5 + %ebp + 1*%ecx`` and stores   |              |                |
-   | that in FIXMEAMPeax;               |              |                |
+   | that in %eax;               |              |                |
    +------------------------------------+--------------+----------------+
    | popl                               | R/M          | O/S/Z/A/C      |
    +------------------------------------+--------------+----------------+
@@ -175,9 +175,9 @@ unsigned integers.
    +--------------------------------------+------------+----------------+
    | cdq                                  |            | O/S/Z/A/P/C    |
    +--------------------------------------+------------+----------------+
-   | Converts the FIXMEAMPeax; word into  |            |                |
+   | Converts the %eax; word into  |            |                |
    | the double-word consisting of        |            |                |
-   | FIXMEAMPedx;:FIXMEAMPeax; with sign  |            |                |
+   | %edx;:%eax; with sign  |            |                |
    | extension. The ``q`` signifies that  |            |                |
    | it is a *quad-word*. It's actually a |            |                |
    | double-word, but it's called a       |            |                |
@@ -206,15 +206,15 @@ unsigned integers.
    | Performs unsigned division. Divides  |            |                |
    | the contents of the double-word      |            |                |
    | contained in the combined            |            |                |
-   | FIXMEAMPedx;:FIXMEAMPeax-indexed;    |            |                |
+   | %edx;:%eax;    |            |                |
    | registers by the value in the        |            |                |
    | register or memory location          |            |                |
-   | specified. The FIXMEAMPeax; register |            |                |
+   | specified. The %eax; register |            |                |
    | contains the resulting quotient, and |            |                |
-   | the FIXMEAMPedx; register contains   |            |                |
+   | the %edx; register contains   |            |                |
    | the resulting remainder. If the      |            |                |
    | quotient is too large to fit in      |            |                |
-   | FIXMEAMPeax;, it triggers a type 0   |            |                |
+   | %eax;, it triggers a type 0   |            |                |
    | interrupt.                           |            |                |
    +--------------------------------------+------------+----------------+
    | idivl                                | R/M        | O/S/Z/A/P      |
@@ -228,10 +228,10 @@ unsigned integers.
    | stores the result in the second      |            |                |
    | operand. If the second operand is    |            |                |
    | left out, it is assumed to be        |            |                |
-   | FIXMEAMPeax;, and the full result is |            |                |
+   | %eax;, and the full result is |            |                |
    | stored in the double-word            |            |                |
    | FIXMEA                               |            |                |
-   | MPedx-indexed;:FIXMEAMPeax-indexed;. |            |                |
+   | MPedx-indexed;:%eax;. |            |                |
    +--------------------------------------+------------+----------------+
    | incl                                 | R/M        | O/S/Z/A/P      |
    +--------------------------------------+------------+----------------+
@@ -304,25 +304,25 @@ These instructions operate on memory as bits instead of words.
    | overflow and carry flags to  |                    |                |
    | false.                       |                    |                |
    +------------------------------+--------------------+----------------+
-   | rcll                         | I/FIXMEAMPcl;, R/M | O/C            |
+   | rcll                         | I/%cl;, R/M | O/C            |
    +------------------------------+--------------------+----------------+
    | Rotates the given location's |                    |                |
    | bits to the left the number  |                    |                |
    | of times in the first        |                    |                |
    | operand, which is either an  |                    |                |
    | immediate-mode value or the  |                    |                |
-   | register FIXMEAMPcl;. The    |                    |                |
+   | register %cl;. The    |                    |                |
    | carry flag is included in    |                    |                |
    | the rotation, making it use  |                    |                |
    | 33 bits instead of 32. Also  |                    |                |
    | sets the overflow flag.      |                    |                |
    +------------------------------+--------------------+----------------+
-   | rcrl                         | I/FIXMEAMPcl;, R/M | O/C            |
+   | rcrl                         | I/%cl;, R/M | O/C            |
    +------------------------------+--------------------+----------------+
    | Same as above, but rotates   |                    |                |
    | right.                       |                    |                |
    +------------------------------+--------------------+----------------+
-   | roll                         | I/FIXMEAMPcl;, R/M | O/C            |
+   | roll                         | I/%cl;, R/M | O/C            |
    +------------------------------+--------------------+----------------+
    | Rotate bits to the left. It  |                    |                |
    | sets the overflow and carry  |                    |                |
@@ -332,14 +332,14 @@ These instructions operate on memory as bits instead of words.
    | bits to roll is either       |                    |                |
    | specified in immediate mode  |                    |                |
    | or is contained in the       |                    |                |
-   | FIXMEAMPcl; register.        |                    |                |
+   | %cl; register.        |                    |                |
    +------------------------------+--------------------+----------------+
-   | rorl                         | I/FIXMEAMPcl;, R/M | O/C            |
+   | rorl                         | I/%cl;, R/M | O/C            |
    +------------------------------+--------------------+----------------+
    | Same as above, but rotates   |                    |                |
    | right.                       |                    |                |
    +------------------------------+--------------------+----------------+
-   | sall                         | I/FIXMEAMPcl;, R/M | C              |
+   | sall                         | I/%cl;, R/M | C              |
    +------------------------------+--------------------+----------------+
    | Arithmetic shift left. The   |                    |                |
    | sign bit is shifted out to   |                    |                |
@@ -352,10 +352,10 @@ These instructions operate on memory as bits instead of words.
    | number of bits to shift is   |                    |                |
    | either specified in          |                    |                |
    | immediate mode or is         |                    |                |
-   | contained in the FIXMEAMPcl; |                    |                |
+   | contained in the %cl; |                    |                |
    | register.                    |                    |                |
    +------------------------------+--------------------+----------------+
-   | sarl                         | I/FIXMEAMPcl;, R/M | C              |
+   | sarl                         | I/%cl;, R/M | C              |
    +------------------------------+--------------------+----------------+
    | Arithmetic shift right. The  |                    |                |
    | least significant bit is     |                    |                |
@@ -367,10 +367,10 @@ These instructions operate on memory as bits instead of words.
    | The number of bits to shift  |                    |                |
    | is either specified in       |                    |                |
    | immediate mode or is         |                    |                |
-   | contained in the FIXMEAMPcl; |                    |                |
+   | contained in the %cl; |                    |                |
    | register.                    |                    |                |
    +------------------------------+--------------------+----------------+
-   | shll                         | I/FIXMEAMPcl;, R/M | C              |
+   | shll                         | I/%cl;, R/M | C              |
    +------------------------------+--------------------+----------------+
    | Logical shift left. This     |                    |                |
    | shifts all bits to the left  |                    |                |
@@ -380,10 +380,10 @@ These instructions operate on memory as bits instead of words.
    | The number of bits to shift  |                    |                |
    | is either specified in       |                    |                |
    | immediate mode or is         |                    |                |
-   | contained in the FIXMEAMPcl; |                    |                |
+   | contained in the %cl; |                    |                |
    | register.                    |                    |                |
    +------------------------------+--------------------+----------------+
-   | shrl                         | I/FIXMEAMPcl;, R/M | C              |
+   | shrl                         | I/%cl;, R/M | C              |
    +------------------------------+--------------------+----------------+
    | Logical shift right. This    |                    |                |
    | shifts all bits in the       |                    |                |
@@ -394,7 +394,7 @@ These instructions operate on memory as bits instead of words.
    | flag. The number of bits to  |                    |                |
    | shift is either specified in |                    |                |
    | immediate mode or is         |                    |                |
-   | contained in the FIXMEAMPcl; |                    |                |
+   | contained in the %cl; |                    |                |
    | register.                    |                    |                |
    +------------------------------+--------------------+----------------+
    | testl                        | I/R/M, R/M         | O/S/Z/A/P/C    |
@@ -429,7 +429,7 @@ These instructions may alter the flow of the program.
    +-----------------------------+---------------------+----------------+
    | This pushes what would be   |                     |                |
    | the next value for          |                     |                |
-   | FIXMEAMPeip; onto the       |                     |                |
+   | %eip; onto the       |                     |                |
    | stack, and jumps to the     |                     |                |
    | destination address. Used   |                     |                |
    | for function calls.         |                     |                |
@@ -440,7 +440,7 @@ These instructions may alter the flow of the program.
    | function call. For example, |                     |                |
    | ``call *%eax`` will call    |                     |                |
    | the function at the address |                     |                |
-   | in FIXMEAMPeax;.            |                     |                |
+   | in %eax;.            |                     |                |
    +-----------------------------+---------------------+----------------+
    | int                         | I                   | O/S/Z/A/C      |
    +-----------------------------+---------------------+----------------+
@@ -494,13 +494,13 @@ These instructions may alter the flow of the program.
    |                             |                     |                |
    | -  ``[n]s`` - sign flag set |                     |                |
    |                             |                     |                |
-   | -  ``ecxz`` - FIXMEAMPecx;  |                     |                |
+   | -  ``ecxz`` - %ecx;  |                     |                |
    |    is zero                  |                     |                |
    +-----------------------------+---------------------+----------------+
    | jmp                         | destination address | O/S/Z/A/C      |
    +-----------------------------+---------------------+----------------+
    | An unconditional jump. This |                     |                |
-   | simply sets FIXMEAMPeip; to |                     |                |
+   | simply sets %eip; to |                     |                |
    | the destination address.    |                     |                |
    | Alternatively, the          |                     |                |
    | destination address can be  |                     |                |
@@ -509,13 +509,13 @@ These instructions may alter the flow of the program.
    | jump. For example,          |                     |                |
    | ``jmp *%eax`` will jump to  |                     |                |
    | the address in              |                     |                |
-   | FIXMEAMPeax;.               |                     |                |
+   | %eax;.               |                     |                |
    +-----------------------------+---------------------+----------------+
    | ret                         |                     | O/S/Z/A/C      |
    +-----------------------------+---------------------+----------------+
    | Pops a value off of the     |                     |                |
    | stack and then sets         |                     |                |
-   | FIXMEAMPeip; to that value. |                     |                |
+   | %eip; to that value. |                     |                |
    | Used to return from         |                     |                |
    | function calls.             |                     |                |
    +-----------------------------+---------------------+----------------+

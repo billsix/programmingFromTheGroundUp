@@ -876,7 +876,7 @@ can cause problems in several instances:
 
 -  If you try to read in several bytes at a time using ``movl`` but deal
    with them on a byte-by-byte basis using the least significant byte
-   (i.e. - by using FIXMEAMPal; and/or shifting of the register), this
+   (i.e. - by using %al; and/or shifting of the register), this
    will be in a different order than they appear in memory.
 
 -  If you read or write files written for different architectures, you

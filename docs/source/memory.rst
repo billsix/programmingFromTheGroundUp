@@ -330,7 +330,7 @@ how it works.
 In the *indirect addressing mode*, the instruction contains a register
 that contains a pointer to where the data should be accessed. For
 example, if we used indirect addressing mode and specified the
-FIXMEAMPeax; register, and the FIXMEAMPeax; register contained the value
+%eax; register, and the %eax; register contained the value
 4, whatever value was at memory location 4 would be used. In direct
 addressing, we would just load the value 4, but in indirect addressing,
 we use 4 as the address to use to find the data we want.

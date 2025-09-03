@@ -250,7 +250,7 @@ the string. The way that ``printf`` found the end of the string
 was because we ended it with a null character (``\0``). Many functions
 work that way, especially C language functions. The ``int`` before
 the function definition tell what type of value the function will return
-in FIXMEAMPeax-indexed; when it returns. ``printf`` will return an
+in %eax; when it returns. ``printf`` will return an
 ``int`` when it's through. Now, after the ``char *string``, we have a
 series of periods, ``......``. This means that it can take an indefinite
 number of additional arguments after the string. Most functions can only
