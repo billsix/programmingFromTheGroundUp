@@ -66,6 +66,12 @@ and then explaining how it works. So, here is your first program, which
 prints "Hello world" to the screen and exits. Type it in, and give it
 the name Hello-World.c
 
+.. literalinclude:: ../../src/Hello-World-c.c
+   :language: c
+   :linenos:
+   :lineno-match:
+   :caption: src/Hello-World-c.c
+
 ::
 
    FIXMEampHello-World-c;
