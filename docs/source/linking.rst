@@ -168,12 +168,12 @@ program, it told the linker to use the ``c`` library (``libc.so``) to
 look up any symbols that weren't already defined in ``helloworld.o``.
 However, it doesn't actually add any code to our program, it just notes
 in the program where to look. When the ``helloworld`` program begins,
-the file ``/lib/ld-linux.so.2/lib/ld-linux.so.2`` is loaded first. This
+the file ``/lib/ld-linux.so.2`` is loaded first. This
 is the dynamic linker. This looks at our ``helloworld`` program and sees
 that it needs the ``c`` library to run. So, it searches for a file
 called ``libc.so`` in the standard places (listed in
-``/etc/ld.so.conf/etc/ld.so.conf`` and in the contents of the
-``LD_LIBRARY_PATHLD_LIBRARY_PATH`` environment variable), then looks in
+``/etc/ld.so.conf`` and in the contents of the
+``LD_LIBRARY_PATH`` environment variable), then looks in
 it for all the needed symbols (``printf`` and ``exit`` in this case),
 and then loads the library into the program's virtual memory. Finally,
 it replaces all instances of ``printf`` in the program with the actual
@@ -197,12 +197,12 @@ It will report back something like
 
 ::
 
-         libc.so.6 => /lib/libc.so.6 (0x4001d000)
+         libc.so.6 => /libc.so.6 (0x4001d000)
          /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x400000000)
 
 The numbers in parenthesis may be different on your system. This means
 that the program ``helloworld`` is linked to ``libc.so.6`` (the ``.6``
-is the version number), which is found at ``/lib/libc.so.6``, and
+is the version number), which is found at ``/libc.so.6``, and
 ``/lib/ld-linux.so.2`` is found at ``/lib/ld-linux.so.2``. These
 libraries have to be loaded before the program can be run. If you are
 interested, run the ``ldd`` program on various programs that are on your
@@ -386,7 +386,7 @@ the main ones:
 
 That's how to read function documentation. Now, let's get back to the
 question of how to find out about libraries. Most of your system
-libraries are in ``/usr/lib/usr/lib`` or ``/lib/lib``. If you want to
+libraries are in ``/usr/lib`` or ``/lib``. If you want to
 just see what symbols they define, just run
 ``objdump -R FILENAME`` where ``FILENAME`` is the full path to
 the library. The output of that isn't too helpful, though, for finding
@@ -467,8 +467,8 @@ Let's look at how we would link against this library. To link the
       -o write-records -lrecord write-records.o
 
 In this command, ``-L .`` told the linker to look for libraries in the
-current directory (it usually only searches ``/lib/lib`` directory,
-``/usr/lib/usr/lib`` directory, and a few others). As we've seen, the
+current directory (it usually only searches ``/lib`` directory,
+``/usr/lib`` directory, and a few others). As we've seen, the
 option ``-dynamic-linker /lib/ld-linux.so.2`` specified the dynamic
 linker. The option ``-lrecord`` tells the linker to search for functions
 in the file named ``librecord.so``.
@@ -484,7 +484,7 @@ try it, we will get an error like the following:
 
 This is because, by default, the dynamic linker only searches ``/lib``,
 ``/usr/lib``, and whatever directories are listed in
-``/etc/ld.so.conf/etc/ld.so.conf`` for libraries. In order to run the
+``/etc/ld.so.conf`` for libraries. In order to run the
 program, you either need to move the library to one of these
 directories, or execute the following command:
 

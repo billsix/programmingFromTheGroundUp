@@ -698,7 +698,7 @@ the end of our loop. Then we have these instructions:
        cmpl $0, %eax
        je loop_exit
 
-The ``cmplcmpl`` instruction compares the two values. Here, we are
+The ``cmpl`` instruction compares the two values. Here, we are
 comparing the number 0 to the number stored in %eax; This compare
 instruction also affects a register not mentioned here, the
 %eflags; register. This is also known as the status
@@ -1092,7 +1092,7 @@ Going Further
 .. [13]
    The names of these symbols can be anything you want them to be, as
    long as they only contain letters and the underscore
-   character(``_``). The only one that is forced is ``_start_start``,
+   character(``_``). The only one that is forced is ``_start``,
    and possibly others that you declare with ``.globl``. However,
    if it is a symbol you define and only you use, feel free to call it
    anything you want that is adequately descriptive (remember that

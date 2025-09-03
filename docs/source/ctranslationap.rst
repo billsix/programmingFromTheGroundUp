@@ -407,7 +407,7 @@ The same code in assembly language:
 As you can see, to take the address of a local variable, the address has
 to be computed the same way the computer computes the addresses in base
 pointer addressing. There is an easier way - the processor provides the
-instruction ``lealleal``, which stands for "load effective address".
+instruction ``leal``, which stands for "load effective address".
 This lets the computer compute the address, and then load it wherever
 you want. So, we could just say:
 

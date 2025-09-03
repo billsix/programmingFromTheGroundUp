@@ -153,7 +153,7 @@ development you often need to check for errors anyway, as your other
 code may have errors in it. To verify the consistency and validity of
 data during development, most languages have a facility to easily check
 assumptions about data correctness. In the C language there is the
-``assertassert`` macro. You can simply put in your code
+``assert`` macro. You can simply put in your code
 ``assert(a > b);``, and it will give an error if it reaches that code
 when the condition is not true. In addition, since such a check is a
 waste of time after your code is stable, the ``assert`` macro allows you

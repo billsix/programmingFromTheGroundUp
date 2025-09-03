@@ -571,31 +571,31 @@ point that the number you are using is 32 bits.
 When a number represents a set of options for a function or system call,
 the individual true/false elements are called *flags*. Many system calls
 have numerous options that are all set in the same register using a
-mechanism like we've described. The ``openopen`` system call, for
+mechanism like we've described. The ``open`` system call, for
 example, has as its second parameter a list of flags to tell the
 operating system how to open the file. Some of the flags include:
 
-``O_WRONLYO_WRONLY``
+``O_WRONLY``
    This flag is ``0b00000000000000000000000000000001`` in binary, or
    ``01`` in octal (or any number system for that matter). This says to
    open the file in write-only mode.
 
-``O_RDWRO_RDWR``
+``O_RDWR``
    This flag is ``0b00000000000000000000000000000010`` in binary, or
    ``02`` in octal. This says to open the file for both reading and
    writing.
 
-``O_CREATO_CREAT``
+``O_CREAT``
    This flag is ``0b00000000000000000000000001000000`` in binary, or
    ``0100`` in octal. It means to create the file if it doesn't already
    exist.
 
-``O_TRUNCO_TRUNC``
+``O_TRUNC``
    This flag is ``0b00000000000000000000001000000000`` in binary, or
    ``01000`` in octal. It means to erase the contents of the file if the
    file already exists.
 
-``O_APPENDO_APPEND``
+``O_APPEND``
    This flag is ``0b00000000000000000000010000000000`` in binary, or
    ``02000`` in octal. It means to start writing at the end of the file
    rather than at the beginning.
@@ -624,10 +624,10 @@ ever wondered what would happen if you added two numbers and the result
 was larger than would fit in a register? The program status register has
 a flag called the carry flag. You can test it to see if the last
 computation overflowed the register. There are flags for a number of
-different statuses. In fact, when you do a compare (``cmplcmpl``)
+different statuses. In fact, when you do a compare (``cmpl``)
 instruction, the result is stored in this register. The conditional jump
 instructions (``jge``, ``jne``, etc) use these results to tell whether
-or not they should jump. ``jmpjmp``, the unconditional jump, doesn't
+or not they should jump. ``jmp``, the unconditional jump, doesn't
 care what is in the status register, since it is unconditional.
 
 Let's say you needed to store a number larger than 32 bits. So, let's
@@ -760,8 +760,8 @@ The x86 processor has different forms of several instructions depending
 on whether they expect the quantities they operate on to be signed or
 unsigned. These are listed in :ref:`instructionsappendix`. For
 example, the x86 processor has both a sign-preserving shift-right,
-``sarlsarl``, and a shift-right which does not preserve the sign bit,
-``shrlshrl``.
+``sarl``, and a shift-right which does not preserve the sign bit,
+``shrl``.
 
 .. _octalhexadecimal:
 

@@ -35,7 +35,7 @@ In our programs we will deal with files in the following ways:
 
 1. Tell Linux the name of the file to open, and in what mode you want it
    opened (read, write, both read and write, create it if it doesn't
-   exist, etc.). This is handled with the ``openopen`` system call,
+   exist, etc.). This is handled with the ``open`` system call,
    which takes a filename, a number representing the mode, and a
    permission set as its parameters. %eax; will hold the
    system call number, which is 5. The address of the first character of
@@ -126,7 +126,7 @@ reserve storage. In order to do this, we do the following commands:
    .section .bss
        .lcomm my_buffer, 500
 
-This directive, ``.lcomm.lcomm``, will create a symbol, ``my_buffer``,
+This directive, ``.lcomm``, will create a symbol, ``my_buffer``,
 that refers to a 500-byte storage location that we can use as a buffer.
 We can then do the following, assuming we have opened a file for reading
 and have placed the file descriptor in %ebx;:
@@ -380,7 +380,7 @@ Now we know how the conversion process works. Now we need to figure out
 how to get the data in and out of the files.
 
 Before reading and writing the files we must open them. The UNIX
-``openopen`` system call is what handles this. It takes the following
+``open`` system call is what handles this. It takes the following
 parameters:
 
 -  %eax; contains the system call number as usual - 5 in
@@ -413,7 +413,7 @@ and are already null-terminated. When a Linux program begins, all
 pointers to command-line arguments are stored on the stack. The number
 of arguments is stored at ``(%esp)``, the name of the program is stored
 at ``4(%esp)``, and the arguments are stored from ``8(%esp)`` on. In the
-C Programming language, this is referred to as the ``argvargv`` array,
+C Programming language, this is referred to as the ``argv`` array,
 so we will refer to it that way in our program.
 
 The first thing our program does is save the current stack position in

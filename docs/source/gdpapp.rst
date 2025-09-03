@@ -77,7 +77,7 @@ directory. The output should look similar to this:
 Depending on which version of GDB you are running, this output may vary
 slightly. At this point, the program is loaded, but is not running yet.
 The debugger is waiting your command. To run your program, just type in
-``runrun``. This will not return, because the program is running in an
+``run``. This will not return, because the program is running in an
 infinite loop. To stop the program, hit control-c. The screen will then
 say this:
 

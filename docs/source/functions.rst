@@ -466,7 +466,7 @@ After that, we define the value of the ``power`` label:
 As mentioned previously, this defines the symbol ``power`` to be the
 address where the instructions following the label begin. This is how
 ``call power`` works. It transfers control to this spot of the program.
-The difference between ``call`` and ``jmpjmp`` is that ``call`` also
+The difference between ``call`` and ``jmp`` is that ``call`` also
 pushes the return address onto the stack so that the function can
 return, while the ``jmp`` does not.
 
@@ -504,9 +504,9 @@ decreases the power, and leaves the loop if the power (in %ecx;)
 gets down to 1.
 
 By now, you should be able to go through the program without help. The
-only things you should need to know is that ``imullimull`` does integer
+only things you should need to know is that ``imull`` does integer
 multiplication and stores the result in the second operand, and
-``decldecl`` decreases the given register by 1. For more information on
+``decl`` decreases the given register by 1. For more information on
 these and other instructions, see :ref:`instructionsappendix`
 
 A good project to try now is to extend the program so it will return the
@@ -648,7 +648,7 @@ Before the function starts, we have this directive:
        .type factorial,@function
    factorial:
 
-The ``.type.type`` directive tells the linker that ``factorial`` is a
+The ``.type`` directive tells the linker that ``factorial`` is a
 function. This isn't really needed unless we were using ``factorial`` in
 other programs. We have included it for completeness. The line that says
 ``factorial:`` gives the symbol ``factorial`` the storage location of
@@ -700,8 +700,8 @@ we decrease %eax; by one:
 
        decl %eax
 
-``decldecl`` stands for decrement. It subtracts 1 from the given
-register or memory location (%eax; in our case). ``inclincl`` is
+``decl`` stands for decrement. It subtracts 1 from the given
+register or memory location (%eax; in our case). ``incl`` is
 the inverse - it adds 1. After decrementing %eax; we push it onto
 the stack since it's going to be the parameter of the next function
 call. And then we call ``factorial`` again!

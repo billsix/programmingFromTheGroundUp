@@ -161,8 +161,8 @@ work.
 Now, everything in ``stdio.h`` is now in your program just as if you
 typed it there yourself. The angle brackets around the filename tell the
 compiler to look in its standard paths for the file
-(``/usr/include/usr/include`` and
-``/usr/local/include/usr/local/include``, usually). If it was in quotes,
+(``/usr/include`` and
+``/usr/local/include``, usually). If it was in quotes,
 like ``#include "stdio.h"`` it would look in the current directory for
 the file. Anyway, ``stdio.h`` contains the declarations for the standard
 input and output functions and variables. These declarations tell the
