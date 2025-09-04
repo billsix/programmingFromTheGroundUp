@@ -28,8 +28,8 @@ Programming From The Ground Up
    asciiap.rst
    cch.rst
    ctranslationap.rst
-   fdlap.rst
    guiap.rst
    instructionsap.rst
+   fdlap.rst
    ..
       guidelines.rst
