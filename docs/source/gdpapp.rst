@@ -34,7 +34,7 @@ debug programs in multiple programming languages, including assembly
 language.
 
 An Example Debugging Session
-============================
+----------------------------
 
 The best way to explain how a debugger works is by using it. The program
 we will be using the debugger on is the ``maximum`` program used in
@@ -207,7 +207,7 @@ Hopefully this exercise provided some insight into using GDB to help you
 find errors in your programs.
 
 Breakpoints and Other GDB Features
-==================================
+----------------------------------
 
 The program we entered in the last section had an infinite loop, and
 could be easily stopped using control-c. Other programs may simply abort
@@ -252,7 +252,7 @@ within every called function.
 .. _gdbquickref:
 
 GDB Quick-Reference
-===================
+-------------------
 
 This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and
 is used by permission in this book. Parameters listed in brackets are
