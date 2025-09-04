@@ -6,6 +6,10 @@ FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
                  -v ./src:/pgu/src:Z
 OUTPUT_DIR_TO_MOUNT = -v ./output/:/output/:Z
 
+USE_X = -e DISPLAY=$(DISPLAY) \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	--security-opt label=type:container_runtime_t
+
 
 .PHONY: all
 all: shell ## Build the image and get a shell in it
@@ -22,6 +26,7 @@ shell:  ## Get Shell into a ephermeral container made from the image
 		$(OUTPUT_DIR_TO_MOUNT) \
 		-v ./entrypoint/shell.sh:/shell.sh:Z \
 		$(CONTAINER_NAME) \
+		$(USE_X) \
 		/shell.sh
 
 .PHONY: html
