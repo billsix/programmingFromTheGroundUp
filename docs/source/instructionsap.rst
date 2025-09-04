@@ -13,7 +13,7 @@ Common x86 Instructions
 =======================
 
 Reading the Tables
-==================
+------------------
 
 The tables of instructions presented in this appendix include:
 
@@ -70,7 +70,7 @@ Other flags exist, but they are much less important.
 .. _dtins:
 
 Data Transfer Instructions
-==========================
+--------------------------
 
 These instructions perform little, if any computation. Instead they are
 mostly used for moving data from one place to another.
@@ -136,7 +136,7 @@ mostly used for moving data from one place to another.
 .. _intins:
 
 Integer Instructions
-====================
+--------------------
 
 These are basic calculating instructions that operate on signed or
 unsigned integers.
@@ -270,7 +270,7 @@ unsigned integers.
 .. _logicins:
 
 Logic Instructions
-==================
+------------------
 
 These instructions operate on memory as bits instead of words.
 
@@ -416,7 +416,7 @@ These instructions operate on memory as bits instead of words.
 .. _flowins:
 
 Flow Control Instructions
-=========================
+-------------------------
 
 These instructions may alter the flow of the program.
 
@@ -523,7 +523,7 @@ These instructions may alter the flow of the program.
 .. _dirins:
 
 Assembler Directives
-====================
+--------------------
 
 These are instructions to the assembler and linker, instead of
 instructions to the processor. These are used to help the assembler put
@@ -606,7 +606,7 @@ your code together properly, and make it easier to use.
    +-------------------------------------------------+-------------------+
 
 Differences in Other Syntaxes and Terminology
-=============================================
+---------------------------------------------
 
 The syntax for assembly language used in this book is known at the
 *ATFIXMEAMPamp;T* syntax. It is the one supported by the GNU tool chain
@@ -666,7 +666,7 @@ computed. However, but the order of operands in Intel syntax can be
 confusing.
 
 Where to Go for More Information
-================================
+--------------------------------
 
 Intel has a set of comprehensive guides to their processors. These are
 available at http://www.intel.com/design/pentium/manuals/ Note that all
