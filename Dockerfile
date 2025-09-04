@@ -31,6 +31,9 @@ RUN dnf install -y clang \
                    texlive-standalone \
                    tmux
 
+RUN dnf install -y inkscape
+RUN dnf install -y libreoffice
+
 RUN echo 'set debuginfod enabled off' > /root/.gdbinit
 
 ENTRYPOINT ["/entrypoint.sh"]
