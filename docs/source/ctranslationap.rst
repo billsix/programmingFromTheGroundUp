@@ -17,7 +17,7 @@ meant to give a general idea about how C constructs can be implemented
 in assembly language.
 
 If Statement
-============
+------------
 
 In C, an if statement consists of three parts - the condition, the true
 branch, and the false branch. However, since assembly language is not a
@@ -73,7 +73,7 @@ the system.
 A case statement is written just like a sequence of if statements.
 
 Function Call
-=============
+-------------
 
 A function call in assembly language simply requires pushing the
 arguments to the function onto the stack in *reverse* order, and issuing
@@ -104,7 +104,7 @@ In assembly language, this would be rendered as:
                        #proper location.
 
 Variables and Assignment
-========================
+------------------------
 
 Global and static variables are declared using ``.data`` or ``.bss``
 entries. Local variables are declared by reserving space on the stack at
@@ -173,7 +173,7 @@ rather than a register copy of it, in case other processes, threads, or
 hardware may be modifying the value while your function is running.
 
 Loops
-=====
+-----
 
 Loops work a lot like if statements in assembly language - the blocks
 are formed by jumping around. In C, a while loop consists of a loop
@@ -251,7 +251,7 @@ For really tight loops of character string operations, there is also the
 exercise to the reader.
 
 Structs
-=======
+-------
 
 Structs are simply descriptions of memory blocks. For example, in C you
 can say:
@@ -323,7 +323,7 @@ In assembly language it would look like this:
        movl $30, P_VAR + PERSON_AGE_OFFSET(%ebp)
 
 Pointers
-========
+--------
 
 Pointers are very easy. Remember, pointers are simply the address that a
 value resides at. Let's start by taking a look at global variables. For
@@ -422,7 +422,7 @@ value, you simply have to move it to a general-purpose register and use
 indirect addressing, as shown in the example above.
 
 Getting GCC to Help
-===================
+-------------------
 
 One of the nice things about GCC is its ability to spit out assembly
 language code. To convert a C language file to assembly, you can simply
