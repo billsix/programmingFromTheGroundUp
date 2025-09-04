@@ -24,9 +24,9 @@ shell:  ## Get Shell into a ephermeral container made from the image
 		--entrypoint /bin/bash \
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
+		$(USE_X) \
 		-v ./entrypoint/shell.sh:/shell.sh:Z \
 		$(CONTAINER_NAME) \
-		$(USE_X) \
 		/shell.sh
 
 .PHONY: html
