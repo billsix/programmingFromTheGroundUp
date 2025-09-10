@@ -145,7 +145,7 @@ filling the role of the Document, thus licensing distribution and
 modification of the Modified Version to whoever possesses a copy of it.
 In addition, you must do these things in the Modified Version:
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -157,7 +157,7 @@ In addition, you must do these things in the Modified Version:
    Document). You may use the same title as a previous version if the
    original publisher of that version gives permission.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -168,7 +168,7 @@ In addition, you must do these things in the Modified Version:
    Version, together with at least five of the principal authors of the
    Document (all of its principal authors, if it has less than five).
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -177,7 +177,7 @@ In addition, you must do these things in the Modified Version:
    State on the Title Page the name of the publisher of the Modified
    Version, as the publisher.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -185,7 +185,7 @@ In addition, you must do these things in the Modified Version:
 
    Preserve all the copyright notices of the Document.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -194,7 +194,7 @@ In addition, you must do these things in the Modified Version:
    Add an appropriate copyright notice for your modifications adjacent
    to the other copyright notices.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -204,7 +204,7 @@ In addition, you must do these things in the Modified Version:
    giving the public permission to use the Modified Version under the
    terms of this License, in the form shown in the Addendum below.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -213,7 +213,7 @@ In addition, you must do these things in the Modified Version:
    Preserve in that license notice the full lists of Invariant Sections
    and required Cover Texts given in the Document's license notice.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -221,7 +221,7 @@ In addition, you must do these things in the Modified Version:
 
    Include an unaltered copy of this License.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -235,7 +235,7 @@ In addition, you must do these things in the Modified Version:
    Title Page, then add an item describing the Modified Version as
    stated in the previous sentence.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -249,7 +249,7 @@ In addition, you must do these things in the Modified Version:
    before the Document itself, or if the original publisher of the
    version it refers to gives permission.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -260,7 +260,7 @@ In addition, you must do these things in the Modified Version:
    and tone of each of the contributor acknowledgements and/or
    dedications given therein.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -270,7 +270,7 @@ In addition, you must do these things in the Modified Version:
    their text and in their titles. Section numbers or the equivalent are
    not considered part of the section titles.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -279,7 +279,7 @@ In addition, you must do these things in the Modified Version:
    Delete any section entitled “Endorsements”. Such a section may not be
    included in the Modified Version.
 
--  
+-
 
    .. container:: formalpara-title
 
@@ -413,7 +413,7 @@ To use this License in a document you have written, include a copy of
 the License in the document and put the following copyright and license
 notices just after the title page:
 
-   Copyright FIXMEampcopy; YEAR YOUR NAME.
+   Copyright YEAR YOUR NAME.
 
    Permission is granted to copy, distribute and/or modify this document
    under the terms of the GNU Free Documentation License, Version 1.1 or

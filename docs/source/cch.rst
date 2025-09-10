@@ -72,9 +72,6 @@ the name Hello-World.c
    :lineno-match:
    :caption: src/Hello-World-c.c
 
-::
-
-   FIXMEampHello-World-c;
 
 As you can see, it's a pretty simple program. To compile it, run the
 command
@@ -133,14 +130,14 @@ Review
 Know the Concepts
 ~~~~~~~~~~~~~~~~~
 
--  
+-
 
 Use the Concepts
 ~~~~~~~~~~~~~~~~
 
--  
+-
 
 Going Further
 ~~~~~~~~~~~~~
 
--  
+-

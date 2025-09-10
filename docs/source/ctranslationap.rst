@@ -51,7 +51,7 @@ In assembly language, this can be rendered as:
        #If True, go to true branch
        je true_branch
 
-   false_branch:  #This label is unnecessary, 
+   false_branch:  #This label is unnecessary,
                   #only here for documentation
        #False Branch Code Here
 
@@ -98,8 +98,8 @@ In assembly language, this would be rendered as:
        call  printf
        popl  %eax
        popl  %eax      #%eax is just a dummy variable,
-                       #nothing is actually being done 
-                       #with the value.  You can also 
+                       #nothing is actually being done
+                       #with the value.  You can also
                        #directly re-adjust %esp to the
                        #proper location.
 
@@ -142,7 +142,7 @@ This would be rendered in assembly language as:
        pushl %ebp            #Save old base pointer
        movl  %esp, $ebp      #make stack pointer base pointer
        subl  $4, %esp        #Make room for my_local_var
-       .equ my_local_var, -4 #Can now use my_local_var to 
+       .equ my_local_var, -4 #Can now use my_local_var to
                              #find the local variable
 
 
@@ -205,16 +205,16 @@ This can be rendered in assembly language like this:
 
    loop_body:
        #Do stuff here
-       
+
        jmp loop_begin
 
    loop_end:
        #Finished looping
 
 The x86 assembly language has some direct support for looping as well.
-The FIXMEampecx-indexed; register can be used as a counter that *ends*
-with zero. The ``loop`` instruction will decrement FIXMEampecx; and
-jump to a specified address unless FIXMEampecx; is zero. For example, if
+The ecx-indexed; register can be used as a counter that *ends*
+with zero. The ``loop`` instruction will decrement &ecx; and
+jump to a specified address unless &ecx; is zero. For example, if
 you wanted to execute a statement 100 times, you would do this in C:
 
 ::
@@ -236,7 +236,7 @@ In assembly language it would be written like this:
        #
 
        #Decrement %ecx and loops if not zero
-       loop loop_begin 
+       loop loop_begin
 
    rest_of_program:
        #Continues on to here
@@ -297,7 +297,7 @@ In assembly language you would have:
        movl %esp, %ebp
 
        #Reserve our local variable
-       subl $PERSON_SIZE, %esp 
+       subl $PERSON_SIZE, %esp
        #This is the variable's offset from %ebp
        .equ P_VAR, 0 - PERSON_SIZE
 
@@ -440,7 +440,7 @@ so that the assembly language output will follow your source code
 better.
 
 Something else you might notice is that GCC reserves more stack space
-for local variables than we do, and then AND's FIXMEampesp-indexed; [1]_
+for local variables than we do, and then AND's &esp-indexed; [1]_
 This is to increase memory and cache efficiency by double-word
 aligning variables.
 

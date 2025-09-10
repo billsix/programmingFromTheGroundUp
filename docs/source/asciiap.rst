@@ -23,7 +23,7 @@ code for, and add the number on the left and the top.
    8   BS  HT  LF  VT  FF          CR  SO          SI
    16  DLE DC1 DC2 DC3 DC4         NAK SYN         ETB
    24  CAN EM  SUB ESC FS          GS  RS          US
-   32      !   "   #   $           %   FIXMEamp    '
+   32      !   "   #   $           %   &    '
    40  (   )   \*  +   ,           -   .           /
    48  0   1   2   3   4           5   6           7
    56  8   9   :   ;   < =   > ?
