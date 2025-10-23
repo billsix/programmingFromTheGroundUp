@@ -26,6 +26,7 @@ shell:  ## Get Shell into a ephermeral container made from the image
 		$(OUTPUT_DIR_TO_MOUNT) \
 		$(USE_X) \
 		-v ./entrypoint/shell.sh:/shell.sh:Z \
+		-v ./entrypoint/format.sh:/format.sh:Z \
 		$(CONTAINER_NAME) \
 		/shell.sh
 
