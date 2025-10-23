@@ -1,4 +1,4 @@
-#include &lt;stdio.h&gt;
+#include <stdio.h>
 
 /* PURPOSE:  This program is mean to show a basic */
 /*           C program.  All it does is print     */
@@ -9,8 +9,8 @@
 int main(int argc, char **argv)
 {
 	/* Print our string to standard output */
-	puts("Hello World!\n");  
+	puts("Hello World!\n");
 
 	/* Exit with status 0 */
-	return 0;           
+	return 0;
 }
