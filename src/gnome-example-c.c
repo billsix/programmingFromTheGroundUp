@@ -1,87 +1,76 @@
-/* PURPOSE:  This program is meant to be an example
-           of what GUI programs look like written
-           with the GNOME libraries
- */
+#include <gtk/gtk.h>
 
-#include <gnome.h>
-
-/* Program definitions */
 #define MY_APP_TITLE "Gnome Example Program"
-#define MY_APP_ID "gnome-example"
-#define MY_APP_VERSION "1.000"
+#define MY_APP_ID "org.example.gnome_example"
 #define MY_BUTTON_TEXT "I Want to Quit the Example Program"
 #define MY_QUIT_QUESTION "Are you sure you want to quit?"
 
-/* Must declare functions before they are used */
-int destroy_handler(gpointer window, GdkEventAny *e, gpointer data);
-int delete_handler(gpointer window, GdkEventAny *e, gpointer data);
-int click_handler(gpointer window, GdkEventAny *e, gpointer data);
+/* Dialog response handler */
+static void dialog_response_cb(GtkDialog *dialog, gint response_id, gpointer user_data) {
+    GApplication *app = G_APPLICATION(user_data);
+    if (response_id == GTK_RESPONSE_YES) {
+        g_application_quit(app);
+    }
+    gtk_window_destroy(GTK_WINDOW(dialog));
+}
+
+/* Show modal confirmation dialog */
+static void show_quit_dialog(GtkWindow *parent, GApplication *app) {
+    GtkWidget *dialog = gtk_dialog_new_with_buttons(
+        "Confirm",
+        parent,
+        GTK_DIALOG_MODAL,
+        "_Yes", GTK_RESPONSE_YES,
+        "_No", GTK_RESPONSE_NO,
+        NULL
+    );
+
+    GtkWidget *label = gtk_label_new(MY_QUIT_QUESTION);
+    gtk_label_set_wrap(GTK_LABEL(label), TRUE);
+
+    GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    gtk_box_append(GTK_BOX(content_area), label);
+
+    g_signal_connect(dialog, "response", G_CALLBACK(dialog_response_cb), app);
+
+    gtk_window_present(GTK_WINDOW(dialog));
+}
+
+/* Button clicked */
+static void on_button_clicked(GtkButton *button, gpointer user_data) {
+    GApplication *app = G_APPLICATION(user_data);
+    GtkWindow *parent = GTK_WINDOW(gtk_widget_get_root(GTK_WIDGET(button)));
+    show_quit_dialog(parent, app);
+}
+
+/* Window close request */
+static gboolean on_close_request(GtkWindow *window, gpointer user_data) {
+    GApplication *app = G_APPLICATION(user_data);
+    show_quit_dialog(window, app);
+    return TRUE; // prevent automatic closing
+}
+
+/* Application activate */
+static void on_activate(GApplication *app, gpointer user_data) {
+    GtkWidget *window = gtk_application_window_new(GTK_APPLICATION(app));
+    gtk_window_set_title(GTK_WINDOW(window), MY_APP_TITLE);
+    gtk_window_set_default_size(GTK_WINDOW(window), 400, 100);
+
+    GtkWidget *button = gtk_button_new_with_label(MY_BUTTON_TEXT);
+    gtk_window_set_child(GTK_WINDOW(window), button);
+
+    g_signal_connect(button, "clicked", G_CALLBACK(on_button_clicked), app);
+    g_signal_connect(window, "close-request", G_CALLBACK(on_close_request), app);
+
+    gtk_window_present(GTK_WINDOW(window));
+}
 
 int main(int argc, char **argv) {
-  gpointer appPtr;  /* application window */
-  gpointer btnQuit; /* quit button */
+    GtkApplication *app = gtk_application_new(MY_APP_ID, G_APPLICATION_FLAGS_NONE);
+    g_signal_connect(app, "activate", G_CALLBACK(on_activate), NULL);
 
-  /* Initialize GNOME libraries */
-  gnome_init(MY_APP_ID, MY_APP_VERSION, argc, argv);
-
-  /* Create new application window */
-  appPtr = gnome_app_new(MY_APP_ID, MY_APP_TITLE);
-
-  /* Create new button */
-  btnQuit = gtk_button_new_with_label(MY_BUTTON_TEXT);
-
-  /* Make the button show up inside the application window */
-  gnome_app_set_contents(appPtr, btnQuit);
-
-  /* Makes the button show up */
-  gtk_widget_show(btnQuit);
-
-  /* Makes the application window show up */
-  gtk_widget_show(appPtr);
-
-  /* Connect the signal handlers */
-  gtk_signal_connect(appPtr, "delete_event", GTK_SIGNAL_FUNC(delete_handler),
-                     NULL);
-  gtk_signal_connect(appPtr, "destroy", GTK_SIGNAL_FUNC(destroy_handler), NULL);
-  gtk_signal_connect(btnQuit, "clicked", GTK_SIGNAL_FUNC(click_handler), NULL);
-
-  /* Transfer control to GNOME */
-  gtk_main();
-
-  return 0;
+    int status = g_application_run(G_APPLICATION(app), argc, argv);
+    g_object_unref(app);
+    return status;
 }
 
-/* Function to receive the "destroy" signal */
-int destroy_handler(gpointer window, GdkEventAny *e, gpointer data) {
-  /* Leave GNOME event loop */
-  gtk_main_quit();
-  return 0;
-}
-
-/* Function to receive the "delete_event" signal */
-int delete_handler(gpointer window, GdkEventAny *e, gpointer data) { return 0; }
-
-/* Function to receive the "clicked" signal */
-int click_handler(gpointer window, GdkEventAny *e, gpointer data) {
-  gpointer msgbox;
-  int buttonClicked;
-
-  /* Create the "Are you sure" dialog */
-  msgbox = gnome_message_box_new(MY_QUIT_QUESTION, GNOME_MESSAGE_BOX_QUESTION,
-                                 GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO,
-                                 NULL);
-  gtk_window_set_modal(msgbox, 1);
-  gtk_widget_show(msgbox);
-
-  /* Run dialog box */
-  buttonClicked = gnome_dialog_run_and_close(msgbox);
-
-  /* Button 0 is the Yes button.  If this is the
-  button they clicked on, tell GNOME to quit
-  it's event loop.  Otherwise, do nothing */
-  if (buttonClicked == 0) {
-    gtk_main_quit();
-  }
-
-  return 0;
-}
