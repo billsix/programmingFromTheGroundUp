@@ -3,7 +3,12 @@
 CONTAINER_CMD = podman
 CONTAINER_NAME = programmingfromthegroundup
 FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
-                 -v ./src:/pgu/src:Z
+                 -v ./src:/pgu/src:Z \
+                 -v ./entrypoint/shell.sh:/shell.sh:Z \
+                 -v ./entrypoint/format.sh:/format.sh:Z \
+                 -v ./entrypoint/pdf.sh:/pdf.sh:Z
+
+
 OUTPUT_DIR_TO_MOUNT = -v ./output/:/output/:Z
 
 USE_X = -e DISPLAY=$(DISPLAY) \
@@ -25,10 +30,19 @@ shell:  ## Get Shell into a ephermeral container made from the image
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
 		$(USE_X) \
-		-v ./entrypoint/shell.sh:/shell.sh:Z \
-		-v ./entrypoint/format.sh:/format.sh:Z \
 		$(CONTAINER_NAME) \
 		/shell.sh
+
+.PHONY: format
+format:  ## Format the C code
+	$(CONTAINER_CMD) run -it --rm \
+		--entrypoint /bin/bash \
+		$(FILES_TO_MOUNT) \
+		$(OUTPUT_DIR_TO_MOUNT) \
+		$(USE_X) \
+		$(CONTAINER_NAME) \
+		/format.sh
+
 
 .PHONY: html
 html:  ## Build the book in HTML form
@@ -36,7 +50,6 @@ html:  ## Build the book in HTML form
 		--entrypoint /bin/bash \
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
-		-v ./entrypoint/html.sh:/html.sh:Z \
 		$(CONTAINER_NAME) \
 		/html.sh
 
@@ -47,7 +60,6 @@ pdf:  ## Build the book in PDF form
 		--entrypoint /bin/bash \
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
-		-v ./entrypoint/pdf.sh:/pdf.sh:Z \
 		$(CONTAINER_NAME) \
 		/pdf.sh
 

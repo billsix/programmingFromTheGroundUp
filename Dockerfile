@@ -34,7 +34,7 @@ RUN dnf install -y clang \
 RUN dnf install -y inkscape
 RUN dnf install -y libreoffice
 
-RUN dnf install clang-format
+RUN dnf install -y clang-format
 
 RUN echo 'set debuginfod enabled off' > /root/.gdbinit
 
