@@ -6,8 +6,9 @@ FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
                  -v ./src:/pgu/src:Z \
                  -v ./entrypoint/shell.sh:/shell.sh:Z \
                  -v ./entrypoint/format.sh:/format.sh:Z \
-                 -v ./entrypoint/pdf.sh:/pdf.sh:Z
-
+                 -v ./entrypoint/pdf.sh:/pdf.sh:Z \
+                 -v ./entrypoint/html.sh:/html.sh:Z \
+                 -v ./entrypoint/dotfiles/.tmux.conf:/root/.tmux.conf:Z
 
 OUTPUT_DIR_TO_MOUNT = -v ./output/:/output/:Z
 

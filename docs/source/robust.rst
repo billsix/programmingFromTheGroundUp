@@ -272,7 +272,7 @@ will do to recover is to print the error and exit. The code to do that
 is pretty simple:
 
 .. literalinclude:: ../../src/error-exit.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/error-exit.s

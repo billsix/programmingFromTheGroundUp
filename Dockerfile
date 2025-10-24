@@ -35,6 +35,7 @@ RUN dnf install -y inkscape
 RUN dnf install -y libreoffice
 
 RUN dnf install -y clang-format
+RUN dnf install -y gtk4 gtk4-devel gtk4-demo
 
 RUN echo 'set debuginfod enabled off' > /root/.gdbinit
 

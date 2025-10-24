@@ -37,7 +37,7 @@ Program <#assemblyoutline>`__ we will describe how it works.
 
 
 .. literalinclude:: ../../src/exit.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/exit.s
@@ -467,7 +467,7 @@ Finding a Maximum Value
 Enter the following program as ``maximum.s``:
 
 .. literalinclude:: ../../src/maximum.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/maximum.s

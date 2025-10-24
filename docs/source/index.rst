@@ -31,5 +31,4 @@ Programming From The Ground Up
    guiap.rst
    instructionsap.rst
    fdlap.rst
-   ..
-      guidelines.rst
+   guidelines.rst

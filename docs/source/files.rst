@@ -236,7 +236,7 @@ through the program and see what happens in various cases. An in-depth
 explanation of the program will follow.
 
 .. literalinclude:: ../../src/toupper-nomm-simplified.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/toupper-nomm-simplified.s

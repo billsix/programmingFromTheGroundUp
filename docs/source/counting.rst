@@ -931,7 +931,7 @@ The code for the function should be put in a file called
 
 
 .. literalinclude:: ../../src/integer-to-string.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/integer-to-string.s
@@ -943,7 +943,7 @@ previous chapters. The code should be in a file called
 
 
 .. literalinclude:: ../../src/conversion-program.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/conversion-program.s

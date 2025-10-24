@@ -361,7 +361,7 @@ in-depth explanation. It looks long, but it is mostly comments.
 
 
 .. literalinclude:: ../../src/alloc.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/alloc.s

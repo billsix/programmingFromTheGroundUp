@@ -82,7 +82,7 @@ The program we will examine here is simple - it writes the characters
 ``helloworld-nolib.s``, looks like this:
 
 .. literalinclude:: ../../src/helloworld-nolib.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/hellowworld-nolib.s
@@ -92,7 +92,7 @@ That's not too long. However, take a look at how short
 ``helloworld-lib`` is which uses a library:
 
 .. literalinclude:: ../../src/helloworld-lib.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/helloworld-lib.s
@@ -261,7 +261,7 @@ insert, and everywhere it sees ``%d`` it will look for a number from the
 stack to insert. This is best described using an example:
 
 .. literalinclude:: ../../src/printf-example.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/printf-example.s

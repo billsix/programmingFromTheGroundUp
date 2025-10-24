@@ -61,7 +61,7 @@ structure. Put them in a file named ``record-def.s``:
 
 
 .. literalinclude:: ../../src/record-def.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/record-def.s
@@ -74,7 +74,7 @@ a file called ``linux.s``:
 
 
 .. literalinclude:: ../../src/linux.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/linux.s
@@ -101,7 +101,7 @@ basically need:
 Let's look at our reading function first:
 
 .. literalinclude:: ../../src/read-record.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/read-record.s
@@ -114,7 +114,7 @@ descriptor. The writing one is similar:
 
 
 .. literalinclude:: ../../src/write-record.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/write-record.s
@@ -137,7 +137,7 @@ This program will simply write some hardcoded records to disk. It will:
 Type the following code into a file called ``write-records.s``:
 
 .. literalinclude:: ../../src/write-records.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/write-records.s
@@ -205,7 +205,7 @@ contain at least one null character each.
 Here is the code. Put it in a file called ``count-chars.s``:
 
 .. literalinclude:: ../../src/count-chars.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/count-chars.s
@@ -237,7 +237,7 @@ out a newline to ``STDOUT``. Put the following code into
 ``write-newline.s``:
 
 .. literalinclude:: ../../src/write-newline.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/write-newline.s
@@ -246,7 +246,7 @@ Now we are ready to write the main program. Here is the code to
 ``read-records.s``:
 
 .. literalinclude:: ../../src/read-records.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/read-records.s
@@ -308,7 +308,7 @@ Like most programs we've encountered recently, this program is pretty
 straightforward. [3]_
 
 .. literalinclude:: ../../src/add-year.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/add-year.s

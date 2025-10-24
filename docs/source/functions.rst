@@ -420,7 +420,7 @@ explanation follows. Name the file ``power.s``.
 
 
 .. literalinclude:: ../../src/power.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/power.s
@@ -560,7 +560,7 @@ its own stack frame, we are okay.
 Let's look at the code to see how this works:
 
 .. literalinclude:: ../../src/factorial.s
-   :language: gas
+   :language: asm
    :linenos:
    :lineno-match:
    :caption: src/factorial.s

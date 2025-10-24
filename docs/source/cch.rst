@@ -66,11 +66,11 @@ and then explaining how it works. So, here is your first program, which
 prints "Hello world" to the screen and exits. Type it in, and give it
 the name Hello-World.c
 
-.. literalinclude:: ../../src/Hello-World-c.c
+.. literalinclude:: ../../src/Hello-World.c
    :language: c
    :linenos:
    :lineno-match:
-   :caption: src/Hello-World-c.c
+   :caption: src/Hello-World.c
 
 
 As you can see, it's a pretty simple program. To compile it, run the
