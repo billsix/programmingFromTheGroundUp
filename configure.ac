@@ -24,7 +24,7 @@ DEFAULT_MAKE_GOAL=all
 
 if test "x$enable_extra_docs" = "xyes"; then
   BUILD_DOCS_FLAG=1
-  DEFAULT_MAKE_GOAL=html
+  DEFAULT_MAKE_GOAL=docs
 fi
 
 # --------------------------------------------------------------------
@@ -43,4 +43,3 @@ AC_CONFIG_FILES([
   Dockerfile
 ])
 AC_OUTPUT
-

@@ -62,6 +62,9 @@ format: image ## Format the C code
 		/format.sh
 
 ifeq ($(BUILD_DOCS_FLAG),1)
+.PHONY: docs
+docs: html pdf ## Build the book in HTML and PDF form
+
 .PHONY: html
 html: image ## Build the book in HTML form
 	$(CONTAINER_CMD) run -it --rm \
@@ -70,7 +73,6 @@ html: image ## Build the book in HTML form
 		$(OUTPUT_DIR_TO_MOUNT) \
 		$(CONTAINER_NAME) \
 		/html.sh
-
 
 .PHONY: pdf
 pdf: image  ## Build the book in PDF form
