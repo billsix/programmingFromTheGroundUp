@@ -1,43 +1,45 @@
 FROM registry.fedoraproject.org/fedora:42
 
-# I want man packages, this is a development container
-RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf
+ARG BUILD_DOCS=@BUILD_DOCS_FLAG@
 
-RUN dnf upgrade -y
-RUN dnf install -y clang \
+RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
+    dnf upgrade -y && \
+    dnf install -y clang \
+                   clang-format \
                    emacs \
                    g++ \
                    gcc \
                    gdb \
                    glibc-devel.i686 \
                    glibc.i686 \
-                   latexmk \
+                   gtk4 \
+                   gtk4-devel \
+                   gtk4-demo \
                    libgcc.i686 \
                    lldb \
                    man \
                    man-db \
                    man-pages \
                    nano \
-		   pandoc \
                    python3 \
-                   python3-furo \
-                   python3-pip \
-                   python3-sphinx-latex \
-                   python3-sphinx_rtd_theme \
-                   texlive \
-                   texlive-anyfontsize \
-                   texlive-dvipng \
-                   texlive-dvisvgm \
-                   texlive-standalone \
-                   tmux
-
-RUN dnf install -y inkscape
-RUN dnf install -y libreoffice
-
-RUN dnf install -y clang-format
-RUN dnf install -y gtk4 gtk4-devel gtk4-demo
-
-RUN echo 'set debuginfod enabled off' > /root/.gdbinit
+                   tmux ; \
+    if [ "$BUILD_DOCS" = "1" ]; then \
+       dnf install -y \
+                      latexmk \
+                      libreoffice \
+                      inkscape \
+                      pandoc \
+                      python3-furo \
+                      python3-pip \
+                      python3-sphinx-latex \
+                      python3-sphinx_rtd_theme \
+                      texlive \
+                      texlive-anyfontsize \
+                      texlive-dvipng \
+                      texlive-dvisvgm \
+                      texlive-standalone ; \
+         fi ; \
+      echo 'set debuginfod enabled off' > /root/.gdbinit
 
 COPY .clang-format /pgu/
 
