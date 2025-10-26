@@ -1,2 +1,2 @@
-cd /pgu/
+cd /pgu/src/
 exec bash
