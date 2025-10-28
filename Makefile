@@ -1,6 +1,7 @@
 .DEFAULT_GOAL := shell
 
-BUILD_DOCS_FLAG = 1
+BUILD_DOCS = 1
+USE_GRAPHICS = 1
 
 CONTAINER_CMD = podman
 CONTAINER_NAME = programmingfromthegroundup
@@ -39,6 +40,8 @@ image: ## Build podman image to run the examples
 	mkdir -p $(PACKAGE_CACHE_ROOT)/var/lib/dnf
 	# build the container
 	$(CONTAINER_CMD) build \
+                         --build-arg BUILD_DOCS=$(BUILD_DOCS) \
+                         --build-arg USE_GRAPHICS=$(USE_GRAPHICS) \
                          -t $(CONTAINER_NAME) \
                          $(DNF_CACHE_TO_MOUNT) \
                          .
