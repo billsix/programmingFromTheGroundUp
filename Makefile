@@ -13,7 +13,7 @@ FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
                  -v ./entrypoint/html.sh:/usr/local/bin/html.sh:Z \
                  -v ./entrypoint/dotfiles/.tmux.conf:/root/.tmux.conf:Z
 
-PACKAGE_CACHE_ROOT = ~/.cache/packagecache/fedora/42
+PACKAGE_CACHE_ROOT = ~/.cache/packagecache/fedora/43
 
 DNF_CACHE_TO_MOUNT = -v $(PACKAGE_CACHE_ROOT)/var/cache/libdnf5:/var/cache/libdnf5:Z \
 	             -v $(PACKAGE_CACHE_ROOT)/var/lib/dnf:/var/lib/dnf:Z
