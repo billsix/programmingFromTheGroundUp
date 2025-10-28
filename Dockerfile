@@ -1,6 +1,7 @@
 FROM registry.fedoraproject.org/fedora:42
 
-ARG BUILD_DOCS=0
+ARG BUILD_DOCS=1
+ARG USE_GRAPHICS=1
 
 RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
     echo "keepcache=True" >> /etc/dnf/dnf.conf && \
@@ -40,7 +41,29 @@ RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
                       texlive-dvisvgm \
                       texlive-standalone ; \
          fi ; \
-      echo 'set debuginfod enabled off' > /root/.gdbinit
+    if [ "$USE_GRAPHICS" = "1" ]; then \
+       dnf install -y \
+                      mesa-dri-drivers  \
+                      libXScrnSaver \
+                      libXtst \
+                      libXcomposite \
+                      libXcursor \
+                      libXdamage \
+                      libXfixes \
+                      libXft \
+                      libXi \
+                      libXinerama \
+                      libXmu \
+                      libXrandr \
+                      libXrender \
+                      libXres \
+                      libXv \
+                      libXxf86vm \
+                      libglvnd-gles \
+                      mesa-demos \
+                      vulkan-tools  ; \
+         fi ; \
+    echo 'set debuginfod enabled off' > /root/.gdbinit
 
 COPY .clang-format /pgu/
 
