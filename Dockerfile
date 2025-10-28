@@ -1,6 +1,6 @@
 FROM registry.fedoraproject.org/fedora:42
 
-ARG BUILD_DOCS=@BUILD_DOCS_FLAG@
+ARG BUILD_DOCS=0
 
 RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
     echo "keepcache=True" >> /etc/dnf/dnf.conf && \
