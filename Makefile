@@ -1,15 +1,15 @@
-.DEFAULT_GOAL := @DEFAULT_MAKE_GOAL@
+.DEFAULT_GOAL := shell
 
-BUILD_DOCS_FLAG = @BUILD_DOCS_FLAG@
+BUILD_DOCS_FLAG = 1
 
 CONTAINER_CMD = podman
 CONTAINER_NAME = programmingfromthegroundup
 FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
                  -v ./src:/pgu/src:Z \
-                 -v ./entrypoint/shell.sh:/shell.sh:Z \
-                 -v ./entrypoint/format.sh:/format.sh:Z \
-                 -v ./entrypoint/pdf.sh:/pdf.sh:Z \
-                 -v ./entrypoint/html.sh:/html.sh:Z \
+                 -v ./entrypoint/shell.sh:/usr/local/bin/shell.sh:Z \
+                 -v ./entrypoint/format.sh:/usr/local/bin/format.sh:Z \
+                 -v ./entrypoint/pdf.sh:/usr/local/bin/pdf.sh:Z \
+                 -v ./entrypoint/html.sh:/usr/local/bin/html.sh:Z \
                  -v ./entrypoint/dotfiles/.tmux.conf:/root/.tmux.conf:Z
 
 PACKAGE_CACHE_ROOT = ~/.cache/packagecache/fedora/42
@@ -23,6 +23,10 @@ OUTPUT_DIR_TO_MOUNT = -v ./output/:/output/:Z
 USE_X = -e DISPLAY=$(DISPLAY) \
 	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	--security-opt label=type:container_runtime_t
+WAYLAND_FLAGS_FOR_CONTAINER = -e "WAYLAND_DISPLAY=${WAYLAND_DISPLAY}" \
+                              -e "XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}" \
+                              -v "${XDG_RUNTIME_DIR}:${XDG_RUNTIME_DIR}"
+
 
 
 .PHONY: all
@@ -47,8 +51,9 @@ shell: format ## Get Shell into a ephermeral container made from the image
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
 		$(USE_X) \
+		$(WAYLAND_FLAGS_FOR_CONTAINER) \
 		$(CONTAINER_NAME) \
-		/shell.sh
+		/usr/local/bin/shell.sh
 
 
 .PHONY: format
@@ -59,9 +64,8 @@ format: image ## Format the C code
 		$(OUTPUT_DIR_TO_MOUNT) \
 		$(USE_X) \
 		$(CONTAINER_NAME) \
-		/format.sh
+		/usr/local/bin/format.sh
 
-ifeq ($(BUILD_DOCS_FLAG),1)
 .PHONY: docs
 docs: html pdf ## Build the book in HTML and PDF form
 
@@ -72,7 +76,7 @@ html: image ## Build the book in HTML form
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
 		$(CONTAINER_NAME) \
-		/html.sh
+		/usr/local/bin/html.sh
 
 .PHONY: pdf
 pdf: image  ## Build the book in PDF form
@@ -81,8 +85,7 @@ pdf: image  ## Build the book in PDF form
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
 		$(CONTAINER_NAME) \
-		/pdf.sh
-endif
+		/usr/local/bin/pdf.sh
 
 
 .PHONY: help
