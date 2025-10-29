@@ -390,7 +390,7 @@ Going Further
 
 -  Research the various error codes that can be returned by the system
    calls made in these programs. Pick one to rewrite, and add code that
-   checks %eax; for error conditions, and, if one is
+   checks %eax for error conditions, and, if one is
    found, writes a message about it to ``STDERR`` and exit.
 
 -  Write a program that will add a single record to the file by reading

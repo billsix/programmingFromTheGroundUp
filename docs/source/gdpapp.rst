@@ -134,7 +134,7 @@ our code where we should be exitting the loop:
    cmpl  $0, %eax
    je    loop_exit
 
-Basically, it is checking to see if %eax; hits zero. If so, it
+Basically, it is checking to see if %eax hits zero. If so, it
 should exit the loop. There are several things to check here. First of
 all, you may have left this piece out altogether. It is not uncommon for
 a programmer to forget to include a way to exit a loop. However, this is
@@ -143,11 +143,11 @@ actually is outside the loop. If we put the label in the wrong place,
 strange things would happen. However, again, this is not the case.
 
 Neither of those potential problems are the culprit. So, the next option
-is that perhaps %eax; has the wrong value. There are two ways to
+is that perhaps %eax has the wrong value. There are two ways to
 check the contents of register in GDB. The first one is the command
 ``info register``. This will display the contents of all
 registers in hexadecimal. However, we are only interested in
-%eax; at this point. To just display %eax; we can do
+%eax at this point. To just display %eax we can do
 ``print/$eax`` to print it in hexadecimal, or do ``print/d $eax``
 to print it in decimal. Notice that in GDB, registers are prefixed with
 dollar signs rather than percent signs. Your screen should have this on
@@ -163,12 +163,12 @@ This means that the result of your first inquiry is 3. Every inquiry you
 make will be assigned a number prefixed with a dollar sign. Now, if you
 look back into the code, you will find that 3 is the first number in the
 list of numbers to search through. If you step through the loop a few
-more times, you will find that in every loop iteration %eax; has
-the number 3. This is not what should be happening. %eax; should
+more times, you will find that in every loop iteration %eax has
+the number 3. This is not what should be happening. %eax should
 go to the next value in the list in every iteration.
 
-Okay, now we know that %eax; is being loaded with the same value
-over and over again. Let's search to see where %eax; is being
+Okay, now we know that %eax is being loaded with the same value
+over and over again. Let's search to see where %eax is being
 loaded from. The line of code is this:
 
 ::
@@ -176,10 +176,10 @@ loaded from. The line of code is this:
        movl data_items(,%edi,4), %eax
 
 So, step until this line of code is ready to execute. Now, this code
-depends on two values - ``data_items`` and %edi;. ``data_items``
+depends on two values - ``data_items`` and %edi. ``data_items``
 is a symbol, and therefore constant. It's a good idea to check your
 source code to make sure the label is in front of the right data, but in
-our case it is. Therefore, we need to look at %edi;. So, we need
+our case it is. Therefore, we need to look at %edi. So, we need
 to print it out. It will look like this:
 
 ::
@@ -188,17 +188,17 @@ to print it out. It will look like this:
    $2 = 0
    (gdb)
 
-This indicates that %edi; is set to zero, which is why it keeps
+This indicates that %edi is set to zero, which is why it keeps
 on loading the first element of the array. This should cause you to ask
-yourself two questions - what is the purpose of %edi;, and how
+yourself two questions - what is the purpose of %edi, and how
 should its value be changed? To answer the first question, we just need
-to look in the comments. %edi; is holding the current index of
+to look in the comments. %edi is holding the current index of
 ``data_items``. Since our search is a sequential search through the list
-of numbers in ``data_items``, it would make sense that %edi;
+of numbers in ``data_items``, it would make sense that %edi
 should be incremented with every loop iteration.
 
-Scanning the code, there is no code which alters %edi; at all.
-Therefore, we should add a line to increment %edi; at the
+Scanning the code, there is no code which alters %edi at all.
+Therefore, we should add a line to increment %edi at the
 beginning of every loop iteration. This happens to be exactly the line
 we tossed out at the beginning. Assembling, linking, and running the
 program again will show that it now works correctly.
@@ -232,7 +232,7 @@ For example, in the factorial program in :ref:`functionschapter`, we
 could set a breakpoint for the factorial function by typing in
 ``break factorial``. This will cause the debugger to break immediately
 after the function call and the function setup (it skips the pushing of
-%ebp; and the copying of %esp;).
+%ebp and the copying of %esp).
 
 When stepping through code, you often don't want to have to step through
 every instruction of every function. Well-tested functions are usually a

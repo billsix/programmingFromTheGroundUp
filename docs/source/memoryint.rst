@@ -116,8 +116,8 @@ values that the user typed in on the command line to run this program.
 When we run ``as``, for example, we give it several arguments - ``as``,
 ``sourcefile.s``, ``-o``, and ``objectfile.o``. After these, we have the
 number of arguments that were used. When the program begins, this is
-where the stack pointer, %esp;, is pointing. Further
-pushes on the stack move %esp; down in memory. For example, the
+where the stack pointer, %esp, is pointing. Further
+pushes on the stack move %esp down in memory. For example, the
 instruction
 
 ::
@@ -313,14 +313,14 @@ the current and new break point, and then move the break point to the
 spot you specify. That memory is now available for your program to use.
 The way we tell Linux to move the break point is through the ``brk``
 system call. The ``brk`` system call is call number 45 (which will be in
-%eax;). %ebx; should be loaded with the requested
+%eax). %ebx should be loaded with the requested
 breakpoint. Then you call ``int $0x80`` to signal Linux to do its work.
 After mapping in your memory, Linux will return the new break point in
-%eax;. The new break point might actually be larger than what you
+%eax. The new break point might actually be larger than what you
 asked for, because Linux rounds up to the nearest page. If there is not
 enough physical memory or swap to fulfill your request, Linux will
-return a zero in %eax;. Also, if you call ``brk`` with a zero in
-%ebx;, it will simply return the last usable memory address.
+return a zero in %eax. Also, if you call ``brk`` with a zero in
+%ebx, it will simply return the last usable memory address.
 
 The problem with this method is keeping track of the memory we request.
 Let's say I need to move the break to have room to load a file, and then
@@ -528,8 +528,8 @@ check to see if we need more memory:
        cmpl %ebx, %eax
        je   move_break
 
-%eax; holds the current memory region being examined and
-%ebx; holds the location past the end of the heap. Therefore if
+%eax holds the current memory region being examined and
+%ebx holds the location past the end of the heap. Therefore if
 the next region to be examined is past the end of the heap, it means we
 need more memory to allocate a region of this size. Let's skip down to
 ``move_break`` and see what happens there:
@@ -545,9 +545,9 @@ need more memory to allocate a region of this size. Let's skip down to
        movl  $SYS_BRK, %eax
        int   $LINUX_SYSCALL
 
-When we reach this point in the code, %ebx; holds where we want
+When we reach this point in the code, %ebx holds where we want
 the next region of memory to be. So, we add our header size and region
-size to %ebx;, and that's where we want the system break to be.
+size to %ebx, and that's where we want the system break to be.
 We then push all the registers we want to save on the stack, and call
 the ``brk`` system call. After that we check for errors:
 
@@ -558,7 +558,7 @@ the ``brk`` system call. After that we check for errors:
 
 If there were no errors we pop the registers back off the stack, mark
 the memory as unavailable, record the size of the memory, and make sure
-%eax; points to the start of usable memory (which is *after* the
+%eax points to the start of usable memory (which is *after* the
 header).
 
 ::
@@ -580,7 +580,7 @@ allocated memory.
        popl  %ebp
        ret
 
-The ``error`` code just returns 0 in %eax;, so we won't discuss
+The ``error`` code just returns 0 in %eax, so we won't discuss
 it.
 
 Let's go back look at the rest of the loop. What happens if the current
@@ -593,7 +593,7 @@ memory being looked at isn't past the end of the heap? Well, let's look.
        je   next_location
 
 This first grabs the size of the memory region and puts it in
-%edx;. Then it looks at the available flag to see if it is set to
+%edx. Then it looks at the available flag to see if it is set to
 ``UNAVAILABLE``. If so, that means that memory region is in use, so
 we'll have to skip over it. So, if the available flag is set to
 ``UNAVAILABLE``, you go to the code labeled ``next_location``. If the
@@ -601,7 +601,7 @@ available flag is set to ``AVAILABLE``, then we keep on going.
 
 Let's say that the space was available, and so we keep going. Then we
 check to see if this space is big enough to hold the requested amount of
-memory. The size of this region is being held in %edx;, so we do
+memory. The size of this region is being held in %edx, so we do
 this:
 
 ::
@@ -623,7 +623,7 @@ let's jump down to ``allocate_here`` and see what happens:
        ret
 
 It marks the memory as being unavailable. Then it moves the pointer
-%eax; past the header, and uses it as the return value for the
+%eax past the header, and uses it as the return value for the
 function. Remember, the person using this function doesn't need to even
 know about our memory header record. They just need a pointer to usable
 memory.
@@ -631,9 +631,9 @@ memory.
 Okay, so let's say the region wasn't big enough. What then? Well, we
 would then be at the code labeled ``next_location``. This section of
 code is used any time that we figure out that the current memory region
-won't work for allocating memory. All it does is advance %eax; to
+won't work for allocating memory. All it does is advance %eax to
 the next possible memory region, and goes back to the beginning of the
-loop. Remember that %edx; is holding the size of the current
+loop. Remember that %edx is holding the size of the current
 memory region, and ``HEADER_SIZE`` is the symbol for the size of the
 memory region's header. So this code will move us to the next memory
 region:
@@ -678,12 +678,12 @@ find it next time it is called. So we have:
        movl  $AVAILABLE, HDR_AVAIL_OFFSET(%eax)
        ret
 
-In this function, we don't have to save %ebp; or
-%esp; since we're not changing them, nor do we have to
+In this function, we don't have to save %ebp or
+%esp since we're not changing them, nor do we have to
 restore them at the end. All we're doing is reading the address of the
 memory region from the stack, backing up to the beginning of the header,
 and marking the region as available. This function has no return value,
-so we don't care what we leave in %eax;.
+so we don't care what we leave in %eax.
 
 Performance Issues and Other Problems
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -952,7 +952,7 @@ Going Further
 
 .. [3]
    The stack can access it as it grows downward, and you can access the
-   stack regions through %esp;. However, your program's
+   stack regions through %esp. However, your program's
    data section doesn't grow that way. The way to grow that will be
    explained shortly.
 

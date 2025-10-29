@@ -196,7 +196,7 @@ the pointers to that storage onto the stack before calling the function.
 As you can see, it's a lot less work.
 
 Finally our function returns the number ``0``. In assembly language, we
-stored our return value in %eax;, but in C we just use the
+stored our return value in %eax, but in C we just use the
 ``return`` command and it takes care of that for us. The return value of
 the ``main`` function is what is used as the exit code for the program.
 

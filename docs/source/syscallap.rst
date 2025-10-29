@@ -19,13 +19,13 @@ to be minimalistic while the library functions were designed to be easy
 to program with. For information about the Linux C library, see the
 manual at http://www.gnu.org/software/libc/manual/
 
-Remember that %eax; holds the system call numbers, and
-that the return values and error codes are also stored in %eax;.
+Remember that %eax holds the system call numbers, and
+that the return values and error codes are also stored in %eax.
 
 .. table:: Important Linux System Calls
 
    +-----------------------------------------------------------------------+
-   | %eax;                                                                 |
+   | %eax                                                                 |
    +=======================================================================+
    | 1                                                                     |
    +-----------------------------------------------------------------------+

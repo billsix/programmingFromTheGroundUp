@@ -57,7 +57,7 @@ to work anyway. It doesn't report any error message so the user won't
 even know that they typed in the name wrong. Let's say that the
 destination file is on a network drive, and the network temporarily
 fails. The operating system is returning a status code to us in
-%eax;, but we aren't checking it. Therefore, if a failure
+%eax, but we aren't checking it. Therefore, if a failure
 occurs, the user is totally unaware. This program is definitely not
 robust. As you can see, even in a simple program there are a lot of
 things that can go wrong that a programmer must contend with.
@@ -284,7 +284,7 @@ stack, and call the function.
 Now let's look for potential error spots in our ``add-year`` program.
 First of all, we don't check to see if either of our ``open`` system
 calls actually complete properly. Linux returns its status code in
-%eax;, so we need to check and see if there is an error.
+%eax, so we need to check and see if there is an error.
 
 ::
 

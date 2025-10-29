@@ -35,7 +35,7 @@ value, while the second operand must be a register or memory location.
 Note, however, that in x86 assembly language you cannot have more than
 one operand be a memory location.
 
-In the flags section, it lists the flags in the %eflags;
+In the flags section, it lists the flags in the %eflags
 register affected by the instruction. The following flags are mentioned:
 
 O
@@ -85,8 +85,8 @@ mostly used for moving data from one place to another.
    | This copies a word of data from    |              |                |
    | one location to another.           |              |                |
    | ``movl %eax, %ebx`` copies the     |              |                |
-   | contents of %eax; to               |              |                |
-   | %ebx;                              |              |                |
+   | contents of %eax to               |              |                |
+   | %ebx                              |              |                |
    +------------------------------------+--------------+----------------+
    | movb                               | I/R/M, I/R/M | O/S/Z/A/C      |
    +------------------------------------+--------------+----------------+
@@ -103,7 +103,7 @@ mostly used for moving data from one place to another.
    | ``leal 5(%ebp,%ecx,1), %eax``      |              |                |
    | loads the address computed by      |              |                |
    | ``5 + %ebp + 1*%ecx`` and stores   |              |                |
-   | that in %eax;                      |              |                |
+   | that in %eax                      |              |                |
    +------------------------------------+--------------+----------------+
    | popl                               | R/M          | O/S/Z/A/C      |
    +------------------------------------+--------------+----------------+
@@ -113,7 +113,7 @@ mostly used for moving data from one place to another.
    | followed by ``addl $4, %esp``.     |              |                |
    | ``popfl`` is a variant which pops  |              |                |
    | the top of the stack into the      |              |                |
-   | %eflags; register.                 |              |                |
+   | %eflags register.                 |              |                |
    +------------------------------------+--------------+----------------+
    | pushl                              | I/R/M        | O/S/Z/A/C      |
    +------------------------------------+--------------+----------------+
@@ -124,7 +124,7 @@ mostly used for moving data from one place to another.
    | ``movl I/R/M, (%esp)``. ``pushfl`` |              |                |
    | is a variant which pushes the      |              |                |
    | current contents of the            |              |                |
-   | %eflags; register onto the         |              |                |
+   | %eflags register onto the         |              |                |
    | top of the stack.                  |              |                |
    +------------------------------------+--------------+----------------+
    | xchgl                              | R/M, R/M     | O/S/Z/A/C      |
@@ -175,9 +175,9 @@ unsigned integers.
    +--------------------------------------+------------+----------------+
    | cdq                                  |            | O/S/Z/A/P/C    |
    +--------------------------------------+------------+----------------+
-   | Converts the %eax; word into         |            |                |
+   | Converts the %eax word into         |            |                |
    | the double-word consisting of        |            |                |
-   | %edx;:%eax; with sign                |            |                |
+   | %edx:%eax with sign                |            |                |
    | extension. The ``q`` signifies that  |            |                |
    | it is a *quad-word*. It's actually a |            |                |
    | double-word, but it's called a       |            |                |
@@ -206,15 +206,15 @@ unsigned integers.
    | Performs unsigned division. Divides  |            |                |
    | the contents of the double-word      |            |                |
    | contained in the combined            |            |                |
-   | %edx;:%eax;                          |            |                |
+   | %edx:%eax                          |            |                |
    | registers by the value in the        |            |                |
    | register or memory location          |            |                |
-   | specified. The %eax; register        |            |                |
+   | specified. The %eax register        |            |                |
    | contains the resulting quotient, and |            |                |
-   | the %edx; register contains          |            |                |
+   | the %edx register contains          |            |                |
    | the resulting remainder. If the      |            |                |
    | quotient is too large to fit in      |            |                |
-   | %eax;, it triggers a type 0          |            |                |
+   | %eax, it triggers a type 0          |            |                |
    | interrupt.                           |            |                |
    +--------------------------------------+------------+----------------+
    | idivl                                | R/M        | O/S/Z/A/P      |
@@ -228,10 +228,10 @@ unsigned integers.
    | stores the result in the second      |            |                |
    | operand. If the second operand is    |            |                |
    | left out, it is assumed to be        |            |                |
-   | %eax;, and the full result is        |            |                |
+   | %eax, and the full result is        |            |                |
    | stored in the double-word            |            |                |
    | FIXMEA                               |            |                |
-   | MPedx-indexed;:%eax;.                |            |                |
+   | MPedx-indexed;:%eax.                |            |                |
    +--------------------------------------+------------+----------------+
    | incl                                 | R/M        | O/S/Z/A/P      |
    +--------------------------------------+------------+----------------+
@@ -429,7 +429,7 @@ These instructions may alter the flow of the program.
    +-----------------------------+---------------------+----------------+
    | This pushes what would be   |                     |                |
    | the next value for          |                     |                |
-   | %eip; onto the              |                     |                |
+   | %eip onto the              |                     |                |
    | stack, and jumps to the     |                     |                |
    | destination address. Used   |                     |                |
    | for function calls.         |                     |                |
@@ -440,7 +440,7 @@ These instructions may alter the flow of the program.
    | function call. For example, |                     |                |
    | ``call *%eax`` will call    |                     |                |
    | the function at the address |                     |                |
-   | in %eax;.                   |                     |                |
+   | in %eax.                   |                     |                |
    +-----------------------------+---------------------+----------------+
    | int                         | I                   | O/S/Z/A/C      |
    +-----------------------------+---------------------+----------------+
@@ -494,13 +494,13 @@ These instructions may alter the flow of the program.
    |                             |                     |                |
    | -  ``[n]s`` - sign flag set |                     |                |
    |                             |                     |                |
-   | -  ``ecxz`` - %ecx;         |                     |                |
+   | -  ``ecxz`` - %ecx         |                     |                |
    |    is zero                  |                     |                |
    +-----------------------------+---------------------+----------------+
    | jmp                         | destination address | O/S/Z/A/C      |
    +-----------------------------+---------------------+----------------+
    | An unconditional jump. This |                     |                |
-   | simply sets %eip; to        |                     |                |
+   | simply sets %eip to        |                     |                |
    | the destination address.    |                     |                |
    | Alternatively, the          |                     |                |
    | destination address can be  |                     |                |
@@ -509,13 +509,13 @@ These instructions may alter the flow of the program.
    | jump. For example,          |                     |                |
    | ``jmp *%eax`` will jump to  |                     |                |
    | the address in              |                     |                |
-   | %eax;.                      |                     |                |
+   | %eax.                      |                     |                |
    +-----------------------------+---------------------+----------------+
    | ret                         |                     | O/S/Z/A/C      |
    +-----------------------------+---------------------+----------------+
    | Pops a value off of the     |                     |                |
    | stack and then sets         |                     |                |
-   | %eip; to that value.        |                     |                |
+   | %eip to that value.        |                     |                |
    | Used to return from         |                     |                |
    | function calls.             |                     |                |
    +-----------------------------+---------------------+----------------+

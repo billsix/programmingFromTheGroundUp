@@ -213,8 +213,8 @@ This can be rendered in assembly language like this:
 
 The x86 assembly language has some direct support for looping as well.
 The ecx-indexed; register can be used as a counter that *ends*
-with zero. The ``loop`` instruction will decrement &ecx; and
-jump to a specified address unless &ecx; is zero. For example, if
+with zero. The ``loop`` instruction will decrement &ecx and
+jump to a specified address unless &ecx is zero. For example, if
 you wanted to execute a statement 100 times, you would do this in C:
 
 ::
