@@ -173,9 +173,9 @@ To build the application, run the commands:
 
 ::
 
-   as write-records.s -o write-records.o
-   as write-record.s -o write-record.o
-   ld write-record.o write-records.o -o write-records
+   as -32 write-records.s -o write-records.o
+   as -32 write-record.s -o write-record.o
+   ld -m elf_i386 write-record.o write-records.o -o write-records
 
 Here we are assembling two files separately, and then combining them
 together using the linker. To run the program, just type the following:
@@ -257,11 +257,11 @@ them together:
 
 ::
 
-   as read-record.s -o read-record.o
-   as count-chars.s -o count-chars.o
-   as write-newline.s -o write-newline.o
-   as read-records.s -o read-records.o
-   ld read-record.o count-chars.o write-newline.o \
+   as -32 read-record.s -o read-record.o
+   as -32 count-chars.s -o count-chars.o
+   as -32 write-newline.s -o write-newline.o
+   as -32 read-records.s -o read-records.o
+   ld -m elf_i386 read-record.o count-chars.o write-newline.o \
       read-records.o -o read-records
 
 The backslash in the first line simply means that the command continues
@@ -319,8 +319,8 @@ following [4]_:
 
 ::
 
-   as add-year.s -o add-year.o
-   ld add-year.o read-record.o write-record.o -o add-year
+   as -32 add-year.s -o add-year.o
+   ld -m elf_i386 add-year.o read-record.o write-record.o -o add-year
 
 To run the program, just type in the following [5]_:
 

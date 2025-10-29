@@ -6,7 +6,7 @@
 /*           exit.                                */
 
 /* Main Program */
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
   /* Print our string to standard output */
   puts("Hello World!\n");
 

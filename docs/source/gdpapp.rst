@@ -54,7 +54,7 @@ assemble it like this:
 
 ::
 
-   as --gstabs maximum.s -o maximum.o
+   as -32 --gstabs maximum.s -o maximum.o
 
 Linking would be the same as normal. "stabs" is the debugging format
 used by GDB. Now, to run the program under the debugger, you would type
@@ -65,12 +65,12 @@ directory. The output should look similar to this:
 
    GNU gdb Red Hat Linux (5.2.1-4)
    Copyright 2002 Free Software Foundation, Inc.
-   GDB is free software, covered by the GNU General Public 
-   License, and you are welcome to change it and/or 
-   distribute copies of it under certain conditions. Type 
-   "show copying" to see the conditions.  There is 
-   absolutely no warranty for GDB.  Type "show warranty" 
-   for details.  
+   GDB is free software, covered by the GNU General Public
+   License, and you are welcome to change it and/or
+   distribute copies of it under certain conditions. Type
+   "show copying" to see the conditions.  There is
+   absolutely no warranty for GDB.  Type "show warranty"
+   for details.
    This GDB was configured as "i386-redhat-linux"...
    (gdb)
 
@@ -108,21 +108,21 @@ like this:
 ::
 
    (gdb) stepi
-   35              cmpl %ebx, %eax           
+   35              cmpl %ebx, %eax
    (gdb) stepi
-   36              jle start_loop            
+   36              jle start_loop
    (gdb) stepi
-   32              cmpl $0, %eax             
+   32              cmpl $0, %eax
    (gdb) stepi
    33              je loop_exit
    (gdb) stepi
    34              movl data_items(,%edi,4), %eax
    (gdb) stepi
-   35              cmpl %ebx, %eax           
+   35              cmpl %ebx, %eax
    (gdb) stepi
-   36              jle start_loop            
+   36              jle start_loop
    (gdb) step
-   32              cmpl $0, %eax             
+   32              cmpl $0, %eax
 
 As you can tell, it has looped. In general, this is good, since we wrote
 it to loop. However, the problem is that it is *never stopping*.

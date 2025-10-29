@@ -333,9 +333,9 @@ To assemble and link the files, do:
 
 ::
 
-   as add-year.s -o add-year.o
-   as error-exit.s -o error-exit.o
-   ld add-year.o write-newline.o error-exit.o read-record.o write-record.o count-chars.o -o add-year
+   as -32 add-year.s -o add-year.o
+   as -32 error-exit.s -o error-exit.o
+   ld -m elf_i386 add-year.o write-newline.o error-exit.o read-record.o write-record.o count-chars.o -o add-year
 
 Now try to run it without the necessary files. It now exits cleanly and
 gracefully!

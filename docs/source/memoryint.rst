@@ -855,8 +855,8 @@ Now you can build your program with the following commands:
 
 ::
 
-   as read-records.s -o read-records.o
-   ld alloc.o read-record.o read-records.o write-newline.o count-chars.o -o read-records
+   as -32 read-records.s -o read-records.o
+   ld -m elf_i386 alloc.o read-record.o read-records.o write-newline.o count-chars.o -o read-records
 
 You can then run your program by doing ``./read-records``.
 

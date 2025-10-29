@@ -952,11 +952,11 @@ To build the program, issue the following commands:
 
 ::
 
-   as integer-to-string.s -o integer-to-number.o
-   as count-chars.s -o count-chars.o
-   as write-newline.s -o write-newline.o
-   as conversion-program.s -o conversion-program.o
-   ld integer-to-number.o count-chars.o write-newline.o conversion-program.o -o conversion-program
+   as -32 integer-to-string.s -o integer-to-number.o
+   as -32 count-chars.s -o count-chars.o
+   as -32 write-newline.s -o write-newline.o
+   as -32 conversion-program.s -o conversion-program.o
+   ld -m elf_i386 integer-to-number.o count-chars.o write-newline.o conversion-program.o -o conversion-program
 
 To run just type ``./conversion-program`` and the output should say
 ``824``.

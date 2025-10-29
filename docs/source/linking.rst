@@ -105,15 +105,15 @@ than normal. You can build the first program normally by doing this:
 
 ::
 
-   as helloworld-nolib.s -o helloworld-nolib.o
-   ld helloworld-nolib.o -o helloworld-nolib
+   as -32 helloworld-nolib.s -o helloworld-nolib.o
+   ld -m elf_i386 helloworld-nolib.o -o helloworld-nolib
 
 However, in order to build the second program, you have to do this:
 
 ::
 
-   as helloworld-lib.s -o helloworld-lib.o
-   ld -dynamic-linker /lib/ld-linux.so.2 \
+   as -32 helloworld-lib.s -o helloworld-lib.o
+   ld -m elf_i386 -dynamic-linker /lib/ld-linux.so.2 \
       -o helloworld-lib helloworld-lib.o -lc
 
 Remember, the backslash in the first line simply means that the command
@@ -183,7 +183,7 @@ Run the following command:
 
 ::
 
-   lddldd ./helloworld-nolib
+   ldd ./helloworld-nolib
 
 It should report back ``not a dynamic executable``. This is just like we
 said - ``helloworld-nolib`` is a statically-linked executable. However,
@@ -271,8 +271,8 @@ following commands:
 
 ::
 
-   as printf-example.s -o printf-example.o
-   ld printf-example.o -o printf-example -lc \
+   as -32 printf-example.s -o printf-example.o
+   ld -m elf_i386 printf-example.o -o printf-example -lc \
       -dynamic-linker /lib/ld-linux.so.2
 
 Then run the program with ``./printf-example``, and it should say this:
@@ -442,15 +442,15 @@ programs. The first thing we would do is assemble them like normal:
 
 ::
 
-   as write-record.s -o write-record.o
-   as read-record.s -o read-record.o
+   as -32 write-record.s -o write-record.o
+   as -32 read-record.s -o read-record.o
 
 Now, instead of linking them into a program, we want to link them into a
 dynamic library. This changes our linker command to this:
 
 ::
 
-   ld -shared write-record.o read-record.o -o librecord.so
+   ld -m elf_i386 -shared write-record.o read-record.o -o librecord.so
 
 This links both of these files together into a dynamic library called
 ``librecord.so``. This file can now be used for multiple programs. If we
@@ -462,8 +462,8 @@ Let's look at how we would link against this library. To link the
 
 ::
 
-   as write-records.s -o write-records
-   ld -L . -dynamic-linker /lib/ld-linux.so.2 \
+   as -32 write-records.s -o write-records
+   ld -m elf_i386 -L . -dynamic-linker /lib/ld-linux.so.2 \
       -o write-records -lrecord write-records.o
 
 In this command, ``-L .`` told the linker to look for libraries in the

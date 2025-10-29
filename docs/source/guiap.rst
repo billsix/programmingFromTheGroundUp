@@ -71,7 +71,7 @@ To build this application, execute the following commands:
 
 ::
 
-   as gnome-example.s -o gnome-example.o
+   as -32 gnome-example.s -o gnome-example.o
    gcc gnome-example.o `gnome-config --libs gnomeui` \
        -o gnome-example
 

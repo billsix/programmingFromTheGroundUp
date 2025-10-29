@@ -476,8 +476,8 @@ Now, assemble and link it with these commands:
 
 ::
 
-   as maximum.s -o maximum.o
-   ld maximum.o -o maximum
+   as -32 maximum.s -o maximum.o
+   ld -m elf_i386 maximum.o -o maximum
 
 Now run it, and check its status.
 

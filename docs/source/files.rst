@@ -247,8 +247,8 @@ commands:
 
 ::
 
-   as toupper.s -o toupper.o
-   ld toupper.o -o toupper
+   as -32 toupper.s -o toupper.o
+   ld -m elf_i386 toupper.o -o toupper
 
 This builds a program called ``toupper``, which converts all of the
 lowercase characters in a file to uppercase. For example, to convert the
