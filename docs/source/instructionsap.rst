@@ -228,10 +228,9 @@ unsigned integers.
    | stores the result in the second      |            |                |
    | operand. If the second operand is    |            |                |
    | left out, it is assumed to be        |            |                |
-   | %eax, and the full result is        |            |                |
+   | %eax, and the full result is         |            |                |
    | stored in the double-word            |            |                |
-   | FIXMEA                               |            |                |
-   | MPedx-indexed;:%eax.                |            |                |
+   | %edx                                 |            |                |
    +--------------------------------------+------------+----------------+
    | incl                                 | R/M        | O/S/Z/A/P      |
    +--------------------------------------+------------+----------------+
@@ -609,7 +608,7 @@ Differences in Other Syntaxes and Terminology
 ---------------------------------------------
 
 The syntax for assembly language used in this book is known at the
-*ATFIXMEAMPamp;T* syntax. It is the one supported by the GNU tool chain
+*&T* syntax. It is the one supported by the GNU tool chain
 that comes standard with every Linux distribution. However, the official
 syntax for x86 assembly language (known as the Intel syntax) is
 different. It is the same assembly language for the same platform, but
@@ -660,7 +659,7 @@ In Intel syntax, this would be written as:
 
    mov  [8 + %ebx + 1 * edi], eax
 
-The memory reference is a bit easier to read than its ATFIXMEAMPamp;T
+The memory reference is a bit easier to read than its &
 counterpart because it spells out exactly how the address will be
 computed. However, but the order of operands in Intel syntax can be
 confusing.
@@ -670,7 +669,7 @@ Where to Go for More Information
 
 Intel has a set of comprehensive guides to their processors. These are
 available at http://www.intel.com/design/pentium/manuals/ Note that all
-of these use the Intel syntax, not the ATFIXMEAMPamp;T syntax. The most
+of these use the Intel syntax, not the &T syntax. The most
 important ones are their IA-32 Intel Architecture Software Developer's
 Manual in its three volumes::
 
