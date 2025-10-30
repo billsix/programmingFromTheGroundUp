@@ -118,7 +118,7 @@ itself has some special, high-speed memory locations called registers.
 There are two kinds of registers - *general registers* and
 *special-purpose registers*. General-purpose registers are where the
 main action happens. Addition, subtraction, multiplication,
-comparisions, and other operations generally use general-purpose
+comparisons, and other operations generally use general-purpose
 registers for processing. However, computers have very few
 general-purpose registers. Most information is stored in main memory,
 brought in to the registers for processing, and then put back into
@@ -230,7 +230,7 @@ equally exact. A computer has no idea what your program is supposed to
 do. Therefore, it will only do exactly what you tell it to do. If you
 accidentally print out a regular number instead of the ASCII codes that
 make up the number's digits, the computer will let you - and you will
-wind up with jibberish on your screen (it will try to look up what your
+wind up with gibberish on your screen (it will try to look up what your
 number represents in ASCII and print that). If you tell the computer to
 start executing instructions at a location containing data instead of
 program instructions, who knows how the computer will interpret that -
@@ -278,7 +278,7 @@ In this case, the memory would look like this:
 
 The actual name and address would be stored elsewhere in memory. This
 way, it is easy to tell where each part of the data is from the start of
-the record, without explicitly limitting the size of the name and
+the record, without explicitly limiting the size of the name and
 address. If the length of the fields within our records could change, we
 would have no idea where the next field started. Because records would
 be different sizes, it would also be hard to find where the next record

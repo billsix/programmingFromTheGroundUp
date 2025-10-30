@@ -92,7 +92,7 @@ say this:
    (gdb)
 
 This tells you that the program was interrupted by the SIGINT signal
-(from your control-c), and was within the section labelled
+(from your control-c), and was within the section labeled
 ``start_loop``, and was executing on line 34 when it stopped. It gives
 you the code that it is about to execute. Depending on exactly when you
 hit control-c, it may have stopped on a different line or a different
@@ -127,7 +127,7 @@ like this:
 As you can tell, it has looped. In general, this is good, since we wrote
 it to loop. However, the problem is that it is *never stopping*.
 Therefore, to find out what the problem is, let's look at the point in
-our code where we should be exitting the loop:
+our code where we should be exiting the loop:
 
 ::
 

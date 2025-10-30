@@ -12,11 +12,16 @@ BUILDDIR      = build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile
+.PHONY: help Makefile spellcheck
+
+PERSONAL_DICT := ./pgu.pws
+
+spellcheck:
+	for file in $(shell ls source/*.rst); do aspell --personal=$(PERSONAL_DICT) check $$file; done
 
 # Catch-all target: route all unknown targets to Sphinx using the new
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
-%: Makefile
+%: Makefile spellcheck
 	inkscape source/_static/bigendian.svg --export-filename=source/_static/bigendian.png
 	inkscape source/_static/littleendian.svg --export-filename=source/_static/littleendian.png
 	inkscape source/_static/mailbox.svg --export-filename=source/_static/mailbox.png

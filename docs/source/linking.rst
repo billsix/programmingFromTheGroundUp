@@ -16,7 +16,7 @@ Sharing Functions with Code Libraries
 By now you should realize that the computer has to do a lot of work even
 for simple tasks. Because of that, you have to do a lot of work to write
 the code for a computer to even do simple tasks. In addition,
-programming tasks are usually not very simple. Therefore, we neeed a way
+programming tasks are usually not very simple. Therefore, we need a way
 to make this process easier on ourselves. There are several ways to do
 this, including:
 
@@ -61,7 +61,7 @@ that it creates some dependency problems, including:
    application that uses that code, and therefore it shouldn't be
    deleted?
 
--  Some programs inadvertantly rely on bugs within shared functions.
+-  Some programs inadvertently rely on bugs within shared functions.
    Therefore, if upgrading the shared functions fixes a bug that a
    program depended on, it could cause that application to cease
    functioning.
@@ -585,7 +585,7 @@ Going Further
    each.
 
 -  What kinds of programming are you interested in (graphics,
-   databbases, science, etc.)? Find a library for working in that area,
+   databases, science, etc.)? Find a library for working in that area,
    and write a program that makes some basic use of that library.
 
 -  Research the use of ``LD_PRELOAD``. What is it used for? Try building

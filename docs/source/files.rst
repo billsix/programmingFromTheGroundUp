@@ -220,7 +220,7 @@ number, etc. In this program we will also introduce a new directive,
 ``.equ`` which should help out. ``.equ`` allows you to assign names
 to numbers. For example, if you did ``.equ LINUX_SYSCALL, 0x800x80``,
 any time after that you wrote ``LINUX_SYSCALL``, the assembler would
-substitue ``0x80`` for that. So now, you can write
+substitute ``0x80`` for that. So now, you can write
 
 ::
 
@@ -311,7 +311,7 @@ character ``A`` is 65 and the character ``a`` is 97. The conversion
 factor is then -32. For any lowercase letter if you add -32, you will
 get its capital equivalent.
 
-After this, we have some constants labelled ``STACK POSITIONS``.
+After this, we have some constants labeled ``STACK POSITIONS``.
 Remember that function parameters are pushed onto the stack before
 function calls. These constants (prefixed with ``ST`` for clarity)
 define where in the stack we should expect to find each piece of data.
@@ -342,7 +342,7 @@ The lines
        cmpl  $0, %ebx
        je    end_convert_loop
 
-are just a sanity check to make sure that noone gave us a buffer of zero
+are just a sanity check to make sure that no one gave us a buffer of zero
 size. If they did, we just clean up and leave. Guarding against
 potential user and programming errors is an important task of a
 programmer. You can always specify that your function should not take a
@@ -473,7 +473,7 @@ Review
 Know the Concepts
 ~~~~~~~~~~~~~~~~~
 
--  Describe the lifecycle of a file descriptor.
+-  Describe the life cycle of a file descriptor.
 
 -  What are the standard file descriptors and what are they used for?
 

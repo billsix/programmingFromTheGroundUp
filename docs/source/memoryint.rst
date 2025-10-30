@@ -69,7 +69,7 @@ Address
    Normally, we don't ever type the numeric address of anything, but we
    let the assembler do it for us. When we use labels in code, the
    symbol used in the label will be equivalent to the address it is
-   labelling. The assembler will then replace that symbol with its
+   labeling. The assembler will then replace that symbol with its
    address wherever you use it in your program. For example, say you
    have the following code:
 
@@ -305,7 +305,7 @@ memory you will need. For example, with a text editor, you don't know
 how long the person's file will be. You could try to find a maximum file
 size, and just tell the user that they can't go beyond that, but that's
 a waste if the file is small. Therefore Linux has a facility to move the
-break point to accomodate an application's memory needs.
+break point to accommodate an application's memory needs.
 
 If you need more memory, you can just tell Linux where you want the new
 break point to be, and Linux will map all the memory you need between
@@ -969,7 +969,7 @@ Going Further
 .. [6]
    This is why adding more memory to your computer makes it run faster.
    The more memory your computer has, the less it puts on disk, so it
-   doesn't have to always be interrupting your programs to retreive
+   doesn't have to always be interrupting your programs to retrieve
    pages off the disk.
 
 .. |Memory Layout of a Linux Program at Startup| image:: _static/memorylayout.png

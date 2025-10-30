@@ -200,7 +200,7 @@ Have an Error Code for Everything
 
 Truly robust software has a unique error code for every possible
 contingency. By simply knowing the error code, you should be able to
-find the location in your code where that error was signalled.
+find the location in your code where that error was signaled.
 
 This is important because the error code is usually all the user has to
 go on when reporting errors. Therefore, it needs to be as useful as

@@ -515,7 +515,7 @@ There are several different types of memory locations other than
 
 ``.int``
    Ints (which differ from the ``int`` instruction) take up two storage
-   locations for each number. These are limitted to numbers between 0
+   locations for each number. These are limited to numbers between 0
    and 65535. [9]_
 
 ``.long``
@@ -726,7 +726,7 @@ many jump statements that you can use:
    Jump if the second value was less than or equal to the first value
 
 ``jmp``
-   Jump no matter what. This does not need to be preceeded by a
+   Jump no matter what. This does not need to be preceded by a
    comparison.
 
 The complete list is documented in :ref:`instructionsappendix`. In

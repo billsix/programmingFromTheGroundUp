@@ -381,7 +381,7 @@ Going Further
 ~~~~~~~~~~~~~
 
 -  Rewrite the programs in this chapter to use command-line arguments to
-   specify the filesnames.
+   specify the filenames.
 
 -  Research the ``lseek`` system call. Rewrite the ``add-year`` program
    to open the source file for both reading and writing (use $2 for the

@@ -109,7 +109,7 @@ There are two main categories of optimization - local optimizations and
 global optimizations. Local optimizations consist of optimizations that
 are either hardware specific - such as the fastest way to perform a
 given computation - or program-specific - such as making a specific
-piece of code perform the best for the most often-occuring case. Global
+piece of code perform the best for the most often-occurring case. Global
 optimization consist of optimizations which are structural. For example,
 if you were trying to find the best way for three people in different
 cities to meet in St. Louis, a local optimization would be finding a
@@ -126,7 +126,7 @@ When using high level languages, some of these may be done automatically
 by your compiler's optimizer.
 
 Precomputing Calculations
-   Sometimes a function has a limitted number of possible inputs and
+   Sometimes a function has a limited number of possible inputs and
    outputs. In fact, it may be so few that you can actually precompute
    all of the possible answers beforehand, and simply look up the answer
    when the function is called. This takes up some space since you have
@@ -180,7 +180,7 @@ Register Usage
 Inline Functions
    Functions are great from the point of view of program management -
    they make it easy to break up your program into independent,
-   understandable, and reuseable parts. However, function calls do
+   understandable, and reusable parts. However, function calls do
    involve the overhead of pushing arguments onto the stack and doing
    the jumps (remember locality of reference - your code may be swapped
    out on disk instead of in memory). For high level languages, it's
@@ -235,7 +235,7 @@ Global Optimization
 -------------------
 
 Global optimization has two goals. The first one is to put your code in
-a form where it is easy to do local optimiztions. For example, if you
+a form where it is easy to do local optimizations. For example, if you
 have a large procedure that performs several slow, complex calculations,
 you might see if you can break parts of that procedure into their own
 functions where the values can be precomputed or memoized.

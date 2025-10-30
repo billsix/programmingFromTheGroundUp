@@ -62,7 +62,7 @@ C
    should be carried over to an additional byte. If the carry flag is
    set, that usually means that the destination register could not hold
    the full result. It is up to the programmer to decide on what action
-   to take (i.e. - propogate the result to another byte, signal an
+   to take (i.e. - propagate the result to another byte, signal an
    error, or ignore it entirely).
 
 Other flags exist, but they are much less important.

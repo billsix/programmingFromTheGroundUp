@@ -33,9 +33,9 @@ can be independently developed and tested. Functions are units of code
 that do a defined piece of work on specified types of data. For example,
 in a word processor program, I may have a function called
 ``handle_typed_character`` which is activated whenever a user types in a
-key. The data the function uses would probably be the keypress itself
+key. The data the function uses would probably be the key press itself
 and the document the user currently has open. The function would then
-modify the document according to the keypress it was told about.
+modify the document according to the key press it was told about.
 
 The data items a function is given to process are called its
 *parameters*. In the word processing example, the key which was pressed
@@ -171,7 +171,7 @@ removes the top value from the stack and places it into a register or
 memory location of your choosing..
 
 When we push a value onto the stack, the top of the stack moves to
-accomodate the additional value. We can actually continually push values
+accommodate the additional value. We can actually continually push values
 onto the stack and it will keep growing further and further down in
 memory until we hit our code or data. So how do we know where the
 current "top" of the stack is? The stack register, %esp,
@@ -289,7 +289,7 @@ the space. This is done like this:
 
 This subtracts 8 from %esp (remember, a word is four bytes
 long). [4]_ This way, we can use the stack for variable storage without
-worring about clobbering them with pushes that we may make for function
+worrying about clobbering them with pushes that we may make for function
 calls. Also, since it is allocated on the stack frame for this function
 call, the variable will only be alive during this function. When we
 return, the stack frame will go away, and so will these variables.

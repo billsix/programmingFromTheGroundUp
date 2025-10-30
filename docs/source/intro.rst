@@ -156,11 +156,11 @@ device-specific interactions so you don't have to. It also handles file
 access and interaction between processes. For example, when you type,
 your typing goes through several programs before it hits your editor.
 First, the kernel is what handles your hardware, so it is the first to
-receive notice about the keypress. The keyboard sends in *scancodes* to
+receive notice about the key press. The keyboard sends in *scancodes* to
 the kernel, which then converts them to the actual letters, numbers, and
 symbols they represent. If you are using a windowing system (like
 Microsoft Windows or the X Window System), then the windowing system
-reads the keypress from the kernel, and delivers it to whatever program
+reads the key press from the kernel, and delivers it to whatever program
 is currently in focus on the user's display.
 
 ::
@@ -171,7 +171,7 @@ The kernel also controls the flow of information between programs. The
 kernel is a program's gate to the world around it. Every time that data
 moves between processes, the kernel controls the messaging. In our
 keyboard example above, the kernel would have to be involved for the
-windowing system to communicate the keypress to the application program.
+windowing system to communicate the key press to the application program.
 
 As a fence, the kernel prevents programs from accidentally overwriting
 each other's data and from accessing files and devices that they don't

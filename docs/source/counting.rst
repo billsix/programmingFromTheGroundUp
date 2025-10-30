@@ -175,7 +175,7 @@ Now let's look at going from decimal back to binary. In order to do the
 conversion, you have to *divide* the number into groups of two. So,
 let's say you had the number 17. If you divide it by two, you get 8 with
 1 left over. So that means there are 8 groups of two, and 1 ungrouped.
-That means that the rightmost digit will be 1. Now, we have the rigtmost
+That means that the rightmost digit will be 1. Now, we have the rightmost
 digit figured out, and 8 groups of 2 left over. Now, let's see how many
 groups of two groups of two we have, by dividing 8 by 2. We get 4, with
 nothing left over. That means that all groups two can be further divided
@@ -481,7 +481,7 @@ And I'll let you translate that back out.
 
 The previous operations: AND, OR, NOT, and XOR are called *boolean
 operators* because they were first studied by George Boole. So, if
-someone mentiones boolean operators or boolean algebra, you now know
+someone mentions boolean operators or boolean algebra, you now know
 what they are talking about.
 
 In addition to the boolean operations, there are also two binary
@@ -800,7 +800,7 @@ octal numbers are prefixed with a zero. For example 010 means 10 in
 octal, which is 8 in decimal. If you just write 10 that means 10 in
 decimal. The beginning zero is what differentiates the two. So, *be
 careful not to put any leading zeroes in front of decimal numbers, or
-they will be interepreted as octal numbers*!
+they will be interpreted as octal numbers*!
 
 Hexadecimal numbers (also called just "hex") use the numbers 1-15 for
 each digit. however, since 10-15 don't have their own numbers,
@@ -894,7 +894,7 @@ Converting Numbers for Display
 ------------------------------
 
 So far, we have been unable to display any number stored to the user,
-except by the extremely limitted means of passing it through exit codes.
+except by the extremely limited means of passing it through exit codes.
 In this section, we will discuss converting positive numbers into
 strings for display.
 

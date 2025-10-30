@@ -68,12 +68,12 @@ the user's machine. You have to have a compiler for the language, but
 the users of your program don't. In an interpreted language, you have to
 be sure that the user has an interpreter installed for your program, and
 that the computer knows which interpreter to run your program with.
-However, interpeted languages tend to be more flexible, while compiled
+However, interpreted languages tend to be more flexible, while compiled
 languages are more rigid.
 
 Language choice is usually driven by available tools and support for
 programming methods rather than by whether a language is compiled or
-interpretted. In fact many languages have options for either one.
+interpreted. In fact many languages have options for either one.
 
 High-level languages, whether compiled or interpreted, are oriented
 around you, the programmer, instead of around the machine. This opens
@@ -288,7 +288,7 @@ Review
 Know the Concepts
 ~~~~~~~~~~~~~~~~~
 
--  What is the difference between an intepretted language and a compiled
+-  What is the difference between an interpreted language and a compiled
    language?
 
 -  What reasons might cause you to need to learn a new programming

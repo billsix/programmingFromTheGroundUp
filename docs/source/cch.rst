@@ -30,8 +30,8 @@ variety of languages is useful for many reasons, including
 
 This chapter focuses on the C language.
 
-Compiled and Interpretted Languages
------------------------------------
+Compiled and Interpreted Languages
+----------------------------------
 
 C is a *compiled* language. When you wrote in assembly language, each
 instruction you wrote was translated into exactly one machine
@@ -107,7 +107,7 @@ lines are simply comments about the program.
 
 Then there is the line ``int main(int argc, char **argv)``. This is the
 start of a function. C Functions are declared with their name, arguments
-and return type. This declaration says taht the functions name is
+and return type. This declaration says that the functions name is
 ``main``, it returns an ``int`` (integer), and has two arguments - an
 ``int`` called ``argc`` and a ``char **`` called ``argv``. You don't
 have to worry about where the arguments are positioned on the stack -

@@ -65,6 +65,11 @@ RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
          fi ; \
     echo 'set debuginfod enabled off' > /root/.gdbinit
 
+RUN         dnf install -y \
+                    aspell \
+                   aspell-en
+
+
 COPY .clang-format /pgu/
 
 ENTRYPOINT ["/entrypoint.sh"]
