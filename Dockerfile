@@ -7,7 +7,7 @@ RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
     echo "keepcache=True" >> /etc/dnf/dnf.conf && \
     dnf upgrade -y && \
     dnf install -y clang \
-                   clang-format \
+                   clang-tools-extra \
                    emacs \
                    g++ \
                    gcc \
