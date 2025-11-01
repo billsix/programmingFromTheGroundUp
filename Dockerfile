@@ -69,7 +69,6 @@ RUN         dnf install -y \
                     aspell \
                    aspell-en
 
-
 COPY .clang-format /pgu/
 
 ENTRYPOINT ["/entrypoint.sh"]

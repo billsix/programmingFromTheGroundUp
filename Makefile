@@ -11,7 +11,8 @@ FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
                  -v ./entrypoint/format.sh:/usr/local/bin/format.sh:Z \
                  -v ./entrypoint/pdf.sh:/usr/local/bin/pdf.sh:Z \
                  -v ./entrypoint/html.sh:/usr/local/bin/html.sh:Z \
-                 -v ./entrypoint/dotfiles/.tmux.conf:/root/.tmux.conf:Z
+                 -v ./entrypoint/dotfiles/.tmux.conf:/root/.tmux.conf:Z \
+                 -v ./entrypoint/dotfiles/.bashrc:/root/.bashrc:Z
 
 PACKAGE_CACHE_ROOT = ~/.cache/packagecache/fedora/43
 
