@@ -71,4 +71,6 @@ RUN         dnf install -y \
 
 COPY .clang-format /pgu/
 
+RUN echo "source ~/.extrabashrc" >> ~/.bashrc
+
 ENTRYPOINT ["/entrypoint.sh"]
