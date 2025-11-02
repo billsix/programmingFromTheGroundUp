@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := shell
 
-BUILD_DOCS = 1
-USE_GRAPHICS = 1
+BUILD_DOCS ?= 1
+USE_GRAPHICS ?= 1
 
 CONTAINER_CMD = podman
 CONTAINER_NAME = programmingfromthegroundup
