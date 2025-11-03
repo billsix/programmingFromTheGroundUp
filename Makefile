@@ -49,7 +49,7 @@ image: ## Build podman image to run the examples
 
 
 .PHONY: shell
-shell: format ## Get Shell into a ephermeral container made from the image
+shell: format  ## Get Shell into a ephermeral container made from the image
 	$(CONTAINER_CMD) run -it --rm \
 		--entrypoint /bin/bash \
 		$(FILES_TO_MOUNT) \

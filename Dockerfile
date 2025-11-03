@@ -6,18 +6,19 @@ ARG USE_GRAPHICS=1
 RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
     echo "keepcache=True" >> /etc/dnf/dnf.conf && \
     dnf upgrade -y && \
-    dnf install -y clang \
+    dnf install glibc-devel.i686 \
+                glibc.i686 \
+                libgcc.i686 && \
+    dnf install -y --skip-if-unavailable \
+                   clang \
                    clang-tools-extra \
                    emacs \
                    g++ \
                    gcc \
                    gdb \
-                   glibc-devel.i686 \
-                   glibc.i686 \
                    gtk4 \
                    gtk4-devel \
                    gtk4-demo \
-                   libgcc.i686 \
                    lldb \
                    man \
                    man-db \
