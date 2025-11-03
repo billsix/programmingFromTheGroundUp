@@ -6,10 +6,11 @@ ARG USE_GRAPHICS=1
 RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
     echo "keepcache=True" >> /etc/dnf/dnf.conf && \
     dnf upgrade -y && \
-    dnf install glibc-devel.i686 \
+    dnf install --skip-unavailable \
+                glibc-devel.i686 \
                 glibc.i686 \
                 libgcc.i686 && \
-    dnf install -y --skip-if-unavailable \
+    dnf install -y --skip-unavailable \
                    clang \
                    clang-tools-extra \
                    emacs \
