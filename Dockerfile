@@ -6,7 +6,7 @@ ARG USE_GRAPHICS=1
 RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
     echo "keepcache=True" >> /etc/dnf/dnf.conf && \
     dnf upgrade -y && \
-    dnf install --skip-unavailable \
+    dnf install -y --skip-unavailable \
                 glibc-devel.i686 \
                 glibc.i686 \
                 libgcc.i686 && \
