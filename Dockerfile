@@ -3,7 +3,9 @@ FROM registry.fedoraproject.org/fedora:43
 ARG BUILD_DOCS=1
 ARG USE_GRAPHICS=1
 
-RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
+RUN --mount=type=cache,target=/var/cache/libdnf5 \
+    --mount=type=cache,target=/var/lib/dnf \
+    sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
     echo "keepcache=True" >> /etc/dnf/dnf.conf && \
     dnf upgrade -y && \
     dnf install -y --skip-unavailable \
@@ -29,6 +31,8 @@ RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
                    tmux ; \
     if [ "$BUILD_DOCS" = "1" ]; then \
        dnf install -y \
+                      aspell \
+                      aspell-en \
                       latexmk \
                       libreoffice \
                       inkscape \
@@ -66,10 +70,6 @@ RUN sed -i -e "s@tsflags=nodocs@#tsflags=nodocs@g" /etc/dnf/dnf.conf && \
                       vulkan-tools  ; \
          fi ; \
     echo 'set debuginfod enabled off' > /root/.gdbinit
-
-RUN         dnf install -y \
-                    aspell \
-                   aspell-en
 
 COPY .clang-format /pgu/
 

@@ -14,11 +14,6 @@ FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
                  -v ./entrypoint/dotfiles/.tmux.conf:/root/.tmux.conf:Z \
                  -v ./entrypoint/dotfiles/.extrabashrc:/root/.extrabashrc:Z
 
-PACKAGE_CACHE_ROOT = ~/.cache/packagecache/fedora/43
-
-DNF_CACHE_TO_MOUNT = -v $(PACKAGE_CACHE_ROOT)/var/cache/libdnf5:/var/cache/libdnf5:Z \
-	             -v $(PACKAGE_CACHE_ROOT)/var/lib/dnf:/var/lib/dnf:Z
-
 
 OUTPUT_DIR_TO_MOUNT = -v ./output/:/output/:Z
 
@@ -36,15 +31,11 @@ all: shell ## Build the image and get a shell in it
 
 .PHONY: image
 image: ## Build podman image to run the examples
-	# cache rpm packages
-	mkdir -p $(PACKAGE_CACHE_ROOT)/var/cache/libdnf5
-	mkdir -p $(PACKAGE_CACHE_ROOT)/var/lib/dnf
 	# build the container
 	$(CONTAINER_CMD) build \
                          --build-arg BUILD_DOCS=$(BUILD_DOCS) \
                          --build-arg USE_GRAPHICS=$(USE_GRAPHICS) \
                          -t $(CONTAINER_NAME) \
-                         $(DNF_CACHE_TO_MOUNT) \
                          .
 
 
