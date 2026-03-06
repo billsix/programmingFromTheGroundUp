@@ -10,6 +10,7 @@ FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
                  -v ./entrypoint/shell.sh:/usr/local/bin/shell.sh:Z \
                  -v ./entrypoint/format.sh:/usr/local/bin/format.sh:Z \
                  -v ./entrypoint/pdf.sh:/usr/local/bin/pdf.sh:Z \
+                 -v ./entrypoint/epub.sh:/usr/local/bin/epub.sh:Z \
                  -v ./entrypoint/html.sh:/usr/local/bin/html.sh:Z \
                  -v ./entrypoint/dotfiles/.tmux.conf:/root/.tmux.conf:Z \
                  -v ./entrypoint/dotfiles/.extrabashrc:/root/.extrabashrc:Z
@@ -80,7 +81,17 @@ pdf: image  ## Build the book in PDF form
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
 		$(CONTAINER_NAME) \
-		/usr/local/bin/pdf.sh
+		/usr/local/bin/epub.sh
+
+.PHONY: epub
+epub: image  ## Build the book in EPUB form
+	$(CONTAINER_CMD) run -it --rm \
+		--entrypoint /bin/bash \
+		$(FILES_TO_MOUNT) \
+		$(OUTPUT_DIR_TO_MOUNT) \
+		$(CONTAINER_NAME) \
+		/usr/local/bin/epub.sh
+
 
 
 .PHONY: help
