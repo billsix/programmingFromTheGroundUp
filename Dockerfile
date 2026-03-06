@@ -28,6 +28,7 @@ RUN --mount=type=cache,target=/var/cache/libdnf5 \
                    man-pages \
                    nano \
                    python3 \
+                   strace \
                    tmux ; \
     if [ "$BUILD_DOCS" = "1" ]; then \
        dnf install -y \
