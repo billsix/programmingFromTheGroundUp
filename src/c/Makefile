@@ -5,5 +5,7 @@ maxium: maximum.c
                   -fomit-frame-pointer -fno-asynchronous-unwind-tables \
                   -fno-unwind-tables -fno-dwarf2-cfi-asm -fno-stack-protector \
                   maximum.c
-	clang     -m$(BITS) -o maximum maximum.s
+	clang     -m$(BITS) \
+                  -nostdlib \
+                  -o maximum maximum.s
 
