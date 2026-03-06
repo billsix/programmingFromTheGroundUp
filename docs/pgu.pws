@@ -1,9 +1,10 @@
-personal_ws-1.1 en 364 
+personal_ws-1.1 en 383 
 ABI
 ACK
 AND's
 ANDing
 Acknowledgements
+Acknowledgementsâ
 Alessandro
 Alexandrescu
 BEGINNINGADDRESS
@@ -21,7 +22,9 @@ DLL
 DLLs
 DTD
 DWORD
+Dedicationsâ
 Dobb's
+Documentâ
 Dondero
 Downey
 Dybvig
@@ -32,6 +35,7 @@ ETB
 ETX
 Eckel
 Elkner
+Endorsementsâ
 FIXME
 FS
 Felleisen
@@ -40,6 +44,7 @@ GDB
 GUIs
 HDR
 HelloWorld
+Historyâ
 Hsieh's
 INDEXREGISTER
 Ints
@@ -51,8 +56,10 @@ Knoppix
 Konstantin
 Krishnamurthi
 LF
+LISTâ
 LaTeX
 Leiserson
+Licenseâ
 Linkers
 MEM
 Muchnick
@@ -63,9 +70,11 @@ Neumann
 Neveln
 NiftyTelnet
 OR'd
+Opaqueâ
 Opdyke
 Orwant
 PRELOAD
+Pageâ
 Perlis
 PostScript
 Prata
@@ -89,6 +98,8 @@ SYS
 SYSCALL
 SYSCALLNAME
 Schneier
+Sectionsâ
+Sectionâ
 Shiram
 Skiena
 Spolsky
@@ -100,7 +111,10 @@ Syntaxes
 TRUNC
 Tanenbaum
 Texinfo
+Textsâ
+Transparentâ
 UTF
+Versionâ
 Vlissides
 Von
 WORDSIZE
@@ -114,6 +128,7 @@ adc
 adcl
 addl
 aeff
+aggregateâ
 al
 alloc
 allocator
@@ -141,6 +156,7 @@ computerarchitecture
 config
 const
 coprocessors
+copyleftâ
 countingchapter
 ctranslationap
 dat
@@ -191,6 +207,7 @@ formalpara
 formatters
 fprintf
 fputs
+freeâ
 functionschapter
 functionsreviewuseconcepts
 gcc
@@ -353,6 +370,7 @@ typedefs
 ungrouped
 unmapped
 usr
+versionâ
 wherenext
 wherenextch
 wheretooptimize
@@ -363,3 +381,4 @@ xchgl
 xee
 xml
 xorl
+youâ
