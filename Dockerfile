@@ -75,5 +75,6 @@ RUN --mount=type=cache,target=/var/cache/libdnf5 \
 COPY .clang-format /pgu/
 
 RUN echo "source ~/.extrabashrc" >> ~/.bashrc
+RUN echo "settings set target.disable-aslr false" >> ~/.lldbinit
 
 ENTRYPOINT ["/entrypoint.sh"]
