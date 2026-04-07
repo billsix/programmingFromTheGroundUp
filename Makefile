@@ -3,6 +3,11 @@
 BUILD_DOCS ?= 1
 USE_GRAPHICS ?= 1
 
+TMUX_FILE := $(HOME)/.tmux.conf
+TMUX_REAL_PATH := $(shell readlink -f $(TMUX_FILE))
+TMUX_MOUNT := $(shell if [ -f $(TMUX_REAL_PATH) ]; then echo "-v $(TMUX_REAL_PATH):/root/.tmux.conf:Z" ; fi)
+
+
 CONTAINER_CMD = podman
 CONTAINER_NAME = programmingfromthegroundup
 FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
@@ -12,8 +17,8 @@ FILES_TO_MOUNT = -v ./docs:/pgu/docs:Z \
                  -v ./entrypoint/pdf.sh:/usr/local/bin/pdf.sh:Z \
                  -v ./entrypoint/epub.sh:/usr/local/bin/epub.sh:Z \
                  -v ./entrypoint/html.sh:/usr/local/bin/html.sh:Z \
-                 -v ./entrypoint/dotfiles/.tmux.conf:/root/.tmux.conf:Z \
-                 -v ./entrypoint/dotfiles/.extrabashrc:/root/.extrabashrc:Z
+                 -v ./entrypoint/dotfiles/.extrabashrc:/root/.extrabashrc:Z \
+                 $(TMUX_MOUNT)
 
 
 OUTPUT_DIR_TO_MOUNT = -v ./output/:/output/:Z
