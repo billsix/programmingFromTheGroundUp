@@ -1,7 +1,11 @@
 all: \
      conversion-program \
      factorial \
-     exit
+     exit \
+     gnome-example-c
+
+gnome-example-c: gnome-example-c.c
+	gcc -Wall $$(pkg-config --cflags gtk4) gnome-example-c.c -o gnome-example-c $$(pkg-config --libs gtk4)
 
 # add-year: add-year.s
 # 	clang -m32 -o add-year add-year.s -nostdlib

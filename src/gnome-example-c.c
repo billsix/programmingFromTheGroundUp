@@ -1,3 +1,8 @@
+/* PURPOSE:  This program is meant to be an example
+             of what GUI programs look like written
+             with the GTK 4 / GNOME libraries.
+*/
+
 #include <gtk/gtk.h>
 
 #define MY_APP_TITLE "Gnome Example Program"
@@ -5,48 +10,56 @@
 #define MY_BUTTON_TEXT "I Want to Quit the Example Program"
 #define MY_QUIT_QUESTION "Are you sure you want to quit?"
 
-/* Dialog response handler */
-static void dialog_response_cb(GtkDialog *dialog, gint response_id,
-                               gpointer user_data) {
+/* Called once the user picks Yes or No on the confirmation dialog. */
+static void on_quit_dialog_response(GObject *source, GAsyncResult *result,
+                                    gpointer user_data) {
+    GtkAlertDialog *dialog = GTK_ALERT_DIALOG(source);
     GApplication *app = G_APPLICATION(user_data);
-    if (response_id == GTK_RESPONSE_YES) {
+
+    GError *error = NULL;
+    int button = gtk_alert_dialog_choose_finish(dialog, result, &error);
+    if (error != NULL) {
+        /* Dialog was dismissed (e.g. Esc) -- treat as "No". */
+        g_error_free(error);
+        return;
+    }
+
+    /* Button index 0 corresponds to "Yes" (the first button we passed). */
+    if (button == 0) {
         g_application_quit(app);
     }
-    gtk_window_destroy(GTK_WINDOW(dialog));
 }
 
-/* Show modal confirmation dialog */
+/* Show a modal Yes/No confirmation dialog. */
 static void show_quit_dialog(GtkWindow *parent, GApplication *app) {
-    GtkWidget *dialog = gtk_dialog_new_with_buttons(
-        "Confirm", parent, GTK_DIALOG_MODAL, "_Yes", GTK_RESPONSE_YES, "_No",
-        GTK_RESPONSE_NO, NULL);
+    const char *buttons[] = {"_Yes", "_No", NULL};
 
-    GtkWidget *label = gtk_label_new(MY_QUIT_QUESTION);
-    gtk_label_set_wrap(GTK_LABEL(label), TRUE);
+    GtkAlertDialog *dialog = gtk_alert_dialog_new("%s", MY_QUIT_QUESTION);
+    gtk_alert_dialog_set_modal(dialog, TRUE);
+    gtk_alert_dialog_set_buttons(dialog, buttons);
+    gtk_alert_dialog_set_cancel_button(dialog, 1);
+    gtk_alert_dialog_set_default_button(dialog, 0);
 
-    GtkWidget *content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
-    gtk_box_append(GTK_BOX(content_area), label);
+    gtk_alert_dialog_choose(dialog, parent, NULL, on_quit_dialog_response, app);
 
-    g_signal_connect(dialog, "response", G_CALLBACK(dialog_response_cb), app);
-
-    gtk_window_present(GTK_WINDOW(dialog));
+    g_object_unref(dialog);
 }
 
-/* Button clicked */
+/* "Quit" button clicked. */
 static void on_button_clicked(GtkButton *button, gpointer user_data) {
     GApplication *app = G_APPLICATION(user_data);
     GtkWindow *parent = GTK_WINDOW(gtk_widget_get_root(GTK_WIDGET(button)));
     show_quit_dialog(parent, app);
 }
 
-/* Window close request */
+/* User clicked the window's [x] -- intercept and confirm. */
 static gboolean on_close_request(GtkWindow *window, gpointer user_data) {
     GApplication *app = G_APPLICATION(user_data);
     show_quit_dialog(window, app);
-    return TRUE;  // prevent automatic closing
+    return TRUE; /* prevent the window from closing automatically */
 }
 
-/* Application activate */
+/* Build the UI when the application activates. */
 static void on_activate(GApplication *app, gpointer user_data) {
     GtkWidget *window = gtk_application_window_new(GTK_APPLICATION(app));
     gtk_window_set_title(GTK_WINDOW(window), MY_APP_TITLE);
@@ -64,7 +77,7 @@ static void on_activate(GApplication *app, gpointer user_data) {
 
 int main(int argc, char **argv) {
     GtkApplication *app =
-        gtk_application_new(MY_APP_ID, G_APPLICATION_FLAGS_NONE);
+        gtk_application_new(MY_APP_ID, G_APPLICATION_DEFAULT_FLAGS);
     g_signal_connect(app, "activate", G_CALLBACK(on_activate), NULL);
 
     int status = g_application_run(G_APPLICATION(app), argc, argv);
