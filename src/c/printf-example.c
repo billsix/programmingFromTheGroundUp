@@ -6,12 +6,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static const char *name         = "Jonathan";
+static const char *name = "Jonathan";
 static const char *personstring = "person";
-static int         numberloved  = 3;
+static int numberloved = 3;
 
 int main(void) {
-    printf("Hello! %s is a %s who loves the number %d\n",
-           name, personstring, numberloved);
+    printf("Hello! %s is a %s who loves the number %d\n", name, personstring,
+           numberloved);
     exit(0);
 }

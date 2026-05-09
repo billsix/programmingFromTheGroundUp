@@ -57,7 +57,7 @@ In our programs we will deal with files in the following ways:
    is system call 3, and to call it you need to have the file descriptor
    in %ebx, the address of a buffer for storing the data that is
    read in %ecx, and the size of the buffer in %edx.
-   Buffers will be explained in `Buffers and <#buffersbss>`__ . ``read``
+   Buffers will be explained in :ref:`buffersbss`. ``read``
    will return with either the number of characters read from the file,
    or an error code. Error codes can be distinguished because they are
    always negative numbers (more information on negative numbers can be
@@ -218,7 +218,7 @@ You may have been thinking that you will never remember all of these
 numbers being thrown at you - the system call numbers, the interrupt
 number, etc. In this program we will also introduce a new directive,
 ``.equ`` which should help out. ``.equ`` allows you to assign names
-to numbers. For example, if you did ``.equ LINUX_SYSCALL, 0x800x80``,
+to numbers. For example, if you did ``.equ LINUX_SYSCALL, 0x80``,
 any time after that you wrote ``LINUX_SYSCALL``, the assembler would
 substitute ``0x80`` for that. So now, you can write
 
@@ -349,7 +349,7 @@ programmer. You can always specify that your function should not take a
 buffer of zero size, but it's even better to have the function check and
 have a reliable exit plan if it happens.
 
-Now we start our loop. First, it moves a byte into %cl;. The code
+Now we start our loop. First, it moves a byte into %cl. The code
 for this is
 
 ::
@@ -359,7 +359,7 @@ for this is
 It is using an indexed indirect addressing mode. It says to start at
 %eax and go %edi locations forward, with each location
 being 1 byte big. It takes the value found there, and put it in
-%cl;. After this it checks to see if that value is in the range
+%cl. After this it checks to see if that value is in the range
 of lower-case *a* to lower-case *z*. To check the range, it simply
 checks to see if the letter is smaller than *a*. If it is, it can't be a
 lower-case letter. Likewise, if it is larger than *z*, it can't be a
@@ -367,7 +367,7 @@ lower-case letter. So, in each of these cases, it simply moves on. If it
 is in the proper range, it then adds the uppercase conversion, and
 stores it back into the buffer.
 
-Either way, it then goes to the next value by incrementing %cl;. Next it
+Either way, it then goes to the next value by incrementing %cl. Next it
 checks to see if we are at the end of the buffer. If we are not at the
 end, we jump back to the beginning of the loop (the ``convert_loop``
 label). If we are at the end, it simply continues on to the end of the

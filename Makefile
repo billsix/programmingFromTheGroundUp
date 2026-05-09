@@ -68,7 +68,7 @@ format: image ## Format the C code
 		/usr/local/bin/format.sh
 
 .PHONY: docs
-docs: html pdf ## Build the book in HTML and PDF form
+docs: html pdf epub ## Build the book in HTML, PDF, and EPUB form
 
 .PHONY: html
 html: image ## Build the book in HTML form
@@ -86,7 +86,7 @@ pdf: image  ## Build the book in PDF form
 		$(FILES_TO_MOUNT) \
 		$(OUTPUT_DIR_TO_MOUNT) \
 		$(CONTAINER_NAME) \
-		/usr/local/bin/epub.sh
+		/usr/local/bin/pdf.sh
 
 .PHONY: epub
 epub: image  ## Build the book in EPUB form

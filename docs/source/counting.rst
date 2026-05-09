@@ -169,7 +169,7 @@ more number, 11101011001001. You can convert it to decimal by doing
 
 Now, if you've been paying attention, you have noticed that the numbers
 we just converted are the same ones we used to multiply with earlier.
-So, let's check our results: 101 \* 149 = 15049. It worked!
+So, let's check our results: 101 * 149 = 15049. It worked!
 
 Now let's look at going from decimal back to binary. In order to do the
 conversion, you have to *divide* the number into groups of two. So,
@@ -287,8 +287,8 @@ anything their imaginations can come up with. They just sometimes have
 to be creative when figuring out the best representation.
 
 Not only can you do regular arithmetic with binary numbers, they also
-have a few operations of their own, called binary or logical operations
-. The standard binary operations are
+have a few operations of their own, called *binary* or *logical
+operations*. The standard binary operations are
 
 -  AND
 
@@ -671,9 +671,9 @@ precision (number of significant bits). A computer stores decimal
 numbers in two parts - the *exponent* and the *mantissa*. The mantissa
 contains the actual digits that will be used, and the exponent is what
 magnitude the number is. For example, 12345.2 can be represented as
-1.23452 \* 10^4. The mantissa is 1.23452 and the exponent is 4 with a
+1.23452 * 10^4. The mantissa is 1.23452 and the exponent is 4 with a
 base of 10. Computers, however, use a base of 2. All numbers are stored
-as X.XXXXX \* 2^XXXX. The number 1, for example, is stored as 1.00000 \*
+as X.XXXXX * 2^XXXX. The number 1, for example, is stored as 1.00000 *
 2^0. Separating the mantissa and the exponent into two different values
 is called a *floating point* representation, because the position of the
 significant digits with respect to the decimal point can vary based on

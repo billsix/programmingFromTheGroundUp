@@ -258,18 +258,286 @@ This quick-reference table is copyright 2002 Robert M. Dondero, Jr., and
 is used by permission in this book. Parameters listed in brackets are
 optional.
 
-.. table:: Common GDB Debugging Commands
+.. list-table:: Miscellaneous
+   :header-rows: 1
+   :widths: 30 70
 
-   +-----------------------------+---------------------------------------+
-   | Miscellaneous               |                                       |
-   +=============================+=======================================+
-   | quit                        | Exit GDB                              |
-   +-----------------------------+---------------------------------------+
-   | help [cmd]                  | Print description of debugger command |
-   |                             | ``cmd``. Without ``cmd``, prints a    |
-   |                             | list of topics.                       |
-   +-----------------------------+---------------------------------------+
-   | directory [dir1] [dir2] ... | Add directories ``dir1``, ``dir2``,   |
-   |                             | etc. to the list of directories       |
-   |                             | searched for source files.            |
-   +-----------------------------+---------------------------------------+
+   * - Command
+     - Meaning
+   * - ``quit``
+     - Exit GDB
+   * - ``help`` [cmd]
+     - Print description of debugger command ``cmd``.  Without
+       ``cmd``, prints a list of topics.
+   * - ``directory`` [dir1] [dir2] ...
+     - Add directories ``dir1``, ``dir2``, etc. to the list of
+       directories searched for source files.
+
+.. list-table:: Running the Program
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Command
+     - Meaning
+   * - ``run`` [arg1] [arg2] ...
+     - Run the program with command line arguments ``arg1``,
+       ``arg2``, etc.
+   * - ``set args`` arg1 [arg2] ...
+     - Set the program's command-line arguments to ``arg1``,
+       ``arg2``, etc.
+   * - ``show args``
+     - Print the program's command-line arguments.
+
+.. list-table:: Using Breakpoints
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Command
+     - Meaning
+   * - ``info breakpoints``
+     - Print a list of all breakpoints and their numbers (breakpoint
+       numbers are used for other breakpoint commands).
+   * - ``break`` *linenum*
+     - Set a breakpoint at line number *linenum*.
+   * - ``break *``\ *addr*
+     - Set a breakpoint at memory address *addr*.
+   * - ``break`` *fn*
+     - Set a breakpoint at the beginning of function *fn*.
+   * - ``condition`` *bpnum* *expr*
+     - Break at breakpoint *bpnum* only if expression *expr* is
+       non-zero.
+   * - ``command`` [*bpnum*] *cmd1* [*cmd2*] ...
+     - Execute commands *cmd1*, *cmd2*, etc. whenever breakpoint
+       *bpnum* (or the current breakpoint) is hit.
+   * - ``continue``
+     - Continue executing the program.
+   * - ``kill``
+     - Stop executing the program.
+   * - ``delete`` [*bpnum1*] [*bpnum2*] ...
+     - Delete breakpoints *bpnum1*, *bpnum2*, etc., or all
+       breakpoints if none specified.
+   * - ``clear *``\ *addr*
+     - Clear the breakpoint at memory address *addr*.
+   * - ``clear`` [*fn*]
+     - Clear the breakpoint at function *fn*, or the current
+       breakpoint.
+   * - ``clear`` *linenum*
+     - Clear the breakpoint at line number *linenum*.
+   * - ``disable`` [*bpnum1*] [*bpnum2*] ...
+     - Disable breakpoints *bpnum1*, *bpnum2*, etc., or all
+       breakpoints if none specified.
+   * - ``enable`` [*bpnum1*] [*bpnum2*] ...
+     - Enable breakpoints *bpnum1*, *bpnum2*, etc., or all
+       breakpoints if none specified.
+
+.. list-table:: Stepping through the Program
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Command
+     - Meaning
+   * - ``nexti``
+     - "Step over" the next instruction (doesn't follow function
+       calls).
+   * - ``stepi``
+     - "Step into" the next instruction (follows function calls).
+   * - ``finish``
+     - "Step out" of the current function.
+
+.. list-table:: Examining Registers and Memory
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Command
+     - Meaning
+   * - ``info registers``
+     - Print the contents of all registers.
+   * - ``print/``\ *f* ``$``\ *reg*
+     - Print the contents of register *reg* using format *f*.  The
+       format can be x (hexadecimal), u (unsigned decimal), o (octal),
+       a (address), c (character), or f (floating point).
+   * - ``x/``\ *rsf* *addr*
+     - Print the contents of memory address *addr* using repeat count
+       *r*, size *s*, and format *f*.  Repeat count defaults to 1 if
+       not specified.  Size can be b (byte), h (halfword), w (word),
+       or g (double word).  Size defaults to word if not specified.
+       Format is the same as for print, with the additions of s
+       (string) and i (instruction).
+   * - ``info display``
+     - Shows a numbered list of expressions set up to display
+       automatically at each break.
+   * - ``display/``\ *f* ``$``\ *reg*
+     - At each break, print the contents of register *reg* using
+       format *f*.
+   * - ``display/``\ *s* ``i addr``
+     - At each break, print the contents of memory address *addr*
+       using size *s* (same options as for the x command).
+   * - ``display/``\ *s* ``s addr``
+     - At each break, print the string of size *s* that begins in
+       memory address *addr*.
+   * - ``undisplay`` *displaynum*
+     - Remove *displaynum* from the display list.
+
+.. list-table:: Examining the Call Stack
+   :header-rows: 1
+   :widths: 30 70
+
+   * - Command
+     - Meaning
+   * - ``where``
+     - Print the call stack.
+   * - ``backtrace``
+     - Print the call stack.
+   * - ``frame``
+     - Print the top of the call stack.
+   * - ``up``
+     - Move the context toward the bottom of the call stack.
+   * - ``down``
+     - Move the context toward the top of the call stack.
+
+.. _lldbquickref:
+
+LLDB Quick-Reference
+--------------------
+
+For users who prefer LLDB (the LLVM project's debugger) instead of
+GDB, here are the equivalent commands.  LLDB is the default debugger
+on macOS and is also available on most Linux distributions; the
+``lldb`` package is installed in this book's container alongside
+``gdb``.  The canonical LLDB form is shown here; many commands also
+have shorter GDB-compatibility aliases (``b``, ``c``, ``s``, ``n``,
+``si``, ``ni``, ``bt``, etc.) which behave the same as in GDB.
+
+To start an LLDB session in place of GDB, assemble with
+``--gstabs`` as before and then run ``lldb ./maximum`` instead of
+``gdb ./maximum``.  Parameters listed in brackets are optional.
+
+.. list-table:: Miscellaneous
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Command
+     - Meaning
+   * - ``quit`` (or ``q``)
+     - Exit LLDB.
+   * - ``help`` [cmd]
+     - Print description of debugger command ``cmd``.  Without
+       ``cmd``, prints a list of topics.
+   * - ``settings set target.source-map`` *old* *new*
+     - Remap source paths from *old* to *new* (LLDB's analogue of
+       GDB's ``directory`` command for finding source files).
+
+.. list-table:: Running the Program
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Command
+     - Meaning
+   * - ``run`` [arg1] [arg2] ...
+     - Run the program with command line arguments ``arg1``,
+       ``arg2``, etc.  Equivalent to ``process launch -- arg1 arg2``.
+   * - ``settings set target.run-args`` arg1 [arg2] ...
+     - Set the program's command-line arguments to ``arg1``,
+       ``arg2``, etc.
+   * - ``settings show target.run-args``
+     - Print the program's command-line arguments.
+
+.. list-table:: Using Breakpoints
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Command
+     - Meaning
+   * - ``breakpoint list``
+     - Print a list of all breakpoints and their numbers (breakpoint
+       numbers are used for other breakpoint commands).
+   * - ``breakpoint set --line`` *linenum*
+     - Set a breakpoint at line number *linenum*.
+   * - ``breakpoint set --address`` *addr*
+     - Set a breakpoint at memory address *addr*.
+   * - ``breakpoint set --name`` *fn*
+     - Set a breakpoint at the beginning of function *fn*.
+   * - ``breakpoint modify --condition`` *expr* *bpnum*
+     - Break at breakpoint *bpnum* only if expression *expr* is
+       non-zero.
+   * - ``breakpoint command add`` *bpnum*
+     - Enter interactive mode to attach commands to breakpoint
+       *bpnum*; finish with ``DONE``.
+   * - ``continue`` (or ``c``)
+     - Continue executing the program.
+   * - ``process kill``
+     - Stop executing the program.
+   * - ``breakpoint delete`` [*bpnum1*] [*bpnum2*] ...
+     - Delete breakpoints *bpnum1*, *bpnum2*, etc., or all
+       breakpoints if none specified.
+   * - ``breakpoint clear --line`` *linenum*
+     - Clear the breakpoint at line *linenum*.  LLDB unifies clearing
+       at an address or function under ``breakpoint delete`` *bpnum*
+       after looking up the number with ``breakpoint list``.
+   * - ``breakpoint disable`` [*bpnum1*] [*bpnum2*] ...
+     - Disable breakpoints *bpnum1*, *bpnum2*, etc., or all
+       breakpoints if none specified.
+   * - ``breakpoint enable`` [*bpnum1*] [*bpnum2*] ...
+     - Enable breakpoints *bpnum1*, *bpnum2*, etc., or all
+       breakpoints if none specified.
+
+.. list-table:: Stepping through the Program
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Command
+     - Meaning
+   * - ``nexti`` (or ``ni``)
+     - "Step over" the next instruction (doesn't follow function
+       calls).
+   * - ``stepi`` (or ``si``)
+     - "Step into" the next instruction (follows function calls).
+   * - ``finish``
+     - "Step out" of the current function.
+
+.. list-table:: Examining Registers and Memory
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Command
+     - Meaning
+   * - ``register read``
+     - Print the contents of all registers.
+   * - ``register read --format`` *f* *reg*
+     - Print the contents of register *reg* using format *f*.
+       Note: in LLDB, register names have no ``$`` or ``%`` prefix —
+       use ``eax`` rather than ``$eax`` or ``%eax``.  Format *f*
+       can be x (hex), u (unsigned decimal), o (octal), c
+       (character), or f (float).
+   * - ``memory read --count`` *r* ``--size`` *s* ``--format`` *f* *addr*
+     - Print the contents of memory address *addr* using repeat
+       count *r*, size *s*, and format *f*.  Size can be 1, 2, 4,
+       or 8 bytes.  Same format options as ``register read``, plus
+       s (string) and i (instruction).
+   * - ``target stop-hook list``
+     - Show the configured stop-hooks.  LLDB has no separate
+       "automatic display" mechanism — recurring per-stop output
+       is configured as a stop-hook.
+   * - ``target stop-hook add --one-liner "register read`` *reg*\ ``"``
+     - At each stop, print register *reg*.
+   * - ``target stop-hook add --one-liner "memory read`` ...\ ``"``
+     - At each stop, print a region of memory.
+   * - ``target stop-hook delete`` *N*
+     - Remove stop-hook number *N*.
+
+.. list-table:: Examining the Call Stack
+   :header-rows: 1
+   :widths: 35 65
+
+   * - Command
+     - Meaning
+   * - ``thread backtrace`` (or ``bt``)
+     - Print the call stack.
+   * - ``thread backtrace all`` (or ``bt all``)
+     - Print every thread's call stack.
+   * - ``frame info``
+     - Print information about the currently selected frame.
+   * - ``up``
+     - Move the context toward the bottom of the call stack.
+   * - ``down``
+     - Move the context toward the top of the call stack.

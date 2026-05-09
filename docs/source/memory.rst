@@ -340,7 +340,7 @@ indirect addressing, but you also include a number called the *offset*
 to add to the register's value before using it for lookup. We will use
 this mode quite a bit in this book.
 
-In `Interpreting Memory <#interpretingmemory>`__ we discussed having a
+In :ref:`interpretingmemory` we discussed having a
 structure in memory holding customer information. Let's say we wanted to
 access the customer's age, which was the eighth byte of the data, and we
 had the address of the start of the structure in a register. We could

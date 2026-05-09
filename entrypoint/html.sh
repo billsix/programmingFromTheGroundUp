@@ -6,5 +6,5 @@ make html
 
 
 # copy the output to the host OS
-mkdir -p /output/pgu/
-cp -r build/html/* /output/pgu/
+mkdir -p /output/pgu/html/
+cp -r build/html/* /output/pgu/html/

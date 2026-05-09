@@ -32,8 +32,8 @@ anything but exit! It's short, but it shows some basics about assembly
 language and Linux programming. You need to enter the program in an
 editor exactly as written, with the filename ``exit.s``. The program
 follows. Don't worry about not understanding it. This section only deals
-with typing it in and running it. In `Outline of an Assembly Language
-Program <#assemblyoutline>`__ we will describe how it works.
+with typing it in and running it. In :ref:`assemblyoutline`
+we will describe how it works.
 
 
 .. literalinclude:: ../../src/exit.s
@@ -332,7 +332,7 @@ the interrupt, then no system call would have been performed.
 Now that you've assembled, linked, run, and examined the program, you
 should make some basic edits. Do things like change the number that is
 loaded into ``%ebx``, and watch it come out at the end with
-``echo$?``. Don't forget to assemble and link it again before
+``echo $?``. Don't forget to assemble and link it again before
 running it. Add some comments. Don't worry, the worse thing that would
 happen is that the program won't assemble or link, or will freeze your
 screen. That's just part of learning!
@@ -616,7 +616,6 @@ tricky, but crucial to what we're doing. It says:
 
        movl data_items(,%edi,4), %eax
 
-movl
 Now to understand this line, you need to keep several things in mind:
 
 -  ``data_items`` is the location number of the start of our number
@@ -640,7 +639,7 @@ form is this:
 
 In our case ``data_items`` was our beginning address, %edi was
 our index register, and 4 was our word size. This topic is discussed
-further in `Addressing Modes <#movaddrmodes>`__.
+further in :ref:`movaddrmodes`.
 
 If you look at the numbers in ``data_items``, you will see that the
 number 3 is now in %eax. If %edi was set to 1, the
@@ -649,7 +648,7 @@ number 67 would be in %eax, and if it was set to 2, the number
 happen if we used a number other than 4 as the size of our storage
 locations. [10]_ The way you write this is very awkward, but if you know
 what each piece does, it's not too difficult. For more information about
-this, see `Addressing Modes <#movaddrmodes>`__
+this, see :ref:`movaddrmodes`
 
 Let's look at the next line:
 
@@ -1073,7 +1072,7 @@ Going Further
    locations, although looking at it that way works for our purposes
    now. It's actually what's called a *multiplier*. basically, the way
    it works is that you start at the location specified by
-   ``data_items``, then you add ``%edi``\ \ \*4 storage locations, and
+   ``data_items``, then you add ``%edi``\ \*4 storage locations, and
    retrieve the number there. Usually, you use the size of the numbers
    as your multiplier, but in some circumstances you'll want to do other
    things.

@@ -15,14 +15,14 @@
 
 #include "os.h"
 
-#define HEADER_SIZE       8
-#define HDR_AVAIL_OFFSET  0
-#define HDR_SIZE_OFFSET   4
+#define HEADER_SIZE 8
+#define HDR_AVAIL_OFFSET 0
+#define HDR_SIZE_OFFSET 4
 
 #define UNAVAILABLE 0
-#define AVAILABLE   1
+#define AVAILABLE 1
 
-static unsigned long heap_begin    = 0;
+static unsigned long heap_begin = 0;
 static unsigned long current_break = 0;
 
 void allocate_init(void) {
@@ -30,7 +30,7 @@ void allocate_init(void) {
     unsigned long brk = (unsigned long)os_brk((void *)0);
     brk++;
     current_break = brk;
-    heap_begin    = brk;
+    heap_begin = brk;
 }
 
 void *allocate(unsigned size) {
@@ -55,9 +55,9 @@ void *allocate(unsigned size) {
     }
 
     *(unsigned long *)(current_break + HDR_AVAIL_OFFSET) = UNAVAILABLE;
-    *(unsigned long *)(current_break + HDR_SIZE_OFFSET)  = size;
+    *(unsigned long *)(current_break + HDR_SIZE_OFFSET) = size;
 
-    void *result  = (void *)(current_break + HEADER_SIZE);
+    void *result = (void *)(current_break + HEADER_SIZE);
     current_break = new_break;
     return result;
 }

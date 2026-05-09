@@ -6,7 +6,7 @@
 
 #include "os.h"
 
-extern int  count_chars(const char *s);
+extern int count_chars(const char *s);
 extern void integer2string(int value, char *buffer);
 extern void write_newline(int fd);
 

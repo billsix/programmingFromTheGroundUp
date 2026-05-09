@@ -19,7 +19,7 @@ struct record {
     char firstname[40];
     char lastname[40];
     char address[240];
-    int  age;
+    int age;
 };
 
 #define RECORD_SIZE 324

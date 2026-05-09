@@ -85,7 +85,7 @@ The program we will examine here is simple - it writes the characters
    :language: asm
    :linenos:
    :lineno-match:
-   :caption: src/hellowworld-nolib.s
+   :caption: src/helloworld-nolib.s
 
 
 That's not too long. However, take a look at how short
@@ -118,7 +118,7 @@ However, in order to build the second program, you have to do this:
 
 Remember, the backslash in the first line simply means that the command
 continues on the next line. The option
-``-dynamic-linker-dynamic-linker /lib/ld-linux.so.2`` allows our program
+``-dynamic-linker /lib/ld-linux.so.2`` allows our program
 to be linked to libraries. This builds the executable so that before
 executing, the operating system will load the program
 ``/lib/ld-linux.so.2`` to load in external libraries and link them with
@@ -197,12 +197,12 @@ It will report back something like
 
 ::
 
-         libc.so.6 => /libc.so.6 (0x4001d000)
+         libc.so.6 => /lib/libc.so.6 (0x4001d000)
          /lib/ld-linux.so.2 => /lib/ld-linux.so.2 (0x400000000)
 
 The numbers in parenthesis may be different on your system. This means
 that the program ``helloworld`` is linked to ``libc.so.6`` (the ``.6``
-is the version number), which is found at ``/libc.so.6``, and
+is the version number), which is found at ``/lib/libc.so.6``, and
 ``/lib/ld-linux.so.2`` is found at ``/lib/ld-linux.so.2``. These
 libraries have to be loaded before the program can be run. If you are
 interested, run the ``ldd`` program on various programs that are on your
@@ -233,7 +233,7 @@ inside the parenthesis are the function's parameters or arguments. The
 first parameter here is ``char *string``. This means there is a
 parameter named ``string`` (the name isn't important, except to use for
 talking about it), which has a type ``char *``. ``char`` means that
-it wants a single-byte character. The ``**`` after it means that it
+it wants a single-byte character. The ``*`` after it means that it
 doesn't actually want a character as an argument, but instead it wants
 the address of a character or sequence of characters. If you look back
 at our ``helloworld program``, you will notice that the function call
@@ -252,7 +252,7 @@ work that way, especially C language functions. The ``int`` before
 the function definition tell what type of value the function will return
 in %eax when it returns. ``printf`` will return an
 ``int`` when it's through. Now, after the ``char *string``, we have a
-series of periods, ``......``. This means that it can take an indefinite
+series of periods, ``...``. This means that it can take an indefinite
 number of additional arguments after the string. Most functions can only
 take a specified number of arguments. ``printf``, however, can take
 many. It will look into the ``string`` parameter, and everywhere it sees
@@ -336,7 +336,7 @@ the main ones:
    between signed and unsigned numbers will be discussed in
    :ref:`countingchapter`.
 
-``**``
+``*``
    An asterisk (``*``) is used to denote that the data isn't an actual
    value, but instead is a pointer to a location holding the given value
    (4 bytes on an x86 processor). So, let's say in memory location
@@ -493,7 +493,6 @@ directories, or execute the following command:
    LD_LIBRARY_PATH=.
    export LD_LIBRARY_PATH
 
-LD_LIBRARY_PATH
 Alternatively, if that gives you an error, do this instead:
 
 ::

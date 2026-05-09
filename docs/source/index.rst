@@ -24,11 +24,14 @@ Programming From The Ground Up
    optimization.rst
    wherenext.rst
    records.rst
-   gdpapp.rst
+   gdbap.rst
    asciiap.rst
    cch.rst
    ctranslationap.rst
    guiap.rst
    instructionsap.rst
+   syscallap.rst
+   historyap.rst
    fdlap.rst
    guidelines.rst
+   dedicationap.rst

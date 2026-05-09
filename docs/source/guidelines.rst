@@ -7,7 +7,10 @@
    Foundation; with no Invariant Sections, with no Front-Cover Texts,
    and with no Back-Cover Texts.  A copy of the license is included in fdl.xml
 
-   Basic Guidelines for Software Development
+Basic Guidelines for Software Development
 =========================================
 
-FIXME was anything here in the source material?
+..
+   This chapter is a stub.  The upstream ``GuidelinesCh.xml``
+   contains only an empty paragraph; nothing was lost in
+   translation.  Add content here if/when desired.

@@ -12,6 +12,4 @@
 
 #include "os.h"
 
-__attribute__((noreturn)) void _start(void) {
-    os_exit(0);
-}
+__attribute__((noreturn)) void _start(void) { os_exit(0); }

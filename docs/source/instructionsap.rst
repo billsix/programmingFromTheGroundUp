@@ -85,8 +85,8 @@ mostly used for moving data from one place to another.
    | This copies a word of data from    |              |                |
    | one location to another.           |              |                |
    | ``movl %eax, %ebx`` copies the     |              |                |
-   | contents of %eax to               |              |                |
-   | %ebx                              |              |                |
+   | contents of %eax to                |              |                |
+   | %ebx                               |              |                |
    +------------------------------------+--------------+----------------+
    | movb                               | I/R/M, I/R/M | O/S/Z/A/C      |
    +------------------------------------+--------------+----------------+
@@ -103,7 +103,7 @@ mostly used for moving data from one place to another.
    | ``leal 5(%ebp,%ecx,1), %eax``      |              |                |
    | loads the address computed by      |              |                |
    | ``5 + %ebp + 1*%ecx`` and stores   |              |                |
-   | that in %eax                      |              |                |
+   | that in %eax                       |              |                |
    +------------------------------------+--------------+----------------+
    | popl                               | R/M          | O/S/Z/A/C      |
    +------------------------------------+--------------+----------------+
@@ -113,7 +113,7 @@ mostly used for moving data from one place to another.
    | followed by ``addl $4, %esp``.     |              |                |
    | ``popfl`` is a variant which pops  |              |                |
    | the top of the stack into the      |              |                |
-   | %eflags register.                 |              |                |
+   | %eflags register.                  |              |                |
    +------------------------------------+--------------+----------------+
    | pushl                              | I/R/M        | O/S/Z/A/C      |
    +------------------------------------+--------------+----------------+
@@ -124,7 +124,7 @@ mostly used for moving data from one place to another.
    | ``movl I/R/M, (%esp)``. ``pushfl`` |              |                |
    | is a variant which pushes the      |              |                |
    | current contents of the            |              |                |
-   | %eflags register onto the         |              |                |
+   | %eflags register onto the          |              |                |
    | top of the stack.                  |              |                |
    +------------------------------------+--------------+----------------+
    | xchgl                              | R/M, R/M     | O/S/Z/A/C      |
@@ -175,9 +175,9 @@ unsigned integers.
    +--------------------------------------+------------+----------------+
    | cdq                                  |            | O/S/Z/A/P/C    |
    +--------------------------------------+------------+----------------+
-   | Converts the %eax word into         |            |                |
+   | Converts the %eax word into          |            |                |
    | the double-word consisting of        |            |                |
-   | %edx:%eax with sign                |            |                |
+   | %edx:%eax with sign                  |            |                |
    | extension. The ``q`` signifies that  |            |                |
    | it is a *quad-word*. It's actually a |            |                |
    | double-word, but it's called a       |            |                |
@@ -206,15 +206,15 @@ unsigned integers.
    | Performs unsigned division. Divides  |            |                |
    | the contents of the double-word      |            |                |
    | contained in the combined            |            |                |
-   | %edx:%eax                          |            |                |
+   | %edx:%eax                            |            |                |
    | registers by the value in the        |            |                |
    | register or memory location          |            |                |
-   | specified. The %eax register        |            |                |
+   | specified. The %eax register         |            |                |
    | contains the resulting quotient, and |            |                |
-   | the %edx register contains          |            |                |
+   | the %edx register contains           |            |                |
    | the resulting remainder. If the      |            |                |
    | quotient is too large to fit in      |            |                |
-   | %eax, it triggers a type 0          |            |                |
+   | %eax, it triggers a type 0           |            |                |
    | interrupt.                           |            |                |
    +--------------------------------------+------------+----------------+
    | idivl                                | R/M        | O/S/Z/A/P      |
@@ -230,7 +230,7 @@ unsigned integers.
    | left out, it is assumed to be        |            |                |
    | %eax, and the full result is         |            |                |
    | stored in the double-word            |            |                |
-   | %edx                                 |            |                |
+   | %edx:%eax                            |            |                |
    +--------------------------------------+------------+----------------+
    | incl                                 | R/M        | O/S/Z/A/P      |
    +--------------------------------------+------------+----------------+
@@ -303,25 +303,25 @@ These instructions operate on memory as bits instead of words.
    | overflow and carry flags to  |                    |                |
    | false.                       |                    |                |
    +------------------------------+--------------------+----------------+
-   | rcll                         | I/%cl;, R/M        | O/C            |
+   | rcll                         | I/%cl, R/M         | O/C            |
    +------------------------------+--------------------+----------------+
    | Rotates the given location's |                    |                |
    | bits to the left the number  |                    |                |
    | of times in the first        |                    |                |
    | operand, which is either an  |                    |                |
    | immediate-mode value or the  |                    |                |
-   | register %cl;. The           |                    |                |
+   | register %cl. The            |                    |                |
    | carry flag is included in    |                    |                |
    | the rotation, making it use  |                    |                |
    | 33 bits instead of 32. Also  |                    |                |
    | sets the overflow flag.      |                    |                |
    +------------------------------+--------------------+----------------+
-   | rcrl                         | I/%cl;, R/M        | O/C            |
+   | rcrl                         | I/%cl, R/M         | O/C            |
    +------------------------------+--------------------+----------------+
    | Same as above, but rotates   |                    |                |
    | right.                       |                    |                |
    +------------------------------+--------------------+----------------+
-   | roll                         | I/%cl;, R/M        | O/C            |
+   | roll                         | I/%cl, R/M         | O/C            |
    +------------------------------+--------------------+----------------+
    | Rotate bits to the left. It  |                    |                |
    | sets the overflow and carry  |                    |                |
@@ -331,14 +331,14 @@ These instructions operate on memory as bits instead of words.
    | bits to roll is either       |                    |                |
    | specified in immediate mode  |                    |                |
    | or is contained in the       |                    |                |
-   | %cl; register.               |                    |                |
+   | %cl register.                |                    |                |
    +------------------------------+--------------------+----------------+
-   | rorl                         | I/%cl;, R/M        | O/C            |
+   | rorl                         | I/%cl, R/M         | O/C            |
    +------------------------------+--------------------+----------------+
    | Same as above, but rotates   |                    |                |
    | right.                       |                    |                |
    +------------------------------+--------------------+----------------+
-   | sall                         | I/%cl;, R/M        | C              |
+   | sall                         | I/%cl, R/M         | C              |
    +------------------------------+--------------------+----------------+
    | Arithmetic shift left. The   |                    |                |
    | sign bit is shifted out to   |                    |                |
@@ -351,10 +351,10 @@ These instructions operate on memory as bits instead of words.
    | number of bits to shift is   |                    |                |
    | either specified in          |                    |                |
    | immediate mode or is         |                    |                |
-   | contained in the %cl;        |                    |                |
+   | contained in the %cl         |                    |                |
    | register.                    |                    |                |
    +------------------------------+--------------------+----------------+
-   | sarl                         | I/%cl;, R/M        | C              |
+   | sarl                         | I/%cl, R/M         | C              |
    +------------------------------+--------------------+----------------+
    | Arithmetic shift right. The  |                    |                |
    | least significant bit is     |                    |                |
@@ -366,10 +366,10 @@ These instructions operate on memory as bits instead of words.
    | The number of bits to shift  |                    |                |
    | is either specified in       |                    |                |
    | immediate mode or is         |                    |                |
-   | contained in the %cl;        |                    |                |
+   | contained in the %cl         |                    |                |
    | register.                    |                    |                |
    +------------------------------+--------------------+----------------+
-   | shll                         | I/%cl;, R/M        | C              |
+   | shll                         | I/%cl, R/M         | C              |
    +------------------------------+--------------------+----------------+
    | Logical shift left. This     |                    |                |
    | shifts all bits to the left  |                    |                |
@@ -379,10 +379,10 @@ These instructions operate on memory as bits instead of words.
    | The number of bits to shift  |                    |                |
    | is either specified in       |                    |                |
    | immediate mode or is         |                    |                |
-   | contained in the %cl;        |                    |                |
+   | contained in the %cl         |                    |                |
    | register.                    |                    |                |
    +------------------------------+--------------------+----------------+
-   | shrl                         | I/%cl;, R/M        | C              |
+   | shrl                         | I/%cl, R/M         | C              |
    +------------------------------+--------------------+----------------+
    | Logical shift right. This    |                    |                |
    | shifts all bits in the       |                    |                |
@@ -393,7 +393,7 @@ These instructions operate on memory as bits instead of words.
    | flag. The number of bits to  |                    |                |
    | shift is either specified in |                    |                |
    | immediate mode or is         |                    |                |
-   | contained in the %cl;        |                    |                |
+   | contained in the %cl         |                    |                |
    | register.                    |                    |                |
    +------------------------------+--------------------+----------------+
    | testl                        | I/R/M, R/M         | O/S/Z/A/P/C    |
@@ -428,7 +428,7 @@ These instructions may alter the flow of the program.
    +-----------------------------+---------------------+----------------+
    | This pushes what would be   |                     |                |
    | the next value for          |                     |                |
-   | %eip onto the              |                     |                |
+   | %eip onto the               |                     |                |
    | stack, and jumps to the     |                     |                |
    | destination address. Used   |                     |                |
    | for function calls.         |                     |                |
@@ -439,7 +439,7 @@ These instructions may alter the flow of the program.
    | function call. For example, |                     |                |
    | ``call *%eax`` will call    |                     |                |
    | the function at the address |                     |                |
-   | in %eax.                   |                     |                |
+   | in %eax.                    |                     |                |
    +-----------------------------+---------------------+----------------+
    | int                         | I                   | O/S/Z/A/C      |
    +-----------------------------+---------------------+----------------+
@@ -493,13 +493,13 @@ These instructions may alter the flow of the program.
    |                             |                     |                |
    | -  ``[n]s`` - sign flag set |                     |                |
    |                             |                     |                |
-   | -  ``ecxz`` - %ecx         |                     |                |
+   | -  ``ecxz`` - %ecx          |                     |                |
    |    is zero                  |                     |                |
    +-----------------------------+---------------------+----------------+
    | jmp                         | destination address | O/S/Z/A/C      |
    +-----------------------------+---------------------+----------------+
    | An unconditional jump. This |                     |                |
-   | simply sets %eip to        |                     |                |
+   | simply sets %eip to         |                     |                |
    | the destination address.    |                     |                |
    | Alternatively, the          |                     |                |
    | destination address can be  |                     |                |
@@ -508,13 +508,13 @@ These instructions may alter the flow of the program.
    | jump. For example,          |                     |                |
    | ``jmp *%eax`` will jump to  |                     |                |
    | the address in              |                     |                |
-   | %eax.                      |                     |                |
+   | %eax.                       |                     |                |
    +-----------------------------+---------------------+----------------+
    | ret                         |                     | O/S/Z/A/C      |
    +-----------------------------+---------------------+----------------+
    | Pops a value off of the     |                     |                |
    | stack and then sets         |                     |                |
-   | %eip to that value.        |                     |                |
+   | %eip to that value.         |                     |                |
    | Used to return from         |                     |                |
    | function calls.             |                     |                |
    +-----------------------------+---------------------+----------------+
@@ -608,7 +608,7 @@ Differences in Other Syntaxes and Terminology
 ---------------------------------------------
 
 The syntax for assembly language used in this book is known at the
-*&T* syntax. It is the one supported by the GNU tool chain
+*AT&T* syntax. It is the one supported by the GNU tool chain
 that comes standard with every Linux distribution. However, the official
 syntax for x86 assembly language (known as the Intel syntax) is
 different. It is the same assembly language for the same platform, but
@@ -659,7 +659,7 @@ In Intel syntax, this would be written as:
 
    mov  [8 + %ebx + 1 * edi], eax
 
-The memory reference is a bit easier to read than its &
+The memory reference is a bit easier to read than its AT&T
 counterpart because it spells out exactly how the address will be
 computed. However, but the order of operands in Intel syntax can be
 confusing.
@@ -669,7 +669,7 @@ Where to Go for More Information
 
 Intel has a set of comprehensive guides to their processors. These are
 available at http://www.intel.com/design/pentium/manuals/ Note that all
-of these use the Intel syntax, not the &T syntax. The most
+of these use the Intel syntax, not the AT&T syntax. The most
 important ones are their IA-32 Intel Architecture Software Developer's
 Manual in its three volumes::
 

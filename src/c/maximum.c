@@ -4,8 +4,8 @@
 
 #include "os.h"
 
-static int data_items[] = {3, 67, 34, 222, 45, 75, 54, 34,
-                           44, 33, 22, 11, 66, 0};
+static int data_items[] = {3,  67, 34, 222, 45, 75, 54,
+                           34, 44, 33, 22,  11, 66, 0};
 
 int maximum(void) {
     int i = 0;
