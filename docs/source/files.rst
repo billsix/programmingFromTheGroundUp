@@ -134,8 +134,8 @@ and have placed the file descriptor in %ebx:
 ::
 
        movl $my_buffer, %ecx
-       movl 500, %edx
-       movl 3, %eax
+       movl $500, %edx
+       movl $3, %eax
        int  $0x80
 
 This will read up to 500 bytes into our buffer. In this example, I

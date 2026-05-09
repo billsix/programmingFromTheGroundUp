@@ -435,7 +435,7 @@ Finally, we have our Linux system call definitions:
 
 ::
 
-       .equ BRK, 45
+       .equ SYS_BRK, 45
        .equ LINUX_SYSCALL, 0x80
 
 The ``allocate_init`` function
@@ -759,7 +759,7 @@ looks like this:
 ::
 
        .section .bss
-       .lcomm, record_buffer, RECORD_SIZE
+       .lcomm record_buffer, RECORD_SIZE
 
 It would be a misnomer to keep the same name, since we are switching it
 from being an actual buffer to being a pointer to a buffer. In addition,

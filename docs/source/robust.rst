@@ -295,7 +295,7 @@ calls actually complete properly. Linux returns its status code in
        movl  $0666, %edx
        int   $LINUX_SYSCALL
 
-       movl  %eax, INPUT_DESCRIPTOR(%ebp)
+       movl  %eax, ST_INPUT_DESCRIPTOR(%ebp)
 
        #This will test and see if %eax is
        #negative.  If it is not negative, it

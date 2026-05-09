@@ -657,7 +657,7 @@ In Intel syntax, this would be written as:
 
 ::
 
-   mov  [8 + %ebx + 1 * edi], eax
+   mov  [8 + ebx + 4 * edi], eax
 
 The memory reference is a bit easier to read than its AT&T
 counterpart because it spells out exactly how the address will be

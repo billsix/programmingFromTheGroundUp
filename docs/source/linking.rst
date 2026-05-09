@@ -241,7 +241,7 @@ looked like this:
 
 ::
 
-       pushl $hello
+       pushl $helloworld
        call  printf
 
 So, we pushed the address of the ``hello`` string, rather than the

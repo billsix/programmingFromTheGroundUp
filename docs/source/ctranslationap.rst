@@ -140,7 +140,7 @@ This would be rendered in assembly language as:
        .type foo, @function
    foo:
        pushl %ebp            #Save old base pointer
-       movl  %esp, $ebp      #make stack pointer base pointer
+       movl  %esp, %ebp      #make stack pointer base pointer
        subl  $4, %esp        #Make room for my_local_var
        .equ my_local_var, -4 #Can now use my_local_var to
                              #find the local variable
@@ -384,7 +384,7 @@ The same code in assembly language:
        movl  %esp, %ebp
 
        #Reserve two words of memory
-       subl  $8, $esp
+       subl  $8, %esp
        .equ A_VAR, -4
        .equ B_VAR, -8
 
@@ -395,9 +395,9 @@ The same code in assembly language:
        movl $A_VAR, B_VAR(%ebp)
        addl %ebp, B_VAR(%ebp)
 
-       #*b = 30
+       #*b = 44
        movl B_VAR(%ebp), %eax
-       movl $30, (%eax)
+       movl $44, (%eax)
 
        #Standard closing
        movl %ebp, %esp
