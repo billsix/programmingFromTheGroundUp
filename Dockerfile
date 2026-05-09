@@ -11,7 +11,8 @@ RUN --mount=type=cache,target=/var/cache/libdnf5 \
     dnf install -y --skip-unavailable \
                 glibc-devel.i686 \
                 glibc.i686 \
-                libgcc.i686 && \
+                libgcc.i686 \
+                libatomic.i686 && \
     dnf install -y --skip-unavailable \
                    clang \
                    clang-tools-extra \
@@ -20,7 +21,6 @@ RUN --mount=type=cache,target=/var/cache/libdnf5 \
                    gcc \
                    gdb \
                    gtk4 \
-                   gtk4-devel \
                    gtk4-demo \
                    lldb \
                    man \

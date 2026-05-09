@@ -1,10 +1,8 @@
-/* PURPOSE: Given a number, compute its factorial.  4! = 24.
- *
- * Demonstrates a recursive function call.  The exit status is
- * the result, so `./factorial; echo $?` prints 24.
+/* PURPOSE: Recursive factorial of 4.  Exit status is the result.
+ *          `./factorial; echo $?` prints 24.
  */
 
-#include "linux.h"
+#include "os.h"
 
 int factorial(int n) {
     if (n == 1) {
@@ -14,11 +12,5 @@ int factorial(int n) {
 }
 
 __attribute__((noreturn)) void _start(void) {
-    int result = factorial(4);
-
-    __asm__ volatile("int $0x80"
-                     :
-                     : "a"(SYS_EXIT),
-                       "b"(result));
-    __builtin_unreachable();
+    os_exit(factorial(4));
 }

@@ -1,9 +1,13 @@
-// max_glibc.c — Find max value, terminate with syscall(), no stdio
+/* PURPOSE: Find the largest value in a null-terminated array of
+ *          ints and return it as the exit status.
+ */
 
-// Data section
-int data_items[] = {3, 67, 34, 222, 45, 75, 54, 34, 44, 33, 22, 11, 66, 0};
+#include "os.h"
 
-int maximum() {
+static int data_items[] = {3, 67, 34, 222, 45, 75, 54, 34,
+                           44, 33, 22, 11, 66, 0};
+
+int maximum(void) {
     int i = 0;
     int max = data_items[0];
 
@@ -18,10 +22,5 @@ int maximum() {
 
 __attribute__((noreturn)) void _start(void) {
     int max = maximum();
-    __asm__ volatile("int $0x80"
-                     :
-                     : "a"(1),   // SYS_exit
-                       "b"(max)  // Exit code in ebx
-    );
-    __builtin_unreachable();  // Good practice with noreturn
+    os_exit(max);
 }

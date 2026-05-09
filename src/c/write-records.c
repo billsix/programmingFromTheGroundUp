@@ -1,20 +1,14 @@
-/* PURPOSE: Create test.dat and write three fixed records to it.
+/* PURPOSE: Create test.dat and write three fixed records.
  *
- * The asm version pads each .ascii field to the right size by
- * hand with .rept/.byte 0.  In C, designated initializers do
- * the same job: any unspecified bytes in a fixed-size char
- * array are zero-filled, which both null-terminates the string
- * and pads to the field width.
- *
- * Links against: write-record.c.
+ * Designated initializers zero-fill any unspecified bytes in
+ * each fixed-size char array, matching the .rept padding of
+ * the original asm version.
  */
 
-#include "linux.h"
+#include "os.h"
 #include "record-def.h"
 
 extern int write_record(int fd, const void *buffer);
-
-#define O_CREAT_WRONLY 0101
 
 static const struct record records[3] = {
     {
@@ -39,28 +33,13 @@ static const struct record records[3] = {
 
 __attribute__((noreturn)) void _start(void) {
     static const char file_name[] = "test.dat";
-    int fd;
-
-    /* Open the file: create if missing, open for writing */
-    __asm__ volatile("int $0x80"
-                     : "=a"(fd)
-                     : "a"(SYS_OPEN),
-                       "b"(file_name),
-                       "c"(O_CREAT_WRONLY),
-                       "d"(0666));
+    int fd = (int)os_open(file_name,
+                          OS_O_WRONLY | OS_O_CREAT, 0666);
 
     for (int i = 0; i < 3; i++) {
         write_record(fd, &records[i]);
     }
 
-    __asm__ volatile("int $0x80"
-                     :
-                     : "a"(SYS_CLOSE),
-                       "b"(fd));
-
-    __asm__ volatile("int $0x80"
-                     :
-                     : "a"(SYS_EXIT),
-                       "b"(0));
-    __builtin_unreachable();
+    os_close(fd);
+    os_exit(0);
 }

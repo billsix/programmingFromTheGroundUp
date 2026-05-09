@@ -24,22 +24,5 @@ factorial: factorial.s
 exit: exit.s
 	clang -m32 -o exit exit.s -nostdlib
 
-# alloc.s
-# conversion-program.s
-# count-chars.s
-# error-exit.s
-# gnome-example.s
-# helloworld-lib.s
-# helloworld-nolib.s
-# integer-to-string.s
-# linux.s
-# maximum.s
-# power.s
-# printf-example.s
-# read-record.s
-# read-records.s
-# record-def.s
-# toupper-nomm-simplified.s
-# write-newline.s
-# write-record.s
-# write-records.s
+# C ports of every assembly file in this directory live in c/ and
+# are built by c/Makefile.  See c/README.md.
