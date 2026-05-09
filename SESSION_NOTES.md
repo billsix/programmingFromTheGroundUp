@@ -46,6 +46,19 @@ DocBook XML in `upstreamSource/`)
   `instructionsap.rst`; root cause was earlier `;`-stripping that
   shortened cells without re-padding.  Fixed all 31 misaligned
   rows (`396fcb5 fixed tables`).
+- Phase 8 (inline-asm fidelity) — three parallel agents compared
+  every inline `::` asm snippet across all 17 chapters against
+  `src/*.s`.  Most chapters clean.  Nine substantive bugs found
+  and fixed in one pass (4 won't-assemble: phantom `$reg` typos
+  in `ctranslationap.rst`, stray `.lcomm,` comma in
+  `memoryint.rst`, missing `ST_` prefix in `robust.rst`; 4 wrong
+  values: `BRK`/`SYS_BRK` mismatch, C/asm immediate mismatch
+  44 vs 30, Intel-syntax demo with `%ebx` and wrong multiplier,
+  `$hello` vs `$helloworld`; 1 inline-only example in
+  `files.rst` missing `$` immediate-mode prefix).  Worth noting
+  the agents found *no* drift in functions, firstprog, records,
+  files-asm-portions, counting, gdbap, intro, memory, cch,
+  otherlang, guiap.
 
 **C. Build infrastructure**
 - Top-level `Makefile`: `docs:` now builds html + pdf + epub
@@ -95,10 +108,9 @@ and pre-existing — not anything we can fix).
    - `functions.rst:389` — truncated sentence "Note that in Linux
      assembly language, functions are".  Upstream has the same
      dangling clause.
-   - `memoryint.rst` — code listings use `.equ BRK, 45` then
-     `$SYS_BRK`.  Faithfully copied from upstream.
-   The user may want to fix these as port-time corrections, or
-   leave them.
+   The user may want to fix this as a port-time correction or
+   leave it.  (The `BRK`/`SYS_BRK` mismatch that used to live
+   here was fixed as part of Phase 8.)
 
 4. **Possible future work flagged but never asked for:**
    - Apple Silicon branch in `src/c/os.h` (libc-backed, since

@@ -21,6 +21,7 @@ Citations are `file:line` on both sides where useful.
 > | 📦 Structural gap — `MemoryAdvCh.xml` | ✅ Confirmed not a port bug (upstream-superseded) |
 > | Bonus — LLDB Quick-Reference added | ✅ Done — `3319dab` |
 > | Build infrastructure (Makefile, entrypoint scripts, conf.py) | ✅ Done — `a290195`, `9341396`, `6288f93`, `d5725a8` |
+> | Phase 8 — inline-asm fidelity sweep (9 substantive bugs in inline `::` snippets vs. `src/*.s`) | ✅ Done — Phase 8 commit |
 >
 > Findings below are preserved as historical record.  Anything
 > still actionable is noted with **🟡 OPEN** inline.
@@ -221,9 +222,9 @@ fix them in the RST anyway:
 * `functions.rst:389` — truncated sentence "Note that in Linux
   assembly language, functions are" (XML `FunctionsCh.xml:526-528`
   has the same dangling clause).
-* `memoryint.rst` `BRK`/`SYS_BRK` inconsistency in code listings —
-  declares `.equ BRK, 45` then uses `$SYS_BRK`. Faithfully copied
-  from the XML.
+* ~~`memoryint.rst` `BRK`/`SYS_BRK` inconsistency~~ — fixed in
+  Phase 8 (`memoryint.rst:438` now declares `SYS_BRK` matching
+  the references at lines 454, 545 and `src/alloc.s`).
 
 ---
 
