@@ -4,6 +4,38 @@ Durable handoff for future Claude Code sessions.  The container is
 ephemeral; commit history + this file + `docs/PORTING_QA.md` are
 the only persistent memory.
 
+## Future direction — PGU rewrite targeting MIPS-on-spim (2026-05-19)
+
+Bill is considering rewriting PGU to use MIPS assembly running on
+[[spimulator]] instead of x86 assembly running on Linux.  Pre-
+requisite: spim must behave as a regular Unix process so PGU's
+opening "set return status, inspect via `$?`, then pipeline" arc
+still teaches what it's supposed to teach.
+
+Investigation done 2026-05-19; four defects identified and written
+up at [`/spimulator/tasks/unix-process-conformance.md`](../spimulator/tasks/unix-process-conformance.md):
+
+1. **Banner "Loaded: …" on stdout** — corrupts pipelines.
+   One-line fix (`message_out.f = stderr`).
+2. **`__start` discards main's `$v0`** — `return 42` from
+   `my_main` exits 0.  Two-line fix in `exceptions.s`.
+3. **Parse / load / link failures exit 0** — CI can't detect
+   broken builds.  Several edit points in `spim.c` / `spim-utils.c`.
+4. **Runtime exceptions "ignored" and exit 0** — no way to
+   detect a runtime crash from the shell.  Edit to
+   `exceptions.s` + status flag readback in C wrapper.
+
+Already works correctly: `syscall 17 (exit2)` exit code, SIGPIPE,
+stdin reads, stdout flush, file syscalls, argv pass-through.  See
+the spim task doc for the full evidence table and fix sketches.
+
+**Update 2026-05-19 evening: all four defects landed.**  spim is
+now a well-behaved Unix process.  PGU rewrite is unblocked from
+the simulator side.  One follow-up: Defect 2 surfaced that
+several /examples demos `jr $ra` from main without zeroing $v0,
+so they inherit the last syscall number as exit status.  Curriculum
+sweep pending; not yet authorized.
+
 ## Cumulative status (across multiple sessions)
 
 ### ✅ Completed
