@@ -9,7 +9,8 @@ assembly on five Linux ISAs so students can compare them.
 
 - **Book:** 25 reStructuredText chapters/appendices in `docs/source/` → HTML / PDF
   / EPUB. Ported from the upstream DocBook XML (vendored in `upstreamSource/`); the
-  multi-phase fidelity sweep is logged in `SESSION_NOTES.md` and `docs/PORTING_QA.md`.
+  multi-phase fidelity sweep is logged in `tasks/archive/2026/05/24/SESSION_NOTES.md`
+  and `docs/PORTING_QA.md`.
 - **Assembly:** the book's original hand-written **x86-32 GAS** examples in `src/*.s`.
 - **C ports:** `src/c/` — 17 `.c` files over a 5-arch inline-asm syscall layer
   (`os.h`): i386, x86-64, ARM-32, AArch64, MIPS-32. `make check` runs them on the
@@ -26,7 +27,8 @@ assembly on five Linux ISAs so students can compare them.
 - `upstreamSource/` — the original DocBook XML, kept as the porting reference.
 - `entrypoint/` — `html.sh`/`pdf.sh`/`epub.sh` (build the book to `/output/pgu/`),
   `format.sh`, `shell.sh`.
-- `PLAN-build-matrix.md`, `SESSION_NOTES.md`.
+- `tasks/` — active work (e.g. `tasks/build-matrix.md`); completed work archived
+  under `tasks/archive/<YYYY>/<MM>/<DD>/`.
 
 ## Build / container workflow
 
@@ -52,15 +54,16 @@ verified to compile to `.s`; non-host binaries aren't executed (would need qemu)
 ## Conventions
 
 - The book text is faithful to upstream — preserve wording; pre-existing typos are
-  a fidelity-vs-polish call noted in `SESSION_NOTES.md`.
+  a fidelity-vs-polish call noted in `tasks/archive/2026/05/24/SESSION_NOTES.md`.
 - Generated assembly is meant to be *read* — keep the educational compiler flags.
 
 ## Tasks (in-flight)
 
-Short-lived work goes in `tasks/` (per the global convention). The main open item
-is in `PLAN-build-matrix.md`: ship cross-arch `.s` listings (`asm-out/<arch>/<demo>.s`)
-built at image time. Smaller open items (GFDL license-text cleanup, an Inkscape-script
-typo) are in `SESSION_NOTES.md`.
+Active work goes in `tasks/` (per the global convention); completed work is archived
+under `tasks/archive/<YYYY>/<MM>/<DD>/`. The main open item is `tasks/build-matrix.md`:
+ship cross-arch `.s` listings (`asm-out/<arch>/<demo>.s`) built at image time. Smaller
+open items (GFDL license-text cleanup, an Inkscape-script typo) are recorded in the
+archived `tasks/archive/2026/05/24/SESSION_NOTES.md`.
 
 > Note: this repo's `entrypoint/` is the *origin* of the docs-build entrypoint that
 > was mistakenly copied into gltron — keep that in mind if syncing scripts between
