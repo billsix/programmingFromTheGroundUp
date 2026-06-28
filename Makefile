@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := shell
+.DEFAULT_GOAL := help
 
 BUILD_DOCS ?= 1
 USE_GRAPHICS ?= 1
